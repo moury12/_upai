@@ -61,4 +61,7 @@ class AppColors {
   static get SearchButtonBackCOlor => const Color(0xff353535);
   static get appTextColor => const Color(0xff828080);
   static get BTNbackgroudgrey =>const Color(0xFF353535);
+  static get titlename =>const Color(0xFF404040);
+  static get background1 =>const Color(0xFFF2F2F2);
+  static get containerBackground =>const Color(0xffF5F5F5);
 }

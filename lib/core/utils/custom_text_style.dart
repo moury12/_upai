@@ -17,6 +17,11 @@ class AppTextStyle {
     fontWeight: FontWeight.w500,
     color: AppColors.appTextColor,
   );
+  static get titleTextSmallwithoutUnderLine => TextStyle(
+    fontSize:12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.appTextColor,
+  );
 
   //styles for upai
 
@@ -43,7 +48,7 @@ class AppTextStyle {
   static get bodyMedium => TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
-        color: AppColors.colorBlack,
+        color: AppColors.titlename,
       );
 
   static get bodyMedium400 => TextStyle(
@@ -110,6 +115,11 @@ class AppTextStyle {
         fontWeight: FontWeight.w400,
         color: AppColors.hintColor,
       );
+  static get bodySmallwhite => const TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+  );
 
   static get bodySmallGrey400 => TextStyle(
         fontSize: 15,
@@ -137,7 +147,7 @@ class AppTextStyle {
       );
 
   static get bodySmallBlack400S15CGrey => TextStyle(
-        fontSize: 15,
+        fontSize: 14,
         fontWeight: FontWeight.w400,
         color: AppColors.deepGreyColor,
       );
@@ -147,6 +157,11 @@ class AppTextStyle {
         fontWeight: FontWeight.w400,
         color: AppColors.colorTextGrey,
       );
+  static get bodySmallestTextGrey400 => TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    color: AppColors.colorTextGrey,
+  );
 
   static get bodySmallText2Grey400 => TextStyle(
         fontSize: 15,

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/first_screen.dart';
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 
@@ -17,15 +18,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Dynamic Architechture!',
+      title: 'Upai',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        appBarTheme: AppBarTheme(backgroundColor: Colors.white,centerTitle: true),
+       bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white),
+       primaryColor: Colors.white,
+
+       // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       initialBinding: BindingsBuilder(() {
         Get.lazyPut(() => LoginController());
       }),
-      home:  DeafultScreen(),
+      home:  FirstScreen(),
     );
   }
 }

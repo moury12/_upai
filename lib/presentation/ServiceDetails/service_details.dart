@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/presentation/ServiceDetails/service_details_controller.dart';
 import 'package:upai/widgets/item_service.dart';
+import 'package:get/get.dart';
 
 import '../../core/utils/app_colors.dart';
 
 class ServiceDetails extends StatelessWidget {
-  const ServiceDetails({super.key});
+
+
+  ServiceDetails({super.key});
+
+  var ctrl = Get.put(ServiceDetailsController());
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -28,23 +36,34 @@ class ServiceDetails extends StatelessWidget {
                       ImageConstant.serviceImg,
                       height: double.infinity,
                       width: double.infinity,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                     ),
                     Positioned(
                         child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.arrow_back_ios_rounded,
-                      ),
-                    )),
-                    Positioned(
-                        right: 38,
-                        child: IconButton(
                           onPressed: () {},
                           icon: const Icon(
-                            Icons.heart_broken_outlined,
+                            Icons.arrow_back_ios_rounded,
                           ),
                         )),
+                    Positioned(
+                        right: 38,
+                        child: Obx(() {
+                          return IconButton(
+
+                            onPressed: () {
+                              if (ctrl.isFav.value) {
+                                ctrl.isFav.value = false;
+                              }
+                              else {
+                                ctrl.isFav.value = true;
+                              }
+                            },
+                            icon: ctrl.isFav.value
+                                ? FaIcon(
+                              FontAwesomeIcons.solidHeart, color: Colors.red,)
+                                : FaIcon(FontAwesomeIcons.heart,),
+                          );
+                        })),
                     Positioned(
                         right: 8,
                         child: IconButton(
@@ -105,9 +124,9 @@ class ServiceDetails extends StatelessWidget {
                     ),
                     Text(
                       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                      " It has survived not only five centuries, but also the"
-                      " leap into electronic typesetting, remaining essentially unchanged...."
-                      " See More",
+                          " It has survived not only five centuries, but also the"
+                          " leap into electronic typesetting, remaining essentially unchanged...."
+                          " See More",
                       style: AppTextStyle.bodySmallBlack400,
                     ),
                     const SizedBox(
@@ -157,7 +176,8 @@ class ServiceDetails extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8)),
                                 backgroundColor: AppColors.BTNbackgroudgrey,
                                 foregroundColor: AppColors.colorWhite),
-                            child: const Text("Chat Now"),
+                            child: Text(
+                              "Chat Now", style: AppTextStyle.bodySmallwhite,),
                           ),
                         )
                       ],
@@ -167,7 +187,8 @@ class ServiceDetails extends StatelessWidget {
                     ),
 
                     Container(
-                      color: const Color(0xffF2F2F2),
+                      // color: AppColors.background1,
+                      color: Colors.white70,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -199,10 +220,11 @@ class ServiceDetails extends StatelessWidget {
                         ),
                         RatingBarIndicator(
                           rating: 4.4,
-                          itemBuilder: (context, index) => Icon(
-                            Icons.star,
-                            color: AppColors.colorLightBlack,
-                          ),
+                          itemBuilder: (context, index) =>
+                              Icon(
+                                Icons.star,
+                                color: AppColors.colorLightBlack,
+                              ),
                           itemCount: 5,
                           itemSize: 22.0,
                           direction: Axis.horizontal,
@@ -244,12 +266,12 @@ class ServiceDetails extends StatelessWidget {
                         itemCount: 5,
                         scrollDirection: Axis.horizontal,
                         itemBuilder:
-                          (context, index) {
-                        return   ClientReviewCard(size: size);
-                      },),
+                            (context, index) {
+                          return ClientReviewCard(size: size);
+                        },),
 
                     ),
-               
+
                     // Container(
                     //   width: size.width,
                     //   height: 400,
@@ -299,7 +321,7 @@ class ServiceDetails extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                   ],
@@ -324,11 +346,15 @@ class ClientReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white70,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      // color: const Color(0xFFE0E0E0),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(14.0),
         child: Container(
-          width: size.width*0.8,
+          width: size.width * 0.8,
           child: Column(
             children: [
               SizedBox(
@@ -360,10 +386,11 @@ class ClientReviewCard extends StatelessWidget {
                         Text("4.6",),
                         RatingBarIndicator(
                           rating: 4.4,
-                          itemBuilder: (context, index) => Icon(
-                            Icons.star,
-                            color: AppColors.colorLightBlack,
-                          ),
+                          itemBuilder: (context, index) =>
+                              Icon(
+                                Icons.star,
+                                color: AppColors.colorLightBlack,
+                              ),
                           itemCount: 5,
                           itemSize: 16.0,
                           direction: Axis.horizontal,
@@ -374,10 +401,12 @@ class ClientReviewCard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10,),
-              Text("Lorem ipsum dolor sit amet consectetur. Ornare pretium sit faucibus non massa sit. At integer nulla vel nisi. Turpis morbi vulputate placerat lacus pellentesque sed."
-                  " Vel sit nibh in id dictum augue.Lorem ipsum dolor sit amet consectetur. Ornare pretium sit faucibus non massa sit. At integer nulla vel nisi. Turpis morbi vulputate placerat lacus pellentesque sed."
-                  " Vel sit nibh in id dictum augue.",
-              overflow: TextOverflow.ellipsis,maxLines: 5,)
+              Text(
+                "Lorem ipsum dolor sit amet consectetur. Ornare pretium sit faucibus non massa sit. At integer nulla vel nisi. Turpis morbi vulputate placerat lacus pellentesque sed."
+                    " Vel sit nibh in id dictum augue.Lorem ipsum dolor sit amet consectetur. Ornare pretium sit faucibus non massa sit. At integer nulla vel nisi. Turpis morbi vulputate placerat lacus pellentesque sed."
+                    " Vel sit nibh in id dictum augue.",
+                style: AppTextStyle.bodySmallBlack400S15CGrey,
+                overflow: TextOverflow.ellipsis, maxLines: 5,)
             ],
           ),
         ),
@@ -389,6 +418,7 @@ class ClientReviewCard extends StatelessWidget {
 class RateByCat extends StatelessWidget {
   final String rateCat;
   final String rating;
+
   const RateByCat({
     super.key,
     required this.rateCat,
