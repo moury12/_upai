@@ -187,8 +187,11 @@ class ServiceDetails extends StatelessWidget {
                     ),
 
                     Container(
-                      // color: AppColors.background1,
-                      color: Colors.white70,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: AppColors.background1,
+                      ),
+
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -347,10 +350,11 @@ class ClientReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        side: BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
+        side: const BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
         borderRadius: BorderRadius.circular(8),
       ),
-      // color: const Color(0xFFE0E0E0),
+
+       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(14.0),
         child: Container(
@@ -369,7 +373,7 @@ class ClientReviewCard extends StatelessWidget {
                         CircleAvatar(
                           backgroundImage: AssetImage(ImageConstant.man),
                         ),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                         Column(
                           children: [
                             Text("Client Name",
@@ -400,7 +404,7 @@ class ClientReviewCard extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Text(
                 "Lorem ipsum dolor sit amet consectetur. Ornare pretium sit faucibus non massa sit. At integer nulla vel nisi. Turpis morbi vulputate placerat lacus pellentesque sed."
                     " Vel sit nibh in id dictum augue.Lorem ipsum dolor sit amet consectetur. Ornare pretium sit faucibus non massa sit. At integer nulla vel nisi. Turpis morbi vulputate placerat lacus pellentesque sed."
