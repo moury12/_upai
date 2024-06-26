@@ -6,24 +6,64 @@ import 'app_colors.dart';
 
 class AppTextStyle {
   // Text Styles
-  static get titleText => TextStyle(
-    fontSize:16,
-    fontWeight: FontWeight.w500,
-    color: AppColors.appTextColor,
-  );
-  static get titleTextSmall => TextStyle(
-    decoration: TextDecoration.underline,
-    fontSize:12,
-    fontWeight: FontWeight.w500,
-    color: AppColors.appTextColor,
-  );
-  static get titleTextSmallwithoutUnderLine => TextStyle(
-    fontSize:12,
-    fontWeight: FontWeight.w500,
-    color: AppColors.appTextColor,
-  );
+
+
 
   //styles for upai
+  static get titleText => TextStyle(
+
+    fontSize:14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.appTextColorGrey,
+  );
+  static get titleTextSmallUnderline => TextStyle(
+    decoration: TextDecoration.underline,
+    fontSize:11,
+    fontWeight: FontWeight.w400,
+    color: AppColors.appTextColorGrey,
+  );
+  static get titleTextSmallest => TextStyle(
+    fontSize:10,
+    // fontWeight: FontWeight.w400,
+    color: AppColors.appTextColorGrey,
+  );
+  static get titleTextSmall => TextStyle(
+    fontSize:12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.appTextColorGrey,
+  );
+  static get bodyMediumBlackBold => TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.colorBlack,
+  );
+  static get bodyMediumSemiBlackBold => TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.titleName,
+  );
+  static get bodyMediumBlackSemiBold => TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.colorBlack,
+  );
+  static get bodyMedium => TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    color: AppColors.titleName,
+  );
+  static get bodySmallGrey => TextStyle(
+    fontSize: 11,
+    // fontWeight: FontWeight.w400,
+    color: AppColors.deepGreyColor,
+  );
+  static get bodySmallblack => TextStyle(
+    fontSize: 11,
+    // fontWeight: FontWeight.w400,
+    color: AppColors.titleName,
+  );
+
+
 
   //
 
@@ -32,6 +72,11 @@ class AppTextStyle {
         fontWeight: FontWeight.w700,
         color: AppColors.colorBlack,
       );
+  static get bodyLargeSemiBlack => TextStyle(
+    fontSize: 25,
+    fontWeight: FontWeight.w700,
+    color: AppColors.titleName,
+  );
 
   static get bodyLarge900 => TextStyle(
         fontSize: 24,
@@ -45,11 +90,7 @@ class AppTextStyle {
         color: AppColors.colorDeepBlue,
       );
 
-  static get bodyMedium => TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: AppColors.titlename,
-      );
+
 
   static get bodyMedium400 => TextStyle(
         fontSize: 17,
@@ -104,11 +145,6 @@ class AppTextStyle {
         color: AppColors.colorLightBlack,
       );
 
-  static get bodyMediumBlack700 => TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-        color: AppColors.colorBlack,
-      );
 
   static get bodySmall => TextStyle(
         fontSize: 13,
@@ -146,11 +182,6 @@ class AppTextStyle {
         color: AppColors.deepGreyColor,
       );
 
-  static get bodySmallBlack400S15CGrey => TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        color: AppColors.deepGreyColor,
-      );
 
   static get bodySmallTextGrey400 => TextStyle(
         fontSize: 15,

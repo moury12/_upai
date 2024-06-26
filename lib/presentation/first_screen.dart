@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:upai/core/utils/global_variable.dart';
+import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 
 class FirstScreen extends StatelessWidget {
@@ -8,24 +10,25 @@ class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(onPressed: (){
               userType = "client";
-              Navigator.push(context, MaterialPageRoute(builder: (context) => DeafultScreen()));
-
+              nextPage();
             }, child: Text("Client")),
             ElevatedButton(onPressed: (){
-
               userType = "serviceprovider";
-              Navigator.push(context, MaterialPageRoute(builder: (context) => DeafultScreen()));
+              nextPage();
             }, child: Text("Service Provider")),
           ],
         ),
       ),
     );
+  }
+
+  void nextPage() {
+    Get.toNamed("/defaultscreen");
   }
 }

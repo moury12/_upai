@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 
 class ItemService extends StatelessWidget {
+  const ItemService({super.key});
+
   @override
   Widget build(BuildContext context) {
     var size =  MediaQuery.sizeOf(context);
@@ -10,16 +13,15 @@ class ItemService extends StatelessWidget {
         InkWell(
           onTap: ()
           {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDetails(),));
+            Get.toNamed("/servicedetails");
           },
-    
           child: Container(
-            margin: EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: 10),
             width:size.width*0.42,
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
-                side: BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
+                side: const BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
@@ -56,15 +58,15 @@ class ItemService extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   const Text(
                     'Service Title is here.',
                     style: TextStyle(
-                      color: Color(0xFF3F3F3F),
+                      color: Color(0xFF404040),
                       fontSize: 11,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
-                      height: 0,
+
                     ),
                   ),
                   const Text(
@@ -75,7 +77,6 @@ class ItemService extends StatelessWidget {
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w400,
                       decoration: TextDecoration.underline,
-                      height: 0,
                     ),
                   ),
                   const Text(
@@ -85,7 +86,6 @@ class ItemService extends StatelessWidget {
                       fontSize: 11,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w600,
-                      height: 0,
                     ),
                   ),
                   const SizedBox(height: 5,),

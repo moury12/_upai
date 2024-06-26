@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/presentation/Inbox/chat_screen.dart';
 import 'package:upai/widgets/chat_item_widget.dart';
 
 class InboxScreen extends StatelessWidget {
@@ -13,17 +16,17 @@ class InboxScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.only(left: 16,right: 16,top: 10),
+                padding: const EdgeInsets.only(left: 12,right: 12,),
                 child: TextField(
                   decoration: InputDecoration(
-                      fillColor: const Color(0xffF3F3F3),
+                      fillColor: AppColors.textFieldBackGround,
                       filled: true,
                       hintText: "Search service you're looking for...",
                       hintStyle:
                           TextStyle(fontSize: 14, color: Colors.grey.shade500),
                       border: OutlineInputBorder(
                           borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(8))),
+                          borderRadius: BorderRadius.circular(6))),
                 ),
               ),
               const SizedBox(height: 10,),
@@ -31,10 +34,14 @@ class InboxScreen extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: 15,
                   itemBuilder: (context, index) {
-                    return Column(
+                    return  Column(
                       children: [
-                        ChatItemWidget(),
-                        Divider(),
+                        InkWell(
+                          onTap: (){
+                            Get.toNamed("/chatscreen");
+                          },
+                            child: const ChatItemWidget()),
+                        // const Divider(),
                       ],
                     );
                   },

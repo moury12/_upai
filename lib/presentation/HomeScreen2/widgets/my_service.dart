@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 
 class MyService extends StatelessWidget {
+  const MyService({super.key});
+
   @override
   Widget build(BuildContext context) {
     var size =  MediaQuery.sizeOf(context);
@@ -12,7 +14,6 @@ class MyService extends StatelessWidget {
           {
             Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDetails(),));
           },
-    
           child: Container(
             margin: EdgeInsets.only(right: 10),
             width:size.width*0.42,

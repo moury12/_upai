@@ -15,7 +15,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
 
   int _selectedIndex = 0;
 
-  Color unselected = AppColors.appTextColor;
+  Color unselected = AppColors.appTextColorGrey;
 
    void _onItemTapped(int index) {
      setState(() {
@@ -48,7 +48,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
       ],
       selectedItemColor: Colors.black,
       selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-      unselectedItemColor: AppColors.appTextColor,
+      unselectedItemColor: AppColors.appTextColorGrey,
       selectedIconTheme: IconThemeData(color: selectedColor),
       currentIndex: _selectedIndex,
        onTap: _onItemTapped,

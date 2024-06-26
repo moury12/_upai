@@ -11,8 +11,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return  Scaffold(
-
-backgroundColor: Colors.white,
         body:SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -21,7 +19,7 @@ backgroundColor: Colors.white,
               children: [
 
                Container(
-                 color:   const Color(0xffF2F2F2),
+                 color:   AppColors.textFieldBackGround,
                  child: Padding(
                   padding: const EdgeInsets.only(left: 16,right: 16),
                    child: Column(
@@ -32,10 +30,10 @@ backgroundColor: Colors.white,
                              fillColor: Colors.white,
                              filled: true,
                              hintText: "Search service you're looking for...",
-                             hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade500),
+                             hintStyle: TextStyle(fontSize: 11,color: AppColors.appTextColorGrey),
                              border: OutlineInputBorder(
                                  borderSide: BorderSide.none,
-                                 borderRadius: BorderRadius.circular(8)
+                                 borderRadius: BorderRadius.circular(6)
             
                              )
                          ),
@@ -84,7 +82,7 @@ backgroundColor: Colors.white,
                         Text("Browse Category",style: AppTextStyle.titleText),
                         Text("Browse All>",
           
-                            style: AppTextStyle.titleTextSmall),
+                            style: AppTextStyle.titleTextSmallUnderline),
             
                       ],
                     ),
@@ -104,9 +102,10 @@ backgroundColor: Colors.white,
                     const SizedBox(height: 10,),
                     Text("Explore Top Services",style: AppTextStyle.titleText),
                     const SizedBox(height: 10,),
-                    SizedBox(
+                    Container(
+
                       width: size.width,
-                      height: 180,
+                      height: 200,
                       child:ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {

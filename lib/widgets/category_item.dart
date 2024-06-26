@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upai/core/utils/custom_text_style.dart';
 
 class CategotyItem extends StatelessWidget {
   @override
@@ -19,14 +20,8 @@ class CategotyItem extends StatelessWidget {
           Text(
             'Category 1',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color(0xFF817F7F),
-              fontSize: 10,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w400,
-              height: 0,
+            style: AppTextStyle.titleTextSmallest,
             ),
-          ),
         ],
       ),
     );

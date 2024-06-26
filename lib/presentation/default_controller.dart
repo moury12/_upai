@@ -25,7 +25,7 @@ class DefaultController extends GetxController
   ];
   var selectedColor = Colors.black;
   RxInt selectedIndex = 0.obs;
-  var unselected = AppColors.appTextColor;
+  var unselected = AppColors.appTextColorGrey;
 
   void onItemTapped(int index) {
       selectedIndex.value = index;

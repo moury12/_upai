@@ -10,7 +10,6 @@ class HomeScreen2 extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Upai",style: AppTextStyle.bodyTitle700,),
         centerTitle: true,
@@ -28,7 +27,7 @@ class HomeScreen2 extends StatelessWidget {
                 width: size.width,
                // height: 400,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(8),
                   color: AppColors.containerBackground,
 
                 ),
@@ -44,20 +43,20 @@ class HomeScreen2 extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-                          Text("Your Stats",style: AppTextStyle.bodyMediumBlack700,),
-                          SizedBox(height: 13,),
-                          Text("Total Earning",style: AppTextStyle.titleTextSmallwithoutUnderLine,),
+                          Text("Your Stats",style: AppTextStyle.bodyMediumSemiBlackBold,),
+                          const SizedBox(height: 13,),
+                          Text("Total Earning",style: AppTextStyle.titleTextSmall,),
                           Text(
                             "৳2500",
-                            style: AppTextStyle.bodyLarge,
+                            style: AppTextStyle.bodyLargeSemiBlack,
                           ),
-                          SizedBox(height: 5,),
+                          const SizedBox(height: 5,),
                           Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),
                                 color: Colors.white,
                               ),
-                            padding: EdgeInsets.all(2),
+                            padding: const EdgeInsets.all(2),
 
                               child: Text("5% increased from previous month ",style: AppTextStyle.bodySmallestTextGrey400,)),
 
@@ -70,7 +69,7 @@ class HomeScreen2 extends StatelessWidget {
                         children: [
                           Container(
                             alignment: Alignment.bottomRight,
-                            child: Text(
+                            child: const Text(
                                 "This month"),
                           ),
                           // Align(
@@ -78,22 +77,22 @@ class HomeScreen2 extends StatelessWidget {
                           //   child: Text(
                           //       "This month"),
                           // ),
-                          SizedBox(height: 20,),
-                          Text("Completed Job",style: AppTextStyle.titleTextSmallwithoutUnderLine,),
+                          const SizedBox(height: 20,),
+                          Text("Completed Job",style: AppTextStyle.titleTextSmall,),
                           Text(
                             "5",
-                            style: AppTextStyle.bodyLarge,
+                            style: AppTextStyle.bodyLargeSemiBlack,
                           ),
-                          SizedBox(height: 5,),
-                          Text("Review",style: AppTextStyle.bodySmallBlack400S15CGrey,),
+                          const SizedBox(height: 5,),
+                          Text("Review",style: AppTextStyle.bodySmallGrey,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                             Icon( Icons.star,size: 22,),
+                             const Icon( Icons.star,size: 22,),
                               Text(
                                "4.7",
-                                style: AppTextStyle.bodyLarge,
+                                style: AppTextStyle.bodyLargeSemiBlack,
                               ),
                             ],
                           ),
@@ -105,18 +104,18 @@ class HomeScreen2 extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Running Orders",style: AppTextStyle.titleText),
                   Text("All Orders>",
         
-                      style: AppTextStyle.titleTextSmall),
+                      style: AppTextStyle.titleTextSmallUnderline),
         
                 ],
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
@@ -125,7 +124,7 @@ class HomeScreen2 extends StatelessWidget {
                 width: size.width,
                 height: 70,
               ),
-              SizedBox(height: 50,),
+              const SizedBox(height: 50,),
               Text("My Services",style: AppTextStyle.titleText),
               const SizedBox(height: 10,),
               SizedBox(
@@ -134,7 +133,7 @@ class HomeScreen2 extends StatelessWidget {
                 child:ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return MyService();
+                    return const MyService();
                   },),
               ),
             ],

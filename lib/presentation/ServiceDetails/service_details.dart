@@ -1,35 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:readmore/readmore.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/ServiceDetails/service_details_controller.dart';
+import 'package:upai/presentation/ServiceDetails/widgets/client_review.dart';
 import 'package:upai/widgets/item_service.dart';
 import 'package:get/get.dart';
 
 import '../../core/utils/app_colors.dart';
+import 'widgets/rate_by_category_widget.dart';
 
 class ServiceDetails extends StatelessWidget {
 
 
-  ServiceDetails({super.key});
+  const ServiceDetails({super.key});
 
-  var ctrl = Get.put(ServiceDetailsController());
+
 
   @override
   Widget build(BuildContext context) {
+    var ctrl = Get.put(ServiceDetailsController());
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: size.width,
                 height: 200,
-                color: Colors.green,
                 child: Stack(
                   children: [
                     Image.asset(
@@ -40,16 +42,17 @@ class ServiceDetails extends StatelessWidget {
                     ),
                     Positioned(
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.back();
+                          },
                           icon: const Icon(
                             Icons.arrow_back_ios_rounded,
                           ),
                         )),
                     Positioned(
-                        right: 38,
+                        right: 45,
                         child: Obx(() {
                           return IconButton(
-
                             onPressed: () {
                               if (ctrl.isFav.value) {
                                 ctrl.isFav.value = false;
@@ -59,9 +62,9 @@ class ServiceDetails extends StatelessWidget {
                               }
                             },
                             icon: ctrl.isFav.value
-                                ? FaIcon(
+                                ? const FaIcon(
                               FontAwesomeIcons.solidHeart, color: Colors.red,)
-                                : FaIcon(FontAwesomeIcons.heart,),
+                                : const FaIcon(FontAwesomeIcons.heart,),
                           );
                         })),
                     Positioned(
@@ -80,7 +83,7 @@ class ServiceDetails extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Text(
                   "Catering Services for lunch, evening/ Office and occasion.",
-                  style: AppTextStyle.bodyMediumBlack700,
+                  style: AppTextStyle.bodyMediumBlackBold,
                 ),
               ),
               const Divider(),
@@ -97,14 +100,14 @@ class ServiceDetails extends StatelessWidget {
                   children: [
                     Text(
                       "230 Job completed",
-                      style: AppTextStyle.bodySmallBlack400S15CGrey,
+                      style: AppTextStyle.bodySmallGrey,
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     Text(
                       "4.9 Rating ",
-                      style: AppTextStyle.bodySmallBlack400S15CGrey,
+                      style: AppTextStyle.bodySmallGrey,
                     ),
                   ],
                 ),
@@ -117,31 +120,53 @@ class ServiceDetails extends StatelessWidget {
                   children: [
                     Text(
                       "Description",
-                      style: AppTextStyle.titleText,
+                      style: AppTextStyle.titleTextSmall,
                     ),
                     const SizedBox(
                       height: 5,
                     ),
-                    Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                          " It has survived not only five centuries, but also the"
-                          " leap into electronic typesetting, remaining essentially unchanged...."
-                          " See More",
-                      style: AppTextStyle.bodySmallBlack400,
-                    ),
+                    // Text(
+                    //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                    //       " It has survived not only five centuries, but also the"
+                    //       " leap into electronic typesetting, remaining essentially unchanged...."
+                    //       " See More",
+                    //   style: AppTextStyle.bodySmallblack,
+                    // ),
+                 ReadMoreText(
+                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      " It has survived not only five centuries, but also the"
+                      " leap into electronic typesetting, remaining essentially unchanged....",style: AppTextStyle.bodySmallblack,textAlign: TextAlign.justify,
+                  trimMode: TrimMode.Line,
+                  trimLines: 5,
+                  //colorClickableText: Colors.pink,
+                  trimCollapsedText: 'Show more',
+                  trimExpandedText: 'Show less',
+                  moreStyle: const TextStyle(fontSize:12, fontWeight: FontWeight.bold),
+                   lessStyle: const TextStyle( fontSize:12,fontWeight: FontWeight.bold),
+                ),
                     const SizedBox(
                       height: 20,
                     ),
                     Text(
                       "Includes",
-                      style: AppTextStyle.titleText,
+                      style: AppTextStyle.titleTextSmall,
                     ),
-                    SizedBox(
+                    const SizedBox(height: 5,),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+
+                        color: AppColors.background1,
+                      ),
+
                       width: size.width,
                       height: 100,
                       child: ListView.builder(
                         itemBuilder: (context, index) {
-                          return const Text("Feature");
+                          return  Padding(
+                            padding: const EdgeInsets.only(left: 12.0,right: 12.0,top: 2),
+                            child: Text("✔️ Feature",style: AppTextStyle.bodySmallGrey,),
+                          );
                         },
                       ),
                     ),
@@ -158,7 +183,7 @@ class ServiceDetails extends StatelessWidget {
                             children: [
                               Text(
                                 "Price",
-                                style: AppTextStyle.titleText,
+                                style: AppTextStyle.bodySmallGrey,
                               ),
                               Text(
                                 "৳ 550.0/h",
@@ -237,23 +262,23 @@ class ServiceDetails extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    RateByCat(
+                    const RateByCat(
                       rateCat: "Seller Communication Level",
                       rating: "4.6",
                     ),
-                    RateByCat(
+                    const RateByCat(
                       rateCat: "Service Quality",
                       rating: "4.6",
                     ),
-                    RateByCat(
+                    const RateByCat(
                       rateCat: "Service as described",
                       rating: "4.6",
                     ),
-                    RateByCat(
+                    const RateByCat(
                       rateCat: "Seller Behavior",
                       rating: "4.6",
                     ),
-                    RateByCat(
+                    const RateByCat(
                       rateCat: "Recommend Service",
                       rating: "4.6",
                     ),
@@ -314,13 +339,13 @@ class ServiceDetails extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(
+                    SizedBox(
                       width: size.width,
-                      height: 180,
+                      height: 200,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return ItemService();
+                          return const ItemService();
                         },
                       ),
                     ),
@@ -338,123 +363,6 @@ class ServiceDetails extends StatelessWidget {
   }
 }
 
-class ClientReviewCard extends StatelessWidget {
-  const ClientReviewCard({
-    super.key,
-    required this.size,
-  });
 
-  final Size size;
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        side: const BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
-        borderRadius: BorderRadius.circular(8),
-      ),
 
-       color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(14.0),
-        child: Container(
-          width: size.width * 0.8,
-          child: Column(
-            children: [
-              SizedBox(
-                width: size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage(ImageConstant.man),
-                        ),
-                        const SizedBox(width: 5,),
-                        Column(
-                          children: [
-                            Text("Client Name",
-                                style: AppTextStyle.bodyMedium),
-                            Text("22 Jan, 2023",
-                                style: AppTextStyle.bodySmallBlack400S15CGrey),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text("4.6",),
-                        RatingBarIndicator(
-                          rating: 4.4,
-                          itemBuilder: (context, index) =>
-                              Icon(
-                                Icons.star,
-                                color: AppColors.colorLightBlack,
-                              ),
-                          itemCount: 5,
-                          itemSize: 16.0,
-                          direction: Axis.horizontal,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10,),
-              Text(
-                "Lorem ipsum dolor sit amet consectetur. Ornare pretium sit faucibus non massa sit. At integer nulla vel nisi. Turpis morbi vulputate placerat lacus pellentesque sed."
-                    " Vel sit nibh in id dictum augue.Lorem ipsum dolor sit amet consectetur. Ornare pretium sit faucibus non massa sit. At integer nulla vel nisi. Turpis morbi vulputate placerat lacus pellentesque sed."
-                    " Vel sit nibh in id dictum augue.",
-                style: AppTextStyle.bodySmallBlack400S15CGrey,
-                overflow: TextOverflow.ellipsis, maxLines: 5,)
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class RateByCat extends StatelessWidget {
-  final String rateCat;
-  final String rating;
-
-  const RateByCat({
-    super.key,
-    required this.rateCat,
-    required this.rating,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(rateCat),
-          Row(
-            children: [
-              Icon(
-                Icons.star,
-                size: 16,
-                color: AppColors.colorLightBlack,
-              ),
-              Text(
-                rating,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                    fontSize: 14),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
