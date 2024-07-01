@@ -219,7 +219,7 @@ class AppTextStyle {
             WidgetStateProperty.all<Color>(AppColors.primaryColor),
         foregroundColor: WidgetStateProperty.all<Color>(AppColors.colorWhite),
         minimumSize:
-            WidgetStateProperty.all<Size>(Size(double.infinity, 60)),
+            WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0), // Rounded corners
@@ -232,7 +232,7 @@ class AppTextStyle {
             WidgetStateProperty.all<Color>(AppColors.buttonColor),
         foregroundColor: WidgetStateProperty.all<Color>(AppColors.colorWhite),
         minimumSize:
-            WidgetStateProperty.all<Size>(Size(double.infinity, 60)),
+            WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0), // Rounded corners

@@ -8,11 +8,11 @@ import 'package:upai/presentation/first_screen.dart';
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 
+import 'presentation/Inbox/controller/chat_screen_controller.dart';
 import 'presentation/Inbox/inbox.dart';
-import 'presentation/LoginScreen/controller/login_screen_controller.dart';
-import 'presentation/SplashScreen/splash_screen.dart';
 
 void main() {
+  Get.put(ChatScreenController());
   runApp(const MyApp());
 }
 
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/home', page: () => const HomeScreen()),
         GetPage(name: '/home2', page: () => const InboxScreen()),
         GetPage(name: '/servicedetails', page: () => ServiceDetails()),
-        GetPage(name: '/chatscreen', page: () => const ChatScreen()),
+        GetPage(name: '/chatscreen', page: () =>  ChatScreen()),
         GetPage(name: '/defaultscreen', page: () =>  DefaultScreen()),
       ],
       // initialBinding: BindingsBuilder(() {

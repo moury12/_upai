@@ -12,15 +12,15 @@ class MyService extends StatelessWidget {
         InkWell(
           onTap: ()
           {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDetails(),));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const ServiceDetails(),));
           },
           child: Container(
-            margin: EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: 10),
             width:size.width*0.42,
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
-                side: BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
+                side: const BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
@@ -57,7 +57,7 @@ class MyService extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   const Text(
                     'Service Title is here.',
                     style: TextStyle(

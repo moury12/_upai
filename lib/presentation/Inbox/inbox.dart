@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
-import 'package:upai/presentation/Inbox/chat_screen.dart';
 import 'package:upai/widgets/chat_item_widget.dart';
 
 class InboxScreen extends StatelessWidget {

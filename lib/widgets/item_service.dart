@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:upai/presentation/ServiceDetails/service_details.dart';
+import 'package:upai/Model/item_service_model.dart';
+import 'package:upai/core/utils/image_path.dart';
 
 class ItemService extends StatelessWidget {
-  const ItemService({super.key});
+  final ItemServiceModel singleItem;
+   const ItemService({super.key, required this.singleItem});
 
   @override
   Widget build(BuildContext context) {
@@ -47,21 +49,22 @@ class ItemService extends StatelessWidget {
                         ),
                       ),
                       child: Container(
-                        width: 66,
+                        width: size.width,
                         height: 66,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/dummyimage.png"),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
+                      child: Image(
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(ImageConstant.dummy);
+                        },
+                        image: NetworkImage(
+                          singleItem.imageUrl.toString()),
+                        fit: BoxFit.fill,
+                      ),),
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  const Text(
-                    'Service Title is here.',
-                    style: TextStyle(
+                   Text(
+                    '${singleItem.title}',
+                    style: const TextStyle(
                       color: Color(0xFF404040),
                       fontSize: 11,
                       fontFamily: 'Inter',
@@ -69,8 +72,8 @@ class ItemService extends StatelessWidget {
 
                     ),
                   ),
-                  const Text(
-                    'User Name',
+                   Text(
+                    '${singleItem.userName}',
                     style: TextStyle(
                       color: Color(0xFF817F7F),
                       fontSize: 10,
@@ -79,8 +82,8 @@ class ItemService extends StatelessWidget {
                       decoration: TextDecoration.underline,
                     ),
                   ),
-                  const Text(
-                    '৳1000.00',
+                   Text(
+                    '৳ ${singleItem.price}',
                     style: TextStyle(
                       color: Color(0xFF3F3F3F),
                       fontSize: 11,

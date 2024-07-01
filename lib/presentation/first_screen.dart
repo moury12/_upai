@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/global_variable.dart';
-import 'package:upai/presentation/HomeScreen/home_screen.dart';
-import 'package:upai/presentation/deafult_screen.dart';
+
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({super.key});

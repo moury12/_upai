@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:upai/widgets/client_review_card.dart';
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -9,7 +7,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
 
       appBar: AppBar(
-        title: Text("Profile Screen"),
+        title: const Text("Profile Screen"),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),

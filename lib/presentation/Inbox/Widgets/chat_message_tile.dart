@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:upai/core/utils/image_path.dart';
 
-class chatMessageTile extends StatelessWidget {
-  const chatMessageTile(BuildContext context, {
+class ChatMessageTile extends StatelessWidget {
+  const ChatMessageTile(BuildContext context, {
     super.key,
     required this.message, required this.sendByMe,
   });
@@ -31,7 +31,7 @@ class chatMessageTile extends StatelessWidget {
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                     border: Border.all(
-                        color: sendByMe ? Color(0xFF404040) : Color(0xFFC5CEE0)),
+                        color: sendByMe ? const Color(0xFF404040) : const Color(0xFFC5CEE0)),
                     borderRadius: BorderRadius.only(
                         topRight: const Radius.circular(16),
                         topLeft: const Radius.circular(16),

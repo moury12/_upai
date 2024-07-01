@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upai/core/utils/app_colors.dart';
-import 'package:upai/core/utils/image_path.dart';
+
 
 class CustomBottomNavbar extends StatefulWidget {
-   CustomBottomNavbar({super.key});
+   const CustomBottomNavbar({super.key});
 
   @override
   State<CustomBottomNavbar> createState() => _CustomBottomNavbarState();
@@ -47,7 +47,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         ),
       ],
       selectedItemColor: Colors.black,
-      selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
       unselectedItemColor: AppColors.appTextColorGrey,
       selectedIconTheme: IconThemeData(color: selectedColor),
       currentIndex: _selectedIndex,

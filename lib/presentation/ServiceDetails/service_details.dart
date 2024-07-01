@@ -1,26 +1,27 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
+import 'package:upai/Model/item_service_model.dart';
+import 'package:upai/TestData/servicedItemData.dart';
+import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
-import 'package:upai/presentation/ServiceDetails/service_details_controller.dart';
-import 'package:upai/presentation/ServiceDetails/widgets/client_review.dart';
 import 'package:upai/widgets/item_service.dart';
-import 'package:get/get.dart';
 
-import '../../core/utils/app_colors.dart';
+import 'service_details_controller.dart';
+import 'widgets/client_review.dart';
 import 'widgets/rate_by_category_widget.dart';
-
 class ServiceDetails extends StatelessWidget {
-
-
   const ServiceDetails({super.key});
-
 
 
   @override
   Widget build(BuildContext context) {
+    ItemServiceModel singleItem = ItemServiceModel();
     var ctrl = Get.put(ServiceDetailsController());
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
@@ -343,9 +344,12 @@ class ServiceDetails extends StatelessWidget {
                       width: size.width,
                       height: 200,
                       child: ListView.builder(
+                        itemCount: serviceList.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return const ItemService();
+
+                          singleItem = ItemServiceModel.fromJson(serviceList[index]);
+                          return ItemService(singleItem: singleItem,);
                         },
                       ),
                     ),

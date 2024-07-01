@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:upai/Model/category_item_model.dart';
+import 'package:upai/Model/item_service_model.dart';
+import 'package:upai/TestData/category_data.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/widgets/category_item.dart';
-import 'package:upai/widgets/chat_item_widget.dart';
-import 'package:upai/widgets/custom_bottom_navbar.dart';
 import 'package:upai/widgets/item_service.dart';
+
+import '../../TestData/servicedItemData.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    CategoryItemModel categoryItemModel = CategoryItemModel();
+    ItemServiceModel singleItem = ItemServiceModel();
     var size = MediaQuery.sizeOf(context);
     return  Scaffold(
         body:SafeArea(
@@ -86,30 +91,33 @@ class HomeScreen extends StatelessWidget {
             
                       ],
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
           
-                    Container(
+                    SizedBox(
                       width: size.width,
                       height: 100,
                       child: ListView.builder(
-                        itemCount: 7,
+                        itemCount: catList.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return CategotyItem();
+                          categoryItemModel = CategoryItemModel.fromJson(catList[index]);
+                          return CategotyItem(singleCat: categoryItemModel,);
           
                         },),
                     ),
                     const SizedBox(height: 10,),
                     Text("Explore Top Services",style: AppTextStyle.titleText),
                     const SizedBox(height: 10,),
-                    Container(
-
+                    SizedBox(
                       width: size.width,
                       height: 200,
                       child:ListView.builder(
+                        itemCount:serviceList.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                        return ItemService();
+
+                          singleItem = ItemServiceModel.fromJson(serviceList[index]);
+                        return  ItemService(singleItem: singleItem,);
                       },),
                     ),
 

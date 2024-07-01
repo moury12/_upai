@@ -12,7 +12,7 @@ mixin ErrorController {
       backgroundColor: color,
       colorText: AppColors.colorWhite,
       snackPosition: SnackPosition.BOTTOM,
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
     );
   }
 
