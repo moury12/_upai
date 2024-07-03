@@ -28,6 +28,6 @@ class FirstScreen extends StatelessWidget {
   }
 
   void nextPage() {
-    Get.toNamed("/defaultscreen");
+    Get.toNamed("/login");
   }
 }

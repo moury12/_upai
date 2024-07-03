@@ -20,7 +20,7 @@ class SplashScreenController extends GetxController {
       Duration(seconds: _splashDuration),
       () => isLoging == true
           ? Get.offAll( const LoginScreen())
-          : Get.offAll(const HomeScreen()),
+          : Get.offAll( HomeScreen()),
     );
   }
 }
