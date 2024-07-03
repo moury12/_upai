@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "235935531401",
+    "project_id": "chatappprac-d7a2b",
+    "storage_bucket": "chatappprac-d7a2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235935531401:android:b9a7af57ba24dacaeb6158",
+        "android_client_info": {
+          "package_name": "com.example.upai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKcNAY-1gPUrmzrgYQMtAD5qk5hhiACcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
