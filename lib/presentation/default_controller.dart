@@ -20,7 +20,6 @@ class DefaultController extends GetxController
   @override
   void onInit() {
     FirebaseAPIs.getSelfInfo();
-
     //for updating user active status according to lifecycle events
     //resume -- active or online
     //pause  -- inactive or offline

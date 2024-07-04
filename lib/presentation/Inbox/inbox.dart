@@ -68,7 +68,7 @@ class InboxScreen extends StatelessWidget {
                         decoration: InputDecoration(
                             fillColor: AppColors.textFieldBackGround,
                             filled: true,
-                            hintText: "Search By Name...",
+                            hintText: "Search By Name|User ID",
                             hintStyle:
                             TextStyle(fontSize: 14, color: Colors.grey.shade500),
                             border: OutlineInputBorder(
@@ -92,11 +92,11 @@ class InboxScreen extends StatelessWidget {
                                 switch(snapshot.connectionState){
                                   case ConnectionState.waiting:
                                   case ConnectionState.none:
-                                    return Text("");
+                                    return const Text("");
                                   case ConnectionState.active:
                                   case ConnectionState.done:
                                     final data = snapshot.data!.docs;
-                                    print(data.length);
+                                    print("length of getAllUsers data"+data.length.toString());
                                     if (data.isNotEmpty) {
                                       ctrl.chatList.clear();
                                       for (var i in data) {
@@ -113,7 +113,7 @@ class InboxScreen extends StatelessWidget {
                                                   Get.toNamed("/chatscreen",arguments: ctrl.isSearching?ctrl.searchList[index]:ctrl.chatList[index]);
                                                 },
                                                 child: InboxCardWidget(
-                                                  userInfoModel: ctrl.isSearching
+                                                  receiverUserInfo: ctrl.isSearching
                                                       ? ctrl.searchList[index]
                                                       : ctrl.chatList[index],));
                                           }

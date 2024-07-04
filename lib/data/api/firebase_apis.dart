@@ -6,9 +6,17 @@ import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
 
 class FirebaseAPIs{
- static UserInfoModel  me =UserInfoModel();
-  static final box = Hive.box("userInfo");
- static Map<String, dynamic> user = box.get('user');
+ static UserInfoModel  me = UserInfoModel();
+  static final box =  Hive.box("userInfo");
+
+  //getUserDetailsFromHive
+ static Future<String> currentUser()
+ async {
+    Map<String, dynamic> user = await box.get('user');
+    print("current uID :${user["user_id"]}");
+   return user["user_id"].toString();
+ }
+ static Map<String,dynamic> user = box.get('user');
 
   static FirebaseFirestore mDB =FirebaseFirestore.instance;
 
@@ -26,7 +34,7 @@ class FirebaseAPIs{
 
   }
 
-  static Future<void> createUser(Map<String,dynamic> userIfo) async {
+  static Future<void> createUser(Map<String,dynamic> userInfo) async {
 
 
   // final time = DateTime.now().millisecondsSinceEpoch.toString();
@@ -44,8 +52,8 @@ class FirebaseAPIs{
 
   return await mDB
       .collection('users')
-      .doc(userIfo['user_id'])
-      .set(userIfo);
+      .doc(userInfo['user_id'])
+      .set(userInfo);
   }
 
 
@@ -192,7 +200,7 @@ class FirebaseAPIs{
       UserInfoModel chatUser, String msg, Type type) async {
     await mDB
         .collection('users')
-        .doc(chatUser.id)
+        .doc(chatUser.userId)
         .collection('my_users')
         .doc(user['user_id'])
         .set({}).then((value) => sendMessage(chatUser, msg, type));
@@ -235,6 +243,15 @@ class FirebaseAPIs{
         .collection('chats/${getConversationID(selectedUser.userId.toString())}/messages/')
         .orderBy('sent', descending: true)
         .limit(1)
+        .snapshots();
+  }
+
+  // for getting specific user info
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
+      UserInfoModel chatUser) {
+    return mDB
+        .collection('users')
+        .where('user_id', isEqualTo: chatUser.userId)
         .snapshots();
   }
 

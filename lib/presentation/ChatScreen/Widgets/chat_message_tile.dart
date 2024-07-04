@@ -20,23 +20,31 @@ class ChatMessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool sendByMe = FirebaseAPIs.user["user_id"] == message.fromId.toString();
+    if(!sendByMe)
+      {
+        if (message.read!.isEmpty) {
+          FirebaseAPIs.updateMessageReadStatus(message);
+        }
+      }
+
     return Row(
       mainAxisAlignment:
           sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
+        const SizedBox(width: 8,),
         sendByMe
             ? const Text("")
             : Container(
-              height: 40,
-              width: 40,
+
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     border: Border.all(color: AppColors.strokeColor, width: 2)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: CachedNetworkImage(
-
-                    imageUrl: receiverInfo.image.toString(),
+                    height: 40,
+                    width: 40,
+                    imageUrl: receiverInfo.image!.toString(),
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Image.asset(
                         ImageConstant.receiverImg,
@@ -52,7 +60,7 @@ class ChatMessageTile extends StatelessWidget {
           constraints:
               BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.7),
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
                 border: Border.all(

@@ -10,10 +10,12 @@ import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
 import '../../../core/utils/image_path.dart';
 
 class InboxCardWidget extends StatelessWidget {
-   final UserInfoModel userInfoModel;
-     const InboxCardWidget({super.key, required this.userInfoModel,});
+   final UserInfoModel receiverUserInfo;
+      const InboxCardWidget({super.key, required this.receiverUserInfo,});
+
   @override
   Widget build(BuildContext context) {
+    bool sendByMe=true;
     Message? message;
     return Container(
       margin: const EdgeInsets.only(left: 12,right: 12,bottom: 4,top: 4),
@@ -25,72 +27,149 @@ class InboxCardWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 12.0,right: 12.0),
         child: StreamBuilder(
-          stream: FirebaseAPIs.getLastMessage(userInfoModel),
+          stream: FirebaseAPIs.getLastMessage(receiverUserInfo),
           builder: (context, snapshot) {
+
             final data = snapshot.data?.docs;
             final list =
                 data?.map((e) => Message.fromJson(e.data())).toList() ?? [];
             if (list.isNotEmpty)
               {
                 message = list[0];
+                sendByMe=message!.fromId.toString()==FirebaseAPIs.user['user_id'];
+                return ListTile(
+                  // contentPadding: EdgeInsets.zero,
+                  leading: Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(color: AppColors.strokeColor,width: 2)
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedNetworkImage(
+                              height: 50,
+                              width: 50,
+                              imageUrl: receiverUserInfo.image.toString(),
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Image.asset(ImageConstant.senderImg, fit: BoxFit.cover),
+                              errorWidget: (context, url, error) => Image.asset(ImageConstant.senderImg, fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                        //   CircleAvatar(
+                        //   radius: 25,
+                        //   backgroundImage:AssetImage(ImageConstant.demoProfile),
+                        // ),
+                        Positioned(
+                            right: 8,
+                            bottom: 3,
+                            child: receiverUserInfo.isOnline! ? const UserActive() : const UserInactive()
+                        )
+                      ]
+
+                  ),
+                  title: Text(receiverUserInfo.userName.toString(),style: AppTextStyle.bodyMediumBlackSemiBold,),
+                  subtitle: message==null? const Text(""):Text(
+                    overflow: TextOverflow.ellipsis,
+                    message!.type==Type.image?"Image":sendByMe?"You: ${message!.msg}":"${message!.msg}",maxLines: 1,),
+                  contentPadding: EdgeInsets.zero,
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text( MyDateUtil.getLastMessageTime(
+                          context: context, time:message!.sent.toString()),style: AppTextStyle.titleText,),
+                      const SizedBox(height: 5,),
+                      //pore abr dekhte hobe
+                    sendByMe?
+                      Text(""):message!.read!.isEmpty?
+                    Container(
+                      height: 15,
+                      width: 15,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(100),
+
+                      ),
+                      // child: const Center(child: Text("2",style: TextStyle(color: Colors.white),)),
+                    ):Text(""),
+                      // Container(
+                      //   height: 18,
+                      //   width: 18,
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.black,
+                      //     borderRadius: BorderRadius.circular(100),
+                      //
+                      //   ),
+                      //   child: const Center(child: Text("2",style: TextStyle(color: Colors.white),)),
+                      // )
+                    ],
+                  ) ,
+                );
 
               }
-            return ListTile(
-              // contentPadding: EdgeInsets.zero,
-              leading: Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(color: AppColors.strokeColor,width: 2)
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: CachedNetworkImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: userInfoModel.image.toString(),
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Image.asset(ImageConstant.dummy, fit: BoxFit.cover),
-                          errorWidget: (context, url, error) => Image.asset(ImageConstant.dummy, fit: BoxFit.cover),
+            else
+              {
+                return ListTile(
+                  // contentPadding: EdgeInsets.zero,
+                  leading: Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(color: AppColors.strokeColor,width: 2)
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedNetworkImage(
+                              height: 50,
+                              width: 50,
+                              imageUrl: receiverUserInfo.image.toString(),
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Image.asset(ImageConstant.senderImg, fit: BoxFit.cover),
+                              errorWidget: (context, url, error) => Image.asset(ImageConstant.senderImg, fit: BoxFit.cover),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    //   CircleAvatar(
-                    //   radius: 25,
-                    //   backgroundImage:AssetImage(ImageConstant.demoProfile),
-                    // ),
-                    Positioned(
-                        right: 8,
-                        bottom: 3,
-                        child: userInfoModel.isOnline! ? const UserActive() : const UserInactive()
-                    )
-                  ]
+                        //   CircleAvatar(
+                        //   radius: 25,
+                        //   backgroundImage:AssetImage(ImageConstant.demoProfile),
+                        // ),
+                        // Positioned(
+                        //     right: 8,
+                        //     bottom: 3,
+                        //     child: userInfoModel.isOnline! ? const UserActive() : const UserInactive()
+                        // )
+                      ]
 
-              ),
-              title: Text(userInfoModel.userName.toString(),style: AppTextStyle.bodyMediumBlackSemiBold,),
-              subtitle: message==null? const Text(""):Text(message!.type==Type.image?"Image":message!.msg.toString()),
-              contentPadding: EdgeInsets.zero,
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text( MyDateUtil.getLastMessageTime(
-                      context: context, time:message!.sent.toString()),style: AppTextStyle.titleText,),
-                  const SizedBox(height: 5,),
-                  Container(
-                    height: 18,
-                    width: 18,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(100),
+                  ),
+                  title: Text(receiverUserInfo.userName.toString(),style: AppTextStyle.bodyMediumBlackSemiBold,),
+                  subtitle:  Text(""),
+                  contentPadding: EdgeInsets.zero,
+                  // trailing: Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: [
+                  //     Text( MyDateUtil.getLastMessageTime(
+                  //         context: context, time:message!.sent.toString()),style: AppTextStyle.titleText,),
+                  //     const SizedBox(height: 5,),
+                  //     Container(
+                  //       height: 18,
+                  //       width: 18,
+                  //       decoration: BoxDecoration(
+                  //         color: Colors.black,
+                  //         borderRadius: BorderRadius.circular(100),
+                  //
+                  //       ),
+                  //       child: const Center(child: Text("2",style: TextStyle(color: Colors.white),)),
+                  //     )
+                  //   ],
+                  // ) ,
+                );
+              }
 
-                    ),
-                    child: const Center(child: Text("2",style: TextStyle(color: Colors.white),)),
-                  )
-                ],
-              ) ,
-            );
 
 
 

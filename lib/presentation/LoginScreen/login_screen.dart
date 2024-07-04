@@ -22,35 +22,41 @@ class LoginScreen extends GetView<LoginController> {
                 children: [
                   CustomTextFeild(
                     hintText: "user id",
-                    controller: controller.userIdController,
+                    controller: controller.userIdTE,
                   ),
                   const SizedBox(height: 12),
                   CustomTextFeild(
+                    hintText: "Name",
+                    controller: controller.nameTE,
+                  ),
+                  const SizedBox(height: 12),
+
+                  CustomTextFeild(
                     hintText: "Email",
-                    controller: controller.emailController,
+                    controller: controller.emailTE,
                   ),
                   const SizedBox(height: 12),
                   CustomTextFeild(
                     hintText: "Password",
-                    controller: controller.passwordController,
+                    controller: controller.passwordTE,
                     // onChanged: (value) => controller.emailController.text.trim() = value!,
                   ),
                   const SizedBox(height: 12),
                   CustomButton(
                     text: "Login",
-                    onTap: () {
+                    onTap: () async {
+
                       UserInfoModel userInfo = UserInfoModel();
-                      userInfo.userEmail =
-                          controller.emailController.text.trim().toString();
+                      userInfo.userEmail = controller.emailTE.text.trim().toString();
                       userInfo.id = "UPAI";
-                      userInfo.userName = "Maruf";
-                      userInfo.userId=controller.userIdController.text.trim().toString();
+                      userInfo.userName = controller.nameTE.text.trim().toString();
+                      userInfo.userId=controller.userIdTE.text.trim().toString();
                       FirebaseAPIs.createUser(userInfo.toJson());
                       var box = Hive.box('userInfo');
-
-                      box.put('user', userInfo.toJson());
+                      await box.put('user',userInfo.toJson());
                       print(box.values);
-                      Get.toNamed("/defaultscreen");
+                      FirebaseAPIs.currentUser();
+                      Get.offAndToNamed("/defaultscreen");
                     },
 
                   )

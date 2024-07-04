@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
 import 'package:upai/presentation/ChatScreen/Widgets/chat_message_tile.dart';
@@ -48,84 +49,192 @@ class ChatScreen extends StatelessWidget {
             foregroundColor: Colors.black,
             backgroundColor: Colors.white,
             centerTitle: false,
-            title: Row(
-              children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      border: Border.all(color: AppColors.strokeColor,width: 2)
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: CachedNetworkImage(
-                      imageUrl: receiverInfo.image.toString(),
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Image.asset(ImageConstant.receiverImg, fit: BoxFit.cover),
-                      errorWidget: (context, url, error) => Image.asset(ImageConstant.receiverImg, fit: BoxFit.cover),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                // CircleAvatar(
-                //   radius: 20,
-                //   backgroundImage: NetworkImage(receiverInfo.image.toString()),
-                // ),
-                // const SizedBox(
-                //   width: 10,
-                // ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      receiverInfo.userName.toString(),
-                      style: const TextStyle(fontSize: 16, height: 1.5),
-                    ),
-                    receiverInfo.isOnline!
-                        ? Row(
-                            children: [
-                              Icon(
-                                Icons.circle_rounded,
-                                size: 8,
-                                color: Colors.green,
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                "Online",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.green,
-                                    height: 1.5),
-                              ),
-                            ],
-                          )
-                        : Row(
-                            children: [
-                              Icon(
-                                Icons.circle_rounded,
-                                size: 8,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                "Offline",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                    height: 1.5),
-                              ),
-                            ],
-                          )
-                  ],
-                ),
-              ],
+            title: StreamBuilder(
+              stream: FirebaseAPIs.getUserInfo(receiverInfo),
+              builder: (context, snapshot) {
+                final data = snapshot.data?.docs;
+                final receiverData = data
+                        ?.map((e) => UserInfoModel.fromJson(e.data()))
+                        .toList() ??
+                    [];
+                if(receiverData.isNotEmpty)
+                  {
+                    return Row(
+                      children: [
+                        Container(
+
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                  color: AppColors.strokeColor, width: 2)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedNetworkImage(
+                              height: 40,
+                              width: 40,
+                              imageUrl: receiverData[0].image!.toString(),
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Image.asset(
+                                  ImageConstant.senderImg,
+                                  fit: BoxFit.cover),
+                              errorWidget: (context, url, error) => Image.asset(
+                                  ImageConstant.senderImg,
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        // CircleAvatar(
+                        //   radius: 20,
+                        //   backgroundImage: NetworkImage(receiverInfo.image.toString()),
+                        // ),
+                        // const SizedBox(
+                        //   width: 10,
+                        // ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                           receiverData[0].userName.toString(),
+                              style: const TextStyle(fontSize: 16, height: 1.5),
+                            ),
+
+                            // receiverInfo.isOnline!
+                            receiverData[0].isOnline!
+                                ? const Row(
+                              children: [
+                                Icon(
+                                  Icons.circle_rounded,
+                                  size: 8,
+                                  color: Colors.green,
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  "Online",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.green,
+                                      height: 1.5),
+                                ),
+                              ],
+                            )
+                                : Row(
+                              children: [
+                                const Icon(
+                                  Icons.circle_rounded,
+                                  size: 8,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  MyDateUtil.getLastActiveTime(context: context, lastActive: receiverData[0].lastActive.toString()),
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                      height: 1.5),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    );
+                  }
+                else
+                  {
+                    return Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                  color: AppColors.strokeColor, width: 2)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedNetworkImage(
+                              height: 40,
+                              width: 40,
+                              imageUrl:receiverInfo.image!.toString(),
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Image.asset(
+                                  ImageConstant.senderImg,
+                                  fit: BoxFit.cover),
+                              errorWidget: (context, url, error) => Image.asset(
+                                  ImageConstant.senderImg,
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        // CircleAvatar(
+                        //   radius: 20,
+                        //   backgroundImage: NetworkImage(receiverInfo.image.toString()),
+                        // ),
+                        // const SizedBox(
+                        //   width: 10,
+                        // ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                             receiverInfo.userName.toString(),
+                              style: const TextStyle(fontSize: 16, height: 1.5),
+                            ),
+
+                            receiverInfo.isOnline!
+                                ? const Row(
+                              children: [
+                                Icon(
+                                  Icons.circle_rounded,
+                                  size: 8,
+                                  color: Colors.green,
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  "Online",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.green,
+                                      height: 1.5),
+                                ),
+                              ],
+                            )
+                                : Row(
+                              children: [
+                                // const Icon(
+                                //   Icons.circle_rounded,
+                                //   size: 8,
+                                //   color: Colors.grey,
+                                // ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  MyDateUtil.getLastActiveTime(context: context, lastActive:receiverInfo.lastActive.toString()),
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                      height: 1.5),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    );
+                  }
+
+              },
             ),
             // title: Text(widget.name!),
             leading: IconButton(
@@ -199,8 +308,11 @@ class ChatScreen extends StatelessWidget {
                             itemCount: ctrl.messageList.length,
                             physics: const BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return ChatMessageTile(context,
-                                  message: ctrl.messageList[index], receiverInfo: receiverInfo,);
+                              return ChatMessageTile(
+                                context,
+                                message: ctrl.messageList[index],
+                                receiverInfo: receiverInfo,
+                              );
 
                               //return MessageCard(message: ctrl.messageList[index]);
                             });
@@ -354,7 +466,7 @@ class ChatScreen extends StatelessWidget {
                               }
                               ctrl.messageController.text = '';
                             }
-                           // ctrl.update();
+                            // ctrl.update();
                           },
                           child: CircleAvatar(
                             backgroundColor: const Color(0xFF404040),
