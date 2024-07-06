@@ -74,7 +74,7 @@ class ItemService extends StatelessWidget {
                   ),
                    Text(
                     '${singleItem.userName}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF817F7F),
                       fontSize: 10,
                       fontFamily: 'Inter',
@@ -84,7 +84,7 @@ class ItemService extends StatelessWidget {
                   ),
                    Text(
                     '৳ ${singleItem.price}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF3F3F3F),
                       fontSize: 11,
                       fontFamily: 'Inter',

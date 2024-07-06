@@ -82,19 +82,17 @@ class InboxCardWidget extends StatelessWidget {
                       Text( MyDateUtil.getLastMessageTime(
                           context: context, time:message!.sent.toString()),style: AppTextStyle.titleText,),
                       const SizedBox(height: 5,),
-                      //pore abr dekhte hobe
                     sendByMe?
-                      Text(""):message!.read!.isEmpty?
+                      const Text(""):message!.read!.isEmpty?
                     Container(
                       height: 15,
                       width: 15,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: AppColors.messageIndicatorColor,
                         borderRadius: BorderRadius.circular(100),
-
                       ),
                       // child: const Center(child: Text("2",style: TextStyle(color: Colors.white),)),
-                    ):Text(""),
+                    ):const Text(""),
                       // Container(
                       //   height: 18,
                       //   width: 18,

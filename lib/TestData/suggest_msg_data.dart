@@ -1,0 +1,1 @@
+List<String> suggestMsgList = ['How can i send my CV?','Tell me about your company','Is that Service available?','Can we talk?','I will let you know','See you soon ',];

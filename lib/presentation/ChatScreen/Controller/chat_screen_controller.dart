@@ -13,5 +13,13 @@ class ChatScreenController extends GetxController{
   String? messageId;
   String? chatRoomId;
   bool showEmoji = false;
+  int lineCount=2;
+
+  @override
+  void onClose() {
+    messageController.dispose();
+    // TODO: implement onClose
+    super.onClose();
+  }
 
 }

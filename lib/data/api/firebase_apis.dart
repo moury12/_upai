@@ -1,28 +1,32 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hive/hive.dart';
+import 'package:http/http.dart';
 import 'package:upai/Model/user_info_model.dart';
+import 'package:upai/data/api/notification_access_token.dart';
 import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
 
-class FirebaseAPIs{
- static UserInfoModel  me = UserInfoModel();
-  static final box =  Hive.box("userInfo");
+class FirebaseAPIs {
+  static UserInfoModel me = UserInfoModel();
+  static final box = Hive.box("userInfo");
 
   //getUserDetailsFromHive
- static Future<String> currentUser()
- async {
+  static Future<String> currentUser() async {
     Map<String, dynamic> user = await box.get('user');
     print("current uID :${user["user_id"]}");
-   return user["user_id"].toString();
- }
- static Map<String,dynamic> user = box.get('user');
+    return user["user_id"].toString();
+  }
 
-  static FirebaseFirestore mDB =FirebaseFirestore.instance;
+  static Map<String, dynamic> user = box.get('user');
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllChatList()
-  {
-   return FirebaseAPIs.mDB.collection("chat_list").snapshots();
+  static FirebaseFirestore mDB = FirebaseFirestore.instance;
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllChatList() {
+    return FirebaseAPIs.mDB.collection("chat_list").snapshots();
   }
 
   // #save userDetails in hive for auto log in and firebase purpose like userEXist or not etc.
@@ -30,57 +34,48 @@ class FirebaseAPIs{
   // (static User get user => auth.currentUser!;)//same system but with hive.
   // // for checking if user exists or not?
   static Future<bool> userExists() async {
-  return (await mDB.collection('users').doc(user['user_id']).get()).exists;
-
+    return (await mDB.collection('users').doc(user['user_id']).get()).exists;
   }
 
-  static Future<void> createUser(Map<String,dynamic> userInfo) async {
+  static Future<void> createUser(Map<String, dynamic> userInfo) async {
+    // final time = DateTime.now().millisecondsSinceEpoch.toString();
+    //
+    // final chatUser = ChatUser(
+    // id: user.uid,
+    // name: user.displayName.toString(),
+    // email: user.email.toString(),
+    // about: "Hey, I'm using We Chat!",
+    // image: user.photoURL.toString(),
+    // createdAt: time,
+    // isOnline: false,
+    // lastActive: time,
+    // pushToken: '');
 
-
-  // final time = DateTime.now().millisecondsSinceEpoch.toString();
-  //
-  // final chatUser = ChatUser(
-  // id: user.uid,
-  // name: user.displayName.toString(),
-  // email: user.email.toString(),
-  // about: "Hey, I'm using We Chat!",
-  // image: user.photoURL.toString(),
-  // createdAt: time,
-  // isOnline: false,
-  // lastActive: time,
-  // pushToken: '');
-
-  return await mDB
-      .collection('users')
-      .doc(userInfo['user_id'])
-      .set(userInfo);
+    return await mDB
+        .collection('users')
+        .doc(userInfo['user_id'])
+        .set(userInfo);
   }
-
-
-
-
-
-
-
-
 
 
   //getSelfInfo it will be called when user enter the app
 
   // for getting current user info
   static Future<void> getSelfInfo() async {
-    await mDB.collection('users').doc(user["user_id"]).get().then((selectedUser) async {
+    await mDB.collection('users').doc(user["user_id"]).get().then((
+        selectedUser) async {
       if (await userExists()) {
         me = UserInfoModel.fromJson(selectedUser.data()!);
-        // await getFirebaseMessagingToken();
+         await getFirebaseMessagingToken();
         //for setting user status to active
         FirebaseAPIs.updateActiveStatus(true);
-       // log('My Data: ${user.data()}');
+        // log('My Data: ${user.data()}');
       } else {
         await createUser(user).then((value) => getSelfInfo());
       }
     });
   }
+
 //
 // /////////////////////////////
 //   // for getting all users from firestore database
@@ -169,35 +164,41 @@ class FirebaseAPIs{
       return false;
     }
   }
+
 // //////
 
   // update online or last active status of user
   static Future<void> updateActiveStatus(bool isOnline) async {
     mDB.collection('users').doc(user['user_id']).update({
       'is_online': isOnline,
-      'last_active': DateTime.now().millisecondsSinceEpoch.toString(),
-     // 'push_token': me.pushToken,
+      'last_active': DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString(),
+       'push_token': me.pushToken,
     });
   }
 
   //****************************************
   // useful for getting conversation id
-  static String getConversationID(String id) => user['user_id'].hashCode <= id.hashCode
-      ? '${user['user_id']}_$id'
-      : '${id}_${user['user_id']}';
+  static String getConversationID(String id) =>
+      user['user_id'].hashCode <= id.hashCode
+          ? '${user['user_id']}_$id'
+          : '${id}_${user['user_id']}';
 
   // for getting all messages of a specific conversation from firestore database
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
       UserInfoModel user) {
     return mDB
-        .collection('chats/${getConversationID(user.userId.toString())}/messages/')
+        .collection(
+        'chats/${getConversationID(user.userId.toString())}/messages/')
         .orderBy('sent', descending: true)
         .snapshots();
   }
 
   // for adding an user to my user when first message is send
-  static Future<void> sendFirstMessage(
-      UserInfoModel chatUser, String msg, Type type) async {
+  static Future<void> sendFirstMessage(UserInfoModel chatUser, String msg,
+      Type type) async {
     await mDB
         .collection('users')
         .doc(chatUser.userId)
@@ -207,10 +208,13 @@ class FirebaseAPIs{
   }
 
   // for sending message
-  static Future<void> sendMessage(
-      UserInfoModel chatUser, String msg, Type type) async {
+  static Future<void> sendMessage(UserInfoModel chatUser, String msg,
+      Type type) async {
     //message sending time (also used as id)
-    final time = DateTime.now().millisecondsSinceEpoch.toString();
+    final time = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
 
     //message to send
     final Message message = Message(
@@ -222,25 +226,31 @@ class FirebaseAPIs{
         sent: time);
 
     final ref = mDB
-        .collection('chats/${getConversationID(chatUser.userId.toString())}/messages/');
+        .collection(
+        'chats/${getConversationID(chatUser.userId.toString())}/messages/');
     await ref.doc(time).set(message.toJson());
-        // .then((value) =>
-        // sendPushNotification(chatUser, type == Type.text ? msg : 'image'));
+    // .then((value) =>
+    // sendPushNotification(chatUser, type == Type.text ? msg : 'image'));
   }
 
   //update read status of message
   static Future<void> updateMessageReadStatus(Message message) async {
     mDB
-        .collection('chats/${getConversationID(message.fromId.toString())}/messages/')
+        .collection(
+        'chats/${getConversationID(message.fromId.toString())}/messages/')
         .doc(message.sent)
-        .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
+        .update({'read': DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString()});
   }
 
   //get only last message of a specific chat
   static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(
       UserInfoModel selectedUser) {
     return mDB
-        .collection('chats/${getConversationID(selectedUser.userId.toString())}/messages/')
+        .collection(
+        'chats/${getConversationID(selectedUser.userId.toString())}/messages/')
         .orderBy('sent', descending: true)
         .limit(1)
         .snapshots();
@@ -255,4 +265,60 @@ class FirebaseAPIs{
         .snapshots();
   }
 
+  //push notification
+  // for accessing firebase messaging (Push Notification)
+  static FirebaseMessaging fMessaging = FirebaseMessaging.instance;
+
+  // for getting firebase messaging token
+  static Future<void> getFirebaseMessagingToken() async {
+    await fMessaging.requestPermission();
+
+    await fMessaging.getToken().then((t) {
+      if (t != null) {
+        me.pushToken = t;
+        log('Push Token: $t');
+      }
+    });
+  }
+  // for sending push notification (Updated Codes)
+  static Future<void> sendPushNotification(
+      UserInfoModel chatUser, String msg) async {
+    try {
+      final body = {
+        "message": {
+          "token": chatUser.pushToken,
+          "notification": {
+            "title": me.userName, //our name should be send
+            "body": msg,
+          },
+        }
+      };
+
+      // Firebase Project > Project Settings > General Tab > Project ID
+      const projectID = 'we-chat-75f13';
+
+      // get firebase admin token
+      final bearerToken = await NotificationAccessToken.getToken;
+
+      log('bearerToken: $bearerToken');
+
+      // handle null token
+      if (bearerToken == null) return;
+
+      var res = await post(
+        Uri.parse(
+            'https://fcm.googleapis.com/v1/projects/$projectID/messages:send'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer $bearerToken'
+        },
+        body: jsonEncode(body),
+      );
+
+      log('Response status: ${res.statusCode}');
+      log('Response body: ${res.body}');
+    } catch (e) {
+      log('\nsendPushNotificationE: $e');
+    }
+  }
 }

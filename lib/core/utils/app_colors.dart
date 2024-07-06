@@ -66,6 +66,7 @@ class AppColors {
   static get containerBackground =>const Color(0xffF5F5F5);
 
   //////////////////////
+
   static get appTextColorGrey => const Color(0xff828080);
   static get titleName =>const Color(0xFF131313);
   static get deepGreyColor => const Color(0xff616161);
@@ -73,5 +74,6 @@ class AppColors {
   static get strokeColor =>const  Color(0xFFE4E9F2);
   static get strokeColor2 =>const  Color(0xFFEDF1F7);
   static get textFieldBackGround =>const  Color(0xFFF3F3F3);
+  static get messageIndicatorColor =>const  Color(0xFF080A12);
   /////////////////
 }
