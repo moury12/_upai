@@ -430,15 +430,6 @@ class ChatScreen extends StatelessWidget {
                                     backgroundColor: const Color(0xFF404040),
                                     //  backgroundImage: AssetImage(ImageConstant.sendIcon),
                                     child: Image.asset(ImageConstant.sendIcon),
-                                    // IconButton(
-                                    //   onPressed: () {
-                                    //     // messageController.text.isNotEmpty ? addMessage(true) : null;
-                                    //   },
-                                    //   icon: Icon(
-                                    //     Icons.send,
-                                    //     color:messageController!=null ? Colors.white : Colors.white,size: 18,
-                                    //   ),
-                                    // ),
                                   ),
                                 ),
                               ),

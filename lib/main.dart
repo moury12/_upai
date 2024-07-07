@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:upai/domain/services/checkInternet.dart';
 
 
 
@@ -33,6 +34,8 @@ Future<void> main() async {
   Get.put(LoginController());
   Get.put(ChatScreenController());
   Get.put(InboxScreenController());
+
+  DependencyInjection.init();
   runApp(const MyApp());
 }
 
