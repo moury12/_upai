@@ -17,9 +17,11 @@ class DefaultController extends GetxController
   @override
   void onInit() {
     FirebaseAPIs.getSelfInfo();
+    WidgetsBinding.instance.addObserver(AppLifecycleListener());
     //for updating user active status according to lifecycle events
     //resume -- active or online
     //pause  -- inactive or offline
+
     SystemChannels.lifecycle.setMessageHandler((message) {
       log('Message: $message');
 
@@ -57,5 +59,6 @@ class DefaultController extends GetxController
   void onItemTapped(int index) {
       selectedIndex.value = index;
   }
+
 
 }

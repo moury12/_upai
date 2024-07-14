@@ -4,13 +4,12 @@ import 'package:get/get.dart';
 import 'package:upai/data/repository/repository_details.dart';
 
 class LoginController extends GetxController {
-  final emailTE = TextEditingController();
+  final CIDTE = TextEditingController();
   final passwordTE = TextEditingController();
-  final userIdTE = TextEditingController();
-  final nameTE = TextEditingController();
+  final userMobileTE = TextEditingController();
 
-  login() async {
-    await RepositoryData()
-        .login(emailTE.text.trim(), passwordTE.text.trim());
+  // login() async {
+  //   await RepositoryData()
+  //       .login(CID.text.trim(), passwordTE.text.trim());
   }
-}
+

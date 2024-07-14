@@ -63,8 +63,6 @@ class AppTextStyle {
     color: AppColors.titleName,
   );
 
-
-
   //
 
   static get bodyLarge => TextStyle(
@@ -144,7 +142,6 @@ class AppTextStyle {
         fontWeight: FontWeight.w300,
         color: AppColors.colorLightBlack,
       );
-
 
   static get bodySmall => TextStyle(
         fontSize: 13,

@@ -38,7 +38,7 @@ class ChatScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            leadingWidth: 32,
+            leadingWidth: 28,
             elevation: 1,
             foregroundColor: Colors.black,
             backgroundColor: Colors.white,
@@ -76,7 +76,7 @@ class ChatScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        width: 10,
+                        width: 8,
                       ),
                       // CircleAvatar(
                       //   radius: 20,
@@ -154,7 +154,7 @@ class ChatScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        width: 10,
+                        width: 8,
                       ),
                       // CircleAvatar(
                       //   radius: 20,

@@ -1,7 +1,7 @@
 import '/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextFeild extends StatefulWidget {
+class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final Key? fieldKey;
   final bool? isPasswordField;
@@ -9,33 +9,23 @@ class CustomTextFeild extends StatefulWidget {
   final String? labelText;
   final String? helperText;
   final FormFieldSetter<String>? onSaved;
-  final FormFieldValidator<String>? validator;
+  final String? Function(String?)? validator;
   final ValueChanged<String>? onFieldSubmitted;
   final TextInputType? inputType;
   final IconData? prefixIcon;
   final Function(String?value)? onChanged;
+  final String? validatorText;
 
-  const CustomTextFeild(
-      {super.key,
-      this.onChanged,
-      this.controller,
-      this.isPasswordField,
-      this.fieldKey,
-      this.hintText,
-      this.labelText,
-      this.helperText,
-      this.onSaved,
-      this.validator,
-      this.onFieldSubmitted,
-      this.inputType,
-      this.prefixIcon});
+  const CustomTextField(
+      {super.key, this.controller, this.fieldKey, this.isPasswordField, this.hintText, this.labelText, this.helperText, this.onSaved, this.validator, this.onFieldSubmitted, this.inputType, this.prefixIcon, this.onChanged, this.validatorText,
+     });
 
   @override
   // ignore: library_private_types_in_public_api
-  _CustomTextFeildState createState() => _CustomTextFeildState();
+  _CustomTextFieldState createState() => _CustomTextFieldState();
 }
 
-class _CustomTextFeildState extends State<CustomTextFeild> {
+class _CustomTextFieldState extends State<CustomTextField> {
   bool _obscureText = true;
 
   @override
@@ -43,10 +33,11 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(.35),
-        borderRadius: BorderRadius.circular(7),
+        // color: Colors.white.withOpacity(.35),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: TextFormField(
+
         onChanged: widget.onChanged,
         textInputAction: widget.isPasswordField == true
             ? TextInputAction.done
@@ -57,17 +48,28 @@ class _CustomTextFeildState extends State<CustomTextFeild> {
         key: widget.fieldKey,
         obscureText: widget.isPasswordField == true ? _obscureText : false,
         onSaved: widget.onSaved,
-        validator: widget.validator,
+        validator: widget.validator ??
+                (value) {
+              if ((value == null || value.isEmpty) &&
+                  (widget.validatorText != null && widget.validatorText != '')) {
+                return ' ${widget.validatorText}';
+              }
+              return null;
+            },
         onFieldSubmitted: widget.onFieldSubmitted,
         onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
         decoration: InputDecoration(
+          fillColor: Colors.white,
           border: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.primaryColor)),
+            borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: AppColors.strokeColor2)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.primaryColor)),
-          focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 1)),
-          filled: false,
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: AppColors.strokeColor2)),
+          focusedBorder:  OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.black,)),
+          filled: true,
           contentPadding: const EdgeInsets.symmetric(vertical: 10),
           prefixIcon: Icon(
             widget.prefixIcon,

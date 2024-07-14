@@ -34,7 +34,7 @@ class ChatMessageTile extends StatelessWidget {
       mainAxisAlignment:
           sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
-        const SizedBox(width: 8,),
+        const SizedBox(width: 4,),
         sendByMe
             ? const Text("")
             : Container(
@@ -45,8 +45,8 @@ class ChatMessageTile extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: CachedNetworkImage(
-                    height: 40,
-                    width: 40,
+                    height: 30,
+                    width: 30,
                     imageUrl: receiverInfo.image!.toString(),
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Image.asset(

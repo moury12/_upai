@@ -10,7 +10,7 @@ import 'package:upai/core/utils/prefs_utils.dart';
 import '/core/errors/app_exception.dart';
 
 class ApiClient {
-  String? get baseUrl => "https://dummyjson.com";
+  String?  baseUrl = "http://192.168.0.112:8000/upai_api/";
 
   Future<dynamic> getData(String endpoint) async {
     final response = await http.get(

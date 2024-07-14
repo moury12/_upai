@@ -23,7 +23,6 @@ class DefaultScreen extends StatelessWidget {
             BottomNavigationBarItem(
               backgroundColor: Colors.white,
               icon: SvgPicture.asset('assets/images/home.svg',
-
                 color: ctrl.selectedIndex.value== 0 ? ctrl.selectedColor : ctrl.unselected,),
               label: 'Home',
             ),

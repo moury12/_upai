@@ -16,5 +16,6 @@ class ImageConstant {
   static String receiverImg = '$_imagePath/receiverdemoimage.jpg';
   static String audioCallIcon = '$_imagePath/call.svg';
   static String videoCallIcon = '$_imagePath/video_call.svg';
+  static String upailogo = '$_imagePath/upailogo.png';
 
 }
