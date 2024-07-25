@@ -10,7 +10,7 @@ import 'package:upai/core/utils/image_path.dart';
 import '../Model/category_list_model.dart';
 
 class CategotyItem extends StatelessWidget {
-  final CategoryListModel singleCat;
+  final CategoryList singleCat;
   CategotyItem({required this.singleCat}){
   }
   @override
@@ -57,7 +57,7 @@ class CategotyItem extends StatelessWidget {
 
            const SizedBox(height: 5,),
           Text(
-            '${singleCat.categoryList}',
+            '${singleCat.categoryName}',
             style: AppTextStyle.titleTextSmallest,
             ),
         ],

@@ -53,7 +53,8 @@ class ExploreScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 categoryItemModel = CategoryListModel.fromJson(catList[index]);
-                return CategotyItem(singleCat: categoryItemModel,);
+                return const CircularProgressIndicator();
+                // return CategotyItem(singleCat: categoryItemModel,);
 
               },),
           ),]),),

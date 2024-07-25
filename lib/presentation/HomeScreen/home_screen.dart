@@ -34,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Container(
                 color: AppColors.textFieldBackGround,
                 child: Padding(
@@ -47,8 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fillColor: Colors.white,
                             filled: true,
                             hintText: "Search service you're looking for...",
-                            hintStyle: TextStyle(fontSize: 11,
-                                color: AppColors.appTextColorGrey),
+                            hintStyle: TextStyle(fontSize: 11, color: AppColors.appTextColorGrey),
                             border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                                 borderRadius: BorderRadius.circular(6)
@@ -114,13 +112,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: FutureBuilder(
                         future: controller.getCatList,
                         builder: (context, snapshot) {
+                          List<CategoryList> catList=snapshot.data;
                           return ListView.builder(
                             itemCount: catList.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              categoryItemModel =
-                                  CategoryListModel.fromJson(catList[index]);
-                              return CategotyItem(singleCat: categoryItemModel,);
+                              // categoryItemModel =
+                              //     CategoryListModel.fromJson(catList[index]);
+                              return CategotyItem(singleCat: catList[index],);
                             },);
 
                       }, )

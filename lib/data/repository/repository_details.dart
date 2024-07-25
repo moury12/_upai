@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -13,7 +14,7 @@ import 'repository_interface.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryData {
-  final List<CategoryList> catList = [];
+  late List<CategoryList> catList = [];
   final apiClient = ApiClient();
   final box = Hive.box('userInfo');
   // @override
@@ -113,59 +114,56 @@ class RepositoryData {
       throw Exception('Error in login: $e');
     }
   }
-  Future<dynamic> getCategoryList(String CID, String userMobile, String name,String token) async {
-    String url = "${ApiClient().getCategoryList}?cid=$CID&user_mobile=$userMobile&name=$name";
+  Future<List<CategoryList>> getCategoryList({
+    required String token,
+    context,
+  }) async {
     try {
-      var response = await http.get(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',},
-      );
-      print("object");
-      final data = jsonDecode(response.body);
-      if (data["status"].toString() == 'Success') {
-        print("Successfully");
-        // data["user_info"]["name"];
 
-        UserInfoModel userInfo = UserInfoModel();
-        userInfo.cid = CID;
-        userInfo.name =data['user_info']['name'].toString();
-        userInfo.userId=data["user_info"]["user_id"];
-        userInfo.email=data['user_info']['email'].toString();
-        userInfo.mobile =data['user_info']['mobile'].toString();
-        userInfo.token =data['token'].toString();
-        await box.put('user',userInfo.toJson());
-        print("value is  : ${box.get("user")}");
-        print("&&&&&&&&&&&&&&&&&&&");
-        print(box.values);
-        FirebaseAPIs.currentUser();
-        if(!await FirebaseAPIs.userExists())
-        {
-          FirebaseAPIs.createUser(userInfo.toJson());
-          print("user creating");
-          Get.offAndToNamed("/defaultscreen");
-
-        }
-        else
-        {
-          Get.offAndToNamed("/defaultscreen");
-        }
-
-      } else {
-        Get.snackbar(data["status"], data["message"],
-            colorText: Colors.white, backgroundColor: Colors.red);
+      String url =
+          "${ApiClient().getCategoryList}?cid=upai&user_mobile=0190001&name=md rabbi2";
+      if (kDebugMode) {
+        print('++++++++++get area list url :----$url');
+        print('Token : ${token}');
       }
-      // var loginResponse = loginResponseModelFromJson(response.);
-      print(response);
-      return response;
-    } catch (e) {
-      // handleError(e);
-      print(e.toString());
-      throw Exception('Error in login: $e');
+
+      final response = await http.get(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+      if (kDebugMode) {
+        print('Response data :----${response.body}');
+      }
+      // var data = jsonDecode(response.body);
+      final data = jsonDecode(response.body.toString());
+      if (data['status'] == "Success") {
+
+        print("skjdfklsdjf");
+        catList =categoryListModelFromJson(response.body).categoryList!;
+        print(catList);
+        // var areaData = data["area-list"] as List;
+        //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.green,content: Text("Successfull")));
+
+        return catList;
+      }
+      else
+      {
+        return catList;
+      }
     }
+
+    catch(e)
+    {
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.red,content: Text("Error:"+e.toString())));
+      return catList;
+    }
+
+
   }
-  // Future<void> getCategoryList(String cId, String userName, String userPass,
+
+// Future<void> getCategoryList(String cId, String userName, String userPass,
   //     String userMobile, String userEmail) async {
   //   String url = ApiClient().createUserUrl;
   //   print("url is =>$url");
