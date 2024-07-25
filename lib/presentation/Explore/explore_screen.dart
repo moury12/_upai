@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:upai/Model/category_item_model.dart';
+import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/TestData/category_data.dart';
 import 'package:upai/core/utils/app_colors.dart';
 
@@ -11,7 +12,7 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CategoryItemModel categoryItemModel = CategoryItemModel();
+    CategoryListModel categoryItemModel = CategoryListModel();
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
       body:SafeArea(
@@ -51,7 +52,7 @@ class ExploreScreen extends StatelessWidget {
               itemCount: catList.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                categoryItemModel = CategoryItemModel.fromJson(catList[index]);
+                categoryItemModel = CategoryListModel.fromJson(catList[index]);
                 return CategotyItem(singleCat: categoryItemModel,);
 
               },),

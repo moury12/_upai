@@ -89,7 +89,7 @@ class ChatScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            receiverData[0].userName.toString(),
+                            receiverData[0].name.toString(),
                             style: const TextStyle(fontSize: 16, height: 1.5),
                           ),
 
@@ -167,7 +167,7 @@ class ChatScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            receiverInfo.userName.toString(),
+                            receiverInfo.name.toString(),
                             style: const TextStyle(fontSize: 16, height: 1.5),
                           ),
                           receiverInfo.isOnline!

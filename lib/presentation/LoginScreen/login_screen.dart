@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/sign%20up%20screen/sign_up_screen.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -72,8 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: controller.passwordTE,
                         // onChanged: (value) => controller.emailController.text.trim() = value!,
                       ),
-                      SizedBox(height: 3,),
-                      Align(
+                      const SizedBox(height: 3,),
+                      const Align(
                         alignment: Alignment.topRight,
                         child: Text("Forget Password",style: TextStyle()),
                       ),
@@ -87,20 +89,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               // UserInfoModel userInfo = UserInfoModel();
                               // userInfo.id = controller.CIDTE.text.trim().toString();
                               // userInfo.userId=controller.userIdTE.text.trim().toString();
-                              RepositoryData().login(controller.CIDTE.text.toString(), controller.userMobileTE.text.toString(), controller.passwordTE.text.toString());
-                              // FirebaseAPIs.createUser(userInfo.toJson());
-                              // var box = Hive.box('userInfo');
-                              // await box.put('user',userInfo.toJson());
-                              // print(box.values);
-                              // FirebaseAPIs.currentUser();
-                              // Get.offAndToNamed("/defaultscreen");
+                              RepositoryData().login(controller.CIDTE.text.trim().toString(), controller.userMobileTE.text.trim().toString(), controller.passwordTE.text.trim().toString());
+
                             }
 
           
                         },
           
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
 
                       InkWell(
                         onTap: (){
@@ -109,11 +106,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: RichText(text:TextSpan(
                           children: [
                             TextSpan(text: "Don't have an account?",style: AppTextStyle.titleText),
-                            TextSpan(text: " Sign Up",style: TextStyle(color: Colors.green))
+                            const TextSpan(text: " Sign Up",style: TextStyle(color: Colors.green))
                           ]
                         )),
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                     ],
                   ),
                 ),

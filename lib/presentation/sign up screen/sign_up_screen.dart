@@ -4,6 +4,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
+import 'package:upai/presentation/sign%20up%20screen/sign_up_controller.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 import '../../data/repository/repository_details.dart';
@@ -19,7 +20,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  LoginController controller = Get.put(LoginController());
+  SignUpController controller = Get.put(SignUpController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,9 +54,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
-                        validatorText: "Please Enter User ID",
+                        validatorText: "Please Enter Mobile Number",
                         prefixIcon: Icons.format_list_numbered,
-                        hintText: "User ID",
+                        hintText: "Mobile Number",
                         controller: controller.userMobileTE,
                       ),
                       const SizedBox(height: 10),
@@ -63,14 +64,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         validatorText: "Please Enter User Name",
                         prefixIcon: Icons.person,
                         hintText: "User Name",
-                        controller: controller.userMobileTE,
+                        controller: controller.userNameTE,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         validatorText: "Please Enter User Email",
                         prefixIcon: Icons.email,
                         hintText: "User Email",
-                        controller: controller.userMobileTE,
+                        controller: controller.userEmailTE,
                       ),
                       // CustomTextFeild(
                       //   hintText: "Name",
@@ -84,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // ),
                       const SizedBox(height: 10),
                       CustomTextField(
-                        validatorText: "Please Enter User Password",
+                        validatorText: "Please Enter a Password",
 
                         prefixIcon: Icons.lock,
                         hintText: "Password",
@@ -97,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                         prefixIcon: Icons.lock,
                         hintText: "Confirm Password",
-                        controller: controller.passwordTE,
+                        controller: controller.conPasswordTE,
                         // onChanged: (value) => controller.emailController.text.trim() = value!,
                       ),
                      const SizedBox(height: 20,),
@@ -106,6 +107,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onTap: () async {
                           if(_formKey.currentState!.validate())
                           {
+                            if(controller.passwordTE.text.trim().toString()==controller.conPasswordTE.text.trim().toString())
+                              {
+                                 RepositoryData().createUser(controller.CIDTE.text.trim().toString(),controller.userNameTE.text.trim().toString(), controller.passwordTE.text.trim().toString(), controller.userMobileTE.text.trim().toString(), controller.userEmailTE.text.trim().toString());
+                              }
+                            else
+                              {
+                                Get.snackbar("Sorry", "Both password should match",backgroundColor: Colors.red,colorText: Colors.white);
+                              }
+
 
                             // UserInfoModel userInfo = UserInfoModel();
                             // userInfo.id = controller.CIDTE.text.trim().toString();

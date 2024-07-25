@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/category_item_model.dart';
+import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/item_service_model.dart';
 import 'package:upai/TestData/category_data.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -11,13 +12,19 @@ import 'package:upai/widgets/item_service.dart';
 
 import '../../TestData/servicedItemData.dart';
 
-class HomeScreen extends StatelessWidget {
-   HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+    const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+   HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    CategoryItemModel categoryItemModel = CategoryItemModel();
+    CategoryListModel categoryItemModel = CategoryListModel();
     ItemServiceModel singleItem = ItemServiceModel();
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
@@ -104,14 +111,19 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(
                       width: size.width,
                       height: 100,
-                      child: ListView.builder(
-                        itemCount: catList.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          categoryItemModel =
-                              CategoryItemModel.fromJson(catList[index]);
-                          return CategotyItem(singleCat: categoryItemModel,);
-                        },),
+                      child: FutureBuilder(
+                        future: controller.getCatList,
+                        builder: (context, snapshot) {
+                          return ListView.builder(
+                            itemCount: catList.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              categoryItemModel =
+                                  CategoryListModel.fromJson(catList[index]);
+                              return CategotyItem(singleCat: categoryItemModel,);
+                            },);
+
+                      }, )
                     ),
                     const SizedBox(height: 10,),
                     Text("Explore Top Services",

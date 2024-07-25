@@ -70,7 +70,7 @@ class InboxCardWidget extends StatelessWidget {
                       ]
 
                   ),
-                  title: Text(receiverUserInfo.userName.toString(),style: AppTextStyle.bodyMediumBlackSemiBold,),
+                  title: Text(receiverUserInfo.name.toString(),style: AppTextStyle.bodyMediumBlackSemiBold,),
                   subtitle: message==null? const Text(""):Text(
                     overflow: TextOverflow.ellipsis,
                     message!.type==Type.image?"Image":sendByMe?"You: ${message!.msg}":"${message!.msg}",maxLines: 1,),
@@ -143,7 +143,7 @@ class InboxCardWidget extends StatelessWidget {
                       ]
 
                   ),
-                  title: Text(receiverUserInfo.userName.toString(),style: AppTextStyle.bodyMediumBlackSemiBold,),
+                  title: Text(receiverUserInfo.name.toString(),style: AppTextStyle.bodyMediumBlackSemiBold,),
                   subtitle:  Text(""),
                   contentPadding: EdgeInsets.zero,
                   // trailing: Column(

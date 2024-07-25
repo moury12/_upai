@@ -7,8 +7,10 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 
+import '../Model/category_list_model.dart';
+
 class CategotyItem extends StatelessWidget {
-  final CategoryItemModel singleCat;
+  final CategoryListModel singleCat;
   CategotyItem({required this.singleCat}){
   }
   @override
@@ -28,7 +30,7 @@ class CategotyItem extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: CachedNetworkImage(
-                imageUrl: singleCat.imageUrl.toString(),
+                imageUrl: catList[0]["image_url"].toString(),
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Image.asset(ImageConstant.dummy, fit: BoxFit.cover),
                 errorWidget: (context, url, error) => Image.asset(ImageConstant.dummy, fit: BoxFit.cover),
@@ -55,7 +57,7 @@ class CategotyItem extends StatelessWidget {
 
            const SizedBox(height: 5,),
           Text(
-            '${singleCat.catType}',
+            '${singleCat.categoryList}',
             style: AppTextStyle.titleTextSmallest,
             ),
         ],

@@ -17,7 +17,7 @@ class FirebaseAPIs {
   //getUserDetailsFromHive
   static Future<String> currentUser() async {
     Map<String, dynamic> user = await box.get('user');
-    print("current uID :${user["user_id"]}");
+    print("this from firebase api class current uID :${user["user_id"]}");
     return user["user_id"].toString();
   }
 
@@ -288,7 +288,7 @@ class FirebaseAPIs {
         "message": {
           "token": chatUser.pushToken,
           "notification": {
-            "title": me.userName, //our name should be send
+            "title": me.name, //our name should be send
             "body": msg,
           },
         }

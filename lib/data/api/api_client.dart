@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
@@ -10,11 +9,15 @@ import 'package:upai/core/utils/prefs_utils.dart';
 import '/core/errors/app_exception.dart';
 
 class ApiClient {
-  String?  baseUrl = "http://192.168.0.112:8000/upai_api/";
+  static const String _baseUrl = "http://192.168.0.112:8000/upai_api";
+
+  String get loginUrl => '$_baseUrl/login';
+  String get createUserUrl => '$_baseUrl/create_user';
+  String get getCategoryList => '$_baseUrl/get_category_list';
 
   Future<dynamic> getData(String endpoint) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/$endpoint'),
+      Uri.parse('$_baseUrl/$endpoint'),
       headers: {
         'Authorization': 'Bearer ' '}',
       },
@@ -40,7 +43,7 @@ class ApiClient {
         headers['Authorization'] = 'Bearer ${PrefUtils().getAuthToken()}';
       }
       Response response = await http.post(
-        Uri.parse('$baseUrl/$endpoint'),
+        Uri.parse('$_baseUrl/$endpoint'),
         headers: headers.cast<String, String>(),
         body: json.encode(data),
       );

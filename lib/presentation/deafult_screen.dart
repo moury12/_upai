@@ -17,7 +17,6 @@ class DefaultScreen extends StatelessWidget {
       return Scaffold(
         body: userType=="client"?ctrl.screensForClient[ctrl.selectedIndex.value]:ctrl.screensForServiceProvider[ctrl.selectedIndex.value],
         bottomNavigationBar: BottomNavigationBar(
-
           backgroundColor: Colors.white,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(

@@ -57,7 +57,7 @@ class InboxScreen extends StatelessWidget {
                               for (var i in ctrl.chatList) {
                                 if (i.userId!.toLowerCase().contains(
                                     value.toLowerCase()) ||
-                                    i.userName!.toLowerCase().contains(
+                                    i.name!.toLowerCase().contains(
                                         value.toLowerCase())) {
                                   ctrl.searchList.add(i);
                                 }
