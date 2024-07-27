@@ -96,7 +96,7 @@ class InboxScreen extends StatelessWidget {
                                   case ConnectionState.active:
                                   case ConnectionState.done:
                                     final data = snapshot.data!.docs;
-                                    print("length of getAllUsers data"+data.length.toString());
+                                    print("length of getAllUsers data${data.length}");
                                     if (data.isNotEmpty) {
                                       ctrl.chatList.clear();
                                       for (var i in data) {
@@ -104,6 +104,7 @@ class InboxScreen extends StatelessWidget {
                                             UserInfoModel.fromJson(i.data()));
                                       }
                                       return ListView.builder(
+
                                         itemCount: ctrl.isSearching ? ctrl.searchList
                                             .length : ctrl.chatList.length,
                                         itemBuilder: (context, index) {

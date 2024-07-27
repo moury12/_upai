@@ -14,6 +14,7 @@ class ApiClient {
   String get loginUrl => '$_baseUrl/login';
   String get createUserUrl => '$_baseUrl/create_user';
   String get getCategoryList => '$_baseUrl/get_category_list';
+  String get getOfferList => '$_baseUrl/get_offer_list';
 
   Future<dynamic> getData(String endpoint) async {
     final response = await http.get(

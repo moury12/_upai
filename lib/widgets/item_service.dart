@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/item_service_model.dart';
+import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/image_path.dart';
 
 class ItemService extends StatelessWidget {
-  final ItemServiceModel singleItem;
-   const ItemService({super.key, required this.singleItem});
+  final OfferList offer;
+   const ItemService({super.key, required this.offer});
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +57,14 @@ class ItemService extends StatelessWidget {
                           return Image.asset(ImageConstant.dummy);
                         },
                         image: NetworkImage(
-                          singleItem.imageUrl.toString()),
+                          "https://cdn.prod.website-files.com/6410ebf8e483b5bb2c86eb27/6410ebf8e483b5758186fbd8_ABM%20college%20mobile%20app%20dev%20main.jpg"),
                         fit: BoxFit.fill,
                       ),),
                     ),
                   ),
                   const SizedBox(height: 10,),
                    Text(
-                    '${singleItem.title}',
+                    '${offer.jobTitle}',
                     style: const TextStyle(
                       color: Color(0xFF404040),
                       fontSize: 11,
@@ -73,7 +74,7 @@ class ItemService extends StatelessWidget {
                     ),
                   ),
                    Text(
-                    '${singleItem.userName}',
+                    '${offer.userId}',
                     style: const TextStyle(
                       color: Color(0xFF817F7F),
                       fontSize: 10,
@@ -83,7 +84,7 @@ class ItemService extends StatelessWidget {
                     ),
                   ),
                    Text(
-                    '৳ ${singleItem.price}',
+                    '৳ ${offer.rate}',
                     style: const TextStyle(
                       color: Color(0xFF3F3F3F),
                       fontSize: 11,

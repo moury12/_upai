@@ -22,7 +22,7 @@ class ChatMessageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool sendByMe = FirebaseAPIs.user["user_id"] == message.fromId.toString();
+    bool sendByMe = FirebaseAPIs.user == message.fromId.toString();
     if(!sendByMe)
       {
         if (message.read!.isEmpty) {

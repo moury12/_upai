@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/category_list_model.dart';
+import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import '../../Model/user_info_model.dart';
@@ -14,7 +15,9 @@ import 'repository_interface.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryData {
-  late List<CategoryList> catList = [];
+   List<CategoryList> catList = [];
+   List<OfferList> offerList = [];
+
   final apiClient = ApiClient();
   final box = Hive.box('userInfo');
   // @override
@@ -162,6 +165,55 @@ class RepositoryData {
 
 
   }
+  Future<List<OfferList>> getOfferList({
+    required String token,
+    context,
+  }) async {
+    try {
+
+      String url =
+          "${ApiClient().getOfferList}?cid=upai&user_mobile=0190001&name=md rabbi2";
+      if (kDebugMode) {
+        print('++++++++++get area list url :----$url');
+        print('Token : ${token}');
+      }
+
+      final response = await http.get(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+      if (kDebugMode) {
+        print('Response data :----${response.body}');
+      }
+      // var data = jsonDecode(response.body);
+      final data = jsonDecode(response.body.toString());
+      if (data['status'] == "Success") {
+
+        print("skjdfklsdjf");
+        offerList =offerListModelFromJson(response.body).offerList!;
+        print(offerList);
+        // var areaData = data["area-list"] as List;
+        //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.green,content: Text("Successfull")));
+
+        return offerList;
+      }
+      else
+      {
+        return offerList;
+      }
+    }
+
+    catch(e)
+    {
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.red,content: Text("Error:"+e.toString())));
+      return offerList;
+    }
+
+
+  }
+
 
 // Future<void> getCategoryList(String cId, String userName, String userPass,
   //     String userMobile, String userEmail) async {

@@ -349,7 +349,7 @@ class ServiceDetails extends StatelessWidget {
                         itemBuilder: (context, index) {
 
                           singleItem = ItemServiceModel.fromJson(serviceList[index]);
-                          return ItemService(singleItem: singleItem,);
+                          return CircularProgressIndicator();
                         },
                       ),
                     ),

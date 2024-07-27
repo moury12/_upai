@@ -21,7 +21,7 @@ class FirebaseAPIs {
     return user["user_id"].toString();
   }
 
-  static Map<String, dynamic> user = box.get('user');
+  static Map<dynamic, dynamic> user = box.get('user');
 
   static FirebaseFirestore mDB = FirebaseFirestore.instance;
 
@@ -71,7 +71,7 @@ class FirebaseAPIs {
         FirebaseAPIs.updateActiveStatus(true);
         // log('My Data: ${user.data()}');
       } else {
-        await createUser(user).then((value) => getSelfInfo());
+        await createUser(user as Map<String,dynamic>).then((value) => getSelfInfo());
       }
     });
   }
@@ -132,6 +132,7 @@ class FirebaseAPIs {
             ? ['']
             : userIds) //because empty list throws an error
     // .where('id', isNotEqualTo: user.uid)
+
         .snapshots();
   }
 

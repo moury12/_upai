@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/category_item_model.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/item_service_model.dart';
+import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/TestData/category_data.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
@@ -24,8 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    CategoryListModel categoryItemModel = CategoryListModel();
-    ItemServiceModel singleItem = ItemServiceModel();
+    // CategoryListModel categoryItemModel = CategoryListModel();
+    // ItemServiceModel singleItem = ItemServiceModel();
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
       body: SafeArea(
@@ -138,15 +139,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 10,),
                     SizedBox(
                       width: size.width,
-                      height: 200,
-                      child: ListView.builder(
-                        itemCount: serviceList.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          singleItem =
-                              ItemServiceModel.fromJson(serviceList[index]);
-                          return ItemService(singleItem: singleItem,);
-                        },),
+                      height: 300,
+                      child: FutureBuilder(
+                        future: controller.getOfferList,
+                        builder: (context, snapshot) {
+                          if(snapshot.hasData)
+                            {
+                              List<OfferList> offerList=snapshot.data;
+                              return ListView.builder(
+                                itemCount: offerList.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  // singleItem =
+                                  //     ItemServiceModel.fromJson(serviceList[index]);
+                                  return ItemService(offer: offerList[index],);
+                                },);
+                            }
+                          else
+                            {
+                              return CircularProgressIndicator();
+                            }
+                        },
+                      )
                     ),
 
 
