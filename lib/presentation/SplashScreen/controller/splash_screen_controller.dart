@@ -15,6 +15,7 @@ class SplashScreenController extends GetxController {
   }
 
   Future _isLogin() async {
+
     bool isLoging = false;
     if(box.isNotEmpty)
       {
@@ -26,8 +27,8 @@ class SplashScreenController extends GetxController {
     await Future.delayed(
       Duration(seconds: _splashDuration),
       () => isLoging == true
-          ? Get.offAll( const LoginScreen())
-          : Get.offAll( DefaultScreen()),
+          ? Get.offAll(  DefaultScreen())
+          : Get.offAll( LoginScreen()),
     );
   }
 }

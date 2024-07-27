@@ -44,7 +44,6 @@ class ExploreScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10,),
-        
           SizedBox(
             width: size.width,
             height: 100,

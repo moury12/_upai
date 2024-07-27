@@ -25,11 +25,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffE4E4E4),
-      appBar: AppBar(
-        backgroundColor:const Color(0xffdedede) ,
-        title: Text("Sign Up Screen"),
-        centerTitle: true,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor:const Color(0xffdedede) ,
+      //   title: Text("Sign Up Screen"),
+      //   centerTitle: true,
+      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -40,7 +40,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
                       SizedBox(
                           height: 200,
                           width: 200,
@@ -95,7 +94,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 10,),
                       CustomTextField(
                         validatorText: "Re-Enter User Password",
-
                         prefixIcon: Icons.lock,
                         hintText: "Confirm Password",
                         controller: controller.conPasswordTE,
@@ -129,25 +127,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             // Get.offAndToNamed("/defaultscreen");
                           }
 
-
                         },
-
                       ),
                       const SizedBox(height: 15,),
-
                       InkWell(
                         onTap: (){
                           Get.offAll(()=>const LoginScreen());
                         },
                         child: RichText(
-
                             text:TextSpan(
                             children: [
                               TextSpan(
-
                                   text: "Already have an account?",style: AppTextStyle.titleText),
                               const TextSpan(text: " Log in",style: TextStyle(color: Colors.green)),
-
                             ],
                         )),
                       ),

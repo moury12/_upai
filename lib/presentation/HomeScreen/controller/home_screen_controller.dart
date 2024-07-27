@@ -4,22 +4,21 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/user_info_model.dart';
-import 'package:upai/data/api/api_client.dart';
-import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 
 class HomeController extends GetxController {
 
   late Future getCatList;
-  final box = Hive.box("UserInfo");
+  final box = Hive.box("userInfo");
 
  late  UserInfoModel userInfo ;
 
   @override
-  void onInit() {
-    userInfo = userInfoModelFromJson(box.get('user'));
+  Future<void> onInit() async {
+    // userInfo = userInfoModelFromJson(box.get('user'));
+    //Map<String,dynamic> userData = await box.get('user')['token'];
 
-    getCatList = RepositoryData().getCategoryList(token: userInfo.token.toString());
+    getCatList = RepositoryData().getCategoryList(token:box.get('user')['token'].toString());
 
     print("Home Controller Callled");
     // TODO: implement onInit

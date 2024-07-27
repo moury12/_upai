@@ -61,15 +61,15 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => const SignUpScreen()),
-        GetPage(name: '/inbox', page: () =>  InboxScreen()),
+        GetPage(name: '/', page: () => const SplashScreen()),
+        GetPage(name: '/inbox', page: () =>  const InboxScreen()),
         GetPage(name: '/profile', page: () => const ProfileScreen()),
-        GetPage(name: '/home', page: () =>  HomeScreen()),
-        GetPage(name: '/home2', page: () =>  InboxScreen()),
-        GetPage(name: '/servicedetails', page: () => ServiceDetails()),
+        GetPage(name: '/home', page: () =>  const HomeScreen()),
+        GetPage(name: '/home2', page: () =>  const InboxScreen()),
+        GetPage(name: '/servicedetails', page: () => const ServiceDetails()),
         GetPage(name: '/chatscreen', page: () =>  ChatScreen()),
         GetPage(name: '/defaultscreen', page: () =>  DefaultScreen()),
-        GetPage(name: '/login', page: () =>  LoginScreen()),
+        GetPage(name: '/login', page: () =>  const LoginScreen()),
       ],
       // initialBinding: BindingsBuilder(() {
       //   Get.lazyPut(() => LoginController());

@@ -112,15 +112,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: FutureBuilder(
                         future: controller.getCatList,
                         builder: (context, snapshot) {
+
+                          if(snapshot.hasData)
+                            {
                           List<CategoryList> catList=snapshot.data;
-                          return ListView.builder(
-                            itemCount: catList.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              // categoryItemModel =
-                              //     CategoryListModel.fromJson(catList[index]);
-                              return CategotyItem(singleCat: catList[index],);
-                            },);
+                              return ListView.builder(
+                                itemCount: catList.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  // categoryItemModel =
+                                  //     CategoryListModel.fromJson(catList[index]);
+                                  return CategotyItem(singleCat: catList[index],);
+                                },);
+                            }
+                          else
+                            {
+                              return const CircularProgressIndicator();}
+
 
                       }, )
                     ),
