@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             }
                           else
                             {
-                              return const CircularProgressIndicator();}
+                              return Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));}
 
 
                       }, )
@@ -152,12 +152,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemBuilder: (context, index) {
                                   // singleItem =
                                   //     ItemServiceModel.fromJson(serviceList[index]);
-                                  return ItemService(offer: offerList[index],);
+                                  return OfferService(offer: offerList[index],);
                                 },);
                             }
                           else
                             {
-                              return CircularProgressIndicator();
+                              return Center(child: CircularProgressIndicator());
                             }
                         },
                       )

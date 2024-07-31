@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:upai/Model/item_service_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/image_path.dart';
 
-class ItemService extends StatelessWidget {
+class OfferService extends StatelessWidget {
   final OfferList offer;
-   const ItemService({super.key, required this.offer});
+   const OfferService({super.key, required this.offer});
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +48,14 @@ class ItemService extends StatelessWidget {
                           ),
                         ),
                       ),
-                      child: Container(
+                      child: SizedBox(
                         width: size.width,
                         height: 66,
                       child: Image(
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(ImageConstant.dummy);
                         },
-                        image: NetworkImage(
+                        image: const NetworkImage(
                           "https://cdn.prod.website-files.com/6410ebf8e483b5bb2c86eb27/6410ebf8e483b5758186fbd8_ABM%20college%20mobile%20app%20dev%20main.jpg"),
                         fit: BoxFit.fill,
                       ),),
@@ -64,6 +63,8 @@ class ItemService extends StatelessWidget {
                   ),
                   const SizedBox(height: 10,),
                    Text(
+                     maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     '${offer.jobTitle}',
                     style: const TextStyle(
                       color: Color(0xFF404040),
@@ -74,7 +75,7 @@ class ItemService extends StatelessWidget {
                     ),
                   ),
                    Text(
-                    '${offer.userId}',
+                    '${offer.serviceCategoryType}',
                     style: const TextStyle(
                       color: Color(0xFF817F7F),
                       fontSize: 10,

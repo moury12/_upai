@@ -10,18 +10,25 @@ import 'package:upai/TestData/servicedItemData.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/widgets/item_service.dart';
 
+import '../../Model/offer_list_model.dart';
 import 'service_details_controller.dart';
 import 'widgets/client_review.dart';
 import 'widgets/rate_by_category_widget.dart';
-class ServiceDetails extends StatelessWidget {
+class ServiceDetails extends StatefulWidget {
   const ServiceDetails({super.key});
 
+  @override
+  State<ServiceDetails> createState() => _ServiceDetailsState();
+}
 
+class _ServiceDetailsState extends State<ServiceDetails> {
+  HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
-    ItemServiceModel singleItem = ItemServiceModel();
+  //  ItemServiceModel singleItem = ItemServiceModel();
     var ctrl = Get.put(ServiceDetailsController());
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
@@ -341,17 +348,29 @@ class ServiceDetails extends StatelessWidget {
                       height: 10,
                     ),
                     SizedBox(
-                      width: size.width,
-                      height: 200,
-                      child: ListView.builder(
-                        itemCount: serviceList.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-
-                          singleItem = ItemServiceModel.fromJson(serviceList[index]);
-                          return CircularProgressIndicator();
-                        },
-                      ),
+                        width: size.width,
+                        height: 300,
+                        child: FutureBuilder(
+                          future: homeController.getOfferList,
+                          builder: (context, snapshot) {
+                            if(snapshot.hasData)
+                            {
+                              List<OfferList> offerList=snapshot.data;
+                              return ListView.builder(
+                                itemCount: offerList.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  // singleItem =
+                                  //     ItemServiceModel.fromJson(serviceList[index]);
+                                  return OfferService(offer: offerList[index],);
+                                },);
+                            }
+                            else
+                            {
+                              return CircularProgressIndicator();
+                            }
+                          },
+                        )
                     ),
                     const SizedBox(
                       height: 50,

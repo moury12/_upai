@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:upai/Model/category_item_model.dart';
 import 'package:upai/TestData/category_data.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
@@ -11,8 +10,7 @@ import '../Model/category_list_model.dart';
 
 class CategotyItem extends StatelessWidget {
   final CategoryList singleCat;
-  CategotyItem({required this.singleCat}){
-  }
+  const CategotyItem({super.key, required this.singleCat});
   @override
   Widget build(BuildContext context) {
     return Padding(
