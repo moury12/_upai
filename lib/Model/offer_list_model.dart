@@ -37,6 +37,7 @@ class OfferList {
   String? serviceCategoryType;
   DateTime? dateTime;
   String? userId;
+  String? userName;
   String? jobTitle;
   String? description;
   int? quantity;
@@ -48,6 +49,7 @@ class OfferList {
     this.serviceCategoryType,
     this.dateTime,
     this.userId,
+    this.userName,
     this.jobTitle,
     this.description,
     this.quantity,
@@ -57,9 +59,10 @@ class OfferList {
 
   factory OfferList.fromJson(Map<String, dynamic> json) => OfferList(
     offerId: json["offer_id"],
-    serviceCategoryType: json["service_category_type"]??'Default',
+    serviceCategoryType: json["service_category_type"],
     dateTime: json["date_time"] == null ? null : DateTime.parse(json["date_time"]),
     userId: json["user_id"],
+    userName: json["user_name"],
     jobTitle: json["job_title"],
     description: json["description"],
     quantity: json["quantity"],
@@ -72,6 +75,7 @@ class OfferList {
     "service_category_type": serviceCategoryType,
     "date_time": dateTime?.toIso8601String(),
     "user_id": userId,
+    "user_name": userName,
     "job_title": jobTitle,
     "description": description,
     "quantity": quantity,

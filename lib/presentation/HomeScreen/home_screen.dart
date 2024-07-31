@@ -8,6 +8,7 @@ import 'package:upai/TestData/category_data.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/widgets/custom_drawer.dart';
 import 'package:upai/widgets/category_item.dart';
 import 'package:upai/widgets/item_service.dart';
 
@@ -29,6 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
     // ItemServiceModel singleItem = ItemServiceModel();
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
+      appBar: AppBar(
+        title: Text("UPAI"),
+        centerTitle: true,
+      ),
+      drawer: CustomDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

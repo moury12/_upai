@@ -12,7 +12,7 @@ class MyService extends StatelessWidget {
         InkWell(
           onTap: ()
           {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const ServiceDetails(),));
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>  ServiceDetails(),));
           },
           child: Container(
             margin: const EdgeInsets.only(right: 10),

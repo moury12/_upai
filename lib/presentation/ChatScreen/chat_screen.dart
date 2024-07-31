@@ -14,7 +14,6 @@ import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/ChatScreen/Controller/chat_screen_controller.dart';
 import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
 import 'package:upai/presentation/ChatScreen/Widgets/chat_message_tile.dart';
-
 import '../../core/utils/image_path.dart';
 import 'Widgets/suggest_msg_widget.dart';
 

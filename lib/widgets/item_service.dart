@@ -15,7 +15,7 @@ class OfferService extends StatelessWidget {
         InkWell(
           onTap: ()
           {
-            Get.toNamed("/servicedetails");
+            Get.toNamed("/servicedetails",arguments: offer);
           },
           child: Container(
             margin: const EdgeInsets.only(right: 10),
@@ -63,7 +63,7 @@ class OfferService extends StatelessWidget {
                   ),
                   const SizedBox(height: 10,),
                    Text(
-                     maxLines: 2,
+                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     '${offer.jobTitle}',
                     style: const TextStyle(
@@ -75,7 +75,7 @@ class OfferService extends StatelessWidget {
                     ),
                   ),
                    Text(
-                    '${offer.serviceCategoryType}',
+                    '${offer.userName}',
                     style: const TextStyle(
                       color: Color(0xFF817F7F),
                       fontSize: 10,

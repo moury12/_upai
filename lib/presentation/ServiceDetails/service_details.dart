@@ -18,7 +18,9 @@ import 'service_details_controller.dart';
 import 'widgets/client_review.dart';
 import 'widgets/rate_by_category_widget.dart';
 class ServiceDetails extends StatefulWidget {
-  const ServiceDetails({super.key});
+   ServiceDetails({super.key});
+  final OfferList offerDetails = Get.arguments;
+
 
   @override
   State<ServiceDetails> createState() => _ServiceDetailsState();
@@ -90,7 +92,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Text(
-                  "Catering Services for lunch, evening/ Office and occasion.",
+                  widget.offerDetails.jobTitle.toString(),
                   style: AppTextStyle.bodyMediumBlackBold,
                 ),
               ),
@@ -100,7 +102,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   backgroundImage: AssetImage(ImageConstant.man),
                 ),
                 title: Text(
-                  "Service Provider Name",
+                 widget.offerDetails.userName.toString(),
                   style: AppTextStyle.bodyMedium,
                 ),
                 subtitle: Row(
@@ -141,9 +143,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     //   style: AppTextStyle.bodySmallblack,
                     // ),
                  ReadMoreText(
-                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                      " It has survived not only five centuries, but also the"
-                      " leap into electronic typesetting, remaining essentially unchanged....",style: AppTextStyle.bodySmallblack,textAlign: TextAlign.justify,
+                 widget.offerDetails.description.toString(),style: AppTextStyle.bodySmallblack,textAlign: TextAlign.justify,
                   trimMode: TrimMode.Line,
                   trimLines: 5,
                   //colorClickableText: Colors.pink,
@@ -194,7 +194,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 style: AppTextStyle.bodySmallGrey,
                               ),
                               Text(
-                                "৳ 550.0/h",
+                                "৳ ${widget.offerDetails.rate.toString()}/${widget.offerDetails.rateType}",
                                 style: AppTextStyle.bodyLarge,
                               ),
                             ],
@@ -202,15 +202,36 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         ),
                         Expanded(
                           flex: 3,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
-                                backgroundColor: AppColors.BTNbackgroudgrey,
-                                foregroundColor: AppColors.colorWhite),
-                            child: Text(
-                              "Chat Now", style: AppTextStyle.bodySmallwhite,),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                 width:double.infinity,
+                                child: ElevatedButton(
+
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8)),
+                                      backgroundColor: AppColors.BTNbackgroudgrey,
+                                      foregroundColor: AppColors.colorWhite),
+                                  child: Text(
+                                    "Chat Now", style: AppTextStyle.bodySmallwhite,),
+                                ),
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8)),
+                                      backgroundColor: AppColors.BTNbackgroudgrey,
+                                      foregroundColor: AppColors.colorWhite),
+                                  child: Text(
+                                    "Confirm Offer", style: AppTextStyle.bodySmallwhite,),
+                                ),
+                              ),
+                            ],
                           ),
                         )
                       ],
@@ -367,7 +388,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             }
                             else
                             {
-                              return CircularProgressIndicator();
+                              return const CircularProgressIndicator();
                             }
                           },
                         )
