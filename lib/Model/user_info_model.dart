@@ -19,6 +19,7 @@ class UserInfoModel {
   String? lastActive;
   String? pushToken;
   String? token;
+  String? userType;
 
   UserInfoModel({
     this.cid,
@@ -31,6 +32,7 @@ class UserInfoModel {
     this.lastActive,
     this.pushToken,
     this.token,
+    this.userType,
   });
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) => UserInfoModel(
@@ -44,6 +46,7 @@ class UserInfoModel {
     lastActive: json["last_active"]??'',
     pushToken: json["push_token"]??'',
     token: json["token"]??'',
+    userType: json["user_type"]??'Buyer',
 
   );
 
@@ -58,5 +61,6 @@ class UserInfoModel {
     "last_active": lastActive,
     "push_token": pushToken,
     "token": token,
+    "user_type":userType,
   };
 }

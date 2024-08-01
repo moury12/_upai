@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 
-import '../../../core/utils/image_path.dart';
+import '../core/utils/image_path.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -72,11 +74,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
               const Divider(
                 height: 3,
               ),
-              const ListTile(
-                leading: Icon(Icons.logout, color: Colors.black),
-                title: Text(
-                  'Log out',
-                  style: TextStyle(color: Colors.black),
+              InkWell(
+                onTap: () async {
+                final box =  Hive.box('userInfo');
+             await box.delete("user");
+               print("Data deleted");
+
+               Get.offAllNamed('/login');
+                },
+                child: const ListTile(
+                  leading: Icon(Icons.logout, color: Colors.black),
+                  title: Text(
+                    'Log out',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ),
               const Divider(

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/data/api/firebase_apis.dart';
@@ -14,10 +15,12 @@ import 'package:upai/presentation/Profile/profile_screen.dart';
 class DefaultController extends GetxController
 {
   final box = Hive.box("userInfo");
+  String userType="";
   @override
   void onInit() {
     FirebaseAPIs.getSelfInfo();
     WidgetsBinding.instance.addObserver(AppLifecycleListener());
+    userType = box.get("user")["user_type"].toString();
     //for updating user active status according to lifecycle events
     //resume -- active or online
     //pause  -- inactive or offline
@@ -55,9 +58,22 @@ class DefaultController extends GetxController
   var selectedColor = Colors.black;
   RxInt selectedIndex = 0.obs;
   var unselected = AppColors.appTextColorGrey;
+  RxString appBarTitle="Upai".obs;
 
   void onItemTapped(int index) {
       selectedIndex.value = index;
+     switch(index)
+     {
+       case 0:
+         appBarTitle.value="Upai";
+       case 1:
+         appBarTitle.value="Inbox";
+       case 2:
+         appBarTitle.value="Explore";
+       case 3:
+         appBarTitle.value="Profile";
+     }
+
   }
 
 

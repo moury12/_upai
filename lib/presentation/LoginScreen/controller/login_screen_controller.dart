@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:upai/data/repository/repository_details.dart';
 
 class LoginController extends GetxController {
+  RxBool progress =false.obs;
   final CIDTE = TextEditingController();
   final passwordTE = TextEditingController();
   final userMobileTE = TextEditingController();

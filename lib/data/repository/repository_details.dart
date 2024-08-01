@@ -27,14 +27,19 @@ class RepositoryData {
   //   print(data.length);
   //   return data;
   // }
-  Future<dynamic> login(String CID, String userMobile, String password) async {
+  Future<dynamic> login(String CID, String userMobile, String password,String userType) async {
+
     String url = ApiClient().loginUrl;
     try {
       var response = await http.post(
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(
-            {"cid": CID, "user_mobile": userMobile, "user_pass": password}),
+            {
+              "cid": CID,
+              "user_mobile": userMobile,
+              "user_pass": password}
+        ),
       );
       print("object");
       final data = jsonDecode(response.body);
@@ -49,6 +54,7 @@ class RepositoryData {
         userInfo.email=data['user_info']['email'].toString();
         userInfo.mobile =data['user_info']['mobile'].toString();
         userInfo.token =data['token'].toString();
+        userInfo.userType= userType;
         await box.put('user',userInfo.toJson());
         print("value is  : ${box.get("user")}");
         print("&&&&&&&&&&&&&&&&&&&");
@@ -174,7 +180,7 @@ class RepositoryData {
       String url =
           "${ApiClient().getOfferList}?cid=upai&user_mobile=0190001&name=md rabbi2";
       if (kDebugMode) {
-        print('++++++++++get area list url :----$url');
+        print('++++++++++get Offer list url :----$url');
         print('Token : ${token}');
       }
 

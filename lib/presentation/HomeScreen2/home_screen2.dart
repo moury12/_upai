@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/presentation/HomeScreen2/widgets/my_service.dart';
+import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
 
 class HomeScreen2 extends StatelessWidget {
   const HomeScreen2({super.key});
@@ -10,12 +12,18 @@ class HomeScreen2 extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Upai",style: AppTextStyle.bodyTitle700,),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-
-      ),
+      // appBar: AppBar(
+      //   title: Text("Upai",style: AppTextStyle.bodyTitle700,),
+      //   centerTitle: true,
+      //   automaticallyImplyLeading: false,
+      //
+      // ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.BTNbackgroudgrey,
+        onPressed: (){
+          Get.to(()=>CreateOfferScreen());
+        },
+        child: const Icon(Icons.add,color: Colors.white,),),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
