@@ -140,8 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 10,),
 
-                      Obx(() {
-                        return Container(
+                     Container(
                           child:
                           // controller.progress?CircularProgressIndicator(color: AppColors.titleName):
                           CustomButton(
@@ -161,8 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
 
                           ),
-                        );
-                      }),
+                        ),
                       const SizedBox(height: 20,),
 
                       InkWell(

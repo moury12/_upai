@@ -87,7 +87,8 @@ class RepositoryData {
   }
 
   Future<void> createUser(String cId, String userName, String userPass,
-      String userMobile, String userEmail) async {
+      String userMobile, String userEmail)
+  async {
     String url = ApiClient().createUserUrl;
     print("url is =>$url");
 
@@ -125,7 +126,7 @@ class RepositoryData {
   }
   Future<List<CategoryList>> getCategoryList({
     required String token,
-    context,
+
   }) async {
     try {
 
@@ -142,7 +143,7 @@ class RepositoryData {
         'Authorization': 'Bearer $token',
       });
       if (kDebugMode) {
-        print('Response data :----${response.body}');
+        print('Response category data :----${response.body}');
       }
       // var data = jsonDecode(response.body);
       final data = jsonDecode(response.body.toString());
@@ -150,7 +151,7 @@ class RepositoryData {
 
         print("skjdfklsdjf");
         catList =categoryListModelFromJson(response.body).categoryList!;
-        print(catList);
+
         // var areaData = data["area-list"] as List;
         //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.green,content: Text("Successfull")));
 
@@ -165,7 +166,7 @@ class RepositoryData {
     catch(e)
     {
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.red,content: Text("Error:"+e.toString())));
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.red,content: Text("Error:"+e.toString())));
       return catList;
     }
 
@@ -173,7 +174,7 @@ class RepositoryData {
   }
   Future<List<OfferList>> getOfferList({
     required String token,
-    context,
+
   }) async {
     try {
 
@@ -213,7 +214,7 @@ class RepositoryData {
     catch(e)
     {
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.red,content: Text("Error:"+e.toString())));
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.red,content: Text("Error:"+e.toString())));
       return offerList;
     }
 
