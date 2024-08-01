@@ -9,7 +9,7 @@ import 'package:upai/core/utils/prefs_utils.dart';
 import '/core/errors/app_exception.dart';
 
 class ApiClient {
-  static const String _baseUrl = "http://192.168.0.112:8000/upai_api";
+  static const String _baseUrl = "http://192.168.0.211:8000/upai_api";
 
   String get loginUrl => '$_baseUrl/login';
   String get createUserUrl => '$_baseUrl/create_user';
