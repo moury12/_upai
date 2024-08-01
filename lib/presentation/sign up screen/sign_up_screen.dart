@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
@@ -21,6 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   SignUpController controller = Get.put(SignUpController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +45,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                           height: 200,
                           width: 200,
-                          child: Image(image: AssetImage(ImageConstant.upailogo),fit: BoxFit.cover,)),
+                          child: Image(
+                            image: AssetImage(ImageConstant.upailogo),
+                            fit: BoxFit.cover,)),
                       const SizedBox(height: 20,),
                       CustomTextField(
                         validatorText: "Please Enter CID",
@@ -99,51 +103,79 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: controller.conPasswordTE,
                         // onChanged: (value) => controller.emailController.text.trim() = value!,
                       ),
-                     const SizedBox(height: 20,),
-                      CustomButton(
-                        text: "Sign Up",
-                        onTap: () async {
-                          if(_formKey.currentState!.validate())
+                      const SizedBox(height: 20,),
+                      Obx(() {
+                        if(controller.progress.value)
                           {
-                            if(controller.passwordTE.text.trim().toString()==controller.conPasswordTE.text.trim().toString())
-                              {
-                                 RepositoryData().createUser(controller.CIDTE.text.trim().toString(),controller.userNameTE.text.trim().toString(), controller.passwordTE.text.trim().toString(), controller.userMobileTE.text.trim().toString(), controller.userEmailTE.text.trim().toString());
-                              }
-                            else
-                              {
-                                Get.snackbar("Sorry", "Both password should match",backgroundColor: Colors.red,colorText: Colors.white);
-                              }
+                            return CircularProgressIndicator(color: AppColors.primaryColor,);
+                          }
+                        else
+                          {
+                            return CustomButton(
+                              text: "Sign Up",
+                              onTap: () async {
+
+                                if (_formKey.currentState!.validate()) {
+                                  if (controller.passwordTE.text.trim()
+                                      .toString() ==
+                                      controller.conPasswordTE.text.trim()
+                                          .toString()) {
+                                    controller.progress.value = true;
+                                 await   RepositoryData().createUser(
+                                        controller.CIDTE.text.trim().toString(),
+                                        controller.userNameTE.text.trim()
+                                            .toString(),
+                                        controller.passwordTE.text.trim()
+                                            .toString(),
+                                        controller.userMobileTE.text.trim()
+                                            .toString(),
+                                        controller.userEmailTE.text.trim()
+                                            .toString());
 
 
-                            // UserInfoModel userInfo = UserInfoModel();
-                            // userInfo.id = controller.CIDTE.text.trim().toString();
-                            // userInfo.userId=controller.userIdTE.text.trim().toString();
-                            // RepositoryData().login(controller.CIDTE.text.toString(), controller.userIdTE.text.toString(), controller.passwordTE.text.toString());
-                            // FirebaseAPIs.createUser(userInfo.toJson());
-                            // var box = Hive.box('userInfo');
-                            // await box.put('user',userInfo.toJson());
-                            // print(box.values);
-                            // FirebaseAPIs.currentUser();
-                            // Get.offAndToNamed("/defaultscreen");
+                                  }
+                                  else {
+                                    Get.snackbar(
+                                        "Sorry", "Both password should match",
+                                        backgroundColor: Colors.red,
+                                        colorText: Colors.white);
+                                  }
+
+
+                                  // UserInfoModel userInfo = UserInfoModel();
+                                  // userInfo.id = controller.CIDTE.text.trim().toString();
+                                  // userInfo.userId=controller.userIdTE.text.trim().toString();
+                                  // RepositoryData().login(controller.CIDTE.text.toString(), controller.userIdTE.text.toString(), controller.passwordTE.text.toString());
+                                  // FirebaseAPIs.createUser(userInfo.toJson());
+                                  // var box = Hive.box('userInfo');
+                                  // await box.put('user',userInfo.toJson());
+                                  // print(box.values);
+                                  // FirebaseAPIs.currentUser();
+                                  // Get.offAndToNamed("/defaultscreen");
+                                }
+                              },
+                            );
                           }
 
-                        },
-                      ),
+                      }),
                       const SizedBox(height: 15,),
                       InkWell(
-                        onTap: (){
-                          Get.offAll(()=>const LoginScreen());
+                        onTap: () {
+                          controller.progress.value=false;
+                          Get.offAll(() => const LoginScreen());
                         },
                         child: RichText(
-                            text:TextSpan(
-                            children: [
-                              TextSpan(
-                                  text: "Already have an account?",style: AppTextStyle.titleText),
-                              const TextSpan(text: " Log in",style: TextStyle(color: Colors.green)),
-                            ],
-                        )),
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                    text: "Already have an account?",
+                                    style: AppTextStyle.titleText),
+                                const TextSpan(text: " Log in",
+                                    style: TextStyle(color: Colors.green)),
+                              ],
+                            )),
                       ),
-                    const SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                     ],
                   ),
                 ),

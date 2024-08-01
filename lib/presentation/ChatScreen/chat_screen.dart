@@ -49,7 +49,9 @@ class ChatScreen extends StatelessWidget {
                 final receiverData = data
                         ?.map((e) => UserInfoModel.fromJson(e.data()))
                         .toList() ??
+
                     [];
+
                 if (receiverData.isNotEmpty) {
                   return Row(
                     children: [

@@ -13,9 +13,7 @@ import '../../widgets/custom_button.dart';
 enum UserType { Buyer, Seller }
 
 class LoginScreen extends StatefulWidget {
-
   const LoginScreen({super.key});
-
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -139,34 +137,41 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       SizedBox(height: 10,),
-
                       Obx(() {
-                        return Container(
-                          child:
-                          // controller.progress?CircularProgressIndicator(color: AppColors.titleName):
-                          CustomButton(
+                        if (controller.progress.value)
+                          {
+                           return CircularProgressIndicator(
+                                color: AppColors.titleName);
+                          }
+                      else
+                        {
+                         return CustomButton(
                             text: "Login",
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                // UserInfoModel userInfo = UserInfoModel();
-                                // userInfo.id = controller.CIDTE.text.trim().toString();
-                                // userInfo.userId=controller.userIdTE.text.trim().toString();
-                                RepositoryData().login(
+                                controller.progress.value=true;
+                              await RepositoryData().login(
                                     controller.CIDTE.text.trim().toString(),
                                     controller.userMobileTE.text.trim()
                                         .toString(),
                                     controller.passwordTE.text.trim()
                                         .toString(), _selectedUserType!.name);
+
                               }
+
+
                             },
 
-                          ),
-                        );
+                          );
+                        }
+
                       }),
+
                       const SizedBox(height: 20,),
 
                       InkWell(
                         onTap: () {
+                          controller.progress.value=false;
                           Get.offAll(() => const SignUpScreen());
                         },
                         child: RichText(text: TextSpan(

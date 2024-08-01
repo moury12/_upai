@@ -6,7 +6,9 @@ import 'package:hive/hive.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
+import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
+import 'package:upai/presentation/sign%20up%20screen/sign_up_controller.dart';
 import '../../Model/user_info_model.dart';
 import '/data/api/api_client.dart';
 import '/core/errors/error_controller.dart';
@@ -55,7 +57,7 @@ class RepositoryData {
         userInfo.mobile =data['user_info']['mobile'].toString();
         userInfo.token =data['token'].toString();
         userInfo.userType= userType;
-        await box.put('user',userInfo.toJson());
+        await box.put('user',userInfoModelToJson(userInfo));
         print("value is  : ${box.get("user")}");
         print("&&&&&&&&&&&&&&&&&&&");
         print(box.values);
@@ -63,7 +65,7 @@ class RepositoryData {
         if(!await FirebaseAPIs.userExists())
           {
             FirebaseAPIs.createUser(userInfo.toJson());
-            print("user creating");
+            print("user creating done");
             Get.offAndToNamed("/defaultscreen");
 
           }
@@ -83,6 +85,9 @@ class RepositoryData {
       // handleError(e);
       print(e.toString());
       throw Exception('Error in login: $e');
+    }
+    finally{
+      LoginController().progress.value =false;
     }
   }
 
@@ -122,6 +127,10 @@ class RepositoryData {
       print(e.toString());
       throw Exception('Error in login: $e');
     }
+    finally
+        {
+          SignUpController().progress.value=false;
+        }
   }
   Future<List<CategoryList>> getCategoryList({
     required String token,

@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:upai/Model/category_item_model.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/TestData/category_data.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 
 import '../../core/utils/custom_text_style.dart';
 import '../../widgets/category_item.dart';
 
-class ExploreScreen extends StatelessWidget {
-  const ExploreScreen({super.key});
+class ExploreScreen extends StatefulWidget {
+   ExploreScreen({super.key});
+
+  @override
+  State<ExploreScreen> createState() => _ExploreScreenState();
+}
+
+class _ExploreScreenState extends State<ExploreScreen> {
+  HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,23 +49,38 @@ class ExploreScreen extends StatelessWidget {
             children: [
               Text("Browse Category",style: AppTextStyle.titleText),
               Text("Browse All>",style: AppTextStyle.titleTextSmallUnderline),
-        
+
             ],
           ),
           const SizedBox(height: 10,),
           SizedBox(
-            width: size.width,
-            height: 100,
-            child: ListView.builder(
-              itemCount: catList.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                categoryItemModel = CategoryListModel.fromJson(catList[index]);
-                return const CircularProgressIndicator();
-                // return CategotyItem(singleCat: categoryItemModel,);
+              width: size.width,
+              height: 100,
+              child: FutureBuilder(
+                future: controller.getCatList,
+                builder: (context, snapshot) {
 
-              },),
-          ),]),),
+                  if(snapshot.hasData)
+                  {
+                    List<CategoryList> catList=snapshot.data;
+                    return ListView.builder(
+                      itemCount: catList.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        // categoryItemModel =
+                        //     CategoryListModel.fromJson(catList[index]);
+                        return CategotyItem(singleCat: catList[index],);
+                      },);
+                  }
+                  else
+                  {
+                    return Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));}
+
+
+                }, )
+          ),
+          ]),
+        ),
       ),
     );
   }

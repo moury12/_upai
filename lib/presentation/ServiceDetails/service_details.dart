@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 import 'package:upai/Model/item_service_model.dart';
+import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/TestData/servicedItemData.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
@@ -208,7 +209,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                  width:double.infinity,
                                 child: ElevatedButton(
 
-                                  onPressed: () {},
+                                  onPressed: () {
+                                     UserInfoModel senderData =UserInfoModel();
+                                     senderData.userId= widget.offerDetails.userId;
+                                     senderData.name = widget.offerDetails.userName;
+                                     // Get.toNamed("/chatscreen",arguments: )
+                                  },
                                   style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(8)),
@@ -221,7 +227,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+
+                                  },
                                   style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(8)),

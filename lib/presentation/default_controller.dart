@@ -46,13 +46,13 @@ class DefaultController extends GetxController
   final List<Widget> screensForClient = [
     HomeScreen(),
     const InboxScreen(),
-    const ExploreScreen(),
+     ExploreScreen(),
     const ProfileScreen()
   ];
   final List<Widget> screensForServiceProvider = [
     const HomeScreen2(),
     const InboxScreen(),
-    const ExploreScreen(),
+     ExploreScreen(),
     const ProfileScreen()
   ];
   var selectedColor = Colors.black;
