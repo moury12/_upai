@@ -53,32 +53,24 @@ class _ExploreScreenState extends State<ExploreScreen> {
             ],
           ),
           const SizedBox(height: 10,),
-          SizedBox(
-              width: size.width,
-              height: 100,
-              child: FutureBuilder(
-                future: controller.getCatList,
-                builder: (context, snapshot) {
+            Obx(
+                    () {
+                  return SizedBox(
+                      width: size.width,
+                      height: 100,
+                      child:HomeController.to.getCatList.isEmpty?Center(child: CircularProgressIndicator()): ListView.builder(
+                        itemCount: HomeController.to.getCatList.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          // categoryItemModel =
+                          //     CategoryListModel.fromJson(catList[index]);
+                          return
+                            CategotyItem(singleCat: HomeController.to.getCatList[index],);
 
-                  if(snapshot.hasData)
-                  {
-                    List<CategoryList> catList=snapshot.data;
-                    return ListView.builder(
-                      itemCount: catList.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        // categoryItemModel =
-                        //     CategoryListModel.fromJson(catList[index]);
-                        return CategotyItem(singleCat: catList[index],);
-                      },);
-                  }
-                  else
-                  {
-                    return Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));}
-
-
-                }, )
-          ),
+                        },)
+                  );
+                }
+            ),
           ]),
         ),
       ),

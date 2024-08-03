@@ -57,8 +57,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextFormField(
-
-        onChanged: widget.onChanged,
+        onChanged: widget.onChanged,textAlign: widget.textAlign??TextAlign.left,
         // textInputAction: widget.isPasswordField == true
         //     ? TextInputAction.done
         //     : TextInputAction.next,
@@ -93,8 +92,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: Colors.black,)),
           filled: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 10),
-          prefixIcon: widget.prefixIcon,
+          contentPadding: const EdgeInsets.symmetric(vertical: 10,horizontal: 12),
+          prefixIcon: widget.prefixIcon??null,
             suffixIcon: widget.suffixIcon,
             //color: AppColors.primaryColor,
           ),

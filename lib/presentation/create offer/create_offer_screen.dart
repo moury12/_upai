@@ -1,5 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/widgets/category_item.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 class CreateOfferScreen extends StatefulWidget {
@@ -10,37 +16,282 @@ class CreateOfferScreen extends StatefulWidget {
 }
 
 class _CreateOfferScreenState extends State<CreateOfferScreen> {
+  final box = Hive.box('userInfo');
+  @override
+  void initState() {
+    Get.put(HomeController());
+    HomeController.to.getCategoryList();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController rateController = TextEditingController();
+  List<String> timeUnits = ['Hour', 'Task', 'Per Day'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.strokeColor2,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Create New Offer"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-           children: [
-              Text("Job Title"),
-               CustomTextField(
-                 validatorText: "Please Enter Job Title",
-                 //prefixIcon: Icons.lock,
-                 hintText: "Job Title",
-                 // onChanged: (value) => controller.emailController.text.trim() = value!,
-             ),
-             Text("Job Description"),
-             CustomTextField(
-
-               validatorText: "Please Enter Job Description",
-            //   prefixIcon: Icons.description,
-               hintText: "Job Description",
-
-
-               // onChanged: (value) => controller.emailController.text.trim() = value!,
-             ),
-           ],
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Container(
+          margin: const EdgeInsets.all(8),
+          alignment: Alignment.center,
+          decoration:
+              const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+          child: const Icon(
+            CupertinoIcons.back,
+            color: Colors.white,
+          ),
         ),
+        title: const Text(
+          "Create New Offer",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Obx(() {
+                        return DropdownButton<CategoryList>(
+                          dropdownColor: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          underline: const SizedBox.shrink(),
+                          value: HomeController.to.selectedCategory.value,
+                          hint: const Text("Select a category"),
+                          items: HomeController.to.getCatList.map((element) {
+                            return DropdownMenuItem<CategoryList>(
+                              value: element,
+                              child: Text(element.categoryName.toString()),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            HomeController.to.selectedCategory.value = value!;
+                          },
+                        );
+                      }),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Obx(() {
+                        return DropdownButton<String>(
+                          underline: const SizedBox.shrink(),
+                          value: HomeController.to.selectedTimeUnit.value,
+                          dropdownColor: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          hint: const Text(
+                            "Select a Rate type  ",
+                          ),
+                          items: ['Hour', 'Task', 'Per Day'].map((unit) {
+                            return DropdownMenuItem<String>(
+                              value: unit,
+                              child: Text(unit),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            HomeController.to.selectedTimeUnit.value = value;
+                          },
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              margin: EdgeInsets.zero,
+              decoration: BoxDecoration(
+                  color: AppColors.strokeColor2,
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(35))),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Job Title",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CustomTextField(
+                      validatorText: "Please Enter Job Title",
+
+                      hintText: "Please Enter Job Title",
+                      controller: titleController,
+                      // onChanged: (value) => controller.emailController.text.trim() = value!,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      "Job Description",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CustomTextField(
+                      validatorText: "Please Enter Job Description",
+                      hintText: "Please Enter Job Description",
+                      controller: descriptionController,
+
+                      // onChanged: (value) => controller.emailController.text.trim() = value!,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      "Rate",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CustomTextField(
+                      validatorText: "Please Enter Rate",
+                      hintText: "Please Enter Rate",
+                      inputType: TextInputType.number,
+                      controller: rateController,
+
+                      // onChanged: (value) => controller.emailController.text.trim() = value!,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      "Quantity",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Obx(() {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.all(8),
+                            alignment: Alignment.center,
+                            decoration:
+                            const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                            child: IconButton(
+                              icon: const Icon(Icons.remove,color: Colors.white,),
+                              onPressed: () {
+                                if (HomeController
+                                    .to.quantityController.value.text.isEmpty) {
+                                  HomeController.to.quantity.value = 0;
+                                }
+                                HomeController.to.decreaseQuantity();
+                              },
+                            ),
+                          ),
+
+                          Expanded(
+                            child: CustomTextField(
+                                validatorText: "Please Enter quantity",
+                                hintText: "Please Enter quantity",textAlign: TextAlign.center,
+                                inputType: TextInputType.number,
+                                controller:
+                                    HomeController.to.quantityController.value,
+                                onChanged: (value) {
+                                  int? newValue = int.tryParse(value!);
+                                  if (newValue != null && newValue > 0) {
+                                    HomeController.to.quantity.value = newValue;
+                                  }
+                                }
+                                // onChanged: (value) => controller.emailController.text.trim() = value!,
+                                ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(8),
+                            alignment: Alignment.center,
+                            decoration:
+                            const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                            child:  IconButton(
+                              icon: const Icon(Icons.add,color: Colors.white,),
+                              onPressed: () {
+                                if (HomeController
+                                    .to.quantityController.value.text.isEmpty) {
+                                  HomeController.to.quantity.value = 0;
+                                }
+                                HomeController.to.increaseQuantity();
+                              },
+                            ),
+                          ),
+
+                        ],
+                      );
+                    }),
+                    SizedBox(height: 16,),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,foregroundColor: Colors.white,padding: EdgeInsets.symmetric(vertical: 12,horizontal:12)),
+                              onPressed: () {
+                                if (HomeController.to.selectedTimeUnit.value!.isNotEmpty &&
+                                    titleController.text.isNotEmpty &&
+                                    descriptionController.text.isNotEmpty &&
+                                    rateController.text.isNotEmpty &&
+                                    HomeController
+                                        .to.quantityController.value.text.isNotEmpty &&
+                                    box.isNotEmpty) {
+                                  HomeController.to.createOffer(titleController.text,
+                                      descriptionController.text, rateController.text);
+                                }else{
+                                Get.snackbar('Error', "All field Required");}
+                              },
+                              child: const Text('Create Offer')),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

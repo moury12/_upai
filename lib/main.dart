@@ -24,7 +24,7 @@ import 'package:upai/presentation/sign%20up%20screen/sign_up_screen.dart';
 
 import 'presentation/ChatScreen/Controller/chat_screen_controller.dart';
 import 'presentation/Inbox/inbox.dart';
-
+ String boxName="userInfo";
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -32,7 +32,7 @@ Future<void> main() async {
   );
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox("userInfo");
+  await Hive.openBox(boxName);
   Get.put(LoginController());
   Get.put(ChatScreenController());
   Get.put(InboxScreenController());
