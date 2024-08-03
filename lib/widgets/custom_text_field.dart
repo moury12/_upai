@@ -8,6 +8,7 @@ class CustomTextField extends StatefulWidget {
   final String? hintText;
   final String? labelText;
   final String? helperText;
+  final TextAlign? textAlign;
   final FormFieldSetter<String>? onSaved;
   final String? Function(String?)? validator;
   final ValueChanged<String>? onFieldSubmitted;
@@ -17,7 +18,7 @@ class CustomTextField extends StatefulWidget {
   final String? validatorText;
 
   const CustomTextField(
-      {super.key, this.controller, this.fieldKey, this.isPasswordField, this.hintText, this.labelText, this.helperText, this.onSaved, this.validator, this.onFieldSubmitted, this.inputType, this.prefixIcon, this.onChanged, this.validatorText,
+      {super.key, this.controller, this.fieldKey, this.isPasswordField, this.hintText, this.labelText, this.helperText, this.onSaved, this.validator, this.onFieldSubmitted, this.inputType, this.prefixIcon, this.onChanged, this.validatorText, this.textAlign,
      });
 
   @override
@@ -37,7 +38,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextFormField(
-
+textAlign: widget.textAlign??TextAlign.left,
         onChanged: widget.onChanged,
         textInputAction: widget.isPasswordField == true
             ? TextInputAction.done
@@ -70,11 +71,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: Colors.black,)),
           filled: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 10),
-          prefixIcon: Icon(
+          contentPadding: const EdgeInsets.symmetric(vertical: 10,horizontal: 12),
+           prefixIcon:widget.prefixIcon!=null? Icon(
             widget.prefixIcon,
             color: AppColors.primaryColor,
-          ),
+          ):null,
           // decoration: InputDecoration(
           //   border: InputBorder.none,
           // filled: true,

@@ -222,82 +222,22 @@ class RepositoryData {
   }
 
 
-// Future<void> getCategoryList(String cId, String userName, String userPass,
-  //     String userMobile, String userEmail) async {
-  //   String url = ApiClient().createUserUrl;
-  //   print("url is =>$url");
-  //
-  //   var response = await http.post(
-  //     Uri.parse(url),
-  //     headers: {"Content-Type": "application/json"},
-  //     body: jsonEncode({
-  //       "cid": cId,
-  //       "user_name": userName,
-  //       "user_pass": userPass,
-  //       "email": userEmail,
-  //       "mobile": userMobile
-  //     }),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     print("success");
-  //   }
-  //   final data = jsonDecode(response.body.toString());
-  //   if (data["message"] == "successfully user create") {
-  //     Get.snackbar("Success", "User Created Successfully",
-  //         colorText: Colors.green, backgroundColor: Colors.white);
-  //     Get.offAll(() => const LoginScreen());
-  //   } else if (data["message"] == "All ready this user exist in the database") {
-  //     Get.snackbar("Failed", "All ready this user exist in the database",
-  //         colorText: Colors.red, backgroundColor: Colors.white);
-  //   }
-  // }
-  //
-  // @override
-  // Future register(Object userName, String email, String password) {
-  //   // TODO: implement register
-  //   throw UnimplementedError();
-  // }
-  //
-  // @override
-  // Future<List> returnData() {
-  //   // TODO: implement returnData
-  //   throw UnimplementedError();
-  // }
-  //
-  // @override
-  // Future updateProfile(String firstName, String lastName) {
-  //   // TODO: implement updateProfile
-  //   throw UnimplementedError();
-  // }
+static Future<void> createOffer({dynamic body})async{
+  final headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
 
-  // @override
-  // Future<RegisterResponseModel> register(String userName, String email, String password) async {
-  //   Map<String, dynamic> body = {"username": userName, "email": email, "password": password};
-  //   try {
-  //     var response = await apiClient.postData("wp/v2/users/register", body, useBearerToken: false);
-  //     var registerResponse = registerResponseModelFromJson(response);
-  //     return registerResponse;
-  //   } catch (e) {
-  //     handleError(e);
-  //     throw Exception('Error in Register: $e');
-  //   }
-  // }
+  };
+    final response =await http.post(Uri.parse(ApiClient().createOffer),body: jsonEncode(body),headers: headers);
+    final responseData = jsonDecode(response.body);
+    debugPrint(' body $body');
+    debugPrint('response body $responseData');
 
-  // @override
-  // Future<ProfileUpdateResponseModel> updateProfile(String firstName, String lastName) async {
-  //   Map<String, dynamic> jwtUserInfo = JwtHelper().parseJwt(PrefUtils().getAuthToken());
-  //   String userId = jwtUserInfo['data']['user']['id'];
-  //   Map<String, dynamic> body = {
-  //     "first_name": firstName,
-  //     "last_name": lastName,
-  //   };
-  //   try {
-  //     var response = await apiClient.postData("wp/v2/users/$userId", body, useBearerToken: true);
-  //     var updatedProfileResponse = profileUpdateResponseModelFromJson(response);
-  //     return updatedProfileResponse;
-  //   } catch (e) {
-  //     handleError(e);
-  //     throw Exception('Error in Profile Update: $e');
-  //   }
-  // }
+    if(responseData['status']!=null&&responseData['status']=='Success'){
+
+      Get.snackbar('Success', responseData['Message']);
+    }else{
+      Get.snackbar('Error', 'Failed to create offer');
+    }
+}
 }
