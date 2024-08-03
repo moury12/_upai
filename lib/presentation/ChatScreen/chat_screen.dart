@@ -43,7 +43,7 @@ class ChatScreen extends StatelessWidget {
             backgroundColor: Colors.white,
             centerTitle: false,
             title: StreamBuilder(
-              stream: FirebaseAPIs.getUserInfo(receiverInfo),
+              stream: FirebaseAPIs.getUserInfo(receiverInfo.userId.toString()),
               builder: (context, snapshot) {
                 final data = snapshot.data?.docs;
                 final receiverData = data
@@ -238,19 +238,6 @@ class ChatScreen extends StatelessWidget {
               const SizedBox(
                 width: 16,
               ),
-
-              // Container(
-              //   width: 70,
-              //   color: Colors.red,
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.end,
-              //     children: [
-              //       IconButton(
-              //           onPressed: (){}, icon: SvgPicture.asset(ImageConstant.audioCallIcon,)),
-              //       IconButton(onPressed: (){}, icon: SvgPicture.asset(ImageConstant.videoCallIcon))
-              //     ],
-              //   ),
-              // )
             ],
           ),
           body: Column(

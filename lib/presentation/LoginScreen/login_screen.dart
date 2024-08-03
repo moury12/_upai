@@ -21,8 +21,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   UserType? _selectedUserType = UserType.Buyer;
-  bool _progress = false;
-
   final _formKey = GlobalKey<FormState>();
 
 
@@ -42,24 +40,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 40,),
+                      const SizedBox(height: 40,),
                       SizedBox(
                           height: 200,
                           width: 200,
                           child: Image(
                             image: AssetImage(ImageConstant.upailogo),
                             fit: BoxFit.cover,)),
-                      SizedBox(height: 50,),
+                      const SizedBox(height: 50,),
                       CustomTextField(
                         validatorText: "Please Enter CID",
-                        prefixIcon: Icons.numbers,
+                        prefixIcon: Icon(
+                          Icons.numbers, color: AppColors.primaryColor,),
                         hintText: "CID",
                         controller: controller.CIDTE,
                       ),
                       const SizedBox(height: 20),
                       CustomTextField(
                         validatorText: "Please Enter Mobile Number",
-                        prefixIcon: Icons.person,
+                        prefixIcon:Icon(
+                          Icons.format_list_numbered, color: AppColors.primaryColor,),
                         hintText: "Mobile Number",
                         controller: controller.userMobileTE,
                       ),
@@ -74,14 +74,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       //   controller: controller.emailTE,
                       // ),
                       const SizedBox(height: 20),
-                      CustomTextField(
-                        validatorText: "Please Enter User Password",
-                        isPasswordField: true,
-                        prefixIcon: Icons.lock,
-                        hintText: "Password",
-                        controller: controller.passwordTE,
-                        // onChanged: (value) => controller.emailController.text.trim() = value!,
-                      ),
+                      Obx(() {
+                        return CustomTextField(
+                            obscureText: controller.isHidden.value,
+                            validatorText: "Please Enter User Password",
+                            prefixIcon: Icon(
+                              Icons.lock, color: AppColors.primaryColor,),
+                            hintText: "Password",
+                            controller: controller.passwordTE,
+                            suffixIcon: InkWell(
+                                onTap: (){
+                                  controller.changeVisibilty();
+                                },
+                                child: Container(
+                                       child: controller.isHidden.value?const Icon(Icons.visibility_off):Icon(Icons.visibility),
+                                ),
+                              ),
+                          // onChanged: (value) => controller.emailController.text.trim() = value!,
+                        );
+                      }),
                       const SizedBox(height: 3,),
                       const Align(
                         alignment: Alignment.topRight,
@@ -138,40 +149,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 10,),
                       Obx(() {
-                        if (controller.progress.value)
-                          {
-                           return CircularProgressIndicator(
-                                color: AppColors.titleName);
-                          }
-                      else
-                        {
-                         return CustomButton(
+                        if (controller.progress.value) {
+                          return CircularProgressIndicator(
+                              color: AppColors.titleName);
+                        }
+                        else {
+                          return CustomButton(
                             text: "Login",
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                controller.progress.value=true;
-                              await RepositoryData().login(
+                                controller.progress.value = true;
+                                await RepositoryData().login(
                                     controller.CIDTE.text.trim().toString(),
                                     controller.userMobileTE.text.trim()
                                         .toString(),
                                     controller.passwordTE.text.trim()
                                         .toString(), _selectedUserType!.name);
-
+                                controller.progress.value = false;
                               }
-
-
                             },
 
                           );
                         }
-
                       }),
 
                       const SizedBox(height: 20,),
 
                       InkWell(
                         onTap: () {
-                          controller.progress.value=false;
+                          controller.progress.value = false;
                           Get.offAll(() => const SignUpScreen());
                         },
                         child: RichText(text: TextSpan(

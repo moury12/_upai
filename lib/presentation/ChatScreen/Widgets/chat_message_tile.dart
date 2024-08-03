@@ -22,7 +22,7 @@ class ChatMessageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool sendByMe = FirebaseAPIs.user == message.fromId.toString();
+    bool sendByMe = FirebaseAPIs.user['user_id'].toString() == message.fromId.toString();
     if(!sendByMe)
       {
         if (message.read!.isEmpty) {
@@ -38,7 +38,6 @@ class ChatMessageTile extends StatelessWidget {
         sendByMe
             ? const Text("")
             : Container(
-
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     border: Border.all(color: AppColors.strokeColor, width: 2)),

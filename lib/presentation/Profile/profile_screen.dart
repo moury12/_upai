@@ -91,23 +91,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
 
                   const SizedBox(height: 20,),
-                  const CustomTextField2(
+                   CustomTextField2(
                     isEditable: false,
-                    hintText: "User ID",
+                    hintText: ctrl.userInfo.userId.toString(),
                     prefixIcon: Icons.numbers,
                   ),
                   const SizedBox(height: 20,),
                    CustomTextField2(
+                     isEditable: false,
                     controller:ctrl.nameTE,
                     validatorText: "Please Enter Your Name",
-                    hintText: "Name",
+                    hintText: ctrl.userInfo.name.toString(),
                     prefixIcon: Icons.person,
                   ),
                   SizedBox(height: 20,),
                   CustomTextField2(
+                    isEditable: false,
                     controller: ctrl.emailTE,
                     validatorText: "Please Enter an Email Address",
-                    hintText: "Email",
+                    hintText: ctrl.userInfo.email.toString(),
                     prefixIcon: Icons.email,
                   ),
                   const SizedBox(height: 20,),
@@ -124,6 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                       hintText: "Mobile Number",
                       filled: true,
+                     enabled: false,
                       fillColor: AppColors.textFieldBackGround,
                       // labelText: 'Phone Number',
                       border: OutlineInputBorder(

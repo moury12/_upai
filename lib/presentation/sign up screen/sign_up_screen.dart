@@ -51,28 +51,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 20,),
                       CustomTextField(
                         validatorText: "Please Enter CID",
-                        prefixIcon: Icons.numbers,
+                         prefixIcon: Icon(
+                           Icons.numbers, color: AppColors.primaryColor,),
                         hintText: "CID",
                         controller: controller.CIDTE,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         validatorText: "Please Enter Mobile Number",
-                        prefixIcon: Icons.format_list_numbered,
+                        prefixIcon: Icon(
+                          Icons.format_list_numbered, color: AppColors.primaryColor,),
                         hintText: "Mobile Number",
                         controller: controller.userMobileTE,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         validatorText: "Please Enter User Name",
-                        prefixIcon: Icons.person,
+                         prefixIcon: Icon(
+                           Icons.person, color: AppColors.primaryColor,),
                         hintText: "User Name",
                         controller: controller.userNameTE,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         validatorText: "Please Enter User Email",
-                        prefixIcon: Icons.email,
+                         prefixIcon: Icon(
+                           Icons.email, color: AppColors.primaryColor,),
                         hintText: "User Email",
                         controller: controller.userEmailTE,
                       ),
@@ -87,22 +91,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //   controller: controller.emailTE,
                       // ),
                       const SizedBox(height: 10),
-                      CustomTextField(
-                        validatorText: "Please Enter a Password",
+                      Obx(() {
+                        return CustomTextField(
+                          obscureText: controller.isHiddenPass.value,
+                          validatorText: "Please Enter User Password",
+                          prefixIcon: Icon(
+                            Icons.lock, color: AppColors.primaryColor,),
+                          hintText: "Password",
+                          controller: controller.passwordTE,
+                          suffixIcon: InkWell(
+                            onTap: (){
+                              controller.changePassVisibilty();
+                            },
+                            child: Container(
+                              child: controller.isHiddenPass.value?const Icon(Icons.visibility_off):Icon(Icons.visibility),
+                            ),
+                          ),
+                          // onChanged: (value) => controller.emailController.text.trim() = value!,
+                        );
+                      }),
+                       const SizedBox(height: 10,),
+                      Obx(() {
+                        return CustomTextField(
+                          obscureText: controller.isHiddenConPass.value,
+                          validatorText: "Re-Enter User Password",
+                          prefixIcon: Icon(
+                            Icons.lock, color: AppColors.primaryColor,),
+                          hintText: "Confirm Password",
+                          controller: controller.conPasswordTE,
+                          suffixIcon: InkWell(
+                            onTap: (){
+                              controller.changeConPassVisibilty();
+                            },
+                            child: Container(
+                              child: controller.isHiddenConPass.value?const Icon(Icons.visibility_off):Icon(Icons.visibility),
+                            ),
+                          ),
+                          // onChanged: (value) => controller.emailController.text.trim() = value!,
+                        );
+                      }),
 
-                        prefixIcon: Icons.lock,
-                        hintText: "Password",
-                        controller: controller.passwordTE,
-                        // onChanged: (value) => controller.emailController.text.trim() = value!,
-                      ),
-                      const SizedBox(height: 10,),
-                      CustomTextField(
-                        validatorText: "Re-Enter User Password",
-                        prefixIcon: Icons.lock,
-                        hintText: "Confirm Password",
-                        controller: controller.conPasswordTE,
-                        // onChanged: (value) => controller.emailController.text.trim() = value!,
-                      ),
+                      // CustomTextField(
+                      //   validatorText: "Please Enter a Password",
+                      //    prefixIcon: Icon(
+                      //      Icons.lock, color: AppColors.primaryColor,),
+                      //   hintText: "Password",
+                      //   controller: controller.passwordTE,
+                      //   // onChanged: (value) => controller.emailController.text.trim() = value!,
+                      // ),
+                      // const SizedBox(height: 10,),
+                      // CustomTextField(
+                      //   validatorText: "Re-Enter User Password",
+                      //    prefixIcon: Icon(
+                      //      Icons.lock, color: AppColors.primaryColor,),
+                      //   hintText: "Confirm Password",
+                      //   controller: controller.conPasswordTE,
+                      //   // onChanged: (value) => controller.emailController.text.trim() = value!,
+                      // ),
                       const SizedBox(height: 20,),
                       Obx(() {
                         if(controller.progress.value)
@@ -131,7 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             .toString(),
                                         controller.userEmailTE.text.trim()
                                             .toString());
-
+                                    controller.progress.value = false;
 
                                   }
                                   else {
@@ -140,7 +185,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         backgroundColor: Colors.red,
                                         colorText: Colors.white);
                                   }
-
 
                                   // UserInfoModel userInfo = UserInfoModel();
                                   // userInfo.id = controller.CIDTE.text.trim().toString();

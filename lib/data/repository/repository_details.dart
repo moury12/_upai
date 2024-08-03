@@ -115,9 +115,8 @@ class RepositoryData {
      if (data["message"] == "successfully user create") {
        Get.snackbar("Success", "User Created Successfully",
            colorText: Colors.green, backgroundColor: Colors.white);
-       Get.offAll(() => const LoginScreen());
      } else if (data["message"] == "All ready this user exist in the database") {
-       Get.snackbar("Failed", "All ready this user exist in the database",
+       Get.snackbar("Failed", "User already exist,Please Log In",
            colorText: Colors.red, backgroundColor: Colors.white);
      }
    }

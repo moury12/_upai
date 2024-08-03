@@ -15,6 +15,7 @@ class OfferService extends StatelessWidget {
         InkWell(
           onTap: ()
           {
+            print("going to service page");
             Get.toNamed("/servicedetails",arguments: offer);
           },
           child: Container(

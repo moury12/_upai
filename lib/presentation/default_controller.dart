@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class DefaultController extends GetxController
   void onInit() {
     FirebaseAPIs.getSelfInfo();
     WidgetsBinding.instance.addObserver(AppLifecycleListener());
-    userType = box.get("user")["user_type"].toString();
+    userType = jsonDecode(box.get("user"))['user_type'];
     //for updating user active status according to lifecycle events
     //resume -- active or online
     //pause  -- inactive or offline

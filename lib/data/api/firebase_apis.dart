@@ -16,12 +16,12 @@ class FirebaseAPIs {
 
   //getUserDetailsFromHive
   static Future<String> currentUser() async {
-    Map<String, dynamic> user = await box.get('user');
+    Map<String, dynamic> user = await json.decode(box.get('user'));
     print("this from firebase api class current uID :${user["user_id"]}");
     return user["user_id"].toString();
   }
 
-  static Map<dynamic, dynamic> user = box.get('user');
+  static Map<String, dynamic> user =json.decode(box.get('user')) ;
 
   static FirebaseFirestore mDB = FirebaseFirestore.instance;
 
@@ -71,7 +71,7 @@ class FirebaseAPIs {
         FirebaseAPIs.updateActiveStatus(true);
         // log('My Data: ${user.data()}');
       } else {
-        await createUser(user as Map<String,dynamic>).then((value) => getSelfInfo());
+        await createUser(user).then((value) => getSelfInfo());
       }
     });
   }
@@ -259,10 +259,10 @@ class FirebaseAPIs {
 
   // for getting specific user info
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
-      UserInfoModel chatUser) {
+      String userId) {
     return mDB
         .collection('users')
-        .where('user_id', isEqualTo: chatUser.userId)
+        .where('user_id', isEqualTo:userId)
         .snapshots();
   }
 
@@ -322,4 +322,21 @@ class FirebaseAPIs {
   //     log('\nsendPushNotificationE: $e');
   //   }
   // }
+
+  Future<Map<String, dynamic>?> getSenderInfo(String userId) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await mDB.collection('users').doc(userId).get();
+
+      if (documentSnapshot.exists) {
+        return documentSnapshot.data() as Map<String, dynamic>?;
+      } else {
+        print('User not found');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching user details: $e');
+      return null;
+    }
+  }
 }

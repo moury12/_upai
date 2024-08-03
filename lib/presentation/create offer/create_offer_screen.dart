@@ -25,7 +25,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
               Text("Job Title"),
                CustomTextField(
                  validatorText: "Please Enter Job Title",
-                 prefixIcon: Icons.lock,
+                 //prefixIcon: Icons.lock,
                  hintText: "Job Title",
                  // onChanged: (value) => controller.emailController.text.trim() = value!,
              ),
@@ -33,7 +33,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
              CustomTextField(
 
                validatorText: "Please Enter Job Description",
-               prefixIcon: Icons.description,
+            //   prefixIcon: Icons.description,
                hintText: "Job Description",
 
 

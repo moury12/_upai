@@ -1,23 +1,43 @@
+import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
+
 import '/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
-  final Key? fieldKey;
-  final bool? isPasswordField;
+  final dynamic data;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final String? initialText;
   final String? hintText;
-  final String? labelText;
-  final String? helperText;
-  final FormFieldSetter<String>? onSaved;
-  final String? Function(String?)? validator;
-  final ValueChanged<String>? onFieldSubmitted;
+  final int? maxLine;
+  final String? lebelText;
+  final dynamic formatter;
   final TextInputType? inputType;
-  final IconData? prefixIcon;
-  final Function(String?value)? onChanged;
+  final bool? obscureText;
+  final Color? fillColor;
+  final void Function(String)? onChanged;
   final String? validatorText;
+  final EdgeInsetsGeometry? padding;
+  final double? radius;
+  final bool? readOnly;
+  final int? minLines;
+  final TextInputAction? textInputAction;
+  final int? maxLength;
+  final TextAlign? textAlign;
+  final TextAlignVertical? textAlignVertical;
+  final String? counterText;
+  final VoidCallback? onTap;
+  final TextStyle? textStyle;
+  final TextStyle? hintStyle;
+  final bool? textCopyPaste;
+  final FloatingLabelBehavior? floatingLabelBehavior;
+  final double? textFieldHeight;
+  final String? Function(String?)? validator;
+  final FocusNode? focusNode;
 
   const CustomTextField(
-      {super.key, this.controller, this.fieldKey, this.isPasswordField, this.hintText, this.labelText, this.helperText, this.onSaved, this.validator, this.onFieldSubmitted, this.inputType, this.prefixIcon, this.onChanged, this.validatorText,
+      {super.key, this.controller, this.data, this.prefixIcon, this.suffixIcon, this.initialText, this.hintText, this.maxLine, this.lebelText, this.formatter, this.inputType, this.obscureText, this.fillColor, this.onChanged, this.validatorText, this.padding, this.radius, this.readOnly, this.minLines, this.textInputAction, this.maxLength, this.textAlign, this.textAlignVertical, this.counterText, this.onTap, this.textStyle, this.hintStyle, this.textCopyPaste, this.floatingLabelBehavior, this.textFieldHeight, this.validator, this.focusNode,
      });
 
   @override
@@ -26,7 +46,7 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  bool _obscureText = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +59,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextFormField(
 
         onChanged: widget.onChanged,
-        textInputAction: widget.isPasswordField == true
-            ? TextInputAction.done
-            : TextInputAction.next,
+        // textInputAction: widget.isPasswordField == true
+        //     ? TextInputAction.done
+        //     : TextInputAction.next,
         style: const TextStyle(color: Colors.black),
+        obscureText: widget.obscureText??false,
         controller: widget.controller,
         keyboardType: widget.inputType,
-        key: widget.fieldKey,
-        obscureText: widget.isPasswordField == true ? _obscureText : false,
-        onSaved: widget.onSaved,
+        // key: widget.fieldKey,
+        // obscureText: widget.isPasswordField ==true? widget.obSecureText! : false,
+        // onSaved: widget.onSaved,
         validator: widget.validator ??
                 (value) {
               if ((value == null || value.isEmpty) &&
@@ -56,9 +77,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
               }
               return null;
             },
-        onFieldSubmitted: widget.onFieldSubmitted,
+        // onFieldSubmitted: widget.onFieldSubmitted,
         onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
         decoration: InputDecoration(
+          hintText: widget.hintText,
+          hintStyle: TextStyle(color: AppColors.colorBlack.withOpacity(0.3)),
           fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
@@ -71,31 +94,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
               borderSide: const BorderSide(color: Colors.black,)),
           filled: true,
           contentPadding: const EdgeInsets.symmetric(vertical: 10),
-          prefixIcon: Icon(
-            widget.prefixIcon,
-            color: AppColors.primaryColor,
+          prefixIcon: widget.prefixIcon,
+            suffixIcon: widget.suffixIcon,
+            //color: AppColors.primaryColor,
           ),
-          // decoration: InputDecoration(
-          //   border: InputBorder.none,
-          // filled: true,
-          hintText: widget.hintText,
-          hintStyle: TextStyle(color: AppColors.colorBlack.withOpacity(0.3)),
 
-          suffixIcon: GestureDetector(
-            onTap: () {
-          
-                _obscureText = !_obscureText;
-            
-            },
-            child: widget.isPasswordField == true
-                ? Icon(
-                    _obscureText ? Icons.visibility_off : Icons.visibility,
-                    color: AppColors.primaryColor,
-                  )
-                :const SizedBox(),
           ),
-        ),
-      ),
+
     );
   }
 }

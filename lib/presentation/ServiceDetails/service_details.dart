@@ -1,5 +1,8 @@
 
 
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +14,7 @@ import 'package:upai/TestData/servicedItemData.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/widgets/item_service.dart';
 
@@ -209,11 +213,34 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                  width:double.infinity,
                                 child: ElevatedButton(
 
-                                  onPressed: () {
+                                  onPressed: () async {
                                      UserInfoModel senderData =UserInfoModel();
-                                     senderData.userId= widget.offerDetails.userId;
-                                     senderData.name = widget.offerDetails.userName;
-                                     // Get.toNamed("/chatscreen",arguments: )
+                                     Map<String,dynamic>? userDetails;
+                                     userDetails = await FirebaseAPIs().getSenderInfo("016");
+                                     if(userDetails!.isNotEmpty)
+                                       {
+                                         senderData.userId = userDetails["user_id"]??"";
+                                         senderData.name = userDetails["name"]??"user";
+                                         senderData.email = userDetails["email"];
+                                         senderData.lastActive = userDetails["last_active"];
+                                         senderData.image = userDetails["image"]??"https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+                                         senderData.isOnline = userDetails["is_online"];
+                                         senderData.userType = userDetails["user_type"];
+                                         senderData.token = userDetails["token"];
+                                         senderData.mobile = userDetails["mobile"];
+                                         senderData.cid = userDetails["cid"];
+                                         senderData.pushToken = userDetails["push_token"];
+
+                                       }
+
+
+                                     print(senderData.userId.toString());
+                                     Get.toNamed("/chatscreen",arguments: senderData);
+                                     // senderData.userId= widget.offerDetails.userId;
+                                     // senderData.name = widget.offerDetails.userName;
+                                     // senderData.image = "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+                                     //
+
                                   },
                                   style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
