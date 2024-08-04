@@ -15,8 +15,8 @@ import 'repository_interface.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryData {
-   List<CategoryList> catList = [];
-   List<OfferList> offerList = [];
+  List<CategoryList> catList = [];
+  List<OfferList> offerList = [];
 
   final apiClient = ApiClient();
   final box = Hive.box('userInfo');
@@ -27,19 +27,13 @@ class RepositoryData {
   //   print(data.length);
   //   return data;
   // }
-  Future<dynamic> login(String CID, String userMobile, String password,String userType) async {
-
+  Future<dynamic> login(String CID, String userMobile, String password, String userType) async {
     String url = ApiClient().loginUrl;
     try {
       var response = await http.post(
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode(
-            {
-              "cid": CID,
-              "user_mobile": userMobile,
-              "user_pass": password}
-        ),
+        body: jsonEncode({"cid": CID, "user_mobile": userMobile, "user_pass": password}),
       );
       print("object");
       final data = jsonDecode(response.body);
@@ -49,32 +43,26 @@ class RepositoryData {
 
         UserInfoModel userInfo = UserInfoModel();
         userInfo.cid = CID;
-        userInfo.name =data['user_info']['name'].toString();
-        userInfo.userId=data["user_info"]["user_id"];
-        userInfo.email=data['user_info']['email'].toString();
-        userInfo.mobile =data['user_info']['mobile'].toString();
-        userInfo.token =data['token'].toString();
-        userInfo.userType= userType;
-        await box.put('user',userInfo.toJson());
+        userInfo.name = data['user_info']['name'].toString();
+        userInfo.userId = data["user_info"]["user_id"];
+        userInfo.email = data['user_info']['email'].toString();
+        userInfo.mobile = data['user_info']['mobile'].toString();
+        userInfo.token = data['token'].toString();
+        userInfo.userType = userType;
+        await box.put('user', userInfo.toJson());
         print("value is  : ${box.get("user")}");
         print("&&&&&&&&&&&&&&&&&&&");
         print(box.values);
         FirebaseAPIs.currentUser();
-        if(!await FirebaseAPIs.userExists())
-          {
-            FirebaseAPIs.createUser(userInfo.toJson());
-            print("user creating");
-            Get.offAndToNamed("/defaultscreen");
-
-          }
-        else
-          {
-            Get.offAndToNamed("/defaultscreen");
-          }
-
+        if (!await FirebaseAPIs.userExists()) {
+          FirebaseAPIs.createUser(userInfo.toJson());
+          print("user creating");
+          Get.offAndToNamed("/defaultscreen");
+        } else {
+          Get.offAndToNamed("/defaultscreen");
+        }
       } else {
-        Get.snackbar(data["status"], data["message"],
-            colorText: Colors.white, backgroundColor: Colors.red);
+        Get.snackbar(data["status"], data["message"], colorText: Colors.white, backgroundColor: Colors.red);
       }
       // var loginResponse = loginResponseModelFromJson(response.);
       print(response);
@@ -86,52 +74,38 @@ class RepositoryData {
     }
   }
 
-  Future<void> createUser(String cId, String userName, String userPass,
-      String userMobile, String userEmail)
-  async {
+  Future<void> createUser(String cId, String userName, String userPass, String userMobile, String userEmail) async {
     String url = ApiClient().createUserUrl;
     print("url is =>$url");
 
-   try{
-     var response = await http.post(
-       Uri.parse(url),
-       headers: {"Content-Type": "application/json"},
-       body: jsonEncode({
-         "cid": cId,
-         "user_name": userName,
-         "user_pass": userPass,
-         "email": userEmail,
-         "mobile": userMobile
-       }),
-     );
-     if (response.statusCode == 200) {
-       print("success");
-     }
-     final data = jsonDecode(response.body.toString());
-     if (data["message"] == "successfully user create") {
-       Get.snackbar("Success", "User Created Successfully",
-           colorText: Colors.green, backgroundColor: Colors.white);
-       Get.offAll(() => const LoginScreen());
-     } else if (data["message"] == "All ready this user exist in the database") {
-       Get.snackbar("Failed", "All ready this user exist in the database",
-           colorText: Colors.red, backgroundColor: Colors.white);
-     }
-   }
-   catch(e)
-    {
+    try {
+      var response = await http.post(
+        Uri.parse(url),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"cid": cId, "user_name": userName, "user_pass": userPass, "email": userEmail, "mobile": userMobile}),
+      );
+      if (response.statusCode == 200) {
+        print("success");
+      }
+      final data = jsonDecode(response.body.toString());
+      if (data["message"] == "successfully user create") {
+        Get.snackbar("Success", "User Created Successfully", colorText: Colors.green, backgroundColor: Colors.white);
+        Get.offAll(() => const LoginScreen());
+      } else if (data["message"] == "All ready this user exist in the database") {
+        Get.snackbar("Failed", "All ready this user exist in the database", colorText: Colors.red, backgroundColor: Colors.white);
+      }
+    } catch (e) {
       // handleError(e);
       print(e.toString());
       throw Exception('Error in login: $e');
     }
   }
+
   Future<List<CategoryList>> getCategoryList({
     required String token,
-
   }) async {
     try {
-
-      String url =
-          "${ApiClient().getCategoryList}?cid=upai&user_mobile=0190001&name=md rabbi2";
+      String url = "${ApiClient().getCategoryList}?cid=upai&user_mobile=0190001&name=md rabbi2";
       if (kDebugMode) {
         print('++++++++++get area list url :----$url');
         print('Token : ${token}');
@@ -148,38 +122,27 @@ class RepositoryData {
       // var data = jsonDecode(response.body);
       final data = jsonDecode(response.body.toString());
       if (data['status'] == "Success") {
-
         print("skjdfklsdjf");
-        catList =categoryListModelFromJson(response.body).categoryList!;
+        catList = categoryListModelFromJson(response.body).categoryList!;
 
         // var areaData = data["area-list"] as List;
         //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.green,content: Text("Successfull")));
 
         return catList;
-      }
-      else
-      {
+      } else {
         return catList;
       }
-    }
-
-    catch(e)
-    {
-
+    } catch (e) {
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.red,content: Text("Error:"+e.toString())));
       return catList;
     }
-
-
   }
+
   Future<List<OfferList>> getOfferList({
     required String token,
-
   }) async {
     try {
-
-      String url =
-          "${ApiClient().getOfferList}?cid=upai&user_mobile=0190001&name=md rabbi2";
+      String url = "${ApiClient().getOfferList}?cid=upai&user_mobile=0190001&name=md rabbi2";
       if (kDebugMode) {
         print('++++++++++get Offer list url :----$url');
         print('Token : ${token}');
@@ -196,48 +159,68 @@ class RepositoryData {
       // var data = jsonDecode(response.body);
       final data = jsonDecode(response.body.toString());
       if (data['status'] == "Success") {
-
         print("skjdfklsdjf");
-        offerList =offerListModelFromJson(response.body).offerList!;
+        offerList = offerListModelFromJson(response.body).offerList!;
         print(offerList);
         // var areaData = data["area-list"] as List;
         //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.green,content: Text("Successfull")));
 
         return offerList;
-      }
-      else
-      {
+      } else {
         return offerList;
       }
-    }
-
-    catch(e)
-    {
-
+    } catch (e) {
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.red,content: Text("Error:"+e.toString())));
       return offerList;
     }
-
-
   }
 
-
-static Future<void> createOffer({dynamic body})async{
-  final headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-
-  };
-    final response =await http.post(Uri.parse(ApiClient().createOffer),body: jsonEncode(body),headers: headers);
+  static Future<void> createOffer({dynamic body}) async {
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    final response = await http.post(Uri.parse(ApiClient().createOffer), body: jsonEncode(body), headers: headers);
     final responseData = jsonDecode(response.body);
     debugPrint(' body $body');
     debugPrint('response body $responseData');
 
-    if(responseData['status']!=null&&responseData['status']=='Success'){
-
+    if (responseData['status'] != null && responseData['status'] == 'Success') {
       Get.snackbar('Success', responseData['Message']);
-    }else{
+    } else {
       Get.snackbar('Error', 'Failed to create offer');
     }
-}
+  }
+  static Future<void> jobStatus({dynamic body}) async {
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    final response = await http.post(Uri.parse(ApiClient().jobStatus), body: jsonEncode(body), headers: headers);
+    final responseData = jsonDecode(response.body);
+    debugPrint(' body $body');
+    debugPrint('response body $responseData');
+
+    if (responseData['status'] != null && responseData['status'] == 'Success') {
+      Get.snackbar('Success', responseData['Message']);
+    } else {
+      Get.snackbar('Error', 'Failed');
+    }
+  }
+  static Future<void> awardCreateJob({dynamic body}) async {
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    final response = await http.post(Uri.parse(ApiClient().awardCreateJob), body: jsonEncode(body), headers: headers);
+    final responseData = jsonDecode(response.body);
+    debugPrint(' body $body');
+    debugPrint('response body $responseData');
+
+    if (responseData['status'] != null && responseData['status'] == 'Success') {
+      Get.snackbar('Success', responseData['Message']);
+    } else {
+      Get.snackbar('Error', 'Failed');
+    }
+  }
 }
