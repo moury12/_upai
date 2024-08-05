@@ -10,6 +10,7 @@ class ApiClient {
   String get createOffer => '$_baseUrl/create_offers';
   String get jobStatus => '$_baseUrl/job_status';
   String get awardCreateJob => '$_baseUrl/award_create_job';
+  String get completionReview => '$_baseUrl/completion_review';
 
 
 }

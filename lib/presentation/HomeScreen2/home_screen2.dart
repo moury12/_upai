@@ -12,12 +12,7 @@ class HomeScreen2 extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Upai",style: AppTextStyle.bodyTitle700,),
-      //   centerTitle: true,
-      //   automaticallyImplyLeading: false,
-      //
-      // ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.BTNbackgroudgrey,
         onPressed: (){

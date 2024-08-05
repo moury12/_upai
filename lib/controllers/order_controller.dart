@@ -31,4 +31,14 @@ class OrderController extends GetxController{
       "status": "ACCEPTED"
     });
   }
+  void completionReview() async{
+    await RepositoryData.completionReview(body: {
+      "job_id":"205",
+      "status":"completed",
+      "buyer_review":"awsome",
+      "buyer_rating":"5",
+      "seller_review":"very nice",
+      "seller_rating":"5"
+    });
+  }
 }

@@ -8,6 +8,7 @@ class CustomTextField extends StatefulWidget {
   final String? hintText;
   final String? labelText;
   final String? helperText;
+  final int? maxLines;
   final TextAlign? textAlign;
   final FormFieldSetter<String>? onSaved;
   final String? Function(String?)? validator;
@@ -18,7 +19,7 @@ class CustomTextField extends StatefulWidget {
   final String? validatorText;
 
   const CustomTextField(
-      {super.key, this.controller, this.fieldKey, this.isPasswordField, this.hintText, this.labelText, this.helperText, this.onSaved, this.validator, this.onFieldSubmitted, this.inputType, this.prefixIcon, this.onChanged, this.validatorText, this.textAlign,
+      {super.key, this.controller, this.fieldKey, this.isPasswordField, this.hintText, this.labelText, this.helperText, this.onSaved, this.validator, this.onFieldSubmitted, this.inputType, this.prefixIcon, this.onChanged, this.validatorText, this.textAlign, this.maxLines,
      });
 
   @override
@@ -39,6 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ),
       child: TextFormField(
 textAlign: widget.textAlign??TextAlign.left,
+        maxLines: widget.maxLines??1,
         onChanged: widget.onChanged,
         textInputAction: widget.isPasswordField == true
             ? TextInputAction.done

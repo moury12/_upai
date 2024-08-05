@@ -5,6 +5,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/sign%20up%20screen/sign_up_screen.dart';
+import 'package:upai/review/review_screen.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 import '../../data/repository/repository_details.dart';
@@ -177,6 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         )),
                       ),
                       const SizedBox(height: 10,),
+                      ElevatedButton(onPressed: () => showDialog(context: context,builder: (context) => ReviewScreen(),), child: Text('review'))
                     ],
                   ),
                 ),

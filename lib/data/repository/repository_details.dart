@@ -223,4 +223,20 @@ class RepositoryData {
       Get.snackbar('Error', 'Failed');
     }
   }
+  static Future<void> completionReview({dynamic body}) async {
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    final response = await http.post(Uri.parse(ApiClient().completionReview), body: jsonEncode(body), headers: headers);
+    final responseData = jsonDecode(response.body);
+    debugPrint(' body $body');
+    debugPrint('response body $responseData');
+
+    if (responseData['status'] != null && responseData['status'] == 'Success') {
+      Get.snackbar('Success', responseData['Message']);
+    } else {
+      Get.snackbar('Error', 'Failed');
+    }
+  }
 }
