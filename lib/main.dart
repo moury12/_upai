@@ -10,6 +10,10 @@ import 'package:upai/domain/services/checkInternet.dart';
 
 import 'package:upai/firebase_options.dart';
 import 'package:upai/presentation/ChatScreen/chat_screen.dart';
+import 'package:upai/presentation/Explore/explore_top_sevices_page.dart';
+import 'package:upai/presentation/Explore/explore_top_sevices_page.dart';
+import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
+import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
 import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
@@ -71,6 +75,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/defaultscreen', page: () =>  DefaultScreen()),
         GetPage(name: '/login', page: () =>  const LoginScreen()),
         GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
+        GetPage(name: ExploreTopSevicesPage.routeName, page: () =>  const ExploreTopSevicesPage()),
+        GetPage(name: CategoryListScreen.routeName, page: () =>  const CategoryListScreen()),
       ],
       // initialBinding: BindingsBuilder(() {
       //   Get.lazyPut(() => LoginController());

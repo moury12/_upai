@@ -10,7 +10,7 @@ class OrderController extends GetxController{
     await RepositoryData.jobStatus(body: {
       "job_id":"205",
 
-      "status":status,
+      "status":status.value,
       "award_date":"2024-07-29",
       "completion_date":"2024-08-29"
 
@@ -18,7 +18,7 @@ class OrderController extends GetxController{
     });
   }
   void awardCreateJob() async{
-    await RepositoryData.createOffer(body: {
+    await RepositoryData.awardCreateJob(body: {
       "offer_id": "102",
       "buyer_mobile": "8801333",
       "seller_mobile": "8800170000",

@@ -19,7 +19,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final box = Hive.box('userInfo');
   @override
   void initState() {
-    Get.put(HomeController());
+    Get.put(HomeController(), permanent: true);
     HomeController.to.getCategoryList();
     // TODO: implement initState
     super.initState();
@@ -29,21 +29,32 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController rateController = TextEditingController();
   List<String> timeUnits = ['Hour', 'Task', 'Per Day'];
+
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double topSectionHeight = screenHeight * 0.3; // 20% for the top section
+    double bottomSectionHeight = screenHeight * 0.7;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        shadowColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: Container(
-          margin: const EdgeInsets.all(8),
-          alignment: Alignment.center,
-          decoration:
-              const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
-          child: const Icon(
-            CupertinoIcons.back,
-            color: Colors.white,
+        leading: GestureDetector(
+           onTap: () {
+             Get.back();
+           },
+          child: Container(
+            margin: const EdgeInsets.all(8),
+            alignment: Alignment.center,
+            decoration:
+                const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+            child: const Icon(
+              CupertinoIcons.back,
+              color: Colors.white,
+            ),
           ),
         ),
         title: const Text(
@@ -54,75 +65,74 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Obx(() {
-                        return DropdownButton<CategoryList>(
-                          dropdownColor: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          underline: const SizedBox.shrink(),
-                          value: HomeController.to.selectedCategory.value,
-                          hint: const Text("Select a category"),
-                          items: HomeController.to.getCatList.map((element) {
-                            return DropdownMenuItem<CategoryList>(
-                              value: element,
-                              child: Text(element.categoryName.toString()),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            HomeController.to.selectedCategory.value = value!;
-                          },
-                        );
-                      }),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Obx(() {
-                        return DropdownButton<String>(
-                          underline: const SizedBox.shrink(),
-                          value: HomeController.to.selectedTimeUnit.value,
-                          dropdownColor: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          hint: const Text(
-                            "Select a Rate type  ",
-                          ),
-                          items: ['Hour', 'Task', 'Per Day'].map((unit) {
-                            return DropdownMenuItem<String>(
-                              value: unit,
-                              child: Text(unit),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            HomeController.to.selectedTimeUnit.value = value;
-                          },
-                        );
-                      }),
-                    ),
-                  ],
-                ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SingleChildScrollView(
+              child: OverflowBar(
+                spacing:10,
+                overflowSpacing: 10,
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Obx(() {
+                      return DropdownButton<CategoryList>(
+                        dropdownColor: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        underline: const SizedBox.shrink(),
+                        value: HomeController.to.selectedCategory.value,
+                        hint: const Text("Select a category"),
+                        items: HomeController.to.getCatList.map((element) {
+                          return DropdownMenuItem<CategoryList>(
+                            value: element,
+                            child: Text(element.categoryName.toString()),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          HomeController.to.selectedCategory.value = value!;
+                        },
+                      );
+                    }),
+                  ),
+                 /* const SizedBox(
+                    height: 10, width: 10,
+                  ),*/
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Obx(() {
+                      return DropdownButton<String>(
+                        underline: const SizedBox.shrink(),
+                        value: HomeController.to.selectedTimeUnit.value,
+                        dropdownColor: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        hint: const Text(
+                          "Select a Rate type  ",
+                        ),
+                        items: ['Hour', 'Task', 'Per Day'].map((unit) {
+                          return DropdownMenuItem<String>(
+                            value: unit,
+                            child: Text(unit),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          HomeController.to.selectedTimeUnit.value = value;
+                        },
+                      );
+                    }),
+                  ),
+                ],
               ),
             ),
           ),
           Expanded(
 
-            flex: 4,
+            flex: 2,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               margin: EdgeInsets.zero,

@@ -22,7 +22,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>{
   UserType? _selectedUserType = UserType.Buyer;
   bool _progress = false;
 
@@ -47,22 +47,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       SizedBox(height: 40,),
                       SizedBox(
-                          height: 200,
-                          width: 200,
+                          height: /*_animation.value*/200,
+                          width: /*_animation.value*/200,
                           child: Image(
                             image: AssetImage(ImageConstant.upailogo),
                             fit: BoxFit.cover,)),
                       SizedBox(height: 50,),
                       CustomTextField(
                         validatorText: "Please Enter CID",
-                        prefixIcon: Icons.numbers,
+                        prefixIcon: Icons.account_circle_rounded,
                         hintText: "CID",
                         controller: controller.CIDTE,
                       ),
                       const SizedBox(height: 20),
                       CustomTextField(
                         validatorText: "Please Enter Mobile Number",
-                        prefixIcon: Icons.person,
+                        prefixIcon: Icons.call,
                         hintText: "Mobile Number",
                         controller: controller.userMobileTE,
                       ),
@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 3,),
                       const Align(
                         alignment: Alignment.topRight,
-                        child: Text("Forget Password", style: TextStyle()),
+                        child: Text("Forget Password?", style: TextStyle()),
                       ),
                       const SizedBox(height: 20),
                       Row(

@@ -27,6 +27,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       backgroundColor: Colors.white,
+
       items: <BottomNavigationBarItem>[
 
         BottomNavigationBarItem(

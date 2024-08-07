@@ -186,7 +186,7 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['Message']);
+      Get.snackbar('Success', responseData['message']);
     } else {
       Get.snackbar('Error', 'Failed to create offer');
     }
@@ -202,7 +202,7 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['Message']);
+      Get.snackbar('Success', responseData['message']);
     } else {
       Get.snackbar('Error', 'Failed');
     }
@@ -218,7 +218,7 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['Message']);
+      Get.snackbar('Success', responseData['message']);
     } else {
       Get.snackbar('Error', 'Failed');
     }
@@ -234,7 +234,7 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['Message']);
+      Get.snackbar('Success', responseData['message']);
     } else {
       Get.snackbar('Error', 'Failed');
     }

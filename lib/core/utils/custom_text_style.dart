@@ -24,7 +24,7 @@ class AppTextStyle {
   );
   static get titleTextSmallest => TextStyle(
     fontSize:10,
-    // fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     color: AppColors.appTextColorGrey,
   );
   static get titleTextSmall => TextStyle(
