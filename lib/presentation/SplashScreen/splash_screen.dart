@@ -11,19 +11,43 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>with SingleTickerProviderStateMixin {
 
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _animation = Tween<double>(begin: 200.0, end: 100.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+  @override
+  void dispose() {
+_controller.dispose();    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Get.put(SplashScreenController());
     return  Scaffold(
       backgroundColor: const Color(0xffE4E4E4),
       body: Center(
-        child: SizedBox(
-          height: 150,
-            width: 150,
-            child: Image(image: AssetImage(ImageConstant.upailogo,),fit: BoxFit.cover,))
+        child: AnimatedBuilder(
+          animation: _animation,
+          builder: (context,child) {
+            return SizedBox(
+              height: _animation.value,
+                width: _animation.value,
+                child: Image(image: AssetImage(ImageConstant.upailogo,),fit: BoxFit.cover,));
+          }
+        )
       ),
     );
   }

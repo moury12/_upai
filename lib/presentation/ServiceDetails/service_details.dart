@@ -23,6 +23,7 @@ import 'service_details_controller.dart';
 import 'widgets/client_review.dart';
 import 'widgets/rate_by_category_widget.dart';
 class ServiceDetails extends StatefulWidget {
+
    ServiceDetails({super.key});
   final OfferList offerDetails = Get.arguments;
 
@@ -406,12 +407,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     SizedBox(
                         width: size.width,
                         height: 300,
-                        child: FutureBuilder(
-                          future: homeController.getOfferList,
-                          builder: (context, snapshot) {
-                            if(snapshot.hasData)
+                        child: Obx(
+
+                         ( ){
+                            if(homeController.getOfferList.isNotEmpty)
                             {
-                              List<OfferList> offerList=snapshot.data;
+                              List<OfferList> offerList=homeController.getOfferList;
                               return ListView.builder(
                                 itemCount: offerList.length,
                                 scrollDirection: Axis.horizontal,
@@ -423,7 +424,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             }
                             else
                             {
-                              return const CircularProgressIndicator();
+                              return Center(child: const CircularProgressIndicator(color: Colors.black,));
                             }
                           },
                         )

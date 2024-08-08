@@ -1,44 +1,44 @@
-import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
-
 import '/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
-  final dynamic data;
-  final Widget? prefixIcon;
-  final Widget? suffixIcon;
-  final String? initialText;
+  final Key? fieldKey;
+  final bool? isPasswordField;
   final String? hintText;
-  final int? maxLine;
-  final String? lebelText;
-  final dynamic formatter;
-  final TextInputType? inputType;
-  final bool? obscureText;
-  final Color? fillColor;
-  final void Function(String)? onChanged;
-  final String? validatorText;
-  final EdgeInsetsGeometry? padding;
-  final double? radius;
-  final bool? readOnly;
-  final int? minLines;
-  final TextInputAction? textInputAction;
-  final int? maxLength;
+  final String? labelText;
+  final String? helperText;
+  final int? maxLines;
   final TextAlign? textAlign;
-  final TextAlignVertical? textAlignVertical;
-  final String? counterText;
-  final VoidCallback? onTap;
-  final TextStyle? textStyle;
-  final TextStyle? hintStyle;
-  final bool? textCopyPaste;
-  final FloatingLabelBehavior? floatingLabelBehavior;
-  final double? textFieldHeight;
+  final FormFieldSetter<String>? onSaved;
   final String? Function(String?)? validator;
-  final FocusNode? focusNode;
+  final ValueChanged<String>? onFieldSubmitted;
+  final TextInputType? inputType;
+  final IconData? prefixIcon;
+  final Function(String? value)? onChanged;
+  final Function()? onPressed;
+  final String? validatorText;
+  final Widget? suffixIcon;
 
-  const CustomTextField(
-      {super.key, this.controller, this.data, this.prefixIcon, this.suffixIcon, this.initialText, this.hintText, this.maxLine, this.lebelText, this.formatter, this.inputType, this.obscureText, this.fillColor, this.onChanged, this.validatorText, this.padding, this.radius, this.readOnly, this.minLines, this.textInputAction, this.maxLength, this.textAlign, this.textAlignVertical, this.counterText, this.onTap, this.textStyle, this.hintStyle, this.textCopyPaste, this.floatingLabelBehavior, this.textFieldHeight, this.validator, this.focusNode,
-     });
+  const CustomTextField({
+    super.key,
+    this.controller,
+    this.fieldKey,
+    this.isPasswordField =false,
+    this.hintText,
+    this.labelText,
+    this.helperText,
+    this.onSaved,
+    this.validator,
+    this.onFieldSubmitted,
+    this.inputType,
+    this.prefixIcon,
+    this.onChanged,
+    this.validatorText,
+    this.textAlign,
+    this.maxLines,
+    this.suffixIcon, this.onPressed,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -46,7 +46,7 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -57,49 +57,77 @@ class _CustomTextFieldState extends State<CustomTextField> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextFormField(
-        onChanged: widget.onChanged,textAlign: widget.textAlign??TextAlign.left,
-        // textInputAction: widget.isPasswordField == true
-        //     ? TextInputAction.done
-        //     : TextInputAction.next,
+onTap: widget.onPressed??() {
+
+},
+        textAlign: widget.textAlign ?? TextAlign.left,
+        maxLines: widget.maxLines ?? 1,
+        onChanged: widget.onChanged,
+        textInputAction: widget.isPasswordField == true
+            ? TextInputAction.done
+            : TextInputAction.next,
         style: const TextStyle(color: Colors.black),
-        obscureText: widget.obscureText??false,
         controller: widget.controller,
         keyboardType: widget.inputType,
-        // key: widget.fieldKey,
-        // obscureText: widget.isPasswordField ==true? widget.obSecureText! : false,
-        // onSaved: widget.onSaved,
+        key: widget.fieldKey,
+        obscureText: widget.isPasswordField == true ? _obscureText : false,
+        onSaved: widget.onSaved,
         validator: widget.validator ??
-                (value) {
+            (value) {
               if ((value == null || value.isEmpty) &&
-                  (widget.validatorText != null && widget.validatorText != '')) {
+                  (widget.validatorText != null &&
+                      widget.validatorText != '')) {
                 return ' ${widget.validatorText}';
               }
               return null;
             },
-        // onFieldSubmitted: widget.onFieldSubmitted,
+        onFieldSubmitted: widget.onFieldSubmitted,
         onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
         decoration: InputDecoration(
-          hintText: widget.hintText,
-          hintStyle: TextStyle(color: AppColors.colorBlack.withOpacity(0.3)),
           fillColor: Colors.white,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(color: AppColors.strokeColor2)),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(color: AppColors.strokeColor2)),
-          focusedBorder:  OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Colors.black,)),
+              borderSide: const BorderSide(
+                color: Colors.black,
+              )),
           filled: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 10,horizontal: 12),
-          prefixIcon: widget.prefixIcon??null,
-            suffixIcon: widget.suffixIcon,
-            //color: AppColors.primaryColor,
-          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+          prefixIcon: widget.prefixIcon != null
+              ? Icon(
+                  widget.prefixIcon,
+                  color: AppColors.primaryColor,
+                )
+              : null,
+          // decoration: InputDecoration(
+          //   border: InputBorder.none,
+          // filled: true,
+          hintText: widget.hintText,
+          hintStyle: TextStyle(color: AppColors.colorBlack.withOpacity(0.3)),
 
-          ),
+          suffixIcon: widget.suffixIcon ??
+              GestureDetector(
+                onTap: () {
+                  _obscureText = !_obscureText;
+                  setState(() {
 
+                  });
+                },
+                child: widget.isPasswordField!
+                    ? Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: AppColors.primaryColor,
+                      )
+                    : const SizedBox(),
+              ),
+        ),
+      ),
     );
   }
 }

@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/presentation/HomeScreen2/widgets/my_service.dart';
 import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
 
-class HomeScreen2 extends StatelessWidget {
+class HomeScreen2 extends StatefulWidget {
   const HomeScreen2({super.key});
 
+  @override
+  State<HomeScreen2> createState() => _HomeScreen2State();
+}
+
+class _HomeScreen2State extends State<HomeScreen2> {
+  @override
+  void initState() {
+    Get.put(OrderController());
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Upai",style: AppTextStyle.bodyTitle700,),
-      //   centerTitle: true,
-      //   automaticallyImplyLeading: false,
-      //
-      // ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.BTNbackgroudgrey,
         onPressed: (){
@@ -118,9 +125,9 @@ class HomeScreen2 extends StatelessWidget {
                 children: [
                   Text("Running Orders",style: AppTextStyle.titleText),
                   Text("All Orders>",
-        
+
                       style: AppTextStyle.titleTextSmallUnderline),
-        
+
                 ],
               ),
               const SizedBox(height: 10,),
@@ -144,6 +151,13 @@ class HomeScreen2 extends StatelessWidget {
                     return const MyService();
                   },),
               ),
+              ElevatedButton(onPressed: () {
+                OrderController.to.jobStatus();
+              }, child: Text('job status')),   ElevatedButton(onPressed: () {
+                OrderController.to.awardCreateJob();
+              }, child: Text('award')),   ElevatedButton(onPressed: () {
+                OrderController.to.completionReview();
+              }, child: Text('review')),
             ],
           ),
         ),

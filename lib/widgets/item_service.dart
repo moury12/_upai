@@ -5,7 +5,9 @@ import 'package:upai/core/utils/image_path.dart';
 
 class OfferService extends StatelessWidget {
   final OfferList offer;
-   const OfferService({super.key, required this.offer});
+  final EdgeInsets? margin;
+  final double? width;
+   const OfferService({super.key, required this.offer, this.margin, this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +21,12 @@ class OfferService extends StatelessWidget {
             Get.toNamed("/servicedetails",arguments: offer);
           },
           child: Container(
-            margin: const EdgeInsets.only(right: 10),
-            width:size.width*0.42,
+            margin: margin?? EdgeInsets.only(right: 10),
+            width:width??size.width*0.42,
             clipBehavior: Clip.antiAlias,
+
             decoration: ShapeDecoration(
+              color: Colors.white,
               shape: RoundedRectangleBorder(
                 side: const BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
                 borderRadius: BorderRadius.circular(8),
@@ -51,7 +55,7 @@ class OfferService extends StatelessWidget {
                       ),
                       child: SizedBox(
                         width: size.width,
-                        height: 66,
+                        height: 70,
                       child: Image(
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(ImageConstant.dummy);
@@ -98,7 +102,7 @@ class OfferService extends StatelessWidget {
                   Center(
                     child: Container(
                       width: size.width,
-                      height: 30,
+                      height: 40,
                       clipBehavior: Clip.antiAlias,
                       decoration: ShapeDecoration(
                         color: const Color(0xFF3F3F3F),

@@ -25,8 +25,7 @@ class CategotyItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               border: Border.all(color: AppColors.strokeColor,width: 2)
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
+            child: ClipOval(
               child: CachedNetworkImage(
                 imageUrl: catList[0]["image_url"].toString(),
                 fit: BoxFit.cover,
@@ -54,10 +53,13 @@ class CategotyItem extends StatelessWidget {
           // ),
 
            const SizedBox(height: 5,),
-          Text(
-            '${singleCat.categoryName}',
-            style: AppTextStyle.titleTextSmallest,
-            ),
+          SizedBox(width: 70,
+            child: Text(
+              '${singleCat.categoryName}',
+              style: AppTextStyle.titleTextSmallest,
+              textAlign: TextAlign.center,
+              ),
+          ),
         ],
       ),
     );

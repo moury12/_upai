@@ -1,14 +1,9 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/category_list_model.dart';
-import 'package:upai/Model/user_info_model.dart';
-import 'package:upai/data/api/api_client.dart';
+import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
@@ -16,45 +11,48 @@ import 'package:upai/presentation/LoginScreen/controller/login_screen_controller
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
     RxList<CategoryList> getCatList=<CategoryList>[].obs;
+    RxList<OfferList> getOfferList=<OfferList>[].obs;
+  Rx<TextEditingController> searchController = TextEditingController().obs;
+  Rx<TextEditingController> searchCatController = TextEditingController().obs;
+
   RxInt quantity = 0.obs;
   Rx<TextEditingController> quantityController = TextEditingController(text: '0').obs;
   Rx<CategoryList?> selectedCategory = Rx<CategoryList?>(null);
   Rx<String?> selectedTimeUnit = Rx<String?>(null);
-  late Future getOfferList;
+  var filteredOfferList = <OfferList>[].obs;
+  var filteredCategoryList = <CategoryList>[].obs;
   final box = Hive.box('userInfo');
-
   LoginController controller = Get.put(LoginController());
- // late  UserInfoModel userInfo ;
 
   @override
-  void onInit() {
+  void onInit() async{
     getCategoryList();
-    getOfferList = RepositoryData().getOfferList(token: FirebaseAPIs.user['token'].toString());
+    getOfferDataList();
     quantityController.value.text = quantity.value.toString();
     ever(quantity, (value) {
       quantityController.value.text = value.toString();
 
     });
-    print("Home Controller Callled");
+
     // TODO: implement onInit
     super.onInit();
   }
  void getCategoryList() async{
     getCatList.value = await RepositoryData().getCategoryList(token: FirebaseAPIs.user['token'].toString());
-
+filteredCategoryList.value =getCatList;
+  }void getOfferDataList() async{
+    getOfferList.value = await RepositoryData().getOfferList(token: FirebaseAPIs.user['token'].toString());
+    filteredOfferList.value=  getOfferList;
   }
 
 void createOffer(String jobTitle,String description,String rate,) async{
-    // debugPrint(box.values.first['cid']);
-  Map<String,dynamic> data = jsonDecode(box.get("user"));
-
-    debugPrint(box.get('user'));
+    debugPrint(box.values.map((e) => e['user_id'],).toString());
     await RepositoryData.createOffer(body:
     {
 
-      "cid": data["cid"],
+      "cid": box.values.map((e) => e['cid'],).join("").toString(),
 
-      "user_mobile":data["user_id"],
+      "user_mobile":box.values.map((e) => e['user_id'],).join("").toString(),
       "service_category_type":selectedCategory.value!.categoryName,
       "job_title":"helllo car",
       "description":"description",
@@ -75,5 +73,21 @@ void createOffer(String jobTitle,String description,String rate,) async{
       quantity.value--;
     }
   }
-
+void filterOffer(String query) async{
+    if(query.isNotEmpty){
+      filteredOfferList.value =getOfferList.where((element) {
+return element.jobTitle!.toLowerCase().contains(query.toLowerCase());
+      },).toList();
+    }else{
+      filteredOfferList.value=  getOfferList;
+    }
+}void filterCategory(String query) async{
+    if(query.isNotEmpty){
+      filteredCategoryList.value =getCatList.where((element) {
+return element.categoryName!.toLowerCase().contains(query.toLowerCase());
+      },).toList();
+    }else{
+      filteredCategoryList.value=  getCatList;
+    }
+}
 }

@@ -5,6 +5,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/sign%20up%20screen/sign_up_screen.dart';
+import 'package:upai/review/review_screen.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 import '../../data/repository/repository_details.dart';
@@ -13,14 +14,18 @@ import '../../widgets/custom_button.dart';
 enum UserType { Buyer, Seller }
 
 class LoginScreen extends StatefulWidget {
+
   const LoginScreen({super.key});
+
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>{
   UserType? _selectedUserType = UserType.Buyer;
+  bool _progress = false;
+
   final _formKey = GlobalKey<FormState>();
 
 
@@ -40,26 +45,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 40,),
+                      SizedBox(height: 40,),
                       SizedBox(
-                          height: 200,
-                          width: 200,
+                          height: /*_animation.value*/200,
+                          width: /*_animation.value*/200,
                           child: Image(
                             image: AssetImage(ImageConstant.upailogo),
                             fit: BoxFit.cover,)),
-                      const SizedBox(height: 50,),
+                      SizedBox(height: 50,),
                       CustomTextField(
                         validatorText: "Please Enter CID",
-                        prefixIcon: Icon(
-                          Icons.numbers, color: AppColors.primaryColor,),
+                        prefixIcon: Icons.account_circle_rounded,
                         hintText: "CID",
                         controller: controller.CIDTE,
                       ),
                       const SizedBox(height: 20),
                       CustomTextField(
                         validatorText: "Please Enter Mobile Number",
-                        prefixIcon:Icon(
-                          Icons.format_list_numbered, color: AppColors.primaryColor,),
+                        prefixIcon: Icons.call,
                         hintText: "Mobile Number",
                         controller: controller.userMobileTE,
                       ),
@@ -74,29 +77,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       //   controller: controller.emailTE,
                       // ),
                       const SizedBox(height: 20),
-                      Obx(() {
-                        return CustomTextField(
-                            obscureText: controller.isHidden.value,
-                            validatorText: "Please Enter User Password",
-                            prefixIcon: Icon(
-                              Icons.lock, color: AppColors.primaryColor,),
-                            hintText: "Password",
-                            controller: controller.passwordTE,
-                            suffixIcon: InkWell(
-                                onTap: (){
-                                  controller.changeVisibilty();
-                                },
-                                child: Container(
-                                       child: controller.isHidden.value?const Icon(Icons.visibility_off):Icon(Icons.visibility),
-                                ),
-                              ),
-                          // onChanged: (value) => controller.emailController.text.trim() = value!,
-                        );
-                      }),
+                      CustomTextField(
+                        validatorText: "Please Enter User Password",
+                        isPasswordField: true,
+                        prefixIcon: Icons.lock,
+                        hintText: "Password",
+                        controller: controller.passwordTE,
+                        // onChanged: (value) => controller.emailController.text.trim() = value!,
+                      ),
                       const SizedBox(height: 3,),
                       const Align(
                         alignment: Alignment.topRight,
-                        child: Text("Forget Password", style: TextStyle()),
+                        child: Text("Forget Password?", style: TextStyle()),
                       ),
                       const SizedBox(height: 20),
                       Row(
@@ -148,36 +140,32 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       SizedBox(height: 10,),
-                      Obx(() {
-                        if (controller.progress.value) {
-                          return CircularProgressIndicator(
-                              color: AppColors.titleName);
-                        }
-                        else {
-                          return CustomButton(
+
+                     Container(
+                          child:
+                          // controller.progress?CircularProgressIndicator(color: AppColors.titleName):
+                          CustomButton(
                             text: "Login",
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                controller.progress.value = true;
-                                await RepositoryData().login(
+                                // UserInfoModel userInfo = UserInfoModel();
+                                // userInfo.id = controller.CIDTE.text.trim().toString();
+                                // userInfo.userId=controller.userIdTE.text.trim().toString();
+                                RepositoryData().login(
                                     controller.CIDTE.text.trim().toString(),
                                     controller.userMobileTE.text.trim()
                                         .toString(),
                                     controller.passwordTE.text.trim()
                                         .toString(), _selectedUserType!.name);
-                                controller.progress.value = false;
                               }
                             },
 
-                          );
-                        }
-                      }),
-
+                          ),
+                        ),
                       const SizedBox(height: 20,),
 
                       InkWell(
                         onTap: () {
-                          controller.progress.value = false;
                           Get.offAll(() => const SignUpScreen());
                         },
                         child: RichText(text: TextSpan(
@@ -190,6 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         )),
                       ),
                       const SizedBox(height: 10,),
+                      ElevatedButton(onPressed: () => showDialog(context: context,builder: (context) => ReviewScreen(),), child: Text('review'))
                     ],
                   ),
                 ),
