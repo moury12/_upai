@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/widgets/category_item.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -57,9 +58,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
             ),
           ),
         ),
-        title: const Text(
+        title:  Text(
           "Create New Offer",
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          style: AppTextStyle.bodyTitle700,
         ),
       ),
       body: Column(

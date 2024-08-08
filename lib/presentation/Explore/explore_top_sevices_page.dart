@@ -7,6 +7,8 @@ import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.d
 import 'package:upai/widgets/custom_text_field.dart';
 import 'package:upai/widgets/item_service.dart';
 
+import '../../core/utils/custom_text_style.dart';
+
 class ExploreTopSevicesPage extends StatefulWidget {
   static const String routeName = '/explore-top';
   const ExploreTopSevicesPage({super.key});
@@ -46,7 +48,7 @@ class _ExploreTopSevicesPageState extends State<ExploreTopSevicesPage> {
           ),
           title: Text(
             "Explore Services",
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+             style: AppTextStyle.bodyTitle700,
           ),
         ),
         body: Column(

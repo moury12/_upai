@@ -60,7 +60,7 @@ class DefaultController extends GetxController
     const HomeScreen2(),
     const InboxScreen(),
      ExploreScreen(),
-    const ProfileScreen()
+    // const ProfileScreen()
   ];
   var selectedColor = Colors.black;
   RxInt selectedIndex = 0.obs;
@@ -81,9 +81,9 @@ class DefaultController extends GetxController
          appBarTitle.value="Inbox";
        case 3:
          appBarTitle.value="Notification";
-
-       case 4:
-         appBarTitle.value="Profile";
+       //
+       // case 4:
+       //   appBarTitle.value="Profile";
 
      }
 

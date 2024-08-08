@@ -21,14 +21,10 @@ class LoginScreen extends StatefulWidget {
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
-
 class _LoginScreenState extends State<LoginScreen>{
   UserType? _selectedUserType = UserType.Buyer;
   bool _progress = false;
-
   final _formKey = GlobalKey<FormState>();
-
-
   LoginController controller = Get.put(LoginController());
 
   @override
@@ -50,16 +46,16 @@ class _LoginScreenState extends State<LoginScreen>{
                           height: /*_animation.value*/200,
                           width: /*_animation.value*/200,
                           child: Image(
-                            image: AssetImage(ImageConstant.upailogo),
+                            image: AssetImage(ImageConstant.upailogo1),
                             fit: BoxFit.cover,)),
                       SizedBox(height: 50,),
-                      CustomTextField(
-                        validatorText: "Please Enter CID",
-                        prefixIcon: Icons.account_circle_rounded,
-                        hintText: "CID",
-                        controller: controller.CIDTE,
-                      ),
-                      const SizedBox(height: 20),
+                      // CustomTextField(
+                      //   validatorText: "Please Enter CID",
+                      //   prefixIcon: Icons.account_circle_rounded,
+                      //   hintText: "CID",
+                      //   controller: controller.CIDTE,
+                      // ),
+                      // const SizedBox(height: 20),
                       CustomTextField(
                         validatorText: "Please Enter Mobile Number",
                         prefixIcon: Icons.call,
@@ -152,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen>{
                                 // userInfo.id = controller.CIDTE.text.trim().toString();
                                 // userInfo.userId=controller.userIdTE.text.trim().toString();
                                 RepositoryData().login(
-                                    controller.CIDTE.text.trim().toString(),
+                                   "upai",
                                     controller.userMobileTE.text.trim()
                                         .toString(),
                                     controller.passwordTE.text.trim()

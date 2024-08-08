@@ -49,9 +49,7 @@ void createOffer(String jobTitle,String description,String rate,) async{
     debugPrint(box.values.map((e) => e['user_id'],).toString());
     await RepositoryData.createOffer(body:
     {
-
       "cid": box.values.map((e) => e['cid'],).join("").toString(),
-
       "user_mobile":box.values.map((e) => e['user_id'],).join("").toString(),
       "service_category_type":selectedCategory.value!.categoryName,
       "job_title":"helllo car",

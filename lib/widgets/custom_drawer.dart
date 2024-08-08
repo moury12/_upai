@@ -5,6 +5,7 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 
 import '../core/utils/image_path.dart';
+import '../data/api/firebase_apis.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -36,7 +37,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     
                   height: 30,
                 ),
-                Container(
+                SizedBox(
                     height: 150,
                     width: 150,
                     child:  Padding(
@@ -48,19 +49,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     )
                 ),
                 Text("Mr. Frank",style: AppTextStyle.bodyLarge700,),
-                Text("User Type : Buyer",style: AppTextStyle.titleText,),
+               // Text("User Type : Buyer",style: AppTextStyle.titleText,),
                 const SizedBox(height: 5,),
                 const Divider(
                   height: 3,
                 ),
-                const ListTile(
-                  leading: Icon(
-                    Icons.change_circle_outlined,
-                    color: Colors.black,
-                  ),
-                  title: Text(
-                    'Switch Account',
-                    style: TextStyle(color: Colors.black),
+                InkWell(
+                  onTap: (){
+                    Get.toNamed('/profile');
+
+                  },
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    ),
+                    title: Text(
+                      'Profile',
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ),
                 ),
                 const Divider(
@@ -81,7 +88,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   final box =  Hive.box('userInfo');
                await box.delete("user");
                  print("Data deleted");
-    
+                  FirebaseAPIs.updateActiveStatus(false);
                  Get.offAllNamed('/login');
                   },
                   child: const ListTile(

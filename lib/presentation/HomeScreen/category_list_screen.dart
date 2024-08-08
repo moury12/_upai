@@ -5,6 +5,7 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/widgets/category_item.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
+import '../../core/utils/custom_text_style.dart';
 import 'controller/home_screen_controller.dart';
 
 class CategoryListScreen extends StatefulWidget {
@@ -24,6 +25,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold( backgroundColor: AppColors.strokeColor2,
       appBar: AppBar(
         elevation: 0,
@@ -39,7 +41,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
         ),
         title: Text(
           "Category List",
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+            style: AppTextStyle.bodyTitle700,
         ),
       ),
       body: Column(
@@ -66,7 +68,8 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
               child: GridView.builder(
                 itemCount:HomeController.to.filteredCategoryList.length ,
                 gridDelegate:
-                    SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200),
+
+                     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,mainAxisSpacing: 15,crossAxisSpacing: 10,childAspectRatio:0.9),
                 itemBuilder: (context, index) {
                   return CategotyItem(
                     singleCat:
@@ -76,7 +79,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
               ),
             );}
             else{
-              return Center(child:Text('Category List empty...'));
+              return const Center(child:Text('Category List empty...'));
             }
           }),
         ],

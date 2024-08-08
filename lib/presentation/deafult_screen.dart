@@ -125,18 +125,18 @@ Navigator.pop(context);
                 label: 'Notification',
               ),
 
-              BottomNavigationBarItem( backgroundColor: Colors.white,
-                icon: SvgPicture.asset(
-                  // height: 24,
-                  // width: 24,
-
-                  'assets/images/person.svg',
-                  color: ctrl.selectedIndex.value == 4
-                      ? ctrl.selectedColor
-                      : ctrl.unselected,
-                ),
-                label: 'Person',
-              ),
+              // BottomNavigationBarItem( backgroundColor: Colors.white,
+              //   icon: SvgPicture.asset(
+              //     // height: 24,
+              //     // width: 24,
+              //
+              //     'assets/images/person.svg',
+              //     color: ctrl.selectedIndex.value == 4
+              //         ? ctrl.selectedColor
+              //         : ctrl.unselected,
+              //   ),
+              //   label: 'Person',
+              // ),
             ],
             selectedItemColor: Colors.black,
             selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),

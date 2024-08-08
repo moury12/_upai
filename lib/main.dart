@@ -74,6 +74,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/chatscreen', page: () =>  ChatScreen()),
         GetPage(name: '/defaultscreen', page: () =>  DefaultScreen()),
         GetPage(name: '/login', page: () =>  const LoginScreen()),
+        GetPage(name: '/profile', page: () =>  const ProfileScreen()),
         GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
         GetPage(name: ExploreTopSevicesPage.routeName, page: () =>  const ExploreTopSevicesPage()),
         GetPage(name: CategoryListScreen.routeName, page: () =>  const CategoryListScreen()),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import '../../core/utils/custom_text_style.dart';
 import '../../core/utils/image_path.dart';
 import '../../widgets/custom_text_field2.dart';
 
@@ -28,6 +30,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        // shadowColor: Colors.transparent,
+        // surfaceTintColor: Colors.transparent,
+        // backgroundColor: AppColors.strokeColor2,
+        // foregroundColor: Colors.black,
+        automaticallyImplyLeading: true,
+        // leading: IconButton(
+        //   icon: Icon(CupertinoIcons.back),
+        //   onPressed: () {
+        //     Get.back();
+        //   },
+        // ),
+        title: Text(
+          "Profile",
+          style: AppTextStyle.bodyTitle700,
+        ),
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -35,10 +55,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Form(
               key: _formKey,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  //const SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Stack(
                     children: [
                       GetBuilder<ProfileScreenController>(builder: (ctrl) {
@@ -94,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                    CustomTextField2(
                     isEditable: false,
                     hintText: ctrl.userInfo.userId.toString(),
-                    prefixIcon: Icons.numbers,
+                    prefixIcon: Icons.call,
                   ),
                   const SizedBox(height: 20,),
                    CustomTextField2(
@@ -113,32 +134,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     prefixIcon: Icons.email,
                   ),
                   const SizedBox(height: 20,),
-                  IntlPhoneField(
-                    controller: ctrl.phoneTE,
-
-                    validator: (value) {
-                      if (value!.number.isEmpty) {
-                        return "Please Enter a Valid Number";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-
-                      hintText: "Mobile Number",
-                      filled: true,
-                     enabled: false,
-                      fillColor: AppColors.textFieldBackGround,
-                      // labelText: 'Phone Number',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    initialCountryCode: 'BD',
-                    onChanged: (phone) {
-                      print(phone.completeNumber);
-                    },
-                  ),
+                  // IntlPhoneField(
+                  //   controller: ctrl.phoneTE,
+                  //
+                  //   validator: (value) {
+                  //     if (value!.number.isEmpty) {
+                  //       return "Please Enter a Valid Number";
+                  //     }
+                  //     return null;
+                  //   },
+                  //   decoration: InputDecoration(
+                  //
+                  //     hintText: "Mobile Number",
+                  //     filled: true,
+                  //    enabled: false,
+                  //     fillColor: AppColors.textFieldBackGround,
+                  //     // labelText: 'Phone Number',
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(12),
+                  //       borderSide: BorderSide.none,
+                  //     ),
+                  //   ),
+                  //   initialCountryCode: 'BD',
+                  //   onChanged: (phone) {
+                  //     print(phone.completeNumber);
+                  //   },
+                  // ),
                   const SizedBox(height: 20,),
                   Align(
                     alignment: Alignment.bottomCenter,
