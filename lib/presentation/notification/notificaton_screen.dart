@@ -19,7 +19,10 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               Image.asset(ImageConstant.notification),
+               Image.asset(
+                 width: 80,
+                   height: 80,
+                   ImageConstant.notification),
               SizedBox(height: 10,),
               Text("No Notification Yet",style: AppTextStyle.bodyMedium400),
             ],

@@ -39,15 +39,18 @@ class _LoginScreenState extends State<LoginScreen>{
                 child: Form(
                   key: _formKey,
                   child: Column(
+
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 40,),
+                      const SizedBox(height: 100,),
                       SizedBox(
-                          height: /*_animation.value*/200,
-                          width: /*_animation.value*/200,
-                          child: Image(
-                            image: AssetImage(ImageConstant.upailogo1),
-                            fit: BoxFit.cover,)),
+                        height: 150,
+                        width: 150,
+                        child: Image(
+                          image: AssetImage(
+                              ImageConstant.upailogo1),
+                          fit: BoxFit.cover,),
+                      ),
                       SizedBox(height: 50,),
                       // CustomTextField(
                       //   validatorText: "Please Enter CID",
