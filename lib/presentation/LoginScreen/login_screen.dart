@@ -91,55 +91,55 @@ class _LoginScreenState extends State<LoginScreen>{
                         child: Text("Forget Password?", style: TextStyle()),
                       ),
                       const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: RadioListTile<UserType>(
-                              activeColor: Colors.green,
-                              tileColor: Colors.grey[200],
-                              dense: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              contentPadding: EdgeInsets.all(0.0),
-                              value: UserType.Buyer,
-                              groupValue: _selectedUserType,
-                              title: Text(UserType.Buyer.name),
-                              onChanged: (val) {
-                                setState(() {
-                                  _selectedUserType = val;
-
-                                  print(_selectedUserType!.name);
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            child: RadioListTile<UserType>(
-                              contentPadding: EdgeInsets.all(0.0),
-                              tileColor: Colors.grey[200],
-                              activeColor: Colors.green,
-                              dense: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              value: UserType.Seller,
-                              groupValue: _selectedUserType,
-                              title: Text(UserType.Seller.name),
-                              onChanged: (val) {
-                                setState(() {
-                                  _selectedUserType = val;
-                                });
-                              },
-                            ),
-                          ),
-
-                        ],
-                      ),
-                      SizedBox(height: 10,),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: RadioListTile<UserType>(
+                      //         activeColor: Colors.green,
+                      //         tileColor: Colors.grey[200],
+                      //         dense: true,
+                      //         shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(10.0),
+                      //         ),
+                      //         contentPadding: EdgeInsets.all(0.0),
+                      //         value: UserType.Buyer,
+                      //         groupValue: _selectedUserType,
+                      //         title: Text(UserType.Buyer.name),
+                      //         onChanged: (val) {
+                      //           setState(() {
+                      //             _selectedUserType = val;
+                      //
+                      //             print(_selectedUserType!.name);
+                      //           });
+                      //         },
+                      //       ),
+                      //     ),
+                      //     SizedBox(
+                      //       width: 5,
+                      //     ),
+                      //     Expanded(
+                      //       child: RadioListTile<UserType>(
+                      //         contentPadding: EdgeInsets.all(0.0),
+                      //         tileColor: Colors.grey[200],
+                      //         activeColor: Colors.green,
+                      //         dense: true,
+                      //         shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(10.0),
+                      //         ),
+                      //         value: UserType.Seller,
+                      //         groupValue: _selectedUserType,
+                      //         title: Text(UserType.Seller.name),
+                      //         onChanged: (val) {
+                      //           setState(() {
+                      //             _selectedUserType = val;
+                      //           });
+                      //         },
+                      //       ),
+                      //     ),
+                      //
+                      //   ],
+                      // ),
+                      // SizedBox(height: 10,),
 
                      Container(
                           child:
@@ -164,21 +164,21 @@ class _LoginScreenState extends State<LoginScreen>{
                         ),
                       const SizedBox(height: 20,),
 
-                      InkWell(
-                        onTap: () {
-                          Get.offAll(() => const SignUpScreen());
-                        },
-                        child: RichText(text: TextSpan(
-                            children: [
-                              TextSpan(text: "Don't have an account?",
-                                  style: AppTextStyle.titleText),
-                              const TextSpan(text: " Sign Up",
-                                  style: TextStyle(color: Colors.green))
-                            ]
-                        )),
-                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Get.offAll(() => const SignUpScreen());
+                      //   },
+                      //   child: RichText(text: TextSpan(
+                      //       children: [
+                      //         TextSpan(text: "Don't have an account?",
+                      //             style: AppTextStyle.titleText),
+                      //         const TextSpan(text: " Sign Up",
+                      //             style: TextStyle(color: Colors.green))
+                      //       ]
+                      //   )),
+                      // ),
                       const SizedBox(height: 10,),
-                      ElevatedButton(onPressed: () => showDialog(context: context,builder: (context) => ReviewScreen(),), child: Text('review'))
+                     // ElevatedButton(onPressed: () => showDialog(context: context,builder: (context) => ReviewScreen(),), child: Text('review'))
                     ],
                   ),
                 ),

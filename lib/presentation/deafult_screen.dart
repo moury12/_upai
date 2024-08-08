@@ -62,16 +62,17 @@ Navigator.pop(context);
             centerTitle: true,
           ),
           drawer: const CustomDrawer(),
-          body: ctrl.userType == "Buyer"
-              ? ctrl.screensForClient[ctrl.selectedIndex.value]
-              : ctrl.screensForServiceProvider[ctrl.selectedIndex.value],
+          body:  ctrl.screensForClient[ctrl.selectedIndex.value],
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white,
 
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
+
                 backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
+                  height: 24,
+                  width: 24,
                   'assets/images/home.svg',
                   color: ctrl.selectedIndex.value == 0
                       ? ctrl.selectedColor
@@ -81,8 +82,32 @@ Navigator.pop(context);
               ),
               BottomNavigationBarItem( backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
-                  'assets/images/inbox.svg',
+                  height: 24,
+                  width: 24,
+                  'assets/images/seller.svg',
                   color: ctrl.selectedIndex.value == 1
+                      ? ctrl.selectedColor
+                      : ctrl.unselected,
+                ),
+                label: 'Service',
+              ),
+              // BottomNavigationBarItem( backgroundColor: Colors.white,
+              //   icon: SvgPicture.asset(
+              //     height: 24,
+              //     width: 24,
+              //     'assets/images/explore.svg',
+              //     color: ctrl.selectedIndex.value == 2
+              //         ? ctrl.selectedColor
+              //         : ctrl.unselected,
+              //   ),
+              //   label: 'Explore',
+              // ),
+              BottomNavigationBarItem( backgroundColor: Colors.white,
+                icon: SvgPicture.asset(
+                  height: 24,
+                  width: 24,
+                  'assets/images/inbox.svg',
+                  color: ctrl.selectedIndex.value == 2
                       ? ctrl.selectedColor
                       : ctrl.unselected,
                 ),
@@ -90,17 +115,23 @@ Navigator.pop(context);
               ),
               BottomNavigationBarItem( backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
-                  'assets/images/explore.svg',
-                  color: ctrl.selectedIndex.value == 2
+                  height: 24,
+                  width: 24,
+                  'assets/images/notification.svg',
+                  color: ctrl.selectedIndex.value == 3
                       ? ctrl.selectedColor
                       : ctrl.unselected,
                 ),
-                label: 'Explore',
+                label: 'Notification',
               ),
+
               BottomNavigationBarItem( backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
+                  // height: 24,
+                  // width: 24,
+
                   'assets/images/person.svg',
-                  color: ctrl.selectedIndex.value == 3
+                  color: ctrl.selectedIndex.value == 4
                       ? ctrl.selectedColor
                       : ctrl.unselected,
                 ),

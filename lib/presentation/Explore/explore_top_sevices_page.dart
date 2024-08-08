@@ -25,6 +25,11 @@ class _ExploreTopSevicesPageState extends State<ExploreTopSevicesPage> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    print(height.toString());
+    print(width.toString());
+    int crossAxisCount = MediaQuery.of(context).size.width > 600 ? 4 : 2;
     return Scaffold(
         backgroundColor: AppColors.strokeColor2,
         appBar: AppBar(
@@ -69,13 +74,16 @@ hintText: "Search service..",
               final offerList =controller.filteredOfferList;
              return Expanded(
                 child: GridView.builder(
+                  scrollDirection: Axis.vertical,
                   /* shrinkWrap: true,*/
                   padding: EdgeInsets.symmetric(horizontal: 8,vertical: 12).copyWith(top: 0),
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 8,
-                      childAspectRatio:MediaQuery.of(context).size.height<MediaQuery.of(context).size.width? .8:.95,
-                      maxCrossAxisExtent: 250),
+                      childAspectRatio:.8,
+                    crossAxisCount: crossAxisCount,
+                      // maxCrossAxisExtent: 250
+                  ),
                   itemCount: offerList.length,
                   itemBuilder: (context, index) {
                     return OfferService(

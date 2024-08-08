@@ -57,8 +57,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     () {
                   return SizedBox(
                       width: size.width,
-                      height: 100,
-                      child:HomeController.to.getCatList.isEmpty?Center(child: CircularProgressIndicator()): ListView.builder(
+                      height: 200,
+                      child:HomeController.to.getCatList.isEmpty?const Center(child: CircularProgressIndicator()): ListView.builder(
                         itemCount: HomeController.to.getCatList.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {

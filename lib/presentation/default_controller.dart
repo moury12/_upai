@@ -13,17 +13,18 @@ import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/HomeScreen2/home_screen2.dart';
 import 'package:upai/presentation/Inbox/inbox.dart';
 import 'package:upai/presentation/Profile/profile_screen.dart';
+import 'package:upai/presentation/notification/notificaton_screen.dart';
 class DefaultController extends GetxController
 {
   final box = Hive.box("userInfo");
-  String userType="";
+ // String userType="";
   @override
   void onInit() {
     FirebaseAPIs.getSelfInfo();
     WidgetsBinding.instance.addObserver(AppLifecycleListener());
-    var userJsonString = box.get('user');
-    Map<String,dynamic> data = json.decode(userJsonString.toString());
-    userType = data['user_type'].toString();
+    // var userJsonString = box.get('user');
+    // Map<String,dynamic> data = json.decode(userJsonString.toString());
+   // userType = data['user_type'].toString();
 
     //for updating user active status according to lifecycle events
     //resume -- active or online
@@ -49,8 +50,10 @@ class DefaultController extends GetxController
 
   final List<Widget> screensForClient = [
     HomeScreen(),
+    const HomeScreen2(),
+    // ExploreScreen(),
     const InboxScreen(),
-     ExploreScreen(),
+    const NotificatonScreen(),
     const ProfileScreen()
   ];
   final List<Widget> screensForServiceProvider = [
@@ -71,11 +74,17 @@ class DefaultController extends GetxController
        case 0:
          appBarTitle.value="Upai";
        case 1:
-         appBarTitle.value="Inbox";
+         appBarTitle.value="Service Details";
+       // case 2:
+       //   appBarTitle.value="Explore";
        case 2:
-         appBarTitle.value="Explore";
+         appBarTitle.value="Inbox";
        case 3:
+         appBarTitle.value="Notification";
+
+       case 4:
          appBarTitle.value="Profile";
+
      }
 
   }
