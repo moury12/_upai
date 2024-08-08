@@ -12,6 +12,7 @@ class CustomTextField extends StatefulWidget {
   final String? labelText;
   final String? helperText;
   final int? maxLines;
+  final double? inputFontSize;
   final TextAlign? textAlign;
   final FormFieldSetter<String>? onSaved;
   final String? Function(String?)? validator;
@@ -22,6 +23,7 @@ class CustomTextField extends StatefulWidget {
   final Function()? onPressed;
   final String? validatorText;
   final Widget? suffixIcon;
+  final TextStyle? hintStyle;
 
   const CustomTextField({
     super.key,
@@ -42,7 +44,7 @@ class CustomTextField extends StatefulWidget {
     this.maxLines,
     this.suffixIcon,
     this.onPressed,
-    this.isEmail = false,
+    this.isEmail = false, this.hintStyle, this.inputFontSize,
   });
 
   @override
@@ -69,7 +71,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         textInputAction: widget.isPasswordField == true
             ? TextInputAction.done
             : TextInputAction.next,
-        style: const TextStyle(color: Colors.black),
+        style:  TextStyle(color: Colors.black,fontSize:widget.inputFontSize?? null),
         controller: widget.controller,
         keyboardType: widget.inputType,
         key: widget.fieldKey,
@@ -118,7 +120,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           //   border: InputBorder.none,
           // filled: true,
           hintText: widget.hintText,
-          hintStyle: TextStyle(color: AppColors.colorBlack.withOpacity(0.3)),
+          hintStyle:widget.hintStyle?? TextStyle(fontSize:12,color: AppColors.colorBlack.withOpacity(0.3)),
 
           suffixIcon: widget.suffixIcon ??
               GestureDetector(

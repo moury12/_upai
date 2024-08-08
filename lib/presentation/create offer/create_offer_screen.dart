@@ -178,7 +178,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       validatorText: "Please Enter Job Description",
                       hintText: "Please Enter Job Description",
                       controller: descriptionController,
-
+maxLines: 3,
                       // onChanged: (value) => controller.emailController.text.trim() = value!,
                     ),
                     const SizedBox(
@@ -280,7 +280,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,foregroundColor: Colors.white,padding: EdgeInsets.symmetric(vertical: 12,horizontal:12)),
                               onPressed: () {
-                                if (HomeController.to.selectedTimeUnit.value!.isNotEmpty &&
+                                if (HomeController.to.selectedTimeUnit.value!=null&&HomeController.to.selectedCategory.value!=null&&
                                     titleController.text.isNotEmpty &&
                                     descriptionController.text.isNotEmpty &&
                                     rateController.text.isNotEmpty &&
