@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 import '/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -5,6 +7,7 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final Key? fieldKey;
   final bool? isPasswordField;
+  final bool? isEmail;
   final String? hintText;
   final String? labelText;
   final String? helperText;
@@ -24,7 +27,7 @@ class CustomTextField extends StatefulWidget {
     super.key,
     this.controller,
     this.fieldKey,
-    this.isPasswordField =false,
+    this.isPasswordField = false,
     this.hintText,
     this.labelText,
     this.helperText,
@@ -37,7 +40,9 @@ class CustomTextField extends StatefulWidget {
     this.validatorText,
     this.textAlign,
     this.maxLines,
-    this.suffixIcon, this.onPressed,
+    this.suffixIcon,
+    this.onPressed,
+    this.isEmail = false,
   });
 
   @override
@@ -57,9 +62,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextFormField(
-onTap: widget.onPressed??() {
-
-},
+        onTap: widget.onPressed ?? () {},
         textAlign: widget.textAlign ?? TextAlign.left,
         maxLines: widget.maxLines ?? 1,
         onChanged: widget.onChanged,
@@ -74,10 +77,16 @@ onTap: widget.onPressed??() {
         onSaved: widget.onSaved,
         validator: widget.validator ??
             (value) {
-              if ((value == null || value.isEmpty) &&
+              if ((value == null ||
+                      value.isEmpty ||
+                      (widget.isEmail == true && !value.isEmail)) &&
                   (widget.validatorText != null &&
                       widget.validatorText != '')) {
-                return ' ${widget.validatorText}';
+                if (widget.isEmail == true) {
+                  return 'Please provide valid email';
+                } else {
+                  return ' ${widget.validatorText}';
+                }
               }
               return null;
             },
@@ -115,9 +124,7 @@ onTap: widget.onPressed??() {
               GestureDetector(
                 onTap: () {
                   _obscureText = !_obscureText;
-                  setState(() {
-
-                  });
+                  setState(() {});
                 },
                 child: widget.isPasswordField!
                     ? Icon(
