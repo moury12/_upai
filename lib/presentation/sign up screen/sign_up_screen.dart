@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
@@ -47,21 +48,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 20,),
                       CustomTextField(
                         validatorText: "Please Enter CID",
-                        prefixIcon: Icons.numbers,
+                        prefixIcon: Icons.switch_account_outlined,
                         hintText: "CID",
                         controller: controller.CIDTE,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         validatorText: "Please Enter Mobile Number",
-                        prefixIcon: Icons.format_list_numbered,
+                        prefixIcon: Icons.call,
+                        inputType: TextInputType.number,
                         hintText: "Mobile Number",
                         controller: controller.userMobileTE,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         validatorText: "Please Enter User Name",
-                        prefixIcon: Icons.person,
+                        prefixIcon: Icons.account_circle_rounded,
                         hintText: "User Name",
                         controller: controller.userNameTE,
                       ),
@@ -69,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomTextField(
                         validatorText: "Please Enter User Email",
                         prefixIcon: Icons.email,
-                        hintText: "User Email",
+                        hintText: "User Email",isEmail: true,
                         controller: controller.userEmailTE,
                       ),
                       // CustomTextFeild(
@@ -85,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 10),
                       CustomTextField(
                         validatorText: "Please Enter a Password",
-
+isPasswordField: true,
                         prefixIcon: Icons.lock,
                         hintText: "Password",
                         controller: controller.passwordTE,
@@ -94,6 +96,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 10,),
                       CustomTextField(
                         validatorText: "Re-Enter User Password",
+                        isPasswordField: true,
+
                         prefixIcon: Icons.lock,
                         hintText: "Confirm Password",
                         controller: controller.conPasswordTE,
