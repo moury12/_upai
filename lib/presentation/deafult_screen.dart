@@ -67,6 +67,7 @@ Navigator.pop(context);
               : ctrl.screensForServiceProvider[ctrl.selectedIndex.value],
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white,
+
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 backgroundColor: Colors.white,
@@ -78,7 +79,7 @@ Navigator.pop(context);
                 ),
                 label: 'Home',
               ),
-              BottomNavigationBarItem(
+              BottomNavigationBarItem( backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
                   'assets/images/inbox.svg',
                   color: ctrl.selectedIndex.value == 1
@@ -87,7 +88,7 @@ Navigator.pop(context);
                 ),
                 label: 'Inbox',
               ),
-              BottomNavigationBarItem(
+              BottomNavigationBarItem( backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
                   'assets/images/explore.svg',
                   color: ctrl.selectedIndex.value == 2
@@ -96,7 +97,7 @@ Navigator.pop(context);
                 ),
                 label: 'Explore',
               ),
-              BottomNavigationBarItem(
+              BottomNavigationBarItem( backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
                   'assets/images/person.svg',
                   color: ctrl.selectedIndex.value == 3
