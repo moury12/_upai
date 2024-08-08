@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
@@ -22,7 +21,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   SignUpController controller = Get.put(SignUpController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,38 +43,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                           height: 200,
                           width: 200,
-                          child: Image(
-                            image: AssetImage(ImageConstant.upailogo),
-                            fit: BoxFit.cover,)),
+                          child: Image(image: AssetImage(ImageConstant.upailogo),fit: BoxFit.cover,)),
                       const SizedBox(height: 20,),
                       CustomTextField(
                         validatorText: "Please Enter CID",
-                         prefixIcon: Icon(
-                           Icons.numbers, color: AppColors.primaryColor,),
+                        prefixIcon: Icons.numbers,
                         hintText: "CID",
                         controller: controller.CIDTE,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         validatorText: "Please Enter Mobile Number",
-                        prefixIcon: Icon(
-                          Icons.format_list_numbered, color: AppColors.primaryColor,),
+                        prefixIcon: Icons.format_list_numbered,
                         hintText: "Mobile Number",
                         controller: controller.userMobileTE,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         validatorText: "Please Enter User Name",
-                         prefixIcon: Icon(
-                           Icons.person, color: AppColors.primaryColor,),
+                        prefixIcon: Icons.person,
                         hintText: "User Name",
                         controller: controller.userNameTE,
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
                         validatorText: "Please Enter User Email",
-                         prefixIcon: Icon(
-                           Icons.email, color: AppColors.primaryColor,),
+                        prefixIcon: Icons.email,
                         hintText: "User Email",
                         controller: controller.userEmailTE,
                       ),
@@ -91,131 +83,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //   controller: controller.emailTE,
                       // ),
                       const SizedBox(height: 10),
-                      Obx(() {
-                        return CustomTextField(
-                          obscureText: controller.isHiddenPass.value,
-                          validatorText: "Please Enter User Password",
-                          prefixIcon: Icon(
-                            Icons.lock, color: AppColors.primaryColor,),
-                          hintText: "Password",
-                          controller: controller.passwordTE,
-                          suffixIcon: InkWell(
-                            onTap: (){
-                              controller.changePassVisibilty();
-                            },
-                            child: Container(
-                              child: controller.isHiddenPass.value?const Icon(Icons.visibility_off):Icon(Icons.visibility),
-                            ),
-                          ),
-                          // onChanged: (value) => controller.emailController.text.trim() = value!,
-                        );
-                      }),
-                       const SizedBox(height: 10,),
-                      Obx(() {
-                        return CustomTextField(
-                          obscureText: controller.isHiddenConPass.value,
-                          validatorText: "Re-Enter User Password",
-                          prefixIcon: Icon(
-                            Icons.lock, color: AppColors.primaryColor,),
-                          hintText: "Confirm Password",
-                          controller: controller.conPasswordTE,
-                          suffixIcon: InkWell(
-                            onTap: (){
-                              controller.changeConPassVisibilty();
-                            },
-                            child: Container(
-                              child: controller.isHiddenConPass.value?const Icon(Icons.visibility_off):Icon(Icons.visibility),
-                            ),
-                          ),
-                          // onChanged: (value) => controller.emailController.text.trim() = value!,
-                        );
-                      }),
+                      CustomTextField(
+                        validatorText: "Please Enter a Password",
 
-                      // CustomTextField(
-                      //   validatorText: "Please Enter a Password",
-                      //    prefixIcon: Icon(
-                      //      Icons.lock, color: AppColors.primaryColor,),
-                      //   hintText: "Password",
-                      //   controller: controller.passwordTE,
-                      //   // onChanged: (value) => controller.emailController.text.trim() = value!,
-                      // ),
-                      // const SizedBox(height: 10,),
-                      // CustomTextField(
-                      //   validatorText: "Re-Enter User Password",
-                      //    prefixIcon: Icon(
-                      //      Icons.lock, color: AppColors.primaryColor,),
-                      //   hintText: "Confirm Password",
-                      //   controller: controller.conPasswordTE,
-                      //   // onChanged: (value) => controller.emailController.text.trim() = value!,
-                      // ),
+                        prefixIcon: Icons.lock,
+                        hintText: "Password",
+                        controller: controller.passwordTE,
+                        // onChanged: (value) => controller.emailController.text.trim() = value!,
+                      ),
+                      const SizedBox(height: 10,),
+                      CustomTextField(
+                        validatorText: "Re-Enter User Password",
+                        prefixIcon: Icons.lock,
+                        hintText: "Confirm Password",
+                        controller: controller.conPasswordTE,
+                        // onChanged: (value) => controller.emailController.text.trim() = value!,
+                      ),
                       const SizedBox(height: 20,),
-                      Obx(() {
-                        if(controller.progress.value)
+                      CustomButton(
+                        text: "Sign Up",
+                        onTap: () async {
+                          if(_formKey.currentState!.validate())
                           {
-                            return CircularProgressIndicator(color: AppColors.primaryColor,);
-                          }
-                        else
-                          {
-                            return CustomButton(
-                              text: "Sign Up",
-                              onTap: () async {
+                            if(controller.passwordTE.text.trim().toString()==controller.conPasswordTE.text.trim().toString())
+                            {
+                              RepositoryData().createUser(controller.CIDTE.text.trim().toString(),controller.userNameTE.text.trim().toString(), controller.passwordTE.text.trim().toString(), controller.userMobileTE.text.trim().toString(), controller.userEmailTE.text.trim().toString());
+                            }
+                            else
+                            {
+                              Get.snackbar("Sorry", "Both password should match",backgroundColor: Colors.red,colorText: Colors.white);
+                            }
 
-                                if (_formKey.currentState!.validate()) {
-                                  if (controller.passwordTE.text.trim()
-                                      .toString() ==
-                                      controller.conPasswordTE.text.trim()
-                                          .toString()) {
-                                    controller.progress.value = true;
-                                 await   RepositoryData().createUser(
-                                        controller.CIDTE.text.trim().toString(),
-                                        controller.userNameTE.text.trim()
-                                            .toString(),
-                                        controller.passwordTE.text.trim()
-                                            .toString(),
-                                        controller.userMobileTE.text.trim()
-                                            .toString(),
-                                        controller.userEmailTE.text.trim()
-                                            .toString());
-                                    controller.progress.value = false;
 
-                                  }
-                                  else {
-                                    Get.snackbar(
-                                        "Sorry", "Both password should match",
-                                        backgroundColor: Colors.red,
-                                        colorText: Colors.white);
-                                  }
-
-                                  // UserInfoModel userInfo = UserInfoModel();
-                                  // userInfo.id = controller.CIDTE.text.trim().toString();
-                                  // userInfo.userId=controller.userIdTE.text.trim().toString();
-                                  // RepositoryData().login(controller.CIDTE.text.toString(), controller.userIdTE.text.toString(), controller.passwordTE.text.toString());
-                                  // FirebaseAPIs.createUser(userInfo.toJson());
-                                  // var box = Hive.box('userInfo');
-                                  // await box.put('user',userInfo.toJson());
-                                  // print(box.values);
-                                  // FirebaseAPIs.currentUser();
-                                  // Get.offAndToNamed("/defaultscreen");
-                                }
-                              },
-                            );
+                            // UserInfoModel userInfo = UserInfoModel();
+                            // userInfo.id = controller.CIDTE.text.trim().toString();
+                            // userInfo.userId=controller.userIdTE.text.trim().toString();
+                            // RepositoryData().login(controller.CIDTE.text.toString(), controller.userIdTE.text.toString(), controller.passwordTE.text.toString());
+                            // FirebaseAPIs.createUser(userInfo.toJson());
+                            // var box = Hive.box('userInfo');
+                            // await box.put('user',userInfo.toJson());
+                            // print(box.values);
+                            // FirebaseAPIs.currentUser();
+                            // Get.offAndToNamed("/defaultscreen");
                           }
 
-                      }),
+                        },
+                      ),
                       const SizedBox(height: 15,),
                       InkWell(
-                        onTap: () {
-                          controller.progress.value=false;
-                          Get.offAll(() => const LoginScreen());
+                        onTap: (){
+                          Get.offAll(()=>const LoginScreen());
                         },
                         child: RichText(
-                            text: TextSpan(
+                            text:TextSpan(
                               children: [
                                 TextSpan(
-                                    text: "Already have an account?",
-                                    style: AppTextStyle.titleText),
-                                const TextSpan(text: " Log in",
-                                    style: TextStyle(color: Colors.green)),
+                                    text: "Already have an account?",style: AppTextStyle.titleText),
+                                const TextSpan(text: " Log in",style: TextStyle(color: Colors.green)),
                               ],
                             )),
                       ),
