@@ -186,7 +186,7 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['message']);
+      Get.snackbar('Success', responseData['Message']);
     } else {
       Get.snackbar('Error', 'Failed to create offer');
     }
