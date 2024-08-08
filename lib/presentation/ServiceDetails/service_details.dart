@@ -491,6 +491,7 @@ class ConfrimOfferWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      scrollable: true,
       backgroundColor: AppColors.strokeColor2,
       titlePadding: EdgeInsets.symmetric(
           horizontal: 16, vertical: 12),
@@ -737,7 +738,8 @@ class OfferDialogWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child: RichText(
+      child: RichText( maxLines: 2,
+        overflow: TextOverflow.ellipsis,
         text: TextSpan(text: '', children: [
           TextSpan(
             text: '$label   ',
@@ -749,10 +751,12 @@ class OfferDialogWidget extends StatelessWidget {
           ),
           TextSpan(
               text: text,
+
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.black.withOpacity(.6),
                 fontWeight: FontWeight.w500,
+
               )),
         ]),
       ),

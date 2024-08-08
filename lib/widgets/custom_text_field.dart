@@ -120,7 +120,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           //   border: InputBorder.none,
           // filled: true,
           hintText: widget.hintText,
-          hintStyle:widget.hintStyle?? TextStyle(fontSize:12,color: AppColors.colorBlack.withOpacity(0.3)),
+          hintStyle:widget.hintStyle?? TextStyle(fontSize:13  ,color: AppColors.colorBlack.withOpacity(0.3)),
 
           suffixIcon: widget.suffixIcon ??
               GestureDetector(
