@@ -21,7 +21,10 @@ class DefaultController extends GetxController
   void onInit() {
     FirebaseAPIs.getSelfInfo();
     WidgetsBinding.instance.addObserver(AppLifecycleListener());
-    userType = jsonDecode(box.get("user"))['user_type'];
+    var userJsonString = box.get('user');
+    Map<String,dynamic> data = json.decode(userJsonString.toString());
+    userType = data['user_type'].toString();
+
     //for updating user active status according to lifecycle events
     //resume -- active or online
     //pause  -- inactive or offline

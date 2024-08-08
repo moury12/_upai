@@ -27,7 +27,7 @@ class RepositoryData {
   //   print(data.length);
   //   return data;
   // }
-  Future<dynamic> login(String CID, String userMobile, String password, String userType) async {
+  Future<void> login(String CID, String userMobile, String password, String userType) async {
     String url = ApiClient().loginUrl;
     try {
       var response = await http.post(
@@ -49,11 +49,11 @@ class RepositoryData {
         userInfo.mobile = data['user_info']['mobile'].toString();
         userInfo.token = data['token'].toString();
         userInfo.userType = userType;
-        await box.put('user', userInfo.toJson());
+        await box.put('user', json.encode(userInfo.toJson()));
         print("value is  : ${box.get("user")}");
         print("&&&&&&&&&&&&&&&&&&&");
         print(box.values);
-        FirebaseAPIs.currentUser();
+        //FirebaseAPIs.currentUser();
         if (!await FirebaseAPIs.userExists()) {
           FirebaseAPIs.createUser(userInfo.toJson());
           print("user creating");
@@ -66,11 +66,11 @@ class RepositoryData {
       }
       // var loginResponse = loginResponseModelFromJson(response.);
       print(response);
-      return response;
     } catch (e) {
       // handleError(e);
       print(e.toString());
-      throw Exception('Error in login: $e');
+      Get.snackbar("Failed", e.toString());
+      //throw Exception('Error in login: $e');
     }
   }
 

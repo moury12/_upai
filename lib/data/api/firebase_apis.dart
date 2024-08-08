@@ -11,17 +11,19 @@ import 'package:upai/data/api/notification_access_token.dart';
 import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
 
 class FirebaseAPIs {
+  static var userJsonString = box.get('user');
   static UserInfoModel me = UserInfoModel();
   static final box = Hive.box("userInfo");
 
   //getUserDetailsFromHive
   static Future<String> currentUser() async {
-    Map<String, dynamic> user = await json.decode(box.get('user'));
+
+    Map<String, dynamic> user = json.decode(userJsonString);
     print("this from firebase api class current uID :${user["user_id"]}");
     return user["user_id"].toString();
   }
 
-  static Map<String, dynamic> user =json.decode(box.get('user')) ;
+  static Map<String, dynamic> user =json.decode(userJsonString) ;
 
   static FirebaseFirestore mDB = FirebaseFirestore.instance;
 
