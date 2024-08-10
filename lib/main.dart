@@ -17,6 +17,7 @@ import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
 import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
+import 'package:upai/presentation/LoginScreen/otp_screen.dart';
 import 'package:upai/presentation/Profile/profile_screen.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
         GetPage(name: ServiceListScreen.routeName, page: () =>  const ServiceListScreen()),
         GetPage(name: CategoryListScreen.routeName, page: () =>  const CategoryListScreen()),
+        GetPage(name: OtpScreen.routeName, page: () =>  const OtpScreen()),
       ],
       // initialBinding: BindingsBuilder(() {
       //   Get.lazyPut(() => LoginController());
