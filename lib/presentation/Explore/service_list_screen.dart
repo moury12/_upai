@@ -60,7 +60,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
           ),
           title: Text(
             "Explore Services",
-            style: AppTextStyle.bodyTitle700,
+            style: AppTextStyle.appBarTitle,
           ),
         ),
         body: Column(

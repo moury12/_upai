@@ -44,23 +44,23 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-           onTap: () {
-             Get.back();
-           },
+          onTap: () {
+            Get.back();
+          },
           child: Container(
             margin: const EdgeInsets.all(8),
             alignment: Alignment.center,
-            decoration:
-                const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle, color: Colors.black),
             child: const Icon(
               CupertinoIcons.back,
               color: Colors.white,
             ),
           ),
         ),
-        title:  Text(
+        title: Text(
           "Create New Offer",
-          style: AppTextStyle.bodyTitle700,
+          style: AppTextStyle.appBarTitle,
         ),
       ),
       body: Column(
@@ -70,7 +70,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
             padding: const EdgeInsets.all(12.0),
             child: SingleChildScrollView(
               child: OverflowBar(
-                spacing:10,
+                spacing: 10,
                 overflowSpacing: 10,
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -98,7 +98,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       );
                     }),
                   ),
-                 /* const SizedBox(
+                  /* const SizedBox(
                     height: 10, width: 10,
                   ),*/
                   Container(
@@ -132,7 +132,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
             ),
           ),
           Expanded(
-
             flex: 2,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -179,7 +178,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       validatorText: "Please Enter Job Description",
                       hintText: "Please Enter Job Description",
                       controller: descriptionController,
-maxLines: 3,
+                      maxLines: 3,
                       // onChanged: (value) => controller.emailController.text.trim() = value!,
                     ),
                     const SizedBox(
@@ -223,10 +222,13 @@ maxLines: 3,
                           Container(
                             margin: const EdgeInsets.all(8),
                             alignment: Alignment.center,
-                            decoration:
-                            const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.black),
                             child: IconButton(
-                              icon: const Icon(Icons.remove,color: Colors.white,),
+                              icon: const Icon(
+                                Icons.remove,
+                                color: Colors.white,
+                              ),
                               onPressed: () {
                                 if (HomeController
                                     .to.quantityController.value.text.isEmpty) {
@@ -236,11 +238,12 @@ maxLines: 3,
                               },
                             ),
                           ),
-
                           Expanded(
                             child: CustomTextField(
                                 validatorText: "Please Enter quantity",
-                                hintText: "Please Enter quantity",textAlign: TextAlign.center,
+                                hintText: "Please Enter quantity",
+
+                                textAlign: TextAlign.center,
                                 inputType: TextInputType.number,
                                 controller:
                                     HomeController.to.quantityController.value,
@@ -256,10 +259,13 @@ maxLines: 3,
                           Container(
                             margin: const EdgeInsets.all(8),
                             alignment: Alignment.center,
-                            decoration:
-                            const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
-                            child:  IconButton(
-                              icon: const Icon(Icons.add,color: Colors.white,),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.black),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
                               onPressed: () {
                                 if (HomeController
                                     .to.quantityController.value.text.isEmpty) {
@@ -269,29 +275,38 @@ maxLines: 3,
                               },
                             ),
                           ),
-
                         ],
                       );
                     }),
-                    SizedBox(height: 16,),
+                    SizedBox(
+                      height: 16,
+                    ),
                     Row(
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black,foregroundColor: Colors.white,padding: EdgeInsets.symmetric(vertical: 12,horizontal:12)),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.black,
+                                  foregroundColor: Colors.white,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 12)),
                               onPressed: () {
-                                if (HomeController.to.selectedTimeUnit.value!=null&&HomeController.to.selectedCategory.value!=null&&
+                                if (HomeController.to.selectedTimeUnit.value != null &&
+                                    HomeController.to.selectedCategory.value !=
+                                        null &&
                                     titleController.text.isNotEmpty &&
                                     descriptionController.text.isNotEmpty &&
                                     rateController.text.isNotEmpty &&
-                                    HomeController
-                                        .to.quantityController.value.text.isNotEmpty &&
+                                    HomeController.to.quantityController.value
+                                        .text.isNotEmpty &&
                                     box.isNotEmpty) {
-                                  HomeController.to.createOffer(titleController.text,
-                                      descriptionController.text, rateController.text);
-                                }else{
-                                Get.snackbar('Error', "All field Required");}
+                                  HomeController.to.createOffer(
+                                      titleController.text,
+                                      descriptionController.text,
+                                      rateController.text);
+                                } else {
+                                  Get.snackbar('Error', "All field Required");
+                                }
                               },
                               child: const Text('Create Offer')),
                         ),
