@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen>{
                       //   ],
                       // ),
                       // SizedBox(height: 10,),
-CustomButton(text: 'Get Otp', onTap:(){
+CustomButton(text: 'Send OTP', onTap:(){
   Get.toNamed(OtpScreen.routeName);
 }),
                       SizedBox(height: 10,),              Container(
