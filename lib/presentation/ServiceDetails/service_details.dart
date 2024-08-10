@@ -175,33 +175,33 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        "Includes",
-                        style: AppTextStyle.titleTextSmall,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: AppColors.background1,
-                        ),
-                        width: size.width,
-                        height: 100,
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12.0, right: 12.0, top: 2),
-                              child: Text(
-                                "✔️ Feature",
-                                style: AppTextStyle.bodySmallGrey,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      // Text(
+                      //   "Includes",
+                      //   style: AppTextStyle.titleTextSmall,
+                      // ),
+                      // const SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(4),
+                      //     color: AppColors.background1,
+                      //   ),
+                      //   width: size.width,
+                      //   height: 100,
+                      //   child: ListView.builder(
+                      //     itemBuilder: (context, index) {
+                      //       return Padding(
+                      //         padding: const EdgeInsets.only(
+                      //             left: 12.0, right: 12.0, top: 2),
+                      //         child: Text(
+                      //           "✔️ Feature",
+                      //           style: AppTextStyle.bodySmallGrey,
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 5,
                       ),

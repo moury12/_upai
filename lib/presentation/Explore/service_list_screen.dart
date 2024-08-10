@@ -9,16 +9,17 @@ import 'package:upai/widgets/item_service.dart';
 
 import '../../core/utils/custom_text_style.dart';
 
-class ExploreTopSevicesPage extends StatefulWidget {
+class ServiceListScreen extends StatefulWidget {
   static const String routeName = '/explore-top';
+ final String? selectedCat;
 
-  const ExploreTopSevicesPage({super.key});
+   const ServiceListScreen({super.key, this.selectedCat});
 
   @override
-  State<ExploreTopSevicesPage> createState() => _ExploreTopSevicesPageState();
+  State<ServiceListScreen> createState() => _ServiceListScreenState();
 }
 
-class _ExploreTopSevicesPageState extends State<ExploreTopSevicesPage> {
+class _ServiceListScreenState extends State<ServiceListScreen> {
   late HomeController controller;
 
   @override
@@ -89,7 +90,7 @@ class _ExploreTopSevicesPageState extends State<ExploreTopSevicesPage> {
             ),
             Obx(() {
               if (controller.filteredOfferList.isEmpty) {
-                return Center(
+                return const Center(
                     child: CircularProgressIndicator(color: Colors.black,));
               } else {
                 final offerList = controller.filteredOfferList;

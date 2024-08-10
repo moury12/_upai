@@ -10,6 +10,11 @@ class AppTextStyle {
 
 
   //styles for upai
+  static get appBarTitle => TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: AppColors.colorBlack,
+  );
   static get titleText => TextStyle(
 
     fontSize:14,

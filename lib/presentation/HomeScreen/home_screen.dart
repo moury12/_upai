@@ -7,7 +7,7 @@ import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/TestData/category_data.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
-import 'package:upai/presentation/Explore/explore_top_sevices_page.dart';
+import 'package:upai/presentation/Explore/service_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/widgets/custom_drawer.dart';
@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: AppTextStyle.titleText),
                         GestureDetector(
                           onTap: () {
-                            Get.toNamed(ExploreTopSevicesPage.routeName);
+                            Get.toNamed(ServiceListScreen.routeName);
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12.0),

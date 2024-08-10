@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,17 +48,18 @@ filteredCategoryList.value =getCatList;
   }
 
 void createOffer(String jobTitle,String description,String rate,) async{
-    debugPrint(box.values.map((e) => e['user_id'],).toString());
+    //debugPrint(box.values.map((e) => e['user_id'],).toString());
+  Map<String,dynamic> data = jsonDecode(box.get("user"));
     await RepositoryData.createOffer(body:
     {
-      "cid": box.values.map((e) => e['cid'],).join("").toString(),
-      "user_mobile":box.values.map((e) => e['user_id'],).join("").toString(),
+      "cid": "upai",
+      "user_mobile":data['user_id'].toString(),
       "service_category_type":selectedCategory.value!.categoryName,
-      "job_title":"helllo car",
-      "description":"description",
+      "job_title":jobTitle,
+      "description":description,
       "quantity":quantity.value.toString(),
       "rate_type":selectedTimeUnit.value,
-      "rate":"1000",
+      "rate":rate,
       "date_time":DateTime.now().toString()
     }
 

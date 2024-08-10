@@ -10,8 +10,8 @@ import 'package:upai/domain/services/checkInternet.dart';
 
 import 'package:upai/firebase_options.dart';
 import 'package:upai/presentation/ChatScreen/chat_screen.dart';
-import 'package:upai/presentation/Explore/explore_top_sevices_page.dart';
-import 'package:upai/presentation/Explore/explore_top_sevices_page.dart';
+import 'package:upai/presentation/Explore/service_list_screen.dart';
+import 'package:upai/presentation/Explore/service_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
 import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/login', page: () =>  const LoginScreen()),
         GetPage(name: '/profile', page: () =>  const ProfileScreen()),
         GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
-        GetPage(name: ExploreTopSevicesPage.routeName, page: () =>  const ExploreTopSevicesPage()),
+        GetPage(name: ServiceListScreen.routeName, page: () =>  const ServiceListScreen()),
         GetPage(name: CategoryListScreen.routeName, page: () =>  const CategoryListScreen()),
       ],
       // initialBinding: BindingsBuilder(() {

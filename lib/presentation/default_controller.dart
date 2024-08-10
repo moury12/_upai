@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:hive/hive.dart';
+import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/Explore/explore_screen.dart';
@@ -16,6 +17,7 @@ import 'package:upai/presentation/Profile/profile_screen.dart';
 import 'package:upai/presentation/notification/notificaton_screen.dart';
 class DefaultController extends GetxController
 {
+  late UserInfoModel userData;
   final box = Hive.box("userInfo");
  // String userType="";
   @override
@@ -25,6 +27,8 @@ class DefaultController extends GetxController
     // var userJsonString = box.get('user');
     // Map<String,dynamic> data = json.decode(userJsonString.toString());
    // userType = data['user_type'].toString();
+    userData = userInfoModelFromJson(box.get('user'));
+
 
     //for updating user active status according to lifecycle events
     //resume -- active or online
@@ -56,12 +60,12 @@ class DefaultController extends GetxController
     const NotificatonScreen(),
     const ProfileScreen()
   ];
-  final List<Widget> screensForServiceProvider = [
-    const HomeScreen2(),
-    const InboxScreen(),
-     ExploreScreen(),
-    // const ProfileScreen()
-  ];
+  // final List<Widget> screensForServiceProvider = [
+  //   const HomeScreen2(),
+  //   const InboxScreen(),
+  //    ExploreScreen(),
+  //   // const ProfileScreen()
+  // ];
   var selectedColor = Colors.black;
   RxInt selectedIndex = 0.obs;
   var unselected = AppColors.appTextColorGrey;

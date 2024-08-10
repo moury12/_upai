@@ -15,7 +15,7 @@ class AppColors {
 
   static get hintColor => const Color(0xffA4A9AF);
 
-  static get iconColor => const Color(0xff7C8592);
+  //static get iconColor => const Color(0xff7C8592);
 
   static get colorFB => const Color(0xff3B5998);
 
@@ -75,5 +75,13 @@ class AppColors {
   static get strokeColor2 =>const  Color(0xFFEDF1F7);
   static get textFieldBackGround =>const  Color(0xFFF3F3F3);
   static get messageIndicatorColor =>const  Color(0xFF080A12);
+
+
   /////////////////
+
+  static const Color backgroundLight = Color(0xFFF5F5F5); // Light background for the drawer
+  static const Color primaryTextColor = Color(0xFF333333); // Darker text for primary content
+  static const Color secondaryTextColor = Color(0xFF666666); // Slightly lighter text for secondary content
+  static const Color iconColor = Color(0xFF4A4A4A); // Standard color for icons
+  static const Color dividerColor = Color(0xFFE0E0E0); // Light color for dividers
 }

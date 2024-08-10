@@ -56,12 +56,12 @@ Navigator.pop(context);
             title: Obx(() {
               return Text(
                 ctrl.appBarTitle.value,
-                style: AppTextStyle.bodyTitle700,
+                style: AppTextStyle.appBarTitle,
               );
             }),
             centerTitle: true,
           ),
-          drawer: const CustomDrawer(),
+          drawer:  CustomDrawer(userInfo: ctrl.userData,),
           body:  ctrl.screensForClient[ctrl.selectedIndex.value],
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white,
