@@ -8,6 +8,8 @@ class CustomTextField extends StatefulWidget {
   final Key? fieldKey;
   final bool? isPasswordField;
   final bool? isEmail;
+  final double? height;
+  final double? width;
   final String? hintText;
   final String? labelText;
   final String? helperText;
@@ -44,7 +46,7 @@ class CustomTextField extends StatefulWidget {
     this.maxLines,
     this.suffixIcon,
     this.onPressed,
-    this.isEmail = false, this.hintStyle, this.inputFontSize,
+    this.isEmail = false, this.hintStyle, this.inputFontSize, this.height, this.width,
   });
 
   @override
@@ -57,13 +59,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        // color: Colors.white.withOpacity(.35),
-        borderRadius: BorderRadius.circular(12),
-      ),
+    return SizedBox(
+      width:widget.width?? double.infinity,
+      height: widget.height??null,
+
       child: TextFormField(
+
+        enabled: true,
         onTap: widget.onPressed ?? () {},
         textAlign: widget.textAlign ?? TextAlign.left,
         maxLines: widget.maxLines ?? 1,
@@ -122,7 +124,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           hintText: widget.hintText,
           hintStyle:widget.hintStyle?? TextStyle(fontSize:13  ,color: AppColors.colorBlack.withOpacity(0.3)),
 
-          suffixIcon: widget.suffixIcon ??
+          suffixIcon: widget.suffixIcon!=null ?
               GestureDetector(
                 onTap: () {
                   _obscureText = !_obscureText;
@@ -134,7 +136,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         color: AppColors.primaryColor,
                       )
                     : const SizedBox(),
-              ),
+              ):null,
         ),
       ),
     );

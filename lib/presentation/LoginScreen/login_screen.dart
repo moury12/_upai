@@ -4,6 +4,8 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
+import 'package:upai/presentation/LoginScreen/otp_screen.dart';
+import 'package:upai/presentation/LoginScreen/widgets/otp_container.dart';
 import 'package:upai/presentation/sign%20up%20screen/sign_up_screen.dart';
 import 'package:upai/review/review_screen.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -84,7 +86,10 @@ class _LoginScreenState extends State<LoginScreen>{
                         controller: controller.passwordTE,
                         // onChanged: (value) => controller.emailController.text.trim() = value!,
                       ),
-                      const SizedBox(height: 3,),
+
+
+
+                      const SizedBox(height: 10,),
                       const Align(
                         alignment: Alignment.topRight,
                         child: Text("Forget Password?", style: TextStyle()),
@@ -139,8 +144,10 @@ class _LoginScreenState extends State<LoginScreen>{
                       //   ],
                       // ),
                       // SizedBox(height: 10,),
-
-                     Container(
+CustomButton(text: 'Get Otp', onTap:(){
+  Get.toNamed(OtpScreen.routeName);
+}),
+                      SizedBox(height: 10,),              Container(
                           child:
                           // controller.progress?CircularProgressIndicator(color: AppColors.titleName):
                           CustomButton(
@@ -177,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen>{
                       //   )),
                       // ),
                       const SizedBox(height: 10,),
-                     // ElevatedButton(onPressed: () => showDialog(context: context,builder: (context) => ReviewScreen(),), child: Text('review'))
+                    ElevatedButton(onPressed: () => showDialog(context: context,builder: (context) => ReviewScreen(),), child: Text('review'))
                     ],
                   ),
                 ),
