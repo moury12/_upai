@@ -102,7 +102,7 @@ class OfferService extends StatelessWidget {
                   Center(
                     child: Container(
                       width: size.width,
-                      height: 40,
+                      height: 30,
                       clipBehavior: Clip.antiAlias,
                       decoration: ShapeDecoration(
                         color: const Color(0xFF3F3F3F),

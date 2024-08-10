@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
@@ -11,6 +12,7 @@ import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 
 class HomeController extends GetxController {
+  RxBool isSearching= false.obs;
   static HomeController get to => Get.find();
     RxList<CategoryList> getCatList=<CategoryList>[].obs;
     RxList<OfferList> getOfferList=<OfferList>[].obs;
