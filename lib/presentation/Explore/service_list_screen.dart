@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -11,9 +10,9 @@ import '../../core/utils/custom_text_style.dart';
 
 class ServiceListScreen extends StatefulWidget {
   static const String routeName = '/explore-top';
- final String? selectedCat;
-
-   const ServiceListScreen({super.key, this.selectedCat});
+ // final String? selectedCat;
+  final String selectedCat = Get.arguments;
+    ServiceListScreen({super.key});
 
   @override
   State<ServiceListScreen> createState() => _ServiceListScreenState();
@@ -25,6 +24,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
   @override
   void initState() {
     controller = Get.put(HomeController());
+
     super.initState();
   }
 
@@ -53,12 +53,15 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
           backgroundColor: AppColors.strokeColor2,
           foregroundColor: Colors.black,
           leading: IconButton(
-            icon: Icon(CupertinoIcons.back),
+            icon: const Icon(CupertinoIcons.back),
             onPressed: () {
               Get.back();
             },
           ),
-          title: Text(
+          title: widget.selectedCat!=""? Text(
+            widget.selectedCat,
+            style: AppTextStyle.appBarTitle,
+          ):Text(
             "Explore Services",
             style: AppTextStyle.appBarTitle,
           ),
@@ -81,9 +84,10 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                   },
                   hintText: "Search service..",
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.cancel, color: Colors.black,),
+                    icon: const Icon(Icons.cancel, color: Colors.black,),
                     onPressed: () {
                       controller.searchController.value.clear();
+                      controller.filterOffer('');
                     },),
                 );
               }),
@@ -93,29 +97,53 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                 return const Center(
                     child: CircularProgressIndicator(color: Colors.black,));
               } else {
-                final offerList = controller.filteredOfferList;
-                return Expanded(
-                  child: GridView.builder(
-                    scrollDirection: Axis.vertical,
-                    /* shrinkWrap: true,*/
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12)
-                        .copyWith(top: 0),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: .8,
-                      crossAxisCount: crossAxisCount,
-                      // maxCrossAxisExtent: 250
-                    ),
-                    itemCount: offerList.length,
-                    itemBuilder: (context, index) {
-                      return OfferService(
-                        margin: EdgeInsets.zero,
-                        offer: offerList[index],
-                      );
-                    },
-                  ),
-                );
+                var offerList =[];
+                if(widget.selectedCat!="")
+                  {
+                   offerList = controller.filteredOfferList
+                        .where((item) => item.serviceCategoryType!
+                        .toLowerCase()
+                        .contains(
+                        widget.selectedCat.toString().toLowerCase()))
+                        .toList();
+                  }
+                else
+                  {
+                   offerList = controller.filteredOfferList;
+                  }
+
+                if(offerList.isNotEmpty)
+                  {
+                    return Expanded(
+                      child: GridView.builder(
+                        scrollDirection: Axis.vertical,
+                        /* shrinkWrap: true,*/
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12)
+                            .copyWith(top: 0),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          childAspectRatio: .8,
+                          crossAxisCount: crossAxisCount,
+                          // maxCrossAxisExtent: 250
+                        ),
+                        itemCount: offerList.length,
+                        itemBuilder: (context, index) {
+
+                          return OfferService(
+                            margin: EdgeInsets.zero,
+                            offer: offerList[index],
+                          );
+                        },
+                      ),
+                    );
+                  }
+                else
+                  {
+                    return Expanded(child:  Center(child: Text("No Service Available",style: AppTextStyle.bodySmallText2Grey400s16,),));
+                  }
+
+
               }
             },)
           ],

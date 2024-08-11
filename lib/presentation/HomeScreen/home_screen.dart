@@ -10,6 +10,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/presentation/Explore/service_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/widgets/cat_two.dart';
 import 'package:upai/widgets/custom_drawer.dart';
 import 'package:upai/widgets/category_item.dart';
 import 'package:upai/widgets/item_service.dart';
@@ -48,6 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 20,
                       ),
                       TextField(
+                        onChanged: (value) {
+                          if (value != "") {
+                            controller.filterOffer(value);
+                            controller.isSearching.value = true;
+                          }
+                          else {
+                            controller.isSearching.value = false;
+                          }
+                        },
                         decoration: InputDecoration(
                             fillColor: Colors.white,
                             filled: true,
@@ -96,100 +106,170 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Browse Category", style: AppTextStyle.titleText),
-                        GestureDetector(onTap: () {
-                          Get.toNamed(CategoryListScreen.routeName);
+              Obx(() {
+                if(controller.isSearching.value){
+                  var offerList =[];
+                  offerList = controller.filteredOfferList;
+                  if(offerList.isNotEmpty)
+                  {
+                    return SizedBox(
+                      height: 500,
+                      child: GridView.builder(
+                        scrollDirection: Axis.vertical,
+                        /* shrinkWrap: true,*/
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12)
+                            .copyWith(top: 0),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          childAspectRatio: .8,
+                          crossAxisCount: 2,
+                          // maxCrossAxisExtent: 250
+                        ),
+                        itemCount: offerList.length,
+                        itemBuilder: (context, index) {
+
+                          return OfferService(
+                            margin: EdgeInsets.zero,
+                            offer: offerList[index],
+                          );
                         },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text("Browse All > ",
-                                style: AppTextStyle.titleTextSmallUnderline),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    Obx(() {
-                      return SizedBox(
-                          width: size.width,
-                          height: 150,
-                          child: HomeController.to.getCatList.isEmpty
-                              ? Center(
-                                  child: CircularProgressIndicator(
-                                  color: Colors.black,
-                                ))
-                              : ListView.builder(
-                                  itemCount:
-                                      HomeController.to.getCatList.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    // categoryItemModel =
-                                    //     CategoryListModel.fromJson(catList[index]);
-                                    return CategotyItem(
-                                      singleCat:
-                                          HomeController.to.getCatList[index],
-                                    );
-                                  },
-                                ));
-                    }),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      ),
+                    );
+                  }
+                  else
+                  {
+                    return Center(child: Text("No Service Available",style: AppTextStyle.bodySmallText2Grey400s16,),);
+                  }
+                }
+                else {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Explore Top Services",
-                            style: AppTextStyle.titleText),
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed(ServiceListScreen.routeName);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text("Browse All > ",
-                                style: AppTextStyle.titleTextSmallUnderline),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                                "Browse Category",
+                                style: AppTextStyle.titleText),
+                            GestureDetector(onTap: () {
+                              Get.toNamed(CategoryListScreen.routeName);
+                            },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0),
+                                child: Text("Browse All > ",
+                                    style: AppTextStyle
+                                        .titleTextSmallUnderline),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-
-                    SizedBox(
-                        width: size.width,
-                        height: 300,
-                        child: Obx(
-                          () {
-                            if (controller.getOfferList.isNotEmpty) {
-                              List<OfferList> offerList =
-                                  controller.getOfferList;
-                              return ListView.builder(
-                                itemCount: 5,
+                        Obx(() {
+                          return SizedBox(
+                              width: size.width,
+                              height: 60,
+                              child: HomeController.to.getCatList.isEmpty
+                                  ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
+                                  ))
+                                  : ListView.builder(
+                                itemCount:
+                                HomeController.to.getCatList.length,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
-                                  // singleItem =
-                                  //     ItemServiceModel.fromJson(serviceList[index]);
-                                  return OfferService(
-                                    offer: offerList[index],
+                                  // categoryItemModel =
+                                  //     CategoryListModel.fromJson(catList[index]);
+                                  return CategotyItemtwo(
+                                    singleCat:
+                                    HomeController.to.getCatList[index],
                                   );
                                 },
-                              );
-                            } else {
-                              return Center(
-                                  child: const CircularProgressIndicator(
-                                color: Colors.black,
                               ));
-                            }
-                          },
-                        )),
-                  ],
-                ),
-              ),
+                        }),
+
+                        Obx(() {
+                          return SizedBox(
+                              width: size.width,
+                              height: 150,
+                              child: HomeController.to.getCatList.isEmpty
+                                  ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
+                                  ))
+                                  : ListView.builder(
+                                itemCount:
+                                HomeController.to.getCatList.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  // categoryItemModel =
+                                  //     CategoryListModel.fromJson(catList[index]);
+                                  return CategotyItem(
+                                    singleCat:
+                                    HomeController.to.getCatList[index],
+                                  );
+                                },
+                              ));
+                        }),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Explore Top Services",
+                                style: AppTextStyle.titleText),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                    ServiceListScreen.routeName, arguments: "");
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0),
+                                child: Text("Browse All > ",
+                                    style: AppTextStyle
+                                        .titleTextSmallUnderline),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(
+                            width: size.width,
+                            height: 300,
+                            child: Obx(
+                                  () {
+                                if (controller.getOfferList.isNotEmpty) {
+                                  List<OfferList> offerList =
+                                      controller.getOfferList;
+                                  return ListView.builder(
+                                    itemCount: 5,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      // singleItem =
+                                      //     ItemServiceModel.fromJson(serviceList[index]);
+                                      return OfferService(
+                                        offer: offerList[index],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return Center(
+                                      child: const CircularProgressIndicator(
+                                        color: Colors.black,
+                                      ));
+                                }
+                              },
+                            )),
+                      ],
+                    ),
+                  );
+                }
+              }),
+
             ],
           ),
         ),

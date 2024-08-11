@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/login', page: () =>  const LoginScreen()),
         GetPage(name: '/profile', page: () =>  const ProfileScreen()),
         GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
-        GetPage(name: ServiceListScreen.routeName, page: () =>  const ServiceListScreen()),
+        GetPage(name: ServiceListScreen.routeName, page: () =>  ServiceListScreen()),
         GetPage(name: CategoryListScreen.routeName, page: () =>  const CategoryListScreen()),
         GetPage(name: OtpScreen.routeName, page: () =>  const OtpScreen()),
       ],
