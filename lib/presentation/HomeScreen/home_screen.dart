@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ));
                         }),
 
-                        Obx(() {
+                  /*      Obx(() {
                           return SizedBox(
                               width: size.width,
                               height: 150,
@@ -214,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 },
                               ));
-                        }),
+                        }),*/
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
