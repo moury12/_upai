@@ -1,14 +1,10 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
-import 'package:upai/Model/item_service_model.dart';
 import 'package:upai/Model/user_info_model.dart';
-import 'package:upai/TestData/servicedItemData.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
@@ -21,6 +17,7 @@ import '../../Model/offer_list_model.dart';
 import 'service_details_controller.dart';
 import 'widgets/client_review.dart';
 import 'widgets/rate_by_category_widget.dart';
+import 'widgets/request_confirm_offer.dart';
 
 class ServiceDetails extends StatefulWidget {
   ServiceDetails({super.key});
@@ -37,13 +34,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     //  ItemServiceModel singleItem = ItemServiceModel();
     var ctrl = Get.put(ServiceDetailsController());
     var size = MediaQuery.sizeOf(context);
-    TextEditingController rateController = TextEditingController();
+    TextEditingController rateController =
+        TextEditingController(text: widget.offerDetails.rate.toString() ?? '-');
 
     return PopScope(
       canPop: true,
       onPopInvoked: (didPop) {
         HomeController.to.quantityController.value.clear();
-        HomeController.to.selectedTimeUnit.value=null;
+        HomeController.to.selectedTimeUnit.value = null;
         rateController.clear();
       },
       child: Scaffold(
@@ -232,7 +230,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      UserInfoModel senderData = UserInfoModel();
+                                      UserInfoModel senderData =
+                                          UserInfoModel();
                                       Map<String, dynamic>? userDetails;
                                       userDetails = await FirebaseAPIs()
                                           .getSenderInfo("016");
@@ -244,20 +243,21 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         senderData.email = userDetails["email"];
                                         senderData.lastActive =
                                             userDetails["last_active"];
-                                        senderData.image = userDetails["image"] ??
+                                        senderData.image = userDetails[
+                                                "image"] ??
                                             "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
                                         senderData.isOnline =
                                             userDetails["is_online"];
                                         senderData.userType =
                                             userDetails["user_type"];
                                         senderData.token = userDetails["token"];
-                                        senderData.mobile = userDetails["mobile"];
+                                        senderData.mobile =
+                                            userDetails["mobile"];
                                         senderData.cid = userDetails["cid"];
                                         senderData.pushToken =
                                             userDetails["push_token"];
                                       }
 
-                                      print(senderData.userId.toString());
                                       Get.toNamed("/chatscreen",
                                           arguments: senderData);
                                       // senderData.userId= widget.offerDetails.userId;
@@ -284,7 +284,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     onPressed: () {
                                       showDialog(
                                         context: context,
-                                        builder: (context) => ConfrimOfferWidget(widget: widget, rateController: rateController),
+                                        builder: (context) =>
+                                            ConfrimOfferWidget(
+                                                widget: widget,
+                                                rateController: rateController),
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -432,7 +435,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text("Explore Top Services", style: AppTextStyle.titleText),
+                      Text("Explore Top Services",
+                          style: AppTextStyle.titleText),
                       const SizedBox(
                         height: 10,
                       ),
@@ -456,8 +460,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   },
                                 );
                               } else {
-                                return Center(
-                                    child: const CircularProgressIndicator(
+                                return const Center(
+                                    child: CircularProgressIndicator(
                                   color: Colors.black,
                                 ));
                               }
@@ -478,252 +482,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 }
 
-class ConfrimOfferWidget extends StatelessWidget {
-  const ConfrimOfferWidget({
-    super.key,
-    required this.widget,
-    required this.rateController,
-  });
-
-  final ServiceDetails widget;
-  final TextEditingController rateController;
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      scrollable: true,
-      backgroundColor: AppColors.strokeColor2,
-      titlePadding: EdgeInsets.symmetric(
-          horizontal: 16, vertical: 12),
-      contentPadding: EdgeInsets.symmetric(
-          horizontal: 16),
-      title: Text(
-        'Request Confirm Offer',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-        textAlign: TextAlign.center,
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Divider(
-            height: 1,
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          OfferDialogWidget(
-            label: 'Category:',
-            text: widget.offerDetails
-                    .serviceCategoryType ??
-                'No category',
-          ),
-          OfferDialogWidget(
-            label: 'Job Title:',
-            text: widget
-                    .offerDetails.jobTitle ??
-                'No category',
-          ),
-          OfferDialogWidget(
-            label: 'Job Description:',
-            text: widget.offerDetails
-                    .description ??
-                'No category',
-          ),
-          Divider(
-            height: 12,
-          ),
-          Container(
-            padding:
-                const EdgeInsets.symmetric(
-                    horizontal: 12),
-            margin: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-                border: Border.all(
-                    color: Colors.black),
-                borderRadius:
-                    BorderRadius.circular(
-                        12)),
-            child: Obx(() {
-              return DropdownButton<String>(
-                underline:
-                    const SizedBox.shrink(),
-                value: HomeController.to
-                    .selectedTimeUnit.value,
-                dropdownColor: Colors.white,
-                borderRadius:
-                    BorderRadius.circular(12),
-                hint: const Text(
-                  "Select a Rate type  ",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight:
-                        FontWeight.w500,
-                  ),
-                ),
-                items: [
-                  'Hour',
-                  'Task',
-                  'Per Day'
-                ].map((unit) {
-                  return DropdownMenuItem<
-                      String>(
-                    value: unit,
-                    child: Text(
-                      unit,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight:
-                            FontWeight.w500,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  HomeController
-                      .to
-                      .selectedTimeUnit
-                      .value = value;
-                },
-              );
-            }),
-          ),
-          CustomTextField(
-            validatorText:
-                "Please Enter Rate",
-            hintText: "Please Enter Rate",
-            inputType: TextInputType.number,
-            controller: rateController,
-            inputFontSize: 12,
-
-            // onChanged: (value) => controller.emailController.text.trim() = value!,
-          ),
-          const SizedBox(
-            height: 6,
-          ),
-          Obx(() {
-            return Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    if (HomeController
-                        .to
-                        .quantityController
-                        .value
-                        .text
-                        .isEmpty) {
-                      HomeController.to
-                          .quantity.value = 0;
-                    }
-                    HomeController.to
-                        .decreaseQuantity();
-                  },
-                  child: Container(
-                      margin: const EdgeInsets
-                          .all(8),
-                      padding:
-                          const EdgeInsets
-                              .all(8),
-                      alignment: Alignment
-                          .center,
-                      decoration:
-                          const BoxDecoration(
-                              shape: BoxShape
-                                  .circle,
-                              color: Colors
-                                  .black),
-                      child: Icon(
-                        Icons.remove,
-                        color: Colors.white,
-                      )),
-                ),
-                Expanded(
-                  child: CustomTextField(
-                      validatorText:
-                          "Please Enter quantity",
-                      hintText:
-                          "Please Enter quantity",
-                      textAlign:
-                          TextAlign.center,
-                      inputType: TextInputType
-                          .number,
-                      inputFontSize: 12,
-                      controller: HomeController
-                          .to
-                          .quantityController
-                          .value,
-                      onChanged: (value) {
-                        int? newValue =
-                            int.tryParse(
-                                value!);
-                        if (newValue !=
-                                null &&
-                            newValue > 0) {
-                          HomeController
-                                  .to
-                                  .quantity
-                                  .value =
-                              newValue;
-                        }
-                      }
-                      // onChanged: (value) => controller.emailController.text.trim() = value!,
-                      ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    if (HomeController
-                        .to
-                        .quantityController
-                        .value
-                        .text
-                        .isEmpty) {
-                      HomeController.to
-                          .quantity.value = 0;
-                    }
-                    HomeController.to
-                        .increaseQuantity();
-                  },
-                  child: Container(
-                      margin: const EdgeInsets
-                          .all(8),
-                      padding:
-                          const EdgeInsets
-                              .all(8),
-                      alignment: Alignment
-                          .center,
-                      decoration:
-                          const BoxDecoration(
-                              shape: BoxShape
-                                  .circle,
-                              color: Colors
-                                  .black),
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      )),
-                ),
-              ],
-            );
-          }),
-
-          Divider(height: 16,),
-          ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.black,foregroundColor: Colors.white),
-              onPressed: () {
-Navigator.pop(context);
-HomeController.to.quantityController.value.clear();
-HomeController.to.selectedTimeUnit.value=null;
-rateController.clear();
-          }, child: Text("Confirm Order")),
-          SizedBox(height: 16,)
-        ],
-      ),
-    );
-  }
-}
 
 class OfferDialogWidget extends StatelessWidget {
   const OfferDialogWidget({
@@ -738,12 +496,13 @@ class OfferDialogWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child: RichText( maxLines: 2,
+      child: RichText(
+        maxLines: 2,
         overflow: TextOverflow.ellipsis,
         text: TextSpan(text: '', children: [
           TextSpan(
             text: '$label   ',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               color: Colors.black,
               fontWeight: FontWeight.w500,
@@ -751,12 +510,10 @@ class OfferDialogWidget extends StatelessWidget {
           ),
           TextSpan(
               text: text,
-
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.black.withOpacity(.6),
                 fontWeight: FontWeight.w500,
-
               )),
         ]),
       ),

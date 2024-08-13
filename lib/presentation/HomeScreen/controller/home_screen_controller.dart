@@ -18,9 +18,12 @@ class HomeController extends GetxController {
     RxList<OfferList> getOfferList=<OfferList>[].obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;
   Rx<TextEditingController> searchCatController = TextEditingController().obs;
-
+Rx<bool> change =false.obs;
+Rx<bool> changeQuantity =false.obs;
   RxInt quantity = 0.obs;
-  Rx<TextEditingController> quantityController = TextEditingController(text: '0').obs;
+  Rx<TextEditingController> quantityController = TextEditingController(text: '1').obs;
+
+  Rx<TextEditingController> quantityControllerForConfromOrder = TextEditingController().obs;
   Rx<CategoryList?> selectedCategory = Rx<CategoryList?>(null);
   Rx<String?> selectedTimeUnit = Rx<String?>(null);
   var filteredOfferList = <OfferList>[].obs;
@@ -33,8 +36,10 @@ class HomeController extends GetxController {
     getCategoryList();
     getOfferDataList();
     quantityController.value.text = quantity.value.toString();
+    quantityControllerForConfromOrder.value.text = quantity.value.toString();
     ever(quantity, (value) {
       quantityController.value.text = value.toString();
+      quantityControllerForConfromOrder.value.text = value.toString();
 
     });
 
@@ -69,10 +74,13 @@ void createOffer(String jobTitle,String description,String rate,) async{
 }
   void increaseQuantity() {
     quantity.value++;
+    changeQuantity.value=true;
   }
 
   void decreaseQuantity() {
     if (quantity.value > 1) {
+      changeQuantity.value=true;
+
       quantity.value--;
     }
   }

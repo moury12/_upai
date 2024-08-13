@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '/core/utils/app_colors.dart';
@@ -26,6 +27,7 @@ class CustomTextField extends StatefulWidget {
   final String? validatorText;
   final Widget? suffixIcon;
   final TextStyle? hintStyle;
+  final List<TextInputFormatter>? textInputFormatter;
 
   const CustomTextField({
     super.key,
@@ -46,7 +48,7 @@ class CustomTextField extends StatefulWidget {
     this.maxLines,
     this.suffixIcon,
     this.onPressed,
-    this.isEmail = false, this.hintStyle, this.inputFontSize, this.height, this.width,
+    this.isEmail = false, this.hintStyle, this.inputFontSize, this.height, this.width, this.textInputFormatter,
   });
 
   @override
@@ -64,7 +66,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       height: widget.height??null,
 
       child: TextFormField(
-
+        inputFormatters: widget.textInputFormatter ?? [],
         enabled: true,
         onTap: widget.onPressed ?? () {},
         textAlign: widget.textAlign ?? TextAlign.left,
