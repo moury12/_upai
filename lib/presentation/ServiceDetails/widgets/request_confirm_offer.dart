@@ -13,11 +13,9 @@ class ConfrimOfferWidget extends StatelessWidget {
   ConfrimOfferWidget({
     super.key,
     required this.widget,
-    required this.rateController,
   });
 
   final ServiceDetails widget;
-  final TextEditingController rateController;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +27,13 @@ class ConfrimOfferWidget extends StatelessWidget {
         HomeController.to.selectedTimeUnit.value = null;
         HomeController.to.change.value = false;
         HomeController.to.changeQuantity.value = false;
-        rateController.text = widget.offerDetails.rate.toString();
-        HomeController.to.quantityControllerForConfromOrder.value.clear();
-        HomeController.to.changeQuantity.value =false;
-        HomeController.to.quantity.value=widget.offerDetails.quantity!.toInt();
+        HomeController.to.rateController.value.text =
+            widget.offerDetails.rate.toString();
+        HomeController.to.quantityControllerForConfromOrder.value.text =
+            widget.offerDetails.quantity.toString();
+        HomeController.to.changeQuantity.value = false;
+        HomeController.to.quantity.value =
+            widget.offerDetails.quantity!.toInt();
       },
       child: AlertDialog(
         scrollable: true,
@@ -120,23 +121,33 @@ class ConfrimOfferWidget extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: CustomTextField(
-                    validatorText: "Please Enter Rate",
-                    hintText: "Please Enter Rate",
-                    inputType: TextInputType.number,
-                    controller: rateController,
-                    inputFontSize: 12,
+                  child: Obx(() {
+                    HomeController.to.rateController.value.text =
+                        widget.offerDetails.rate.toString();
 
-                    // onChanged: (value) => controller.emailController.text.trim() = value!,
-                  ),
+                    return CustomTextField(
+                      validatorText: "Please Enter Rate",
+                      hintText: "Please Enter Rate",
+                      inputType: TextInputType.number,
+                      controller: HomeController.to.rateController.value,
+                      inputFontSize: 12,
+onChanged: (value) {
+
+},
+                      // onChanged: (value) => controller.emailController.text.trim() = value!,
+                    );
+                  }),
                 ),
                 const SizedBox(
                   width: 6,
                 ),
                 Expanded(
                   child: Obx(() {
-                    if(HomeController.to.quantityControllerForConfromOrder.value.text.isEmpty&&!HomeController.to.changeQuantity.value){
-                      HomeController.to.quantityControllerForConfromOrder.value.text =widget.offerDetails.quantity.toString();
+                    if (HomeController.to.quantityControllerForConfromOrder
+                            .value.text.isEmpty &&
+                        !HomeController.to.changeQuantity.value) {
+                      HomeController.to.quantityControllerForConfromOrder.value
+                          .text = widget.offerDetails.quantity.toString();
                     }
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -144,10 +155,14 @@ class ConfrimOfferWidget extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             if (HomeController
-                                .to.quantityControllerForConfromOrder.value.text.isEmpty) {
-                              HomeController.to.quantity.value = 0;
+                                .to
+                                .quantityControllerForConfromOrder
+                                .value
+                                .text
+                                .isEmpty) {
+                              HomeController.to.quantityForConform.value = 0;
                             }
-                            HomeController.to.decreaseQuantity();
+                            HomeController.to.decreaseQuantityForConfrom();
                           },
                           child: Container(
                               margin: const EdgeInsets.all(8),
@@ -167,8 +182,8 @@ class ConfrimOfferWidget extends StatelessWidget {
                               textAlign: TextAlign.center,
                               inputType: TextInputType.number,
                               inputFontSize: 12,
-                              controller:
-                                  HomeController.to.quantityControllerForConfromOrder.value,
+                              controller: HomeController
+                                  .to.quantityControllerForConfromOrder.value,
                               onChanged: (value) {
                                 int? newValue = int.tryParse(value!);
                                 if (newValue != null && newValue > 0) {
@@ -181,10 +196,14 @@ class ConfrimOfferWidget extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             if (HomeController
-                                .to.quantityControllerForConfromOrder.value.text.isEmpty) {
-                              HomeController.to.quantity.value = 0;
+                                .to
+                                .quantityControllerForConfromOrder
+                                .value
+                                .text
+                                .isEmpty) {
+                              HomeController.to.quantityForConform.value = 0;
                             }
-                            HomeController.to.increaseQuantity();
+                            HomeController.to.increaseQuantityForConfrom();
                           },
                           child: Container(
                               margin: const EdgeInsets.all(8),
@@ -206,6 +225,18 @@ class ConfrimOfferWidget extends StatelessWidget {
             const Divider(
               height: 16,
             ),
+            Obx(() {
+              return Text(
+                'Total amount: ${HomeController.to.totalAmount.value}',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+              );
+            }),
+            SizedBox(
+              height: 10,
+            ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -213,12 +244,16 @@ class ConfrimOfferWidget extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                   HomeController.to.changeQuantity.value = false;
-                  HomeController.to.quantityControllerForConfromOrder.value.clear();
-                  HomeController.to.changeQuantity.value =false;
-                  HomeController.to.quantity.value=widget.offerDetails.quantity!.toInt();
+                  HomeController.to.quantityControllerForConfromOrder.value
+                      .text = widget.offerDetails.quantity.toString();
+
+                  HomeController.to.changeQuantity.value = false;
+                  HomeController.to.quantity.value =
+                      widget.offerDetails.quantity!.toInt();
                   HomeController.to.selectedTimeUnit.value = null;
                   HomeController.to.change.value = false;
-                  rateController.text = widget.offerDetails.rate.toString();
+                  HomeController.to.rateController.value.text =
+                      widget.offerDetails.rate.toString();
                 },
                 child: const Text("Confirm Order")),
             const SizedBox(

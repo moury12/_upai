@@ -34,15 +34,13 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     //  ItemServiceModel singleItem = ItemServiceModel();
     var ctrl = Get.put(ServiceDetailsController());
     var size = MediaQuery.sizeOf(context);
-    TextEditingController rateController =
-        TextEditingController(text: widget.offerDetails.rate.toString() ?? '-');
+
 
     return PopScope(
       canPop: true,
       onPopInvoked: (didPop) {
-        HomeController.to.quantityController.value.clear();
         HomeController.to.selectedTimeUnit.value = null;
-        rateController.clear();
+
       },
       child: Scaffold(
         body: SafeArea(
@@ -287,7 +285,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         builder: (context) =>
                                             ConfrimOfferWidget(
                                                 widget: widget,
-                                                rateController: rateController),
+                                              ),
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(

@@ -3,26 +3,29 @@ import 'package:get/get.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/presentation/HomeScreen2/seller_profile_controller.dart';
 import 'package:upai/presentation/HomeScreen2/widgets/my_service.dart';
 import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
 
-class HomeScreen2 extends StatefulWidget {
-  const HomeScreen2({super.key});
+class SellerProfileScreen extends StatefulWidget {
+  const SellerProfileScreen({super.key});
 
   @override
-  State<HomeScreen2> createState() => _HomeScreen2State();
+  State<SellerProfileScreen> createState() => _SellerProfileScreenState();
 }
 
-class _HomeScreen2State extends State<HomeScreen2> {
+class _SellerProfileScreenState extends State<SellerProfileScreen> {
   @override
   void initState() {
     Get.put(OrderController());
+    Get.put(SellerProfileController());
     // TODO: implement initState
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
+    var seller =SellerProfileController.to.seller.value;
     return Scaffold(
 
       floatingActionButton: FloatingActionButton(
@@ -62,7 +65,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                           const SizedBox(height: 13,),
                           Text("Total Earning",style: AppTextStyle.titleTextSmall,),
                           Text(
-                            "৳2500",
+                            "৳${seller.sellerProfile!.totalEarning.toString()??'-'}",
                             style: AppTextStyle.bodyLargeSemiBlack,
                           ),
                           const SizedBox(height: 5,),

@@ -272,6 +272,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         .value.text.isEmpty) {
                                       HomeController.to.quantity.value = 0;
                                     }
+                                    debugPrint(HomeController.to.quantity.value.toString());
                                     HomeController.to.increaseQuantity();
                                   },
                                 ),

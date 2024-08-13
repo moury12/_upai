@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
+import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import '../../Model/user_info_model.dart';
@@ -111,6 +112,30 @@ class RepositoryData {
       // handleError(e);
       print(e.toString());
       throw Exception('Error in login: $e');
+    }
+  }
+
+  static Future<SellerProfileModel> getSellerProfile(
+      String token, String userId) async {
+    SellerProfileModel sellerProfileModel = SellerProfileModel();
+    try {
+      final response = await http.get(
+          Uri.parse('${ApiClient().sellerProfile}?user_id=$userId'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          });
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      debugPrint('seller profile $responseData');
+      if(responseData['status']!=null&&responseData['status']=="Success"){
+        sellerProfileModel =SellerProfileModel.fromJson(responseData);
+      }else{
+        Get.snackbar('Failed', 'failed');
+      }
+      return sellerProfileModel;
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
