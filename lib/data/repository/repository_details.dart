@@ -120,7 +120,7 @@ class RepositoryData {
     SellerProfileModel sellerProfileModel = SellerProfileModel();
     try {
       final response = await http.get(
-          Uri.parse('${ApiClient().sellerProfile}?user_id=$userId'),
+          Uri.parse('${ApiClient().sellerProfile}?user_id=01777'),
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -131,7 +131,7 @@ class RepositoryData {
       if(responseData['status']!=null&&responseData['status']=="Success"){
         sellerProfileModel =SellerProfileModel.fromJson(responseData);
       }else{
-        Get.snackbar('Failed', 'failed');
+        Get.snackbar('Failed', 'Failed to load data');
       }
       return sellerProfileModel;
     } catch (e) {

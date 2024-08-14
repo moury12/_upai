@@ -53,6 +53,7 @@ Navigator.pop(context);
         },
         child: Scaffold(
           appBar: AppBar(
+            surfaceTintColor: Colors.white,
             title: Obx(() {
               return Text(
                 ctrl.appBarTitle.value,

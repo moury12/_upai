@@ -38,8 +38,7 @@ Rx<bool> changeQuantity =false.obs;
 
   @override
   void onInit() async{
-    getCategoryList();
-    getOfferDataList();
+    refreshAllData();
     quantityController.value.text = quantity.value.toString();
     quantityControllerForConfromOrder.value.text = quantityForConform.value.toString();
     ever(quantity, (value) {
@@ -49,11 +48,16 @@ Rx<bool> changeQuantity =false.obs;
       quantityControllerForConfromOrder.value.text = value.toString();
 
     });
-quantityControllerForConfromOrder.value.addListener(updateTotalAmount);
-rateController.value.addListener(updateTotalAmount);
+    quantityControllerForConfromOrder.value.addListener(updateTotalAmount);
+    rateController.value.addListener(updateTotalAmount);
     // TODO: implement onInit
     super.onInit();
   }
+  Future<void> refreshAllData() async{
+   getCategoryList();
+  getOfferDataList();
+
+}
  void getCategoryList() async{
     getCatList.value = await RepositoryData().getCategoryList(token: FirebaseAPIs.user['token'].toString());
 filteredCategoryList.value =getCatList;

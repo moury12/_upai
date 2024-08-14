@@ -23,8 +23,9 @@ class AppTextStyle {
   );
   static get titleTextSmallUnderline => TextStyle(
     decoration: TextDecoration.underline,
-    fontSize:11,
-    fontWeight: FontWeight.w400,
+    fontSize:12,
+
+    fontWeight: FontWeight.w600,
     color: AppColors.appTextColorGrey,
   );
   static get titleTextSmallest => TextStyle(
@@ -49,7 +50,11 @@ class AppTextStyle {
   );
   static get bodyMediumBlackSemiBold => TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
+    color: AppColors.colorBlack,
+  );  static get body12BlackSemiBold => TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
     color: AppColors.colorBlack,
   );
   static get bodyMedium => TextStyle(

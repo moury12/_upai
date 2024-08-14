@@ -19,5 +19,7 @@ class ImageConstant {
   static String upailogo = '$_imagePath/upailogo.png';
   static String upailogo1 = '$_imagePath/upaiiii.png';
   static String notification = '$_imagePath/notificationpng.png';
+  static String runningOrderImage = 'assets/images/running_order.jpeg';
+  static String productImage = 'assets/images/products.png';
 
 }

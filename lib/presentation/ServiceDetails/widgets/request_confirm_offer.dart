@@ -19,7 +19,7 @@ class ConfrimOfferWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(widget.offerDetails.rateType);
+    debugPrint(widget.offerDetails!.rateType);
     final List<String> rateTypes = ['hour', 'task', 'per Day', 'piece'];
 
     return PopScope(
@@ -28,12 +28,12 @@ class ConfrimOfferWidget extends StatelessWidget {
         HomeController.to.change.value = false;
         HomeController.to.changeQuantity.value = false;
         HomeController.to.rateController.value.text =
-            widget.offerDetails.rate.toString();
+            widget.offerDetails!.rate.toString();
         HomeController.to.quantityControllerForConfromOrder.value.text =
-            widget.offerDetails.quantity.toString();
+            widget.offerDetails!.quantity.toString();
         HomeController.to.changeQuantity.value = false;
         HomeController.to.quantity.value =
-            widget.offerDetails.quantity!.toInt();
+            widget.offerDetails!.quantity!.toInt();
       },
       child: AlertDialog(
         scrollable: true,
@@ -59,15 +59,15 @@ class ConfrimOfferWidget extends StatelessWidget {
             ),
             OfferDialogWidget(
               label: 'Category:',
-              text: widget.offerDetails.serviceCategoryType ?? 'No category',
+              text: widget.offerDetails!.serviceCategoryType ?? 'No category',
             ),
             OfferDialogWidget(
               label: 'Job Title:',
-              text: widget.offerDetails.jobTitle ?? 'No category',
+              text: widget.offerDetails!.jobTitle ?? 'No category',
             ),
             OfferDialogWidget(
               label: 'Job Description:',
-              text: widget.offerDetails.description ?? 'No category',
+              text: widget.offerDetails!.description ?? 'No category',
             ),
             const Divider(
               height: 12,
@@ -79,10 +79,10 @@ class ConfrimOfferWidget extends StatelessWidget {
                   border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(12)),
               child: Obx(() {
-                if (rateTypes.contains(widget.offerDetails.rateType) &&
+                if (rateTypes.contains(widget.offerDetails!.rateType) &&
                     !HomeController.to.change.value) {
                   HomeController.to.selectedTimeUnit.value =
-                      widget.offerDetails.rateType;
+                      widget.offerDetails!.rateType;
                 }
                 debugPrint(HomeController.to.selectedTimeUnit.value);
                 debugPrint(HomeController.to.change.value.toString());
@@ -123,7 +123,7 @@ class ConfrimOfferWidget extends StatelessWidget {
                 Expanded(
                   child: Obx(() {
                     HomeController.to.rateController.value.text =
-                        widget.offerDetails.rate.toString();
+                        widget.offerDetails!.rate.toString();
 
                     return CustomTextField(
                       validatorText: "Please Enter Rate",
@@ -147,7 +147,7 @@ onChanged: (value) {
                             .value.text.isEmpty &&
                         !HomeController.to.changeQuantity.value) {
                       HomeController.to.quantityControllerForConfromOrder.value
-                          .text = widget.offerDetails.quantity.toString();
+                          .text = widget.offerDetails!.quantity.toString();
                     }
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -245,15 +245,15 @@ onChanged: (value) {
                   Navigator.pop(context);
                   HomeController.to.changeQuantity.value = false;
                   HomeController.to.quantityControllerForConfromOrder.value
-                      .text = widget.offerDetails.quantity.toString();
+                      .text = widget.offerDetails!.quantity.toString();
 
                   HomeController.to.changeQuantity.value = false;
                   HomeController.to.quantity.value =
-                      widget.offerDetails.quantity!.toInt();
+                      widget.offerDetails!.quantity!.toInt();
                   HomeController.to.selectedTimeUnit.value = null;
                   HomeController.to.change.value = false;
                   HomeController.to.rateController.value.text =
-                      widget.offerDetails.rate.toString();
+                      widget.offerDetails!.rate.toString();
                 },
                 child: const Text("Confirm Order")),
             const SizedBox(

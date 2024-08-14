@@ -9,7 +9,7 @@ import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/Explore/service_list_screen.dart';
 
 import '../Model/category_list_model.dart';
-
+import 'dart:math';
 class CategotyItemtwo extends StatelessWidget {
   final CategoryList singleCat;
   const CategotyItemtwo({super.key, required this.singleCat});
@@ -18,33 +18,31 @@ class CategotyItemtwo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8,top: 5),
       child: SizedBox(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-
-
-            const SizedBox(height: 5,),
-            InkWell(
-              onTap: (){
-                Get.to(ServiceListScreen(selectedCat: singleCat.categoryName.toString(),));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.primaryTextColor,
-                  borderRadius: BorderRadius.circular(8)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                     maxLines: 1,
-                    '${singleCat.categoryName}',
-                    style: AppTextStyle.bodySmallwhite,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+        child: InkWell(
+          onTap: (){
+            Get.to(ServiceListScreen(selectedCat: singleCat.categoryName.toString(),));
+          },
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(
+                235,
+                Random().nextInt(256),
+               Random().nextInt(256),
+               Random().nextInt(256),
+              ).withOpacity(.2),
+              borderRadius: BorderRadius.circular(8)
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                 maxLines: 1,
+                '${singleCat.categoryName}',
+                style: AppTextStyle.body12BlackSemiBold,
+                textAlign: TextAlign.center,
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
