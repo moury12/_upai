@@ -29,6 +29,8 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
     HomeController.to.quantityControllerForConfromOrder.value.text= widget.service.offerDetails!.quantity.toString();
     HomeController.to.quantityForConform.value= widget.service.offerDetails!.quantity!.toInt();
     HomeController.to.rateController.value.text =widget.service.offerDetails!.rate.toString();
+    HomeController.to.selectedRateType.value =
+        widget.service.offerDetails!.rateType!.toLowerCase();
     // TODO: implement initState
     super.initState();
   }
