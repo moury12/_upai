@@ -66,7 +66,7 @@ class RepositoryData {
         }
       } else {
         Get.snackbar(data["status"], data["message"],
-            colorText: Colors.white, backgroundColor: Colors.red);
+            colorText: Colors.white, backgroundColor: Colors.pink);
       }
       // var loginResponse = loginResponseModelFromJson(response.);
       print(response);
@@ -120,7 +120,7 @@ class RepositoryData {
     SellerProfileModel sellerProfileModel = SellerProfileModel();
     try {
       final response = await http.get(
-          Uri.parse('${ApiClient().sellerProfile}?user_id=01777'),
+          Uri.parse('${ApiClient().sellerProfile}?user_id=$userId'),
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -263,7 +263,7 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['message']);
+      Get.snackbar('Success', '${responseData['message']} job id is ${responseData['job_id']}');
     } else {
       Get.snackbar('Error', 'Failed');
     }

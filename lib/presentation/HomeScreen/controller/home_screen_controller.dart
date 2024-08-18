@@ -30,12 +30,17 @@ Rx<bool> changeQuantity =false.obs;
 
   Rx<TextEditingController> quantityControllerForConfromOrder = TextEditingController().obs;
   Rx<CategoryList?> selectedCategory = Rx<CategoryList?>(null);
-  Rx<String?> selectedTimeUnit = Rx<String?>(null);
+  Rx<String?> selectedRateType = Rx<String?>(null);
   var filteredOfferList = <OfferList>[].obs;
   var filteredCategoryList = <CategoryList>[].obs;
   final box = Hive.box('userInfo');
-  LoginController controller = Get.put(LoginController());
 
+@override
+  void onClose() {
+quantityController.value.dispose();
+quantityControllerForConfromOrder.value.dispose();
+super.onClose();
+  }
   @override
   void onInit() async{
     refreshAllData();
@@ -53,6 +58,7 @@ Rx<bool> changeQuantity =false.obs;
     // TODO: implement onInit
     super.onInit();
   }
+
   Future<void> refreshAllData() async{
    getCategoryList();
   getOfferDataList();
@@ -77,7 +83,7 @@ void createOffer(String jobTitle,String description,String rate,) async{
       "job_title":jobTitle,
       "description":description,
       "quantity":quantity.value.toString(),
-      "rate_type":selectedTimeUnit.value,
+      "rate_type":selectedRateType.value,
       "rate":rate,
       "date_time":DateTime.now().toString()
     }

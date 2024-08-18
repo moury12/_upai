@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/helper_function/helper_function.dart';
+import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/my_service_list_screen.dart';
 import 'package:upai/presentation/seller-service/running_order_list_screen.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
@@ -23,23 +25,38 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
   @override
   void initState() {
     Get.put(OrderController());
-    Get.put(SellerProfileController());
+
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.sizeOf(context);
-    return Scaffold(
-      floatingActionButton: FloatingActionButton.small(
+    double screenWidth = MediaQuery.of(context).size.width;
 
+    // Determine the number of columns and aspect ratio dynamically
+    int crossAxisCount = 2;
+
+
+    if (screenWidth > 600) {
+      crossAxisCount = 3;
+    }
+    if (screenWidth > 900) {
+      crossAxisCount = 4;
+    }
+    if (screenWidth > 1232) {
+      crossAxisCount = 5;
+    }
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: CircleBorder(),
         backgroundColor: AppColors.BTNbackgroudgrey,
         onPressed: () {
           Get.to(() => CreateOfferScreen());
         },
         child: const Icon(
-          Icons.add,
+          Icons.add_business_outlined,
+          size: 30,
           color: Colors.white,
         ),
       ),
@@ -58,6 +75,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
             );
           } else {
             return SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -66,11 +84,8 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                     GridView(
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                           mainAxisSpacing: 6,
-                          crossAxisSpacing: 8,
-                          childAspectRatio: MediaQuery.of(context).size.width <
-                                  MediaQuery.of(context).size.height
-                              ? 1.2
-                              : 2.7,
+                          crossAxisSpacing: getResponsiveFontSize(context, 8),
+
                           maxCrossAxisExtent:
                               MediaQuery.of(context).size.width / 2.5),
                       shrinkWrap: true,
@@ -212,7 +227,8 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                         Text("Running Orders", style: AppTextStyle.titleText),
                         GestureDetector(
                           onTap: () {
-                            Get.to(RunningOrderListScreen(runningOrder: seller.runningOrder??[]));
+                            Get.to(RunningOrderListScreen(
+                                runningOrder: seller.runningOrder ?? []));
                           },
                           child: Text("All Orders >>",
                               style: AppTextStyle.titleTextSmallUnderline),
@@ -238,7 +254,9 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                         Text("My Services", style: AppTextStyle.titleText),
                         GestureDetector(
                           onTap: () {
-                            Get.to(MyServiceListScreen(service: seller.myService??[]));
+                            Get.put(SellerProfileController());
+                            Get.to(MyServiceListScreen(
+                                service: seller.myService ?? []));
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -251,20 +269,23 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                     GridView.builder(
                       shrinkWrap: true,
                       primary: false,
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent:
-                              MediaQuery.of(context).size.width >
-                                      MediaQuery.of(context).size.height
-                                  ? MediaQuery.of(context).size.width / 4
-                                  : MediaQuery.of(context).size.width / 2,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+
+                          crossAxisCount: crossAxisCount,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16),
-                      itemCount: seller.myService!.length < 4
-                          ? seller.myService!.length
+                      itemCount: seller.myService!.reversed.toList().length < 4
+                          ? seller.myService!.reversed.toList().length
                           : 4,
                       itemBuilder: (context, index) {
-                        final service = seller.myService![index];
-                        return MyServiceWidget(service: service,);
+                        final service = seller.myService!.reversed.toList()[index];
+                        return GestureDetector(
+                          onTap: () {
+                           Get.to(MyServiceDetails(service: service));
+                          },
+                            child: MyServiceWidget(
+                          service: service,
+                        ));
                       },
                     ),
                     SizedBox(

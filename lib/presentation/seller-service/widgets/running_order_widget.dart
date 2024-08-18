@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/helper_function/helper_function.dart';
 class RunningOrderWidget extends StatelessWidget {
   const RunningOrderWidget({
     super.key,
@@ -31,7 +32,7 @@ class RunningOrderWidget extends StatelessWidget {
           ClipRRect(
             child: Image.asset(
               ImageConstant.runningOrderImage,
-              height: 100,
+              height: getResponsiveFontSize(context,100),
               fit: BoxFit.fill,
             ),
             borderRadius: BorderRadius.circular(15),
@@ -49,11 +50,11 @@ class RunningOrderWidget extends StatelessWidget {
                     Text(
                         'Job id: ${runningOrder.jobId ?? 'job id'}',
                         style: TextStyle(
-                            fontSize: 10,
+                            fontSize: getResponsiveFontSize(context,10),
                             fontWeight: FontWeight.w500)),Text(
                         '${runningOrder.awardDate ?? ''}',
                         style: TextStyle(
-                            fontSize: 10,
+                            fontSize: getResponsiveFontSize(context,10),
                             fontWeight: FontWeight.w500)),
                   ],
                 ),
@@ -65,7 +66,7 @@ class RunningOrderWidget extends StatelessWidget {
                         child: Text(
                           runningOrder.jobTitte ?? 'job title',
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: getResponsiveFontSize(context,14),
                               fontWeight: FontWeight.w600),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -74,18 +75,18 @@ class RunningOrderWidget extends StatelessWidget {
                     Text(
                         "৳ ${runningOrder.taotal ?? '0.00'}",
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: getResponsiveFontSize(context,16),
                             fontWeight: FontWeight.w700)),
                   ],
                 ),
                 Text('Description:',
                     style: TextStyle(
-                        fontSize: 10,
+                        fontSize: getResponsiveFontSize(context,10),
                         fontWeight: FontWeight.w500)),
                 Text(
                   runningOrder.description ?? '',
                   style: TextStyle(
-                      fontSize: 8,
+                      fontSize: getResponsiveFontSize(context,8),
                       fontWeight: FontWeight.w400),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -93,7 +94,7 @@ class RunningOrderWidget extends StatelessWidget {
                 Text(
                     '${runningOrder.rateType ?? ' '}(${runningOrder.rate})',
                     style: TextStyle(
-                        fontSize: 8,
+                        fontSize: getResponsiveFontSize(context,8),
                         fontWeight: FontWeight.w400)),
                 Row(
                   mainAxisAlignment:
@@ -102,7 +103,7 @@ class RunningOrderWidget extends StatelessWidget {
                     Text(
                         'Quantity: ${runningOrder.quanrity ?? ''}',
                         style: TextStyle(
-                            fontSize: 10,
+                            fontSize: getResponsiveFontSize(context,10),
                             fontWeight: FontWeight.w500)),
                     Container(
                       decoration: BoxDecoration(
@@ -115,7 +116,7 @@ class RunningOrderWidget extends StatelessWidget {
                       child: Text(
                           '${runningOrder.status ?? ''}',
                           style: TextStyle(
-                              fontSize: 10,
+                              fontSize: getResponsiveFontSize(context,10),
                               fontWeight: FontWeight.w500)),
                     )
                   ],

@@ -12,7 +12,8 @@ import '../Model/category_list_model.dart';
 import 'dart:math';
 class CategotyItemtwo extends StatelessWidget {
   final CategoryList singleCat;
-  const CategotyItemtwo({super.key, required this.singleCat});
+  final int? maxline;
+  const CategotyItemtwo({super.key, required this.singleCat, this.maxline});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,7 +37,7 @@ class CategotyItemtwo extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                 maxLines: 1,
+                 maxLines:maxline?? 1,
                 '${singleCat.categoryName}',
                 style: AppTextStyle.body12BlackSemiBold,
                 textAlign: TextAlign.center,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
+import 'package:upai/controllers/order_controller.dart';
 
 import 'package:upai/core/utils/app_colors.dart';
 
@@ -10,7 +11,7 @@ import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 class ConfrimOfferWidget extends StatelessWidget {
-  ConfrimOfferWidget({
+   ConfrimOfferWidget({
     super.key,
     required this.widget,
   });
@@ -24,7 +25,7 @@ class ConfrimOfferWidget extends StatelessWidget {
 
     return PopScope(
       onPopInvoked: (didPop) {
-        HomeController.to.selectedTimeUnit.value = null;
+        HomeController.to.selectedRateType.value = null;
         HomeController.to.change.value = false;
         HomeController.to.changeQuantity.value = false;
         HomeController.to.rateController.value.text =
@@ -81,14 +82,14 @@ class ConfrimOfferWidget extends StatelessWidget {
               child: Obx(() {
                 if (rateTypes.contains(widget.offerDetails!.rateType) &&
                     !HomeController.to.change.value) {
-                  HomeController.to.selectedTimeUnit.value =
+                  HomeController.to.selectedRateType.value =
                       widget.offerDetails!.rateType;
                 }
-                debugPrint(HomeController.to.selectedTimeUnit.value);
+                debugPrint(HomeController.to.selectedRateType.value);
                 debugPrint(HomeController.to.change.value.toString());
                 return DropdownButton<String>(
                   underline: const SizedBox.shrink(),
-                  value: HomeController.to.selectedTimeUnit.value,
+                  value: HomeController.to.selectedRateType.value,
                   dropdownColor: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   hint: const Text(
@@ -112,8 +113,8 @@ class ConfrimOfferWidget extends StatelessWidget {
                   }).toList(),
                   onChanged: (value) {
                     HomeController.to.change.value = true;
-                    HomeController.to.selectedTimeUnit.value = null;
-                    HomeController.to.selectedTimeUnit.value = value;
+                    HomeController.to.selectedRateType.value = null;
+                    HomeController.to.selectedRateType.value = value;
                   },
                 );
               }),
@@ -131,9 +132,7 @@ class ConfrimOfferWidget extends StatelessWidget {
                       inputType: TextInputType.number,
                       controller: HomeController.to.rateController.value,
                       inputFontSize: 12,
-onChanged: (value) {
-
-},
+                      onChanged: (value) {},
                       // onChanged: (value) => controller.emailController.text.trim() = value!,
                     );
                   }),
@@ -242,18 +241,27 @@ onChanged: (value) {
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white),
                 onPressed: () {
-                  Navigator.pop(context);
-                  HomeController.to.changeQuantity.value = false;
+                 if(HomeController.to.selectedRateType.value!=null&&HomeController.to.quantityControllerForConfromOrder.value.text.isNotEmpty&& HomeController.to.rateController.value.text.isNotEmpty){
+                  OrderController.to.awardCreateJob(widget.offerDetails!.offerId??'', widget.offerDetails!.userId??'', widget.offerDetails!.jobTitle??'',
+                      widget.offerDetails!.description??'', HomeController.to.selectedRateType.value!,
+                      HomeController.to.rateController.value.text, HomeController.to.quantityControllerForConfromOrder.value.text,
+                      HomeController.to.totalAmount.value.toString());
+                   Navigator.pop(context);
+                  }else{
+                   Navigator.pop(context);
+                   Get.snackbar("Error", "All field required");
+                 }
+                 /* HomeController.to.changeQuantity.value = false;
                   HomeController.to.quantityControllerForConfromOrder.value
                       .text = widget.offerDetails!.quantity.toString();
 
                   HomeController.to.changeQuantity.value = false;
                   HomeController.to.quantity.value =
                       widget.offerDetails!.quantity!.toInt();
-                  HomeController.to.selectedTimeUnit.value = null;
+                  HomeController.to.selectedRateType.value = null;
                   HomeController.to.change.value = false;
                   HomeController.to.rateController.value.text =
-                      widget.offerDetails!.rate.toString();
+                      widget.offerDetails!.rate.toString();*/
                 },
                 child: const Text("Confirm Order")),
             const SizedBox(

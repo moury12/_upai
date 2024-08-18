@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Explore/service_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
@@ -18,18 +19,36 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  HomeController controller = Get.put(HomeController());
+  HomeController controller = HomeController.to;
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.sizeOf(context);
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Determine the number of columns and aspect ratio dynamically
+    int crossAxisCount = 2;
+double childRatio=0.8;
+
+    if (screenWidth > 600) {
+      crossAxisCount = 3;
+      childRatio =1;
+    }
+    if (screenWidth > 900) {
+      crossAxisCount = 4; childRatio =1;
+    }
+    if (screenWidth > 1232) {
+      crossAxisCount = 5; childRatio =1;
+    }
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
+          color: Colors.black,
+          backgroundColor: Colors.white,
           onRefresh: () {
             return controller.refreshAllData();
           },
           child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         TextField(
                           onChanged: (value) {
-                            if (value != "") {
+                            if (value.isNotEmpty) {
                               controller.filterOffer(value);
                               controller.isSearching.value = true;
                             } else {
@@ -61,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               filled: true,
                               hintText: "Search service you're looking for...",
                               hintStyle: TextStyle(
-                                  fontSize: 11,
+                                  fontSize: getResponsiveFontSize(context, 11),
                                   color: AppColors.appTextColorGrey),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
@@ -71,30 +90,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 10,
                         ),
                         Container(
-                          width: size.width,
+                          width: double.infinity,
                           padding: EdgeInsets.symmetric(vertical: 12),
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(
-                            color: AppColors.BTNbackgroudgrey,
+                            color: Colors.black,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
                           ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Search Service',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
+                          child: Text(
+                            'Search Service',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: getResponsiveFontSize(context, 12),
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -111,31 +123,41 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (offerList.isNotEmpty) {
                       return GridView.builder(
                         shrinkWrap: true,
+                        clipBehavior: Clip.none,
                         primary: false,
                         padding: EdgeInsets.symmetric(horizontal: 12)
                             .copyWith(top: 12),
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent:
-                                MediaQuery.of(context).size.width >
-                                        MediaQuery.of(context).size.height
-                                    ? MediaQuery.of(context).size.width / 4
-                                    : MediaQuery.of(context).size.width / 2,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: childRatio,
+                           crossAxisCount: crossAxisCount,
                             crossAxisSpacing: 16,
                             mainAxisSpacing: 16),
                         itemCount: offerList.length,
                         itemBuilder: (context, index) {
                           final service = offerList[index];
-                          return GestureDetector(
-                              onTap: () {
-                                Get.to(
-                                  ServiceDetails(
-                                    offerDetails: service,
+                          return MyServiceWidget(
+                            offerList: service,
+                            button: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black,
+                                    foregroundColor: Colors.white,
                                   ),
-                                );
-                              },
-                              child: MyServiceWidget(
-                                offerList: service,
-                              ));
+                                  onPressed: () {
+                                    Get.to(
+                                      ServiceDetails(
+                                        offerDetails: service,
+                                      ),
+                                    );
+                                  },
+                                  child: Text('Book Now'),
+                                ),
+                              ),
+                            ),
+                          );
                         },
                       );
                     } else {
@@ -177,10 +199,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Obx(() {
                             return HomeController.to.getCatList.isEmpty
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                    color: Colors.black,
-                                  ))
+                                ? Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      color: Colors.black,
+                                    )),
+                                  )
                                 : SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
@@ -242,39 +267,56 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                           Obx(() {
-                            return GridView.builder(
-                              shrinkWrap: true,
-                              primary: false,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: MediaQuery.of(context)
-                                                  .size
-                                                  .width >
-                                              MediaQuery.of(context).size.height
-                                          ? MediaQuery.of(context).size.width /
-                                              4
-                                          : MediaQuery.of(context).size.width /
-                                              2,
-                                      crossAxisSpacing: 16,
-                                      mainAxisSpacing: 16),
-                              itemCount: controller.getOfferList.length < 4
-                                  ? controller.getOfferList.length
-                                  : 4,
-                              itemBuilder: (context, index) {
-                                final service = controller.getOfferList[index];
-                                return GestureDetector(
-                                    onTap: () {
-                                      Get.to(
-                                        ServiceDetails(
-                                          offerDetails: service,
+                            return HomeController.to.getOfferList.isEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      color: Colors.black,
+                                    )),
+                                  )
+                                : GridView.builder(
+                                    shrinkWrap: true,
+                                    primary: false,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: crossAxisCount,
+                                            childAspectRatio:childRatio,
+                                            crossAxisSpacing: 16,
+                                            mainAxisSpacing: 16),
+                                    itemCount:
+                                        controller.getOfferList.length < 4
+                                            ? controller.getOfferList.length
+                                            : 4,
+                                    itemBuilder: (context, index) {
+                                      final service =
+                                          controller.getOfferList[index];
+                                      return MyServiceWidget(
+                                        offerList: service,
+                                        button: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.black,
+                                                foregroundColor: Colors.white,
+                                              ),
+                                              onPressed: () {
+                                                Get.to(
+                                                  ServiceDetails(
+                                                    offerDetails: service,
+                                                  ),
+                                                );
+                                              },
+                                              child: Text('Book Now'),
+                                            ),
+                                          ),
                                         ),
                                       );
                                     },
-                                    child: MyServiceWidget(
-                                      offerList: service,
-                                    ));
-                              },
-                            );
+                                  );
                           }),
                           // SizedBox(
                           //     width: size.width,
@@ -308,6 +350,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                 }),
+                SizedBox(
+                  height: 12,
+                )
               ],
             ),
           ),

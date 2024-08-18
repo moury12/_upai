@@ -4,13 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:upai/Model/category_list_model.dart';
+import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 class CreateOfferScreen extends StatefulWidget {
-  const CreateOfferScreen({super.key});
+  final MyService? service;
+  const CreateOfferScreen({super.key, this.service});
 
   @override
   State<CreateOfferScreen> createState() => _CreateOfferScreenState();
@@ -18,18 +20,36 @@ class CreateOfferScreen extends StatefulWidget {
 
 class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final box = Hive.box('userInfo');
+
+  late TextEditingController titleController;
+  late TextEditingController descriptionController;
+
+  late TextEditingController rateController;
+
+  List<String> timeUnits = ['Hour', 'Task', 'Per Day','piece'];
   @override
   void initState() {
-    Get.put(HomeController(), permanent: true);
-    HomeController.to.getCategoryList();
-    // TODO: implement initState
+    titleController = TextEditingController(
+        text: widget.service != null ? widget.service!.jobTitle : '');
+    descriptionController = TextEditingController(
+        text: widget.service != null ? widget.service!.description : '');
+    rateController = TextEditingController(
+        text: widget.service != null ? widget.service!.rate.toString() : '');
+    HomeController.to.quantityController.value.text =
+        widget.service != null ? widget.service!.quantity.toString() : '';
+    HomeController.to.quantity.value =
+        widget.service != null ? widget.service!.quantity!.toInt() : 1;
+    HomeController.to.selectedCategory.value = widget.service != null
+        ? HomeController.to.getCatList
+            .where((e) =>
+                e.categoryName!.toLowerCase() ==
+                widget.service!.serviceCategoryType!.toLowerCase())
+            .toList()[0]
+        : null;
+    HomeController.to.selectedRateType.value =
+        widget.service != null ? widget.service!.rateType.toString() : null;
     super.initState();
   }
-
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController rateController = TextEditingController();
-  List<String> timeUnits = ['Hour', 'Task', 'Per Day'];
 
   @override
   Widget build(BuildContext context) {
@@ -144,20 +164,20 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                 child: Obx(() {
                   return DropdownButton<String>(
                     underline: const SizedBox.shrink(),
-                    value: HomeController.to.selectedTimeUnit.value,
+                    value: HomeController.to.selectedRateType.value,
                     dropdownColor: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     hint: const Text(
                       "Select a Rate type  ",
                     ),
-                    items: ['Hour', 'Task', 'Per Day'].map((unit) {
+                    items: timeUnits.map((unit) {
                       return DropdownMenuItem<String>(
                         value: unit,
                         child: Text(unit),
                       );
                     }).toList(),
                     onChanged: (value) {
-                      HomeController.to.selectedTimeUnit.value = value;
+                      HomeController.to.selectedRateType.value = value;
                     },
                   );
                 }),
@@ -225,7 +245,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-
                                     if (HomeController.to.quantityController
                                         .value.text.isEmpty) {
                                       HomeController.to.quantity.value = 0;
@@ -272,7 +291,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         .value.text.isEmpty) {
                                       HomeController.to.quantity.value = 0;
                                     }
-                                    debugPrint(HomeController.to.quantity.value.toString());
+                                    debugPrint(HomeController.to.quantity.value
+                                        .toString());
                                     HomeController.to.increaseQuantity();
                                   },
                                 ),
@@ -300,7 +320,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 12, horizontal: 12)),
                           onPressed: () {
-                            if (HomeController.to.selectedTimeUnit.value != null &&
+                            if (HomeController.to.selectedRateType.value != null &&
                                 HomeController.to.selectedCategory.value !=
                                     null &&
                                 titleController.text.isNotEmpty &&
@@ -313,8 +333,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   titleController.text,
                                   descriptionController.text,
                                   rateController.text);
+                              clear();
                             } else {
                               Get.snackbar('Error', "All field Required");
+                              clear();
                             }
                           },
                           child: const Text('Create Offer')),
@@ -327,5 +349,15 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         ),
       ),
     );
+  }
+
+  void clear() {
+    titleController.clear();
+    descriptionController.clear();
+    HomeController.to.selectedCategory.value = null;
+    HomeController.to.selectedRateType.value = null;
+    rateController.clear();
+    HomeController.to.quantityController.value.clear();
+    HomeController.to.quantity.value = 1;
   }
 }

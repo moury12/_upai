@@ -6,6 +6,7 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/widgets/custom_drawer.dart';
 import 'package:upai/presentation/default_controller.dart';
 import 'package:get/get.dart';
@@ -31,13 +32,13 @@ class DefaultScreen extends StatelessWidget {
                 return AlertDialog(
                   backgroundColor: AppColors.strokeColor2,
                   title: Image.asset(
-                    ImageConstant.upailogo,
+                    ImageConstant.upailogo1,
                     height: 100,
-                    width: 100,
+                    width: 100,fit: BoxFit.contain,
                   ),
                   content: Text('Are you sure to close this app?',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500),),
                actions: [ElevatedButton(
-                 style: ElevatedButton.styleFrom(backgroundColor: Colors.red,foregroundColor:Colors.white ),
+                 style: ElevatedButton.styleFrom(backgroundColor: Colors.pink,foregroundColor:Colors.white ),
                    onPressed: () {
                    exit(0);
                      Navigator.pop(context);
@@ -57,7 +58,11 @@ Navigator.pop(context);
             title: Obx(() {
               return Text(
                 ctrl.appBarTitle.value,
-                style: AppTextStyle.appBarTitle,
+                style: TextStyle(
+                  fontSize: getResponsiveFontSize(context,14),
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.colorBlack,
+                ),
               );
             }),
             centerTitle: true,

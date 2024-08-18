@@ -6,6 +6,7 @@ import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 
 class SplashScreenController extends GetxController {
+  static SplashScreenController get to =>Get.find();
   final int _splashDuration = 2;
   final box = Hive.box("userInfo");
   @override

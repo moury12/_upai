@@ -5,12 +5,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 import 'package:upai/Model/user_info_model.dart';
+import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
+import 'package:upai/review/review_screen.dart';
 import 'package:upai/widgets/item_service.dart';
 import '../../Model/offer_list_model.dart';
 import 'service_details_controller.dart';
@@ -27,9 +30,9 @@ class ServiceDetails extends StatefulWidget {
 }
 
 class _ServiceDetailsState extends State<ServiceDetails> {
-  HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
+
     //  ItemServiceModel singleItem = ItemServiceModel();
     var ctrl = Get.put(ServiceDetailsController());
     var size = MediaQuery.sizeOf(context);
@@ -37,7 +40,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     return PopScope(
       canPop: true,
       onPopInvoked: (didPop) {
-        HomeController.to.selectedTimeUnit.value = null;
+        HomeController.to.selectedRateType.value = null;
       },
       child: Scaffold(
         body: SafeArea(
@@ -57,10 +60,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         child: Stack(
                           children: [
                             Image.asset(
-                              ImageConstant.serviceImg,
+                              ImageConstant.productImage,
                               height: double.infinity,
                               width: double.infinity,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.contain,
                             ),
                             Positioned(
                                 child: IconButton(
@@ -225,7 +228,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 3,
+                                  flex: 2,
                                   child: Column(
                                     children: [
                                       SizedBox(
@@ -265,12 +268,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
                                             Get.toNamed("/chatscreen",
                                                 arguments: senderData);
-                                            // senderData.userId= widget.offerDetails!.userId;
-                                            // senderData.name = widget.offerDetails.userName;
-                                            // senderData.image = "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
-                                            //
                                           },
                                           style: ElevatedButton.styleFrom(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 12),
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(8)),
@@ -288,6 +289,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         width: double.infinity,
                                         child: ElevatedButton(
                                           onPressed: () {
+                                            Get.put(OrderController());
                                             showDialog(
                                               context: context,
                                               builder: (context) =>
@@ -297,6 +299,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                             );
                                           },
                                           style: ElevatedButton.styleFrom(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 12),
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(8)),
@@ -344,12 +348,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             ),
                             Row(
                               children: [
-                                const Text(
+                                 Text(
                                   "4.4",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black87,
-                                      fontSize: 18),
+                                      fontSize: getResponsiveFontSize(context, 16)),
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -364,6 +368,13 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   itemSize: 22.0,
                                   direction: Axis.horizontal,
                                 ),
+                                Spacer(),
+                                ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.black,foregroundColor: Colors.white),
+                                    onPressed: () => showDialog(
+                                      context: context,
+                                      builder: (context) => ReviewScreen(),
+                                    ),
+                                    child: Text('review'))
                               ],
                             ),
                             const SizedBox(
@@ -449,24 +460,52 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
                             Obx(
                               () {
-                                if (homeController.getOfferList.isNotEmpty) {
+                                if (HomeController.to.getOfferList.isNotEmpty) {
                                   List<OfferList> offerList =
-                                      homeController.getOfferList;
+                                      HomeController.to.getOfferList;
                                   return SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
                                       children: List.generate(
                                         offerList.length,
-                                        (index) => GestureDetector(
-                                          onTap: () {
-                                            Get.to(ServiceDetails(offerDetails:offerList[index] ,));
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(12.0).copyWith(left: 8),
-                                            child: SizedBox(
-                                              width: 180,
-                                              child: MyServiceWidget(
-                                                offerList: offerList[index],
+                                        (index) => Padding(
+                                          padding: const EdgeInsets.all(12.0)
+                                              .copyWith(left: 8),
+                                          child: SizedBox(
+                                            width: 180,
+                                            child: MyServiceWidget(
+                                              offerList: HomeController
+                                                  .to.getOfferList[index],
+                                              button: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0),
+                                                child: SizedBox(
+                                                  width: double.infinity,
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Colors.black,
+                                                      foregroundColor:
+                                                          Colors.white,
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.pushReplacement(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ServiceDetails(
+                                                              offerDetails:
+                                                                  HomeController
+                                                                          .to
+                                                                          .getOfferList[
+                                                                      index],
+                                                            ),
+                                                          ));
+                                                    },
+                                                    child: Text('Book Now'),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -510,7 +549,7 @@ class OfferDialogWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child: RichText(
+      child: RichText(textAlign: TextAlign.center,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
         text: TextSpan(text: '', children: [
