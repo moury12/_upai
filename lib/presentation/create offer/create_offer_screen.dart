@@ -12,7 +12,8 @@ import 'package:upai/widgets/custom_text_field.dart';
 
 class CreateOfferScreen extends StatefulWidget {
   final MyService? service;
-  const CreateOfferScreen({super.key, this.service});
+  final bool? isEdit;
+  const CreateOfferScreen({super.key, this.service, this.isEdit = false});
 
   @override
   State<CreateOfferScreen> createState() => _CreateOfferScreenState();
@@ -73,7 +74,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
           ),
         ),
         title: Text(
-          "Create New Offer",
+        widget.isEdit!?'Edit Offer':  "Create New Offer",
           style: AppTextStyle.appBarTitle,
         ),
       ),
@@ -339,7 +340,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                               clear();
                             }
                           },
-                          child: const Text('Create Offer')),
+                          child:  Text(widget.isEdit!?'Update offer':'Create Offer')),
                     ),
                   ],
                 ),

@@ -32,27 +32,28 @@ class MyServiceDetails extends StatelessWidget {
           ),
         ),
         backgroundColor: AppColors.strokeColor2,
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Align(
-                alignment: Alignment.center,
-                child: Image.asset(
-                  ImageConstant.productImage,
-                  height: 200,
-                )),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: Container(
-                constraints: const BoxConstraints.expand(),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    ImageConstant.productImage,
+                    height: 200,
+                  )),
+              const SizedBox(
+                height: 20,
+              ),
+              Container( 
+                // height: double.maxFinite,
                 padding: const EdgeInsets.all(12),
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius:
                         BorderRadius.only(topRight: Radius.circular(50))),
                 child: Column(
+
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -129,108 +130,109 @@ class MyServiceDetails extends StatelessWidget {
                           fontSize: getResponsiveFontSize(context, 12),
                           fontWeight: FontWeight.w400),
                     ),
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  Get.to(CreateOfferScreen(
-                                    service: service,
-                                  ));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(vertical: 12),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    backgroundColor: Colors.black,
-                                    foregroundColor: Colors.white),
-                                child: Text(
-                                  'Edit',
-                                  style: TextStyle(
-                                      fontSize:
-                                          getResponsiveFontSize(context, 14),
-                                      fontWeight: FontWeight.w600),
-                                )),
-                          ),
-                          SizedBox(
-                            width: getResponsiveFontSize(context, 14),
-                          ),
-                          Expanded(
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        backgroundColor: AppColors.strokeColor2,
-                                        title: const Icon(
-                                          CupertinoIcons.delete,
-                                          size: 40,
-                                        ),
-                                        content: Text(
-                                          'Are you sure to delete this service?',
-                                          style: TextStyle(
-                                              fontSize: getResponsiveFontSize(
-                                                  context, 12),
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        actions: [
-                                          ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.pink,
-                                                  foregroundColor:
-                                                      Colors.white),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('Yes')),
-                                          ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.black,
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 12),
-                                                  foregroundColor:
-                                                      Colors.white),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('No'))
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
+                    SizedBox(height: 16,),
 
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    backgroundColor: Colors.pink,padding:
-                                EdgeInsets.symmetric(vertical: 12),
-                                    foregroundColor: Colors.white),
-                                child: Text(
-                                  'Delete',
-                                  style: TextStyle(
-                                      fontSize:
-                                          getResponsiveFontSize(context, 14),
-                                      fontWeight: FontWeight.w600),
-                                )),
-                          ),
-                        ],
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Get.to(CreateOfferScreen(
+                                  service: service,
+                                  isEdit: true,
+                                ));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(vertical: 12),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10)),
+                                  backgroundColor: Colors.black,
+                                  foregroundColor: Colors.white),
+                              child: Text(
+                                'Edit',
+                                style: TextStyle(
+                                    fontSize:
+                                        getResponsiveFontSize(context, 14),
+                                    fontWeight: FontWeight.w600),
+                              )),
+                        ),
+                        SizedBox(
+                          width: getResponsiveFontSize(context, 14),
+                        ),
+                        Expanded(
+                          child: ElevatedButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      backgroundColor: AppColors.strokeColor2,
+                                      title: const Icon(
+                                        CupertinoIcons.delete,
+                                        size: 40,
+                                      ),
+                                      content: Text(
+                                        'Are you sure to delete this service?',
+                                        style: TextStyle(
+                                            fontSize: getResponsiveFontSize(
+                                                context, 12),
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      actions: [
+                                        ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.pink,
+                                                foregroundColor:
+                                                    Colors.white),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Yes')),
+                                        ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.black,
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 12),
+                                                foregroundColor:
+                                                    Colors.white),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('No'))
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+
+                                      borderRadius:
+                                          BorderRadius.circular(10)),
+                                  backgroundColor: Colors.pink,padding:
+                              EdgeInsets.symmetric(vertical: 12),
+                                  foregroundColor: Colors.white),
+                              child: Text(
+                                'Delete',
+                                style: TextStyle(
+                                    fontSize:
+                                        getResponsiveFontSize(context, 14),
+                                    fontWeight: FontWeight.w600),
+                              )),
+                        ),
+                      ],
                     ),
                     const SizedBox(
                       height: 16,
                     )
                   ],
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ));
   }
 }

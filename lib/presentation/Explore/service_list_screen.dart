@@ -26,6 +26,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     // Determine the number of columns and aspect ratio dynamically
     int crossAxisCount = 2;
@@ -34,15 +35,13 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
 
     if (screenWidth > 600) {
       crossAxisCount = 3;
-      childRatio = 1;
+      childRatio =screenWidth> screenHeight?0.9:1;
     }
     if (screenWidth > 900) {
-      crossAxisCount = 4;
-      childRatio = 1;
+      crossAxisCount = 4; childRatio =screenWidth> screenHeight?0.9:1;
     }
     if (screenWidth > 1232) {
-      crossAxisCount = 5;
-      childRatio = 1;
+      crossAxisCount = 5; childRatio =1;
     }
 
     return PopScope(

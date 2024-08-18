@@ -68,6 +68,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextFormField(
         inputFormatters: widget.textInputFormatter ?? [],
         enabled: true,
+
         onTap: widget.onPressed ?? () {},
         textAlign: widget.textAlign ?? TextAlign.left,
         maxLines: widget.maxLines ?? 1,
@@ -100,6 +101,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
         decoration: InputDecoration(
           fillColor: Colors.white,
+          labelText: widget.labelText,
+          labelStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.black),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(color: AppColors.strokeColor2)),

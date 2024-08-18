@@ -21,7 +21,8 @@ class HomeController extends GetxController {
   Rx<TextEditingController> rateController =
   TextEditingController().obs;
 Rx<bool> change =false.obs;
-Rx<bool> changeQuantity =false.obs;
+Rx<bool> changeQuantity =true.obs;
+Rx<bool> changeRate =false.obs;
   RxInt quantity = 1.obs;
   RxInt quantityForConform = 1.obs;
   var totalAmount = 0.obs;
@@ -39,6 +40,7 @@ Rx<bool> changeQuantity =false.obs;
   void onClose() {
 quantityController.value.dispose();
 quantityControllerForConfromOrder.value.dispose();
+rateController.value.dispose();
 super.onClose();
   }
   @override

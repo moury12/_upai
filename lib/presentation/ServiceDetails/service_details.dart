@@ -294,7 +294,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                               context: context,
                                               builder: (context) =>
                                                   ConfrimOfferWidget(
-                                                widget: widget,
+                                                service: widget,
                                               ),
                                             );
                                           },
