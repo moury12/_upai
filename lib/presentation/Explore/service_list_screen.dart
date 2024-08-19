@@ -10,9 +10,9 @@ import '../../core/utils/custom_text_style.dart';
 
 class ServiceListScreen extends StatefulWidget {
   static const String routeName = '/explore-top';
- // final String? selectedCat;
-  final String selectedCat = Get.arguments;
-    ServiceListScreen({super.key});
+final String? selectedCat;
+
+    ServiceListScreen({super.key, this.selectedCat});
 
   @override
   State<ServiceListScreen> createState() => _ServiceListScreenState();
@@ -38,115 +38,125 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
         .of(context)
         .size
         .width;
-    print(height.toString());
-    print(width.toString());
+
     int crossAxisCount = MediaQuery
         .of(context)
         .size
         .width > 600 ? 4 : 2;
-    return Scaffold(
-        backgroundColor: AppColors.strokeColor2,
-        appBar: AppBar(
-          elevation: 0,
-          shadowColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          backgroundColor: AppColors.strokeColor2,
-          foregroundColor: Colors.black,
-          leading: IconButton(
-            icon: const Icon(CupertinoIcons.back),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-          title: widget.selectedCat!=""? Text(
-            widget.selectedCat,
-            style: AppTextStyle.appBarTitle,
-          ):Text(
-            "Explore Services",
-            style: AppTextStyle.appBarTitle,
-          ),
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(
-                  bottom: 12),
-              child: Obx(() {
-                return CustomTextField(
-                  controller: controller.searchController.value,
-                  onChanged: (value) {
-                    controller.filterOffer(value!);
-                  },
-                  onPressed: () {
-                    controller.searchController.value.clear();
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
+        controller.searchController.value.clear();
 
-                    controller.filterOffer('');
-                  },
-                  hintText: "Search service..",
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.cancel, color: Colors.black,),
+        controller.filterOffer('');
+      },
+      child: Scaffold(
+          backgroundColor: AppColors.strokeColor2,
+          appBar: AppBar(
+            elevation: 0,
+            shadowColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            backgroundColor: AppColors.strokeColor2,
+            foregroundColor: Colors.black,
+            leading: IconButton(
+              icon: const Icon(CupertinoIcons.back),
+              onPressed: () {
+                Get.back();
+                controller.searchController.value.clear();
+
+                controller.filterOffer('');
+              },
+            ),
+            title: widget.selectedCat!=null? Text(
+              widget.selectedCat??'',
+              style: AppTextStyle.appBarTitle,
+            ):Text(
+              "Explore Services",
+              style: AppTextStyle.appBarTitle,
+            ),
+          ),
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(
+                    bottom: 12),
+                child: Obx(() {
+                  return CustomTextField(
+                    controller: controller.searchController.value,
+                    onChanged: (value) {
+                      controller.filterOffer(value!);
+                    },
                     onPressed: () {
                       controller.searchController.value.clear();
+
                       controller.filterOffer('');
-                    },),
-                );
-              }),
-            ),
-            Obx(() {
-              if (controller.filteredOfferList.isEmpty) {
-                return const Center(
-                    child: CircularProgressIndicator(color: Colors.black,));
-              } else {
-                var offerList =[];
-                if(widget.selectedCat!="")
-                  {
-                   offerList = controller.filteredOfferList
-                        .where((item) => item.serviceCategoryType!
-                        .toLowerCase()
-                        .contains(
-                        widget.selectedCat.toString().toLowerCase()))
-                        .toList();
-                  }
-                else
-                  {
-                   offerList = controller.filteredOfferList;
-                  }
+                    },
+                    hintText: "Search service..",
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.cancel, color: Colors.black,),
+                      onPressed: () {
+                        controller.searchController.value.clear();
+                        controller.filterOffer('');
+                      },),
+                  );
+                }),
+              ),
+              Obx(() {
+                if (controller.filteredOfferList.isEmpty) {
+                  return const Center(
+                      child: CircularProgressIndicator(color: Colors.black,));
+                } else {
+                  var offerList =[];
+                  if(widget.selectedCat!=null)
+                    {
+                     offerList = controller.filteredOfferList
+                          .where((item) => item.serviceCategoryType!
+                          .toLowerCase()
+                          .contains(
+                          widget.selectedCat.toString().toLowerCase()))
+                          .toList();
+                    }
+                  else
+                    {
+                     offerList = controller.filteredOfferList;
+                    }
 
-                if(offerList.isNotEmpty)
-                  {
-                    return Expanded(
-                      child: GridView.builder(
-                        scrollDirection: Axis.vertical,
-                        /* shrinkWrap: true,*/
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12)
-                            .copyWith(top: 0),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                          childAspectRatio: .8,
-                          crossAxisCount: crossAxisCount,
-                          // maxCrossAxisExtent: 250
+                  if(offerList.isNotEmpty)
+                    {
+                      return Expanded(
+                        child: GridView.builder(
+                          scrollDirection: Axis.vertical,
+                          /* shrinkWrap: true,*/
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12)
+                              .copyWith(top: 0),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: .8,
+                            crossAxisCount: crossAxisCount,
+                            // maxCrossAxisExtent: 250
+                          ),
+                          itemCount: offerList.length,
+                          itemBuilder: (context, index) {
+
+                            return OfferService(
+                              margin: EdgeInsets.zero,
+                              offer: offerList[index],
+                            );
+                          },
                         ),
-                        itemCount: offerList.length,
-                        itemBuilder: (context, index) {
-
-                          return OfferService(
-                            margin: EdgeInsets.zero,
-                            offer: offerList[index],
-                          );
-                        },
-                      ),
-                    );
-                  }
-                else
-                  {
-                    return Expanded(child:  Center(child: Text("No Service Available",style: AppTextStyle.bodySmallText2Grey400s16,),));
-                  }
+                      );
+                    }
+                  else
+                    {
+                      return Expanded(child:  Center(child: Text("No Service Available",style: AppTextStyle.bodySmallText2Grey400s16,),));
+                    }
 
 
-              }
-            },)
-          ],
-        ));
+                }
+              },)
+            ],
+          )),
+    );
   }
 }

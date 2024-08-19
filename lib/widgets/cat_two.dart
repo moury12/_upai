@@ -21,44 +21,12 @@ class CategotyItemtwo extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Container(
-            //   height: 70,
-            //   width: 70,
-            //   decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(100),
-            //       border: Border.all(color: AppColors.strokeColor,width: 2)
-            //   ),
-            //   child: ClipOval(
-            //     child: CachedNetworkImage(
-            //       imageUrl: catList[0]["image_url"].toString(),
-            //       fit: BoxFit.cover,
-            //       placeholder: (context, url) => Image.asset(ImageConstant.dummy, fit: BoxFit.cover),
-            //       errorWidget: (context, url, error) => Image.asset(ImageConstant.dummy, fit: BoxFit.cover),
-            //     ),
-            //   ),
-            // ),
-            // Container(
-            //   height: 60,
-            //   width: 60,
-            //   decoration: BoxDecoration(
-            //     border: Border.all(color: AppColors.strokeColor, width: 3),
-            //     borderRadius: BorderRadius.circular(100),
-            //   ),
-            //   child: ClipRRect(
-            //     borderRadius: BorderRadius.circular(100),
-            //     child: CachedNetworkImage(
-            //       imageUrl: singleCat.imageUrl.toString(),
-            //       fit: BoxFit.cover,
-            //       placeholder: (context, url) => Image.asset(ImageConstant.dummy, fit: BoxFit.fill),
-            //       errorWidget: (context, url, error) => Image.asset(ImageConstant.dummy, fit: BoxFit.cover),
-            //     ),
-            //   ),
-            // ),
+
 
             const SizedBox(height: 5,),
             InkWell(
               onTap: (){
-                Get.toNamed(ServiceListScreen.routeName,arguments: singleCat.categoryName.toString());
+                Get.to(ServiceListScreen(selectedCat: singleCat.categoryName.toString(),));
               },
               child: Container(
                 decoration: BoxDecoration(

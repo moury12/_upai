@@ -124,7 +124,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           hintText: widget.hintText,
           hintStyle:widget.hintStyle?? TextStyle(fontSize:13  ,color: AppColors.colorBlack.withOpacity(0.3)),
 
-          suffixIcon: widget.suffixIcon!=null ?
+          suffixIcon: widget.suffixIcon!=null ?widget.suffixIcon:widget.isPasswordField!?
               GestureDetector(
                 onTap: () {
                   _obscureText = !_obscureText;
