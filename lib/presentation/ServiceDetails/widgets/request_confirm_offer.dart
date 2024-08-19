@@ -113,35 +113,37 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
                     'selectedRateType ${HomeController.to.selectedRateType.value}');
                 debugPrint(HomeController.to.change.value.toString());
 
-                return DropdownButton<String>(
-                  underline: const SizedBox.shrink(),
-                  value: HomeController.to.selectedRateType.value,
-                  dropdownColor: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  hint: const Text(
-                    "Select a Rate type  ",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  items: rateTypes.map((unit) {
-                    return DropdownMenuItem<String>(
-                      value: unit,
-                      child: Text(
-                        unit,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+                return FittedBox( 
+                  child: DropdownButton<String>(
+                    underline: const SizedBox.shrink(),
+                    value: HomeController.to.selectedRateType.value,
+                    dropdownColor: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    hint: const Text(
+                      "Select a Rate type  ",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    HomeController.to.change.value = true;
-                    HomeController.to.selectedRateType.value = null;
-                    HomeController.to.selectedRateType.value = value;
-                  },
+                    ),
+                    items: rateTypes.map((unit) {
+                      return DropdownMenuItem<String>(
+                        value: unit,
+                        child: Text(
+                          unit,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      HomeController.to.change.value = true;
+                      HomeController.to.selectedRateType.value = null;
+                      HomeController.to.selectedRateType.value = value;
+                    },
+                  ),
                 );
               }),
             ),
@@ -197,36 +199,44 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                if (HomeController
-                                    .to
-                                    .quantityControllerForConfromOrder
-                                    .value
-                                    .text
-                                    .isEmpty) {
-                                  HomeController.to.quantityForConform.value =
-                                      0;
-                                }
-                                HomeController.to.decreaseQuantityForConfrom();
-                              },
-                              child: Container(
-                                  margin: const EdgeInsets.all(8),
-                                  padding: const EdgeInsets.all(8),
-                                  alignment: Alignment.center,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.black),
-                                  child: Icon(
-                                    Icons.remove,
-                                    color: Colors.white,
-                                  )),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (HomeController
+                                      .to
+                                      .quantityControllerForConfromOrder
+                                      .value
+                                      .text
+                                      .isEmpty) {
+                                    HomeController.to.quantityForConform.value =
+                                        0;
+                                  }
+                                  HomeController.to.decreaseQuantityForConfrom();
+                                },
+                                child: FittedBox(
+                                  child: Container(
+                                      margin: const EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
+                                      alignment: Alignment.center,
+                                      decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.black),
+                                      child: Icon(
+                                        Icons.remove,
+                                        color: Colors.white,
+                                      )),
+                                ),
+                              ),
                             ),
                             Expanded(
-                              child: CustomTextField(
+                              child: CustomTextField(padding: EdgeInsets.zero,
                                   validatorText: "Please Enter quantity",
                                   hintText: "Please Enter quantity",
                                   textAlign: TextAlign.center,
+                                  textInputFormatter: [
+                                    FilteringTextInputFormatter
+                                        .digitsOnly, /*FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9][0-9][0-9]?$')),*/
+                                  ],
                                   inputType: TextInputType.number,
                                   inputFontSize: 12,
                                   controller: HomeController.to
@@ -241,30 +251,34 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
                                   // onChanged: (value) => controller.emailController.text.trim() = value!,
                                   ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                if (HomeController
-                                    .to
-                                    .quantityControllerForConfromOrder
-                                    .value
-                                    .text
-                                    .isEmpty) {
-                                  HomeController.to.quantityForConform.value =
-                                      0;
-                                }
-                                HomeController.to.increaseQuantityForConfrom();
-                              },
-                              child: Container(
-                                  margin: const EdgeInsets.all(8),
-                                  padding: const EdgeInsets.all(8),
-                                  alignment: Alignment.center,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.black),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  )),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (HomeController
+                                      .to
+                                      .quantityControllerForConfromOrder
+                                      .value
+                                      .text
+                                      .isEmpty) {
+                                    HomeController.to.quantityForConform.value =
+                                        0;
+                                  }
+                                  HomeController.to.increaseQuantityForConfrom();
+                                },
+                                child: FittedBox(
+                                  child: Container(
+                                      margin: const EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
+                                      alignment: Alignment.center,
+                                      decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.black),
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      )),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -292,6 +306,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
             ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  alignment: Alignment.center,
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white),
                 onPressed: () {
@@ -326,7 +341,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
                   HomeController.to.rateController.value.text =
                       widget.offerDetails!.rate.toString();*/
                 },
-                child: const Text("Confirm Order")),
+                child: const Text("Confirm Order",textAlign: TextAlign.center,)),
             const SizedBox(
               height: 16,
             )

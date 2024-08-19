@@ -27,6 +27,7 @@ class CustomTextField extends StatefulWidget {
   final String? validatorText;
   final Widget? suffixIcon;
   final TextStyle? hintStyle;
+  final EdgeInsets? padding;
   final List<TextInputFormatter>? textInputFormatter;
 
   const CustomTextField({
@@ -48,7 +49,7 @@ class CustomTextField extends StatefulWidget {
     this.maxLines,
     this.suffixIcon,
     this.onPressed,
-    this.isEmail = false, this.hintStyle, this.inputFontSize, this.height, this.width, this.textInputFormatter,
+    this.isEmail = false, this.hintStyle, this.inputFontSize, this.height, this.width, this.textInputFormatter, this.padding,
   });
 
   @override
@@ -115,7 +116,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 color: Colors.black,
               )),
           filled: true,
-          contentPadding:
+          contentPadding:widget.padding??
               const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
           prefixIcon: widget.prefixIcon != null
               ? Icon(

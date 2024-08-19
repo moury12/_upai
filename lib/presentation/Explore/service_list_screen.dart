@@ -147,7 +147,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 12),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: childRatio,
+                                   childAspectRatio: childRatio,
                                   crossAxisCount: crossAxisCount,
                                   crossAxisSpacing: 16,
                                   mainAxisSpacing: 16),
@@ -162,8 +162,9 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.black,
-                                      foregroundColor: Colors.white,
+                                        backgroundColor: Colors.black,
+                                        foregroundColor: Colors.white,
+                                        alignment: Alignment.center
                                     ),
                                     onPressed: () {
                                       Get.to(
@@ -173,7 +174,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                                       );
                                     },
                                     child: Text('Book Now'),
-                                  ),
+                                  )
                                 ),
                               ),
                             );

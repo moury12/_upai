@@ -59,7 +59,7 @@ Navigator.pop(context);
               return Text(
                 ctrl.appBarTitle.value,
                 style: TextStyle(
-                  fontSize: getResponsiveFontSize(context,14),
+                  fontSize:14,
                   fontWeight: FontWeight.w600,
                   color: AppColors.colorBlack,
                 ),
