@@ -31,7 +31,6 @@ class ClientReviewCard extends StatelessWidget {
                 width: size.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,17 +53,7 @@ class ClientReviewCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text("4.6",style: AppTextStyle.bodySmallGrey,),
-                        RatingBarIndicator(
-                          rating: 4.4,
-                          itemBuilder: (context, index) =>
-                              Icon(
-                                Icons.star,
-                                color: AppColors.colorLightBlack,
-                              ),
-                          itemCount: 5,
-                          itemSize: 14.0,
-                          direction: Axis.horizontal,
-                        ),
+                       Icon(Icons.star_rate_rounded,color: Colors.black87,size: 14,)
                       ],
                     ),
                   ],

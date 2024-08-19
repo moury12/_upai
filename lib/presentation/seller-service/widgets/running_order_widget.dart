@@ -100,24 +100,31 @@ class RunningOrderWidget extends StatelessWidget {
                   mainAxisAlignment:
                   MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                        'Quantity: ${runningOrder.quanrity ?? ''}',
-                        style: TextStyle(
-                            fontSize: getResponsiveFontSize(context,10),
-                            fontWeight: FontWeight.w500)),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius:
-                          BorderRadius.circular(20),
-                          color: Colors.lightBlue
-                              .withOpacity(.5)),
-                      padding: EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 8),
+                    Expanded(
                       child: Text(
-                          '${runningOrder.status ?? ''}',
+                          'Quantity: ${runningOrder.quanrity ?? ''}',
                           style: TextStyle(
                               fontSize: getResponsiveFontSize(context,10),
                               fontWeight: FontWeight.w500)),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+
+                        decoration: BoxDecoration(
+
+                            borderRadius:
+                            BorderRadius.circular(20),
+                            color: Colors.lightBlue
+                                .withOpacity(.5)),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 8),
+                        child: Text(
+                            '${runningOrder.status ?? ''}',
+                            style: TextStyle(
+                                fontSize: getResponsiveFontSize(context,10),
+                                fontWeight: FontWeight.w500)),
+                      ),
                     )
                   ],
                 ),

@@ -136,21 +136,23 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12)),
                 child: Obx(() {
-                  return DropdownButton<CategoryList>(
-                    dropdownColor: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    underline: const SizedBox.shrink(),
-                    value: HomeController.to.selectedCategory.value,
-                    hint: const Text("Select a category"),
-                    items: HomeController.to.getCatList.map((element) {
-                      return DropdownMenuItem<CategoryList>(
-                        value: element,
-                        child: Text(element.categoryName.toString()),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      HomeController.to.selectedCategory.value = value!;
-                    },
+                  return FittedBox(
+                    child: DropdownButton<CategoryList>(
+                      dropdownColor: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      underline: const SizedBox.shrink(),
+                      value: HomeController.to.selectedCategory.value,
+                      hint: const Text("Select a category"),
+                      items: HomeController.to.getCatList.map((element) {
+                        return DropdownMenuItem<CategoryList>(
+                          value: element,
+                          child: Text(element.categoryName.toString()),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        HomeController.to.selectedCategory.value = value!;
+                      },
+                    ),
                   );
                 }),
               ),
@@ -163,23 +165,25 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12)),
                 child: Obx(() {
-                  return DropdownButton<String>(
-                    underline: const SizedBox.shrink(),
-                    value: HomeController.to.selectedRateType.value,
-                    dropdownColor: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    hint: const Text(
-                      "Select a Rate type  ",
+                  return FittedBox(
+                    child: DropdownButton<String>(
+                      underline: const SizedBox.shrink(),
+                      value: HomeController.to.selectedRateType.value,
+                      dropdownColor: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      hint: const Text(
+                        "Select a Rate type  ",
+                      ),
+                      items: timeUnits.map((unit) {
+                        return DropdownMenuItem<String>(
+                          value: unit,
+                          child: Text(unit),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        HomeController.to.selectedRateType.value = value;
+                      },
                     ),
-                    items: timeUnits.map((unit) {
-                      return DropdownMenuItem<String>(
-                        value: unit,
-                        child: Text(unit),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      HomeController.to.selectedRateType.value = value;
-                    },
                   );
                 }),
               ),
@@ -233,29 +237,35 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         Obx(() {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.all(8),
-                                alignment: Alignment.center,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.black),
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.remove,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    if (HomeController.to.quantityController
-                                        .value.text.isEmpty) {
-                                      HomeController.to.quantity.value = 0;
-                                    }
-                                    HomeController.to.decreaseQuantity();
-                                  },
+                            children: [ 
+                              Expanded( 
+                                child: Container(
+                                  margin: const EdgeInsets.all(8),
+                                  alignment: Alignment.center,
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.black),
+                                  child: FittedBox(
+                                    child: IconButton(
+                                    icon: const Icon(
+                                        Icons.remove,
+                                        color: Colors.white,
+                                      ),
+
+                                    onPressed: () {
+                                      if (HomeController.to.quantityController
+                                          .value.text.isEmpty) {
+                                        HomeController.to.quantity.value = 0;
+                                      }
+                                      HomeController.to.decreaseQuantity();
+                                    },
+                                  ),)
                                 ),
                               ),
                               Expanded(
+
                                 child: CustomTextField(
+padding:EdgeInsets.zero,
                                     textInputFormatter: [
                                       FilteringTextInputFormatter
                                           .digitsOnly, /*FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9][0-9][0-9]?$')),*/
@@ -273,29 +283,34 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                             newValue;
                                       }
                                     }
+
                                     // onChanged: (value) => controller.emailController.text.trim() = value!,
                                     ),
                               ),
-                              Container(
-                                margin: const EdgeInsets.all(8),
-                                alignment: Alignment.center,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.black),
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.add,
-                                    color: Colors.white,
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.all(8),
+                                  alignment: Alignment.center,
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.black),
+                                  child: FittedBox(
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        if (HomeController.to.quantityController
+                                            .value.text.isEmpty) {
+                                          HomeController.to.quantity.value = 0;
+                                        }
+                                        debugPrint(HomeController.to.quantity.value
+                                            .toString());
+                                        HomeController.to.increaseQuantity();
+                                      },
+                                    ),
                                   ),
-                                  onPressed: () {
-                                    if (HomeController.to.quantityController
-                                        .value.text.isEmpty) {
-                                      HomeController.to.quantity.value = 0;
-                                    }
-                                    debugPrint(HomeController.to.quantity.value
-                                        .toString());
-                                    HomeController.to.increaseQuantity();
-                                  },
                                 ),
                               ),
                             ],

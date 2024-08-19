@@ -64,19 +64,22 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
         color: Colors.black,
         backgroundColor: Colors.white,
         onRefresh: () => SellerProfileController.to.refreshAllData(),
-        child: Obx(() {
-          var seller = SellerProfileController.to.seller.value;
-          if (seller.sellerProfile == null) {
-            return Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.black,
-                color: Colors.white,
-              ),
-            );
-          } else {
-            return SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
+        child:  SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Obx(() {
+            var seller = SellerProfileController.to.seller.value;
+            if (seller.sellerProfile == null) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.black,
+                    color: Colors.white,
+                  ),
+                ),
+              );
+            } else {
+              return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,14 +227,17 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Running Orders", style: AppTextStyle.titleText),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(RunningOrderListScreen(
-                                runningOrder: seller.runningOrder ?? []));
-                          },
-                          child: Text("All Orders >>",
-                              style: AppTextStyle.titleTextSmallUnderline),
+                        Expanded(flex: 2,
+                            child: Text("Running Orders", style: AppTextStyle.titleText)),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.to(RunningOrderListScreen(
+                                  runningOrder: seller.runningOrder ?? []));
+                            },
+                            child: Text("All Orders >>",
+                                style: AppTextStyle.titleTextSmallUnderline),
+                          ),
                         ),
                       ],
                     ),
@@ -251,17 +257,20 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("My Services", style: AppTextStyle.titleText),
-                        GestureDetector(
-                          onTap: () {
-                            Get.put(SellerProfileController());
-                            Get.to(MyServiceListScreen(
-                                service: seller.myService ?? []));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text("All services >>",
-                                style: AppTextStyle.titleTextSmallUnderline),
+                        Expanded(flex: 2,
+                            child: Text("My Services", style: AppTextStyle.titleText)),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.put(SellerProfileController());
+                              Get.to(MyServiceListScreen(
+                                  service: seller.myService ?? []));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 12.0),
+                              child: Text("All services >>",
+                                  style: AppTextStyle.titleTextSmallUnderline),
+                            ),
                           ),
                         ),
                       ],
@@ -293,10 +302,10 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                     )
                   ],
                 ),
-              ),
-            );
-          }
-        }),
+              );
+            }
+          }),
+        ),
       ),
     );
   }

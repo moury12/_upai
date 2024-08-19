@@ -32,7 +32,6 @@ class ServiceDetails extends StatefulWidget {
 class _ServiceDetailsState extends State<ServiceDetails> {
   @override
   Widget build(BuildContext context) {
-
     //  ItemServiceModel singleItem = ItemServiceModel();
     var ctrl = Get.put(ServiceDetailsController());
     var size = MediaQuery.sizeOf(context);
@@ -116,15 +115,17 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       ),
                       const Divider(),
                       ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: AssetImage(ImageConstant.man),
+                        leading: FittedBox(
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage(ImageConstant.man),
+                          ),
                         ),
                         title: Text(
                           widget.offerDetails!.userName.toString(),
                           style: AppTextStyle.bodyMedium,
                         ),
-                        subtitle: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        trailing: SizedBox.shrink(),
+                        subtitle: OverflowBar(
                           children: [
                             Text(
                               "230 Job completed",
@@ -270,8 +271,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                 arguments: senderData);
                                           },
                                           style: ElevatedButton.styleFrom(
+                                              alignment: Alignment.center,
                                               padding: EdgeInsets.symmetric(
-                                                  vertical: 12),
+                                                  vertical: 12, horizontal: 12),
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(8)),
@@ -281,9 +283,13 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                   AppColors.colorWhite),
                                           child: Text(
                                             "Chat Now",
+                                            textAlign: TextAlign.center,
                                             style: AppTextStyle.bodySmallwhite,
                                           ),
                                         ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
                                       ),
                                       SizedBox(
                                         width: double.infinity,
@@ -299,8 +305,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                             );
                                           },
                                           style: ElevatedButton.styleFrom(
+                                              alignment: Alignment.center,
                                               padding: EdgeInsets.symmetric(
-                                                  vertical: 12),
+                                                  vertical: 12, horizontal: 12),
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(8)),
@@ -309,6 +316,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                               foregroundColor:
                                                   AppColors.colorWhite),
                                           child: Text(
+                                            textAlign: TextAlign.center,
                                             "Confirm Offer",
                                             style: AppTextStyle.bodySmallwhite,
                                           ),
@@ -347,34 +355,52 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               height: 10,
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                 Text(
-                                  "4.4",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black87,
-                                      fontSize: getResponsiveFontSize(context, 16)),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                RatingBarIndicator(
-                                  rating: 4.4,
-                                  itemBuilder: (context, index) => Icon(
-                                    Icons.star,
-                                    color: AppColors.colorLightBlack,
+                                Expanded(
+                                  flex: 2,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "4.4",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black87,
+                                            fontSize: getResponsiveFontSize(
+                                                context, 16)),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      RatingBarIndicator(
+                                        rating: 4.4,
+                                        itemBuilder: (context, index) => Icon(
+                                          Icons.star,
+                                          color: AppColors.colorLightBlack,
+                                        ),
+                                        itemCount: 5,
+                                        itemSize: 22.0,
+                                        direction: Axis.horizontal,
+                                      ),
+                                    ],
                                   ),
-                                  itemCount: 5,
-                                  itemSize: 22.0,
-                                  direction: Axis.horizontal,
                                 ),
-                                Spacer(),
-                                ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.black,foregroundColor: Colors.white),
-                                    onPressed: () => showDialog(
-                                      context: context,
-                                      builder: (context) => ReviewScreen(),
-                                    ),
-                                    child: Text('review'))
+                                Expanded(
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          alignment: Alignment.center,
+                                          backgroundColor: Colors.black,
+                                          foregroundColor: Colors.white),
+                                      onPressed: () => showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                ReviewScreen(),
+                                          ),
+                                      child: Text(
+                                        'review',
+                                        textAlign: TextAlign.center,
+                                      )),
+                                )
                               ],
                             ),
                             const SizedBox(
@@ -473,6 +499,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                               .copyWith(left: 8),
                                           child: SizedBox(
                                             width: 180,
+                                            height: 200,
                                             child: MyServiceWidget(
                                               offerList: HomeController
                                                   .to.getOfferList[index],
@@ -481,30 +508,31 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                     top: 8.0),
                                                 child: SizedBox(
                                                   width: double.infinity,
-                                                  child: ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          Colors.black,
-                                                      foregroundColor:
-                                                          Colors.white,
+                                                  child:  ElevatedButton(
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Colors.black,
+                                                        foregroundColor:
+                                                            Colors.white,
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pushReplacement(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ServiceDetails(
+                                                                offerDetails:
+                                                                    HomeController
+                                                                            .to
+                                                                            .getOfferList[
+                                                                        index],
+                                                              ),
+                                                            ));
+                                                      },
+                                                      child: Text('Book Now'),
                                                     ),
-                                                    onPressed: () {
-                                                      Navigator.pushReplacement(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                ServiceDetails(
-                                                              offerDetails:
-                                                                  HomeController
-                                                                          .to
-                                                                          .getOfferList[
-                                                                      index],
-                                                            ),
-                                                          ));
-                                                    },
-                                                    child: Text('Book Now'),
-                                                  ),
+
                                                 ),
                                               ),
                                             ),
@@ -549,7 +577,8 @@ class OfferDialogWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child: RichText(textAlign: TextAlign.center,
+      child: RichText(
+        textAlign: TextAlign.center,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
         text: TextSpan(text: '', children: [

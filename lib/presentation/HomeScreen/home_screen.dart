@@ -20,7 +20,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeController controller = HomeController.to;
-
+@override
+  void initState() {
+  controller.isSearching.value=false;    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -81,7 +84,7 @@ double childRatio=0.8;
                               filled: true,
                               hintText: "Search service you're looking for...",
                               hintStyle: TextStyle(
-                                  fontSize: getResponsiveFontSize(context, 11),
+                                  fontSize: 12,
                                   color: AppColors.appTextColorGrey),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
@@ -104,7 +107,6 @@ double childRatio=0.8;
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: getResponsiveFontSize(context, 12),
                               fontFamily: 'Inter',
                               fontWeight: FontWeight.w600,
                             ),
@@ -142,10 +144,11 @@ double childRatio=0.8;
                               padding: const EdgeInsets.only(top: 8.0),
                               child: SizedBox(
                                 width: double.infinity,
-                                child: ElevatedButton(
+                                child:ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.black,
-                                    foregroundColor: Colors.white,
+                                      backgroundColor: Colors.black,
+                                      foregroundColor: Colors.white,
+                                      alignment: Alignment.center
                                   ),
                                   onPressed: () {
                                     Get.to(
@@ -155,7 +158,7 @@ double childRatio=0.8;
                                     );
                                   },
                                   child: Text('Book Now'),
-                                ),
+                                )
                               ),
                             ),
                           );
@@ -182,8 +185,10 @@ double childRatio=0.8;
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Browse Category",
-                                  style: AppTextStyle.titleText),
+                              Expanded(
+                                child: Text("Browse Category",
+                                    style: AppTextStyle.titleText),
+                              ),
                               GestureDetector(
                                 onTap: () {
                                   Get.toNamed(CategoryListScreen.routeName);
@@ -250,8 +255,10 @@ double childRatio=0.8;
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Explore Top Services",
-                                  style: AppTextStyle.titleText),
+                              Expanded(
+                                child: Text("Explore Top Services",
+                                    style: AppTextStyle.titleText),
+                              ),
                               GestureDetector(
                                 onTap: () {
                                   Get.toNamed(ServiceListScreen.routeName,
@@ -303,6 +310,7 @@ double childRatio=0.8;
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.black,
                                                 foregroundColor: Colors.white,
+                                                alignment: Alignment.center
                                               ),
                                               onPressed: () {
                                                 Get.to(

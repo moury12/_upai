@@ -32,105 +32,142 @@ class MyServiceWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Image.asset(
-            ImageConstant.productImage,
-            height: 80,
+          Expanded(
+            child: Image.asset(
+              ImageConstant.productImage,
+              // height: 80,
+            ),
           ),
-          SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  'Offer ID: ${isService ? service!.offerId : offerList?.offerId ?? ' '}',
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-                ),
-              ),
-              Text(
-                '${DateFormat('dd-MM-yyyy').format(DateTime.parse(isService ? service!.dateTime.toString() : offerList?.dateTime.toString() ?? ''))}',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Text(
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  isService
-                      ? service!.jobTitle ?? ''
-                      : offerList?.jobTitle ?? '',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 5),
-                height: 14,
-                width: 1,
-                color: Colors.black,
-              ),
-              Expanded(
-                child: Align(alignment: Alignment.centerRight,
-                  child: Text(maxLines: 1,overflow: TextOverflow.ellipsis,
-                    /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
-                    '৳ ${isService ? service!.rate : offerList?.rate ?? '0'}',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+          Expanded(
+              flex: 2,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
                   ),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  isService
-                      ? service!.serviceCategoryType ?? ''
-                      : offerList?.serviceCategoryType ?? '',
-                  style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.grey.shade600),
-                ),
-              ),
-              Icon(
-                CupertinoIcons.cart,
-                size: 20,
-              ),
-              SizedBox(
-                width: 2,
-              ),
-              Text(
-                isService
-                    ? service!.quantity.toString()
-                    : offerList?.quantity.toString() ?? '0', maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              )
-            ],
-          ),
-          button ??
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  isService
-                      ? service!.description ?? ''
-                      : offerList?.description ?? '',
-                  style: TextStyle(fontSize: 8, fontWeight: FontWeight.w400),
-                ),
-              ),
+                  FittedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Offer ID: ${isService ? service!.offerId : offerList?.offerId ?? ' '}',
+                          style: TextStyle(
+                              fontSize: 10, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 5,
+                        ),
+                        Text(
+                          '${DateFormat('dd-MM-yyyy').format(DateTime.parse(isService ? service!.dateTime.toString() : offerList?.dateTime.toString() ?? ''))}',
+                          style: TextStyle(
+                              fontSize: 10, fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          isService
+                              ? service!.jobTitle ?? ''
+                              : offerList?.jobTitle ?? '',
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        height: 14,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
+                            '৳ ${isService ? service!.rate : offerList?.rate ?? '0'}',
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          isService
+                              ? service!.serviceCategoryType ?? ''
+                              : offerList?.serviceCategoryType ?? '',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey.shade600),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(width: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.max,
+                            // overflowAlignment: OverflowBarAlignment.end,
+                            // alignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                CupertinoIcons.cart,
+                                size: 15,
+                              ),
+                              SizedBox(
+                                width: 2,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  isService
+                                      ? service!.quantity.toString()
+                                      : offerList?.quantity.toString() ?? '0',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  button == null
+                      ? Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            isService
+                                ? service!.description ?? ''
+                                : offerList?.description ?? '',
+                            style: TextStyle(
+                                fontSize: 10, fontWeight: FontWeight.w400),
+                          ),
+                        )
+                      : button ?? SizedBox.shrink(),
+                ],
+              ))
         ],
       ),
     );
@@ -164,29 +201,43 @@ class SellerStatusWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: color ?? Colors.lightBlue, shape: BoxShape.circle),
-                padding: EdgeInsets.all(4),
-                child: Icon(
-                  icon ?? Icons.attach_money,
-                  color: Colors.white,
-                  size: getResponsiveFontSize(context,15),
+              Expanded(
+                child: FittedBox(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: color ?? Colors.lightBlue,
+                        shape: BoxShape.circle),
+                    padding: EdgeInsets.all(4),
+                    child: Icon(
+                      icon ?? Icons.attach_money,
+                      color: Colors.white,
+                      size: getResponsiveFontSize(context, 15),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
                 width: 10,
               ),
               Expanded(
+                  flex: 3,
                   child: Text(
-                title ?? 'Total Earning',
-                style: TextStyle(fontSize: getResponsiveFontSize(context,12), fontWeight: FontWeight.w600),
-              ))
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    title ?? 'Total Earning',
+                    style: TextStyle(
+                        fontSize: getResponsiveFontSize(context, 12),
+                        fontWeight: FontWeight.w600),
+                  ))
             ],
           ),
-          Text(
-            value ?? '${seller!.sellerProfile!.totalEarning}',
-            style: TextStyle(fontSize: getResponsiveFontSize(context,18), fontWeight: FontWeight.w800),
+          FittedBox(
+            child: Text(
+              value ?? '${seller!.sellerProfile!.totalEarning}',
+              style: TextStyle(
+                  fontSize: getResponsiveFontSize(context, 18),
+                  fontWeight: FontWeight.w800),
+            ),
           )
         ],
       ),
