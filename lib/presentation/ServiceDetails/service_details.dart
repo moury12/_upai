@@ -42,6 +42,91 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         HomeController.to.selectedRateType.value = null;
       },
       child: Scaffold(
+        bottomNavigationBar: Container(
+          color: AppColors.backgroundLight,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      UserInfoModel senderData =
+                      UserInfoModel();
+                      Map<String, dynamic>? userDetails;
+                      userDetails = await FirebaseAPIs()
+                          .getSenderInfo("016");
+                      if (userDetails!.isNotEmpty) {
+                        senderData.userId =
+                            userDetails["user_id"] ?? "";
+                        senderData.name =
+                            userDetails["name"] ?? "user";
+                        senderData.email =
+                        userDetails["email"];
+                        senderData.lastActive =
+                        userDetails["last_active"];
+                        senderData.image = userDetails[
+                        "image"] ??
+                            "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+                        senderData.isOnline =
+                        userDetails["is_online"];
+                        senderData.userType =
+                        userDetails["user_type"];
+                        senderData.token =
+                        userDetails["token"];
+                        senderData.mobile =
+                        userDetails["mobile"];
+                        senderData.cid =
+                        userDetails["cid"];
+                        senderData.pushToken =
+                        userDetails["push_token"];
+                      }
+                      Get.toNamed("/chatscreen",
+                          arguments: senderData);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      backgroundColor: AppColors.colorBlack,
+                    ),
+                    child: Text(
+                      "Chat Now",
+                      style: AppTextStyle.bodySmallwhite,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.put(OrderController());
+                      showDialog(
+                        context: context,
+                        builder: (context) => ConfrimOfferWidget(
+                          service: widget,
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      backgroundColor: AppColors.colorBlack,
+                    ),
+                    child: Text(
+                      "Confirm Offer",
+                      style: AppTextStyle.bodySmallwhite,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         body: SafeArea(
           child: widget.offerDetails == null
               ? Center(
@@ -117,12 +202,13 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       ListTile(
                         leading: FittedBox(
                           child: CircleAvatar(
-                            backgroundImage: AssetImage(ImageConstant.man),
+                            radius: 35,
+                            backgroundImage: AssetImage(ImageConstant.demoProfile),
                           ),
                         ),
                         title: Text(
                           widget.offerDetails!.userName.toString(),
-                          style: AppTextStyle.bodyMedium,
+                          style: AppTextStyle.appBarTitle,
                         ),
                         trailing: SizedBox.shrink(),
                         subtitle: OverflowBar(
@@ -228,103 +314,103 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     ],
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: ElevatedButton(
-                                          onPressed: () async {
-                                            UserInfoModel senderData =
-                                                UserInfoModel();
-                                            Map<String, dynamic>? userDetails;
-                                            userDetails = await FirebaseAPIs()
-                                                .getSenderInfo("016");
-                                            if (userDetails!.isNotEmpty) {
-                                              senderData.userId =
-                                                  userDetails["user_id"] ?? "";
-                                              senderData.name =
-                                                  userDetails["name"] ?? "user";
-                                              senderData.email =
-                                                  userDetails["email"];
-                                              senderData.lastActive =
-                                                  userDetails["last_active"];
-                                              senderData.image = userDetails[
-                                                      "image"] ??
-                                                  "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
-                                              senderData.isOnline =
-                                                  userDetails["is_online"];
-                                              senderData.userType =
-                                                  userDetails["user_type"];
-                                              senderData.token =
-                                                  userDetails["token"];
-                                              senderData.mobile =
-                                                  userDetails["mobile"];
-                                              senderData.cid =
-                                                  userDetails["cid"];
-                                              senderData.pushToken =
-                                                  userDetails["push_token"];
-                                            }
-
-                                            Get.toNamed("/chatscreen",
-                                                arguments: senderData);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              alignment: Alignment.center,
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 12, horizontal: 12),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8)),
-                                              backgroundColor:
-                                                  AppColors.BTNbackgroudgrey,
-                                              foregroundColor:
-                                                  AppColors.colorWhite),
-                                          child: Text(
-                                            "Chat Now",
-                                            textAlign: TextAlign.center,
-                                            style: AppTextStyle.bodySmallwhite,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            Get.put(OrderController());
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  ConfrimOfferWidget(
-                                                service: widget,
-                                              ),
-                                            );
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              alignment: Alignment.center,
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 12, horizontal: 12),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8)),
-                                              backgroundColor:
-                                                  AppColors.BTNbackgroudgrey,
-                                              foregroundColor:
-                                                  AppColors.colorWhite),
-                                          child: Text(
-                                            textAlign: TextAlign.center,
-                                            "Confirm Offer",
-                                            style: AppTextStyle.bodySmallwhite,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                // Expanded(
+                                //   flex: 2,
+                                //   child: Column(
+                                //     children: [
+                                //       SizedBox(
+                                //         width: double.infinity,
+                                //         child: ElevatedButton(
+                                //           onPressed: () async {
+                                //             UserInfoModel senderData =
+                                //                 UserInfoModel();
+                                //             Map<String, dynamic>? userDetails;
+                                //             userDetails = await FirebaseAPIs()
+                                //                 .getSenderInfo("016");
+                                //             if (userDetails!.isNotEmpty) {
+                                //               senderData.userId =
+                                //                   userDetails["user_id"] ?? "";
+                                //               senderData.name =
+                                //                   userDetails["name"] ?? "user";
+                                //               senderData.email =
+                                //                   userDetails["email"];
+                                //               senderData.lastActive =
+                                //                   userDetails["last_active"];
+                                //               senderData.image = userDetails[
+                                //                       "image"] ??
+                                //                   "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+                                //               senderData.isOnline =
+                                //                   userDetails["is_online"];
+                                //               senderData.userType =
+                                //                   userDetails["user_type"];
+                                //               senderData.token =
+                                //                   userDetails["token"];
+                                //               senderData.mobile =
+                                //                   userDetails["mobile"];
+                                //               senderData.cid =
+                                //                   userDetails["cid"];
+                                //               senderData.pushToken =
+                                //                   userDetails["push_token"];
+                                //             }
+                                //
+                                //             Get.toNamed("/chatscreen",
+                                //                 arguments: senderData);
+                                //           },
+                                //           style: ElevatedButton.styleFrom(
+                                //               alignment: Alignment.center,
+                                //               padding: EdgeInsets.symmetric(
+                                //                   vertical: 12, horizontal: 12),
+                                //               shape: RoundedRectangleBorder(
+                                //                   borderRadius:
+                                //                       BorderRadius.circular(8)),
+                                //               backgroundColor:
+                                //                   AppColors.BTNbackgroudgrey,
+                                //               foregroundColor:
+                                //                   AppColors.colorWhite),
+                                //           child: Text(
+                                //             "Chat Now",
+                                //             textAlign: TextAlign.center,
+                                //             style: AppTextStyle.bodySmallwhite,
+                                //           ),
+                                //         ),
+                                //       ),
+                                //       SizedBox(
+                                //         height: 8,
+                                //       ),
+                                //       SizedBox(
+                                //         width: double.infinity,
+                                //         child: ElevatedButton(
+                                //           onPressed: () {
+                                //             Get.put(OrderController());
+                                //             showDialog(
+                                //               context: context,
+                                //               builder: (context) =>
+                                //                   ConfrimOfferWidget(
+                                //                 service: widget,
+                                //               ),
+                                //             );
+                                //           },
+                                //           style: ElevatedButton.styleFrom(
+                                //               alignment: Alignment.center,
+                                //               padding: EdgeInsets.symmetric(
+                                //                   vertical: 12, horizontal: 12),
+                                //               shape: RoundedRectangleBorder(
+                                //                   borderRadius:
+                                //                       BorderRadius.circular(8)),
+                                //               backgroundColor:
+                                //                   AppColors.BTNbackgroudgrey,
+                                //               foregroundColor:
+                                //                   AppColors.colorWhite),
+                                //           child: Text(
+                                //             textAlign: TextAlign.center,
+                                //             "Confirm Offer",
+                                //             style: AppTextStyle.bodySmallwhite,
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // )
                               ],
                             ),
                             const SizedBox(

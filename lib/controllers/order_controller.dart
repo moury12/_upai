@@ -23,19 +23,18 @@ late  UserInfoModel userInfoModel ;
       "completion_date": "2024-08-29"
     });
   }
-
   void awardCreateJob(String offerId,String sellerId,String title,String description,String rateType,String rate,String quantity,String total,) async {
     await RepositoryData.awardCreateJob(body: {
       "offer_id": offerId,
-      "buyer_mobile": "${userInfoModel.userId}",
-      "seller_mobile": sellerId,
+      "buyer_mobile": sellerId,
+      "seller_mobile": "${userInfoModel.userId}",
       "job_title":title,
       "description": description,
       "rate_type": rateType,
       "rate": rate,
       "quantity": quantity,
       "total": total,
-      "status": "ACCEPTED"
+      "status": "INPROGRESS"
     });
   }
 
