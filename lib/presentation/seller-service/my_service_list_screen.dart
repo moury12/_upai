@@ -100,12 +100,12 @@ class MyServiceListScreen extends StatelessWidget {
                   return SellerProfileController.to.filterList.isEmpty?Center(child:Text('My Service list is empty')): GridView.builder(
                     shrinkWrap: true,
                     primary: false,
-                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    padding: EdgeInsets.symmetric(horizontal: 8),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
 
                         crossAxisCount: crossAxisCount,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16),
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8),
                     itemCount: SellerProfileController.to.filterList.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
@@ -116,7 +116,7 @@ class MyServiceListScreen extends StatelessWidget {
                     },
                   );
                 })), SizedBox(
-                  height: 12,
+                  height: 8,
                 )
               ],
             ),

@@ -59,7 +59,7 @@ class MyServiceDetails extends StatelessWidget {
                     Text(
                       service.jobTitle ?? '',
                       style: TextStyle(
-                          fontSize: getResponsiveFontSize(context, 18),
+                          fontSize: 18,
                           fontWeight: FontWeight.w700),
                     ),
                     GridView(
@@ -91,13 +91,13 @@ class MyServiceDetails extends StatelessWidget {
                         Text(
                           'Rate Type: ',
                           style: TextStyle(
-                              fontSize: getResponsiveFontSize(context, 14),
+                              fontSize: 14,
                               fontWeight: FontWeight.w600),
                         ),
                         Text(
                           '${service.rateType}',
                           style: TextStyle(
-                              fontSize: getResponsiveFontSize(context, 12),
+                              fontSize: 12,
                               fontWeight: FontWeight.w400),
                         ),
                       ],
@@ -107,13 +107,13 @@ class MyServiceDetails extends StatelessWidget {
                         Text(
                           'Category Type: ',
                           style: TextStyle(
-                              fontSize: getResponsiveFontSize(context, 14),
+                              fontSize: 14,
                               fontWeight: FontWeight.w600),
                         ),
                         Text(
                           '${service.serviceCategoryType}',
                           style: TextStyle(
-                              fontSize: getResponsiveFontSize(context, 12),
+                              fontSize: 12,
                               fontWeight: FontWeight.w400),
                         ),
                       ],
@@ -121,16 +121,16 @@ class MyServiceDetails extends StatelessWidget {
                     Text(
                       'Description: ',
                       style: TextStyle(
-                          fontSize: getResponsiveFontSize(context, 14),
+                          fontSize: 14,
                           fontWeight: FontWeight.w600),
                     ),
                     Text(
                       '${service.description}',
                       style: TextStyle(
-                          fontSize: getResponsiveFontSize(context, 12),
+                          fontSize: 12,
                           fontWeight: FontWeight.w400),
                     ),
-                    SizedBox(height: 16,),
+                    SizedBox(height: 8,),
 
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -155,12 +155,12 @@ class MyServiceDetails extends StatelessWidget {
                                 'Edit',
                                 style: TextStyle(
                                     fontSize:
-                                        getResponsiveFontSize(context, 14),
+                                        14,
                                     fontWeight: FontWeight.w600),
                               )),
                         ),
                         SizedBox(
-                          width: getResponsiveFontSize(context, 14),
+                          width: 14,
                         ),
                         Expanded(
                           child: ElevatedButton(
@@ -219,14 +219,14 @@ class MyServiceDetails extends StatelessWidget {
                                 'Delete',
                                 style: TextStyle(
                                     fontSize:
-                                        getResponsiveFontSize(context, 14),
+                                        14,
                                     fontWeight: FontWeight.w600),
                               )),
                         ),
                       ],
                     ),
                     const SizedBox(
-                      height: 16,
+                      height: 8,
                     )
                   ],
                 ),

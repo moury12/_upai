@@ -35,13 +35,15 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
 
     if (screenWidth > 600) {
       crossAxisCount = 3;
-      childRatio =screenWidth> screenHeight?0.9:1;
+      childRatio = screenWidth > screenHeight ? 0.9 : 1;
     }
     if (screenWidth > 900) {
-      crossAxisCount = 4; childRatio =screenWidth> screenHeight?0.9:1;
+      crossAxisCount = 4;
+      childRatio = screenWidth > screenHeight ? 0.9 : 1;
     }
     if (screenWidth > 1232) {
-      crossAxisCount = 5; childRatio =1;
+      crossAxisCount = 5;
+      childRatio = 1;
     }
 
     return PopScope(
@@ -81,8 +83,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
           body: RefreshIndicator(
             color: Colors.black,
             backgroundColor: Colors.white,
-            onRefresh: () async{
-              controller.filterOffer( controller.searchController.value.text);
+            onRefresh: () async {
+              controller.filterOffer(controller.searchController.value.text);
             },
             child: Column(
               children: [
@@ -144,13 +146,13 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                           shrinkWrap: true,
                           primary: false,
                           physics: AlwaysScrollableScrollPhysics(),
-                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          padding: EdgeInsets.symmetric(horizontal: 8),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                                   childAspectRatio: childRatio,
+                                  childAspectRatio: childRatio,
                                   crossAxisCount: crossAxisCount,
-                                  crossAxisSpacing: 16,
-                                  mainAxisSpacing: 16),
+                                  crossAxisSpacing: 8,
+                                  mainAxisSpacing: 8),
                           itemCount: offerList.length,
                           itemBuilder: (context, index) {
                             final service = offerList[index];
@@ -159,23 +161,21 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                               button: Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: SizedBox(
-                                  width: double.infinity,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.black,
-                                        foregroundColor: Colors.white,
-                                        alignment: Alignment.center
-                                    ),
-                                    onPressed: () {
-                                      Get.to(
-                                        ServiceDetails(
-                                          offerDetails: service,
-                                        ),
-                                      );
-                                    },
-                                    child: Text('Book Now'),
-                                  )
-                                ),
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.black,
+                                          foregroundColor: Colors.white,
+                                          alignment: Alignment.center),
+                                      onPressed: () {
+                                        Get.to(
+                                          ServiceDetails(
+                                            offerDetails: service,
+                                          ),
+                                        );
+                                      },
+                                      child: Text('Book Now'),
+                                    )),
                               ),
                             );
                           },
@@ -193,7 +193,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                   },
                 ),
                 SizedBox(
-                  height: 16,
+                  height: 8,
                 )
               ],
             ),
