@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
+import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import '../../Model/user_info_model.dart';
@@ -27,13 +28,15 @@ class RepositoryData {
   //   print(data.length);
   //   return data;
   // }
-  Future<void> login(String CID, String userMobile, String password, String userType) async {
+  Future<void> login(
+      String CID, String userMobile, String password, String userType) async {
     String url = ApiClient().loginUrl;
     try {
       var response = await http.post(
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"cid": CID, "user_mobile": userMobile, "user_pass": password}),
+        body: jsonEncode(
+            {"cid": CID, "user_mobile": userMobile, "user_pass": password}),
       );
       print("object");
       final data = jsonDecode(response.body);
@@ -62,7 +65,8 @@ class RepositoryData {
           Get.offAndToNamed("/defaultscreen");
         }
       } else {
-        Get.snackbar(data["status"], data["message"], colorText: Colors.white, backgroundColor: Colors.red);
+        Get.snackbar(data["status"], data["message"],
+            colorText: Colors.white, backgroundColor: Colors.pink);
       }
       // var loginResponse = loginResponseModelFromJson(response.);
       print(response);
@@ -74,7 +78,8 @@ class RepositoryData {
     }
   }
 
-  Future<void> createUser(String cId, String userName, String userPass, String userMobile, String userEmail) async {
+  Future<void> createUser(String cId, String userName, String userPass,
+      String userMobile, String userEmail) async {
     String url = ApiClient().createUserUrl;
     print("url is =>$url");
 
@@ -82,17 +87,26 @@ class RepositoryData {
       var response = await http.post(
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"cid": cId, "user_name": userName, "user_pass": userPass, "email": userEmail, "mobile": userMobile}),
+        body: jsonEncode({
+          "cid": cId,
+          "user_name": userName,
+          "user_pass": userPass,
+          "email": userEmail,
+          "mobile": userMobile
+        }),
       );
       if (response.statusCode == 200) {
         print("success");
       }
       final data = jsonDecode(response.body.toString());
       if (data["message"] == "successfully user create") {
-        Get.snackbar("Success", "User Created Successfully", colorText: Colors.green, backgroundColor: Colors.white);
+        Get.snackbar("Success", "User Created Successfully",
+            colorText: Colors.green, backgroundColor: Colors.white);
         Get.offAll(() => const LoginScreen());
-      } else if (data["message"] == "All ready this user exist in the database") {
-        Get.snackbar("Failed", "All ready this user exist in the database", colorText: Colors.red, backgroundColor: Colors.white);
+      } else if (data["message"] ==
+          "All ready this user exist in the database") {
+        Get.snackbar("Failed", "All ready this user exist in the database",
+            colorText: Colors.red, backgroundColor: Colors.white);
       }
     } catch (e) {
       // handleError(e);
@@ -101,11 +115,36 @@ class RepositoryData {
     }
   }
 
+  static Future<SellerProfileModel> getSellerProfile(
+      String token, String userId) async {
+    SellerProfileModel sellerProfileModel = SellerProfileModel();
+    try {
+      final response = await http.get(
+          Uri.parse('${ApiClient().sellerProfile}?user_id=$userId'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          });
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      debugPrint('seller profile $responseData');
+      if(responseData['status']!=null&&responseData['status']=="Success"){
+        sellerProfileModel =SellerProfileModel.fromJson(responseData);
+      }else{
+        Get.snackbar('Failed', 'Failed to load data');
+      }
+      return sellerProfileModel;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   Future<List<CategoryList>> getCategoryList({
     required String token,
   }) async {
     try {
-      String url = "${ApiClient().getCategoryList}?cid=upai&user_mobile=0190001&name=md rabbi2";
+      String url =
+          "${ApiClient().getCategoryList}?cid=upai&user_mobile=0190001&name=md rabbi2";
       if (kDebugMode) {
         print('++++++++++get area list url :----$url');
         print('Token : ${token}');
@@ -142,7 +181,8 @@ class RepositoryData {
     required String token,
   }) async {
     try {
-      String url = "${ApiClient().getOfferList}?cid=upai&user_mobile=0190001&name=md rabbi2";
+      String url =
+          "${ApiClient().getOfferList}?cid=upai&user_mobile=0190001&name=md rabbi2";
       if (kDebugMode) {
         print('++++++++++get Offer list url :----$url');
         print('Token : ${token}');
@@ -180,7 +220,8 @@ class RepositoryData {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    final response = await http.post(Uri.parse(ApiClient().createOffer), body: jsonEncode(body), headers: headers);
+    final response = await http.post(Uri.parse(ApiClient().createOffer),
+        body: jsonEncode(body), headers: headers);
     final responseData = jsonDecode(response.body);
     debugPrint(' body $body');
     debugPrint('response body $responseData');
@@ -191,12 +232,14 @@ class RepositoryData {
       Get.snackbar('Error', 'Failed to create offer');
     }
   }
+
   static Future<void> jobStatus({dynamic body}) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    final response = await http.post(Uri.parse(ApiClient().jobStatus), body: jsonEncode(body), headers: headers);
+    final response = await http.post(Uri.parse(ApiClient().jobStatus),
+        body: jsonEncode(body), headers: headers);
     final responseData = jsonDecode(response.body);
     debugPrint(' body $body');
     debugPrint('response body $responseData');
@@ -207,28 +250,32 @@ class RepositoryData {
       Get.snackbar('Error', 'Failed');
     }
   }
+
   static Future<void> awardCreateJob({dynamic body}) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    final response = await http.post(Uri.parse(ApiClient().awardCreateJob), body: jsonEncode(body), headers: headers);
+    final response = await http.post(Uri.parse(ApiClient().awardCreateJob),
+        body: jsonEncode(body), headers: headers);
     final responseData = jsonDecode(response.body);
     debugPrint(' body $body');
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['message']);
+      Get.snackbar('Success', '${responseData['message']} job id is ${responseData['job_id']}');
     } else {
       Get.snackbar('Error', 'Failed');
     }
   }
+
   static Future<void> completionReview({dynamic body}) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    final response = await http.post(Uri.parse(ApiClient().completionReview), body: jsonEncode(body), headers: headers);
+    final response = await http.post(Uri.parse(ApiClient().completionReview),
+        body: jsonEncode(body), headers: headers);
     final responseData = jsonDecode(response.body);
     debugPrint(' body $body');
     debugPrint('response body $responseData');

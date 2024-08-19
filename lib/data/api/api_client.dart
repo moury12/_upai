@@ -1,7 +1,7 @@
 
 
 class ApiClient {
-  static const String _baseUrl = "http://192.168.0.211:8000/upai_api";
+  static const String _baseUrl = "http://192.168.0.139:8002/upai_api";
 
   String get loginUrl => '$_baseUrl/login';
   String get createUserUrl => '$_baseUrl/create_user';
@@ -11,6 +11,7 @@ class ApiClient {
   String get jobStatus => '$_baseUrl/job_status';
   String get awardCreateJob => '$_baseUrl/award_create_job';
   String get completionReview => '$_baseUrl/completion_review';
+  String get sellerProfile => '$_baseUrl/seller_profile';
 
 
 }

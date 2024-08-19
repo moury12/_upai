@@ -18,29 +18,53 @@ class HomeController extends GetxController {
     RxList<OfferList> getOfferList=<OfferList>[].obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;
   Rx<TextEditingController> searchCatController = TextEditingController().obs;
+  Rx<TextEditingController> rateController =
+  TextEditingController().obs;
+Rx<bool> change =false.obs;
+Rx<bool> changeQuantity =true.obs;
+Rx<bool> changeRate =false.obs;
+  RxInt quantity = 1.obs;
+  RxInt quantityForConform = 1.obs;
+  var totalAmount = 0.obs;
 
-  RxInt quantity = 0.obs;
-  Rx<TextEditingController> quantityController = TextEditingController(text: '0').obs;
+  Rx<TextEditingController> quantityController = TextEditingController(text: '1').obs;
+  Rx<TextEditingController> quantityControllerForConfromOrder = TextEditingController().obs;
   Rx<CategoryList?> selectedCategory = Rx<CategoryList?>(null);
-  Rx<String?> selectedTimeUnit = Rx<String?>(null);
+  Rx<String?> selectedRateType = Rx<String?>(null);
   var filteredOfferList = <OfferList>[].obs;
   var filteredCategoryList = <CategoryList>[].obs;
   final box = Hive.box('userInfo');
-  LoginController controller = Get.put(LoginController());
 
+@override
+  void onClose() {
+quantityController.value.dispose();
+quantityControllerForConfromOrder.value.dispose();
+rateController.value.dispose();
+super.onClose();
+  }
   @override
   void onInit() async{
-    getCategoryList();
-    getOfferDataList();
+    refreshAllData();
     quantityController.value.text = quantity.value.toString();
+    quantityControllerForConfromOrder.value.text = quantityForConform.value.toString();
     ever(quantity, (value) {
       quantityController.value.text = value.toString();
 
-    });
+    });ever(quantityForConform, (value) {
+      quantityControllerForConfromOrder.value.text = value.toString();
 
+    });
+    quantityControllerForConfromOrder.value.addListener(updateTotalAmount);
+    rateController.value.addListener(updateTotalAmount);
     // TODO: implement onInit
     super.onInit();
   }
+
+  Future<void> refreshAllData() async{
+   getCategoryList();
+  getOfferDataList();
+
+}
  void getCategoryList() async{
     getCatList.value = await RepositoryData().getCategoryList(token: FirebaseAPIs.user['token'].toString());
 filteredCategoryList.value =getCatList;
@@ -60,7 +84,7 @@ void createOffer(String jobTitle,String description,String rate,) async{
       "job_title":jobTitle,
       "description":description,
       "quantity":quantity.value.toString(),
-      "rate_type":selectedTimeUnit.value,
+      "rate_type":selectedRateType.value,
       "rate":rate,
       "date_time":DateTime.now().toString()
     }
@@ -68,12 +92,24 @@ void createOffer(String jobTitle,String description,String rate,) async{
     );
 }
   void increaseQuantity() {
-    quantity.value++;
+   quantity.value++;
   }
 
   void decreaseQuantity() {
     if (quantity.value > 1) {
-      quantity.value--;
+
+     quantity.value--;
+    }
+  }void increaseQuantityForConfrom() {
+    quantityForConform.value++;
+    changeQuantity.value=true;
+  }
+
+  void decreaseQuantityForConfrom() {
+    if (quantityForConform.value > 1) {
+      changeQuantity.value=true;
+
+      quantityForConform.value--;
     }
   }
 void filterOffer(String query) async{
@@ -93,4 +129,10 @@ return element.categoryName!.toLowerCase().contains(query.toLowerCase());
       filteredCategoryList.value=  getCatList;
     }
 }
+
+  void updateTotalAmount() {
+    int rate =int.parse(rateController.value.text.isEmpty?'0':rateController.value.text);
+    int quantity =int.parse(quantityControllerForConfromOrder.value.text.isEmpty?'0':quantityControllerForConfromOrder.value.text);
+    totalAmount.value =rate *quantity;
+  }
 }

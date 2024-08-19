@@ -10,11 +10,14 @@ import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/Explore/explore_screen.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
-import 'package:upai/presentation/HomeScreen2/home_screen2.dart';
+import 'package:upai/presentation/seller-service/seller_profile_screen.dart';
 import 'package:upai/presentation/Inbox/inbox.dart';
 import 'package:upai/presentation/Profile/profile_screen.dart';
 import 'package:upai/presentation/notification/notificaton_screen.dart';
+
+import 'seller-service/seller_profile_controller.dart';
 class DefaultController extends GetxController
 {
   late UserInfoModel userData;
@@ -24,6 +27,8 @@ class DefaultController extends GetxController
   void onInit() {
     FirebaseAPIs.getSelfInfo();
     WidgetsBinding.instance.addObserver(AppLifecycleListener());
+    Get.put(HomeController(), permanent: true);
+    Get.put(SellerProfileController(), permanent: true);
     // var userJsonString = box.get('user');
     // Map<String,dynamic> data = json.decode(userJsonString.toString());
    // userType = data['user_type'].toString();
@@ -54,7 +59,7 @@ class DefaultController extends GetxController
 
   final List<Widget> screensForClient = [
     HomeScreen(),
-    const HomeScreen2(),
+    const SellerProfileScreen(),
     // ExploreScreen(),
     const InboxScreen(),
     const NotificatonScreen(),
@@ -78,7 +83,7 @@ class DefaultController extends GetxController
        case 0:
          appBarTitle.value="Upai";
        case 1:
-         appBarTitle.value="Service Details";
+         appBarTitle.value="My Services";
        // case 2:
        //   appBarTitle.value="Explore";
        case 2:

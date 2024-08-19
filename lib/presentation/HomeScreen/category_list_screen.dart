@@ -18,12 +18,7 @@ class CategoryListScreen extends StatefulWidget {
 }
 
 class _CategoryListScreenState extends State<CategoryListScreen> {
-  @override
-  void initState() {
-    Get.put(HomeController());
-    // TODO: implement initState
-    super.initState();
-  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -75,12 +70,13 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
               if(HomeController.to.filteredCategoryList.isNotEmpty){
               return Expanded(
                 child: GridView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 12,vertical: 12).copyWith(top:0,right: 4),
                   itemCount:HomeController.to.filteredCategoryList.length ,
                   gridDelegate:
 
                        SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
                   itemBuilder: (context, index) {
-                    return CategotyItemtwo(singleCat: HomeController.to.filteredCategoryList[index],
+                    return CategotyItemtwo(singleCat: HomeController.to.filteredCategoryList[index],maxline: 5,
 
                     );
                   },
