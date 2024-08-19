@@ -96,6 +96,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           HomeController.to.selectedCategory.value = value!;
                         },
                       );
+
+
                     }),
                   ),
                   /* const SizedBox(
