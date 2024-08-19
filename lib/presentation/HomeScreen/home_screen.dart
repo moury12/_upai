@@ -63,7 +63,7 @@ double childRatio=0.8;
                       borderRadius:
                           BorderRadius.vertical(bottom: Radius.circular(20))),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       children: [
                         const SizedBox(
@@ -88,10 +88,10 @@ double childRatio=0.8;
                                   color: AppColors.appTextColorGrey),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(20))),
+                                  borderRadius: BorderRadius.circular(10))),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 8,
                         ),
                         Container(
                           width: double.infinity,
@@ -100,7 +100,7 @@ double childRatio=0.8;
                           decoration: ShapeDecoration(
                             color: Colors.black,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
+                                borderRadius: BorderRadius.circular(10)),
                           ),
                           child: Text(
                             'Search Service',
@@ -128,13 +128,13 @@ double childRatio=0.8;
                         shrinkWrap: true,
                         clipBehavior: Clip.none,
                         primary: false,
-                        padding: EdgeInsets.symmetric(horizontal: 12)
-                            .copyWith(top: 12),
+                        padding: EdgeInsets.symmetric(horizontal: 8)
+                            .copyWith(top: 8),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: childRatio,
                            crossAxisCount: crossAxisCount,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16),
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8),
                         itemCount: offerList.length,
                         itemBuilder: (context, index) {
                           final service = offerList[index];
@@ -178,7 +178,7 @@ double childRatio=0.8;
                     }
                   } else {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal:8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -290,8 +290,8 @@ double childRatio=0.8;
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: crossAxisCount,
                                             childAspectRatio:childRatio,
-                                            crossAxisSpacing: 16,
-                                            mainAxisSpacing: 16),
+                                            crossAxisSpacing: 8,
+                                            mainAxisSpacing: 8),
                                     itemCount:
                                         controller.getOfferList.length < 4
                                             ? controller.getOfferList.length
@@ -301,26 +301,22 @@ double childRatio=0.8;
                                           controller.getOfferList[index];
                                       return MyServiceWidget(
                                         offerList: service,
-                                        button: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: SizedBox(
-                                            width: double.infinity,
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.black,
-                                                foregroundColor: Colors.white,
-                                                alignment: Alignment.center
-                                              ),
-                                              onPressed: () {
-                                                Get.to(
-                                                  ServiceDetails(
-                                                    offerDetails: service,
-                                                  ),
-                                                );
-                                              },
-                                              child: Text('Book Now'),
+                                        button: SizedBox(
+                                          width: double.infinity,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.black,
+                                              foregroundColor: Colors.white,
+                                              alignment: Alignment.center
                                             ),
+                                            onPressed: () {
+                                              Get.to(
+                                                ServiceDetails(
+                                                  offerDetails: service,
+                                                ),
+                                              );
+                                            },
+                                            child: Text('Book Now'),
                                           ),
                                         ),
                                       );
@@ -360,7 +356,7 @@ double childRatio=0.8;
                   }
                 }),
                 SizedBox(
-                  height: 12,
+                  height: 8,
                 )
               ],
             ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -32,32 +33,32 @@ class RunningOrderWidget extends StatelessWidget {
           ClipRRect(
             child: Image.asset(
               ImageConstant.runningOrderImage,
-              height: getResponsiveFontSize(context,100),
+              height: getResponsiveFontSize(context,120),
               fit: BoxFit.fill,
             ),
             borderRadius: BorderRadius.circular(15),
           ),
           SizedBox(
-            width: 10,
+            width: 12,
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row( mainAxisAlignment:
+                /*Row( mainAxisAlignment:
                 MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                         'Job id: ${runningOrder.jobId ?? 'job id'}',
                         style: TextStyle(
-                            fontSize: getResponsiveFontSize(context,10),
+                            fontSize: 12,
                             fontWeight: FontWeight.w500)),Text(
                         '${runningOrder.awardDate ?? ''}',
                         style: TextStyle(
-                            fontSize: getResponsiveFontSize(context,10),
+                            fontSize: 12,
                             fontWeight: FontWeight.w500)),
                   ],
-                ),
+                ),*/
                 Row(
                   mainAxisAlignment:
                   MainAxisAlignment.spaceBetween,
@@ -66,7 +67,7 @@ class RunningOrderWidget extends StatelessWidget {
                         child: Text(
                           runningOrder.jobTitte ?? 'job title',
                           style: TextStyle(
-                              fontSize: getResponsiveFontSize(context,14),
+                              fontSize: 14,
                               fontWeight: FontWeight.w600),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -75,18 +76,18 @@ class RunningOrderWidget extends StatelessWidget {
                     Text(
                         "৳ ${runningOrder.taotal ?? '0.00'}",
                         style: TextStyle(
-                            fontSize: getResponsiveFontSize(context,16),
+                            fontSize: 16,
                             fontWeight: FontWeight.w700)),
                   ],
                 ),
                 Text('Description:',
                     style: TextStyle(
-                        fontSize: getResponsiveFontSize(context,10),
+                        fontSize: 14,
                         fontWeight: FontWeight.w500)),
                 Text(
                   runningOrder.description ?? '',
                   style: TextStyle(
-                      fontSize: getResponsiveFontSize(context,8),
+                      fontSize: 12,
                       fontWeight: FontWeight.w400),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -94,20 +95,25 @@ class RunningOrderWidget extends StatelessWidget {
                 Text(
                     '${runningOrder.rateType ?? ' '}(${runningOrder.rate})',
                     style: TextStyle(
-                        fontSize: getResponsiveFontSize(context,8),
+                        fontSize: 12,
                         fontWeight: FontWeight.w400)),
                 Row(
                   mainAxisAlignment:
                   MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Text(
-                          'Quantity: ${runningOrder.quanrity ?? ''}',
-                          style: TextStyle(
-                              fontSize: getResponsiveFontSize(context,10),
-                              fontWeight: FontWeight.w500)),
+                    Expanded(flex:2,
+                      child: Row(crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(CupertinoIcons.cart,size: 14,),SizedBox(width: 2,),
+                          Text(
+                              '${runningOrder.quanrity ?? ''}',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500)),
+                        ],
+                      ),
                     ),
-                    Expanded(
+                    Expanded(flex: 4,
                       child: Container(
                         alignment: Alignment.center,
 
@@ -119,10 +125,10 @@ class RunningOrderWidget extends StatelessWidget {
                                 .withOpacity(.5)),
                         padding: EdgeInsets.symmetric(
                             vertical: 4, horizontal: 8),
-                        child: Text(
+                        child: Text(textAlign: TextAlign.center,
                             '${runningOrder.status ?? ''}',
                             style: TextStyle(
-                                fontSize: getResponsiveFontSize(context,10),
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500)),
                       ),
                     )

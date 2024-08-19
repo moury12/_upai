@@ -80,7 +80,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               );
             } else {
               return Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -229,7 +229,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       children: [
                         Expanded(flex: 2,
                             child: Text("Running Orders", style: AppTextStyle.titleText)),
-                        Expanded(
+                        Flexible(
                           child: GestureDetector(
                             onTap: () {
                               Get.to(RunningOrderListScreen(
@@ -259,7 +259,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       children: [
                         Expanded(flex: 2,
                             child: Text("My Services", style: AppTextStyle.titleText)),
-                        Expanded(
+                        Flexible(
                           child: GestureDetector(
                             onTap: () {
                               Get.put(SellerProfileController());
@@ -281,8 +281,8 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
 
                           crossAxisCount: crossAxisCount,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16),
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8),
                       itemCount: seller.myService!.reversed.toList().length < 4
                           ? seller.myService!.reversed.toList().length
                           : 4,
@@ -297,9 +297,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                         ));
                       },
                     ),
-                    SizedBox(
-                      height: 10,
-                    )
+
                   ],
                 ),
               );
