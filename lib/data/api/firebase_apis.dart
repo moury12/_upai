@@ -27,7 +27,6 @@ class FirebaseAPIs {
   static Map<String, dynamic> user =json.decode(userJsonString) ;
 
   static FirebaseFirestore mDB = FirebaseFirestore.instance;
-
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllChatList() {
     return FirebaseAPIs.mDB.collection("chat_list").snapshots();
   }

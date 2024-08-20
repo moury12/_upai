@@ -27,8 +27,8 @@ late  UserInfoModel userInfoModel ;
   void awardCreateJob(String offerId,String sellerId,String title,String description,String rateType,String rate,String quantity,String total,) async {
     await RepositoryData.awardCreateJob(body: {
       "offer_id": offerId,
-      "buyer_mobile": sellerId,
-      "seller_mobile": "${userInfoModel.userId}",
+      "buyer_mobile": "${userInfoModel.userId}",
+      "seller_mobile": sellerId,
       "job_title":title,
       "description": description,
       "rate_type": rateType,
