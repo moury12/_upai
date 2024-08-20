@@ -69,7 +69,7 @@ class AppColors {
 
   static get appTextColorGrey => const Color(0xff828080);
   static get titleName =>const Color(0xFF131313);
-  static get deepGreyColor => const Color(0xff616161);
+  static get deepGreyColor => const Color(0xff474747);
   static get background1 =>const Color(0xFFF2F2F2);
   static get strokeColor =>const  Color(0xFFE4E9F2);
   static get strokeColor2 =>const  Color(0xFFEDF1F7);

@@ -41,7 +41,6 @@ class SellerProfileController extends GetxController {
     debugPrint('myService.toJson()');
     debugPrint(myService.toString());
   }
-
   void filterMyService(String query) {
     if (query.isEmpty) {
       filterList.assignAll(myService);

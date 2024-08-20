@@ -22,7 +22,7 @@ import 'widgets/rate_by_category_widget.dart';
 import 'widgets/request_confirm_offer.dart';
 
 class ServiceDetails extends StatefulWidget {
-  ServiceDetails({super.key, this.offerDetails});
+  const ServiceDetails({super.key, this.offerDetails});
   final OfferList? offerDetails;
   static const String routeName = '/offer-details';
   @override
@@ -45,48 +45,34 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         bottomNavigationBar: Container(
           color: AppColors.backgroundLight,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      UserInfoModel senderData =
-                      UserInfoModel();
+                      UserInfoModel senderData = UserInfoModel();
                       Map<String, dynamic>? userDetails;
-                      userDetails = await FirebaseAPIs()
-                          .getSenderInfo("016");
+                      userDetails = await FirebaseAPIs().getSenderInfo("016");
                       if (userDetails!.isNotEmpty) {
-                        senderData.userId =
-                            userDetails["user_id"] ?? "";
-                        senderData.name =
-                            userDetails["name"] ?? "user";
-                        senderData.email =
-                        userDetails["email"];
-                        senderData.lastActive =
-                        userDetails["last_active"];
-                        senderData.image = userDetails[
-                        "image"] ??
+                        senderData.userId = userDetails["user_id"] ?? "";
+                        senderData.name = userDetails["name"] ?? "user";
+                        senderData.email = userDetails["email"];
+                        senderData.lastActive = userDetails["last_active"];
+                        senderData.image = userDetails["image"] ??
                             "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
-                        senderData.isOnline =
-                        userDetails["is_online"];
-                        senderData.userType =
-                        userDetails["user_type"];
-                        senderData.token =
-                        userDetails["token"];
-                        senderData.mobile =
-                        userDetails["mobile"];
-                        senderData.cid =
-                        userDetails["cid"];
-                        senderData.pushToken =
-                        userDetails["push_token"];
+                        senderData.isOnline = userDetails["is_online"];
+                        senderData.userType = userDetails["user_type"];
+                        senderData.token = userDetails["token"];
+                        senderData.mobile = userDetails["mobile"];
+                        senderData.cid = userDetails["cid"];
+                        senderData.pushToken = userDetails["push_token"];
                       }
-                      Get.toNamed("/chatscreen",
-                          arguments: senderData);
+                      Get.toNamed("/chatscreen", arguments: senderData);
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -98,7 +84,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     ),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
@@ -129,7 +115,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         ),
         body: SafeArea(
           child: widget.offerDetails == null
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator(
                     color: Colors.black,
                   ),
@@ -202,15 +188,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       ListTile(
                         leading: FittedBox(
                           child: CircleAvatar(
-                            radius: 35,
-                            backgroundImage: AssetImage(ImageConstant.demoProfile),
+                            radius: 30,
+                            backgroundImage:
+                                AssetImage(ImageConstant.demoProfile),
                           ),
                         ),
                         title: Text(
                           widget.offerDetails!.userName.toString(),
                           style: AppTextStyle.appBarTitle,
                         ),
-                        trailing: SizedBox.shrink(),
+                        trailing: const SizedBox.shrink(),
                         subtitle: OverflowBar(
                           children: [
                             Text(
@@ -233,9 +220,33 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const DetailItem(
+                              title: "Offer ID:",
+                              body: "201",
+                            ),
+
+                            DetailItem(
+                              title: "Category:",
+                              body: widget.offerDetails!.serviceCategoryType
+                                  .toString(),
+                            ),
+
+                            DetailItem(
+                              title: "Rate Type:",
+                              body: widget.offerDetails!.rateType.toString(),
+                            ),
+                            DetailItem(
+                              title: "Rate:",
+                              body: widget.offerDetails!.rate.toString(),
+                            ),
+                            DetailItem(
+                              title: "Quantity:",
+                              body: widget.offerDetails!.quantity.toString(),
+                            ),
+
                             Text(
                               "Description",
-                              style: AppTextStyle.titleTextSmall,
+                              style: AppTextStyle.bodyMediumBlackBold,
                             ),
                             const SizedBox(
                               height: 5,
@@ -249,7 +260,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             // ),
                             ReadMoreText(
                               widget.offerDetails!.description.toString(),
-                              style: AppTextStyle.bodySmallblack,
+                              style: AppTextStyle.bodySmallGrey400,
                               textAlign: TextAlign.justify,
                               trimMode: TrimMode.Line,
                               trimLines: 5,
@@ -417,26 +428,26 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               height: 20,
                             ),
 
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: AppColors.background1,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Frequently Asked ",
-                                      style: AppTextStyle.bodyMediumBlack400,
-                                    ),
-                                    const Icon(Icons.arrow_forward_ios)
-                                  ],
-                                ),
-                              ),
-                            ),
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(8),
+                            //     color: AppColors.background1,
+                            //   ),
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.all(8.0),
+                            //     child: Row(
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceBetween,
+                            //       children: [
+                            //         Text(
+                            //           "Frequently Asked ",
+                            //           style: AppTextStyle.bodyMediumBlack400,
+                            //         ),
+                            //         const Icon(Icons.arrow_forward_ios)
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                             const SizedBox(
                               height: 10,
                             ),
@@ -594,31 +605,30 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                     top: 8.0),
                                                 child: SizedBox(
                                                   width: double.infinity,
-                                                  child:  ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            Colors.black,
-                                                        foregroundColor:
-                                                            Colors.white,
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.pushReplacement(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  ServiceDetails(
-                                                                offerDetails:
-                                                                    HomeController
-                                                                            .to
-                                                                            .getOfferList[
-                                                                        index],
-                                                              ),
-                                                            ));
-                                                      },
-                                                      child: Text('Book Now'),
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Colors.black,
+                                                      foregroundColor:
+                                                          Colors.white,
                                                     ),
-
+                                                    onPressed: () {
+                                                      Navigator.pushReplacement(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ServiceDetails(
+                                                              offerDetails:
+                                                                  HomeController
+                                                                          .to
+                                                                          .getOfferList[
+                                                                      index],
+                                                            ),
+                                                          ));
+                                                    },
+                                                    child: Text('Book Now'),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -646,6 +656,41 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 ),
         ),
       ),
+    );
+  }
+}
+
+class DetailItem extends StatelessWidget {
+  final String title, body;
+  const DetailItem({
+    super.key,
+    required this.title,
+    required this.body,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+                child: Text(
+              title,
+              style: AppTextStyle.bodyMediumBlackBold,
+            )),
+            Expanded(
+                child: Text(
+              body,
+              style: AppTextStyle.bodyMediumSemiBlackBold,
+            )),
+          ],
+        ),
+        SizedBox(
+          height: 3,
+        ),
+      ],
     );
   }
 }

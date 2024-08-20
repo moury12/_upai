@@ -69,9 +69,9 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
           child: Obx(() {
             var seller = SellerProfileController.to.seller.value;
             if (seller.sellerProfile == null) {
-              return Center(
+              return const Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: CircularProgressIndicator(
                     backgroundColor: Colors.black,
                     color: Colors.white,
@@ -88,7 +88,6 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                           mainAxisSpacing: 6,
                           crossAxisSpacing: getResponsiveFontSize(context, 8),
-
                           maxCrossAxisExtent:
                               MediaQuery.of(context).size.width / 2.5),
                       shrinkWrap: true,

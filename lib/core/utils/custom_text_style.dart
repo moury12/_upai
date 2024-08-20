@@ -46,7 +46,7 @@ class AppTextStyle {
   );
   static get bodyMediumSemiBlackBold => TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.bold,
+    // fontWeight: FontWeight.bold,
     color: AppColors.titleName,
   );
   static get bodyMediumBlackSemiBold => TextStyle(
@@ -64,7 +64,7 @@ class AppTextStyle {
     color: AppColors.titleName,
   );
   static get bodySmallGrey => TextStyle(
-    fontSize: 11,
+    fontSize: 13,
     // fontWeight: FontWeight.w400,
     color: AppColors.deepGreyColor,
   );
@@ -168,8 +168,8 @@ class AppTextStyle {
   static get bodySmallGrey400 => TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w400,
-        color: AppColors.colorGrey,
-        decoration: TextDecoration.lineThrough,
+        color: AppColors.titleName,
+       // decoration: TextDecoration.lineThrough,
       );
 
   static get bodySmallBlack400 => TextStyle(
