@@ -69,7 +69,7 @@ class AppTextStyle {
     color: AppColors.deepGreyColor,
   );
   static get bodySmallblack => TextStyle(
-    fontSize: 11,
+    fontSize: 13,
     // fontWeight: FontWeight.w400,
     color: AppColors.titleName,
   );
@@ -89,7 +89,7 @@ class AppTextStyle {
 
   static get bodyLarge900 => TextStyle(
         fontSize: 24,
-        fontWeight: FontWeight.w900,
+        fontWeight: FontWeight.w700,
         color: AppColors.colorBlack,
       );
 
@@ -113,10 +113,10 @@ class AppTextStyle {
         color: AppColors.colorWhite,
       );
 
-  static get bodyMediumWhite400 => TextStyle(
+  static get bodyMediumblack => TextStyle(
         fontSize: 17,
-        fontWeight: FontWeight.w400,
-        color: AppColors.colorWhite,
+        fontWeight: FontWeight.bold,
+        color: AppColors.colorBlack,
       );
   static get bodyMediumWhite400small => TextStyle(
     fontSize: 14,

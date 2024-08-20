@@ -73,7 +73,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       Get.toNamed("/chatscreen", arguments: senderData);
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -98,7 +98,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -197,7 +197,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         ),
                         title: Text(
                           widget.offerDetails!.userName.toString(),
-                          style: AppTextStyle.appBarTitle,
+                          style: AppTextStyle.bodyMediumblack,
                         ),
                         trailing: const SizedBox.shrink(),
                         subtitle: OverflowBar(
@@ -238,7 +238,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       // ),
                                       Text(
                                         "৳ ${widget.offerDetails!.rate.toString()}/${widget.offerDetails!.rateType}",
-                                        style: AppTextStyle.bodyLarge,
+                                        style: AppTextStyle.bodyLarge900,
                                       ),
                                     ],
                                   ),
@@ -658,9 +658,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 }
                               },
                             ),
-                            const SizedBox(
-                              height: 50,
-                            ),
+
                           ],
                         ),
                       )
