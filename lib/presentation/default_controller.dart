@@ -25,6 +25,7 @@ class DefaultController extends GetxController
  // String userType="";
   @override
   void onInit() {
+    userData = userInfoModelFromJson(box.get('user'));
     FirebaseAPIs.getSelfInfo();
     WidgetsBinding.instance.addObserver(AppLifecycleListener());
     Get.put(HomeController(), permanent: true);
@@ -32,7 +33,7 @@ class DefaultController extends GetxController
     // var userJsonString = box.get('user');
     // Map<String,dynamic> data = json.decode(userJsonString.toString());
    // userType = data['user_type'].toString();
-    userData = userInfoModelFromJson(box.get('user'));
+
 
 
     //for updating user active status according to lifecycle events

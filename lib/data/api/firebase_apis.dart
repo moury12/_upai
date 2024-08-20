@@ -11,9 +11,10 @@ import 'package:upai/data/api/notification_access_token.dart';
 import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
 
 class FirebaseAPIs {
+  static final box = Hive.box("userInfo");
   static var userJsonString = box.get('user');
   static UserInfoModel me = UserInfoModel();
-  static final box = Hive.box("userInfo");
+
 
   //getUserDetailsFromHive
   static Future<String> currentUser() async {
