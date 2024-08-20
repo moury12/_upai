@@ -124,7 +124,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                 validatorText: "Please Enter Job Description",
                 hintText: "Please Enter Job Description",
                 controller: descriptionController,
-                maxLines: 3,
+                maxLines: 5,
                 // onChanged: (value) => controller.emailController.text.trim() = value!,
               ),
               const SizedBox(

@@ -216,7 +216,7 @@ class SellerStatusWidget extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: 10,
+                width: 5,
               ),
               Expanded(
                   flex: 3,

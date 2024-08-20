@@ -9,6 +9,7 @@ import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
@@ -149,6 +150,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 child: Obx(() {
                                   return IconButton(
                                     onPressed: () {
+                                    print(  widget.offerDetails!.description.toString());
                                       if (ctrl.isFav.value) {
                                         ctrl.isFav.value = false;
                                       } else {
@@ -215,96 +217,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         ),
                       ),
                       const Divider(),
+
                       Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const DetailItem(
-                              title: "Offer ID:",
-                              body: "201",
-                            ),
-
-                            DetailItem(
-                              title: "Category:",
-                              body: widget.offerDetails!.serviceCategoryType
-                                  .toString(),
-                            ),
-
-                            DetailItem(
-                              title: "Rate Type:",
-                              body: widget.offerDetails!.rateType.toString(),
-                            ),
-                            DetailItem(
-                              title: "Rate:",
-                              body: widget.offerDetails!.rate.toString(),
-                            ),
-                            DetailItem(
-                              title: "Quantity:",
-                              body: widget.offerDetails!.quantity.toString(),
-                            ),
-
-                            Text(
-                              "Description",
-                              style: AppTextStyle.bodyMediumBlackBold,
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            // Text(
-                            //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                            //       " It has survived not only five centuries, but also the"
-                            //       " leap into electronic typesetting, remaining essentially unchanged...."
-                            //       " See More",
-                            //   style: AppTextStyle.bodySmallblack,
-                            // ),
-                            ReadMoreText(
-                              widget.offerDetails!.description.toString(),
-                              style: AppTextStyle.bodySmallGrey400,
-                              textAlign: TextAlign.justify,
-                              trimMode: TrimMode.Line,
-                              trimLines: 5,
-                              //colorClickableText: Colors.pink,
-                              trimCollapsedText: 'Show more',
-                              trimExpandedText: 'Show less',
-                              moreStyle: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
-                              lessStyle: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            // Text(
-                            //   "Includes",
-                            //   style: AppTextStyle.titleTextSmall,
-                            // ),
-                            // const SizedBox(
-                            //   height: 5,
-                            // ),
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     borderRadius: BorderRadius.circular(4),
-                            //     color: AppColors.background1,
-                            //   ),
-                            //   width: size.width,
-                            //   height: 100,
-                            //   child: ListView.builder(
-                            //     itemBuilder: (context, index) {
-                            //       return Padding(
-                            //         padding: const EdgeInsets.only(
-                            //             left: 12.0, right: 12.0, top: 2),
-                            //         child: Text(
-                            //           "✔️ Feature",
-                            //           style: AppTextStyle.bodySmallGrey,
-                            //         ),
-                            //       );
-                            //     },
-                            //   ),
-                            // ),
-                            const SizedBox(
-                              height: 5,
-                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -312,12 +230,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   flex: 4,
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "Price",
-                                        style: AppTextStyle.bodySmallGrey,
-                                      ),
+                                      // Text(
+                                      //   "Price",
+                                      //   style: AppTextStyle.bodyMediumBlack400,
+                                      // ),
                                       Text(
                                         "৳ ${widget.offerDetails!.rate.toString()}/${widget.offerDetails!.rateType}",
                                         style: AppTextStyle.bodyLarge,
@@ -325,6 +243,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     ],
                                   ),
                                 ),
+                                Expanded(
+                                  flex:2,
+                                  child: Text(
+                                    textAlign: TextAlign.end,
+                                      MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())),),
                                 // Expanded(
                                 //   flex: 2,
                                 //   child: Column(
@@ -425,8 +348,98 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               ],
                             ),
                             const SizedBox(
+                              height: 10,
+                            ),
+                             DetailItem(
+                              title: "User ID:",
+                              body:widget.offerDetails!.userId.toString()
+                            ),
+                            //  DetailItem(
+                            //   title: "Offer ID:",
+                            //   body: widget.offerDetails!.offerId.toString(),
+                            // ),
+
+                            DetailItem(
+                              title: "Category:",
+                              body: widget.offerDetails!.serviceCategoryType
+                                  .toString(),
+                            ),
+
+                            DetailItem(
+                              title: "Rate Type:",
+                              body: widget.offerDetails!.rateType.toString(),
+                            ),
+                            DetailItem(
+                              title: "Rate:",
+                              body:"${widget.offerDetails!.rate.toString()} ৳ ",
+                            ),
+                            DetailItem(
+                              title: "Quantity:",
+                              body:"${widget.offerDetails!.quantity.toString()} 🛒",
+                            ),
+
+                            Text(
+                              "Description",
+                              style: AppTextStyle.bodyMediumBlackBold,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            // Text(
+                            //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                            //       " It has survived not only five centuries, but also the"
+                            //       " leap into electronic typesetting, remaining essentially unchanged...."
+                            //       " See More",
+                            //   style: AppTextStyle.bodySmallblack,
+                            // ),
+                            ReadMoreText(
+                              widget.offerDetails!.description.toString(),
+                              style: AppTextStyle.bodySmallGrey400,
+                              textAlign: TextAlign.start,
+                              trimMode: TrimMode.Line,
+                              trimLines: 5,
+                              //colorClickableText: Colors.pink,
+                              trimCollapsedText: 'Show more',
+                              trimExpandedText: ' Show less',
+                              moreStyle: const TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
+                              lessStyle: const TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
                               height: 20,
                             ),
+                            // Text(
+                            //   "Includes",
+                            //   style: AppTextStyle.titleTextSmall,
+                            // ),
+                            // const SizedBox(
+                            //   height: 5,
+                            // ),
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(4),
+                            //     color: AppColors.background1,
+                            //   ),
+                            //   width: size.width,
+                            //   height: 100,
+                            //   child: ListView.builder(
+                            //     itemBuilder: (context, index) {
+                            //       return Padding(
+                            //         padding: const EdgeInsets.only(
+                            //             left: 12.0, right: 12.0, top: 2),
+                            //         child: Text(
+                            //           "✔️ Feature",
+                            //           style: AppTextStyle.bodySmallGrey,
+                            //         ),
+                            //       );
+                            //     },
+                            //   ),
+                            // ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+
 
                             // Container(
                             //   decoration: BoxDecoration(
@@ -482,22 +495,22 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     ],
                                   ),
                                 ),
-                                Expanded(
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          alignment: Alignment.center,
-                                          backgroundColor: Colors.black,
-                                          foregroundColor: Colors.white),
-                                      onPressed: () => showDialog(
-                                            context: context,
-                                            builder: (context) =>
-                                                ReviewScreen(),
-                                          ),
-                                      child: Text(
-                                        'review',
-                                        textAlign: TextAlign.center,
-                                      )),
-                                )
+                                // Expanded(
+                                //   child: ElevatedButton(
+                                //       style: ElevatedButton.styleFrom(
+                                //           alignment: Alignment.center,
+                                //           backgroundColor: Colors.black,
+                                //           foregroundColor: Colors.white),
+                                //       onPressed: () => showDialog(
+                                //             context: context,
+                                //             builder: (context) =>
+                                //                 ReviewScreen(),
+                                //           ),
+                                //       child: Text(
+                                //         'review',
+                                //         textAlign: TextAlign.center,
+                                //       )),
+                                // )
                               ],
                             ),
                             const SizedBox(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MyDateUtil {
   // for getting formatted time from milliSecondsSinceEpochs String
@@ -6,6 +7,17 @@ class MyDateUtil {
       {required BuildContext context, required String time}) {
     final date = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
     return TimeOfDay.fromDateTime(date).format(context);
+  }
+  // static String getFormattedDate(
+  //     {required BuildContext context, required String time}) {
+  //   final date = DateTime.(int.parse(time));
+  //   final formattedTime = TimeOfDay.fromDateTime(date).format(context);
+  //   return '$formattedTime - ${date.day} ${_getMonth(date)} ${date.year}';
+  // }
+ static String formatDate(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    DateFormat dateFormat = DateFormat('dd-MM-yyyy');
+    return dateFormat.format(dateTime);
   }
 
   // for getting formatted time for sent & read

@@ -62,6 +62,7 @@ class MyServiceDetails extends StatelessWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.w700),
                     ),
+
                     GridView(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       gridDelegate:
