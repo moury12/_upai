@@ -609,14 +609,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                               .copyWith(left: 8),
                                           child: SizedBox(
                                             width: 180,
-                                            height: 200,
+                                            height: 220,
                                             child: MyServiceWidget(
                                               offerList: HomeController
                                                   .to.getOfferList[index],
-                                              button: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
-                                                child: SizedBox(
+                                              button: SizedBox(
                                                   width: double.infinity,
                                                   child: ElevatedButton(
                                                     style: ElevatedButton
@@ -643,7 +640,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                     child: Text('Book Now'),
                                                   ),
                                                 ),
-                                              ),
+
                                             ),
                                           ),
                                         ),
