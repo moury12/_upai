@@ -15,12 +15,13 @@ late  UserInfoModel userInfoModel ;
     // TODO: implement onInit
     super.onInit();
   }
-  void jobStatus() async {
+  void jobStatus(String jobId,String status,String awardDate,
+      String completionDate) async {
     await RepositoryData.jobStatus(body: {
-      "job_id": "205",
-      "status": status.value,
-      "award_date": "2024-07-29",
-      "completion_date": "2024-08-29"
+      "job_id": jobId,
+      "status": status,
+      "award_date": awardDate,
+      "completion_date": completionDate
     });
   }
   void awardCreateJob(String offerId,String sellerId,String title,String description,String rateType,String rate,String quantity,String total,) async {

@@ -38,22 +38,27 @@ class RunningOrderListScreen extends StatelessWidget {
             style: AppTextStyle.appBarTitle,
           ),
         ),
-        body: RefreshIndicator(
-          color: Colors.black,
-            child: runningOrder.isEmpty
-            ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: ShimmerRunnigOrder(forList: true,),
-            )
-            : ListView.builder(padding: EdgeInsets.all(12),
-          itemCount: runningOrder.length,
-          itemBuilder: (context, index) {
-            return RunningOrderWidget(
-              runningOrder: runningOrder[index],
-            );
-          },
-        ), onRefresh: () {
-          return SellerProfileController.to.refreshAllData();
-        },));
+        body: Obx(
+          () {
+            return RefreshIndicator(
+              color: Colors.black,
+                backgroundColor: AppColors.strokeColor2,
+                child: SellerProfileController.to.seller.value.runningOrder==null
+                ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ShimmerRunnigOrder(forList: true,),
+                )
+                : ListView.builder(padding: EdgeInsets.all(12),
+              itemCount: SellerProfileController.to.seller.value.runningOrder!.length,
+              itemBuilder: (context, index) {
+                return RunningOrderWidget(
+                  runningOrder: SellerProfileController.to.seller.value.runningOrder![index],
+                );
+              },
+            ), onRefresh: () {
+              return SellerProfileController.to.refreshAllData();
+            },);
+          }
+        ));
   }
 }
