@@ -59,7 +59,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
         backgroundColor: AppColors.strokeColor2,
         titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        title: const Text(
+        title: HomeController.to.userData.userId==widget.service.offerDetails!.userId?null: Text(
           'Request Confirm Offer',
           style: TextStyle(
             fontSize: 16,
@@ -67,7 +67,10 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
           ),
           textAlign: TextAlign.center,
         ),
-        content: Column(
+        content:HomeController.to.userData.userId==widget.service.offerDetails!.userId?Padding(
+          padding: const EdgeInsets.all(12),
+          child: Center(child: Text('This is your own service'),),
+        ): Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Divider(

@@ -7,6 +7,7 @@ import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Explore/service_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/widgets/cat_two.dart';
@@ -205,13 +206,7 @@ double childRatio=0.8;
                           ),
                           Obx(() {
                             return HomeController.to.getCatList.isEmpty
-                                ? Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Center(
-                                        child: CircularProgressIndicator(
-                                      color: Colors.black,
-                                    )),
-                                  )
+                                ? ShimmerCategoryList()
                                 : SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
@@ -276,13 +271,7 @@ double childRatio=0.8;
                           ),
                           Obx(() {
                             return HomeController.to.getOfferList.isEmpty
-                                ? Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Center(
-                                        child: CircularProgressIndicator(
-                                      color: Colors.black,
-                                    )),
-                                  )
+                                ? ShimmerOfferList()
                                 : GridView.builder(
                                     shrinkWrap: true,
                                     primary: false,

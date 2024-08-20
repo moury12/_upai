@@ -179,10 +179,12 @@ class RepositoryData {
 
   Future<List<OfferList>> getOfferList({
     required String token,
+    required String mobile,
+    required String name,
   }) async {
     try {
       String url =
-          "${ApiClient().getOfferList}?cid=upai&user_mobile=0190001&name=md rabbi2";
+          "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&name=$name";
       if (kDebugMode) {
         print('++++++++++get Offer list url :----$url');
         print('Token : ${token}');

@@ -8,6 +8,7 @@ import 'package:upai/widgets/custom_text_field.dart';
 
 import '../../core/utils/custom_text_style.dart';
 import 'controller/home_screen_controller.dart';
+import 'widgets/shimmer_for_home.dart';
 
 class CategoryListScreen extends StatefulWidget {
   static const String routeName = '/category-list';
@@ -83,7 +84,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 ),
               );}
               else{
-                return const Center(child:Text('Category List empty...'));
+                return Expanded(child: ShimmerCategoryDetailsList());
               }
             }),
           ],

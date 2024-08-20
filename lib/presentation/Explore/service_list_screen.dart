@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -89,8 +90,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0)
-                      .copyWith(bottom: 12),
+                  padding: const EdgeInsets.symmetric(horizontal:8.0)
+                      .copyWith(bottom: 8),
                   child: Obx(() {
                     return CustomTextField(
                       controller: controller.searchController.value,
@@ -119,11 +120,12 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                 Obx(
                   () {
                     if (controller.filteredOfferList.isEmpty) {
-                      return Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "No Service Available",
-                          style: AppTextStyle.bodySmallText2Grey400s16,
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0).copyWith(
+                            top: 0
+                          ),
+                          child: ShimmerOfferList(fromServiceList: true,),
                         ),
                       );
                     } else {
@@ -182,12 +184,10 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                         ));
                       } else {
                         return Expanded(
-                            child: Center(
-                          child: Text(
-                            "No Service Available",
-                            style: AppTextStyle.bodySmallText2Grey400s16,
-                          ),
-                        ));
+                            child:  Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ShimmerOfferList(fromServiceList: true,),
+                            ));
                       }
                     }
                   },

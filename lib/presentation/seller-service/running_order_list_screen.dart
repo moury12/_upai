@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
+import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import '../../core/utils/custom_text_style.dart';
 import 'widgets/running_order_widget.dart';
 
@@ -36,19 +38,22 @@ class RunningOrderListScreen extends StatelessWidget {
             style: AppTextStyle.appBarTitle,
           ),
         ),
-        body: runningOrder.isEmpty
-            ? Center(
-                child: CircularProgressIndicator(
-                  color: Colors.black,
-                ),
-              )
+        body: RefreshIndicator(
+          color: Colors.black,
+            child: runningOrder.isEmpty
+            ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: ShimmerRunnigOrder(forList: true,),
+            )
             : ListView.builder(padding: EdgeInsets.all(12),
-                itemCount: runningOrder.length,
-                itemBuilder: (context, index) {
-                  return RunningOrderWidget(
-                    runningOrder: runningOrder[index],
-                  );
-                },
-              ));
+          itemCount: runningOrder.length,
+          itemBuilder: (context, index) {
+            return RunningOrderWidget(
+              runningOrder: runningOrder[index],
+            );
+          },
+        ), onRefresh: () {
+          return SellerProfileController.to.refreshAllData();
+        },));
   }
 }
