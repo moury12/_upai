@@ -18,30 +18,28 @@ class CategotyItemtwo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 8,top: 5),
-      child: SizedBox(
-        child: InkWell(
-          onTap: (){
-            Get.to(ServiceListScreen(selectedCat: singleCat.categoryName.toString(),));
-          },
-          child: Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Color.fromARGB(
-                235,
-                Random().nextInt(256),
-               Random().nextInt(256),
-               Random().nextInt(256),
-              ).withOpacity(.2),
-              borderRadius: BorderRadius.circular(8)
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                 maxLines:maxline?? 1,
-                '${singleCat.categoryName}',
-                style: AppTextStyle.body12BlackSemiBold,
-                textAlign: TextAlign.center,
-              ),
+      child: InkWell(
+        onTap: (){
+          Get.to(ServiceListScreen(selectedCat: singleCat.categoryName.toString(),));
+        },
+        child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Color.fromARGB(
+              235,
+              Random().nextInt(256),
+             Random().nextInt(256),
+             Random().nextInt(256),
+            ).withOpacity(.2),
+            borderRadius: BorderRadius.circular(8)
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+               maxLines:maxline?? 1,
+              '${singleCat.categoryName}',
+              style: AppTextStyle.body12BlackSemiBold,
+              textAlign: TextAlign.center,
             ),
           ),
         ),

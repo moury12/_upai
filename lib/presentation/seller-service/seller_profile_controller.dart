@@ -4,7 +4,6 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/Model/user_info_model.dart';
-import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 
 class SellerProfileController extends GetxController {

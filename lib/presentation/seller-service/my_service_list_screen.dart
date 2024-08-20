@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -70,7 +71,7 @@ class MyServiceListScreen extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0)
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0)
                         .copyWith(bottom: 12),
                     child: Obx(
                        () {
@@ -97,7 +98,10 @@ class MyServiceListScreen extends StatelessWidget {
                       }
                     )),
                 Expanded(child: Obx(() {
-                  return SellerProfileController.to.filterList.isEmpty?Center(child:Text('My Service list is empty')): GridView.builder(
+                  return SellerProfileController.to.filterList.isEmpty?Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ShimmerOfferList(fromServiceList: true,),
+                  ): GridView.builder(
                     shrinkWrap: true,
                     primary: false,
                     padding: EdgeInsets.symmetric(horizontal: 8),

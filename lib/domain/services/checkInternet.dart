@@ -1,6 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 
 class NetworkController extends GetxController {
   final Connectivity _connectivity = Connectivity();
@@ -33,7 +35,15 @@ class NetworkController extends GetxController {
       if (Get.isSnackbarOpen) {
         Get.closeCurrentSnackbar();
       }
+      _reloadData();
     }
+  }
+
+  void _reloadData() {
+    // Call your data loading functions here
+    // For example:
+    HomeController.to.refreshAllData();
+    SellerProfileController.to.refreshAllData();
   }
   @override
   void onClose() {

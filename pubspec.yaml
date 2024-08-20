@@ -32,7 +32,7 @@ dependencies:
   connectivity_plus: 2.3.0
   # For accessing firebase messaging (Push Notification)
   firebase_messaging: ^15.0.0
-
+  shimmer: ^3.0.0 
   # Bearer Token for Push Notification
   googleapis_auth: ^1.6.0
   # For creating notification channel
