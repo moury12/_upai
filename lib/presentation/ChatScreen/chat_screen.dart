@@ -379,11 +379,17 @@ class ChatScreen extends StatelessWidget {
                                             BorderSide(color: Colors.grey.shade100),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                        BorderSide(color: Colors.grey.shade300),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      
                                       enabledBorder: OutlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.grey.shade300),
                                         borderRadius: BorderRadius.circular(20),
-                                      ),
+                                    ),
                                     ),
                                   ),
                                 ),

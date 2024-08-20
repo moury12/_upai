@@ -271,7 +271,7 @@ double childRatio=0.8;
                           ),
                           Obx(() {
                             return HomeController.to.getOfferList.isEmpty
-                                ? ShimmerOfferList()
+                                ? const ShimmerOfferList()
                                 : GridView.builder(
                                     shrinkWrap: true,
                                     primary: false,

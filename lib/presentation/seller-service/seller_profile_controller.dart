@@ -31,7 +31,6 @@ class SellerProfileController extends GetxController {
     getSellerProfile();
 
   }
-
   void getSellerProfile() async {
     seller.value = await RepositoryData.getSellerProfile(
         userData.token.toString(), userData.userId ?? '');

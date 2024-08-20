@@ -202,35 +202,40 @@ class SellerStatusWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Row(
-            children: [
-              Container(alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: color ?? Colors.lightBlue,
-                    shape: BoxShape.circle),
-              padding: EdgeInsets.all(4),
-                child: Icon(
-                  icon ?? Icons.attach_money,
-                  color: Colors.white,
-                  size: 15,
+          Expanded(
+            flex: 5,
+            child: Row(
+              children: [
+                Container(alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: color ?? Colors.lightBlue,
+                      shape: BoxShape.circle),
+                padding: EdgeInsets.all(4),
+                  child: Icon(
+                    icon ?? Icons.attach_money,
+                    color: Colors.white,
+                    size: 15,
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                  flex: 3,
-                  child: Text(
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    title ?? 'Total Earning',
-                    style: TextStyle(
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                    flex: 3,
+                    child: Text(
 
-                        fontWeight: FontWeight.w600),
-                  ))
-            ],
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      title ?? 'Total Earning',
+                      style: TextStyle(
+
+                          fontWeight: FontWeight.w600),
+                    ))
+              ],
+            ),
           ),
-          FittedBox(
+          Expanded(
+            flex: 4,
             child: Text(
               value ?? '${seller!.sellerProfile!.totalEarning}',
               style: TextStyle(

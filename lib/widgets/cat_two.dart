@@ -25,11 +25,7 @@ class CategotyItemtwo extends StatelessWidget {
         child: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Color.fromARGB(
-              235,
-              Random().nextInt(256),
-             Random().nextInt(256),
-             Random().nextInt(256),
+            color: Color.fromARGB(235, Random().nextInt(256), Random().nextInt(256), Random().nextInt(256),
             ).withOpacity(.2),
             borderRadius: BorderRadius.circular(8)
           ),

@@ -55,7 +55,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     onPressed: () async {
                       UserInfoModel senderData = UserInfoModel();
                       Map<String, dynamic>? userDetails;
-                      userDetails = await FirebaseAPIs().getSenderInfo("016");
+                      userDetails = await FirebaseAPIs().getSenderInfo("01777");
                       if (userDetails!.isNotEmpty) {
                         senderData.userId = userDetails["user_id"] ?? "";
                         senderData.name = userDetails["name"] ?? "user";
@@ -402,9 +402,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               trimCollapsedText: 'Show more',
                               trimExpandedText: ' Show less',
                               moreStyle: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
+                                  fontSize: 12, fontWeight: FontWeight.bold,color: Colors.green),
                               lessStyle: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
+                                  fontSize: 12, fontWeight: FontWeight.bold,color: Colors.blueAccent),
                             ),
                             const SizedBox(
                               height: 20,
