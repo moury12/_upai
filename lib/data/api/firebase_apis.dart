@@ -68,7 +68,7 @@ class FirebaseAPIs {
         selectedUser) async {
       if (await userExists()) {
         me = UserInfoModel.fromJson(selectedUser.data()!);
-         // await getFirebaseMessagingToken();
+         await getFirebaseMessagingToken();
         //for setting user status to active
         FirebaseAPIs.updateActiveStatus(true);
         // log('My Data: ${user.data()}');
@@ -231,9 +231,8 @@ class FirebaseAPIs {
     final ref = mDB
         .collection(
         'chats/${getConversationID(chatUser.userId.toString())}/messages/');
-    await ref.doc(time).set(message.toJson());
-    // .then((value) =>
-    // sendPushNotification(chatUser, type == Type.text ? msg : 'image'));
+    await ref.doc(time).set(message.toJson()).then((value) =>
+    sendPushNotification(chatUser, type == Type.text ? msg : 'image'));
   }
 
   //update read status of message
@@ -272,58 +271,58 @@ class FirebaseAPIs {
   // for accessing firebase messaging (Push Notification)
   static FirebaseMessaging fMessaging = FirebaseMessaging.instance;
 
-  // for getting firebase messaging token
-  // static Future<void> getFirebaseMessagingToken() async {
-  //   await fMessaging.requestPermission();
-  //
-  //   await fMessaging.getToken().then((t) {
-  //     if (t != null) {
-  //       me.pushToken = t;
-  //       log('Push Token: $t');
-  //     }
-  //   });
-  // }
-  // // for sending push notification (Updated Codes)
-  // static Future<void> sendPushNotification(
-  //     UserInfoModel chatUser, String msg) async {
-  //   try {
-  //     final body = {
-  //       "message": {
-  //         "token": chatUser.pushToken,
-  //         "notification": {
-  //           "title": me.name, //our name should be send
-  //           "body": msg,
-  //         },
-  //       }
-  //     };
-  //
-  //     // Firebase Project > Project Settings > General Tab > Project ID
-  //     const projectID = 'we-chat-75f13';
-  //
-  //     // get firebase admin token
-  //     final bearerToken = await NotificationAccessToken.getToken;
-  //
-  //     log('bearerToken: $bearerToken');
-  //
-  //     // handle null token
-  //     if (bearerToken == null) return;
-  //
-  //     var res = await post(
-  //       Uri.parse(
-  //           'https://fcm.googleapis.com/v1/projects/$projectID/messages:send'),
-  //       headers: {
-  //         HttpHeaders.contentTypeHeader: 'application/json',
-  //         HttpHeaders.authorizationHeader: 'Bearer $bearerToken'
-  //       },
-  //       body: jsonEncode(body),
-  //     );
-  //
-  //     log('Response status: ${res.statusCode}');
-  //     log('Response body: ${res.body}');
-  //   } catch (e) {
-  //     log('\nsendPushNotificationE: $e');
-  //   }
-  // }
+  //for getting firebase messaging token
+  static Future<void> getFirebaseMessagingToken() async {
+    await fMessaging.requestPermission();
+
+    await fMessaging.getToken().then((t) {
+      if (t != null) {
+        me.pushToken = t;
+        log('Push Token: $t');
+      }
+    });
+  }
+  // for sending push notification (Updated Codes)
+  static Future<void> sendPushNotification(
+      UserInfoModel chatUser, String msg) async {
+    try {
+      final body = {
+        "message": {
+          "token": chatUser.pushToken,
+          "notification": {
+            "title": me.name, //our name should be send
+            "body": msg,
+          },
+        }
+      };
+
+      // Firebase Project > Project Settings > General Tab > Project ID
+      const projectID = 'chatappprac-d7a2b';
+
+      // get firebase admin token
+      final bearerToken = await NotificationAccessToken.getToken;
+
+      log('bearerToken: $bearerToken');
+
+      // handle null token
+      if (bearerToken == null) return;
+
+      var res = await post(
+        Uri.parse(
+            'https://fcm.googleapis.com/v1/projects/$projectID/messages:send'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer $bearerToken'
+        },
+        body: jsonEncode(body),
+      );
+
+      log('Response status: ${res.statusCode}');
+      log('Response body: ${res.body}');
+    } catch (e) {
+      log('\nsendPushNotificationE: $e');
+    }
+  }
 
   Future<Map<String, dynamic>?> getSenderInfo(String userId) async {
     try {

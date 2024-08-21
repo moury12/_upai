@@ -19,23 +19,22 @@ class NotificationAccessToken {
         // > Click on 'Generate new private key' Btn & Json file will be downloaded
 
         // Paste Your Generated Json File Content
-        ServiceAccountCredentials.fromJson({
-          "type": "service_account",
-          "project_id": "chatappprac-d7a2b",
-          "private_key_id": "1a1621fe6a5374932428ae0f4a05782b7acccb14",
-          "private_key":
-              "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6R/L0jOehSyDP\nFX8Sgq+E3HXtgLRppZHy5FQUmDB6pEPCCGG8gOnt/2GzFlIcAI0SSFt//JMwqGoD\n4I5BeV9oKSrmR8YFFllmQrazIL5Ynf9NrNB1pR0+UjAWfgU3O8f5ZclaG5HnFap/\nB93Jt6MatWDKQilnjPnFB+CxyWkXmKls3Qv4W1mot7JC+OoscLz13w9U/+plLZmF\ne9CS/Gynp8F1IlKbWJSEy8ltkHEhpzpm9RDrWD+trBbWHVnhuaOz7rqO4Ydts+TK\npNugK/ksL5B6SFtqZfkvsnZzR2tKh0VtLJLfH5I8tEGWJteli/0RqnRXhBruPrLa\nP4fZo3wxAgMBAAECggEAKa2z8R3+rGKyFEtXu2VEjqpB83IOy615JnqKSnJTtHkA\n1Q7JiWLhlDfF3QszM2M3LR5F5LC3IRWpZLUvNvyISXaei9gGuPgrZ/soxBLhK9Qr\n/W3bVVssXBeI/VtUYOuN/mHVB4VwI19AXrw8liexhWYMIizj9TCAaOJulnC9RAMo\ntxAu2Xt69vE+cIgPTUzf01fY7NXHVnQs3aXvuD3LfQVHQXwbU/BApSNCPn3Df4YQ\nAUQhSXGprEtDmF89d1sCg/v92DxXH22B/nqpUh51iLSzCW6QjUGy4YlwdJ0U/qhj\nRrefq6sC4dJgVcbmJyQkgyAdouZKA2niFfSHeVqXTQKBgQDx+He1kJCWlE2AOFAK\noTNlLSsJxjj6fRhcuxWykZCXvVP2xi+CfYFCN+n+ZDGhU3pi1NDJ8Twh4M7EFCM7\npGmhW7qDgiXqpB3R8lt3huH+3rPqP6z+2zDi+HxCJckpWpb32TorgkIdSRp3eM0s\n03kl0rB6xW59LMNMKBz2/mn5RQKBgQDFFOPp+u6MerJjjuVD9aWTzYuCON0z3DO/\n4bbGIP6vZ4SzmlYtdDHBcZp/ogLIgK4AGYNwWSap6kQVDV/6llxQu9uLtPpwkrza\n3BTKrSQdtu7tvdHWSu5cCqkWIz4hVEDpHWeXoFkg37GDVbK+CZdYOb2y5d2Bel/6\nYY2DoQ5H/QKBgB8Rt1VB5b7f9f+Tu3tR7YZ9QTx1DlXjgCBQCV4vYLCLJ9/U3L7V\nnKZDBbGbbd/4FwvfpZt4dS8obYQxzcBXwRRt8cn3CSVSw1100BfN4vDV6aYXXQAw\nZtuN6m6X6Xd84UubweNaS2D1RQe4JCgwUyrvHaf199TszXrW37k7O6I9AoGAVFxF\n1wEvnXhj5dPj9Xwv/R2N6xcWML3AdRFUIGk9O63vEsYsv1YueiR7wsiBsnvKf4Zs\nSeoPb8o0jGJmRCiaqYBQUPQOA6P8LR7p03vbqtCEY8XODZGTiFiT2kMJtFCRXHfW\nwQPFQxodrR9A3LHUU9KbjflxIJxWeyHI5qBJMa0CgYEAz2iWE5rNtJ1mLrsC/o8j\njDV0RHzhN2f2pAxLlXHJ40nvQ5Nbyk5gCI2llUTN73YPNJXcM6ZKARyzlx0cA0TE\nolbpV91lb5j2L2HLAz1nciOzh1IRCJRk7T7j01TrygOv2n6fyWfUGuHCR5lztaiv\nykRUUKoMSaezOlB88DIqTIQ=\n-----END PRIVATE KEY-----\n",
-          "client_email":
-              "firebase-adminsdk-9y8mc@we-chat-75f13.iam.gserviceaccount.com",
-          "client_id": "115556782220674603906",
-          "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-          "token_uri": "https://oauth2.googleapis.com/token",
-          "auth_provider_x509_cert_url":
-              "https://www.googleapis.com/oauth2/v1/certs",
-          "client_x509_cert_url":
-              "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-9y8mc%40we-chat-75f13.iam.gserviceaccount.com",
-          "universe_domain": "googleapis.com"
-        }),
+        ServiceAccountCredentials.fromJson(
+            {
+              "type": "service_account",
+              "project_id": "chatappprac-d7a2b",
+              "private_key_id": "c8c434d1988dd356229ee554f80e6b7480cbf00e",
+              "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC62rctEOlTGwwc\nT586TVHVrYXx1gGhNP0VtArWB9IEux46HYxCozA7k4kqb5j2hw0DiV3BidrvNZHl\nIO7oD71e+Rt1RxCjq8Nbnu/6E4Z004/L4G1Ibe6wy6uHuqCPKkDduZrKG7nkYvJU\nBGjPWouikCb3m6jypI4TdEGfnHs8P5IpwlwyDVv7nRiNshDfxNkQHDfq1JeS4GpI\nE0yxW+nRURSOWY1w4J/pkmQWvttZCRx7kzZyKo/ZGcJvMChJ9GxM76MMmJslGTaa\noMp+++ndaxkjGvwZ4RXETPlHluCxUNMtjmocp33FaKqK1Boa1l34L/lMgQA3a2FT\njobOL7OzAgMBAAECggEAD1kczQuuZqr6P9m9xf+zi54rukAZCoFRkov4jI5q5ARC\nCNsEJOBw+0vJ612W+RUBxCXEjjurwJSsDbU6pSl50B3HxsaAvuOXxzmoaOhcAHz0\n5aBjHvJste1HgygYvSRm3Jo8yoIkLvbTry6yNJSxkzeiWRoE8sgCeuWZ6FQ6/n6Z\npL3hQosK/hcv68Avtjrye04YZhV+t7QxTxZXG3Ky7AOny73vGZ6yv3KLzZ5f6AYP\nd68H7KoZIfjWdqC88kVVQnEng9Psk2qdfmDIe2xTkiEHDN35J9zBUiujqZlIySDX\nbquzex85nbkzuN2QFwBeQWv/N7O6E0zDngMGM5I21QKBgQDkiSmqi0y0mamD42us\nNUbM6GrpFkECRibepUNemlI/KzicWWf3kSha/4Na9q2VB7sqjDk6VVM8ppj3iWy4\nO+2bY146LvSMQewOkAZOj9gRIEo1QtZ2aE9vRNVs6gqvQSVhmw4uJ0tYvEzBwct9\nAz4FRNIBPIKydzSaIkSNDrCFvwKBgQDRTzxNGT6GJpXnScF0A7sdXbpfmd/E1H4V\nnQLidPQbNfi2HwiL5oekU+lcEgGeqDTBv94El5C48HMflnyLaCOkKk+qflGFoCdJ\nnbQlpHycC0YJ1qDr+lFGbFXtLWp5Rm7+Wi5F06Qf6vmuBOaM0TDihuP5ZHqHl9S8\n9n7a8XtXDQKBgEI6PYjetWvg2+8MiLdu+QWIlPLXMB+olLsQyWUw84S60bz9a9Oi\njT9RrI8/zS3S/7pkyHDPKT/6R3n0qTz6oPDW6weRc+zxbacKtckuhj7wTJECvYOy\n1tI38GGPsWj4SAzxEjrtyDf+2X+M2ZtwxRhhyTnyfy2YvfWs2JDIIP+hAoGBAIkI\nEPiA4Hg/ZsCnfumPT79oD45rVR6t52YLB0pvOyldalkBdDzzTjZ9YTgP6dOPWArI\nrHfhKrSJZzV09lDmev8NXF7ImGKdeVsuzjQevh4DG3VxeKVFmlQ6tP60TxLa0+vd\n6pF4f+kNky0ktDPY+OI1Yady6u0+r96OmnqIwjE5AoGBAIaXmauQJdxY9WlXETna\nlglEwgRtmkrNdvnmbLG5ST06xENeTRq9DOZFlstFuqWgXQSlLhewKSwCa54ec1mD\nnL44X3E5n1dl6kf73s58ULDHyUIDK7uvyAiz2ywOs2lqBNqix1QJN4vJGZ32otGd\nfFa2Jrs8Zchn2W5gSxorK4rs\n-----END PRIVATE KEY-----\n",
+              "client_email": "md-jahidul-islam-maruf@chatappprac-d7a2b.iam.gserviceaccount.com",
+              "client_id": "108869501680775939751",
+              "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+              "token_uri": "https://oauth2.googleapis.com/token",
+              "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+              "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/md-jahidul-islam-maruf%40chatappprac-d7a2b.iam.gserviceaccount.com",
+              "universe_domain": "googleapis.com"
+            }
+
+        ),
         [fMessagingScope],
       );
 
