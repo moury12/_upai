@@ -4,7 +4,11 @@ import 'package:hive/hive.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/Profile/profile_screen.dart';
+import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/SplashScreen/controller/splash_screen_controller.dart';
+import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 
 import '../core/utils/image_path.dart';
 import '../data/api/firebase_apis.dart';
@@ -36,10 +40,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage(ImageConstant.senderImg),
-                    backgroundColor: Colors.grey.shade200,
+                  child: Obx(
+                     () {
+                      return CircleAvatar(
+                        radius: 50,
+                        backgroundImage:ProfileScreenController.to.profileImageUrl.value.isNotEmpty?NetworkImage(ProfileScreenController.to.profileImageUrl.value): AssetImage(ImageConstant.senderImg),
+                        backgroundColor: Colors.grey.shade200,
+                      );
+                    }
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -79,6 +87,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     final box = Hive.box('userInfo');
                     await box.delete("user");
                     SplashScreenController.to.isLogin.value=false;
+                    Get.delete<SellerProfileController>(force: true);
+                    Get.delete<HomeController>(force: true);
+                    Get.delete<ProfileScreenController>(force: true);
                     print("Data deleted");
                     FirebaseAPIs.updateActiveStatus(false);
                     Get.offAllNamed('/login');

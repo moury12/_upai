@@ -5,6 +5,7 @@ import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/data/repository/repository_details.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 
 class SellerProfileController extends GetxController {

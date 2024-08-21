@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,12 +22,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   ProfileScreenController ctrl = Get.put(ProfileScreenController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File? image;
   final _picker = ImagePicker();
-
+  String img = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,27 +59,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Stack(
                     children: [
-                      GetBuilder<ProfileScreenController>(builder: (ctrl) {
+                      Obx( () {
                         return Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(100),
                               border: Border.all(
-                                  color: AppColors.strokeColor, width: 3)
-                          ),
+                                  color: AppColors.strokeColor, width: 3)),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: CachedNetworkImage(
                               height: 150,
                               width: 150,
-                              imageUrl: "",
+                              imageUrl: ctrl.profileImageUrl.value,
                               fit: BoxFit.cover,
                               // placeholder: (context, url) => Image.asset(ImageConstant.senderImg, fit: BoxFit.cover),
-                              errorWidget: (context, url, error) =>image==null?Image.asset(ImageConstant.senderImg, fit: BoxFit.cover):
-                                  Image.file(File(image!.path).absolute,
-                                      fit: BoxFit.cover),
+                              errorWidget: (context, url, error) =>
+                                  /* ctrl.profileImageUrl.isNotEmpty
+                                  ? Image.network(ctrl.profileImageUrl.value,fit: BoxFit.cover,):*/
+                                  image == null
+                                      ? Image.asset(ImageConstant.senderImg,
+                                          fit: BoxFit.cover)
+                                      : Image.file(File(image!.path).absolute,
+                                          fit: BoxFit.cover),
                             ),
                           ),
                         );
@@ -90,42 +96,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: InkWell(
                           onTap: () {
                             getImage();
-
                           },
                           child: Container(
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(8)
-                            ),
-                            child: const Padding(
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Padding(
                               padding: EdgeInsets.all(4.0),
                               child: FaIcon(
-                                FontAwesomeIcons.solidPenToSquare, size: 20,
-
+                                FontAwesomeIcons.solidPenToSquare,
+                                size: 20,
                               ),
                             ),
                           ),
                         ),
                       ),
                     ],
-
                   ),
 
-                  const SizedBox(height: 20,),
-                   CustomTextField2(
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomTextField2(
                     isEditable: false,
                     hintText: ctrl.userInfo.userId.toString(),
                     prefixIcon: Icons.call,
                   ),
-                  const SizedBox(height: 20,),
-                   CustomTextField2(
-                     isEditable: false,
-                    controller:ctrl.nameTE,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomTextField2(
+                    isEditable: false,
+                    controller: ctrl.nameTE,
                     validatorText: "Please Enter Your Name",
                     hintText: ctrl.userInfo.name.toString(),
                     prefixIcon: Icons.person,
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   CustomTextField2(
                     isEditable: false,
                     controller: ctrl.emailTE,
@@ -133,7 +142,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     hintText: ctrl.userInfo.email.toString(),
                     prefixIcon: Icons.email,
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   // IntlPhoneField(
                   //   controller: ctrl.phoneTE,
                   //
@@ -160,27 +171,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   //     print(phone.completeNumber);
                   //   },
                   // ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(
-                      width: MediaQuery
-                          .sizeOf(context)
-                          .width * .85,
-                      child: ElevatedButton(onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-
-
-                        }
-                      },
+                      width: MediaQuery.sizeOf(context).width * .85,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {}
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.BTNbackgroudgrey,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8))),
-                        child: const Text("Update Profile"),),
+                        child: const Text("Update Profile"),
+                      ),
                     ),
-                  )
+                  ),
+                  // ElevatedButton(
+                  //     onPressed: () async {
+                  //       ImagePicker imagePicker = ImagePicker();
+                  //       XFile? file = await imagePicker.pickImage(
+                  //           source: ImageSource.camera);
+                  //       print(file!.path.toString());
+                  //       Reference ref = FirebaseStorage.instance.ref();
+                  //       Reference refDir = ref.child('photos');
+                  //       Reference refload = refDir.child(
+                  //           DateTime.now().millisecondsSinceEpoch.toString());
+                  //
+                  //       try {
+                  //         await refload.putFile(File(file.path));
+                  //         img = await refload.getDownloadURL();
+                  //       } catch (e) {}
+                  //     },
+                  //     child: Text('upload'))
                 ],
               ),
             ),
@@ -192,20 +219,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> getImage() async {
     final pickedFile = await _picker.pickImage(
-        source: ImageSource.gallery, imageQuality: 80);
+      source: ImageSource.gallery,
+      imageQuality: 80,
+      maxHeight: 1000,
+      maxWidth: 1000,
+    );
     if (pickedFile != null) {
       image = File(pickedFile.path);
       ctrl.update();
-
-       // setState(() {});
+      ctrl.save.value = true;
+      await uploadFile();
+      // setState(() {});
     } else {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(
-          "No Image Selected!", style: TextStyle(color: Colors.white),),
-          backgroundColor: Colors.deepOrange,));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+            "No Image Selected!",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.deepOrange,
+        ));
       }
     }
   }
+
+  Future uploadFile() async {
+    if (image == null) return;
+    final fileName = 'profile';
+    ;
+    final destination = '${ctrl.userInfo.userId}/$fileName';
+
+    try {
+      final ref = FirebaseStorage.instance.ref(destination).child('file/');
+      // Uint8List imageData = await File(image!.path).readAsBytes();
+
+      await ref.putFile(image!);
+    } catch (e) {
+      print('error occured');
+    }
+  }
 }
-
-

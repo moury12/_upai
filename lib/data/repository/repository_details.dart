@@ -29,7 +29,8 @@ class RepositoryData {
   //   return data;
   // }
   Future<void> login(
-      String CID, String userMobile, String password, String userType) async {
+      String CID, String userMobile, String password, String userType) async
+  {
     String url = ApiClient().loginUrl;
     try {
       var response = await http.post(
