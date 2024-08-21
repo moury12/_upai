@@ -311,8 +311,10 @@ class FirebaseAPIs {
         Uri.parse(
             'https://fcm.googleapis.com/v1/projects/chatappprac-d7a2b/messages:send'),
         headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer $bearerToken'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $bearerToken'
+          // HttpHeaders.contentTypeHeader: 'application/json',
+          // HttpHeaders.authorizationHeader: 'Bearer $bearerToken'
         },
         body: jsonEncode(body),
       );
