@@ -47,7 +47,6 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -72,7 +71,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/inbox', page: () =>  const InboxScreen()),
         GetPage(name: '/profile', page: () => const ProfileScreen()),
         GetPage(name: '/home', page: () =>  const HomeScreen()),
-        GetPage(name: '/home2', page: () =>  const InboxScreen()),
+       // GetPage(name: '/home2', page: () =>  const InboxScreen()),
 /*
         GetPage(name: ServiceDetails.routeName, page: () =>  ServiceDetails()),
 */

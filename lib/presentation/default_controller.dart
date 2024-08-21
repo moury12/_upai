@@ -59,7 +59,7 @@ class DefaultController extends GetxController
   }
 
   final List<Widget> screensForClient = [
-    HomeScreen(),
+    const HomeScreen(),
     const SellerProfileScreen(),
     // ExploreScreen(),
     const InboxScreen(),
