@@ -227,7 +227,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(
+                  seller.runningOrder!=null&&   seller.runningOrder!.isEmpty?SizedBox.shrink():   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
@@ -249,9 +249,9 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  seller.runningOrder == null || seller.runningOrder!.isEmpty
+                  seller.runningOrder == null
                       ? ShimmerRunnigOrder()
-                      : Column(
+                      : seller.runningOrder!.isEmpty?SizedBox.shrink():Column(
                           children: List.generate(
                           seller.runningOrder!.length < 2
                               ? seller.runningOrder!.length
@@ -285,28 +285,32 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       ),
                     ],
                   ),
-                  seller.myService == null || seller.myService!.isEmpty?ShimmerOfferList(): GridView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-
-                        crossAxisCount: crossAxisCount,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8),
-                    itemCount: seller.myService!.reversed.toList().length < 4
-                        ? seller.myService!.reversed.toList().length
-                        : 4,
-                    itemBuilder: (context, index) {
-                      final service = seller.myService!.reversed.toList()[index];
-                      return GestureDetector(
-                        onTap: () {
-                         Get.to(MyServiceDetails(service: service));
-                        },
-                          child: MyServiceWidget(
-                        service: service,
-                      ));
-                    },
-                  ),
+                  seller.myService == null || seller.myService!.isEmpty
+                      ? ShimmerOfferList()
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: crossAxisCount,
+                                  crossAxisSpacing: 8,
+                                  mainAxisSpacing: 8),
+                          itemCount:
+                              seller.myService!.reversed.toList().length < 4
+                                  ? seller.myService!.reversed.toList().length
+                                  : 4,
+                          itemBuilder: (context, index) {
+                            final service =
+                                seller.myService!.reversed.toList()[index];
+                            return GestureDetector(
+                                onTap: () {
+                                  Get.to(MyServiceDetails(service: service));
+                                },
+                                child: MyServiceWidget(
+                                  service: service,
+                                ));
+                          },
+                        ),
                 ],
               ),
             );

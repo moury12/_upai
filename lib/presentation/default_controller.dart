@@ -21,12 +21,18 @@ class DefaultController extends GetxController
   final box = Hive.box("userInfo");
  // String userType="";
   @override
+  void onClose() {
+
+    super.onClose();
+  }
+  @override
   void onInit() {
     userData = userInfoModelFromJson(box.get('user'));
+    Get.put(HomeController());
+    Get.put(SellerProfileController());
     FirebaseAPIs.getSelfInfo();
     WidgetsBinding.instance.addObserver(AppLifecycleListener());
-    Get.put(HomeController(), permanent: true);
-    Get.put(SellerProfileController(), permanent: true);
+
     // var userJsonString = box.get('user');
     // Map<String,dynamic> data = json.decode(userJsonString.toString());
    // userType = data['user_type'].toString();
