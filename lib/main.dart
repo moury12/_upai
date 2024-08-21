@@ -43,7 +43,7 @@ Future<void> main() async {
   await Hive.openBox(boxName);
 
 
-  DependencyInjection.init();
+  // DependencyInjection.init();
   runApp(const MyApp());
 }
 

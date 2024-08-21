@@ -2,16 +2,21 @@ import 'package:get/get.dart';
 import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/data/repository/repository_details.dart';
+import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 
 class OrderController extends GetxController {
   static OrderController get to => Get.find();
   RxString status = 'REJECTED'.obs;
-late  UserInfoModel userInfoModel ;
+  ProfileScreenController? ctrl;
+
+// late  UserInfoModel userInfoModel ;
   // "status":"in progress",
   // "status":"completed",
   @override
   void onInit() {
-    userInfoModel=userInfoModelFromJson(Boxes.getUserData().get('user'));
+    ctrl = Get.put(ProfileScreenController());
+
+    // userInfoModel=userInfoModelFromJson(Boxes.getUserData().get('user'));
     // TODO: implement onInit
     super.onInit();
   }
@@ -27,7 +32,7 @@ late  UserInfoModel userInfoModel ;
   void awardCreateJob(String offerId,String sellerId,String title,String description,String rateType,String rate,String quantity,String total,) async {
     await RepositoryData.awardCreateJob(body: {
       "offer_id": offerId,
-      "buyer_mobile": "${userInfoModel.userId}",
+      "buyer_mobile": "${ctrl!.userInfo.userId}",
       "seller_mobile": sellerId,
       "job_title":title,
       "description": description,

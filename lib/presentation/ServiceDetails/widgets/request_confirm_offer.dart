@@ -7,6 +7,7 @@ import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
@@ -22,8 +23,11 @@ class ConfrimOfferWidget extends StatefulWidget {
 }
 
 class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
+  ProfileScreenController? ctrl;
   @override
   void initState() {
+     ctrl = Get.put(ProfileScreenController());
+
     HomeController.to.quantityControllerForConfromOrder.value.text =
         widget.service.offerDetails!.quantity.toString();
     HomeController.to.quantityForConform.value =
@@ -59,7 +63,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
         backgroundColor: AppColors.strokeColor2,
         titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        title: HomeController.to.userData.userId==widget.service.offerDetails!.userId?null: Text(
+        title: ctrl!.userInfo.userId==widget.service.offerDetails!.userId?null: Text(
           'Request Confirm Offer',
           style: TextStyle(
             fontSize: 16,
@@ -67,7 +71,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
           ),
           textAlign: TextAlign.center,
         ),
-        content:HomeController.to.userData.userId==widget.service.offerDetails!.userId?Padding(
+        content:ctrl!.userInfo.userId==widget.service.offerDetails!.userId?Padding(
           padding: const EdgeInsets.all(12),
           child: Center(child: Text('This is your own service'),),
         ): Column(
