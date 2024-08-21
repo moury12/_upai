@@ -298,12 +298,13 @@ double childRatio=0.8;
                                               foregroundColor: Colors.white,
                                               alignment: Alignment.center
                                             ),
-                                            onPressed: () {
+                                            onPressed: () async{
                                               Get.to(
                                                 ServiceDetails(
                                                   offerDetails: service,
                                                 ),
                                               );
+                                              // Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDetails(offerDetails: service,),));
                                             },
                                             child: Text('Book Now'),
                                           ),
