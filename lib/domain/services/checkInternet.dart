@@ -40,7 +40,6 @@ class NetworkController extends GetxController {
       }
     }
   }
-
   void _reloadData() async{
     // Call your data loading functions here
     // For example:
