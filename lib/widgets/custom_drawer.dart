@@ -44,7 +44,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                      () {
                       return CircleAvatar(
                         radius: 50,
-                        backgroundImage:ProfileScreenController.to.profileImageUrl.value.isNotEmpty?NetworkImage(ProfileScreenController.to.profileImageUrl.value): AssetImage(ImageConstant.senderImg),
+                        backgroundImage:ProfileScreenController.to.profileImageUrl.value.isNotEmpty?
+                        NetworkImage(ProfileScreenController.to.profileImageUrl.value): AssetImage(ImageConstant.senderImg),
                         backgroundColor: Colors.grey.shade200,
                       );
                     }

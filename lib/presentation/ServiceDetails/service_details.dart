@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -13,6 +15,8 @@ import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/review/review_screen.dart';
 import 'package:upai/widgets/item_service.dart';
@@ -31,6 +35,22 @@ class ServiceDetails extends StatefulWidget {
 }
 
 class _ServiceDetailsState extends State<ServiceDetails> {
+  @override
+  void initState() {
+    ProfileScreenController.to.profileImageUrl.value='';
+
+ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
+ProfileScreenController.to.fetchProfileImage();
+    super.initState();
+  }
+@override
+  void dispose() {
+  ProfileScreenController.to.profileImageUrl.value='';
+
+  ProfileScreenController.to.id.value =ProfileScreenController.to.userInfo.userId??'';
+  ProfileScreenController.to.fetchProfileImage();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     //  ItemServiceModel singleItem = ItemServiceModel();
@@ -189,10 +209,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       const Divider(),
                       ListTile(
                         leading: FittedBox(
-                          child: CircleAvatar(
-                            radius: 30,
-                            backgroundImage:
-                                AssetImage(ImageConstant.demoProfile),
+                          child: Obx(
+                             () {
+                              return CircleAvatar(
+                                radius: 30,
+                                backgroundImage:ProfileScreenController.to.profileImageUrl.value.isNotEmpty?NetworkImage(ProfileScreenController.to.profileImageUrl.value):
+                                    AssetImage(ImageConstant.demoProfile),
+                              );
+                            }
                           ),
                         ),
                         title: Text(
