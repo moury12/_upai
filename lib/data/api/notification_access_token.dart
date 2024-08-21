@@ -1,10 +1,21 @@
+
+
+
 import 'dart:developer';
 
-import 'package:googleapis_auth/auth_io.dart' ;
-import 'package:googleapis/servicecontrol/v1.dart';
-
+import 'package:googleapis_auth/auth.dart';
+import 'package:googleapis_auth/auth_io.dart';
 
 class NotificationAccessToken {
+
+
+  // Future<String> getServiceKeyToken() async{
+  //   'https://www.googleapis.com/auth/firebase.messaging';
+  //   'https://www.googleapis.com/auth/userinfo.email';
+  //   'https://www.googleapis.com/auth/firebase.messaging';
+  // }
+
+
   static String? _token;
 
   //to generate token only once for an app run
@@ -13,10 +24,10 @@ class NotificationAccessToken {
   // to get admin bearer token
   static Future<String?> _getAccessToken() async {
     try {
-      const fMessagingScope =
-          'https://www.googleapis.com/auth/firebase.messaging';
-          'https://www.googleapis.com/auth/userinfo.email';
-          'https://www.googleapis.com/auth/firebase.messaging';
+       List<String>  fMessagingScope =
+          ['https://www.googleapis.com/auth/firebase.database',
+          'https://www.googleapis.com/auth/userinfo.email',
+          'https://www.googleapis.com/auth/firebase.messaging'];
 
       final client = await clientViaServiceAccount(
         // To get Admin Json File: Go to Firebase > Project Settings > Service Accounts
@@ -27,19 +38,21 @@ class NotificationAccessToken {
             {
               "type": "service_account",
               "project_id": "chatappprac-d7a2b",
-              "private_key_id": "c8c434d1988dd356229ee554f80e6b7480cbf00e",
-              "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC62rctEOlTGwwc\nT586TVHVrYXx1gGhNP0VtArWB9IEux46HYxCozA7k4kqb5j2hw0DiV3BidrvNZHl\nIO7oD71e+Rt1RxCjq8Nbnu/6E4Z004/L4G1Ibe6wy6uHuqCPKkDduZrKG7nkYvJU\nBGjPWouikCb3m6jypI4TdEGfnHs8P5IpwlwyDVv7nRiNshDfxNkQHDfq1JeS4GpI\nE0yxW+nRURSOWY1w4J/pkmQWvttZCRx7kzZyKo/ZGcJvMChJ9GxM76MMmJslGTaa\noMp+++ndaxkjGvwZ4RXETPlHluCxUNMtjmocp33FaKqK1Boa1l34L/lMgQA3a2FT\njobOL7OzAgMBAAECggEAD1kczQuuZqr6P9m9xf+zi54rukAZCoFRkov4jI5q5ARC\nCNsEJOBw+0vJ612W+RUBxCXEjjurwJSsDbU6pSl50B3HxsaAvuOXxzmoaOhcAHz0\n5aBjHvJste1HgygYvSRm3Jo8yoIkLvbTry6yNJSxkzeiWRoE8sgCeuWZ6FQ6/n6Z\npL3hQosK/hcv68Avtjrye04YZhV+t7QxTxZXG3Ky7AOny73vGZ6yv3KLzZ5f6AYP\nd68H7KoZIfjWdqC88kVVQnEng9Psk2qdfmDIe2xTkiEHDN35J9zBUiujqZlIySDX\nbquzex85nbkzuN2QFwBeQWv/N7O6E0zDngMGM5I21QKBgQDkiSmqi0y0mamD42us\nNUbM6GrpFkECRibepUNemlI/KzicWWf3kSha/4Na9q2VB7sqjDk6VVM8ppj3iWy4\nO+2bY146LvSMQewOkAZOj9gRIEo1QtZ2aE9vRNVs6gqvQSVhmw4uJ0tYvEzBwct9\nAz4FRNIBPIKydzSaIkSNDrCFvwKBgQDRTzxNGT6GJpXnScF0A7sdXbpfmd/E1H4V\nnQLidPQbNfi2HwiL5oekU+lcEgGeqDTBv94El5C48HMflnyLaCOkKk+qflGFoCdJ\nnbQlpHycC0YJ1qDr+lFGbFXtLWp5Rm7+Wi5F06Qf6vmuBOaM0TDihuP5ZHqHl9S8\n9n7a8XtXDQKBgEI6PYjetWvg2+8MiLdu+QWIlPLXMB+olLsQyWUw84S60bz9a9Oi\njT9RrI8/zS3S/7pkyHDPKT/6R3n0qTz6oPDW6weRc+zxbacKtckuhj7wTJECvYOy\n1tI38GGPsWj4SAzxEjrtyDf+2X+M2ZtwxRhhyTnyfy2YvfWs2JDIIP+hAoGBAIkI\nEPiA4Hg/ZsCnfumPT79oD45rVR6t52YLB0pvOyldalkBdDzzTjZ9YTgP6dOPWArI\nrHfhKrSJZzV09lDmev8NXF7ImGKdeVsuzjQevh4DG3VxeKVFmlQ6tP60TxLa0+vd\n6pF4f+kNky0ktDPY+OI1Yady6u0+r96OmnqIwjE5AoGBAIaXmauQJdxY9WlXETna\nlglEwgRtmkrNdvnmbLG5ST06xENeTRq9DOZFlstFuqWgXQSlLhewKSwCa54ec1mD\nnL44X3E5n1dl6kf73s58ULDHyUIDK7uvyAiz2ywOs2lqBNqix1QJN4vJGZ32otGd\nfFa2Jrs8Zchn2W5gSxorK4rs\n-----END PRIVATE KEY-----\n",
-              "client_email": "md-jahidul-islam-maruf@chatappprac-d7a2b.iam.gserviceaccount.com",
-              "client_id": "108869501680775939751",
+              "private_key_id": "1826e06b4a1dbfd40e8996864141e2261e1ecbf6",
+              "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC+vWe2izLD1LgO\nffF38vIn/QNOjzhL1i5ovyJODjJzXHwSrsW5kuT1ri/nhJrXsZRQh7aT5ZUXZSBO\n4lPA+Cf5H9BpN9OsVN8CrTVL97VStW2H/Qkx7Vjbn8MXeS9mTdSXGlsc85POQxSW\npe4awlTCiqhzKBuxPUQUi+OAYyiD1OAyrQt4+ho9qlRZmr0Ae8kG3M/7zCN3T4Tk\nvD/NWnXNRcFAF49GDW80DS9vxlRYsupk2Csh/QaOgh56nMUev+d95B9mIfI0THR1\ny45iNi3cChqYZyiJ3xjQ6ysXrL8F+/K4MhJJhobdEWsWKBoDxZbe9Z1rd6sZp3Tx\n2JHcS/sLAgMBAAECggEABxQ5fd784D0lvZsmZvv0L9BZZ8UZ/K2//pdrzjc2eSCY\nFdg45cvFX2oURHfsu6k1pqcUYbkC4QgZ4sObAlqGnt2m58v9UtqHHyICWRKIi/LI\nbcq4ciSe1SJA5KVudGunQoDLm+LDlanYrd5BQx37DlaEecDZBXZCiUhHbI1OXiIf\nMpVClZvq5f52kg4tSyeIOHYOx3s7mJ3LS+JQ7D8iaZl+gZUT0M1NIytEj7Z4Vl3y\nBz6Ty/bXkij1k67CLKDeYeDAzyCzXhXNGPW1PT8F+oo2gUgFI3kEBdoxBd0MRWRj\ng9iSoYCqXIjjs87ltrdtw851lWAld4Z78RkavyXUjQKBgQD7UnLOm5lXenJWFnqU\nsm+p+HCIsSG7wC+cFcIRV7Vnlc4h4P33T/od//v0Crpp0rRJ01Q6ohenjkdygYHb\nukUQfRsE889Fyd7npBjBOUG2wqNfOwSgYAwOZA2bk+x7VOR2ZCvbBCrDbMSmFybs\n74U129dRWBGLhVmg5dpbNU3IBwKBgQDCSkgyhZwRh9SBAzZ0bdSH4t9q/QgnYZlw\nwH5X6TbEp1uoLvMiqX5foDNnTp/8v7SCsxGMmi7yopW9qUTmh/SEuV6cz7tAJXin\n4hBz/zITeSimjrPV5uPcM+cOiQmkJjqYqx692181eiq/rmS9jfgFe6CTry/k3PwC\noegQa4IL3QKBgQCUCApLm+cEWcFC59aoAzo2eXl/aiYeeqMQYth+cpUNQHW8CtRM\nebUvOnpjUnZeopdC7NEuAA/Cx9FZpuKgU+UeQzJJBnrN9ovvEP7rwRft2FN2YkLl\nW+1+BHznaIfgVS6EdZhHVvsBRO3HjteEs8hY4va+mQssjQ0v8nNdSdZYvQKBgQCO\nC5ThKwHBZ1cbw2eKk8mwV1QUek39zMNLxdAZIa4i9GB0g27KxrRX4V3zh248cUPd\n0mFgNFFiny9u7FQtXvSMHKJpbw5thXfC9eolhEvuJMRtkSM1nYq1sVSaMeJUmoZ4\nm5LsJ3hiNqEOZsfMNgFAsPPjRU90uYOdwRVS++amGQKBgQChI+ib7oL1t9rIwOcl\nw6d3AhCbIEHQjIh0c30C8bgothkZiCYOIbwDbGfmB0MzEzZx7W2DQbKGRW5GMRAV\nKEU/xDGbDmsKOyRb6vCl9jIppui938ECcTkE6g4q9jMhe9Jtdt83DFFsJHF1lX2I\nS18cuV5TcAEtwL0Qywn/H2QE/w==\n-----END PRIVATE KEY-----\n",
+              "client_email": "firebase-adminsdk-9i7v4@chatappprac-d7a2b.iam.gserviceaccount.com",
+              "client_id": "113601408405534684204",
               "auth_uri": "https://accounts.google.com/o/oauth2/auth",
               "token_uri": "https://oauth2.googleapis.com/token",
               "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-              "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/md-jahidul-islam-maruf%40chatappprac-d7a2b.iam.gserviceaccount.com",
+              "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-9i7v4%40chatappprac-d7a2b.iam.gserviceaccount.com",
               "universe_domain": "googleapis.com"
             }
 
+
+
         ),
-        [fMessagingScope],
+        fMessagingScope,
       );
 
       _token = client.credentials.accessToken.data;

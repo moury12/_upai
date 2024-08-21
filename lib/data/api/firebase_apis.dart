@@ -278,7 +278,7 @@ class FirebaseAPIs {
     await fMessaging.getToken().then((t) {
       if (t != null) {
         me.pushToken = t;
-        log('Push Token: $t');
+        log('Push Token is : $t');
       }
     });
   }
@@ -320,6 +320,7 @@ class FirebaseAPIs {
       );
 
       log('Response status: ${res.statusCode}');
+
       log('Response body: ${res.body}');
     } catch (e) {
       log('\nsendPushNotificationE: $e');
