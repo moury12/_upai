@@ -125,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     hintText: ctrl.userInfo.name.toString(),
                     prefixIcon: Icons.person,
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   CustomTextField2(
                     isEditable: false,
                     controller: ctrl.emailTE,

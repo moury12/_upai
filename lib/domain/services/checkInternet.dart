@@ -25,10 +25,10 @@ class NetworkController extends GetxController {
                   fontSize: 14
               )
           ),
-          isDismissible: false,
+          isDismissible: true,
           duration: const Duration(days: 1),
           backgroundColor: Colors.red[400]!,
-          icon : const Icon(Icons.wifi_off, color: Colors.white, size: 35,),
+          icon : const Icon(Icons.warning, color: Colors.white, ),
           margin: EdgeInsets.zero,
           snackStyle: SnackStyle.GROUNDED
       );
@@ -49,7 +49,6 @@ class NetworkController extends GetxController {
   }
   @override
   void onClose() {
-
 
     // TODO: implement onClose
     super.onClose();

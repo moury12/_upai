@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -64,7 +62,7 @@ class DefaultController extends GetxController
   }
 
   final List<Widget> screensForClient = [
-    HomeScreen(),
+    const HomeScreen(),
     const SellerProfileScreen(),
     // ExploreScreen(),
     const InboxScreen(),
