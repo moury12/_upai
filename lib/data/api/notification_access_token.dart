@@ -1,6 +1,8 @@
 import 'dart:developer';
 
-import 'package:googleapis_auth/auth_io.dart';
+import 'package:googleapis_auth/auth_io.dart' ;
+import 'package:googleapis/servicecontrol/v1.dart';
+
 
 class NotificationAccessToken {
   static String? _token;
@@ -12,6 +14,8 @@ class NotificationAccessToken {
   static Future<String?> _getAccessToken() async {
     try {
       const fMessagingScope =
+          'https://www.googleapis.com/auth/firebase.messaging';
+          'https://www.googleapis.com/auth/userinfo.email';
           'https://www.googleapis.com/auth/firebase.messaging';
 
       final client = await clientViaServiceAccount(

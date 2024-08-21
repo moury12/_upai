@@ -309,7 +309,7 @@ class FirebaseAPIs {
 
       var res = await post(
         Uri.parse(
-            'https://fcm.googleapis.com/v1/projects/$projectID/messages:send'),
+            'https://fcm.googleapis.com/v1/projects/chatappprac-d7a2b/messages:send'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer $bearerToken'

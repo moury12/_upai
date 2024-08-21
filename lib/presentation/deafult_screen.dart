@@ -26,7 +26,6 @@ class DefaultScreen extends StatelessWidget {
             ctrl.selectedIndex.value = 0;
           } else {
             showDialog(
-
               context: context,
               builder: (context) {
                 return AlertDialog(
