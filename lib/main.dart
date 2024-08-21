@@ -6,17 +6,31 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:upai/binding/initial_binding.dart';
 import 'package:upai/domain/services/checkInternet.dart';
+
+
+
 import 'package:upai/firebase_options.dart';
 import 'package:upai/presentation/ChatScreen/chat_screen.dart';
 import 'package:upai/presentation/Explore/service_list_screen.dart';
+import 'package:upai/presentation/Explore/service_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
+import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
+import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import 'package:upai/presentation/LoginScreen/otp_screen.dart';
 import 'package:upai/presentation/Profile/profile_screen.dart';
+import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/SplashScreen/splash_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
+import 'package:upai/presentation/first_screen.dart';
+import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
+import 'package:upai/presentation/sign%20up%20screen/sign_up_screen.dart';
 import 'package:upai/review/review_screen.dart';
+
+import 'presentation/ChatScreen/Controller/chat_screen_controller.dart';
 import 'presentation/Inbox/inbox.dart';
  String boxName="userInfo";
 Future<void> main() async {
@@ -27,9 +41,13 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox(boxName);
-  DependencyInjection.init();
+
+
+  // DependencyInjection.init();
   runApp(const MyApp());
 }
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -54,7 +72,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/inbox', page: () =>  const InboxScreen()),
         GetPage(name: '/profile', page: () => const ProfileScreen()),
         GetPage(name: '/home', page: () =>  const HomeScreen()),
-       // GetPage(name: '/home2', page: () =>  const InboxScreen()),
+        GetPage(name: '/home2', page: () =>  const InboxScreen()),
 /*
         GetPage(name: ServiceDetails.routeName, page: () =>  ServiceDetails()),
 */

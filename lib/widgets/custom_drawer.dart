@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/presentation/SplashScreen/controller/splash_screen_controller.dart';
 
 import '../core/utils/image_path.dart';
 import '../data/api/firebase_apis.dart';
@@ -77,6 +78,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   onTap: () async {
                     final box = Hive.box('userInfo');
                     await box.delete("user");
+                    SplashScreenController.to.isLogin.value=false;
                     print("Data deleted");
                     FirebaseAPIs.updateActiveStatus(false);
                     Get.offAllNamed('/login');

@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/SplashScreen/controller/splash_screen_controller.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 
 class NetworkController extends GetxController {
@@ -34,16 +35,17 @@ class NetworkController extends GetxController {
     } else {
       if (Get.isSnackbarOpen) {
         Get.closeCurrentSnackbar();
+      }if(SplashScreenController.to.isLogin.value){
+       _reloadData();
       }
-      _reloadData();
     }
   }
 
-  void _reloadData() {
+  void _reloadData() async{
     // Call your data loading functions here
     // For example:
-    HomeController.to.refreshAllData();
-    SellerProfileController.to.refreshAllData();
+   await HomeController.to.refreshAllData();
+   await SellerProfileController.to.refreshAllData();
   }
   @override
   void onClose() {
@@ -56,9 +58,9 @@ class NetworkController extends GetxController {
 }
 
 
-class DependencyInjection {
-
-  static void init() {
-    Get.put<NetworkController>(NetworkController(),permanent:true);
-  }
-}
+// class DependencyInjection {
+//
+//   static void init() {
+//     Get.put<NetworkController>(NetworkController(),permanent:true);
+//   }
+// }

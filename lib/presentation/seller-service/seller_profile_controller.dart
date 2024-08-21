@@ -5,18 +5,21 @@ import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/data/repository/repository_details.dart';
+import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 
 class SellerProfileController extends GetxController {
   static SellerProfileController get to => Get.find();
   Rx<SellerProfileModel> seller = SellerProfileModel().obs;
   RxList<MyService> myService = <MyService>[].obs;
   RxList<MyService> filterList = <MyService>[].obs;
-  late UserInfoModel userData;
+  ProfileScreenController? ctrl;
+
   Rx<TextEditingController> searchMyServiceController =
       TextEditingController().obs;
   @override
   void onInit() {
-    debugPrint('user info ${Boxes.getUserData().get('user')}');
+
+    // debugPrint('user info ${Boxes.getUserData().get('user')}');
     refreshAllData();
     searchMyServiceController.value.addListener(() {
       filterMyService(searchMyServiceController.value.text);
@@ -26,14 +29,15 @@ class SellerProfileController extends GetxController {
   }
 
   Future<void> refreshAllData() async {
-    userData = userInfoModelFromJson(Boxes.getUserData().get('user'));
+
+ctrl = Get.put(ProfileScreenController());
 
     getSellerProfile();
 
   }
   void getSellerProfile() async {
     seller.value = await RepositoryData.getSellerProfile(
-        userData.token.toString(), userData.userId ?? '');
+       ctrl!.userInfo.token.toString(), ctrl!.userInfo.userId ?? '');
     myService.value =  seller.value.myService!;
     filterList.assignAll(myService);
     debugPrint('myService.toJson()');

@@ -9,6 +9,7 @@ class SplashScreenController extends GetxController {
   static SplashScreenController get to =>Get.find();
   final int _splashDuration = 2;
   final box = Hive.box("userInfo");
+   Rx<bool> isLogin = false.obs;
   @override
   void onInit() {
     _isLogin();
@@ -17,17 +18,17 @@ class SplashScreenController extends GetxController {
 
   Future _isLogin() async {
 
-    bool isLoging = false;
+
     if(box.isNotEmpty)
       {
-        isLoging = true;
+        isLogin.value = true;
       }
     //initailiy isLogin will be false!
     //check login credential from local Db!
     //if get credential data then isloging value will be true
     await Future.delayed(
       Duration(seconds: _splashDuration),
-      () => isLoging == true
+      () => isLogin.value
           ? Get.offAll(  DefaultScreen())
           : Get.offAll( LoginScreen()),
     );

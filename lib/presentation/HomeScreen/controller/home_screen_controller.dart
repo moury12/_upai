@@ -12,6 +12,7 @@ import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
+import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 
 class HomeController extends GetxController {
   RxBool isSearching = false.obs;
@@ -24,10 +25,10 @@ class HomeController extends GetxController {
   Rx<bool> change = false.obs;
   Rx<bool> changeQuantity = true.obs;
   Rx<bool> changeRate = false.obs;
-  late UserInfoModel userData;
   RxInt quantity = 1.obs;
   RxInt quantityForConform = 1.obs;
   var totalAmount = 0.obs;
+  ProfileScreenController? ctrl;
 
   Rx<TextEditingController> quantityController =
       TextEditingController(text: '1').obs;
@@ -50,6 +51,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     refreshAllData();
+
     quantityController.value.text = quantity.value.toString();
     quantityControllerForConfromOrder.value.text =
         quantityForConform.value.toString();
@@ -66,7 +68,8 @@ class HomeController extends GetxController {
   }
 
   Future<void> refreshAllData() async {
-    userData = userInfoModelFromJson(Boxes.getUserData().get('user'));
+    ctrl = Get.put(ProfileScreenController());
+
     getCategoryList();
     getOfferDataList();
   }
@@ -80,8 +83,8 @@ class HomeController extends GetxController {
   void getOfferDataList() async {
     getOfferList.value = await RepositoryData().getOfferList(
         token: FirebaseAPIs.user['token'].toString(),
-        mobile: userData.userId ?? '',
-        name: userData.name ?? '');
+        mobile: ctrl!.userInfo.userId?? '',
+        name: ctrl!.userInfo.name ?? '');
 
     filteredOfferList.value = getOfferList;
   }
