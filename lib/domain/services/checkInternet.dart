@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/SplashScreen/controller/splash_screen_controller.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
@@ -17,6 +18,7 @@ class NetworkController extends GetxController {
   void _updateConnectionStatus(ConnectivityResult connectivityResult) {
 
     if (connectivityResult == ConnectivityResult.none) {
+      FirebaseAPIs.updateActiveStatus(false);
       Get.rawSnackbar(
           messageText: const Text(
               'PLEASE CONNECT TO THE INTERNET',
@@ -36,7 +38,9 @@ class NetworkController extends GetxController {
       if (Get.isSnackbarOpen) {
         Get.closeCurrentSnackbar();
       }if(SplashScreenController.to.isLogin.value){
+
        _reloadData();
+       FirebaseAPIs.updateActiveStatus(true);
       }
     }
   }

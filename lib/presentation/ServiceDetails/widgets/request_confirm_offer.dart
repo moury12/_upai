@@ -5,11 +5,14 @@ import 'package:get/get.dart';
 import 'package:upai/controllers/order_controller.dart';
 
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/data/api/firebase_apis.dart';
 
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/widgets/custom_text_field.dart';
+
+import '../../../Model/user_info_model.dart';
 
 class ConfrimOfferWidget extends StatefulWidget {
   final ServiceDetails service;
@@ -63,7 +66,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
         backgroundColor: AppColors.strokeColor2,
         titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        title: ctrl!.userInfo.userId==widget.service.offerDetails!.userId?null: Text(
+        title: ctrl!.userInfo.userId==widget.service.offerDetails!.userId?null: const Text(
           'Request Confirm Offer',
           style: TextStyle(
             fontSize: 16,
@@ -71,8 +74,8 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
           ),
           textAlign: TextAlign.center,
         ),
-        content:ctrl!.userInfo.userId==widget.service.offerDetails!.userId?Padding(
-          padding: const EdgeInsets.all(12),
+        content:ctrl!.userInfo.userId==widget.service.offerDetails!.userId?const Padding(
+          padding: EdgeInsets.all(12),
           child: Center(child: Text('This is your own service'),),
         ): Column(
           mainAxisSize: MainAxisSize.min,
@@ -84,6 +87,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
               height: 12,
             ),
             OfferDialogWidget(
+
               label: 'Category:',
               text: widget.service.offerDetails!.serviceCategoryType ??
                   'No category',
@@ -99,7 +103,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
             const Divider(
               height: 12,
             ),
-            Text(
+            const Text(
               'Rate type',
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
             ),
@@ -135,21 +139,23 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
                     ),
                     items: rateTypes.map((unit) {
                       return DropdownMenuItem<String>(
+
                         value: unit,
                         child: Text(
                           unit,
                           style: const TextStyle(
                             fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w500,color: Colors.black
                           ),
                         ),
                       );
                     }).toList(),
-                    onChanged: (value) {
-                      HomeController.to.change.value = true;
-                      HomeController.to.selectedRateType.value = null;
-                      HomeController.to.selectedRateType.value = value;
-                    },
+                    onChanged: null,
+                    //     (value) {
+                    //   HomeController.to.change.value = true;
+                    //   HomeController.to.selectedRateType.value = null;
+                    //   HomeController.to.selectedRateType.value = value;
+                    // },
                   ),
                 );
               }),
@@ -159,7 +165,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
                 Expanded(
                   child: Column(
                     children: [
-                      Text(
+                       const Text(
                         'Rate',
                         style: TextStyle(
                             fontSize: 14,
@@ -171,6 +177,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
                         //     widget.offerDetails!.rate.toString();
 
                         return CustomTextField(
+                          isEnable: false,
                           validatorText: "Please Enter Rate",
                           hintText: "Please Enter Rate",
                           inputType: TextInputType.number,
@@ -196,7 +203,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
                     // }
                     return Column(
                       children: [
-                        Text(
+                         Text(
                           'quantity',
                           style: TextStyle(
                               fontSize: 14,
@@ -316,7 +323,25 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
                   alignment: Alignment.center,
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white),
-                onPressed: () {
+                onPressed: () async {
+                  UserInfoModel senderData = UserInfoModel();
+                  Map<String, dynamic>? userDetails;
+                  userDetails = await FirebaseAPIs().getSenderInfo(widget.service.offerDetails!.userId.toString());
+                  if (userDetails!.isNotEmpty) {
+                    senderData.userId = userDetails["user_id"] ?? "";
+                    senderData.name = userDetails["name"] ?? "user";
+                    senderData.email = userDetails["email"];
+                    senderData.lastActive = userDetails["last_active"];
+                    senderData.image = userDetails["image"] ??
+                        "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+                    senderData.isOnline = userDetails["is_online"];
+                    senderData.userType = userDetails["user_type"];
+                    senderData.token = userDetails["token"];
+                    senderData.mobile = userDetails["mobile"];
+                    senderData.cid = userDetails["cid"];
+                    senderData.pushToken = userDetails["push_token"];
+                  }
+                  FirebaseAPIs.sendPushNotification(senderData,"Confirm offer request","${ProfileScreenController.to.userInfo.name.toString()} send you request for confirm order\nOffer ID:${widget.service.offerDetails!.offerId.toString()}",);
                   if (HomeController.to.selectedRateType.value != null &&
                       HomeController.to.quantityControllerForConfromOrder.value
                           .text.isNotEmpty &&

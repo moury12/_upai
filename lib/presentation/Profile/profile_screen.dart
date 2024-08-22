@@ -244,7 +244,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future uploadFile() async {
     if (image == null) return;
     final fileName = 'profile';
-    ;
     final destination = '${ctrl.userInfo.userId}/$fileName';
 
     try {

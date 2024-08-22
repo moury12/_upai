@@ -9,6 +9,7 @@ class CustomTextField extends StatefulWidget {
   final Key? fieldKey;
   final bool? isPasswordField;
   final bool? isEmail;
+  final bool? isEnable;
   final double? height;
   final double? width;
   final String? hintText;
@@ -49,7 +50,7 @@ class CustomTextField extends StatefulWidget {
     this.maxLines,
     this.suffixIcon,
     this.onPressed,
-    this.isEmail = false, this.hintStyle, this.inputFontSize, this.height, this.width, this.textInputFormatter, this.padding,
+    this.isEmail = false, this.hintStyle, this.inputFontSize, this.height, this.width, this.textInputFormatter, this.padding, this.isEnable,
   });
 
   @override
@@ -68,7 +69,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
       child: TextFormField(
         inputFormatters: widget.textInputFormatter ?? [],
-        enabled: true,
+        enabled: widget.isEnable??true,
 
         onTap: widget.onPressed ?? () {},
         textAlign: widget.textAlign ?? TextAlign.left,

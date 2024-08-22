@@ -12,6 +12,7 @@ class SplashScreenController extends GetxController {
    Rx<bool> isLogin = false.obs;
   @override
   void onInit() {
+    print(isLogin.value);
     _isLogin();
     super.onInit();
   }

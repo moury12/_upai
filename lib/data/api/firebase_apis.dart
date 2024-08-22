@@ -232,7 +232,7 @@ class FirebaseAPIs {
         .collection(
         'chats/${getConversationID(chatUser.userId.toString())}/messages/');
     await ref.doc(time).set(message.toJson()).then((value) =>
-    sendPushNotification(chatUser, type == Type.text ? msg : 'image'));
+    sendPushNotification(chatUser, type == Type.text ? msg : 'image',chatUser.name.toString()));
   }
 
   //update read status of message
@@ -284,13 +284,14 @@ class FirebaseAPIs {
   }
   // for sending push notification (Updated Codes)
   static Future<void> sendPushNotification(
-      UserInfoModel chatUser, String msg) async {
+      UserInfoModel chatUser,String title,String msg) async {
+
     try {
       final body = {
         "message": {
           "token": chatUser.pushToken,
           "notification": {
-            "title": me.name, //our name should be send
+            "title": title, //our name should be send
             "body": msg,
           },
         }
