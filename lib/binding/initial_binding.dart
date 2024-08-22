@@ -7,16 +7,18 @@ import 'package:upai/presentation/LoginScreen/controller/login_screen_controller
 import 'package:upai/presentation/SplashScreen/controller/splash_screen_controller.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 
+import '../presentation/notification/controller/notification_controller.dart';
+
 class RootBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put(NetworkController(),permanent:  true);
+    Get.put(NetworkController());
     Get.put(SplashScreenController());
-
     Get.put(LoginController());
     Get.put(ChatScreenController());
     Get.put(InboxScreenController());
-    Get.put(InboxScreenController());
+    Get.put(NotificationController());
+
 
   }
 }

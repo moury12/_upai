@@ -40,8 +40,8 @@ class OrderController extends GetxController {
       "rate": rate,
       "quantity": quantity,
       "total": total,
-      "status": "INPROGRESS"
-    });
+      "status": "PENDING"
+    },sellerID: sellerId);
   }
 
   void completionReview() async {

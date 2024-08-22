@@ -344,4 +344,21 @@ class FirebaseAPIs {
       return null;
     }
   }
+
+  static Future<void> sendNotificationData(dynamic body,UserInfoModel chatUser,String title, String msg,) async {
+    await mDB
+        .collection('notifications')
+        .doc(chatUser.userId.toString())
+        .collection("notification_list")
+        .doc(DateTime.now().microsecondsSinceEpoch.toString())
+        .set(body).then((value) => sendPushNotification(chatUser,title,msg));
+  }
+  // for getting notfication
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getMyNotificationList() {
+    return mDB
+        .collection('notifications')
+        .doc(user['user_id'])
+        .collection('notification_list')
+        .snapshots();
+  }
 }

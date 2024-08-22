@@ -9,6 +9,7 @@ import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import '../../Model/user_info_model.dart';
+import '../../presentation/Profile/profile_screen_controller.dart';
 import '/data/api/api_client.dart';
 import '/core/errors/error_controller.dart';
 
@@ -188,7 +189,7 @@ class RepositoryData {
           "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&name=$name";
       if (kDebugMode) {
         print('++++++++++get Offer list url :----$url');
-        print('Token : ${token}');
+        print('Token : $token');
       }
 
       final response = await http.get(Uri.parse(url), headers: {
@@ -254,7 +255,7 @@ class RepositoryData {
     }
   }
 
-  static Future<void> awardCreateJob({dynamic body}) async {
+  static Future<void> awardCreateJob({dynamic body,required String sellerID}) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -267,8 +268,28 @@ class RepositoryData {
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       Get.snackbar('Success', '${responseData['message']} job id is ${responseData['job_id']}');
+      UserInfoModel senderData = UserInfoModel();
+      Map<String, dynamic>? userDetails;
+      userDetails = await FirebaseAPIs().getSenderInfo(sellerID);
+      if (userDetails!.isNotEmpty) {
+        senderData.userId = userDetails["user_id"] ?? "";
+        senderData.name = userDetails["name"] ?? "user";
+        senderData.email = userDetails["email"];
+        senderData.lastActive = userDetails["last_active"];
+        senderData.image = userDetails["image"] ??
+            "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+        senderData.isOnline = userDetails["is_online"];
+        senderData.userType = userDetails["user_type"];
+        senderData.token = userDetails["token"];
+        senderData.mobile = userDetails["mobile"];
+        senderData.cid = userDetails["cid"];
+        senderData.pushToken = userDetails["push_token"];
+        body["read"]="";
+
+        FirebaseAPIs.sendNotificationData(body,senderData,"Confirm offer request","${ProfileScreenController.to.userInfo.name.toString()} send you request for confirm order\nOffer ID:${body["offer_id"]}");
+      }
     } else {
-      Get.snackbar('Error', 'Failed');
+      Get.snackbar('Error', 'Failed ${responseData['message']}');
     }
   }
 

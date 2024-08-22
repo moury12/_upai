@@ -46,7 +46,7 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
   @override
   Widget build(BuildContext context) {
     debugPrint(widget.service.offerDetails!.rateType);
-    final List<String> rateTypes = ['hour', 'task', 'per day', 'piece'];
+    final List<String> rateTypes = ['hour', 'task', 'per day', 'piece','package'];
 
     return PopScope(
       onPopInvoked: (didPop) {
@@ -323,25 +323,9 @@ class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
                   alignment: Alignment.center,
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white),
-                onPressed: () async {
-                  UserInfoModel senderData = UserInfoModel();
-                  Map<String, dynamic>? userDetails;
-                  userDetails = await FirebaseAPIs().getSenderInfo(widget.service.offerDetails!.userId.toString());
-                  if (userDetails!.isNotEmpty) {
-                    senderData.userId = userDetails["user_id"] ?? "";
-                    senderData.name = userDetails["name"] ?? "user";
-                    senderData.email = userDetails["email"];
-                    senderData.lastActive = userDetails["last_active"];
-                    senderData.image = userDetails["image"] ??
-                        "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
-                    senderData.isOnline = userDetails["is_online"];
-                    senderData.userType = userDetails["user_type"];
-                    senderData.token = userDetails["token"];
-                    senderData.mobile = userDetails["mobile"];
-                    senderData.cid = userDetails["cid"];
-                    senderData.pushToken = userDetails["push_token"];
-                  }
-                  FirebaseAPIs.sendPushNotification(senderData,"Confirm offer request","${ProfileScreenController.to.userInfo.name.toString()} send you request for confirm order\nOffer ID:${widget.service.offerDetails!.offerId.toString()}",);
+                onPressed: () {
+
+
                   if (HomeController.to.selectedRateType.value != null &&
                       HomeController.to.quantityControllerForConfromOrder.value
                           .text.isNotEmpty &&
