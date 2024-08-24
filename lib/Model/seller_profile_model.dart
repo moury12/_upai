@@ -69,12 +69,12 @@ class RunningOrder {
   String? jobId;
   String? buyerId;
   String? sellerId;
-  String? jobTitte;
+  String? jobTitle;
   String? description;
   String? rateType;
   String? rate;
-  int? quanrity;
-  int? taotal;
+  int? quantity;
+  int? total;
   String? status;
   String? awardDate;
 
@@ -82,12 +82,12 @@ class RunningOrder {
       {this.jobId,
         this.buyerId,
         this.sellerId,
-        this.jobTitte,
+        this.jobTitle,
         this.description,
         this.rateType,
         this.rate,
-        this.quanrity,
-        this.taotal,
+        this.quantity,
+        this.total,
         this.status,
         this.awardDate});
 
@@ -95,12 +95,12 @@ class RunningOrder {
     jobId = json['job_id'];
     buyerId = json['buyer_id'];
     sellerId = json['seller_id'];
-    jobTitte = json['job_titte'];
+    jobTitle = json['job_title'];
     description = json['description'];
     rateType = json['rate_type'];
     rate = json['rate'];
-    quanrity = json['quanrity'];
-    taotal = json['taotal'];
+    quantity = json['quantity'];
+    total = json['total'];
     status = json['status'];
     awardDate = json['award_date'];
   }
@@ -110,12 +110,12 @@ class RunningOrder {
     data['job_id'] = jobId;
     data['buyer_id'] = buyerId;
     data['seller_id'] = sellerId;
-    data['job_titte'] = jobTitte;
+    data['job_title'] = jobTitle;
     data['description'] = description;
     data['rate_type'] = rateType;
     data['rate'] = rate;
-    data['quanrity'] = quanrity;
-    data['taotal'] = taotal;
+    data['quantity'] = quantity;
+    data['total'] = total;
     data['status'] = status;
     data['award_date'] = awardDate;
     return data;

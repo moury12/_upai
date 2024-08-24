@@ -181,7 +181,10 @@ class FirebaseAPIs {
        'push_token': me.pushToken,
     });
   }
-
+  static Future<void> updateJobStatus(String notificationID,String status) async {
+    mDB.collection('notifications').doc(user['user_id']).collection("notification_list").doc(notificationID).update(
+        {"status":status});
+  }
   //****************************************
   // useful for getting conversation id
   static String getConversationID(String id) =>
@@ -232,7 +235,7 @@ class FirebaseAPIs {
         .collection(
         'chats/${getConversationID(chatUser.userId.toString())}/messages/');
     await ref.doc(time).set(message.toJson()).then((value) =>
-    sendPushNotification(chatUser, type == Type.text ? msg : 'image',chatUser.name.toString()));
+    sendPushNotification(chatUser,chatUser.name.toString(), type == Type.text ? msg : 'image'));
   }
 
   //update read status of message
@@ -346,11 +349,13 @@ class FirebaseAPIs {
   }
 
   static Future<void> sendNotificationData(dynamic body,UserInfoModel chatUser,String title, String msg,) async {
+    String notificationID = DateTime.now().microsecondsSinceEpoch.toString();
+    body["notification_id"]=notificationID;
     await mDB
         .collection('notifications')
         .doc(chatUser.userId.toString())
         .collection("notification_list")
-        .doc(DateTime.now().microsecondsSinceEpoch.toString())
+        .doc(notificationID)
         .set(body).then((value) => sendPushNotification(chatUser,title,msg));
   }
   // for getting notfication

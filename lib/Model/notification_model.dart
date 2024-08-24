@@ -9,9 +9,15 @@ NotificationModel notificationModelFromJson(String str) => NotificationModel.fro
 String notificationModelToJson(NotificationModel data) => json.encode(data.toJson());
 
 class NotificationModel {
+  String? notificationId;
+  String? notificationTitle;
+  String? notificationMsg;
   String? offerId;
-  String? buyerMobile;
-  String? sellerMobile;
+  String? jobId;
+  String? buyerId;
+  String? buyerName;
+  String? sellerId;
+  String? sellerName;
   String? jobTitle;
   String? description;
   String? rateType;
@@ -19,12 +25,17 @@ class NotificationModel {
   String? quantity;
   String? total;
   String? status;
-  String? read;
 
   NotificationModel({
+    this.notificationId,
+    this.notificationTitle,
+    this.notificationMsg,
     this.offerId,
-    this.buyerMobile,
-    this.sellerMobile,
+    this.jobId,
+    this.buyerId,
+    this.buyerName,
+    this.sellerId,
+    this.sellerName,
     this.jobTitle,
     this.description,
     this.rateType,
@@ -32,13 +43,18 @@ class NotificationModel {
     this.quantity,
     this.total,
     this.status,
-    this.read,
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
+    notificationId: json["notification_id"],
+    notificationTitle: json["notification_title"],
+    notificationMsg: json["notification_msg"],
     offerId: json["offer_id"],
-    buyerMobile: json["buyer_mobile"],
-    sellerMobile: json["seller_mobile"],
+    jobId: json["job_id"],
+    buyerId: json["buyer_id"],
+    buyerName: json["buyer_name"],
+    sellerId: json["seller_id"],
+    sellerName: json["seller_name"],
     jobTitle: json["job_title"],
     description: json["description"],
     rateType: json["rate_type"],
@@ -46,13 +62,18 @@ class NotificationModel {
     quantity: json["quantity"],
     total: json["total"],
     status: json["status"],
-    read: json["read"]??"",
   );
 
   Map<String, dynamic> toJson() => {
+    "notification_id": notificationId,
+    "notification_title": notificationTitle,
+    "notification_msg": notificationMsg,
     "offer_id": offerId,
-    "buyer_mobile": buyerMobile,
-    "seller_mobile": sellerMobile,
+    "job_id": jobId,
+    "buyer_id": buyerId,
+    "buyer_name": buyerName,
+    "seller_id": sellerId,
+    "seller_name": sellerName,
     "job_title": jobTitle,
     "description": description,
     "rate_type": rateType,
@@ -60,6 +81,5 @@ class NotificationModel {
     "quantity": quantity,
     "total": total,
     "status": status,
-    "read": read,
   };
 }

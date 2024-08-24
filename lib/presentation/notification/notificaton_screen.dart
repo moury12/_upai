@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/notification/widget/confirm_order_dialog.dart';
+import 'package:upai/widgets/custom_button.dart';
 
 import '../../data/api/firebase_apis.dart';
 import 'controller/notification_controller.dart';
@@ -41,40 +44,52 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                                 .add(NotificationModel.fromJson(i.data()));
                           }
                           return ListView.builder(
-                              itemCount: NotificationController
-                                  .to.notificationList.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey,width: 3),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Column(
-
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                         Text("${NotificationController.to.notificationList[index].buyerMobile.toString()} request for confirm offer"),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text("${NotificationController.to
-                                                  .notificationList[index]
-                                                  .offerId.toString()}"),
-                                              ElevatedButton(onPressed: (){}, child: Text("Tap here")),
-
-
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                            itemCount: NotificationController.to.notificationList.length,
+                            itemBuilder: (context, index) {
+                              int reversedIndex = NotificationController.to.notificationList.length - 1 - index;
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey.shade200, width: 3),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                );
-                              });
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ListTile(
+                                        leading: Icon(Icons.notifications_on, size: 35),
+                                        title: Text(NotificationController.to.notificationList[reversedIndex].notificationTitle.toString()),
+                                        subtitle: Column(
+                                          children: [
+                                            Text(NotificationController.to.notificationList[reversedIndex].notificationMsg.toString()),
+                                          ],
+                                        ),
+                                        trailing: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Text("৳${NotificationController.to.notificationList[reversedIndex].total.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold),
+                                            Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold),
+                                          ],
+                                        ),
+                                      ),
+                                      ProfileScreenController.to.userInfo.userId==NotificationController.to.notificationList[reversedIndex].buyerId?SizedBox():
+                                      SizedBox(
+                                        height: 40,
+                                        width: 150,
+                                        child: CustomButton(onTap: () {
+                                          showDialog(context: context, builder: (context) => ConfirmOrderWidget(notificationModel: NotificationController.to.notificationList[reversedIndex],),);
+                                        }, text: "Tap Here"),
+                                      ),
+                                      SizedBox(height: 10),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+
                         } else {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,

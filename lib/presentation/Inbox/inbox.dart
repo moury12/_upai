@@ -103,20 +103,18 @@ class InboxScreen extends StatelessWidget {
                                         ctrl.chatList.add(
                                             UserInfoModel.fromJson(i.data()));
                                       }
+                                      List<UserInfoModel> finalList = ctrl.isSearching ? ctrl.searchList : ctrl.chatList;
                                       return ListView.builder(
-
-                                        itemCount: ctrl.isSearching ? ctrl.searchList
-                                            .length : ctrl.chatList.length,
+                                        itemCount: finalList.length,
                                         itemBuilder: (context, index) {
-                                          if (ctrl.isSearching?ctrl.searchList.isNotEmpty:ctrl.chatList.isNotEmpty) {
+                                          int reversedIndex = finalList.length - 1 - index;
+                                          if (finalList.isNotEmpty) {
                                             return InkWell(
                                                 onTap: () {
-                                                  Get.toNamed("/chatscreen",arguments: ctrl.isSearching?ctrl.searchList[index]:ctrl.chatList[index]);
+                                                  Get.toNamed("/chatscreen",arguments: finalList[index]);
                                                 },
                                                 child: InboxCardWidget(
-                                                  receiverUserInfo: ctrl.isSearching
-                                                      ? ctrl.searchList[index]
-                                                      : ctrl.chatList[index],));
+                                                  receiverUserInfo: finalList[index],));
                                           }
                                           else {
                                             return const Text("No Chat Available");

@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/Model/notification_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
+
+import '../../../data/repository/repository_details.dart';
 
 class RunningOrderWidget extends StatefulWidget {
   final Function()? jobStatus;
@@ -26,6 +29,7 @@ class _RunningOrderWidgetState extends State<RunningOrderWidget> {
   @override
   void initState() {
     Get.put(OrderController());
+
 
     // TODO: implement initState
     super.initState();
@@ -63,11 +67,26 @@ class _RunningOrderWidgetState extends State<RunningOrderWidget> {
                               foregroundColor: Colors.white),
                           onPressed: () async {
                             Navigator.pop(context);
-                            OrderController.to.jobStatus(
-                                widget.runningOrder.jobId ?? '',
-                                "COMPLETED",
-                                widget.runningOrder.awardDate ?? '',
-                                DateTime.now().toString());
+                            NotificationModel newNotificationData = NotificationModel();
+                            newNotificationData.jobId=widget.runningOrder.jobId;
+                            newNotificationData.buyerId=widget.runningOrder.buyerId;
+                            newNotificationData.sellerId=widget.runningOrder.sellerId;
+                            newNotificationData.quantity=widget.runningOrder.quantity.toString();
+                            newNotificationData.rateType=widget.runningOrder.rateType;
+                            newNotificationData.rate=widget.runningOrder.rate;
+                            newNotificationData.total=widget.runningOrder.total.toString();
+                            newNotificationData.jobTitle=widget.runningOrder.jobTitle.toString();
+                            newNotificationData.status="COMPLETED";
+                            newNotificationData.description=widget.runningOrder.description.toString();
+                            newNotificationData.notificationTitle="${widget.runningOrder.jobTitle} Job Completed";
+                            newNotificationData.notificationMsg="Confirm and Give a review to the seller";
+                            await RepositoryData.jobStatus(body: {
+                              "job_id": widget.runningOrder.jobId,
+                              "status": "COMPLETED",
+                              "award_date": widget.runningOrder.awardDate,
+                              "completion_date": DateTime.now().toString()
+
+                            },isPopupScreen: false,context: context,msg: newNotificationData.notificationMsg.toString(),title: newNotificationData.notificationTitle.toString(),notification: newNotificationData);
 
                             await SellerProfileController.to.refreshAllData();
                           },
@@ -143,13 +162,13 @@ class _RunningOrderWidgetState extends State<RunningOrderWidget> {
                     children: [
                       Expanded(
                           child: Text(
-                        widget.runningOrder.jobTitte ?? 'job title',
+                        widget.runningOrder.jobTitle ?? 'job title',
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w600),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       )),
-                      Text("৳ ${widget.runningOrder.taotal ?? '0.00'}",
+                      Text("৳ ${widget.runningOrder.total ?? '0.00'}",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w700)),
                     ],
@@ -182,7 +201,7 @@ class _RunningOrderWidgetState extends State<RunningOrderWidget> {
                             SizedBox(
                               width: 2,
                             ),
-                            Text('${widget.runningOrder.quanrity ?? ''}',
+                            Text('${widget.runningOrder.quantity ?? ''}',
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w500)),
                           ],

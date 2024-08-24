@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/category_list_model.dart';
+import 'package:upai/Model/notification_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
@@ -237,7 +238,7 @@ class RepositoryData {
     }
   }
 
-  static Future<void> jobStatus({dynamic body}) async {
+  static Future<void> jobStatus({ context ,required NotificationModel notification,required bool isPopupScreen,dynamic body,required String title,required msg}) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -250,8 +251,53 @@ class RepositoryData {
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       Get.snackbar('Success', responseData['message']);
-    } else {
-      Get.snackbar('Error', 'Failed');
+      if(isPopupScreen)
+        {
+          Navigator.pop(context);
+        }
+      FirebaseAPIs.updateJobStatus(notification.sellerId.toString(), body["status"]);
+      ////
+      UserInfoModel senderData = UserInfoModel();
+      Map<String, dynamic>? userDetails;
+      userDetails = await FirebaseAPIs().getSenderInfo(notification.buyerId.toString());
+      if (userDetails!.isNotEmpty) {
+        senderData.userId = userDetails["user_id"] ?? "";
+        senderData.name = userDetails["name"] ?? "user";
+        senderData.email = userDetails["email"];
+        senderData.lastActive = userDetails["last_active"];
+        senderData.image = userDetails["image"] ??
+            "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+        senderData.isOnline = userDetails["is_online"];
+        senderData.userType = userDetails["user_type"];
+        senderData.token = userDetails["token"];
+        senderData.mobile = userDetails["mobile"];
+        senderData.cid = userDetails["cid"];
+        senderData.pushToken = userDetails["push_token"];
+
+        // body["read"]="";
+        Map<String, dynamic> orderNotificationData = {};
+        orderNotificationData =notification.toJson();
+        // orderNotificationData["job_id"] = notification.jobId;
+        // orderNotificationData["buyer_name"] =notification.buyerName.toString();
+        // orderNotificationData["buyer_id"] =notification.buyerId.toString();
+        // orderNotificationData["seller_name"] = notification.sellerName.toString();
+        // orderNotificationData["seller_id"] = notification.sellerName.toString();
+        // orderNotificationData["notification_title"] = title;
+        // orderNotificationData["msg"] = msg;
+        FirebaseAPIs.sendNotificationData(
+            orderNotificationData, senderData, title,msg);
+      }
+        ////
+
+    }
+
+      else {
+
+      Get.snackbar('Failed', responseData['message']);
+      if(isPopupScreen)
+      {
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -284,9 +330,16 @@ class RepositoryData {
         senderData.mobile = userDetails["mobile"];
         senderData.cid = userDetails["cid"];
         senderData.pushToken = userDetails["push_token"];
-        body["read"]="";
+        // body["read"]="";
+        Map<String,dynamic> orderNotificationData = body;
+        orderNotificationData["job_id"]=responseData['job_id'].toString();
+        orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.name.toString();
+        orderNotificationData["seller_name"]=senderData.name.toString();
+        orderNotificationData["notification_title"]="You Have a Confirm Order Request";
+         orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.name.toString()} send you a request for confirm order of ${body["job_title"]}";
 
-        FirebaseAPIs.sendNotificationData(body,senderData,"Confirm offer request","${ProfileScreenController.to.userInfo.name.toString()} send you request for confirm order\nOffer ID:${body["offer_id"]}");
+
+        FirebaseAPIs.sendNotificationData( orderNotificationData,senderData,"Confirm offer request","${ProfileScreenController.to.userInfo.name.toString()} send you request for confirm order\nOffer ID:${body["offer_id"]}");
       }
     } else {
       Get.snackbar('Error', 'Failed ${responseData['message']}');
@@ -306,7 +359,7 @@ class RepositoryData {
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       Get.snackbar('Success', responseData['message']);
-    } else {
+       } else {
       Get.snackbar('Error', 'Failed');
     }
   }
