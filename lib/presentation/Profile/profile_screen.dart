@@ -20,13 +20,21 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  ProfileScreenController ctrl = Get.put(ProfileScreenController());
+  final ctrl = ProfileScreenController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File? image;
   final _picker = ImagePicker();
   String img = '';
+@override
+  void initState() {
+  ctrl.canEdit.value =false;
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    debugPrint(ctrl.canEdit!.value.toString());
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -62,29 +70,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Stack(
                     children: [
-                      Obx( () {
+                      Obx(() {
                         return Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(
-                                  color: AppColors.strokeColor, width: 3)),
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(
+                                color: AppColors.strokeColor, width: 3),
+                          ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
-                            child: CachedNetworkImage(
-                              height: 150,
-                              width: 150,
-                              imageUrl: ctrl.profileImageUrl.value,
-                              fit: BoxFit.cover,
-                              // placeholder: (context, url) => Image.asset(ImageConstant.senderImg, fit: BoxFit.cover),
-                              errorWidget: (context, url, error) =>
-                                  /* ctrl.profileImageUrl.isNotEmpty
-                                  ? Image.network(ctrl.profileImageUrl.value,fit: BoxFit.cover,):*/
-                                  image == null
-                                      ? Image.asset(ImageConstant.senderImg,
-                                          fit: BoxFit.cover)
-                                      : Image.file(File(image!.path).absolute,
-                                          fit: BoxFit.cover),
-                            ),
+                            child: ctrl.canEdit!.value == true && image != null
+                                ? Image.file(
+                                    File(image!.path),
+                                    height: 150,
+                                    width: 150,
+                                    fit: BoxFit.cover,
+                                  )
+                                : CachedNetworkImage(
+                                    height: 150,
+                                    width: 150,
+                                    imageUrl: ctrl
+                                            .profileImageUrl.value.isNotEmpty
+                                        ? ctrl.profileImageUrl.value
+                                        : ImageConstant
+                                            .senderImg, // Fallback image if URL is empty
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(
+                                      color: AppColors.colorBlack,
+                                    )),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                      ImageConstant.senderImg,
+                                      height: 150,
+                                      width: 150,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                           ),
                         );
                       }),
@@ -101,10 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 borderRadius: BorderRadius.circular(8)),
                             child: Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: FaIcon(
-                                FontAwesomeIcons.solidPenToSquare,
-                                size: 20,
-                              ),
+                              child: Icon(Icons.add_a_photo),
                             ),
                           ),
                         ),
@@ -178,7 +197,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: MediaQuery.sizeOf(context).width * .85,
                       child: ElevatedButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {}
+                          // if (_formKey.currentState!.validate()) {}
+                          uploadFile();
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.BTNbackgroudgrey,
@@ -225,10 +245,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (pickedFile != null) {
       image = File(pickedFile.path);
       ctrl.update();
-      ctrl.save.value = true;
-      await uploadFile();
+      ctrl.canEdit!.value = true;
+      debugPrint('///////////////');
+      debugPrint(ctrl.canEdit!.value.toString());
       // setState(() {});
     } else {
+      ctrl.canEdit.value = false;
+      // setState(() {
+      //
+      // });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
@@ -251,7 +276,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // Uint8List imageData = await File(image!.path).readAsBytes();
 
       await ref.putFile(image!);
+      ctrl.fetchProfileImage();
     } catch (e) {
+      ctrl.canEdit.value = false;
       print('error occured');
     }
   }

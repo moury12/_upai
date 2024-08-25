@@ -88,7 +88,7 @@ class DefaultController extends GetxController
     // ExploreScreen(),
     const InboxScreen(),
     const NotificatonScreen(),
-    const ProfileScreen()
+     ProfileScreen()
   ];
   // final List<Widget> screensForServiceProvider = [
   //   const HomeScreen2(),
