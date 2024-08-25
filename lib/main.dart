@@ -2,6 +2,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -23,32 +24,37 @@ import 'package:upai/presentation/Profile/profile_screen.dart';
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/SplashScreen/splash_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
-import 'package:upai/presentation/first_screen.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
-import 'package:upai/presentation/sign%20up%20screen/sign_up_screen.dart';
 import 'package:upai/review/review_screen.dart';
-
-import 'presentation/ChatScreen/Controller/chat_screen_controller.dart';
+import 'package:upai/testnotification/notification_service.dart';
+import 'data/api/notification_access_token.dart';
 import 'presentation/Inbox/inbox.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // Ensure Firebase is initialized if you plan to use it here
-  await Firebase.initializeApp();
-
-  // Handle the background message here
-  print('Handling a background message: ${message.messageId}');
-  // You can also show a notification or perform other tasks here.
+@pragma('vm:entry-point')
+Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
+
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   // Ensure Firebase is initialized if you plan to use it here
+//   await Firebase.initializeApp();
+//
+//   // Handle the background message here
+//   print('Handling a background message: ${message.messageId}');
+//   // You can also show a notification or perform other tasks here.
+// }
 
  String boxName="userInfo";
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await NotificationService.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   WidgetsFlutterBinding.ensureInitialized();
+  createNotificationChannel();
   // Register the background message handler
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
   await Hive.initFlutter();
   await Hive.openBox(boxName);
 
@@ -56,11 +62,42 @@ Future<void> main() async {
   // DependencyInjection.init();
   runApp(const MyApp());
 }
+void createNotificationChannel() async {
+  const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'default_channel_id', // This matches the ID in AndroidManifest.xml
+    'Default Notifications', // The name of the channel (visible to the user)
+    description: 'This channel is used for default notifications.',
+    importance: Importance.high, // The importance level of the channel
+  );
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+}
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+
+class _MyAppState extends State<MyApp> {
+  NotificationAccessToken notificationAccessToken = NotificationAccessToken();
+
+  @override
+  void initState() {
+    notificationAccessToken.requestNotificationPermission();
+    notificationAccessToken.firebaseInit(context);
+    notificationAccessToken.setupInteractMessage(context);
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     debugPrint('width, height${MediaQuery.of(context).size.width},${MediaQuery.of(context).size.height}');

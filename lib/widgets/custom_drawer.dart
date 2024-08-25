@@ -12,6 +12,7 @@ import 'package:upai/presentation/seller-service/seller_profile_controller.dart'
 
 import '../core/utils/image_path.dart';
 import '../data/api/firebase_apis.dart';
+import '../testnotification/notification_screen_test.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key, required this.userInfo});
@@ -96,6 +97,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Get.offAllNamed('/login');
                   },
                 ),
+                _buildMenuOption(icon: Icons.add, label: "nw", onTap: (){
+                  Get.to(NotificationScreenTest());
+                })
               ],
             ),
           ),

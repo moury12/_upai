@@ -182,6 +182,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                         NotificationModel newNotificationData = widget.notificationModel;
                         newNotificationData.status="ACCEPTED";
                         newNotificationData.notificationTitle="Order Request Confirmed";
+                        newNotificationData.createdTime=DateTime.now().toString();
                         newNotificationData.notificationMsg='${widget.notificationModel.sellerName} has accepted your order visit service screen for more details';
                         await RepositoryData.jobStatus(title:newNotificationData.notificationTitle.toString(),msg:newNotificationData.notificationMsg,notification:newNotificationData,context: context,isPopupScreen: true,body: {
                           "job_id": widget.notificationModel.jobId,
@@ -205,6 +206,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                         newNotificationData.status="REJECTED";
                         newNotificationData.notificationTitle="Order Request Rejected";
                         newNotificationData.notificationMsg='${widget.notificationModel.sellerName} has rejected your order request.';
+                        newNotificationData.createdTime=DateTime.now().toString();
                         await RepositoryData.jobStatus(title:newNotificationData.notificationTitle.toString(),msg:newNotificationData.notificationMsg,notification:newNotificationData,context: context,isPopupScreen: true,body: {
                           "job_id": widget.notificationModel.jobId,
                           "status": "REJECTED",

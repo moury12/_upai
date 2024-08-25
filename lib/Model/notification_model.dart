@@ -25,6 +25,7 @@ class NotificationModel {
   String? quantity;
   String? total;
   String? status;
+  String? createdTime;
 
   NotificationModel({
     this.notificationId,
@@ -43,25 +44,27 @@ class NotificationModel {
     this.quantity,
     this.total,
     this.status,
+    this.createdTime,
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
-    notificationId: json["notification_id"],
-    notificationTitle: json["notification_title"],
-    notificationMsg: json["notification_msg"],
-    offerId: json["offer_id"],
-    jobId: json["job_id"],
-    buyerId: json["buyer_id"],
-    buyerName: json["buyer_name"],
-    sellerId: json["seller_id"],
-    sellerName: json["seller_name"],
-    jobTitle: json["job_title"],
-    description: json["description"],
-    rateType: json["rate_type"],
-    rate: json["rate"],
-    quantity: json["quantity"],
-    total: json["total"],
-    status: json["status"],
+    notificationId: json["notification_id"]??"",
+    notificationTitle: json["notification_title"]??"",
+    notificationMsg: json["notification_msg"]??"",
+    offerId: json["offer_id"]??"",
+    jobId: json["job_id"]??"",
+    buyerId: json["buyer_id"]??"",
+    buyerName: json["buyer_name"]??"",
+    sellerId: json["seller_id"]??"",
+    sellerName: json["seller_name"]??"",
+    jobTitle: json["job_title"]??"",
+    description: json["description"]??"",
+    rateType: json["rate_type"]??"",
+    rate: json["rate"]??"",
+    quantity: json["quantity"]??"",
+    total: json["total"]??"",
+    status: json["status"]??"",
+    createdTime: json["created_time"]??"",
   );
 
   Map<String, dynamic> toJson() => {
@@ -81,5 +84,6 @@ class NotificationModel {
     "quantity": quantity,
     "total": total,
     "status": status,
+    "created_time": createdTime,
   };
 }

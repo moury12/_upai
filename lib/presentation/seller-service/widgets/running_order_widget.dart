@@ -77,6 +77,7 @@ class _RunningOrderWidgetState extends State<RunningOrderWidget> {
                             newNotificationData.total=widget.runningOrder.total.toString();
                             newNotificationData.jobTitle=widget.runningOrder.jobTitle.toString();
                             newNotificationData.status="COMPLETED";
+                            newNotificationData.createdTime=DateTime.now().toString();
                             newNotificationData.description=widget.runningOrder.description.toString();
                             newNotificationData.notificationTitle="${widget.runningOrder.jobTitle} Job Completed";
                             newNotificationData.notificationMsg="Confirm and Give a review to the seller";
