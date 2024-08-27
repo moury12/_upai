@@ -16,6 +16,9 @@ import 'package:upai/presentation/Inbox/inbox.dart';
 import 'package:upai/presentation/Profile/profile_screen.dart';
 import 'package:upai/presentation/notification/notificaton_screen.dart';
 
+import 'ChatScreen/Controller/chat_screen_controller.dart';
+import 'Inbox/controller/inbox_screen_controller.dart';
+import 'notification/controller/notification_controller.dart';
 import 'seller-service/seller_profile_controller.dart';
 class DefaultController extends GetxController
 {
@@ -29,6 +32,7 @@ class DefaultController extends GetxController
   }
   @override
   void onInit() {
+
     //for notification permission
     FirebaseMessaging.instance.requestPermission(
       alert: true,
