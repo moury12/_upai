@@ -11,11 +11,12 @@ import 'package:upai/presentation/seller-service/seller_profile_controller.dart'
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 
 class MyServiceDetails extends StatelessWidget {
-  final MyService service;
-  const MyServiceDetails({super.key, required this.service});
+  // final MyService service;
+  const MyServiceDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.strokeColor2,
@@ -53,189 +54,193 @@ class MyServiceDetails extends StatelessWidget {
                     color: Colors.white,
                     borderRadius:
                         BorderRadius.only(topRight: Radius.circular(50))),
-                child: Column(
+                child: Obx(
+                  () {
+                    return Column(
 
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      service.jobTitle ?? '',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700),
-                    ),
-
-                    GridView(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 1.5,
-                              crossAxisSpacing: 12),
-                      shrinkWrap: true,
-                      primary: false,
-                      children: [
-                        SellerStatusWidget(
-                          title: 'Quantity',
-                          color: Colors.deepPurpleAccent,
-                          icon: CupertinoIcons.cart,
-                          value: service.quantity.toString(),
-                        ),
-                        SellerStatusWidget(
-                          title: 'Rate',
-                          color: Colors.teal,
-                          icon: Icons.monetization_on_sharp,
-                          value: '${service.rate.toString()}৳',
-                        ),
-                      ],
-                    ),
-                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Rate Type: ',
+                          SellerProfileController.to.service.value.jobTitle ?? '',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700),
+                        ),
+
+                        GridView(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 1.5,
+                                  crossAxisSpacing: 12),
+                          shrinkWrap: true,
+                          primary: false,
+                          children: [
+                            SellerStatusWidget(
+                              title: 'Quantity',
+                              color: Colors.deepPurpleAccent,
+                              icon: CupertinoIcons.cart,
+                              value: SellerProfileController.to.service.value.quantity.toString(),
+                            ),
+                            SellerStatusWidget(
+                              title: 'Rate',
+                              color: Colors.teal,
+                              icon: Icons.monetization_on_sharp,
+                              value: '${SellerProfileController.to.service.value.rate.toString()}৳',
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Rate Type: ',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              '${SellerProfileController.to.service.value.rateType}',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Category Type: ',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              '${SellerProfileController.to.service.value.serviceCategoryType}',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Description: ',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          '${service.rateType}',
+                          '${SellerProfileController.to.service.value.description}',
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400),
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Category Type: ',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          '${service.serviceCategoryType}',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'Description: ',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    Text(
-                      '${service.description}',
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(height: 8,),
+                        SizedBox(height: 8,),
 
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Get.to(CreateOfferScreen(
-                                  service: service,
-                                  isEdit: true,
-                                ));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 12),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10)),
-                                  backgroundColor: Colors.black,
-                                  foregroundColor: Colors.white),
-                              child: Text(
-                                'Edit',
-                                style: TextStyle(
-                                    fontSize:
-                                        14,
-                                    fontWeight: FontWeight.w600),
-                              )),
-                        ),
-                        SizedBox(
-                          width: 14,
-                        ),
-                        Expanded(
-                          child: ElevatedButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      backgroundColor: AppColors.strokeColor2,
-                                      title: const Icon(
-                                        CupertinoIcons.delete,
-                                        size: 40,
-                                      ),
-                                      content: Text(
-                                        'Are you sure to delete this service?',
-                                        style: TextStyle(
-                                            fontSize: getResponsiveFontSize(
-                                                context, 12),
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      actions: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.pink,
-                                                foregroundColor:
-                                                    Colors.white),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            SellerProfileController.to.deleteOffer(service.offerId??'');
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    Get.to(CreateOfferScreen(
+                                      service: SellerProfileController.to.service.value,
+                                      isEdit: true,
+                                    ));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(vertical: 12),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      backgroundColor: Colors.black,
+                                      foregroundColor: Colors.white),
+                                  child: Text(
+                                    'Edit',
+                                    style: TextStyle(
+                                        fontSize:
+                                            14,
+                                        fontWeight: FontWeight.w600),
+                                  )),
+                            ),
+                            SizedBox(
+                              width: 14,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          backgroundColor: AppColors.strokeColor2,
+                                          title: const Icon(
+                                            CupertinoIcons.delete,
+                                            size: 40,
+                                          ),
+                                          content: Text(
+                                            'Are you sure to delete this service?',
+                                            style: TextStyle(
+                                                fontSize: getResponsiveFontSize(
+                                                    context, 12),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          actions: [
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.pink,
+                                                    foregroundColor:
+                                                        Colors.white),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                SellerProfileController.to.deleteOffer(SellerProfileController.to.service.value.offerId??'');
 
-                                            SellerProfileController.to.myService.refresh();
+                                                SellerProfileController.to.myService.refresh();
 
-                                              Get.back();
-                                            },
-                                            child: const Text('Yes')),
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.black,
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 12),
-                                                foregroundColor:
-                                                    Colors.white),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('No'))
-                                      ],
+                                                  Get.back();
+                                                },
+                                                child: const Text('Yes')),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.black,
+                                                    padding: EdgeInsets.symmetric(
+                                                        vertical: 12),
+                                                    foregroundColor:
+                                                        Colors.white),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('No'))
+                                          ],
+                                        );
+                                      },
                                     );
                                   },
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
 
-                                      borderRadius:
-                                          BorderRadius.circular(10)),
-                                  backgroundColor: Colors.pink,padding:
-                              EdgeInsets.symmetric(vertical: 12),
-                                  foregroundColor: Colors.white),
-                              child: Text(
-                                'Delete',
-                                style: TextStyle(
-                                    fontSize:
-                                        14,
-                                    fontWeight: FontWeight.w600),
-                              )),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      backgroundColor: Colors.pink,padding:
+                                  EdgeInsets.symmetric(vertical: 12),
+                                      foregroundColor: Colors.white),
+                                  child: Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                        fontSize:
+                                            14,
+                                        fontWeight: FontWeight.w600),
+                                  )),
+                            ),
+                          ],
                         ),
+                        const SizedBox(
+                          height: 8,
+                        )
                       ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    )
-                  ],
+                    );
+                  }
                 ),
               )
             ],

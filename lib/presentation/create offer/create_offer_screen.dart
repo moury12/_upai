@@ -11,6 +11,8 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/seller-service/my_service_details.dart';
+import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 class CreateOfferScreen extends StatefulWidget {
@@ -43,7 +45,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   @override
   void initState() {
     // print(district.toString());
-    addressController= TextEditingController(text:widget.service != null ? widget.service!.address : '' );
+    addressController = TextEditingController(
+        text: widget.service != null && widget.service!.address!.isNotEmpty
+            ? widget.service!.address
+            : '');
     titleController = TextEditingController(
         text: widget.service != null ? widget.service!.jobTitle : '');
     addressController = TextEditingController(
@@ -63,21 +68,22 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     //             )
     //         .toList()[0]
     //     : null;
-    var filteredList = HomeController.to.getCatList
-        .where((e) => e.categoryName!
-            .toLowerCase()
-            .contains(widget.service!.serviceCategoryType!.toLowerCase()))
-        .toList();
+    if (widget.service != null) {
+      var filteredList = HomeController.to.getCatList
+          .where((e) => e.categoryName!
+              .toLowerCase()
+              .contains(widget.service!.serviceCategoryType!.toLowerCase()))
+          .toList();
 
-    if (filteredList.isNotEmpty) {
-      HomeController.to.selectedCategory.value = filteredList[0];
-    } else {
-      HomeController.to.selectedCategory.value =
-          null; // Or handle the case when no match is found
+      if (filteredList.isNotEmpty) {
+        HomeController.to.selectedCategory.value = filteredList[0];
+      } else {
+        HomeController.to.selectedCategory.value =
+            null; // Or handle the case when no match is found
+      }
     }
-    debugPrint(widget.service!.rateType);
-    HomeController.to.selectedRateType.value =
-    widget.service != null &&
+    // debugPrint(widget.service!.rateType);
+    HomeController.to.selectedRateType.value = widget.service != null &&
             timeUnits.any((item) => item
                 .toString()
                 .toLowerCase()
@@ -85,7 +91,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         ? widget.service!.rateType.toString()
         : null;
     HomeController.to.selectedDistrict.value =
-        widget.service != null &&widget.service!.district!.isNotEmpty ? widget.service!.district : null;
+        widget.service != null && widget.service!.district!.isNotEmpty
+            ? widget.service!.district
+            : null;
     super.initState();
   }
 
@@ -446,7 +454,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                               foregroundColor: Colors.white,
                               padding: EdgeInsets.symmetric(
                                   vertical: 12, horizontal: 12)),
-                          onPressed: () {
+                          onPressed: () async {
                             if (HomeController.to.selectedRateType.value != null &&
                                 HomeController.to.selectedCategory.value !=
                                     null &&
@@ -459,18 +467,40 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 HomeController.to.quantityController.value.text
                                     .isNotEmpty &&
                                 box.isNotEmpty) {
-                              HomeController.to.createOffer(
-                                  titleController.text,
-                                  descriptionController.text,
-                                  rateController.text,
-                                  addressController.text);
+                              if (widget.service != null) {
+                                HomeController.to.editOffer(
+                                    widget.service!.offerId ?? '',
+                                    titleController.text,
+                                    descriptionController.text,
+                                    rateController.text,
+                                    addressController.text);
+                                // Get.to(MyServiceDetails());
+                                // SellerProfileController.to.myService.refresh();
+                                //  SellerProfileController.to.service.update(
+                                //   (val) async {
+                                //     return SellerProfileController.to
+                                //         .refreshAllData();
+                                //   },
+                                // );
+                                // await SellerProfileController.to.refreshAllData();
+                              Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
+                              } else {
+                                HomeController.to.createOffer(
+                                    titleController.text,
+                                    descriptionController.text,
+                                    rateController.text,
+                                    addressController.text);
+                                await SellerProfileController.to
+                                    .refreshAllData();
+                              }
+
                               clear();
                             } else {
                               Get.snackbar('Error', "All field Required");
                               // clear();
                             }
                           },
-                          child: Text(widget.isEdit!
+                          child: Text(widget.service != null
                               ? 'Update offer'
                               : 'Create Offer')),
                     ),
