@@ -53,7 +53,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   WidgetsFlutterBinding.ensureInitialized();
-  createNotificationChannel();
+  //createNotificationChannel();
   // Register the background message handler
   FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
   await Hive.initFlutter();
@@ -63,21 +63,21 @@ Future<void> main() async {
   // DependencyInjection.init();
   runApp(const MyApp());
 }
-void createNotificationChannel() async {
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'default_channel_id', // This matches the ID in AndroidManifest.xml
-    'Default Notifications', // The name of the channel (visible to the user)
-    description: 'This channel is used for default notifications.',
-    importance: Importance.high, // The importance level of the channel
-  );
-
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
-
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-}
+// void createNotificationChannel() async {
+//   const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//     'default_channel_id', // This matches the ID in AndroidManifest.xml
+//     'Default Notifications', // The name of the channel (visible to the user)
+//     description: 'This channel is used for default notifications.',
+//     importance: Importance.high, // The importance level of the channel
+//   );
+//
+//   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//   FlutterLocalNotificationsPlugin();
+//
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(channel);
+// }
 
 
 class MyApp extends StatefulWidget {
