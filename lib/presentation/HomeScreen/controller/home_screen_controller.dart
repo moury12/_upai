@@ -57,9 +57,7 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
-    Get.put(ChatScreenController());
-    Get.put(InboxScreenController());
-    Get.put(NotificationController());
+
     refreshAllData();
     districtList.value =
         await loadJsonFromAssets('assets/district/district.json');
@@ -75,7 +73,6 @@ class HomeController extends GetxController {
     });
     quantityControllerForConfromOrder.value.addListener(updateTotalAmount);
     rateController.value.addListener(updateTotalAmount);
-
     super.onInit();
   }
 
