@@ -291,7 +291,6 @@ class FirebaseAPIs {
 
     try {
       final body = {
-        "message": {
           "token": chatUser.pushToken,
           "notification": {
             "title": title, // The title that will be shown in the notification
@@ -300,12 +299,11 @@ class FirebaseAPIs {
             // "click_action": "FLUTTER_NOTIFICATION_CLICK" // Ensure this is set to handle the notification click
           },
           "data": {
-
             "type": "chat", // Custom data field, can be anything you need to handle
             "title": title, // Optional: redundant, but can be used if needed in foreground handling
             "body": msg,    // Optional: redundant, but can be used if needed in foreground handling
           }
-        }
+
       };
 
       // Firebase Project > Project Settings > General Tab > Project ID

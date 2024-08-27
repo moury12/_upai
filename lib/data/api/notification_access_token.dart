@@ -187,7 +187,7 @@ class NotificationAccessToken {
     AndroidNotificationChannel channel = AndroidNotificationChannel(
       "high_importance_channel",
      "High Importance Notifications",
-      importance: Importance.high,
+      importance: Importance.max,
       showBadge: true,
       playSound: true,
       // sound: const RawResourceAndroidNotificationSound('jetsons_doorbell'),
@@ -197,8 +197,8 @@ class NotificationAccessToken {
     AndroidNotificationDetails(
         channel.id.toString(), channel.name.toString(),
         channelDescription: 'your channel description',
-        importance: Importance.high,
-        priority: Priority.high,
+        importance: Importance.max,
+        priority: Priority.max,
         playSound: true,
         ticker: 'ticker',
         sound: channel.sound
