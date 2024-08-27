@@ -43,6 +43,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   @override
   void initState() {
     // print(district.toString());
+    addressController= TextEditingController(text:widget.service != null ? widget.service!.address : '' );
     titleController = TextEditingController(
         text: widget.service != null ? widget.service!.jobTitle : '');
     addressController = TextEditingController(
@@ -76,15 +77,15 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     }
     debugPrint(widget.service!.rateType);
     HomeController.to.selectedRateType.value =
-   /* widget.service != null &&
+    widget.service != null &&
             timeUnits.any((item) => item
                 .toString()
                 .toLowerCase()
                 .contains(widget.service!.rateType!.toLowerCase()))
         ? widget.service!.rateType.toString()
-        :*/ null;
+        : null;
     HomeController.to.selectedDistrict.value =
-        widget.service != null ? widget.service!.district : null;
+        widget.service != null &&widget.service!.district!.isNotEmpty ? widget.service!.district : null;
     super.initState();
   }
 
