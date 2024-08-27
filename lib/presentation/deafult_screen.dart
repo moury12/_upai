@@ -66,7 +66,7 @@ Navigator.pop(context);
             }),
             centerTitle: true,
           ),
-          drawer:  CustomDrawer(),
+          drawer:  CustomDrawer(userInfo: ctrl.userData,),
           body:  ctrl.screensForClient[ctrl.selectedIndex.value],
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white,

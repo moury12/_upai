@@ -28,9 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     ctrl.canEdit.value = false;
-    ctrl.nameTE.text=ctrl.userInfo.name??'';
-    ctrl.emailTE.text=ctrl.userInfo.email??'';
-    ctrl.phoneTE.text=ctrl.userInfo.mobile??'';
     // TODO: implement initState
     super.initState();
   }
@@ -147,20 +144,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 20,
                   ),
                   CustomTextField2(
-                    isEditable: true,
+                    isEditable: false,
                     controller: ctrl.nameTE,
                     validatorText: "Please Enter Your Name",
-                    hintText: "Enter Your Name",
+                    hintText: ctrl.userInfo.name.toString(),
                     prefixIcon: Icons.person,
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   CustomTextField2(
-                    isEditable: true,
+                    isEditable: false,
                     controller: ctrl.emailTE,
                     validatorText: "Please Enter an Email Address",
-                    hintText: "Enter an Email Address",
+                    hintText: ctrl.userInfo.email.toString(),
                     prefixIcon: Icons.email,
                   ),
                   const SizedBox(
@@ -203,8 +200,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () {
                           // if (_formKey.currentState!.validate()) {}
                           uploadFile();
-                          ProfileScreenController.to.updateProfile(ctrl.nameTE.text, ctrl.emailTE.text);
-
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.BTNbackgroudgrey,
