@@ -6,6 +6,7 @@ class CustomTextField2 extends StatefulWidget {
   final Key? fieldKey;
   final String? validatorText;
   final bool? isPasswordField;
+  final bool? isEmail;
   final bool? isEditable;
   final String? hintText;
   final String? labelText;
@@ -18,7 +19,7 @@ class CustomTextField2 extends StatefulWidget {
   final String? Function(String?)? validator;
 
   const CustomTextField2(
-      {super.key, this.controller, this.fieldKey, this.validatorText, this.isPasswordField, this.isEditable, this.hintText, this.labelText, this.helperText, this.onSaved, this.onFieldSubmitted, this.inputType, this.prefixIcon, this.onChanged, this.validator,
+      {super.key, this.controller, this.fieldKey, this.validatorText, this.isPasswordField, this.isEditable, this.hintText, this.labelText, this.helperText, this.onSaved, this.onFieldSubmitted, this.inputType, this.prefixIcon, this.onChanged, this.validator, this.isEmail,
         });
 
   @override
@@ -52,7 +53,9 @@ class _CustomTextField2State extends State<CustomTextField2> {
       onSaved: widget.onSaved,
       onFieldSubmitted: widget.onFieldSubmitted,
       onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
+      cursorColor: Colors.black,
       decoration: InputDecoration(
+
         fillColor: AppColors.textFieldBackGround,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

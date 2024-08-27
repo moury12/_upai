@@ -14,6 +14,7 @@ class ApiClient {
   String get sellerProfile => '$_baseUrl/seller_profile';
   String get deleteOffer => '$_baseUrl/delete_offer';
   String get editOffer => '$_baseUrl/edit_offer';
+  String get userUpdate => '$_baseUrl/user_profile';
 
 
 }
