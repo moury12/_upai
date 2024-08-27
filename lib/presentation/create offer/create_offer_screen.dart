@@ -18,7 +18,7 @@ import 'package:upai/widgets/custom_text_field.dart';
 class CreateOfferScreen extends StatefulWidget {
   final MyService? service;
   final bool? isEdit;
-  const CreateOfferScreen({super.key, this.service, this.isEdit});
+  const CreateOfferScreen({super.key, this.service, this.isEdit = false});
 
   @override
   State<CreateOfferScreen> createState() => _CreateOfferScreenState();
@@ -474,6 +474,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     descriptionController.text,
                                     rateController.text,
                                     addressController.text);
+                                Get.back();
                                 // Get.to(MyServiceDetails());
                                 // SellerProfileController.to.myService.refresh();
                                 //  SellerProfileController.to.service.update(
@@ -492,9 +493,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     addressController.text);
                                 await SellerProfileController.to
                                     .refreshAllData();
+                                clear();
                               }
 
-                              clear();
+                               // clear();
                             } else {
                               Get.snackbar('Error', "All field Required");
                               // clear();
