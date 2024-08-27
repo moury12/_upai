@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -483,7 +484,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 //   },
                                 // );
                                 // await SellerProfileController.to.refreshAllData();
-                              Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
+                                Timer(Duration(milliseconds: 300), () {
+                                  Get.back();
+                                });
+
                               } else {
                                 HomeController.to.createOffer(
                                     titleController.text,
