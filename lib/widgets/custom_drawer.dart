@@ -41,16 +41,33 @@ class _CustomDrawerState extends State<CustomDrawer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: Obx(
-                     () {
-                      return CircleAvatar(
-                        radius: 50,
-                        backgroundImage:ProfileScreenController.to.profileImageUrl.value.isNotEmpty?
-                        NetworkImage(ProfileScreenController.to.profileImageUrl.value): AssetImage(ImageConstant.senderImg),
-                        backgroundColor: Colors.grey.shade200,
-                      );
-                    }
-                  ),
+                  child: Obx(() {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(360),
+                      child: ProfileScreenController
+                              .to.profileImageUrl.value.isNotEmpty
+                          ? Image.network(
+                              ProfileScreenController.to.profileImageUrl.value,
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 100,
+                            errorBuilder  :
+                                  (context, child, loadingProgress) => SizedBox(
+                                      height: 100,
+                                      width: 100,
+                                      child: Center(
+                                          child: CircularProgressIndicator())),
+                            )
+                          : Image.asset(
+                              ImageConstant.senderImg,
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 100,
+                            ),
+
+                      // backgroundColor: Colors.grey.shade200,
+                    );
+                  }),
                 ),
                 const SizedBox(height: 15),
                 Center(
@@ -64,7 +81,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 Center(
                   child: Text(
-                  widget.userInfo.userId.toString(),
+                    widget.userInfo.userId.toString(),
                     style: AppTextStyle.titleText.copyWith(
                       fontSize: 14.0,
                       color: AppColors.secondaryTextColor,
@@ -88,7 +105,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   onTap: () async {
                     final box = Hive.box('userInfo');
                     await box.delete("user");
-                    SplashScreenController.to.isLogin.value=false;
+                    SplashScreenController.to.isLogin.value = false;
                     Get.delete<SellerProfileController>(force: true);
                     Get.delete<HomeController>(force: true);
                     Get.delete<ProfileScreenController>(force: true);
@@ -108,7 +125,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
-  Widget _buildMenuOption({required IconData icon, required String label, required VoidCallback onTap}) {
+  Widget _buildMenuOption(
+      {required IconData icon,
+      required String label,
+      required VoidCallback onTap}) {
     return Column(
       children: [
         InkWell(

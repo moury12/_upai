@@ -227,41 +227,47 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  seller.runningOrder!=null&&   seller.runningOrder!.isEmpty?SizedBox.shrink():   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          flex: 2,
-                          child: Text("Running Orders",
-                              style: AppTextStyle.titleText)),
-                      Flexible(
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.to(RunningOrderListScreen(
-                                runningOrder: seller.runningOrder ?? []));
-                          },
-                          child: Text("All Orders >>",
-                              style: AppTextStyle.titleTextSmallUnderline),
+                  seller.runningOrder != null && seller.runningOrder!.isEmpty
+                      ? SizedBox.shrink()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: Text("Running Orders",
+                                    style: AppTextStyle.titleText)),
+                            Flexible(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(RunningOrderListScreen(
+                                      runningOrder: seller.runningOrder ?? []));
+                                },
+                                child: Text("All Orders >>",
+                                    style:
+                                        AppTextStyle.titleTextSmallUnderline),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(
                     height: 10,
                   ),
                   seller.runningOrder == null
                       ? ShimmerRunnigOrder()
-                      : seller.runningOrder!.isEmpty?SizedBox.shrink():Column(
-                          children: List.generate(
-                          seller.runningOrder!.length < 2
-                              ? seller.runningOrder!.length
-                              : 2,
-                          (index) {
-                            final runningOrder = seller.runningOrder![index];
-                            return RunningOrderWidget(
-                                runningOrder: runningOrder);
-                          },
-                        )),
+                      : seller.runningOrder!.isEmpty
+                          ? SizedBox.shrink()
+                          : Column(
+                              children: List.generate(
+                              seller.runningOrder!.length < 2
+                                  ? seller.runningOrder!.length
+                                  : 2,
+                              (index) {
+                                final runningOrder =
+                                    seller.runningOrder![index];
+                                return RunningOrderWidget(
+                                    runningOrder: runningOrder);
+                              },
+                            )),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

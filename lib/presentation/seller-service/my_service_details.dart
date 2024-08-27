@@ -7,6 +7,7 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
+import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 
 class MyServiceDetails extends StatelessWidget {
@@ -190,6 +191,11 @@ class MyServiceDetails extends StatelessWidget {
                                                     Colors.white),
                                             onPressed: () {
                                               Navigator.pop(context);
+                                            SellerProfileController.to.deleteOffer(service.offerId??'');
+
+                                            SellerProfileController.to.myService.refresh();
+
+                                              Get.back();
                                             },
                                             child: const Text('Yes')),
                                         ElevatedButton(

@@ -11,6 +11,7 @@ import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 
@@ -18,6 +19,8 @@ class HomeController extends GetxController {
   RxBool isSearching = false.obs;
   static HomeController get to => Get.find();
   RxList<CategoryList> getCatList = <CategoryList>[].obs;
+  RxList<dynamic> districtList = [].obs;
+  RxList<dynamic> filterDistrictList = [].obs;
   RxList<OfferList> getOfferList = <OfferList>[].obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;
   Rx<TextEditingController> searchCatController = TextEditingController().obs;
@@ -36,6 +39,7 @@ class HomeController extends GetxController {
       TextEditingController().obs;
   Rx<CategoryList?> selectedCategory = Rx<CategoryList?>(null);
   Rx<String?> selectedRateType = Rx<String?>(null);
+  Rx<String?> selectedDistrict = Rx<String?>(null);
   var filteredOfferList = <OfferList>[].obs;
   var filteredCategoryList = <CategoryList>[].obs;
   final box = Hive.box('userInfo');
@@ -51,7 +55,9 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     refreshAllData();
-
+    districtList.value =
+        await loadJsonFromAssets('assets/district/district.json');
+    filterDistrictList.assignAll(districtList);
     quantityController.value.text = quantity.value.toString();
     quantityControllerForConfromOrder.value.text =
         quantityForConform.value.toString();
@@ -74,6 +80,22 @@ class HomeController extends GetxController {
     getOfferDataList();
   }
 
+  Future<void> filterDistrict(String value) async {
+    if (value.isEmpty) {
+      filterDistrictList.assignAll(districtList);
+    } else {
+      filterDistrictList.assignAll(districtList.where((dis) {
+        // debugPrint( dis['name'].toString());
+        // debugPrint( value);
+        return dis['name']
+            .toString()
+            .toLowerCase()
+            .contains(value.toString().toLowerCase());
+      }).toList());
+      filterDistrictList.refresh();
+    }
+  }
+
   void getCategoryList() async {
     getCatList.value = await RepositoryData()
         .getCategoryList(token: FirebaseAPIs.user['token'].toString());
@@ -83,7 +105,7 @@ class HomeController extends GetxController {
   void getOfferDataList() async {
     getOfferList.value = await RepositoryData().getOfferList(
         token: FirebaseAPIs.user['token'].toString(),
-        mobile: ctrl!.userInfo.userId?? '',
+        mobile: ctrl!.userInfo.userId ?? '',
         name: ctrl!.userInfo.name ?? '');
 
     filteredOfferList.value = getOfferList;
@@ -93,6 +115,7 @@ class HomeController extends GetxController {
     String jobTitle,
     String description,
     String rate,
+    String address,
   ) async {
     //debugPrint(box.values.map((e) => e['user_id'],).toString());
     Map<String, dynamic> data = jsonDecode(box.get("user"));
@@ -105,7 +128,9 @@ class HomeController extends GetxController {
       "quantity": quantity.value.toString(),
       "rate_type": selectedRateType.value,
       "rate": rate,
-      "date_time": DateTime.now().toString()
+      "date_time": DateTime.now().toString(),
+      "district": selectedDistrict.value,
+      "address": address
     });
   }
 

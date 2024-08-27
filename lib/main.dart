@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:upai/binding/initial_binding.dart';
+import 'package:upai/binding/profile_binding.dart';
 
 
 
@@ -117,7 +118,6 @@ class _MyAppState extends State<MyApp> {
       getPages: [
         GetPage(name: '/', page: () => const SplashScreen()),
         GetPage(name: '/inbox', page: () =>  const InboxScreen()),
-        GetPage(name: '/profile', page: () => const ProfileScreen()),
         GetPage(name: '/home', page: () =>  const HomeScreen()),
         GetPage(name: '/home2', page: () =>  const InboxScreen()),
 /*
@@ -126,7 +126,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/chatscreen', page: () =>  ChatScreen()),
         GetPage(name: '/defaultscreen', page: () =>  DefaultScreen()),
         GetPage(name: '/login', page: () =>  const LoginScreen()),
-        GetPage(name: '/profile', page: () =>  const ProfileScreen()),
+        GetPage(name: '/profile', page: () =>   ProfileScreen(),binding: ProfileBinding()),
         GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
         GetPage(name: ServiceListScreen.routeName, page: () =>  ServiceListScreen()),
         GetPage(name: CategoryListScreen.routeName, page: () =>  const CategoryListScreen()),

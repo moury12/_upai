@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
-import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/seller_profile_model.dart';
-import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
@@ -19,31 +17,63 @@ class SellerProfileController extends GetxController {
       TextEditingController().obs;
   @override
   void onInit() {
-
     // debugPrint('user info ${Boxes.getUserData().get('user')}');
     refreshAllData();
-    searchMyServiceController.value.addListener(() {
-      filterMyService(searchMyServiceController.value.text);
-    },);
+    searchMyServiceController.value.addListener(
+      () {
+        filterMyService(searchMyServiceController.value.text);
+      },
+    );
     // TODO: implement onInit
     super.onInit();
   }
 
   Future<void> refreshAllData() async {
-
-ctrl = Get.put(ProfileScreenController());
+    ctrl = Get.put(ProfileScreenController());
 
     getSellerProfile();
-
   }
-  void getSellerProfile() async {
+
+  void deleteOffer(String offerId) async {
+    await RepositoryData.deleteOffer(
+        token: ctrl!.userInfo.token.toString(),
+        body: {"user_id": ctrl!.userInfo.userId, "offer_id": offerId});
+    // seller.value.myService!.removeWhere((service) => service.offerId == offerId);
+    myService.refresh();
+    await getSellerProfile();
+  }void editOffer(String offerId,  String jobTitle,
+      String description,
+      String rate,
+      String address,) async {
+    await RepositoryData.editOffer(
+        token: ctrl!.userInfo.token.toString(),
+        body: {
+          "user_id": ctrl!.userInfo.userId.toString(),
+          "offer_id":offerId,
+          "service_category_type":HomeController.to.selectedCategory.value!.categoryName,
+          "job_title":jobTitle,
+          "description":description,
+          "quantity":HomeController.to.quantity.value.toString(),
+          "rate_type":HomeController.to.selectedRateType.value,
+          "rate":rate,
+          "district":HomeController.to.selectedDistrict.value,
+          "address":address
+
+        });
+    // seller.value.myService!.removeWhere((service) => service.offerId == offerId);
+    // myService.refresh();
+    await getSellerProfile();
+  }
+
+  Future<void> getSellerProfile() async {
     seller.value = await RepositoryData.getSellerProfile(
-       ctrl!.userInfo.token.toString(), ctrl!.userInfo.userId ?? '');
-    myService.value =  seller.value.myService!;
+        ctrl!.userInfo.token.toString(), ctrl!.userInfo.userId ?? '');
+    myService.value = seller.value.myService!;
     filterList.assignAll(myService);
     debugPrint('myService.toJson()');
     debugPrint(myService.toString());
   }
+
   void filterMyService(String query) {
     if (query.isEmpty) {
       filterList.assignAll(myService);
