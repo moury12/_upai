@@ -12,8 +12,11 @@ import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/helper_function/helper_function.dart';
+import 'package:upai/presentation/ChatScreen/Controller/chat_screen_controller.dart';
+import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/notification/controller/notification_controller.dart';
 
 class HomeController extends GetxController {
   RxBool isSearching = false.obs;
@@ -54,6 +57,9 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
+    Get.put(ChatScreenController());
+    Get.put(InboxScreenController());
+    Get.put(NotificationController());
     refreshAllData();
     districtList.value =
         await loadJsonFromAssets('assets/district/district.json');
