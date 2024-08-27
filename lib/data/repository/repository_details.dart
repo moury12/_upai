@@ -270,7 +270,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     }
   }
 
-  static Future<void> jobStatus({ context ,required NotificationModel notification,required bool isPopupScreen,dynamic body,required String title,required msg}) async {
+  static Future<void> jobStatus({ context ,required NotificationModel notification,required bool isDialogScreen,dynamic body,required String title,required msg,required String idStatusUpdate}) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -283,11 +283,12 @@ static Future<void> editOffer({dynamic body,required String token}) async{
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       Get.snackbar('Success', responseData['message']);
-      if(isPopupScreen)
+      if(isDialogScreen)
         {
+          FirebaseAPIs.updateJobStatus(idStatusUpdate,body["status"],notification.notificationId.toString(),);
           Navigator.pop(context);
         }
-      FirebaseAPIs.updateJobStatus(notification.sellerId.toString(), body["status"]);
+
       ////
       UserInfoModel senderData = UserInfoModel();
       Map<String, dynamic>? userDetails;
@@ -326,7 +327,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
       else {
 
       Get.snackbar('Failed', responseData['message']);
-      if(isPopupScreen)
+      if(isDialogScreen)
       {
         Navigator.pop(context);
       }

@@ -181,8 +181,8 @@ class FirebaseAPIs {
        'push_token': me.pushToken,
     });
   }
-  static Future<void> updateJobStatus(String notificationID,String status) async {
-    mDB.collection('notifications').doc(user['user_id']).collection("notification_list").doc(notificationID).update(
+  static Future<void> updateJobStatus(String id,String status,String notificationID,) async {
+    mDB.collection('notifications').doc(id).collection("notification_list").doc(notificationID).update(
         {"status":status});
   }
   //****************************************
@@ -291,6 +291,7 @@ class FirebaseAPIs {
 
     try {
       final body = {
+        "message": {
           "token": chatUser.pushToken,
           "notification": {
             "title": title, // The title that will be shown in the notification
@@ -303,7 +304,7 @@ class FirebaseAPIs {
             "title": title, // Optional: redundant, but can be used if needed in foreground handling
             "body": msg,    // Optional: redundant, but can be used if needed in foreground handling
           }
-
+        }
       };
 
       // Firebase Project > Project Settings > General Tab > Project ID

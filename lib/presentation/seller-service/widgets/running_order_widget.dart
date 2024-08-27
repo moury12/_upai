@@ -87,7 +87,7 @@ class _RunningOrderWidgetState extends State<RunningOrderWidget> {
                               "award_date": widget.runningOrder.awardDate,
                               "completion_date": DateTime.now().toString()
 
-                            },isPopupScreen: false,context: context,msg: newNotificationData.notificationMsg.toString(),title: newNotificationData.notificationTitle.toString(),notification: newNotificationData);
+                            },isDialogScreen: false,context: context,msg: newNotificationData.notificationMsg.toString(),title: newNotificationData.notificationTitle.toString(),notification: newNotificationData,idStatusUpdate: newNotificationData.sellerId.toString());
 
                             await SellerProfileController.to.refreshAllData();
                           },

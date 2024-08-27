@@ -20,7 +20,7 @@ import '../../../data/repository/repository_details.dart';
 class ConfirmOrderWidget extends StatefulWidget {
   final NotificationModel notificationModel;
 
-  ConfirmOrderWidget({
+  const ConfirmOrderWidget({
     super.key, required this.notificationModel,
   });
 
@@ -52,7 +52,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
           children: [
             Padding(
               padding: EdgeInsets.all(12),
-              child:widget.notificationModel.status=="ACCEPTED"? Center(child: Text('You Already Confirmed This Order'),):widget.notificationModel.status=="REJECTED"?Center(child: Text('You Already Rejected This Order'),):widget.notificationModel.status=="PENDING"?
+              child:widget.notificationModel.status=="ACCEPTED"? const Center(child: Text('You Have Already Confirmed This Order'),):widget.notificationModel.status=="REJECTED"?Center(child: Text('You Have Already Rejected This Order'),):widget.notificationModel.status=="PENDING"?
 
                 Column(
                   mainAxisSize: MainAxisSize.min,
@@ -111,7 +111,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
 
                           isEnable: false,
                           hintText: widget.notificationModel.rate,
-                          hintStyle: TextStyle(color: Colors.black),textAlign: TextAlign.center,
+                          hintStyle: const TextStyle(color: Colors.black),textAlign: TextAlign.center,
                           // onChanged: (value) => controller.emailController.text.trim() = value!,
                         ),
 
@@ -124,7 +124,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                 Expanded(
                   child: Column(
                       children: [
-                        Text(
+                        const Text(
                           'Quantity',
                           style: TextStyle(
                               fontSize: 14,
@@ -140,7 +140,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                 isEnable: false,
 
                                   hintText: widget.notificationModel.quantity,
-                                hintStyle: TextStyle(color: Colors.black),textAlign: TextAlign.center,
+                                hintStyle: const TextStyle(color: Colors.black),textAlign: TextAlign.center,
                                 // onChanged: (value) => controller.emailController.text.trim() = value!,
                               ),
                             ),
@@ -184,13 +184,13 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                         newNotificationData.notificationTitle="Order Request Confirmed";
                         newNotificationData.createdTime=DateTime.now().toString();
                         newNotificationData.notificationMsg='${widget.notificationModel.sellerName} has accepted your order visit service screen for more details';
-                        await RepositoryData.jobStatus(title:newNotificationData.notificationTitle.toString(),msg:newNotificationData.notificationMsg,notification:newNotificationData,context: context,isPopupScreen: true,body: {
+                        await RepositoryData.jobStatus(title:newNotificationData.notificationTitle.toString(),msg:newNotificationData.notificationMsg,notification:newNotificationData,context: context,isDialogScreen: true,body: {
                           "job_id": widget.notificationModel.jobId,
                           "status": "ACCEPTED",
                           "award_date": DateTime.now().toString(),
                           "completion_date": "",
 
-                        });
+                        },idStatusUpdate: newNotificationData.sellerId.toString());
                       },
                       child: const Text("Accept",textAlign: TextAlign.center,)),
                 ),
@@ -207,13 +207,13 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                         newNotificationData.notificationTitle="Order Request Rejected";
                         newNotificationData.notificationMsg='${widget.notificationModel.sellerName} has rejected your order request.';
                         newNotificationData.createdTime=DateTime.now().toString();
-                        await RepositoryData.jobStatus(title:newNotificationData.notificationTitle.toString(),msg:newNotificationData.notificationMsg,notification:newNotificationData,context: context,isPopupScreen: true,body: {
+                        await RepositoryData.jobStatus(title:newNotificationData.notificationTitle.toString(),msg:newNotificationData.notificationMsg,notification:newNotificationData,context: context,isDialogScreen: true,body: {
                           "job_id": widget.notificationModel.jobId,
                           "status": "REJECTED",
                           "award_date": DateTime.now().toString(),
                           "completion_date": "",
                           "notification_id":widget.notificationModel.notificationId
-                        });
+                        },idStatusUpdate: newNotificationData.sellerId.toString());
 
                       },
                       child: const Text("Reject",textAlign: TextAlign.center,)),
