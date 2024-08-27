@@ -16,27 +16,25 @@ class MyServiceListScreen extends StatelessWidget {
   const MyServiceListScreen({super.key, required this.service});
 
   @override
-  Widget build(BuildContext context) {double screenWidth = MediaQuery.of(context).size.width;
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
 
-  // Determine the number of columns and aspect ratio dynamically
-  int crossAxisCount = 2;
+    // Determine the number of columns and aspect ratio dynamically
+    int crossAxisCount = 2;
 
-
-  if (screenWidth > 600) {
-    crossAxisCount = 3;
-  }
-  if (screenWidth > 900) {
-    crossAxisCount = 4;
-  }
-  if (screenWidth > 1232) {
-    crossAxisCount = 5;
-  }
+    if (screenWidth > 600) {
+      crossAxisCount = 3;
+    }
+    if (screenWidth > 900) {
+      crossAxisCount = 4;
+    }
+    if (screenWidth > 1232) {
+      crossAxisCount = 5;
+    }
     return PopScope(
       canPop: true,
       onPopInvoked: (didPop) {
-        SellerProfileController
-            .to.searchMyServiceController.value
-            .clear();
+        SellerProfileController.to.searchMyServiceController.value.clear();
         SellerProfileController.to.filterMyService('');
         // controller.searchController.value.clear();
         //
@@ -73,53 +71,64 @@ class MyServiceListScreen extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0)
                         .copyWith(bottom: 12),
-                    child: Obx(
-                       () {
-                        return CustomTextField(
-                          controller: SellerProfileController
-                              .to.searchMyServiceController.value,
-                          hintText: "Search service..",
-                          onChanged: (value) {},
-                          suffixIcon: IconButton(
-                            icon: const Icon(
-                              Icons.cancel,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              SellerProfileController
-                                  .to.searchMyServiceController.value
-                                  .clear();
-                              SellerProfileController.to.filterMyService('');
-                              // controller.searchController.value.clear();
-                              // controller.filterOffer('');
-                            },
+                    child: Obx(() {
+                      return CustomTextField(
+                        controller: SellerProfileController
+                            .to.searchMyServiceController.value,
+                        hintText: "Search service..",
+                        onChanged: (value) {},
+                        suffixIcon: IconButton(
+                          icon: const Icon(
+                            Icons.cancel,
+                            color: Colors.black,
                           ),
-                        );
-                      }
-                    )),
+                          onPressed: () {
+                            SellerProfileController
+                                .to.searchMyServiceController.value
+                                .clear();
+                            SellerProfileController.to.filterMyService('');
+                            // controller.searchController.value.clear();
+                            // controller.filterOffer('');
+                          },
+                        ),
+                      );
+                    })),
                 Expanded(child: Obx(() {
-                  return SellerProfileController.to.filterList.isEmpty?Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: ShimmerOfferList(fromServiceList: true,),
-                  ): GridView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  return SellerProfileController.to.filterList.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: ShimmerOfferList(
+                            fromServiceList: true,
+                          ),
+                        )
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: crossAxisCount,
+                                  crossAxisSpacing: 8,
+                                  mainAxisSpacing: 8),
+                          itemCount:
+                              SellerProfileController.to.filterList.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                                onTap: () {
+                                  SellerProfileController.to.service.value =
+                                      SellerProfileController
+                                          .to.filterList[index];
 
-                        crossAxisCount: crossAxisCount,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8),
-                    itemCount: SellerProfileController.to.filterList.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () {Get.to(MyServiceDetails(service: SellerProfileController.to.filterList[index]));},
-                          child: MyServiceWidget(
-                            service: SellerProfileController.to.filterList[index],
-                          ));
-                    },
-                  );
-                })), SizedBox(
+                                  Get.to(MyServiceDetails());
+                                },
+                                child: MyServiceWidget(
+                                  service: SellerProfileController
+                                      .to.filterList[index],
+                                ));
+                          },
+                        );
+                })),
+                SizedBox(
                   height: 8,
                 )
               ],

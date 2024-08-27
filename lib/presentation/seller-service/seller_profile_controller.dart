@@ -10,6 +10,7 @@ class SellerProfileController extends GetxController {
   static SellerProfileController get to => Get.find();
   Rx<SellerProfileModel> seller = SellerProfileModel().obs;
   RxList<MyService> myService = <MyService>[].obs;
+  Rx<MyService> service = MyService().obs;
   RxList<MyService> filterList = <MyService>[].obs;
   ProfileScreenController? ctrl;
 
@@ -34,6 +35,7 @@ class SellerProfileController extends GetxController {
     getSellerProfile();
   }
 
+
   void deleteOffer(String offerId) async {
     await RepositoryData.deleteOffer(
         token: ctrl!.userInfo.token.toString(),
@@ -41,29 +43,8 @@ class SellerProfileController extends GetxController {
     // seller.value.myService!.removeWhere((service) => service.offerId == offerId);
     myService.refresh();
     await getSellerProfile();
-  }void editOffer(String offerId,  String jobTitle,
-      String description,
-      String rate,
-      String address,) async {
-    await RepositoryData.editOffer(
-        token: ctrl!.userInfo.token.toString(),
-        body: {
-          "user_id": ctrl!.userInfo.userId.toString(),
-          "offer_id":offerId,
-          "service_category_type":HomeController.to.selectedCategory.value!.categoryName,
-          "job_title":jobTitle,
-          "description":description,
-          "quantity":HomeController.to.quantity.value.toString(),
-          "rate_type":HomeController.to.selectedRateType.value,
-          "rate":rate,
-          "district":HomeController.to.selectedDistrict.value,
-          "address":address
-
-        });
-    // seller.value.myService!.removeWhere((service) => service.offerId == offerId);
-    // myService.refresh();
-    await getSellerProfile();
   }
+
 
   Future<void> getSellerProfile() async {
     seller.value = await RepositoryData.getSellerProfile(

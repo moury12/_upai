@@ -8,6 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
+import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
@@ -17,6 +18,7 @@ import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart'
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/notification/controller/notification_controller.dart';
+import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 
 class HomeController extends GetxController {
   RxBool isSearching = false.obs;
@@ -57,7 +59,6 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
-
     refreshAllData();
     districtList.value =
         await loadJsonFromAssets('assets/district/district.json');
@@ -135,6 +136,33 @@ class HomeController extends GetxController {
       "district": selectedDistrict.value,
       "address": address
     });
+  }
+
+  Future<void> editOffer(String offerId, title, description, rate, address) async {
+    await RepositoryData.editOffer(
+        token: ProfileScreenController.to.userInfo.token ?? '',
+        body: {
+          "user_id": ProfileScreenController.to.userInfo.userId,
+          "offer_id": offerId,
+          "service_category_type": selectedCategory.value!.categoryName,
+          "job_title": title,
+          "description": description,
+          "quantity": quantity.value.toString(),
+          "rate_type": selectedRateType.value,
+          "rate": rate,
+          "district": selectedDistrict.value,
+          "address": address
+        });
+    await SellerProfileController.to.refreshAllData();
+    SellerProfileController.to.myService.refresh();
+     // SellerProfileController.to.service.refresh();
+SellerProfileController.to.service.value =MyService(userName:ProfileScreenController.to.userInfo.name ,
+    userId: ProfileScreenController.to.userInfo.userId,serviceCategoryType:selectedCategory.value!.categoryName ,
+    rateType:selectedRateType.value ,address: address,
+    description: description,district:selectedDistrict.value ,
+    jobTitle: title,offerId:offerId ,quantity: quantity.value ,rate:rate );
+    SellerProfileController.to.service.refresh();
+   // SellerProfileController.to.service.value =
   }
 
   void increaseQuantity() {

@@ -5,6 +5,7 @@ import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/helper_function/helper_function.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/my_service_list_screen.dart';
@@ -307,10 +308,12 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                                   : 4,
                           itemBuilder: (context, index) {
                             final service =
-                                seller.myService!.reversed.toList()[index];
+                               SellerProfileController.to.myService[index];
                             return GestureDetector(
                                 onTap: () {
-                                  Get.to(MyServiceDetails(service: service));
+                                  SellerProfileController.to.service.value =service;
+                                  Get.to( MyServiceDetails()
+                                  );
                                 },
                                 child: MyServiceWidget(
                                   service: service,
