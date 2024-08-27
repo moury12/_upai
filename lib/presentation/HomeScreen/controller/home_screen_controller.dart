@@ -153,15 +153,16 @@ class HomeController extends GetxController {
           "district": selectedDistrict.value,
           "address": address
         });
-    await SellerProfileController.to.refreshAllData();
-    SellerProfileController.to.myService.refresh();
+
      // SellerProfileController.to.service.refresh();
 SellerProfileController.to.service.value =MyService(userName:ProfileScreenController.to.userInfo.name ,
     userId: ProfileScreenController.to.userInfo.userId,serviceCategoryType:selectedCategory.value!.categoryName ,
     rateType:selectedRateType.value ,address: address,
     description: description,district:selectedDistrict.value ,
     jobTitle: title,offerId:offerId ,quantity: quantity.value ,rate:rate );
-    SellerProfileController.to.service.refresh();
+    await SellerProfileController.to.refreshAllData();
+    SellerProfileController.to.myService.refresh();
+
    // SellerProfileController.to.service.value =
   }
 

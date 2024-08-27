@@ -247,6 +247,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     debugPrint(' body $body');
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
+
       Get.snackbar('Success', responseData['message']);
     } else {
       Get.snackbar('failed',  responseData['message']);

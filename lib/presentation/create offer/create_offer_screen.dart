@@ -18,7 +18,7 @@ import 'package:upai/widgets/custom_text_field.dart';
 class CreateOfferScreen extends StatefulWidget {
   final MyService? service;
   final bool? isEdit;
-  const CreateOfferScreen({super.key, this.service, this.isEdit = false});
+  const CreateOfferScreen({super.key, this.service, this.isEdit});
 
   @override
   State<CreateOfferScreen> createState() => _CreateOfferScreenState();
@@ -483,7 +483,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 //   },
                                 // );
                                 // await SellerProfileController.to.refreshAllData();
-                              Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
+                              // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
                               } else {
                                 HomeController.to.createOffer(
                                     titleController.text,
