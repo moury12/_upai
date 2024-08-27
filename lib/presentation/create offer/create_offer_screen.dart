@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +9,7 @@ import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
@@ -23,15 +26,27 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final box = Hive.box('userInfo');
 
   late TextEditingController titleController;
+  late TextEditingController addressController;
   late TextEditingController descriptionController;
 
   late TextEditingController rateController;
 
-  List<String> timeUnits = ['Hour', 'Task', 'Per Day','piece'];
+  List<String> timeUnits = ['Hour', 'Task', 'Per Day', 'piece'];
+  // @override
+  // void didChangeDependencies() async {
+  //   district = await loadJsonFromAssets('assets/district/district.json');
+  //   debugPrint(district.toString());
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  // }
+
   @override
   void initState() {
+    // print(district.toString());
     titleController = TextEditingController(
         text: widget.service != null ? widget.service!.jobTitle : '');
+    addressController = TextEditingController(
+        text: widget.service != null ? widget.service!.address : '');
     descriptionController = TextEditingController(
         text: widget.service != null ? widget.service!.description : '');
     rateController = TextEditingController(
@@ -40,23 +55,43 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         widget.service != null ? widget.service!.quantity.toString() : '';
     HomeController.to.quantity.value =
         widget.service != null ? widget.service!.quantity!.toInt() : 1;
-    HomeController.to.selectedCategory.value = widget.service != null
-        ? HomeController.to.getCatList
-            .where((e) =>
-                e.categoryName!.toLowerCase() ==
-                widget.service!.serviceCategoryType!.toLowerCase())
-            .toList()[0]
-        : null;
+    // HomeController.to.selectedCategory.value = widget.service != null
+    //     ? HomeController.to.getCatList
+    //         .where((e) =>
+    //             e.categoryName!.toLowerCase().contains(widget.service!.serviceCategoryType!.toLowerCase())
+    //             )
+    //         .toList()[0]
+    //     : null;
+    var filteredList = HomeController.to.getCatList
+        .where((e) => e.categoryName!
+            .toLowerCase()
+            .contains(widget.service!.serviceCategoryType!.toLowerCase()))
+        .toList();
+
+    if (filteredList.isNotEmpty) {
+      HomeController.to.selectedCategory.value = filteredList[0];
+    } else {
+      HomeController.to.selectedCategory.value =
+          null; // Or handle the case when no match is found
+    }
+    debugPrint(widget.service!.rateType);
     HomeController.to.selectedRateType.value =
-        widget.service != null ? widget.service!.rateType.toString() : null;
+   /* widget.service != null &&
+            timeUnits.any((item) => item
+                .toString()
+                .toLowerCase()
+                .contains(widget.service!.rateType!.toLowerCase()))
+        ? widget.service!.rateType.toString()
+        :*/ null;
+    HomeController.to.selectedDistrict.value =
+        widget.service != null ? widget.service!.district : null;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double topSectionHeight = screenHeight * 0.3; // 20% for the top section
-    double bottomSectionHeight = screenHeight * 0.7;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -74,7 +109,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
           ),
         ),
         title: Text(
-        widget.isEdit!?'Edit Offer':  "Create New Offer",
+          widget.isEdit! ? 'Edit Offer' : "Create New Offer",
           style: AppTextStyle.appBarTitle,
         ),
       ),
@@ -237,35 +272,38 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         Obx(() {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [ 
-                              Expanded( 
+                            children: [
+                              Expanded(
                                 child: Container(
-                                  margin: const EdgeInsets.all(8),
-                                  alignment: Alignment.center,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.black),
-                                  child: FittedBox(
-                                    child: IconButton(
-                                    icon: const Icon(
-                                        Icons.remove,
-                                        color: Colors.white,
+                                    margin: const EdgeInsets.all(8),
+                                    alignment: Alignment.center,
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.black),
+                                    child: FittedBox(
+                                      child: IconButton(
+                                        icon: const Icon(
+                                          Icons.remove,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          if (HomeController
+                                              .to
+                                              .quantityController
+                                              .value
+                                              .text
+                                              .isEmpty) {
+                                            HomeController.to.quantity.value =
+                                                0;
+                                          }
+                                          HomeController.to.decreaseQuantity();
+                                        },
                                       ),
-
-                                    onPressed: () {
-                                      if (HomeController.to.quantityController
-                                          .value.text.isEmpty) {
-                                        HomeController.to.quantity.value = 0;
-                                      }
-                                      HomeController.to.decreaseQuantity();
-                                    },
-                                  ),)
-                                ),
+                                    )),
                               ),
                               Expanded(
-
                                 child: CustomTextField(
-padding:EdgeInsets.zero,
+                                    padding: EdgeInsets.zero,
                                     textInputFormatter: [
                                       FilteringTextInputFormatter
                                           .digitsOnly, /*FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9][0-9][0-9]?$')),*/
@@ -305,7 +343,8 @@ padding:EdgeInsets.zero,
                                             .value.text.isEmpty) {
                                           HomeController.to.quantity.value = 0;
                                         }
-                                        debugPrint(HomeController.to.quantity.value
+                                        debugPrint(HomeController
+                                            .to.quantity.value
                                             .toString());
                                         HomeController.to.increaseQuantity();
                                       },
@@ -322,6 +361,77 @@ padding:EdgeInsets.zero,
                 ],
               ),
               SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(12)),
+                child: // Show loading indicator while loading JSON
+                    Obx(() {
+                  if (HomeController.to.districtList.isEmpty) {
+                    HomeController.to.districtList.refresh();
+
+                    return CircularProgressIndicator();
+                  } else {
+                    return FittedBox(
+                      child: DropdownButton<String>(
+                        underline: const SizedBox.shrink(),
+                        value: HomeController.to.selectedDistrict.value,
+                        dropdownColor: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        hint: const Text(
+                          "Select a District ",
+                        ),
+                        items: [
+//                           DropdownMenuItem<String>(
+//                               enabled: false,
+//                               child: SizedBox(width: MediaQuery.of(context).size.width/2.5,
+//                                 child: CustomTextField(
+//                                   hintText: 'Search district here..',
+//                                   onChanged: (value)async {
+// HomeController.to.filterDistrict(value??'');
+// HomeController.to.filterDistrictList.refresh();
+//                                   },
+//                                 ),
+//                               )),
+                          ...HomeController.to.filterDistrictList.map((dis) {
+                            return DropdownMenuItem<String>(
+                              value: dis['name'],
+                              child: Text(dis['name']),
+                            );
+                          })
+                        ],
+                        onChanged: (value) {
+                          HomeController.to.selectedDistrict.value = value;
+                        },
+                      ),
+                    );
+                  }
+                }),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                "Address",
+                style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12,
+                    color: Colors.black),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              CustomTextField(
+                validatorText: "Please Enter address",
+
+                hintText: "Please Enter address",
+                controller: addressController,
+                // onChanged: (value) => controller.emailController.text.trim() = value!,
+              ),
+              const SizedBox(
                 height: 16,
               ),
               Align(
@@ -339,23 +449,29 @@ padding:EdgeInsets.zero,
                             if (HomeController.to.selectedRateType.value != null &&
                                 HomeController.to.selectedCategory.value !=
                                     null &&
+                                HomeController.to.selectedDistrict.value !=
+                                    null &&
                                 titleController.text.isNotEmpty &&
                                 descriptionController.text.isNotEmpty &&
                                 rateController.text.isNotEmpty &&
+                                addressController.text.isNotEmpty &&
                                 HomeController.to.quantityController.value.text
                                     .isNotEmpty &&
                                 box.isNotEmpty) {
                               HomeController.to.createOffer(
                                   titleController.text,
                                   descriptionController.text,
-                                  rateController.text);
+                                  rateController.text,
+                                  addressController.text);
                               clear();
                             } else {
                               Get.snackbar('Error', "All field Required");
-                              clear();
+                              // clear();
                             }
                           },
-                          child:  Text(widget.isEdit!?'Update offer':'Create Offer')),
+                          child: Text(widget.isEdit!
+                              ? 'Update offer'
+                              : 'Create Offer')),
                     ),
                   ],
                 ),
@@ -372,7 +488,9 @@ padding:EdgeInsets.zero,
     descriptionController.clear();
     HomeController.to.selectedCategory.value = null;
     HomeController.to.selectedRateType.value = null;
+    HomeController.to.selectedDistrict.value = null;
     rateController.clear();
+    addressController.clear();
     HomeController.to.quantityController.value.clear();
     HomeController.to.quantity.value = 1;
   }

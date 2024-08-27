@@ -30,6 +30,7 @@ class RepositoryData {
   //   print(data.length);
   //   return data;
   // }
+  
   Future<void> login(
       String CID, String userMobile, String password, String userType) async
   {
@@ -219,7 +220,38 @@ class RepositoryData {
       return offerList;
     }
   }
+static Future<void> deleteOffer({dynamic body,required String token}) async{
+    final headers={
 
+      'Content-Type':'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final response =await http.delete(Uri.parse(ApiClient().deleteOffer),body: jsonEncode(body),headers: headers);
+    final responseData =jsonDecode(response.body);
+    debugPrint(' body $body');
+    debugPrint('response body $responseData');
+    if (responseData['status'] != null && responseData['status'] == 'Success') {
+      Get.snackbar('Success', responseData['message']);
+    } else {
+      Get.snackbar('failed',  responseData['message']);
+    }
+}
+static Future<void> editOffer({dynamic body,required String token}) async{
+    final headers={
+
+      'Content-Type':'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final response =await http.put(Uri.parse(ApiClient().editOffer),body: jsonEncode(body),headers: headers);
+    final responseData =jsonDecode(response.body);
+    debugPrint(' body $body');
+    debugPrint('response body $responseData');
+    if (responseData['status'] != null && responseData['status'] == 'Success') {
+      Get.snackbar('Success', responseData['message']);
+    } else {
+      Get.snackbar('failed',  responseData['message']);
+    }
+}
   static Future<void> createOffer({dynamic body}) async {
     final headers = {
       'Accept': 'application/json',
@@ -232,7 +264,7 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['Message']);
+      Get.snackbar('Success', responseData['message']);
     } else {
       Get.snackbar('Error', 'Failed to create offer');
     }

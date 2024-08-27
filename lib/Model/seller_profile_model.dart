@@ -133,6 +133,8 @@ class MyService {
   int? quantity;
   String? rateType;
   int? rate;
+  String? district;
+  String? address;
 
   MyService(
       {this.offerId,
@@ -144,7 +146,9 @@ class MyService {
         this.description,
         this.quantity,
         this.rateType,
-        this.rate});
+        this.rate,
+        this.district,
+        this.address});
 
   MyService.fromJson(Map<String, dynamic> json) {
     offerId = json['offer_id'];
@@ -157,6 +161,8 @@ class MyService {
     quantity = json['quantity'];
     rateType = json['rate_type'];
     rate = json['rate'];
+    district = json['district'];
+    address = json['address'];
   }
 
   Map<String, dynamic> toJson() {
@@ -171,6 +177,8 @@ class MyService {
     data['quantity'] = quantity;
     data['rate_type'] = rateType;
     data['rate'] = rate;
+    data['district'] = district;
+    data['address'] = address;
     return data;
   }
 }

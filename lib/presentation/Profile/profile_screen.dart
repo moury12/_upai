@@ -25,12 +25,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   File? image;
   final _picker = ImagePicker();
   String img = '';
-@override
+  @override
   void initState() {
-  ctrl.canEdit.value =false;
+    ctrl.canEdit.value = false;
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     debugPrint(ctrl.canEdit!.value.toString());

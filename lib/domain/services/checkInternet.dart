@@ -38,7 +38,8 @@ class NetworkController extends GetxController {
       if (Get.isSnackbarOpen) {
         Get.closeCurrentSnackbar();
       }if(SplashScreenController.to.isLogin.value){
-
+        // Get.put(HomeController() );
+        // Get.put(SellerProfileController());
        _reloadData();
        FirebaseAPIs.updateActiveStatus(true);
       }

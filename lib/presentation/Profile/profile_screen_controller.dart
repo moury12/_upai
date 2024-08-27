@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/user_info_model.dart';
 
@@ -21,6 +18,7 @@ class ProfileScreenController extends GetxController {
   @override
   void onInit() {
     userInfo = userInfoModelFromJson((box.get("user")));
+    debugPrint(userInfo.toJson().toString());
     id.value = userInfo.userId ?? "";
     canEdit.value =false;
     fetchProfileImage();
