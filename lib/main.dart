@@ -2,16 +2,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:upai/binding/initial_binding.dart';
 import 'package:upai/binding/profile_binding.dart';
-
-
-
-
 import 'package:upai/firebase_options.dart';
 import 'package:upai/presentation/ChatScreen/chat_screen.dart';
 import 'package:upai/presentation/Explore/service_list_screen.dart';
@@ -26,14 +21,12 @@ import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/SplashScreen/splash_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 import 'package:upai/review/review_screen.dart';
-import 'package:upai/testnotification/notification_service.dart';
 import 'data/api/notification_access_token.dart';
 import 'presentation/Inbox/inbox.dart';
-import 'package:timezone/data/latest.dart' as tz;
 
 @pragma('vm:entry-point')
 Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
 
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {

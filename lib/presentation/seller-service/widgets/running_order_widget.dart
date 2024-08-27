@@ -83,7 +83,7 @@ class _RunningOrderWidgetState extends State<RunningOrderWidget> {
                             newNotificationData.notificationMsg="Confirm and Give a review to the seller";
                             await RepositoryData.jobStatus(body: {
                               "job_id": widget.runningOrder.jobId,
-                              "status": "COMPLETED",
+                              "status": "DELIVERED",
                               "award_date": widget.runningOrder.awardDate,
                               "completion_date": DateTime.now().toString()
 

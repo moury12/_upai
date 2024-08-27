@@ -50,7 +50,7 @@ class DefaultController extends GetxController
     });
     //
     userData = userInfoModelFromJson(box.get('user'));
-    Get.put(HomeController(),permanent: true);
+     Get.put(HomeController(),permanent: true);
      Get.put(SellerProfileController(),permanent: true);
      Get.put(ProfileScreenController(),permanent: true);
     FirebaseAPIs.getSelfInfo();
