@@ -253,6 +253,23 @@ static Future<void> editOffer({dynamic body,required String token}) async{
       Get.snackbar('failed',  responseData['message']);
     }
 }
+static Future<void> updateProfile({dynamic body,required String token}) async{
+    final headers={
+
+      'Content-Type':'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final response =await http.put(Uri.parse(ApiClient().userUpdate),body: jsonEncode(body),headers: headers);
+    final responseData =jsonDecode(response.body);
+    debugPrint(' body $body');
+    debugPrint('response body $responseData');
+    if (responseData['status'] != null && responseData['status'] == 'Success') {
+
+      Get.snackbar('Success', responseData['message']);
+    } else {
+      Get.snackbar('failed',  responseData['message']);
+    }
+}
   static Future<void> createOffer({dynamic body}) async {
     final headers = {
       'Accept': 'application/json',
