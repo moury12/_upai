@@ -54,7 +54,7 @@ ProfileScreenController.to.fetchProfileImage();
   @override
   Widget build(BuildContext context) {
     //  ItemServiceModel singleItem = ItemServiceModel();
-    var ctrl = Get.put(ServiceDetailsController());
+    final ctrl = Get.put(ServiceDetailsController());
     var size = MediaQuery.sizeOf(context);
 
     return PopScope(

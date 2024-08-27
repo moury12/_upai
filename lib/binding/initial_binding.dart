@@ -11,11 +11,14 @@ import '../presentation/notification/controller/notification_controller.dart';
 class RootBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => SplashScreenController(),);
+    // Get.lazyPut(() => SplashScreenController(),);
     Get.lazyPut(() => NetworkController(),);
     Get.lazyPut(() => LoginController(),);
-    Get.lazyPut(() => InboxScreenController(),);
-    Get.lazyPut(() => NotificationController(),);
-    Get.lazyPut(() => ChatScreenController(),);
+    // Get.lazyPut(() => InboxScreenController(),);
+    Get.put(InboxScreenController());
+    Get.put(NotificationController());
+    Get.put(ChatScreenController());
+    // Get.lazyPut(() => NotificationController(),);
+    // Get.lazyPut(() => ChatScreenController(),);
   }
 }
