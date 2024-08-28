@@ -47,7 +47,7 @@ ProfileScreenController.to.fetchProfileImage();
   void dispose() {
   ProfileScreenController.to.profileImageUrl.value='';
 
-  ProfileScreenController.to.id.value =ProfileScreenController.to.userInfo.userId??'';
+  ProfileScreenController.to.id.value =ProfileScreenController.to.userInfo.value.userId??'';
   ProfileScreenController.to.fetchProfileImage();
     super.dispose();
   }

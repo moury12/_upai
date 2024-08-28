@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/user_info_model.dart';
+import 'package:upai/data/repository/repository_details.dart';
 
 class ProfileScreenController extends GetxController {
   static ProfileScreenController get to => Get.find();
   final box = Hive.box("userInfo");
-  late UserInfoModel userInfo;
+   Rx<UserInfoModel> userInfo= UserInfoModel().obs;
   RxString profileImageUrl = ''.obs;
   Rx<String> id = ''.obs;
   RxBool canEdit=false.obs;
@@ -17,9 +20,9 @@ class ProfileScreenController extends GetxController {
 
   @override
   void onInit() {
-    userInfo = userInfoModelFromJson((box.get("user")));
-    debugPrint(userInfo.toJson().toString());
-    id.value = userInfo.userId ?? "";
+    getUserData();
+    debugPrint(userInfo.value.toJson().toString());
+    id.value = userInfo.value.userId ?? "";
     canEdit.value =false;
     fetchProfileImage();
     // TODO: implement onInit
@@ -31,6 +34,10 @@ class ProfileScreenController extends GetxController {
     // TODO: implement onClose
     super.onClose();
   }
+Future<void> getUserData()async{
+  userInfo.value = userInfoModelFromJson((box.get("user")));
+
+}
   void fetchProfileImage() async {
     try {
       // Define the path where the image is stored
@@ -48,5 +55,25 @@ class ProfileScreenController extends GetxController {
     } catch (e) {
       print('Error fetching profile image URL: $e');
     }
+  }
+  void updateProfile(String name, email)async{
+    RepositoryData.updateProfile(token: userInfo.value.token??'',body: {
+      "user_id":userInfo.value.userId,
+      "name":name,
+      "email":email
+    });
+    UserInfoModel userInfodetails = UserInfoModel();
+    userInfodetails.cid = userInfo.value.userId;
+    userInfodetails.name = name;
+    userInfodetails.userId = userInfo.value.userId;
+    userInfodetails.email = email;
+    userInfodetails.mobile = userInfo.value.mobile;
+    userInfodetails.token =userInfo.value.token;
+    userInfodetails.userType = userInfo.value.userType;
+    await box.put('user', jsonEncode(userInfodetails.toJson()));
+    await getUserData();
+    print("value is  : ${box.get("user")}");
+    print("&&&&&&&&&&&&&&&&&&&");
+    print(box.values);
   }
 }

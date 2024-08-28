@@ -82,7 +82,7 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                                           ],
                                         ),
                                       ),
-                                      ProfileScreenController.to.userInfo.userId==NotificationController.to.notificationList[reversedIndex].buyerId?SizedBox():
+                                      ProfileScreenController.to.userInfo.value.userId==NotificationController.to.notificationList[reversedIndex].buyerId?SizedBox():
                                       SizedBox(
                                         height: 40,
                                         width: 150,

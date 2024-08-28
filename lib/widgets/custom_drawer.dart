@@ -15,8 +15,8 @@ import '../data/api/firebase_apis.dart';
 import '../testnotification/notification_screen_test.dart';
 
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({super.key, required this.userInfo});
-  final UserInfoModel userInfo;
+  const CustomDrawer({super.key});
+  // final UserInfoModel userInfo;
 
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
@@ -71,28 +71,34 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 const SizedBox(height: 15),
                 Center(
-                  child: Text(
-                    widget.userInfo.name.toString(),
-                    style: AppTextStyle.bodyLarge700.copyWith(
-                      fontSize: 20.0,
-                      color: AppColors.primaryTextColor,
-                    ),
+                  child:  Obx(
+                   () {
+                      return Text(
+                            ProfileScreenController.to.userInfo.value.name.toString(),
+                            style: AppTextStyle.bodyLarge700.copyWith(
+                              fontSize: 20.0,
+                              color: AppColors.primaryTextColor,
+                            ),
+
+                      );
+                    }
                   ),
                 ),
                 Center(
-                  child: Text(
-                    widget.userInfo.userId.toString(),
-                    style: AppTextStyle.titleText.copyWith(
-                      fontSize: 14.0,
-                      color: AppColors.secondaryTextColor,
-                    ),
+                  child:  Text(
+                        ProfileScreenController.to.userInfo.value.userId.toString(),
+                        style: AppTextStyle.titleText.copyWith(
+                          fontSize: 14.0,
+                          color: AppColors.secondaryTextColor,
+                        ),
+
                   ),
                 ),
                 const SizedBox(height: 20),
                 _buildMenuOption(
                   icon: Icons.person,
                   label: 'Profile',
-                  onTap: () => Get.toNamed('/profile'),
+                  onTap: () => Get.toNamed('/profile'), 
                 ),
                 _buildMenuOption(
                   icon: Icons.settings,
@@ -114,7 +120,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Get.offAllNamed('/login');
                   },
                 ),
-
+                _buildMenuOption(icon: Icons.add, label: "nw", onTap: (){
+                  Get.to(NotificationScreenTest());
+                })
               ],
             ),
           ),

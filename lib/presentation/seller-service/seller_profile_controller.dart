@@ -38,8 +38,8 @@ class SellerProfileController extends GetxController {
 
   void deleteOffer(String offerId) async {
     await RepositoryData.deleteOffer(
-        token: ctrl!.userInfo.token.toString(),
-        body: {"user_id": ctrl!.userInfo.userId, "offer_id": offerId});
+        token: ctrl!.userInfo.value.token.toString(),
+        body: {"user_id": ctrl!.userInfo.value.userId, "offer_id": offerId});
     // seller.value.myService!.removeWhere((service) => service.offerId == offerId);
     myService.refresh();
     await getSellerProfile();
@@ -48,7 +48,7 @@ class SellerProfileController extends GetxController {
 
   Future<void> getSellerProfile() async {
     seller.value = await RepositoryData.getSellerProfile(
-        ctrl!.userInfo.token.toString(), ctrl!.userInfo.userId ?? '');
+        ctrl!.userInfo.value.token.toString(), ctrl!.userInfo.value.userId ?? '');
     myService.value = seller.value.myService!;
     filterList.assignAll(myService);
     debugPrint('myService.toJson()');

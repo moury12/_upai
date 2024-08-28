@@ -109,8 +109,8 @@ class HomeController extends GetxController {
   void getOfferDataList() async {
     getOfferList.value = await RepositoryData().getOfferList(
         token: FirebaseAPIs.user['token'].toString(),
-        mobile: ctrl!.userInfo.userId ?? '',
-        name: ctrl!.userInfo.name ?? '');
+        mobile: ctrl!.userInfo.value.userId ?? '',
+        name: ctrl!.userInfo.value.name ?? '');
 
     filteredOfferList.value = getOfferList;
   }
@@ -140,9 +140,9 @@ class HomeController extends GetxController {
 
   Future<void> editOffer(String offerId, title, description, rate, address) async {
     await RepositoryData.editOffer(
-        token: ProfileScreenController.to.userInfo.token ?? '',
+        token: ProfileScreenController.to.userInfo.value.token ?? '',
         body: {
-          "user_id": ProfileScreenController.to.userInfo.userId,
+          "user_id": ProfileScreenController.to.userInfo.value.userId,
           "offer_id": offerId,
           "service_category_type": selectedCategory.value!.categoryName,
           "job_title": title,
@@ -154,8 +154,8 @@ class HomeController extends GetxController {
           "address": address
         });
 
-SellerProfileController.to.service.value =MyService(userName:ProfileScreenController.to.userInfo.name ,
-    userId: ProfileScreenController.to.userInfo.userId,serviceCategoryType:selectedCategory.value!.categoryName ,
+SellerProfileController.to.service.value =MyService(userName:ProfileScreenController.to.userInfo.value.name ,
+    userId: ProfileScreenController.to.userInfo.value.userId,serviceCategoryType:selectedCategory.value!.categoryName ,
     rateType:selectedRateType.value ,address: address,
     description: description,district:selectedDistrict.value ,
     jobTitle: title,offerId:offerId ,quantity: quantity.value ,rate:int.parse(rate) );

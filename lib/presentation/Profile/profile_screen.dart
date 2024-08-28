@@ -28,6 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     ctrl.canEdit.value = false;
+    ctrl.nameTE.text=ctrl.userInfo.value.name??'';
+    ctrl.emailTE.text=ctrl.userInfo.value.email??'';
+    ctrl.phoneTE.text=ctrl.userInfo.value.mobile??'';
     // TODO: implement initState
     super.initState();
   }
@@ -137,27 +140,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   CustomTextField2(
                     isEditable: false,
-                    hintText: ctrl.userInfo.userId.toString(),
+                    hintText: ctrl.userInfo.value.userId.toString(),
                     prefixIcon: Icons.call,
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   CustomTextField2(
-                    isEditable: false,
+                    isEditable: true,
                     controller: ctrl.nameTE,
                     validatorText: "Please Enter Your Name",
-                    hintText: ctrl.userInfo.name.toString(),
+                    hintText: "Enter Your Name",
                     prefixIcon: Icons.person,
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   CustomTextField2(
-                    isEditable: false,
+                    isEditable: true,
                     controller: ctrl.emailTE,
                     validatorText: "Please Enter an Email Address",
-                    hintText: ctrl.userInfo.email.toString(),
+                    hintText: "Enter an Email Address",
                     prefixIcon: Icons.email,
                   ),
                   const SizedBox(
@@ -200,6 +203,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () {
                           // if (_formKey.currentState!.validate()) {}
                           uploadFile();
+                          ProfileScreenController.to.updateProfile(ctrl.nameTE.text, ctrl.emailTE.text);
+
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.BTNbackgroudgrey,
@@ -270,7 +275,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future uploadFile() async {
     if (image == null) return;
     final fileName = 'profile';
-    final destination = '${ctrl.userInfo.userId}/$fileName';
+    final destination = '${ctrl.userInfo.value.userId}/$fileName';
 
     try {
       final ref = FirebaseStorage.instance.ref(destination).child('file/');

@@ -368,14 +368,14 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         // body["read"]="";
         Map<String,dynamic> orderNotificationData = body;
         orderNotificationData["job_id"]=responseData['job_id'].toString();
-        orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.name.toString();
+        orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.value.name.toString();
         orderNotificationData["seller_name"]=senderData.name.toString();
         orderNotificationData["notification_title"]="You Have a Confirm Order Request";
         orderNotificationData["created_time"]=DateTime.now().toString();
-         orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.name.toString()} send you a request for confirm order of ${body["job_title"]}";
+         orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} send you a request for confirm order of ${body["job_title"]}";
 
 
-        FirebaseAPIs.sendNotificationData( orderNotificationData,senderData,"Confirm offer request","${ProfileScreenController.to.userInfo.name.toString()} send you request for confirm order\nOffer ID:${body["offer_id"]}");
+        FirebaseAPIs.sendNotificationData( orderNotificationData,senderData,"Confirm offer request","${ProfileScreenController.to.userInfo.value.name.toString()} send you request for confirm order\nOffer ID:${body["offer_id"]}");
       }
     } else {
       Get.snackbar('Error', 'Failed ${responseData['message']}');
