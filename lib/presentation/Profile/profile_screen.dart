@@ -28,9 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     ctrl.canEdit.value = false;
-    ctrl.nameTE.text=ctrl.userInfo.name??'';
-    ctrl.emailTE.text=ctrl.userInfo.email??'';
-    ctrl.phoneTE.text=ctrl.userInfo.mobile??'';
+    ctrl.nameTE.text=ctrl.userInfo.value.name??'';
+    ctrl.emailTE.text=ctrl.userInfo.value.email??'';
+    ctrl.phoneTE.text=ctrl.userInfo.value.mobile??'';
     // TODO: implement initState
     super.initState();
   }
@@ -140,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   CustomTextField2(
                     isEditable: false,
-                    hintText: ctrl.userInfo.userId.toString(),
+                    hintText: ctrl.userInfo.value.userId.toString(),
                     prefixIcon: Icons.call,
                   ),
                   const SizedBox(
@@ -275,7 +275,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future uploadFile() async {
     if (image == null) return;
     final fileName = 'profile';
-    final destination = '${ctrl.userInfo.userId}/$fileName';
+    final destination = '${ctrl.userInfo.value.userId}/$fileName';
 
     try {
       final ref = FirebaseStorage.instance.ref(destination).child('file/');

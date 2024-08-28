@@ -71,18 +71,22 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 const SizedBox(height: 15),
                 Center(
-                  child:  Text(
-                        ProfileScreenController.to.userInfo.name.toString(),
-                        style: AppTextStyle.bodyLarge700.copyWith(
-                          fontSize: 20.0,
-                          color: AppColors.primaryTextColor,
-                        ),
+                  child:  Obx(
+                   () {
+                      return Text(
+                            ProfileScreenController.to.userInfo.value.name.toString(),
+                            style: AppTextStyle.bodyLarge700.copyWith(
+                              fontSize: 20.0,
+                              color: AppColors.primaryTextColor,
+                            ),
 
+                      );
+                    }
                   ),
                 ),
                 Center(
                   child:  Text(
-                        ProfileScreenController.to.userInfo.userId.toString(),
+                        ProfileScreenController.to.userInfo.value.userId.toString(),
                         style: AppTextStyle.titleText.copyWith(
                           fontSize: 14.0,
                           color: AppColors.secondaryTextColor,
@@ -94,7 +98,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 _buildMenuOption(
                   icon: Icons.person,
                   label: 'Profile',
-                  onTap: () => Get.toNamed('/profile'),
+                  onTap: () => Get.toNamed('/profile'), 
                 ),
                 _buildMenuOption(
                   icon: Icons.settings,

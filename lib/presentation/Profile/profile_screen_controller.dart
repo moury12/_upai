@@ -10,7 +10,7 @@ import 'package:upai/data/repository/repository_details.dart';
 class ProfileScreenController extends GetxController {
   static ProfileScreenController get to => Get.find();
   final box = Hive.box("userInfo");
-  late UserInfoModel userInfo;
+   Rx<UserInfoModel> userInfo= UserInfoModel().obs;
   RxString profileImageUrl = ''.obs;
   Rx<String> id = ''.obs;
   RxBool canEdit=false.obs;
@@ -21,8 +21,8 @@ class ProfileScreenController extends GetxController {
   @override
   void onInit() {
     getUserData();
-    debugPrint(userInfo.toJson().toString());
-    id.value = userInfo.userId ?? "";
+    debugPrint(userInfo.value.toJson().toString());
+    id.value = userInfo.value.userId ?? "";
     canEdit.value =false;
     fetchProfileImage();
     // TODO: implement onInit
@@ -35,7 +35,7 @@ class ProfileScreenController extends GetxController {
     super.onClose();
   }
 Future<void> getUserData()async{
-  userInfo = userInfoModelFromJson((box.get("user")));
+  userInfo.value = userInfoModelFromJson((box.get("user")));
 
 }
   void fetchProfileImage() async {
@@ -57,19 +57,19 @@ Future<void> getUserData()async{
     }
   }
   void updateProfile(String name, email)async{
-    RepositoryData.updateProfile(token: userInfo.token??'',body: {
-      "user_id":userInfo.userId,
+    RepositoryData.updateProfile(token: userInfo.value.token??'',body: {
+      "user_id":userInfo.value.userId,
       "name":name,
       "email":email
     });
     UserInfoModel userInfodetails = UserInfoModel();
-    userInfodetails.cid = userInfo.userId;
+    userInfodetails.cid = userInfo.value.userId;
     userInfodetails.name = name;
-    userInfodetails.userId = userInfo.userId;
+    userInfodetails.userId = userInfo.value.userId;
     userInfodetails.email = email;
-    userInfodetails.mobile = userInfo.mobile;
-    userInfodetails.token =userInfo.token;
-    userInfodetails.userType = userInfo.userType;
+    userInfodetails.mobile = userInfo.value.mobile;
+    userInfodetails.token =userInfo.value.token;
+    userInfodetails.userType = userInfo.value.userType;
     await box.put('user', jsonEncode(userInfodetails.toJson()));
     await getUserData();
     print("value is  : ${box.get("user")}");

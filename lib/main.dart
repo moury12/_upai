@@ -34,7 +34,14 @@ import 'package:timezone/data/latest.dart' as tz;
 @pragma('vm:entry-point')
 Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-}
+
+  await Firebase.initializeApp();
+  NotificationService.showInstannotification(
+
+    message.notification?.title ?? "No title",
+    message.notification?.body ?? "No body",
+    // message.data['payload'] ?? 'Default payload',
+  );}
 
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   // Ensure Firebase is initialized if you plan to use it here
