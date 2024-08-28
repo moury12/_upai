@@ -120,9 +120,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Get.offAllNamed('/login');
                   },
                 ),
-                _buildMenuOption(icon: Icons.add, label: "nw", onTap: (){
-                  Get.to(NotificationScreenTest());
-                })
+                // _buildMenuOption(icon: Icons.add, label: "nw", onTap: (){
+                //   Get.to(NotificationScreenTest());
+                // })
               ],
             ),
           ),
