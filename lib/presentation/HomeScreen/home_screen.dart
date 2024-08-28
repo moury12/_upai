@@ -78,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 20,
                         ),
                         TextField(
+                          controller: HomeController.to.searchOfferController.value,
                           onChanged: (value) {
                             if (value.isNotEmpty) {
                               controller.filterOffer(value);
@@ -129,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SearchableDropDown(),
                 Obx(() {
-                  if (controller.isSearching.value) {
+                  if (controller.isSearching.value||HomeController.to.selectedDistrictForAll.value!=null) {
                     var offerList = [];
                     offerList = controller.filteredOfferList;
                     if (offerList.isNotEmpty) {

@@ -14,6 +14,7 @@ class SearchableDropDown extends StatefulWidget {
 class _SearchableDropDownState extends State<SearchableDropDown> {
   TextEditingController searchController = TextEditingController();
   List<dynamic> filterDistrict = [];
+  final GlobalKey _dropdownKey = GlobalKey();
 
   @override
   void initState() {
@@ -40,55 +41,9 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
     final RenderBox overlay =
         Overlay.of(context).context.findRenderObject() as RenderBox;
     return GestureDetector(
+      key: _dropdownKey,
       onTap: () {
-        showMenu(
-            surfaceTintColor: Colors.white,
-            color: Colors.white,
-            context: context,
-            position: RelativeRect.fromRect(
-                Rect.fromLTWH(0, 0, overlay.size.width, overlay.size.height),
-                Offset.zero & overlay.size),
-            items: [
-              PopupMenuItem(
-                  enabled: false,
-                  child: StatefulBuilder(
-                    builder: (context, setState) {
-                      return Column(
-                        children: [
-                          TextField(
-                            controller: searchController,
-                            decoration: InputDecoration(
-                                hintText: 'Search district',
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            onChanged: (value) {
-                              setState(() {
-                                filterDistrictItem(value);
-                              });
-                            },
-                          ),
-                          ...filterDistrict.map(
-                            (e) {
-                              return PopupMenuItem(
-                                  child: TextButton(
-                                child: Text(
-                                  e['name'],
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    HomeController.to.selectedDistrict.value =
-                                        e['name'];
-                                    Navigator.pop(context);
-                                  });
-                                },
-                              ));
-                            },
-                          ).toList()
-                        ],
-                      );
-                    },
-                  ))
-            ]).then(
+        showCustomMenu(context, overlay).then(
           (value) {
             searchController.clear();
             setState(() {
@@ -98,8 +53,8 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
         );
       },
       child: Container(
-        padding: EdgeInsets.all(12),
-        margin: EdgeInsets.all(12),
+        padding: EdgeInsets.all(8),
+        margin: EdgeInsets.all(8),
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.black),
             borderRadius: BorderRadius.circular(10)),
@@ -107,11 +62,14 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
           children: [
             Obx(() {
               return Text(
-                HomeController.to.selectedDistrict.value ?? 'Select district',
+                HomeController.to.selectedDistrictForAll.value ?? 'Select district',
                 style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black54),
+                    fontSize: 15,
+                    fontWeight: HomeController.to.selectedDistrictForAll.value != null
+                        ?FontWeight.w400: FontWeight.w600,
+                    color: HomeController.to.selectedDistrictForAll.value != null
+                        ? Colors.black
+                        : Colors.black.withOpacity(.6)),
               );
             }),
             Spacer(),
@@ -124,5 +82,73 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> showCustomMenu(BuildContext context, RenderBox overlay) {
+    final RenderBox buttonRenderBox =
+        _dropdownKey.currentContext!.findRenderObject() as RenderBox;
+    final Offset buttonOffset = buttonRenderBox.localToGlobal(Offset.zero);
+    final Size buttonSize = buttonRenderBox.size;
+    return showMenu(
+        surfaceTintColor: Colors.white,
+        color: Colors.white,
+        context: context,
+        elevation: 6,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        position: RelativeRect.fromLTRB(
+            buttonOffset.dx,
+            buttonOffset.dy + buttonSize.height,
+            overlay.size.width - buttonOffset.dx - buttonSize.width,
+            overlay.size.height - buttonOffset.dy - buttonSize.height),
+        items: [
+          PopupMenuItem(
+              enabled: false,
+              child: StatefulBuilder(
+                builder: (context, setState) {
+                  return Column(
+                    children: [
+                      TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                            hintText: 'Search district',
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: 2)),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        onChanged: (value) {
+                          setState(() {
+                            filterDistrictItem(value);
+                          });
+                        },
+                      ),
+                      ...filterDistrict.map(
+                        (e) {
+                          return PopupMenuItem(
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  HomeController.to.selectedDistrictForAll.value =
+                                      e['name'];
+                                  HomeController.to.filterOffer(HomeController.to.searchOfferController.value.text);
+                                  Navigator.pop(context);
+                                });
+                              },
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: Text(
+                                  e['name'],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList()
+                    ],
+                  );
+                },
+              ))
+        ]);
   }
 }
