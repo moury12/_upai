@@ -227,6 +227,7 @@ class NotificationAccessToken {
         message.notification!.body.toString(),
         notificationDetails,
         payload: 'my_data',
+
       );
     });
   }
