@@ -37,6 +37,22 @@ class MyDateUtil {
         ? '$formattedTime - ${sent.day} ${_getMonth(sent)}'
         : '$formattedTime - ${sent.day} ${_getMonth(sent)} ${sent.year}';
   }
+  static String getOfferDetailsDate(
+      {required BuildContext context, required String time}) {
+    final DateTime sent = DateTime(int.parse(time));
+    final DateTime now = DateTime.now();
+
+    final formattedTime = TimeOfDay.fromDateTime(sent).format(context);
+    if (now.day == sent.day &&
+        now.month == sent.month &&
+        now.year == sent.year) {
+      return formattedTime;
+    }
+
+    return now.year == sent.year
+        ? '$formattedTime - ${sent.day} ${_getMonth(sent)}'
+        : '$formattedTime - ${sent.day} ${_getMonth(sent)} ${sent.year}';
+  }
 
   //get last message time (used in chat user card)
   static String getLastMessageTime(

@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/core/utils/my_date_util.dart';
 
-class ClientReviewCard extends StatelessWidget {
+class ClientReviewCard extends StatefulWidget {
+  final BuyerReviewList buyerReview;
   const ClientReviewCard({
     super.key,
-    required this.size,
+    required this.size, required this.buyerReview,
   });
 
   final Size size;
 
+  @override
+  State<ClientReviewCard> createState() => _ClientReviewCardState();
+}
+
+class _ClientReviewCardState extends State<ClientReviewCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -24,11 +32,11 @@ class ClientReviewCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(14.0),
         child: SizedBox(
-          width: size.width * 0.8,
+          width: widget.size.width * 0.8,
           child: Column(
             children: [
               SizedBox(
-                width: size.width,
+                width: widget.size.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -41,9 +49,9 @@ class ClientReviewCard extends StatelessWidget {
                         const SizedBox(width: 5,),
                         Column(
                           children: [
-                            Text("Client Name",
+                            Text(widget.buyerReview.buyerName.toString(),
                                 style: AppTextStyle.bodySmallblack),
-                            Text("22 Jan, 2023",
+                            Text(MyDateUtil.formatDate(widget.buyerReview.reviewDate.toString()),
                                 style: AppTextStyle.titleTextSmallest),
                           ],
                         ),
@@ -52,7 +60,7 @@ class ClientReviewCard extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text("4.6",style: AppTextStyle.bodySmallGrey,),
+                        Text(widget.buyerReview.buyerReview.toString(),style: AppTextStyle.bodySmallGrey,),
                        Icon(Icons.star_rate_rounded,color: Colors.black87,size: 14,)
                       ],
                     ),

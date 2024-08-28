@@ -43,6 +43,9 @@ class OfferList {
   int? quantity;
   String? rateType;
   int? rate;
+  String? district;
+  String? address;
+  List<BuyerReviewList>? buyerReviewList;
 
   OfferList({
     this.offerId,
@@ -55,6 +58,9 @@ class OfferList {
     this.quantity,
     this.rateType,
     this.rate,
+    this.district,
+    this.address,
+    this.buyerReviewList,
   });
 
   factory OfferList.fromJson(Map<String, dynamic> json) => OfferList(
@@ -68,6 +74,9 @@ class OfferList {
     quantity: json["quantity"],
     rateType: json["rate_type"],
     rate: json["rate"],
+    district: json["district"],
+    address: json["address"],
+    buyerReviewList: json["buyer_review_list"] == null ? [] : List<BuyerReviewList>.from(json["buyer_review_list"]!.map((x) => BuyerReviewList.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -81,5 +90,40 @@ class OfferList {
     "quantity": quantity,
     "rate_type": rateType,
     "rate": rate,
+    "district": district,
+    "address": address,
+    "buyer_review_list": buyerReviewList == null ? [] : List<dynamic>.from(buyerReviewList!.map((x) => x.toJson())),
+  };
+}
+
+class BuyerReviewList {
+  String? buyerId;
+  String? buyerReview;
+  String? buyerRating;
+  String? buyerName;
+  DateTime? reviewDate;
+
+  BuyerReviewList({
+    this.buyerId,
+    this.buyerReview,
+    this.buyerRating,
+    this.buyerName,
+    this.reviewDate,
+  });
+
+  factory BuyerReviewList.fromJson(Map<String, dynamic> json) => BuyerReviewList(
+    buyerId: json["buyer_id"],
+    buyerReview: json["buyer_review"],
+    buyerRating: json["buyer_rating"],
+    buyerName: json["buyer_name"],
+    reviewDate: json["review_date"] == null ? null : DateTime.parse(json["review_date"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "buyer_id": buyerId,
+    "buyer_review": buyerReview,
+    "buyer_rating": buyerRating,
+    "buyer_name": buyerName,
+    "review_date": "${reviewDate!.year.toString().padLeft(4, '0')}-${reviewDate!.month.toString().padLeft(2, '0')}-${reviewDate!.day.toString().padLeft(2, '0')}",
   };
 }

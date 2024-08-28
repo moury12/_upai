@@ -241,6 +241,17 @@ ProfileScreenController.to.fetchProfileImage();
                         ),
                       ),
                       const Divider(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+
+                              "Posted ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
+                          Text(
+
+                              widget.offerDetails!.district.toString()),
+                        ],
+                      ),
 
                       Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16),
@@ -267,11 +278,6 @@ ProfileScreenController.to.fetchProfileImage();
                                     ],
                                   ),
                                 ),
-                                Expanded(
-                                  flex:2,
-                                  child: Text(
-                                    textAlign: TextAlign.end,
-                                      MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())),),
                                 // Expanded(
                                 //   flex: 2,
                                 //   child: Column(
@@ -400,6 +406,10 @@ ProfileScreenController.to.fetchProfileImage();
                             DetailItem(
                               title: "Quantity:",
                               body:"${widget.offerDetails!.quantity.toString()} 🛒",
+                            ),
+                            DetailItem(
+                              title: "Address:",
+                              body:"${widget.offerDetails!.address.toString()} 🛒",
                             ),
 
                             Text(
@@ -537,29 +547,29 @@ ProfileScreenController.to.fetchProfileImage();
                                 // )
                               ],
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const RateByCat(
-                              rateCat: "Seller Communication Level",
-                              rating: "4.6",
-                            ),
-                            const RateByCat(
-                              rateCat: "Service Quality",
-                              rating: "4.6",
-                            ),
-                            const RateByCat(
-                              rateCat: "Service as described",
-                              rating: "4.6",
-                            ),
-                            const RateByCat(
-                              rateCat: "Seller Behavior",
-                              rating: "4.6",
-                            ),
-                            const RateByCat(
-                              rateCat: "Recommend Service",
-                              rating: "4.6",
-                            ),
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
+                            // const RateByCat(
+                            //   rateCat: "Seller Communication Level",
+                            //   rating: "4.6",
+                            // ),
+                            // const RateByCat(
+                            //   rateCat: "Service Quality",
+                            //   rating: "4.6",
+                            // ),
+                            // const RateByCat(
+                            //   rateCat: "Service as described",
+                            //   rating: "4.6",
+                            // ),
+                            // const RateByCat(
+                            //   rateCat: "Seller Behavior",
+                            //   rating: "4.6",
+                            // ),
+                            // const RateByCat(
+                            //   rateCat: "Recommend Service",
+                            //   rating: "4.6",
+                            // ),
                             const SizedBox(
                               height: 20,
                             ),
@@ -572,10 +582,10 @@ ProfileScreenController.to.fetchProfileImage();
                               width: size.width,
                               height: 200,
                               child: ListView.builder(
-                                itemCount: 5,
+                                itemCount: widget.offerDetails!.buyerReviewList!.length,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
-                                  return ClientReviewCard(size: size);
+                                  return ClientReviewCard(buyerReview:widget.offerDetails!.buyerReviewList![index],size: size);
                                 },
                               ),
                             ),
