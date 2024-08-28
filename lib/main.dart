@@ -26,6 +26,8 @@ import 'presentation/Inbox/inbox.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  NotificationAccessToken().showNotification(message);
   //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
 
@@ -38,14 +40,14 @@ Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
 //   // You can also show a notification or perform other tasks here.
 // }
 
- String boxName="userInfo";
+String boxName="userInfo";
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await NotificationService.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
   //createNotificationChannel();
   // Register the background message handler
   FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
@@ -96,36 +98,36 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     debugPrint('width, height${MediaQuery.of(context).size.width},${MediaQuery.of(context).size.height}');
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Upai',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(backgroundColor: Colors.white,centerTitle: true),
-       bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white),
-       primaryColor: Colors.white,
+        debugShowCheckedModeBanner: false,
+        title: 'Upai',
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: AppBarTheme(backgroundColor: Colors.white,centerTitle: true),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white),
+          primaryColor: Colors.white,
 
-       // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      initialRoute: '/',
-      getPages: [
-        GetPage(name: '/', page: () => const SplashScreen()),
-        GetPage(name: '/inbox', page: () =>  const InboxScreen()),
-        GetPage(name: '/home', page: () =>  const HomeScreen()),
-        GetPage(name: '/home2', page: () =>  const InboxScreen()),
+          // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        initialRoute: '/',
+        getPages: [
+          GetPage(name: '/', page: () => const SplashScreen()),
+          GetPage(name: '/inbox', page: () =>  const InboxScreen()),
+          GetPage(name: '/home', page: () =>  const HomeScreen()),
+          GetPage(name: '/home2', page: () =>  const InboxScreen()),
 /*
         GetPage(name: ServiceDetails.routeName, page: () =>  ServiceDetails()),
 */
-        GetPage(name: '/chatscreen', page: () =>  ChatScreen()),
-        GetPage(name: '/defaultscreen', page: () =>  DefaultScreen()),
-        GetPage(name: '/login', page: () =>  const LoginScreen()),
-        GetPage(name: '/profile', page: () =>   ProfileScreen(),binding: ProfileBinding()),
-        GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
-        GetPage(name: ServiceListScreen.routeName, page: () =>  ServiceListScreen()),
-        GetPage(name: CategoryListScreen.routeName, page: () =>  const CategoryListScreen()),
-        GetPage(name: OtpScreen.routeName, page: () =>  const OtpScreen()),
-      ],
-     initialBinding: RootBinding()
+          GetPage(name: '/chatscreen', page: () =>  ChatScreen()),
+          GetPage(name: '/defaultscreen', page: () =>  DefaultScreen()),
+          GetPage(name: '/login', page: () =>  const LoginScreen()),
+          GetPage(name: '/profile', page: () =>   ProfileScreen(),binding: ProfileBinding()),
+          GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
+          GetPage(name: ServiceListScreen.routeName, page: () =>  ServiceListScreen()),
+          GetPage(name: CategoryListScreen.routeName, page: () =>  const CategoryListScreen()),
+          GetPage(name: OtpScreen.routeName, page: () =>  const OtpScreen()),
+        ],
+        initialBinding: RootBinding()
 
     );
   }

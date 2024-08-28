@@ -190,6 +190,7 @@ class NotificationAccessToken {
       importance: Importance.max,
       showBadge: true,
       playSound: true,
+      enableVibration: true,
 
       // sound: const RawResourceAndroidNotificationSound('jetsons_doorbell'),
     );
@@ -202,7 +203,8 @@ class NotificationAccessToken {
         priority: Priority.high,
         playSound: true,
         ticker: 'ticker',
-        sound: channel.sound
+        sound: channel.sound,
+      enableVibration: true,
 
       //     sound: RawResourceAndroidNotificationSound('jetsons_doorbell')
       //  icon: largeIconPath
