@@ -28,6 +28,7 @@ class HomeController extends GetxController {
   RxList<dynamic> filterDistrictList = [].obs;
   RxList<OfferList> getOfferList = <OfferList>[].obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;
+  Rx<TextEditingController> searchOfferController = TextEditingController().obs;
   Rx<TextEditingController> searchCatController = TextEditingController().obs;
   Rx<TextEditingController> rateController = TextEditingController().obs;
   Rx<bool> change = false.obs;
@@ -44,6 +45,7 @@ class HomeController extends GetxController {
       TextEditingController().obs;
   Rx<CategoryList?> selectedCategory = Rx<CategoryList?>(null);
   Rx<String?> selectedRateType = Rx<String?>(null);
+  Rx<String?> selectedDistrictForAll = Rx<String?>(null);
   Rx<String?> selectedDistrict = Rx<String?>(null);
   var filteredOfferList = <OfferList>[].obs;
   var filteredCategoryList = <CategoryList>[].obs;
@@ -188,13 +190,23 @@ SellerProfileController.to.service.value =MyService(userName:ProfileScreenContro
   }
 
   void filterOffer(String query) async {
-    if (query.isNotEmpty) {
+    if (query.isNotEmpty || selectedDistrictForAll.value != null) {
+      debugPrint('------------${selectedDistrictForAll.value}');
+      debugPrint('------------${searchOfferController.value.text }');
       filteredOfferList.value = getOfferList.where(
-        (element) {
-          return element.jobTitle!.toLowerCase().contains(query.toLowerCase());
+            (element) {
+          final isDistrictMatching = element.district != null &&
+              element.district!.contains(selectedDistrictForAll.value!);
+
+          final isQueryMatching = element.jobTitle!
+              .toLowerCase()
+              .contains(query.toLowerCase());
+
+          return isQueryMatching && isDistrictMatching;
         },
       ).toList();
     } else {
+      debugPrint('----++--${selectedDistrictForAll.value}');
       filteredOfferList.value = getOfferList;
     }
   }

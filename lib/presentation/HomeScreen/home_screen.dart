@@ -7,10 +7,12 @@ import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Explore/service_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/widgets/cat_two.dart';
+import 'package:upai/widgets/custom_text_field.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,10 +23,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeController controller = HomeController.to;
-@override
+
+  @override
   void initState() {
-  controller.isSearching.value=false;    super.initState();
+    controller.isSearching.value = false;
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -32,17 +37,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Determine the number of columns and aspect ratio dynamically
     int crossAxisCount = 2;
-double childRatio=0.8;
+    double childRatio = 0.8;
 
     if (screenWidth > 600) {
       crossAxisCount = 3;
-      childRatio =screenWidth> screenHeight?0.9:1;
+      childRatio = screenWidth > screenHeight ? 0.9 : 1;
     }
     if (screenWidth > 900) {
-      crossAxisCount = 4; childRatio =screenWidth> screenHeight?0.9:1;
+      crossAxisCount = 4;
+      childRatio = screenWidth > screenHeight ? 0.9 : 1;
     }
     if (screenWidth > 1232) {
-      crossAxisCount = 5; childRatio =1;
+      crossAxisCount = 5;
+      childRatio = 1;
     }
     return Scaffold(
       body: SafeArea(
@@ -71,6 +78,7 @@ double childRatio=0.8;
                           height: 20,
                         ),
                         TextField(
+                          controller: HomeController.to.searchOfferController.value,
                           onChanged: (value) {
                             if (value.isNotEmpty) {
                               controller.filterOffer(value);
@@ -120,8 +128,9 @@ double childRatio=0.8;
                     ),
                   ),
                 ),
+                SearchableDropDown(),
                 Obx(() {
-                  if (controller.isSearching.value) {
+                  if (controller.isSearching.value||HomeController.to.selectedDistrictForAll.value!=null) {
                     var offerList = [];
                     offerList = controller.filteredOfferList;
                     if (offerList.isNotEmpty) {
@@ -133,7 +142,7 @@ double childRatio=0.8;
                             .copyWith(top: 8),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: childRatio,
-                           crossAxisCount: crossAxisCount,
+                            crossAxisCount: crossAxisCount,
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8),
                         itemCount: offerList.length,
@@ -144,23 +153,21 @@ double childRatio=0.8;
                             button: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: SizedBox(
-                                width: double.infinity,
-                                child:ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.black,
-                                      foregroundColor: Colors.white,
-                                      alignment: Alignment.center
-                                  ),
-                                  onPressed: () {
-                                    Get.to(
-                                      ServiceDetails(
-                                        offerDetails: service,
-                                      ),
-                                    );
-                                  },
-                                  child: Text('Book Now'),
-                                )
-                              ),
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.black,
+                                        foregroundColor: Colors.white,
+                                        alignment: Alignment.center),
+                                    onPressed: () {
+                                      Get.to(
+                                        ServiceDetails(
+                                          offerDetails: service,
+                                        ),
+                                      );
+                                    },
+                                    child: Text('Book Now'),
+                                  )),
                             ),
                           );
                         },
@@ -179,7 +186,7 @@ double childRatio=0.8;
                     }
                   } else {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -278,7 +285,7 @@ double childRatio=0.8;
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: crossAxisCount,
-                                            childAspectRatio:childRatio,
+                                            childAspectRatio: childRatio,
                                             crossAxisSpacing: 8,
                                             mainAxisSpacing: 8),
                                     itemCount:
@@ -294,11 +301,10 @@ double childRatio=0.8;
                                           width: double.infinity,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.black,
-                                              foregroundColor: Colors.white,
-                                              alignment: Alignment.center
-                                            ),
-                                            onPressed: () async{
+                                                backgroundColor: Colors.black,
+                                                foregroundColor: Colors.white,
+                                                alignment: Alignment.center),
+                                            onPressed: () async {
                                               Get.to(
                                                 ServiceDetails(
                                                   offerDetails: service,
@@ -356,3 +362,4 @@ double childRatio=0.8;
     );
   }
 }
+

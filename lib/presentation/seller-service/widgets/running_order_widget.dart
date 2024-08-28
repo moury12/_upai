@@ -76,7 +76,7 @@ class _RunningOrderWidgetState extends State<RunningOrderWidget> {
                             newNotificationData.rate=widget.runningOrder.rate;
                             newNotificationData.total=widget.runningOrder.total.toString();
                             newNotificationData.jobTitle=widget.runningOrder.jobTitle.toString();
-                            newNotificationData.status="COMPLETED";
+                            newNotificationData.status="DELIVERED";
                             newNotificationData.createdTime=DateTime.now().toString();
                             newNotificationData.description=widget.runningOrder.description.toString();
                             newNotificationData.notificationTitle="${widget.runningOrder.jobTitle} Job Completed";
