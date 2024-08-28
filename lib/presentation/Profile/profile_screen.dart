@@ -31,7 +31,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ctrl.nameTE.text=ctrl.userInfo.value.name??'';
     ctrl.emailTE.text=ctrl.userInfo.value.email??'';
     ctrl.phoneTE.text=ctrl.userInfo.value.mobile??'';
-    // TODO: implement initState
     super.initState();
   }
 
