@@ -78,7 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 20,
                         ),
                         TextField(
-                          controller: HomeController.to.searchOfferController.value,
+                          controller:
+                              HomeController.to.searchOfferController.value,
                           onChanged: (value) {
                             if (value.isNotEmpty) {
                               controller.filterOffer(value);
@@ -128,9 +129,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                SearchableDropDown(),
+                Row(
+                  children: [
+                    Expanded(flex: 4, child: SearchableDropDown()),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            shape: BoxShape.circle),
+                        child: IconButton(
+                            style: IconButton.styleFrom(
+                              shape: CircleBorder(),
+                            ),
+                            onPressed: () {
+                              HomeController.to.selectedDistrictForAll.value =
+                                  null;HomeController.to.filteredOfferList = HomeController.to.getOfferList;
+                              HomeController.to.searchOfferController.value
+                                  .clear();
+                            },
+                            icon: Icon(CupertinoIcons.restart)),
+                      ),
+                    )
+                  ],
+                ),
                 Obx(() {
-                  if (controller.isSearching.value||HomeController.to.selectedDistrictForAll.value!=null) {
+                  if (controller.isSearching.value ||
+                      HomeController.to.selectedDistrictForAll.value != null) {
                     var offerList = [];
                     offerList = controller.filteredOfferList;
                     if (offerList.isNotEmpty) {
@@ -362,4 +386,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

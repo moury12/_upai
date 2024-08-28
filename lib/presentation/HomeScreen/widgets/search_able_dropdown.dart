@@ -59,6 +59,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
             border: Border.all(width: 1, color: Colors.black),
             borderRadius: BorderRadius.circular(10)),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Obx(() {
               return Text(
@@ -72,7 +73,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                         : Colors.black.withOpacity(.6)),
               );
             }),
-            Spacer(),
+
             Icon(
               Icons.arrow_drop_down,
               color: Colors.black54,
