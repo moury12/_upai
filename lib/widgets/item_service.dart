@@ -79,6 +79,7 @@ class OfferService extends StatelessWidget {
 
                     ),
                   ),
+
                    Text(
                     '${offer.userName}',
                     style: const TextStyle(

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
 
@@ -33,7 +34,7 @@ class MyServiceWidget extends StatelessWidget {
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Expanded(flex: 4,
+          Expanded(flex: 3,
             child: Image.asset(
               ImageConstant.productImage,
               // height: 80,
@@ -46,7 +47,7 @@ class MyServiceWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    height: 5,
+                    height: 2,
                   ),
                   // FittedBox(
                   //   child: Row(
@@ -76,6 +77,10 @@ class MyServiceWidget extends StatelessWidget {
                         : offerList?.jobTitle ?? '',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
+                  Text(
+                    maxLines: 1,
+                    isService? service!.district ?? ''
+                      : offerList?.district ?? '',style: AppTextStyle.titleTextSmallUnderline,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,

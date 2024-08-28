@@ -1,7 +1,6 @@
 class ImageConstant {
   // Image folder path
   static const String _imagePath = 'assets/images';
-
   //Images
   static String accountImg = '$_imagePath/account.svg';
   static String home = '$_imagePath/home.png';
@@ -21,5 +20,4 @@ class ImageConstant {
   static String notification = '$_imagePath/notificationpng.png';
   static String runningOrderImage = 'assets/images/running_order.jpeg';
   static String productImage = 'assets/images/products.png';
-
 }

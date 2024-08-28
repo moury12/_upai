@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
@@ -8,6 +9,7 @@ import 'package:upai/presentation/notification/widget/confirm_order_dialog.dart'
 import 'package:upai/widgets/custom_button.dart';
 
 import '../../data/api/firebase_apis.dart';
+import '../../review/review_screen.dart';
 import 'controller/notification_controller.dart';
 
 class NotificatonScreen extends StatefulWidget {
@@ -45,59 +47,187 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                                 .add(NotificationModel.fromJson(i.data()));
                           }
                           return ListView.builder(
-                            itemCount: NotificationController.to.notificationList.length,
+                            itemCount: NotificationController
+                                .to.notificationList.length,
                             itemBuilder: (context, index) {
-                              int reversedIndex = NotificationController.to.notificationList.length - 1 - index;
+                              int reversedIndex = NotificationController
+                                      .to.notificationList.length -
+                                  1 -
+                                  index;
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey.shade200, width: 3),
+                                    border: Border.all(
+                                        color: Colors.grey.shade200, width: 3),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(right: 16,top: 16),
-                                      //   child: Align(
-                                      //     alignment:Alignment.bottomRight,
-                                      //       child: Text(MyDateUtil.formatDate(NotificationController.to.notificationList[reversedIndex].createdTime.toString()).toString())),
-                                      // ),
-                                      ListTile(
-                                        leading: Icon(Icons.notifications_on, size: 35),
-                                        title: Text(NotificationController.to.notificationList[reversedIndex].notificationTitle.toString()),
-                                        subtitle: Column(
+                                      InkWell(
+                                        onTap: () {
+                                          if(NotificationController.to.notificationList[reversedIndex].status=="DELIVERED" &&ProfileScreenController.to.userInfo.value.userId!=NotificationController.to.notificationList[reversedIndex].sellerId)
+                                            {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) => ReviewScreen(
+                                                    notificationModel:
+                                                    NotificationController.to
+                                                        .notificationList[
+                                                    reversedIndex]),
+                                              );
+                                            }
+
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            Text(NotificationController.to.notificationList[reversedIndex].notificationMsg.toString()),
-                                          ],
-                                        ),
-                                        trailing: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(child: Text(MyDateUtil.formatDate(NotificationController.to.notificationList[reversedIndex].createdTime.toString()).toString())),
-                                            Expanded(child: Text("৳${NotificationController.to.notificationList[reversedIndex].total.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold)),
-                                            Expanded(child: Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold)),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Icon(
+                                                  Icons.notifications_on,
+                                                  size: 35),
+                                            ),
+                                            Expanded(
+                                                flex: 6,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(6.0),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        NotificationController
+                                                            .to
+                                                            .notificationList[
+                                                                reversedIndex]
+                                                            .notificationTitle
+                                                            .toString(),
+                                                        style: AppTextStyle
+                                                            .bodyMediumBlack400,
+                                                      ),
+                                                      Text(
+                                                          NotificationController
+                                                              .to
+                                                              .notificationList[
+                                                                  reversedIndex]
+                                                              .notificationMsg
+                                                              .toString()),
+
+                                                    ],
+                                                  ),
+                                                )),
+                                            Expanded(
+                                                flex: 3,
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.topCenter,
+                                                      child: Text(MyDateUtil.formatDate(
+                                                              NotificationController
+                                                                  .to
+                                                                  .notificationList[
+                                                                      reversedIndex]
+                                                                  .createdTime
+                                                                  .toString())
+                                                          .toString()),
+                                                    ),
+                                                    Text(
+                                                        "৳${NotificationController.to.notificationList[reversedIndex].total.toString()}",
+                                                        style: AppTextStyle
+                                                            .bodyMediumBlackSemiBold),
+                                                    Text(
+                                                        "🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}",
+                                                        style: AppTextStyle
+                                                            .bodyMediumSemiBlackBold),
+                                                  ],
+                                                ))
+                                            // Column(
+                                            //   mainAxisAlignment: MainAxisAlignment.center,
+                                            //   children: [
+                                            //     // Padding(
+                                            //     //   padding: const EdgeInsets.only(right: 16,top: 16),
+                                            //     //   child: Align(
+                                            //     //     alignment:Alignment.bottomRight,
+                                            //     //       child: Text(MyDateUtil.formatDate(NotificationController.to.notificationList[reversedIndex].createdTime.toString()).toString())),
+                                            //     // ),
+                                            //     ListTile(
+                                            //       leading: Icon(Icons.notifications_on, size: 35),
+                                            //       title: Text(NotificationController.to.notificationList[reversedIndex].notificationTitle.toString()),
+                                            //       subtitle: Column(
+                                            //         children: [
+                                            //           Text(NotificationController.to.notificationList[reversedIndex].notificationMsg.toString()),
+                                            //         ],
+                                            //       ),
+                                            //       trailing: Column(
+                                            //         mainAxisSize: MainAxisSize.max,
+                                            //         mainAxisAlignment: MainAxisAlignment.center,
+                                            //         children: [
+                                            //           Expanded(child: Text(MyDateUtil.formatDate(NotificationController.to.notificationList[reversedIndex].createdTime.toString()).toString())),
+                                            //           Expanded(child: Text("৳${NotificationController.to.notificationList[reversedIndex].total.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold)),
+                                            //           Expanded(child: Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold)),
+                                            //         ],
+                                            //       ),
+                                            //     ),
+                                            //     ProfileScreenController.to.userInfo.value.userId==NotificationController.to.notificationList[reversedIndex].buyerId?SizedBox():
+                                            //     SizedBox(
+                                            //       height: 40,
+                                            //       width: 150,
+                                            //       child: CustomButton(onTap: () {
+                                            //         showDialog(context: context, builder: (context) => ConfirmOrderWidget(notificationModel: NotificationController.to.notificationList[reversedIndex],),);
+                                            //       }, text: "Tap Here"),
+                                            //     ),
+                                            //     SizedBox(height: 10),
+                                            //   ],
+                                            // ),
                                           ],
                                         ),
                                       ),
-                                      ProfileScreenController.to.userInfo.value.userId==NotificationController.to.notificationList[reversedIndex].buyerId?SizedBox():
-                                      SizedBox(
+                                      ProfileScreenController
+                                          .to
+                                          .userInfo
+                                          .value
+                                          .userId ==
+                                          NotificationController
+                                              .to
+                                              .notificationList[
+                                          reversedIndex]
+                                              .buyerId
+                                          ? SizedBox()
+                                          : SizedBox(
                                         height: 40,
                                         width: 150,
-                                        child: CustomButton(onTap: () {
-                                          showDialog(context: context, builder: (context) => ConfirmOrderWidget(notificationModel: NotificationController.to.notificationList[reversedIndex],),);
-                                        }, text: "Tap Here"),
+                                        child: CustomButton(
+                                            onTap: () {
+                                              showDialog(
+                                                context:
+                                                context,
+                                                builder:
+                                                    (context) =>
+                                                    ConfirmOrderWidget(
+                                                      notificationModel: NotificationController
+                                                          .to
+                                                          .notificationList[reversedIndex],
+                                                    ),
+                                              );
+                                            },
+                                            text: "Tap Here"),
                                       ),
-                                      SizedBox(height: 10),
+                                      SizedBox(height: 10,),
                                     ],
                                   ),
                                 ),
                               );
                             },
                           );
-
                         } else {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,

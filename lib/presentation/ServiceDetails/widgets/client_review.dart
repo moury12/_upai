@@ -6,6 +6,8 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 
+import '../../Profile/profile_screen_controller.dart';
+
 class ClientReviewCard extends StatefulWidget {
   final BuyerReviewList buyerReview;
   const ClientReviewCard({
@@ -27,13 +29,13 @@ class _ClientReviewCardState extends State<ClientReviewCard> {
         side: const BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
         borderRadius: BorderRadius.circular(8),
       ),
-
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(14.0),
         child: SizedBox(
           width: widget.size.width * 0.8,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 width: widget.size.width,
@@ -43,9 +45,38 @@ class _ClientReviewCardState extends State<ClientReviewCard> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage(ImageConstant.receiverImg),
-                        ),
+                        FutureBuilder(future: ProfileScreenController.to.getProfileImageURL(widget.buyerReview.buyerId.toString()),builder: (context, snapshot) {
+                            if(snapshot.hasData)
+                            {
+                              if(snapshot.data!="") {
+                                return CircleAvatar(
+
+                                    backgroundImage: NetworkImage(snapshot.data.toString())
+                                );
+                              }
+                              else
+                              {
+                                return CircleAvatar(
+
+                                    backgroundImage: AssetImage(ImageConstant.receiverImg,)
+                                );
+                                // return Image.asset(
+                                //   ImageConstant.senderImg,
+                                //   height: 150,
+                                //   width: 150,
+                                //   fit: BoxFit.cover,
+                                // );
+                              }
+                            }
+                            else
+                            {
+                              return CircleAvatar(
+
+                                  backgroundImage: AssetImage(ImageConstant.receiverImg,)
+                              );
+                            }
+
+                          },),
                         const SizedBox(width: 5,),
                         Column(
                           children: [
@@ -58,10 +89,12 @@ class _ClientReviewCardState extends State<ClientReviewCard> {
                       ],
                     ),
                     Row(
+
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(widget.buyerReview.buyerReview.toString(),style: AppTextStyle.bodySmallGrey,),
-                       Icon(Icons.star_rate_rounded,color: Colors.black87,size: 14,)
+                        Text(widget.buyerReview.buyerRating.toString(),style: AppTextStyle.bodySmallGrey,),
+                       const Icon(Icons.star_rate_rounded,color: Colors.black87,size: 16,)
                       ],
                     ),
                   ],
@@ -69,9 +102,7 @@ class _ClientReviewCardState extends State<ClientReviewCard> {
               ),
               const SizedBox(height: 10,),
               Text(
-                "Lorem ipsum dolor sit amet consectetur. Ornare pretium sit faucibus non massa sit. At integer nulla vel nisi. Turpis morbi vulputate placerat lacus pellentesque sed."
-                    " Vel sit nibh in id dictum augue.Lorem ipsum dolor sit amet consectetur. Ornare pretium sit faucibus non massa sit. At integer nulla vel nisi. Turpis morbi vulputate placerat lacus pellentesque sed."
-                    " Vel sit nibh in id dictum augue.",textAlign: TextAlign.justify,
+                widget.buyerReview.buyerReview.toString(),textAlign: TextAlign.justify,
                 style: AppTextStyle.bodySmallGrey,
                 overflow: TextOverflow.ellipsis, maxLines: 5,)
             ],

@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -27,20 +28,24 @@ import 'widgets/rate_by_category_widget.dart';
 import 'widgets/request_confirm_offer.dart';
 
 class ServiceDetails extends StatefulWidget {
-  const ServiceDetails({super.key, this.offerDetails});
+   ServiceDetails({super.key, this.offerDetails});
   final OfferList? offerDetails;
+  Map<String,dynamic> sellerDetails = {};
   static const String routeName = '/offer-details';
   @override
   State<ServiceDetails> createState() => _ServiceDetailsState();
 }
 
 class _ServiceDetailsState extends State<ServiceDetails> {
+  String image="";
   @override
   void initState() {
+    getSellerDetails();
     ProfileScreenController.to.profileImageUrl.value='';
 
+
 ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
-ProfileScreenController.to.fetchProfileImage();
+// ProfileScreenController.to.fetchProfileImage();
     super.initState();
   }
 @override
@@ -208,17 +213,40 @@ ProfileScreenController.to.fetchProfileImage();
                       ),
                       const Divider(),
                       ListTile(
-                        leading: FittedBox(
-                          child: Obx(
-                             () {
+
+                        leading: FutureBuilder(future: ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString()),builder: (context, snapshot) {
+                         if(snapshot.hasData)
+                           {
+                             if(snapshot.data!="") {
                               return CircleAvatar(
-                                radius: 30,
-                                backgroundImage:ProfileScreenController.to.profileImageUrl.value.isNotEmpty?NetworkImage(ProfileScreenController.to.profileImageUrl.value):
-                                    AssetImage(ImageConstant.demoProfile),
+                                radius: 24,
+                                backgroundImage: NetworkImage(snapshot.data.toString())
                               );
                             }
-                          ),
-                        ),
+                             else
+                               {
+                                 return CircleAvatar(
+                                     radius: 30,
+                                     backgroundImage: AssetImage(ImageConstant.senderImg,)
+                                 );
+                                 // return Image.asset(
+                                 //   ImageConstant.senderImg,
+                                 //   height: 150,
+                                 //   width: 150,
+                                 //   fit: BoxFit.cover,
+                                 // );
+                               }
+                          }
+                         else
+                           {
+                             return CircleAvatar(
+                                 // radius: 30,
+                                 backgroundImage: AssetImage(ImageConstant.senderImg,)
+                             );
+                           }
+
+                        },),
+                        horizontalTitleGap: 8.0,
                         title: Text(
                           widget.offerDetails!.userName.toString(),
                           style: AppTextStyle.bodyMediumblack,
@@ -241,23 +269,22 @@ ProfileScreenController.to.fetchProfileImage();
                         ),
                       ),
                       const Divider(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-
-                              "Posted ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
-                          Text(
-
-                              widget.offerDetails!.district.toString()),
-                        ],
-                      ),
-
                       Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+
+                                    "Posted on ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
+                                Text(
+
+                                   "🌏 ${ widget.offerDetails!.district.toString()}"),
+                              ],
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -409,7 +436,7 @@ ProfileScreenController.to.fetchProfileImage();
                             ),
                             DetailItem(
                               title: "Address:",
-                              body:"${widget.offerDetails!.address.toString()} 🛒",
+                              body:"${widget.offerDetails!.address.toString()}",
                             ),
 
                             Text(
@@ -699,6 +726,11 @@ ProfileScreenController.to.fetchProfileImage();
         ),
       ),
     );
+  }
+
+  void getSellerDetails()async {
+  image= await ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString());
+   // widget.sellerDetails =  (await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString()))!;
   }
 }
 

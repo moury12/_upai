@@ -122,7 +122,7 @@ class _MyAppState extends State<MyApp> {
           GetPage(name: '/defaultscreen', page: () =>  DefaultScreen()),
           GetPage(name: '/login', page: () =>  const LoginScreen()),
           GetPage(name: '/profile', page: () =>   ProfileScreen(),binding: ProfileBinding()),
-          GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
+         // GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
           GetPage(name: ServiceListScreen.routeName, page: () =>  ServiceListScreen()),
           GetPage(name: CategoryListScreen.routeName, page: () =>  const CategoryListScreen()),
           GetPage(name: OtpScreen.routeName, page: () =>  const OtpScreen()),

@@ -41,14 +41,14 @@ class OrderController extends GetxController {
     },sellerID: sellerId);
   }
 
-  void completionReview() async {
+  void completionReview(String jobID,String reviewText,String rating) async {
     await RepositoryData.completionReview(body: {
-      "job_id": "205",
-      "status": "completed",
-      "buyer_review": "awsome",
-      "buyer_rating": "5",
-      "seller_review": "very nice",
-      "seller_rating": "5"
+      "job_id": jobID,
+      "status": "COMPLETED",
+      "buyer_review": reviewText,
+      "buyer_rating": rating,
+      "seller_review": "empty",
+      "seller_rating": "empty"
     });
   }
 }

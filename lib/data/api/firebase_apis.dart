@@ -179,6 +179,12 @@ class FirebaseAPIs {
        'push_token': me.pushToken,
     });
   }
+  //updateprofileImage url
+  static Future<void> updateProfileImageURL(String imageURL) async {
+    mDB.collection('users').doc(user['user_id']).update({
+      'image': imageURL,
+    });
+  }
   static Future<void> updateJobStatus(String id,String status,String notificationID,) async {
     mDB.collection('notifications').doc(id).collection("notification_list").doc(notificationID).update(
         {"status":status});

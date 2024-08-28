@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/user_info_model.dart';
+import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 
 class ProfileScreenController extends GetxController {
@@ -24,7 +25,8 @@ class ProfileScreenController extends GetxController {
     debugPrint(userInfo.value.toJson().toString());
     id.value = userInfo.value.userId ?? "";
     canEdit.value =false;
-    fetchProfileImage();
+     fetchProfileImage();
+    // getImage();
     // TODO: implement onInit
     super.onInit();
   }
@@ -38,6 +40,7 @@ Future<void> getUserData()async{
   userInfo.value = userInfoModelFromJson((box.get("user")));
 
 }
+
   void fetchProfileImage() async {
     try {
       // Define the path where the image is stored
@@ -48,12 +51,33 @@ Future<void> getUserData()async{
 
       // Get the download URL
       final downloadUrl = await ref.getDownloadURL();
+      FirebaseAPIs.updateProfileImageURL(downloadUrl.toString());
 
       // Update the profileImageUrl observable
       profileImageUrl.value = downloadUrl;
       canEdit.value = false;
     } catch (e) {
       print('Error fetching profile image URL: $e');
+    }
+  }
+  Future<String> getProfileImageURL(String userID) async {
+    try {
+      // Define the path where the image is stored
+      final destination = '$userID/profile/file';
+
+      // Get a reference to the file
+      final ref = FirebaseStorage.instance.ref(destination);
+
+      // Get the download URL
+      final downloadUrl = await ref.getDownloadURL();
+      return downloadUrl.toString();
+
+      // Update the profileImageUrl observable
+
+      // canEdit.value = false;
+    } catch (e) {
+      print('Error fetching profile image URL: $e');
+      return "";
     }
   }
   void updateProfile(String name, email)async{
@@ -76,4 +100,8 @@ Future<void> getUserData()async{
     print("&&&&&&&&&&&&&&&&&&&");
     print(box.values);
   }
+
+  // void getImage() {
+  //   profileImageUrl.value = userInfo.value.image.toString();
+  // }
 }
