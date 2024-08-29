@@ -102,7 +102,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   onTap: () => Get.toNamed('/profile'), 
                 ),
                 _buildMenuOption(
-                  icon: Icons.settings,
+                  icon: Icons.shopping_bag,
                   label: 'My Orders',
                   onTap: () {
                     Get.to(BuyerRunningOrderListScreen(runningOrder: SellerProfileController.to.seller.value.runningOrder!,));

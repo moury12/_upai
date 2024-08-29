@@ -103,25 +103,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 8,
                         ),
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                          clipBehavior: Clip.antiAlias,
-                          decoration: ShapeDecoration(
-                            color: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                          child: Text(
-                            'Search Service',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
+                        // Container(
+                        //   width: double.infinity,
+                        //   padding: EdgeInsets.symmetric(vertical: 12),
+                        //   clipBehavior: Clip.antiAlias,
+                        //   decoration: ShapeDecoration(
+                        //     color: Colors.black,
+                        //     shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(10)),
+                        //   ),
+                        //   child: Text(
+                        //     'Search Service',
+                        //     textAlign: TextAlign.center,
+                        //     style: TextStyle(
+                        //       color: Colors.white,
+                        //       fontFamily: 'Inter',
+                        //       fontWeight: FontWeight.w600,
+                        //     ),
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 20,
                         ),
