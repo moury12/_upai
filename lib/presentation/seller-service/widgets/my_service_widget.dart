@@ -106,12 +106,9 @@ class MyServiceWidget extends StatelessWidget {
                               ),
                               Flexible(
                                 child: Text(
-                                  /*isService
+                                  isService
                                       ? service!.quantity.toString()
-                                      : offerList?.quantity.toString() ?? '0',*/ isService
-                                      ? service!.district.toString()
-                                      : offerList?.district.toString() ?? '0',
-                                  maxLines: 1,
+                                      : offerList?.quantity.toString() ?? '0',
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontSize: 12,

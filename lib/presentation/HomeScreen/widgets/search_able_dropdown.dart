@@ -132,7 +132,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                                 setState(() {
                                   HomeController.to.selectedDistrictForAll.value =
                                       e['name'];
-                                  HomeController.to.filterOffer(HomeController.to.searchOfferController.value.text);
+                                  HomeController.to.filterOffer(HomeController.to.searchOfferController.value.text,HomeController.to.selectedDistrictForAll.value);
                                   Navigator.pop(context);
                                 });
                               },
