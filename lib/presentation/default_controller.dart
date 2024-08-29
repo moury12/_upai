@@ -11,6 +11,7 @@ import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/buyer%20profile/buyer_profile_controller.dart';
 import 'package:upai/presentation/seller-service/seller_profile_screen.dart';
 import 'package:upai/presentation/Inbox/inbox.dart';
 import 'package:upai/presentation/Profile/profile_screen.dart';
@@ -52,6 +53,7 @@ class DefaultController extends GetxController
     userData = userInfoModelFromJson(box.get('user'));
      Get.put(HomeController(),permanent: true);
      Get.put(SellerProfileController(),permanent: true);
+     Get.put(BuyerProfileController(),permanent: true);
      Get.put(ProfileScreenController(),permanent: true);
     FirebaseAPIs.getSelfInfo();
     WidgetsBinding.instance.addObserver(AppLifecycleListener());

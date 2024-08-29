@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:upai/Model/buyer_profile_model.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
@@ -61,6 +62,7 @@ class RepositoryData {
         print("&&&&&&&&&&&&&&&&&&&");
         print(box.values);
         //FirebaseAPIs.currentUser();
+        FirebaseAPIs.user=userInfo.toJson();
         if (!await FirebaseAPIs.userExists()) {
           FirebaseAPIs.createUser(userInfo.toJson());
           print("user creating");
@@ -138,6 +140,30 @@ class RepositoryData {
         Get.snackbar('Failed', 'Failed to load data');
       }
       return sellerProfileModel;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  static Future<BuyerProfileModel> getBuyerProfile(
+      String token, String userId) async {
+    BuyerProfileModel buyerProfileModel = BuyerProfileModel();
+    try {
+      final response = await http.get(
+          Uri.parse('${ApiClient().buyerProfile}?user_id=$userId'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          });
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      debugPrint('buyer profile $responseData');
+      if(responseData['status']!=null&&responseData['status']=="Success"){
+        buyerProfileModel =BuyerProfileModel.fromJson(responseData);
+      }else{
+        Get.snackbar('Failed', 'Failed to load data');
+      }
+      return buyerProfileModel;
     } catch (e) {
       throw Exception(e.toString());
     }

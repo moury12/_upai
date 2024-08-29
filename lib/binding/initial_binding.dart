@@ -14,12 +14,13 @@ class RootBinding implements Bindings {
 
     // Get.lazyPut(() => SplashScreenController(),);
     Get.lazyPut(() => NetworkController(),);
-    Get.lazyPut(() => LoginController(),);
+    // Get.lazyPut(() => LoginController(),);
     // Get.lazyPut(() => InboxScreenController(),);
     Get.put(SplashScreenController());
     Get.put(InboxScreenController());
     Get.put(NotificationController());
     Get.put(ChatScreenController());
+    Get.put(LoginController());
     // Get.lazyPut(() => NotificationController(),);
     // Get.lazyPut(() => ChatScreenController(),);
   }

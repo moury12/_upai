@@ -226,7 +226,7 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                              else
                                {
                                  return CircleAvatar(
-                                     radius: 30,
+                                     radius: 24,
                                      backgroundImage: AssetImage(ImageConstant.senderImg,)
                                  );
                                  // return Image.asset(
@@ -240,6 +240,7 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                          else
                            {
                              return CircleAvatar(
+                                 radius: 24,
                                  // radius: 30,
                                  backgroundImage: AssetImage(ImageConstant.senderImg,)
                              );

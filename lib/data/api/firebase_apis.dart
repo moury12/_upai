@@ -189,6 +189,10 @@ class FirebaseAPIs {
     mDB.collection('notifications').doc(id).collection("notification_list").doc(notificationID).update(
         {"status":status});
   }
+  static Future<void> deletePushToken(String userID) async {
+    mDB.collection('users').doc(userID).update(
+        {"push_token":""});
+  }
   //****************************************
   // useful for getting conversation id
   static String getConversationID(String id) =>

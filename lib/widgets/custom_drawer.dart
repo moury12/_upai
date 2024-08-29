@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
-import 'package:upai/presentation/Profile/profile_screen.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/SplashScreen/controller/splash_screen_controller.dart';
+import 'package:upai/presentation/buyer%20profile/buyer_profile_controller.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
-
 import '../core/utils/image_path.dart';
 import '../data/api/firebase_apis.dart';
-import '../presentation/buyer service/buyer_running_order_list_screen.dart';
-import '../testnotification/notification_screen_test.dart';
-
+import '../presentation/buyer profile/buyer_running_order_list_screen.dart';
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
   // final UserInfoModel userInfo;
-
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
 }
-
 class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
@@ -105,21 +99,27 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   icon: Icons.shopping_bag,
                   label: 'My Orders',
                   onTap: () {
-                    Get.to(BuyerRunningOrderListScreen(runningOrder: SellerProfileController.to.seller.value.runningOrder!,));
+                    Get.to(BuyerRunningOrderListScreen(buyer: BuyerProfileController.to.buyer.value,));
                   },
                 ),
                 _buildMenuOption(
                   icon: Icons.logout,
                   label: 'Log out',
+
                   onTap: () async {
+
+                    FirebaseAPIs.user={};
+                    FirebaseAPIs.updateActiveStatus(false);
+                    FirebaseAPIs.deletePushToken(ProfileScreenController.to.userInfo.value.userId.toString());
                     final box = Hive.box('userInfo');
                     await box.delete("user");
                     SplashScreenController.to.isLogin.value = false;
                     Get.delete<SellerProfileController>(force: true);
+                    Get.delete<BuyerProfileController>(force: true);
                     Get.delete<HomeController>(force: true);
                     Get.delete<ProfileScreenController>(force: true);
                     print("Data deleted");
-                    FirebaseAPIs.updateActiveStatus(false);
+
                     Get.offAllNamed('/login');
                   },
                 ),

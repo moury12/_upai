@@ -12,6 +12,7 @@ class ApiClient {
   String get awardCreateJob => '$_baseUrl/award_create_job';
   String get completionReview => '$_baseUrl/completion_review';
   String get sellerProfile => '$_baseUrl/seller_profile';
+  String get buyerProfile => '$_baseUrl/buyer_profile';
   String get deleteOffer => '$_baseUrl/delete_offer';
   String get editOffer => '$_baseUrl/edit_offer';
   String get userUpdate => '$_baseUrl/user_profile';

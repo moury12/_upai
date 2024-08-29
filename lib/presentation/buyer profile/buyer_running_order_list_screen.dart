@@ -1,18 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/Model/buyer_profile_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import '../../core/utils/custom_text_style.dart';
 import '../seller-service/widgets/running_order_widget.dart';
+import 'buyer_profile_controller.dart';
 
 
 class BuyerRunningOrderListScreen extends StatelessWidget {
-  final List<RunningOrder> runningOrder;
+  final BuyerProfileModel buyer;
 
-  BuyerRunningOrderListScreen({super.key, required this.runningOrder});
+  const BuyerRunningOrderListScreen({super.key, required this.buyer, });
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +46,17 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
             return RefreshIndicator(
               color: Colors.black,
                 backgroundColor: AppColors.strokeColor2,
-                child: SellerProfileController.to.seller.value.runningOrder==null
-                ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ShimmerRunnigOrder(forList: true,),
-                )
+                child: BuyerProfileController.to.buyer.value.buyerRunningOrder==null
+                ?Center(child: Text("No Running order"))
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                //   child: ShimmerRunnigOrder(forList: true,),
+                // )
                 : ListView.builder(padding: EdgeInsets.all(12),
-              itemCount: SellerProfileController.to.seller.value.runningOrder!.length,
+              itemCount: BuyerProfileController.to.buyer.value.buyerRunningOrder!.length,
               itemBuilder: (context, index) {
                 return RunningOrderWidget(
-                  runningOrder: SellerProfileController.to.seller.value.runningOrder![index],
+                  runningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
                 );
               },
             ), onRefresh: () {
