@@ -87,7 +87,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> filterDistrict(String value) async {
-    if (value=="All") {
+    if (value == "All") {
       filterDistrictList.assignAll(districtList);
       filterDistrictList.refresh();
     } else {
@@ -141,7 +141,8 @@ class HomeController extends GetxController {
     });
   }
 
-  Future<void> editOffer(String offerId, title, description, rate, address) async {
+  Future<void> editOffer(
+      String offerId, title, description, rate, address) async {
     await RepositoryData.editOffer(
         token: ProfileScreenController.to.userInfo.value.token ?? '',
         body: {
@@ -157,14 +158,21 @@ class HomeController extends GetxController {
           "address": address
         });
 
-SellerProfileController.to.service.value =MyService(userName:ProfileScreenController.to.userInfo.value.name ,
-    userId: ProfileScreenController.to.userInfo.value.userId,serviceCategoryType:selectedCategory.value!.categoryName ,
-    rateType:selectedRateType.value ,address: address,
-    description: description,district:selectedDistrict.value ,
-    jobTitle: title,offerId:offerId ,quantity: quantity.value ,rate:int.parse(rate) );
+    SellerProfileController.to.service.value = MyService(
+        userName: ProfileScreenController.to.userInfo.value.name,
+        userId: ProfileScreenController.to.userInfo.value.userId,
+        serviceCategoryType: selectedCategory.value!.categoryName,
+        rateType: selectedRateType.value,
+        address: address,
+        description: description,
+        district: selectedDistrict.value,
+        jobTitle: title,
+        offerId: offerId,
+        quantity: quantity.value,
+        rate: int.parse(rate));
     await SellerProfileController.to.refreshAllData();
     // SellerProfileController.to.myService.refresh();
-   // SellerProfileController.to.service.value =
+    // SellerProfileController.to.service.value =
   }
 
   void increaseQuantity() {
@@ -190,30 +198,35 @@ SellerProfileController.to.service.value =MyService(userName:ProfileScreenContro
     }
   }
 
-  void filterOffer(String query) async {
-    if (query.isNotEmpty || selectedDistrictForAll.value != null) {
-      if(selectedDistrictForAll.value=="All Districts")
-        {
-          filteredOfferList.value=getOfferList.toList();
-        }
-      else
-        {
-          debugPrint('------------${selectedDistrictForAll.value}');
-          debugPrint('------------${searchOfferController.value.text }');
-          filteredOfferList.value = getOfferList.where(
-                (element) {
-              final isDistrictMatching = element.district != null &&
-                  element.district!.contains(selectedDistrictForAll.value!);
+  void filterOffer(String query,String? district) async {
+    if (query.isNotEmpty || district != null) {
+      if (district == "All Districts") {
+        filteredOfferList.value = getOfferList.where(
+          (element) {
+            final isQueryMatching =
+                element.jobTitle!.toLowerCase().contains(query.toLowerCase());
 
-              final isQueryMatching = element.jobTitle!
-                  .toLowerCase()
-                  .contains(query.toLowerCase());
+            return isQueryMatching;
+          },
+        ).toList();
 
-              return isQueryMatching && isDistrictMatching;
-            },
-          ).toList();
-        }
+        // filteredOfferList.value=getOfferList.toList();
+      } else {
+        debugPrint('------------${selectedDistrictForAll.value}');
+        debugPrint('------------${searchOfferController.value.text}');
+        filteredOfferList.value = getOfferList.where(
+          (element) {
+            final isDistrictMatching = element.district !=
+                    null /*&&selectedDistrictForAll.value!="All Districts"*/ &&
+                element.district!.contains(district!);
 
+            final isQueryMatching =
+                element.jobTitle!.toLowerCase().contains(query.toLowerCase());
+
+            return isQueryMatching && isDistrictMatching;
+          },
+        ).toList();
+      }
     } else {
       debugPrint('----++--${selectedDistrictForAll.value}');
       filteredOfferList.value = getOfferList;

@@ -57,6 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.black,
           backgroundColor: Colors.white,
           onRefresh: () {
+            controller.searchOfferController.value.clear();
+            controller.selectedDistrictForAll.value = null;
+            controller.isSearching.value = false;
             return controller.refreshAllData();
           },
           child: SingleChildScrollView(
@@ -82,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               HomeController.to.searchOfferController.value,
                           onChanged: (value) {
                             if (value.isNotEmpty) {
-                              controller.filterOffer(value);
+                              controller.filterOffer(value,HomeController.to.selectedDistrictForAll.value);
                               controller.isSearching.value = true;
                             } else {
                               controller.isSearching.value = false;
@@ -141,11 +144,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: IconButton.styleFrom(
                               shape: CircleBorder(),
                             ),
-                            onPressed: () {
-                              HomeController.to.selectedDistrictForAll.value =
-                                  null;HomeController.to.filteredOfferList = HomeController.to.getOfferList;
-                              HomeController.to.searchOfferController.value
-                                  .clear();
+                            onPressed: () async {
+                              controller.searchOfferController.value.clear();
+                              controller.isSearching.value = false;
+                              controller.selectedDistrictForAll.value = null;
+                              await controller.refreshAllData();
                             },
                             icon: Icon(CupertinoIcons.restart)),
                       ),
