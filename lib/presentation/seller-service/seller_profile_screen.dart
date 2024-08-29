@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
@@ -27,7 +28,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
   @override
   void initState() {
     Get.put(OrderController());
-
+Get.put(NetworkController());
     // TODO: implement initState
     super.initState();
   }
@@ -85,7 +86,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  seller.sellerProfile == null
+                  seller.sellerProfile == null||!NetworkController.to.connectedInternet.value
                       ? ShimmerSellerStatus()
                       : GridView(
                           gridDelegate:
@@ -253,7 +254,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  seller.runningOrder == null
+                  seller.runningOrder == null ||!NetworkController.to.connectedInternet.value
                       ? ShimmerRunnigOrder()
                       : seller.runningOrder!.isEmpty
                           ? SizedBox.shrink()
@@ -292,7 +293,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       ),
                     ],
                   ),
-                  seller.myService == null || seller.myService!.isEmpty
+                  seller.myService == null || seller.myService!.isEmpty ||!NetworkController.to.connectedInternet.value
                       ? ShimmerOfferList()
                       : GridView.builder(
                           shrinkWrap: true,

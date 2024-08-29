@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/admob/v1.dart';
 import 'package:intl/intl.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
@@ -19,144 +20,144 @@ class MyServiceWidget extends StatelessWidget {
     // Determine if we're using service or offerList
     final isService = service != null;
 
-    return Container(
-      // width: 200,
-      padding: EdgeInsets.all(12),
-      alignment: Alignment.topCenter,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-              color: AppColors.strokeColor2, spreadRadius: 2, blurRadius: 2)
-        ],
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Expanded(flex: 3,
-            child: Image.asset(
-              ImageConstant.productImage,
-              // height: 80,
-            ),
-          ),
-          Expanded(
-              flex: 4,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    height: 2,
-                  ),
-                  // FittedBox(
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Text(
-                  //         'Offer ID: ${isService ? service!.offerId : offerList?.offerId ?? ' '}',
-                  //         style: TextStyle(
-                  //             fontSize: 10, fontWeight: FontWeight.w600),
-                  //       ),
-                  //       SizedBox(
-                  //         width: MediaQuery.of(context).size.width / 5,
-                  //       ),
-                  //       Text(
-                  //         '${DateFormat('dd-MM-yyyy').format(DateTime.parse(isService ? service!.dateTime.toString() : offerList?.dateTime.toString() ?? ''))}',
-                  //         style: TextStyle(
-                  //             fontSize: 10, fontWeight: FontWeight.w600),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  Text(
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    isService
-                        ? service!.jobTitle ?? ''
-                        : offerList?.jobTitle ?? '',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    maxLines: 1,
-                    isService? service!.district ?? ''
-                      : offerList?.district ?? '',style: AppTextStyle.titleTextSmallUnderline,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Expanded(
-                      //   child:
-                      // ),
-                      Expanded(
-                        child: Container(
-                          width: double.infinity,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            // overflowAlignment: OverflowBarAlignment.end,
-                            // alignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(
-                                CupertinoIcons.cart,
-                                size: 15,
-                              ),
-                              SizedBox(
-                                width: 2,
-                              ),
-                              Flexible(
-                                child: Text(
-                                  isService
-                                      ? service!.quantity.toString()
-                                      : offerList?.quantity.toString() ?? '0',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+    return Stack(clipBehavior: Clip.none,
+      children: [
+      Container(
+        // width: 200,
+        padding: EdgeInsets.all(12),
+        alignment: Alignment.topCenter,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                color: AppColors.strokeColor2, spreadRadius: 2, blurRadius: 2)
+          ],
 
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
-                            '৳ ${isService ? service!.rate : offerList?.rate ?? '0'}',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w600),
+        ),
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              flex: 4,
+              child: Image.asset(
+                ImageConstant.productImage,
+                // height: 80,
+              ),
+            ),
+            Expanded(
+                flex: 4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      height: 2,
+                    ),
+                    // FittedBox(
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Text(
+                    //         'Offer ID: ${isService ? service!.offerId : offerList?.offerId ?? ' '}',
+                    //         style: TextStyle(
+                    //             fontSize: 10, fontWeight: FontWeight.w600),
+                    //       ),
+                    //       SizedBox(
+                    //         width: MediaQuery.of(context).size.width / 5,
+                    //       ),
+                    //       Text(
+                    //         '${DateFormat('dd-MM-yyyy').format(DateTime.parse(isService ? service!.dateTime.toString() : offerList?.dateTime.toString() ?? ''))}',
+                    //         style: TextStyle(
+                    //             fontSize: 10, fontWeight: FontWeight.w600),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    Text(
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      isService
+                          ? service!.jobTitle ?? ''
+                          : offerList?.jobTitle ?? '',
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Expanded(
+                        //   child:
+                        // ),
+                        Expanded(
+                          child: Container(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              // overflowAlignment: OverflowBarAlignment.end,
+                              // alignment: MainAxisAlignment.end,
+                              children: [
+                                Icon(
+                                  CupertinoIcons.cart,
+                                  size: 15,
+                                ),
+                                SizedBox(
+                                  width: 2,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    isService
+                                        ? service!.quantity.toString()
+                                        : offerList?.quantity.toString() ?? '0',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   children: [
-                  //     Expanded(
-                  //       child: Text(
-                  //         maxLines: 1,
-                  //         overflow: TextOverflow.ellipsis,
-                  //         isService
-                  //             ? service!.serviceCategoryType ?? ''
-                  //             : offerList?.serviceCategoryType ?? '',
-                  //         style: TextStyle(
-                  //             fontSize: 12,
-                  //             fontWeight: FontWeight.w600,
-                  //             color: Colors.grey.shade600),
-                  //       ),
-                  //     ),
-                  //
-                  //   ],
-                  // ),
-                  /*button == null
+
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
+                              '৳ ${isService ? service!.rate : offerList?.rate ?? '0'}',
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   children: [
+                    //     Expanded(
+                    //       child: Text(
+                    //         maxLines: 1,
+                    //         overflow: TextOverflow.ellipsis,
+                    //         isService
+                    //             ? service!.serviceCategoryType ?? ''
+                    //             : offerList?.serviceCategoryType ?? '',
+                    //         style: TextStyle(
+                    //             fontSize: 12,
+                    //             fontWeight: FontWeight.w600,
+                    //             color: Colors.grey.shade600),
+                    //       ),
+                    //     ),
+                    //
+                    //   ],
+                    // ),
+                    /*button == null
                       ? Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -170,14 +171,24 @@ class MyServiceWidget extends StatelessWidget {
                           ),
                         )
                       : */
-
-                ],
-              )),
-      button!=null?    Expanded(flex: 2,
-              child: button!):SizedBox.shrink(),
-        ],
+                  ],
+                )),
+            button != null
+                ? Expanded(flex: 2, child: button!)
+                : SizedBox.shrink(),
+          ],
+        ),
       ),
-    );
+     if (  offerList?.district!=null&&offerList!.district!.isNotEmpty||service?.district!=null&&service!.district!.isNotEmpty/*||offerList?.district.isNotEmpty*/)  Positioned(top: 0,
+        left: 0,
+        child:    Container(padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(color: AppColors.kgreyColor,borderRadius: BorderRadius.only(bottomRight: Radius.circular(10),topLeft: Radius.circular(15))),
+          child: Text(
+          maxLines: 1,
+          isService? service!.district ?? ''
+              : offerList?.district ?? '' ,  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600,color: Colors.white),),
+        ),)
+    ],);
   }
 }
 
@@ -210,11 +221,11 @@ class SellerStatusWidget extends StatelessWidget {
             flex: 5,
             child: Row(
               children: [
-                Container(alignment: Alignment.center,
+                Container(
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      color: color ?? Colors.lightBlue,
-                      shape: BoxShape.circle),
-                padding: EdgeInsets.all(4),
+                      color: color ?? Colors.lightBlue, shape: BoxShape.circle),
+                  padding: EdgeInsets.all(4),
                   child: Icon(
                     icon ?? Icons.attach_money,
                     color: Colors.white,
@@ -227,13 +238,10 @@ class SellerStatusWidget extends StatelessWidget {
                 Expanded(
                     flex: 3,
                     child: Text(
-
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       title ?? 'Total Earning',
-                      style: TextStyle(
-
-                          fontWeight: FontWeight.w600),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ))
               ],
             ),

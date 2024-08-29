@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Explore/service_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
@@ -27,6 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     controller.isSearching.value = false;
+    Get.put(NetworkController());
+
     super.initState();
   }
 
@@ -239,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                           Obx(() {
-                            return HomeController.to.getCatList.isEmpty
+                            return HomeController.to.getCatList.isEmpty ||!NetworkController.to.connectedInternet.value
                                 ? ShimmerCategoryList()
                                 : SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
@@ -304,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                           Obx(() {
-                            return HomeController.to.getOfferList.isEmpty
+                            return HomeController.to.getOfferList.isEmpty || !NetworkController.to.connectedInternet.value
                                 ? const ShimmerOfferList()
                                 : GridView.builder(
                                     shrinkWrap: true,

@@ -7,6 +7,8 @@ import 'package:upai/presentation/SplashScreen/controller/splash_screen_controll
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 
 class NetworkController extends GetxController {
+  static NetworkController  get to =>Get.find();
+  RxBool connectedInternet = true.obs;
   final Connectivity _connectivity = Connectivity();
 
   @override
@@ -19,6 +21,7 @@ class NetworkController extends GetxController {
 
     if (connectivityResult == ConnectivityResult.none) {
       FirebaseAPIs.updateActiveStatus(false);
+      connectedInternet.value = false;
       Get.rawSnackbar(
           messageText: const Text(
               'PLEASE CONNECT TO THE INTERNET',
@@ -35,6 +38,7 @@ class NetworkController extends GetxController {
           snackStyle: SnackStyle.GROUNDED
       );
     } else {
+       connectedInternet.value= true;
       if (Get.isSnackbarOpen) {
         Get.closeCurrentSnackbar();
       }if(SplashScreenController.to.isLogin.value){

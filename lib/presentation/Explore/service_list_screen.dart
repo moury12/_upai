@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
@@ -23,7 +24,12 @@ class ServiceListScreen extends StatefulWidget {
 
 class _ServiceListScreenState extends State<ServiceListScreen> {
   HomeController controller = HomeController.to;
-
+@override
+  void initState() {
+  Get.put(NetworkController());
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -52,7 +58,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
       onPopInvoked: (didPop) {
         controller.searchController.value.clear();
 
-        controller.filterOffer('',null);
+        controller.filterOffer('', null);
       },
       child: Scaffold(
           backgroundColor: AppColors.strokeColor2,
@@ -68,7 +74,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                 Get.back();
                 controller.searchController.value.clear();
 
-                controller.filterOffer('',HomeController.to.selectedDistrictForAll.value);
+                controller.filterOffer(
+                    '', HomeController.to.selectedDistrictForAll.value);
               },
             ),
             title: widget.selectedCat != null
@@ -85,23 +92,26 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             color: Colors.black,
             backgroundColor: Colors.white,
             onRefresh: () async {
-              controller.filterOffer(controller.searchController.value.text,HomeController.to.selectedDistrictForAll.value);
+              controller.filterOffer(controller.searchController.value.text,
+                  HomeController.to.selectedDistrictForAll.value);
             },
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:8.0)
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0)
                       .copyWith(bottom: 8),
                   child: Obx(() {
                     return CustomTextField(
                       controller: controller.searchController.value,
                       onChanged: (value) {
-                        controller.filterOffer(value!,HomeController.to.selectedDistrictForAll.value);
+                        controller.filterOffer(value!,
+                            HomeController.to.selectedDistrictForAll.value);
                       },
                       onPressed: () {
                         controller.searchController.value.clear();
 
-                        controller.filterOffer('',HomeController.to.selectedDistrictForAll.value);
+                        controller.filterOffer(
+                            '', HomeController.to.selectedDistrictForAll.value);
                       },
                       hintText: "Search service..",
                       suffixIcon: IconButton(
@@ -111,7 +121,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                         ),
                         onPressed: () {
                           controller.searchController.value.clear();
-                          controller.filterOffer('',HomeController.to.selectedDistrictForAll.value);
+                          controller.filterOffer('',
+                              HomeController.to.selectedDistrictForAll.value);
                         },
                       ),
                     );
@@ -120,13 +131,23 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                 SearchableDropDown(),
                 Obx(
                   () {
-                    if (controller.filteredOfferList.isEmpty) {
+                    if (!NetworkController.to.connectedInternet.value) {
                       return Expanded(
+
                         child: Padding(
-                          padding: const EdgeInsets.all(12.0).copyWith(
-                            top: 0
+                          padding: const EdgeInsets.all(12.0).copyWith(top: 0),
+                          child: ShimmerOfferList(
+                            fromServiceList: true,
                           ),
-                          child: ShimmerOfferList(fromServiceList: true,),
+                        ),
+                      );
+                    } else if (controller.filteredOfferList.isEmpty) {
+                      return Expanded(
+                        child: SingleChildScrollView(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          child: Center(
+                            child: Text('service list is empty'),
+                          ),
                         ),
                       );
                     } else {
@@ -185,10 +206,12 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                         ));
                       } else {
                         return Expanded(
-                            child:  Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ShimmerOfferList(fromServiceList: true,),
-                            ));
+                            child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ShimmerOfferList(
+                            fromServiceList: true,
+                          ),
+                        ));
                       }
                     }
                   },
