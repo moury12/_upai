@@ -192,20 +192,28 @@ SellerProfileController.to.service.value =MyService(userName:ProfileScreenContro
 
   void filterOffer(String query) async {
     if (query.isNotEmpty || selectedDistrictForAll.value != null) {
-      debugPrint('------------${selectedDistrictForAll.value}');
-      debugPrint('------------${searchOfferController.value.text }');
-      filteredOfferList.value = getOfferList.where(
-            (element) {
-          final isDistrictMatching = element.district != null &&
-              element.district!.contains(selectedDistrictForAll.value!);
+      if(selectedDistrictForAll.value=="All Districts")
+        {
+          filteredOfferList.value=getOfferList.toList();
+        }
+      else
+        {
+          debugPrint('------------${selectedDistrictForAll.value}');
+          debugPrint('------------${searchOfferController.value.text }');
+          filteredOfferList.value = getOfferList.where(
+                (element) {
+              final isDistrictMatching = element.district != null &&
+                  element.district!.contains(selectedDistrictForAll.value!);
 
-          final isQueryMatching = element.jobTitle!
-              .toLowerCase()
-              .contains(query.toLowerCase());
+              final isQueryMatching = element.jobTitle!
+                  .toLowerCase()
+                  .contains(query.toLowerCase());
 
-          return isQueryMatching && isDistrictMatching;
-        },
-      ).toList();
+              return isQueryMatching && isDistrictMatching;
+            },
+          ).toList();
+        }
+
     } else {
       debugPrint('----++--${selectedDistrictForAll.value}');
       filteredOfferList.value = getOfferList;
