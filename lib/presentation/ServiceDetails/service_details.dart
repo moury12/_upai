@@ -1,10 +1,10 @@
 import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 import 'package:upai/Model/user_info_model.dart';
@@ -183,13 +183,11 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                                       }
                                     },
                                     icon: ctrl.isFav.value
-                                        ? const FaIcon(
-                                            FontAwesomeIcons.solidHeart,
-                                            color: Colors.red,
-                                          )
-                                        : const FaIcon(
+                                        ? const Icon(CupertinoIcons.heart_fill,color: Colors.red,)
+                                        : /*const FaIcon(
                                             FontAwesomeIcons.heart,
-                                          ),
+                                          ),*/
+                                    const Icon(CupertinoIcons.heart),
                                   );
                                 })),
                             Positioned(
@@ -699,7 +697,7 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                                                             ),
                                                           ));
                                                     },
-                                                    child: Text('Book Now'),
+                                                    child: const Text('Book Now'),
                                                   ),
                                                 ),
 
@@ -762,7 +760,7 @@ class DetailItem extends StatelessWidget {
             )),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 3,
         ),
       ],
