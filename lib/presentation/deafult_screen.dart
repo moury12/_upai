@@ -7,6 +7,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/widgets/custom_drawer.dart';
 import 'package:upai/presentation/default_controller.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,11 @@ class DefaultScreen extends StatelessWidget {
         onPopInvoked: (didPop) {
           if (ctrl.selectedIndex.value != 0) {
             ctrl.selectedIndex.value = 0;
-          } else {
+          } else if(ctrl.selectedIndex.value==0 && HomeController.to.searchOfferController.value.text!=""){
+            HomeController.to.searchOfferController.value.text="";
+          }
+          else
+            {
             showDialog(
               context: context,
               builder: (context) {
@@ -37,14 +42,14 @@ class DefaultScreen extends StatelessWidget {
                   ),
                   content: Text('Are you sure to close this app?',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500),),
                actions: [ElevatedButton(
-                 style: ElevatedButton.styleFrom(backgroundColor: Colors.pink,foregroundColor:Colors.white ),
+                 style: ElevatedButton.styleFrom(backgroundColor: AppColors.cancelButtonColor,foregroundColor:Colors.white ),
                    onPressed: () {
                    exit(0);
                      Navigator.pop(context);
                }, child: Text('Yes')),ElevatedButton(
-                 style: ElevatedButton.styleFrom(backgroundColor: Colors.black,foregroundColor:Colors.white ),
+                 style: ElevatedButton.styleFrom(backgroundColor: AppColors.confirmButtonColor,foregroundColor:Colors.white ),
                    onPressed: () {
-Navigator.pop(context);
+                    Navigator.pop(context);
                }, child: Text('No'))],
                 );
               },

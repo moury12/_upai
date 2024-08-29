@@ -84,4 +84,6 @@ class AppColors {
   static const Color secondaryTextColor = Color(0xFF666666); // Slightly lighter text for secondary content
   static const Color iconColor = Color(0xFF4A4A4A); // Standard color for icons
   static const Color dividerColor = Color(0xFFE0E0E0); // Light color for dividers
+  static const Color cancelButtonColor = Color(0xFFBC0404); // Light color for dividers
+  static const Color confirmButtonColor = Color(0xFF131313); // Light color for dividers
 }

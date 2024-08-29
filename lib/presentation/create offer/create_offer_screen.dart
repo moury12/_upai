@@ -318,7 +318,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           .digitsOnly, /*FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9][0-9][0-9]?$')),*/
                                     ],
                                     validatorText: "Please Enter quantity",
-                                    hintText: "Please Enter quantity",
+                                    hintText: "0",
                                     textAlign: TextAlign.center,
                                     inputType: TextInputType.number,
                                     controller: HomeController

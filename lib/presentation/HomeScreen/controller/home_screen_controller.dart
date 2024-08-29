@@ -87,8 +87,9 @@ class HomeController extends GetxController {
   }
 
   Future<void> filterDistrict(String value) async {
-    if (value.isEmpty) {
+    if (value=="All") {
       filterDistrictList.assignAll(districtList);
+      filterDistrictList.refresh();
     } else {
       filterDistrictList.assignAll(districtList.where((dis) {
         // debugPrint( dis['name'].toString());

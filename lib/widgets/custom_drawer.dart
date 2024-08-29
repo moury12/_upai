@@ -12,6 +12,7 @@ import 'package:upai/presentation/seller-service/seller_profile_controller.dart'
 
 import '../core/utils/image_path.dart';
 import '../data/api/firebase_apis.dart';
+import '../presentation/buyer service/buyer_running_order_list_screen.dart';
 import '../testnotification/notification_screen_test.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -102,8 +103,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 _buildMenuOption(
                   icon: Icons.settings,
-                  label: 'Settings',
-                  onTap: () {},
+                  label: 'My Orders',
+                  onTap: () {
+                    Get.to(BuyerRunningOrderListScreen(runningOrder: SellerProfileController.to.seller.value.runningOrder!,));
+                  },
                 ),
                 _buildMenuOption(
                   icon: Icons.logout,

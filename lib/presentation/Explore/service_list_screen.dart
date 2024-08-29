@@ -7,7 +7,6 @@ import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/widgets/custom_text_field.dart';
-import 'package:upai/widgets/item_service.dart';
 
 import '../../core/utils/custom_text_style.dart';
 
