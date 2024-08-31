@@ -181,7 +181,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                           itemBuilder: (context, index) {
                             final service = offerList[index];
                             return MyServiceWidget(
-                              offerList: service,
+                              offerItem: service,
                               button: Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: SizedBox(

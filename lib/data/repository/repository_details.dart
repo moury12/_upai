@@ -9,6 +9,7 @@ import 'package:upai/Model/notification_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import '../../Model/user_info_model.dart';
 import '../../presentation/Profile/profile_screen_controller.dart';
@@ -309,7 +310,10 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
+     await HomeController.to.uploadImage(responseData["offer_id"].toString());
+     print(responseData["offer_id"].toString());
       Get.snackbar('Success', responseData['message']);
+
     } else {
       Get.snackbar('Error', 'Failed to create offer');
     }
@@ -415,7 +419,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.value.name.toString();
         orderNotificationData["seller_name"]=senderData.name.toString();
         orderNotificationData["notification_title"]="You Have a Confirm Order Request";
-        orderNotificationData["created_time"]=DateTime.now().toString();
+        orderNotificationData["created_time"]=DateTime.now().millisecondsSinceEpoch.toString();
          orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} send you a request for confirm order of ${body["job_title"]}";
 
 

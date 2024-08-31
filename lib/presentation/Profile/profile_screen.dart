@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(ctrl.canEdit!.value.toString());
+    debugPrint(ctrl.canEdit.value.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
-                            child: ctrl.canEdit!.value == true && image != null
+                            child: ctrl.canEdit.value == true && image != null
                                 ? Image.file(
                                     File(image!.path),
                                     height: 150,
@@ -272,9 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future uploadFile() async {
     if (image == null) return;
-    final fileName = 'profile';
-    final destination = '${ctrl.userInfo.value.userId}/$fileName';
-
+    final destination = 'ProfileImages/${ctrl.userInfo.value.userId}/';
     try {
       final ref = FirebaseStorage.instance.ref(destination).child('file/');
       // Uint8List imageData = await File(image!.path).readAsBytes();

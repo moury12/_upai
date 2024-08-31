@@ -46,7 +46,7 @@ class OrderController extends GetxController {
       "job_id": jobID,
       "status": "COMPLETED",
       "buyer_review": reviewText,
-      "buyer_rating": rating,
+      "buyer_rating": double.parse(rating),
       "seller_review": "empty",
       "seller_rating": "empty"
     });

@@ -44,7 +44,7 @@ Future<void> getUserData()async{
   void fetchProfileImage() async {
     try {
       // Define the path where the image is stored
-      final destination = '${id.value}/profile/file';
+      final destination = 'ProfileImages/${id.value}/file';
 
       // Get a reference to the file
       final ref = FirebaseStorage.instance.ref(destination);
@@ -63,7 +63,7 @@ Future<void> getUserData()async{
   Future<String> getProfileImageURL(String userID) async {
     try {
       // Define the path where the image is stored
-      final destination = '$userID/profile/file';
+      final destination = 'ProfileImages/$userID/file';
 
       // Get a reference to the file
       final ref = FirebaseStorage.instance.ref(destination);

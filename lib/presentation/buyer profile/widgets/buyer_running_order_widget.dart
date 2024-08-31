@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/Model/buyer_profile_model.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/controllers/order_controller.dart';
@@ -15,11 +16,10 @@ class BuyerRunningOrderWidget extends StatefulWidget {
   final Function()? jobStatus;
   const BuyerRunningOrderWidget({
     super.key,
-    required this.runningOrder,
-    this.jobStatus,
+    this.jobStatus, required this.buyerRunningOrder,
   });
 
-  final RunningOrder runningOrder;
+  final BuyerRunningOrder buyerRunningOrder;
 
   @override
   State<BuyerRunningOrderWidget> createState() => _BuyerRunningOrderWidgetState();
@@ -39,88 +39,105 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+      if(widget.buyerRunningOrder.status=='DELIVERED') {
         showDialog(
           context: context,
           builder: (context) {
-            if(widget.runningOrder.status=='DELIVERED')
-              {
-                return AlertDialog(
-                  backgroundColor: AppColors.strokeColor2,
-                  title: const Icon(
-                    Icons.task_alt_outlined,
-                    size: 40,
-                  ),
-                  alignment: Alignment.center,
-                  content: Column(mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        textAlign: TextAlign.center,
-                        'Is your service delivered?',
-                        style: TextStyle(
-                            fontSize:18,
-                            fontWeight: FontWeight.w600),
-                      ),SizedBox(height: 10,),Row(children: [
-                        Expanded(
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.lightGreen,
-                                  padding: EdgeInsets.symmetric(vertical: 12),
+            return AlertDialog(
+              backgroundColor: AppColors.strokeColor2,
+              title: const Icon(
+                Icons.task_alt_outlined,
+                size: 40,
+              ),
+              alignment: Alignment.center,
+              content: Column(mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    textAlign: TextAlign.center,
+                    'Is your service delivered?',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                  ), SizedBox(height: 10,), Row(children: [
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.lightGreen,
+                              padding: EdgeInsets.symmetric(vertical: 12),
 
-                                  foregroundColor: Colors.white),
-                              onPressed: () async {
-                                Navigator.pop(context);
-                                NotificationModel newNotificationData = NotificationModel();
-                                newNotificationData.jobId=widget.runningOrder.jobId;
-                                newNotificationData.buyerId=widget.runningOrder.buyerId;
-                                newNotificationData.sellerId=widget.runningOrder.sellerId;
-                                newNotificationData.quantity=widget.runningOrder.quantity.toString();
-                                newNotificationData.rateType=widget.runningOrder.rateType;
-                                newNotificationData.rate=widget.runningOrder.rate;
-                                newNotificationData.total=widget.runningOrder.total.toString();
-                                newNotificationData.jobTitle=widget.runningOrder.jobTitle.toString();
-                                newNotificationData.status="COMPLETED";
-                                newNotificationData.createdTime=DateTime.now().toString();
-                                newNotificationData.description=widget.runningOrder.description.toString();
-                                newNotificationData.notificationTitle="${widget.runningOrder.jobTitle} Job Completed";
-                                newNotificationData.notificationMsg="Congratulations you have completed the service.Thank you for using Upai";
-                                await RepositoryData.jobStatus(body: {
-                                  "job_id": widget.runningOrder.jobId,
-                                  "status": "COMPLETED",
-                                  "award_date": widget.runningOrder.awardDate,
-                                  "completion_date": DateTime.now().toString()
+                              foregroundColor: Colors.white),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            NotificationModel newNotificationData = NotificationModel();
+                            newNotificationData.jobId =
+                                widget.buyerRunningOrder.jobId;
+                            newNotificationData.buyerId =
+                                widget.buyerRunningOrder.buyerId;
+                            newNotificationData.sellerId =
+                                widget.buyerRunningOrder.sellerId;
+                            newNotificationData.quantity =
+                                widget.buyerRunningOrder.quantity.toString();
+                            newNotificationData.rateType =
+                                widget.buyerRunningOrder.rateType;
+                            newNotificationData.rate =
+                                widget.buyerRunningOrder.rate.toString();
+                            newNotificationData.total =
+                                widget.buyerRunningOrder.total.toString();
+                            newNotificationData.jobTitle =
+                                widget.buyerRunningOrder.jobTitle.toString();
+                            newNotificationData.status = "COMPLETED";
+                            newNotificationData.createdTime = DateTime
+                                .now()
+                                .millisecondsSinceEpoch
+                                .toString();
+                            newNotificationData.description =
+                                widget.buyerRunningOrder.description.toString();
+                            newNotificationData.notificationTitle =
+                            "${widget.buyerRunningOrder
+                                .jobTitle} Job Completed";
+                            newNotificationData.notificationMsg =
+                            "Congratulations you have completed the service.Thank you for using Upai";
+                            await RepositoryData.jobStatus(body: {
+                              "job_id": widget.buyerRunningOrder.jobId,
+                              "status": "COMPLETED",
+                              "award_date": widget.buyerRunningOrder.awardDate,
+                              "completion_date": DateTime.now().toString()
+                            },
+                                isDialogScreen: false,
+                                context: context,
+                                msg: newNotificationData.notificationMsg
+                                    .toString(),
+                                title: newNotificationData.notificationTitle
+                                    .toString(),
+                                notification: newNotificationData,
+                                idStatusUpdate: newNotificationData.sellerId
+                                    .toString());
 
-                                },isDialogScreen: false,context: context,msg: newNotificationData.notificationMsg.toString(),title: newNotificationData.notificationTitle.toString(),notification: newNotificationData,idStatusUpdate: newNotificationData.sellerId.toString());
+                            await SellerProfileController.to.refreshAllData();
+                          },
+                          child: const Text('Yes')),
+                    ),
+                    SizedBox(width: 8,),
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              padding: EdgeInsets.symmetric(vertical: 12),
+                              foregroundColor: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('No')),
+                    )
+                  ],)
+                ],
+              ),
+              actionsAlignment: MainAxisAlignment.center,
 
-                                await SellerProfileController.to.refreshAllData();
-                              },
-                              child: const Text('Yes')),
-                        ),
-                        SizedBox(width: 8,),
-                        Expanded(
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  padding: EdgeInsets.symmetric(vertical: 12),
-                                  foregroundColor: Colors.white),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('No')),
-                        )
-                      ],)
-                    ],
-                  ),
-                  actionsAlignment: MainAxisAlignment.center,
-
-                );
-              }
-            else
-              {
-                return SizedBox(height: 0,);
-              }
-
+            );
           },
         );
+      }
       },
       child: Container(
         padding: EdgeInsets.all(12),
@@ -171,13 +188,13 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                     children: [
                       Expanded(
                           child: Text(
-                        widget.runningOrder.jobTitle ?? 'job title',
+                        widget.buyerRunningOrder.jobTitle ?? 'job title',
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w600),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       )),
-                      Text("৳ ${widget.runningOrder.total ?? '0.00'}",
+                      Text("৳ ${widget.buyerRunningOrder.total ?? '0.00'}",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w700)),
                     ],
@@ -186,13 +203,13 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                   Text(
-                    widget.runningOrder.description ?? '',
+                    widget.buyerRunningOrder.description ?? '',
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                      '${widget.runningOrder.rateType ?? ' '}(${widget.runningOrder.rate})',
+                      '${widget.buyerRunningOrder.rateType ?? ' '}(${widget.buyerRunningOrder.rate})',
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
                   Row(
@@ -210,7 +227,7 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                             SizedBox(
                               width: 2,
                             ),
-                            Text('${widget.runningOrder.quantity ?? ''}',
+                            Text('${widget.buyerRunningOrder.quantity ?? ''}',
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w500)),
                           ],
@@ -227,7 +244,7 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                               EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                           child: Text(
                               textAlign: TextAlign.center,
-                              '${widget.runningOrder.status ?? ''}',
+                              '${widget.buyerRunningOrder.status ?? ''}',
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w500)),
                         ),

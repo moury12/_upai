@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:upai/Model/user_info_model.dart';
@@ -380,5 +381,63 @@ class FirebaseAPIs {
         .doc(user['user_id'])
         .collection('notification_list')
         .snapshots();
+  }
+  //fetch offer image from firebase
+ static Future<String?> fetchOfferImageUrl(String offerId) async {
+    try {
+      // Reference to the specific document
+      final documentRef = mDB
+          .collection('OfferImage')
+          .doc(offerId);
+
+      // Get the document snapshot
+      final documentSnapshot = await documentRef.get();
+
+      // Check if the document exists
+      if (documentSnapshot.exists) {
+        // Extract the 'imageUrl' field from the document
+        final data = documentSnapshot.data();
+        return data?['imageUrl'].toString();
+      } else {
+        print('Document does not exist');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching image URL: $e');
+      return null;
+    }
+  }
+  //fetch default cat image
+  static Future<String?> fetchDefaultOfferImageUrl(String category) async {
+    try {
+      final destination = 'CategoryDefaultOfferImage/$category/application.jpg';
+
+      // Get a reference to the file
+      final ref = FirebaseStorage.instance.ref(destination);
+
+      // Get the download URL
+      final downloadUrl = await ref.getDownloadURL();
+      return downloadUrl;
+      // // Reference to the specific document
+      // final documentRef = mDB
+      //     .collection('OfferImage')
+      //     .doc(offerId);
+      //
+      // // Get the document snapshot
+      // final documentSnapshot = await documentRef.get();
+      //
+      // // Check if the document exists
+      // if (documentSnapshot.exists) {
+      //   // Extract the 'imageUrl' field from the document
+      //   final data = documentSnapshot.data();
+      //   return data?['imageUrl'].toString();
+      // } else {
+      //   print('Document does not exist');
+      //   return null;
+      // }
+    } catch (e) {
+      print('Error fetching image URL: $e');
+      return null;
+    }
   }
 }

@@ -5,6 +5,7 @@ import 'package:upai/Model/buyer_profile_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
+import 'package:upai/presentation/buyer%20profile/widgets/buyer_running_order_widget.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import '../../core/utils/custom_text_style.dart';
 import '../seller-service/widgets/running_order_widget.dart';
@@ -55,12 +56,12 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
                 : ListView.builder(padding: EdgeInsets.all(12),
               itemCount: BuyerProfileController.to.buyer.value.buyerRunningOrder!.length,
               itemBuilder: (context, index) {
-                return RunningOrderWidget(
-                  runningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
+                return BuyerRunningOrderWidget(
+                  buyerRunningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
                 );
               },
             ), onRefresh: () {
-              return SellerProfileController.to.refreshAllData();
+              return BuyerProfileController.to.refreshAllData();
             },);
           }
         ));

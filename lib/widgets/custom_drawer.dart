@@ -99,6 +99,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   icon: Icons.home_repair_service_rounded,
                   label: 'My Orders',
                   onTap: () {
+                    BuyerProfileController.to.getBuyerProfile();
                     Get.to(BuyerRunningOrderListScreen(buyer: BuyerProfileController.to.buyer.value,));
                   },
                 ),

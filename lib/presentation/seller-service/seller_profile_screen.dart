@@ -10,7 +10,7 @@ import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.d
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/my_service_list_screen.dart';
-import 'package:upai/presentation/seller-service/running_order_list_screen.dart';
+import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
@@ -28,7 +28,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
   @override
   void initState() {
     Get.put(OrderController());
-Get.put(NetworkController());
+    Get.put(NetworkController());
     // TODO: implement initState
     super.initState();
   }
@@ -86,9 +86,49 @@ Get.put(NetworkController());
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  seller.sellerProfile == null||!NetworkController.to.connectedInternet.value
+                  seller.sellerProfile == null ||
+                          !NetworkController.to.connectedInternet.value
                       ? ShimmerSellerStatus()
-                      : GridView(
+                      :
+                  // SizedBox(
+                  //         height: MediaQuery.sizeOf(context).height*.12,
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //           children: [
+                  //             Expanded(
+                  //               child: SellerStatusWidget(
+                  //                 seller: seller,
+                  //                 color: Colors.lightBlue,
+                  //               ),
+                  //             ),
+                  //             SizedBox(
+                  //               width: 8,
+                  //             ),
+                  //             Expanded(
+                  //               child: SellerStatusWidget(
+                  //                 seller: seller,
+                  //                 color: Colors.deepOrangeAccent,
+                  //                 title: 'Completed Job',
+                  //                 value: seller.sellerProfile!.completedJob,
+                  //                 icon: Icons.verified,
+                  //               ),
+                  //             ),
+                  //             // SizedBox(
+                  //             //   width: 5,
+                  //             // ),
+                  //             // Expanded(
+                  //             //   child: SellerStatusWidget(
+                  //             //     seller: seller,
+                  //             //     color: Colors.lightGreenAccent,
+                  //             //     title: 'Review',
+                  //             //     icon: Icons.star_rate_rounded,
+                  //             //     value: seller.sellerProfile!.review,
+                  //             //   ),
+                  //             // ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  GridView(
                           gridDelegate:
                               SliverGridDelegateWithMaxCrossAxisExtent(
                                   mainAxisSpacing: 6,
@@ -254,7 +294,8 @@ Get.put(NetworkController());
                   const SizedBox(
                     height: 10,
                   ),
-                  seller.runningOrder == null ||!NetworkController.to.connectedInternet.value
+                  seller.runningOrder == null ||
+                          !NetworkController.to.connectedInternet.value
                       ? ShimmerRunnigOrder()
                       : seller.runningOrder!.isEmpty
                           ? SizedBox.shrink()
@@ -266,7 +307,7 @@ Get.put(NetworkController());
                               (index) {
                                 final runningOrder =
                                     seller.runningOrder![index];
-                                return RunningOrderWidget(
+                                return SellerRunningOrderWidget(
                                     runningOrder: runningOrder);
                               },
                             )),
@@ -293,7 +334,9 @@ Get.put(NetworkController());
                       ),
                     ],
                   ),
-                  seller.myService == null || seller.myService!.isEmpty ||!NetworkController.to.connectedInternet.value
+                  seller.myService == null ||
+                          seller.myService!.isEmpty ||
+                          !NetworkController.to.connectedInternet.value
                       ? ShimmerOfferList()
                       : GridView.builder(
                           shrinkWrap: true,
@@ -309,12 +352,12 @@ Get.put(NetworkController());
                                   : 4,
                           itemBuilder: (context, index) {
                             final service =
-                               SellerProfileController.to.myService[index];
+                                SellerProfileController.to.myService[index];
                             return GestureDetector(
                                 onTap: () {
-                                  SellerProfileController.to.service.value =service;
-                                  Get.to( MyServiceDetails()
-                                  );
+                                  SellerProfileController.to.service.value =
+                                      service;
+                                  Get.to(MyServiceDetails());
                                 },
                                 child: MyServiceWidget(
                                   service: service,

@@ -117,7 +117,7 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                       Get.put(OrderController());
                       showDialog(
                         context: context,
-                        builder: (context) => ConfrimOfferWidget(
+                        builder: (context) => ConfirmOfferRequestWidget(
                           service: widget,
                         ),
                       );
@@ -254,14 +254,11 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                         subtitle: OverflowBar(
                           children: [
                             Text(
-                              "${widget.offerDetails!.quantity.toString()} Job completed",
+                              "${widget.offerDetails!.quantity.toString()} Job completed, ",
                               style: AppTextStyle.bodySmallGrey,
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
                             Text(
-                              "${widget.offerDetails!.avgRating.toString()} Rating ",
+                              "${double.parse(widget.offerDetails!.avgRating.toString()).toStringAsFixed(1)} Rating ",
                               style: AppTextStyle.bodySmallGrey,
                             ),
                           ],
@@ -671,7 +668,7 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                                             width: 180,
                                             height: 220,
                                             child: MyServiceWidget(
-                                              offerList: HomeController
+                                              offerItem: HomeController
                                                   .to.getOfferList[index],
                                               button: SizedBox(
                                                   width: double.infinity,

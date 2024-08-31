@@ -1,10 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/state_manager.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
@@ -21,7 +27,18 @@ import 'package:upai/presentation/notification/controller/notification_controlle
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 
 class HomeController extends GetxController {
+
+  //image segment
+  RxDouble uploadProgress = 0.0.obs;
+  RxBool isUploading = false.obs;
+
+  Rx<File?> image = Rx<File?>(null);
+  final _picker = ImagePicker();
+  String img = '';
+
+  //
   RxBool isSearching = false.obs;
+
   static HomeController get to => Get.find();
   RxList<CategoryList> getCatList = <CategoryList>[].obs;
   RxList<dynamic> districtList = [].obs;
@@ -63,7 +80,7 @@ class HomeController extends GetxController {
   void onInit() async {
     refreshAllData();
     districtList.value =
-        await loadJsonFromAssets('assets/district/district.json');
+    await loadJsonFromAssets('assets/district/district.json');
     filterDistrictList.assignAll(districtList);
     quantityController.value.text = quantity.value.toString();
     quantityControllerForConfromOrder.value.text =
@@ -118,12 +135,10 @@ class HomeController extends GetxController {
     filteredOfferList.value = getOfferList;
   }
 
-  void createOffer(
-    String jobTitle,
-    String description,
-    String rate,
-    String address,
-  ) async {
+  void createOffer(String jobTitle,
+      String description,
+      String rate,
+      String address,) async {
     //debugPrint(box.values.map((e) => e['user_id'],).toString());
     Map<String, dynamic> data = jsonDecode(box.get("user"));
     await RepositoryData.createOffer(body: {
@@ -141,8 +156,8 @@ class HomeController extends GetxController {
     });
   }
 
-  Future<void> editOffer(
-      String offerId, title, description, rate, address) async {
+  Future<void> editOffer(String offerId, title, description, rate,
+      address) async {
     await RepositoryData.editOffer(
         token: ProfileScreenController.to.userInfo.value.token ?? '',
         body: {
@@ -198,13 +213,13 @@ class HomeController extends GetxController {
     }
   }
 
-  void filterOffer(String query,String? district) async {
+  void filterOffer(String query, String? district) async {
     if (query.isNotEmpty || district != null) {
       if (district == "All Districts") {
         filteredOfferList.value = getOfferList.where(
-          (element) {
+              (element) {
             final isQueryMatching =
-                element.jobTitle!.toLowerCase().contains(query.toLowerCase());
+            element.jobTitle!.toLowerCase().contains(query.toLowerCase());
 
             return isQueryMatching;
           },
@@ -215,13 +230,13 @@ class HomeController extends GetxController {
         debugPrint('------------${selectedDistrictForAll.value}');
         debugPrint('------------${searchOfferController.value.text}');
         filteredOfferList.value = getOfferList.where(
-          (element) {
+              (element) {
             final isDistrictMatching = element.district !=
-                    null /*&&selectedDistrictForAll.value!="All Districts"*/ &&
+                null /*&&selectedDistrictForAll.value!="All Districts"*/ &&
                 element.district!.contains(district!);
 
             final isQueryMatching =
-                element.jobTitle!.toLowerCase().contains(query.toLowerCase());
+            element.jobTitle!.toLowerCase().contains(query.toLowerCase());
 
             return isQueryMatching && isDistrictMatching;
           },
@@ -236,7 +251,7 @@ class HomeController extends GetxController {
   void filterCategory(String query) async {
     if (query.isNotEmpty) {
       filteredCategoryList.value = getCatList.where(
-        (element) {
+            (element) {
           return element.categoryName!
               .toLowerCase()
               .contains(query.toLowerCase());
@@ -255,5 +270,144 @@ class HomeController extends GetxController {
             ? '0'
             : quantityControllerForConfromOrder.value.text);
     totalAmount.value = rate * quantity;
+  }
+
+
+  //for create offer image
+  Future<void> getImage(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(
+      source: source,
+      imageQuality: 80,
+      maxHeight: 1000,
+      maxWidth: 1000,
+    );
+    if (pickedFile != null) {
+      image.value = File(pickedFile.path);
+      // ctrl.update();
+      // ctrl.canEdit!.value = true;
+      // debugPrint('///////////////');
+      // debugPrint(ctrl.canEdit!.value.toString());
+      // setState(() {});
+    } else {
+      // ctrl.canEdit.value = false;
+      // setState(() {
+      //
+      // });
+      // if (mounted) {
+      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      //     content: Text(
+      //       "No Image Selected!",
+      //       style: TextStyle(color: Colors.white),
+      //     ),
+      //     backgroundColor: Colors.deepOrange,
+      //   ));
+      // }
+    }
+  }
+
+  void showPickerDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('Gallery'),
+                onTap: () {
+                  getImage(ImageSource.gallery);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_camera),
+                title: Text('Camera'),
+                onTap: () {
+                  getImage(ImageSource.camera);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Future uploadFile() async {
+  //   if (image == null) return;
+  //   final fileName = 'profile';
+  //  // final destination = '${ctrl.userInfo.value.userId}/$fileName';
+  //
+  //   try {
+  //     final ref = FirebaseStorage.instance.ref(destination).child('file/');
+  //     // Uint8List imageData = await File(image!.path).readAsBytes();
+  //
+  //     await ref.putFile(image!);
+  //     ctrl.fetchProfileImage();
+  //   } catch (e) {
+  //     ctrl.canEdit.value = false;
+  //     print('error occured');
+  //   }
+  // }
+  //
+
+
+//upload image in firebase
+  Future<void> uploadImage(String offerId) async {
+
+      isUploading.value = true;
+
+
+    try {
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('OfferImages')
+          .child(offerId)
+          .child('image.jpg');
+
+      final uploadTask = storageRef.putFile(
+        image.value!,
+        SettableMetadata(contentType: 'image/jpeg'),
+      );
+
+      uploadTask.snapshotEvents.listen((event) {
+        uploadProgress.value =
+            event.bytesTransferred / event.totalBytes;
+      });
+
+      final snapshot = await uploadTask.whenComplete(() {});
+
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+
+      // Save the download URL to Firestore
+      await FirebaseFirestore.instance
+          .collection('OfferImage')
+          .doc(offerId)
+          .set({'imageUrl': downloadUrl});
+      isUploading.value = false;
+
+      image.value=null;
+      print("image upload  called");
+
+
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text("Image uploaded successfully!"),
+      //   backgroundColor: Colors.green,
+      // ));
+    } catch (e) {
+      isUploading.value = false;
+      print("image upload catch called");
+      image.value=null;
+
+
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text("Failed to upload image: $e"),
+      //   backgroundColor: Colors.red,
+      // ));
+    }
+//
+
   }
 }

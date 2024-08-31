@@ -131,13 +131,13 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                                                     Align(
                                                       alignment:
                                                           Alignment.topCenter,
-                                                      child: Text(MyDateUtil.formatDate(
-                                                              NotificationController
-                                                                  .to
-                                                                  .notificationList[
-                                                                      reversedIndex]
-                                                                  .createdTime
-                                                                  .toString())
+                                                      child: Text(MyDateUtil.getLastMessageTime(context: context,time: NotificationController
+                                                          .to
+                                                          .notificationList[
+                                                      reversedIndex]
+                                                          .createdTime
+                                                          .toString(),
+                                                              )
                                                           .toString()),
                                                     ),
                                                     Text(

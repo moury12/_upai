@@ -179,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           final service = offerList[index];
                           return MyServiceWidget(
-                            offerList: service,
+                            offerItem: service,
                             button: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: SizedBox(
@@ -326,7 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       final service =
                                           controller.getOfferList[index];
                                       return MyServiceWidget(
-                                        offerList: service,
+                                        offerItem: service,
                                         button: SizedBox(
                                           width: double.infinity,
                                           child: ElevatedButton(

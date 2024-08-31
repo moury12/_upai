@@ -1,85 +1,85 @@
-import 'package:upai/Model/seller_profile_model.dart';
+// To parse this JSON data, do
+//
+//     final buyerProfileModel = buyerProfileModelFromJson(jsonString);
+
+import 'dart:convert';
+
+BuyerProfileModel buyerProfileModelFromJson(String str) => BuyerProfileModel.fromJson(json.decode(str));
+
+String buyerProfileModelToJson(BuyerProfileModel data) => json.encode(data.toJson());
 
 class BuyerProfileModel {
   String? status;
-  List<RunningOrder>? buyerRunningOrder;
+  List<BuyerRunningOrder>? buyerRunningOrder;
 
-  BuyerProfileModel({this.status, this.buyerRunningOrder});
+  BuyerProfileModel({
+    this.status,
+    this.buyerRunningOrder,
+  });
 
-  BuyerProfileModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    if (json['buyer_running_order'] != null) {
-      buyerRunningOrder = <RunningOrder>[];
-      json['buyer_running_order'].forEach((v) {
-        buyerRunningOrder!.add(new RunningOrder.fromJson(v));
-      });
-    }
-  }
+  factory BuyerProfileModel.fromJson(Map<String, dynamic> json) => BuyerProfileModel(
+    status: json["status"],
+    buyerRunningOrder: json["buyer_running_order"] == null ? [] : List<BuyerRunningOrder>.from(json["buyer_running_order"]!.map((x) => BuyerRunningOrder.fromJson(x))),
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.buyerRunningOrder != null) {
-      data['buyer_running_order'] =
-          this.buyerRunningOrder!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "status": status,
+    "buyer_running_order": buyerRunningOrder == null ? [] : List<dynamic>.from(buyerRunningOrder!.map((x) => x.toJson())),
+  };
 }
-//
-// class BuyerRunningOrder {
-//   String? jobId;
-//   String? buyerId;
-//   String? sellerId;
-//   String? jobTitle;
-//   String? description;
-//   String? rateType;
-//   int? rate;
-//   int? quantity;
-//   int? total;
-//   String? status;
-//   String? awardDate;
-//
-//   BuyerRunningOrder(
-//       {this.jobId,
-//         this.buyerId,
-//         this.sellerId,
-//         this.jobTitle,
-//         this.description,
-//         this.rateType,
-//         this.rate,
-//         this.quantity,
-//         this.total,
-//         this.status,
-//         this.awardDate});
-//
-//   BuyerRunningOrder.fromJson(Map<String, dynamic> json) {
-//     jobId = json['job_id'];
-//     buyerId = json['buyer_id'];
-//     sellerId = json['seller_id'];
-//     jobTitle = json['job_title'];
-//     description = json['description'];
-//     rateType = json['rate_type'];
-//     rate = json['rate'];
-//     quantity = json['quantity'];
-//     total = json['total'];
-//     status = json['status'];
-//     awardDate = json['award_date'];
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['job_id'] = this.jobId;
-//     data['buyer_id'] = this.buyerId;
-//     data['seller_id'] = this.sellerId;
-//     data['job_title'] = this.jobTitle;
-//     data['description'] = this.description;
-//     data['rate_type'] = this.rateType;
-//     data['rate'] = this.rate;
-//     data['quantity'] = this.quantity;
-//     data['total'] = this.total;
-//     data['status'] = this.status;
-//     data['award_date'] = this.awardDate;
-//     return data;
-//   }
-// }
+
+class BuyerRunningOrder {
+  String? jobId;
+  String? buyerId;
+  String? sellerId;
+  String? jobTitle;
+  String? description;
+  String? rateType;
+  int? rate;
+  int? quantity;
+  int? total;
+  String? status;
+  DateTime? awardDate;
+
+  BuyerRunningOrder({
+    this.jobId,
+    this.buyerId,
+    this.sellerId,
+    this.jobTitle,
+    this.description,
+    this.rateType,
+    this.rate,
+    this.quantity,
+    this.total,
+    this.status,
+    this.awardDate,
+  });
+
+  factory BuyerRunningOrder.fromJson(Map<String, dynamic> json) => BuyerRunningOrder(
+    jobId: json["job_id"],
+    buyerId: json["buyer_id"],
+    sellerId: json["seller_id"],
+    jobTitle: json["job_title"],
+    description: json["description"],
+    rateType: json["rate_type"],
+    rate: json["rate"],
+    quantity: json["quantity"],
+    total: json["total"],
+    status: json["status"],
+    awardDate: json["award_date"] == null ? null : DateTime.parse(json["award_date"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "job_id": jobId,
+    "buyer_id": buyerId,
+    "seller_id": sellerId,
+    "job_title": jobTitle,
+    "description": description,
+    "rate_type": rateType,
+    "rate": rate,
+    "quantity": quantity,
+    "total": total,
+    "status": status,
+    "award_date": "${awardDate!.year.toString().padLeft(4, '0')}-${awardDate!.month.toString().padLeft(2, '0')}-${awardDate!.day.toString().padLeft(2, '0')}",
+  };
+}

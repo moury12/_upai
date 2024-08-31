@@ -7,13 +7,14 @@ import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
 
 class MyServiceWidget extends StatelessWidget {
   final MyService? service;
-  final OfferList? offerList;
+  final OfferList? offerItem;
   final Widget? button;
-  const MyServiceWidget({super.key, this.service, this.offerList, this.button});
+  const MyServiceWidget({super.key, this.service, this.offerItem, this.button});
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +40,35 @@ class MyServiceWidget extends StatelessWidget {
           children: [
             Expanded(
               flex: 4,
-              child: Image.asset(
-                ImageConstant.productImage,
-                // height: 80,
-              ),
+              child:FutureBuilder(future: FirebaseAPIs.fetchOfferImageUrl(isService?service!.userId.toString():offerItem!.userId.toString()),builder: (context, snapshot) {
+
+                if(snapshot.hasData)
+                  {
+                 
+                        return Image.network(snapshot.data.toString());
+
+                  }
+                else
+                  {
+                    return FutureBuilder(future: FirebaseAPIs.fetchDefaultOfferImageUrl(isService?service!.serviceCategoryType.toString():offerItem!.serviceCategoryType.toString()),
+                      builder: (context, snapshot) {
+                      if(snapshot.hasData)
+                        {
+                          return Image.network(snapshot.data.toString());
+                        }
+                      else
+                        {
+                          return Image.asset(
+                            ImageConstant.productImage,
+                            // height: 80,
+                          );
+                        }
+
+                    },);
+
+                  }
+
+              },)
             ),
             Expanded(
                 flex: 4,
@@ -78,7 +104,7 @@ class MyServiceWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       isService
                           ? service!.jobTitle ?? ''
-                          : offerList?.jobTitle ?? '',
+                          : offerItem?.jobTitle ?? '',
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     ),
 
@@ -109,7 +135,7 @@ class MyServiceWidget extends StatelessWidget {
                                   child: Text(
                                     isService
                                         ? service!.quantity.toString()
-                                        : offerList?.quantity.toString() ?? '0',
+                                        : offerItem?.quantity.toString() ?? '0',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontSize: 12,
@@ -129,7 +155,7 @@ class MyServiceWidget extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
-                              '৳ ${isService ? service!.rate : offerList?.rate ?? '0'}',
+                              '৳ ${isService ? service!.rate : offerItem?.rate ?? '0'}',
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w600),
                             ),
@@ -179,14 +205,14 @@ class MyServiceWidget extends StatelessWidget {
           ],
         ),
       ),
-     if (  offerList?.district!=null&&offerList!.district!.isNotEmpty||service?.district!=null&&service!.district!.isNotEmpty/*||offerList?.district.isNotEmpty*/)  Positioned(top: 0,
+     if (  offerItem?.district!=null&&offerItem!.district!.isNotEmpty||service?.district!=null&&service!.district!.isNotEmpty/*||offerList?.district.isNotEmpty*/)  Positioned(top: 0,
         left: 0,
         child:    Container(padding: EdgeInsets.all(4),
           decoration: BoxDecoration(color: AppColors.BTNbackgroudgrey,borderRadius: BorderRadius.only(bottomRight: Radius.circular(10),topLeft: Radius.circular(15))),
           child: Text(
           maxLines: 1,
           isService? service!.district ?? ''
-              : offerList?.district ?? '' ,  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,color: Colors.white),),
+              : offerItem?.district ?? '' ,  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,color: Colors.white),),
         ),)
     ],);
   }

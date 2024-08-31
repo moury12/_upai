@@ -51,7 +51,7 @@ class RunningOrderListScreen extends StatelessWidget {
                 : ListView.builder(padding: EdgeInsets.all(12),
               itemCount: SellerProfileController.to.seller.value.runningOrder!.length,
               itemBuilder: (context, index) {
-                return RunningOrderWidget(
+                return SellerRunningOrderWidget(
                   runningOrder: SellerProfileController.to.seller.value.runningOrder![index],
                 );
               },

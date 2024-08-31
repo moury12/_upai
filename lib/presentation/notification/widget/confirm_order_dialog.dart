@@ -224,7 +224,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                                     "Order Request Confirmed";
                                                 newNotificationData
                                                         .createdTime =
-                                                    DateTime.now().toString();
+                                                    DateTime.now().millisecondsSinceEpoch.toString();
                                                 newNotificationData
                                                         .notificationMsg =
                                                     '${widget.notificationModel.sellerName} has accepted your order visit service screen for more details';
@@ -282,7 +282,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                                     '${widget.notificationModel.sellerName} has rejected your order request.';
                                                 newNotificationData
                                                         .createdTime =
-                                                    DateTime.now().toString();
+                                                    DateTime.now().millisecondsSinceEpoch.toString();
                                                 await RepositoryData.jobStatus(
                                                     title: newNotificationData
                                                         .notificationTitle

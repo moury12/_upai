@@ -14,18 +14,18 @@ import 'package:upai/widgets/custom_text_field.dart';
 
 import '../../../Model/user_info_model.dart';
 
-class ConfrimOfferWidget extends StatefulWidget {
+class ConfirmOfferRequestWidget extends StatefulWidget {
   final ServiceDetails service;
-  ConfrimOfferWidget({
+  const ConfirmOfferRequestWidget({
     super.key,
     required this.service,
   });
 
   @override
-  State<ConfrimOfferWidget> createState() => _ConfrimOfferWidgetState();
+  State<ConfirmOfferRequestWidget> createState() => _ConfirmOfferRequestWidgetState();
 }
 
-class _ConfrimOfferWidgetState extends State<ConfrimOfferWidget> {
+class _ConfirmOfferRequestWidgetState extends State<ConfirmOfferRequestWidget> {
   ProfileScreenController? ctrl;
   @override
   void initState() {

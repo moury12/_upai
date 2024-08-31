@@ -8,7 +8,7 @@ version: 1.0.0+1
 environment:
   sdk: '>=3.4.1 <4.0.0'
 dependencies:
-  image_picker: ^1.1.1
+  image_picker: ^1.1.2
   #check internet activity
   connectivity_plus: 2.3.0
   # For accessing firebase messaging (Push Notification)
