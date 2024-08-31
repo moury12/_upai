@@ -108,10 +108,10 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                             HomeController.to.selectedDistrictForAll.value);
                       },
                       onPressed: () {
-                        controller.searchController.value.clear();
+                        // controller.searchController.value.clear();
 
-                        controller.filterOffer(
-                            '', HomeController.to.selectedDistrictForAll.value);
+                        // controller.filterOffer(
+                        //     '', HomeController.to.selectedDistrictForAll.value);
                       },
                       hintText: "Search service..",
                       suffixIcon: IconButton(

@@ -182,11 +182,11 @@ class MyServiceWidget extends StatelessWidget {
      if (  offerList?.district!=null&&offerList!.district!.isNotEmpty||service?.district!=null&&service!.district!.isNotEmpty/*||offerList?.district.isNotEmpty*/)  Positioned(top: 0,
         left: 0,
         child:    Container(padding: EdgeInsets.all(4),
-          decoration: BoxDecoration(color: AppColors.kgreyColor,borderRadius: BorderRadius.only(bottomRight: Radius.circular(10),topLeft: Radius.circular(15))),
+          decoration: BoxDecoration(color: AppColors.BTNbackgroudgrey,borderRadius: BorderRadius.only(bottomRight: Radius.circular(10),topLeft: Radius.circular(15))),
           child: Text(
           maxLines: 1,
           isService? service!.district ?? ''
-              : offerList?.district ?? '' ,  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600,color: Colors.white),),
+              : offerList?.district ?? '' ,  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,color: Colors.white),),
         ),)
     ],);
   }

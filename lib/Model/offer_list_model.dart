@@ -38,6 +38,8 @@ class OfferList {
   DateTime? dateTime;
   String? userId;
   String? userName;
+  int? totalCompletedJob;
+  dynamic avgRating;
   String? jobTitle;
   String? description;
   int? quantity;
@@ -53,6 +55,8 @@ class OfferList {
     this.dateTime,
     this.userId,
     this.userName,
+    this.totalCompletedJob,
+    this.avgRating,
     this.jobTitle,
     this.description,
     this.quantity,
@@ -69,6 +73,8 @@ class OfferList {
     dateTime: json["date_time"] == null ? null : DateTime.parse(json["date_time"]),
     userId: json["user_id"],
     userName: json["user_name"],
+    totalCompletedJob: json["total_completed_job"],
+    avgRating: json["avg_rating"],
     jobTitle: json["job_title"],
     description: json["description"],
     quantity: json["quantity"],
@@ -85,6 +91,8 @@ class OfferList {
     "date_time": dateTime?.toIso8601String(),
     "user_id": userId,
     "user_name": userName,
+    "total_completed_job": totalCompletedJob,
+    "avg_rating": avgRating,
     "job_title": jobTitle,
     "description": description,
     "quantity": quantity,
@@ -99,7 +107,7 @@ class OfferList {
 class BuyerReviewList {
   String? buyerId;
   String? buyerReview;
-  String? buyerRating;
+  dynamic buyerRating;
   String? buyerName;
   DateTime? reviewDate;
 

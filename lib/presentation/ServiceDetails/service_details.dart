@@ -254,14 +254,14 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                         subtitle: OverflowBar(
                           children: [
                             Text(
-                              "230 Job completed",
+                              "${widget.offerDetails!.quantity.toString()} Job completed",
                               style: AppTextStyle.bodySmallGrey,
                             ),
                             const SizedBox(
                               width: 10,
                             ),
                             Text(
-                              "4.9 Rating ",
+                              "${widget.offerDetails!.avgRating.toString()} Rating ",
                               style: AppTextStyle.bodySmallGrey,
                             ),
                           ],
@@ -532,7 +532,7 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                                   child: Row(
                                     children: [
                                       Text(
-                                        "4.4",
+                                        widget.offerDetails!.avgRating.toString(),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.black87,
@@ -543,7 +543,7 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                                         width: 5,
                                       ),
                                       RatingBarIndicator(
-                                        rating: 4.4,
+                                        rating: widget.offerDetails!.avgRating,
                                         itemBuilder: (context, index) => Icon(
                                           Icons.star,
                                           color: AppColors.colorLightBlack,
