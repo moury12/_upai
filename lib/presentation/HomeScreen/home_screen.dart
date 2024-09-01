@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       );
                                     },
-                                    child: Text('Book Now'),
+                                    child: const Text('Book Now'),
                                   )),
                             ),
                           );

@@ -41,7 +41,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   @override
   void initState() {
     getSellerDetails();
-    ProfileScreenController.to.profileImageUrl.value='';
+     ProfileScreenController.to.profileImageUrl.value='';
 
 
 ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
@@ -78,9 +78,13 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
+                      if(ProfileScreenController.to.userInfo.value.userId!=widget.offerDetails!.userId)
+                        {
+
+                        }
                       UserInfoModel senderData = UserInfoModel();
                       Map<String, dynamic>? userDetails;
-                      userDetails = await FirebaseAPIs().getSenderInfo("01777");
+                      userDetails = await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString());
                       if (userDetails!.isNotEmpty) {
                         senderData.userId = userDetails["user_id"] ?? "";
                         senderData.name = userDetails["name"] ?? "user";
@@ -155,12 +159,41 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                         height: 200,
                         child: Stack(
                           children: [
-                            Image.asset(
-                              ImageConstant.productImage,
-                              height: double.infinity,
-                              width: double.infinity,
-                              fit: BoxFit.contain,
+                            FutureBuilder(
+                              future: FirebaseAPIs.fetchOfferImageUrl(widget.offerDetails!.offerId.toString()),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Image.network(
+                                      height: double.infinity,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                      snapshot.data.toString());
+                                }
+                                else {
+                                  return FutureBuilder(
+                                    future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.offerDetails!.serviceCategoryType.toString()),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Image.network(
+                                            height: double.infinity,
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
+                                            snapshot.data.toString());
+                                      }
+                                      else {
+                                        return Image.asset(
+                                          ImageConstant.runningOrderImage,
+                                          height: double.infinity,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                        );
+                                      }
+                                    },
+                                  );
+                                }
+                              },
                             ),
+
                             Positioned(
                                 child: IconButton(
                               onPressed: () {
@@ -254,7 +287,7 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                         subtitle: OverflowBar(
                           children: [
                             Text(
-                              "${widget.offerDetails!.quantity.toString()} Job completed, ",
+                              "${widget.offerDetails!.totalCompletedJob.toString()} Job completed, ",
                               style: AppTextStyle.bodySmallGrey,
                             ),
                             Text(
@@ -521,55 +554,64 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                             const SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            widget.offerDetails!.totalCompletedJob!=0?
+                            Column(
                               children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        widget.offerDetails!.avgRating.toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black87,
-                                            fontSize: getResponsiveFontSize(
-                                                context, 16)),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            widget.offerDetails!.avgRating.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black87,
+                                                fontSize: getResponsiveFontSize(
+                                                    context, 16)),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          RatingBarIndicator(
+                                            rating: widget.offerDetails!.avgRating,
+                                            itemBuilder: (context, index) => Icon(
+                                              Icons.star,
+                                              color: AppColors.colorLightBlack,
+                                            ),
+                                            itemCount: 5,
+                                            itemSize: 22.0,
+                                            direction: Axis.horizontal,
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      RatingBarIndicator(
-                                        rating: widget.offerDetails!.avgRating,
-                                        itemBuilder: (context, index) => Icon(
-                                          Icons.star,
-                                          color: AppColors.colorLightBlack,
-                                        ),
-                                        itemCount: 5,
-                                        itemSize: 22.0,
-                                        direction: Axis.horizontal,
-                                      ),
-                                    ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Text("Client Review",
+                                    style: AppTextStyle.titleText),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                SizedBox(
+                                  width: size.width,
+                                  height: 200,
+                                  child: ListView.builder(
+                                    itemCount: widget.offerDetails!.buyerReviewList!.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return ClientReviewCard(buyerReview:widget.offerDetails!.buyerReviewList![index],size: size);
+                                    },
                                   ),
                                 ),
-                                // Expanded(
-                                //   child: ElevatedButton(
-                                //       style: ElevatedButton.styleFrom(
-                                //           alignment: Alignment.center,
-                                //           backgroundColor: Colors.black,
-                                //           foregroundColor: Colors.white),
-                                //       onPressed: () => showDialog(
-                                //             context: context,
-                                //             builder: (context) =>
-                                //                 ReviewScreen(),
-                                //           ),
-                                //       child: Text(
-                                //         'review',
-                                //         textAlign: TextAlign.center,
-                                //       )),
-                                // )
                               ],
-                            ),
+                            ):
+                                SizedBox(),
                             // const SizedBox(
                             //   height: 10,
                             // ),
@@ -593,25 +635,7 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                             //   rateCat: "Recommend Service",
                             //   rating: "4.6",
                             // ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text("Client Review",
-                                style: AppTextStyle.titleText),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            SizedBox(
-                              width: size.width,
-                              height: 200,
-                              child: ListView.builder(
-                                itemCount: widget.offerDetails!.buyerReviewList!.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  return ClientReviewCard(buyerReview:widget.offerDetails!.buyerReviewList![index],size: size);
-                                },
-                              ),
-                            ),
+
 
                             // Container(
                             //   width: size.width,

@@ -23,7 +23,7 @@ class OrderController extends GetxController {
     // TODO: implement onInit
     super.onInit();
   }
-  void jobStatus(context,RunningOrder runningOrder) async {
+  void jobStatus(context,SellerRunningOrder runningOrder) async {
 
   }
   void awardCreateJob(String offerId,String sellerId,String title,String description,String rateType,String rate,String quantity,String total,) async {
@@ -41,7 +41,7 @@ class OrderController extends GetxController {
     },sellerID: sellerId);
   }
 
-  void completionReview(String jobID,String reviewText,String rating) async {
+  void completionReview(String jobID,String reviewText,String rating,String sellerID,String prevNotiID) async {
     await RepositoryData.completionReview(body: {
       "job_id": jobID,
       "status": "COMPLETED",
@@ -49,6 +49,6 @@ class OrderController extends GetxController {
       "buyer_rating": double.parse(rating),
       "seller_review": "empty",
       "seller_rating": "empty"
-    });
+    },sellerID: sellerID,prevNotiID: prevNotiID);
   }
 }

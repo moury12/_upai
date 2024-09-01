@@ -2,13 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/buyer_profile_model.dart';
-import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
-import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/buyer%20profile/widgets/buyer_running_order_widget.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import '../../core/utils/custom_text_style.dart';
-import '../seller-service/widgets/running_order_widget.dart';
 import 'buyer_profile_controller.dart';
 
 
@@ -31,12 +27,12 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
           backgroundColor: AppColors.strokeColor2,
           foregroundColor: Colors.black,
-          leading: IconButton(
-            icon: const Icon(CupertinoIcons.back),
-            onPressed: () {
-              Get.back();
-            },
-          ),
+          // leading: IconButton(
+          //   icon: const Icon(CupertinoIcons.back),
+          //   onPressed: () {
+          //     Get.back();
+          //   },
+          // ),
           title: Text(
             "Buyer Running Orders",
             style: AppTextStyle.appBarTitle,
@@ -53,14 +49,17 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
                 //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 //   child: ShimmerRunnigOrder(forList: true,),
                 // )
-                : ListView.builder(padding: EdgeInsets.all(12),
-              itemCount: BuyerProfileController.to.buyer.value.buyerRunningOrder!.length,
-              itemBuilder: (context, index) {
-                return BuyerRunningOrderWidget(
-                  buyerRunningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
-                );
-              },
-            ), onRefresh: () {
+                : Container(
+                  child: ListView.builder(padding: EdgeInsets.all(12),
+                                itemCount: BuyerProfileController.to.buyer.value.buyerRunningOrder!.length,
+                                itemBuilder: (context, index) {
+                    print("count $index");
+                  return BuyerRunningOrderWidget(
+                    buyerRunningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
+                  );
+                                },
+                              ),
+                ), onRefresh: () {
               return BuyerProfileController.to.refreshAllData();
             },);
           }

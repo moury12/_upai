@@ -21,169 +21,178 @@ class MyServiceWidget extends StatelessWidget {
     // Determine if we're using service or offerList
     final isService = service != null;
 
-    return Stack(clipBehavior: Clip.none,
+    return Stack(
+      clipBehavior: Clip.none,
       children: [
-      Container(
-        // width: 200,
-        padding: EdgeInsets.all(12),
-        alignment: Alignment.topCenter,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: AppColors.strokeColor2, spreadRadius: 2, blurRadius: 2)
-          ],
-
-        ),
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              flex: 4,
-              child:FutureBuilder(future: FirebaseAPIs.fetchOfferImageUrl(isService?service!.userId.toString():offerItem!.userId.toString()),builder: (context, snapshot) {
-
-                if(snapshot.hasData)
-                  {
-                 
-                        return Image.network(snapshot.data.toString());
-
-                  }
-                else
-                  {
-                    return FutureBuilder(future: FirebaseAPIs.fetchDefaultOfferImageUrl(isService?service!.serviceCategoryType.toString():offerItem!.serviceCategoryType.toString()),
-                      builder: (context, snapshot) {
-                      if(snapshot.hasData)
-                        {
-                          return Image.network(snapshot.data.toString());
-                        }
-                      else
-                        {
-                          return Image.asset(
-                            ImageConstant.productImage,
-                            // height: 80,
-                          );
-                        }
-
-                    },);
-
-                  }
-
-              },)
-            ),
-            Expanded(
-                flex: 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      height: 2,
-                    ),
-                    // FittedBox(
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Text(
-                    //         'Offer ID: ${isService ? service!.offerId : offerList?.offerId ?? ' '}',
-                    //         style: TextStyle(
-                    //             fontSize: 10, fontWeight: FontWeight.w600),
-                    //       ),
-                    //       SizedBox(
-                    //         width: MediaQuery.of(context).size.width / 5,
-                    //       ),
-                    //       Text(
-                    //         '${DateFormat('dd-MM-yyyy').format(DateTime.parse(isService ? service!.dateTime.toString() : offerList?.dateTime.toString() ?? ''))}',
-                    //         style: TextStyle(
-                    //             fontSize: 10, fontWeight: FontWeight.w600),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    Text(
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      isService
-                          ? service!.jobTitle ?? ''
-                          : offerItem?.jobTitle ?? '',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Expanded(
-                        //   child:
-                        // ),
-                        Expanded(
-                          child: Container(
+        Container(
+          // width: 200,
+          padding: EdgeInsets.all(12),
+          alignment: Alignment.topCenter,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: AppColors.strokeColor2, spreadRadius: 2, blurRadius: 2)
+            ],
+          ),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                  flex: 4,
+                  child: FutureBuilder(
+                    future: FirebaseAPIs.fetchOfferImageUrl(isService
+                        ? service!.userId.toString()
+                        : offerItem!.userId.toString()),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Image.network(
                             width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              // overflowAlignment: OverflowBarAlignment.end,
-                              // alignment: MainAxisAlignment.end,
-                              children: [
-                                Icon(
-                                  CupertinoIcons.cart,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 2,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    isService
-                                        ? service!.quantity.toString()
-                                        : offerItem?.quantity.toString() ?? '0',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                            fit: BoxFit.cover,
+                            snapshot.data.toString());
+                      } else {
+                        return FutureBuilder(
+                          future: FirebaseAPIs.fetchDefaultOfferImageUrl(
+                              isService
+                                  ? service!.serviceCategoryType.toString()
+                                  : offerItem!.serviceCategoryType.toString()),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Image.network(
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  snapshot.data.toString());
+                            } else {
+                              return Image.asset(
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                                ImageConstant.runningOrderImage,
+                                // height: 80,
+                              );
+                            }
+                          },
+                        );
+                      }
+                    },
+                  )),
+              Expanded(
+                  flex: 4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      // SizedBox(
+                      //   height: 2,
+                      // ),
+                      // FittedBox(
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Text(
+                      //         'Offer ID: ${isService ? service!.offerId : offerList?.offerId ?? ' '}',
+                      //         style: TextStyle(
+                      //             fontSize: 10, fontWeight: FontWeight.w600),
+                      //       ),
+                      //       SizedBox(
+                      //         width: MediaQuery.of(context).size.width / 5,
+                      //       ),
+                      //       Text(
+                      //         '${DateFormat('dd-MM-yyyy').format(DateTime.parse(isService ? service!.dateTime.toString() : offerList?.dateTime.toString() ?? ''))}',
+                      //         style: TextStyle(
+                      //             fontSize: 10, fontWeight: FontWeight.w600),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      Text(
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        isService
+                            ? service!.jobTitle ?? ''
+                            : offerItem?.jobTitle ?? '',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w600),
+                      ),
 
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
-                              '৳ ${isService ? service!.rate : offerItem?.rate ?? '0'}',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w600),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Expanded(
+                          //   child:
+                          // ),
+                          Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                // overflowAlignment: OverflowBarAlignment.end,
+                                // alignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    CupertinoIcons.cart,
+                                    size: 15,
+                                  ),
+                                  SizedBox(
+                                    width: 2,
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      isService
+                                          ? service!.quantity.toString()
+                                          : offerItem?.quantity.toString() ??
+                                              '0',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   crossAxisAlignment: CrossAxisAlignment.center,
-                    //   children: [
-                    //     Expanded(
-                    //       child: Text(
-                    //         maxLines: 1,
-                    //         overflow: TextOverflow.ellipsis,
-                    //         isService
-                    //             ? service!.serviceCategoryType ?? ''
-                    //             : offerList?.serviceCategoryType ?? '',
-                    //         style: TextStyle(
-                    //             fontSize: 12,
-                    //             fontWeight: FontWeight.w600,
-                    //             color: Colors.grey.shade600),
-                    //       ),
-                    //     ),
-                    //
-                    //   ],
-                    // ),
-                    /*button == null
+
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
+                                '৳ ${isService ? service!.rate : offerItem?.rate ?? '0'}',
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                      //   children: [
+                      //     Expanded(
+                      //       child: Text(
+                      //         maxLines: 1,
+                      //         overflow: TextOverflow.ellipsis,
+                      //         isService
+                      //             ? service!.serviceCategoryType ?? ''
+                      //             : offerList?.serviceCategoryType ?? '',
+                      //         style: TextStyle(
+                      //             fontSize: 12,
+                      //             fontWeight: FontWeight.w600,
+                      //             color: Colors.grey.shade600),
+                      //       ),
+                      //     ),
+                      //
+                      //   ],
+                      // ),
+                      /*button == null
                       ? Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -197,24 +206,40 @@ class MyServiceWidget extends StatelessWidget {
                           ),
                         )
                       : */
-                  ],
-                )),
-            button != null
-                ? Expanded(flex: 2, child: button!)
-                : SizedBox.shrink(),
-          ],
+                    ],
+                  )),
+              button != null
+                  ? Expanded(flex: 2, child: button!)
+                  : SizedBox.shrink(),
+            ],
+          ),
         ),
-      ),
-     if (  offerItem?.district!=null&&offerItem!.district!.isNotEmpty||service?.district!=null&&service!.district!.isNotEmpty/*||offerList?.district.isNotEmpty*/)  Positioned(top: 0,
-        left: 0,
-        child:    Container(padding: EdgeInsets.all(4),
-          decoration: BoxDecoration(color: AppColors.BTNbackgroudgrey,borderRadius: BorderRadius.only(bottomRight: Radius.circular(10),topLeft: Radius.circular(15))),
-          child: Text(
-          maxLines: 1,
-          isService? service!.district ?? ''
-              : offerItem?.district ?? '' ,  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,color: Colors.white),),
-        ),)
-    ],);
+        if (offerItem?.district != null && offerItem!.district!.isNotEmpty ||
+            service?.district != null &&
+                service!
+                    .district!.isNotEmpty /*||offerList?.district.isNotEmpty*/)
+          Positioned(
+            top: 0,
+            left: 0,
+            child: Container(
+              padding: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                  color: AppColors.BTNbackgroudgrey,
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(10),
+                      topLeft: Radius.circular(15))),
+              child: Text(
+                maxLines: 1,
+                isService ? service!.district ?? '' : offerItem?.district ?? '',
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
+              ),
+            ),
+          )
+      ],
+    );
   }
 }
 

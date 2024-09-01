@@ -15,7 +15,7 @@ import 'package:upai/presentation/seller-service/seller_profile_controller.dart'
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
 
-import 'widgets/running_order_widget.dart';
+import 'widgets/seller_running_order_widget.dart';
 
 class SellerProfileScreen extends StatefulWidget {
   const SellerProfileScreen({super.key});
@@ -269,7 +269,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  seller.runningOrder != null && seller.runningOrder!.isEmpty
+                  seller.sellerRunningOrder != null && seller.sellerRunningOrder!.isEmpty
                       ? SizedBox.shrink()
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -282,7 +282,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(RunningOrderListScreen(
-                                      runningOrder: seller.runningOrder ?? []));
+                                      runningOrder: seller.sellerRunningOrder ?? []));
                                 },
                                 child: Text("All Orders >>",
                                     style:
@@ -294,21 +294,21 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  seller.runningOrder == null ||
+                  seller.sellerRunningOrder == null ||
                           !NetworkController.to.connectedInternet.value
                       ? ShimmerRunnigOrder()
-                      : seller.runningOrder!.isEmpty
+                      : seller.sellerRunningOrder!.isEmpty
                           ? SizedBox.shrink()
                           : Column(
                               children: List.generate(
-                              seller.runningOrder!.length < 2
-                                  ? seller.runningOrder!.length
+                              seller.sellerRunningOrder!.length < 2
+                                  ? seller.sellerRunningOrder!.length
                                   : 2,
                               (index) {
                                 final runningOrder =
-                                    seller.runningOrder![index];
+                                    seller.sellerRunningOrder![index];
                                 return SellerRunningOrderWidget(
-                                    runningOrder: runningOrder);
+                                    sellerRunningOrder: runningOrder);
                               },
                             )),
                   Row(

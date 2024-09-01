@@ -1,16 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
+import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 import '../../core/utils/custom_text_style.dart';
+import '../seller-service/my_service_details.dart';
+import '../seller-service/seller_profile_controller.dart';
 
 class ServiceListScreen extends StatefulWidget {
   static const String routeName = '/explore-top';
@@ -133,7 +137,6 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                   () {
                     if (!NetworkController.to.connectedInternet.value) {
                       return Expanded(
-
                         child: Padding(
                           padding: const EdgeInsets.all(12.0).copyWith(top: 0),
                           child: ShimmerOfferList(
@@ -179,7 +182,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                                   mainAxisSpacing: 8),
                           itemCount: offerList.length,
                           itemBuilder: (context, index) {
-                            final service = offerList[index];
+                            OfferList service = offerList[index];
                             return MyServiceWidget(
                               offerItem: service,
                               button: Padding(
@@ -192,6 +195,15 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                                           foregroundColor: Colors.white,
                                           alignment: Alignment.center),
                                       onPressed: () {
+
+                                        // if(ProfileScreenController.to.userInfo.value.userId==service.userId)
+                                        //   {
+                                        //     SellerProfileController.to.service.value =
+                                        //     SellerProfileController
+                                        //         .to.filterList[index];
+                                        //
+                                        //     Get.to(const MyServiceDetails());
+                                        //   }
                                         Get.to(
                                           ServiceDetails(
                                             offerDetails: service,

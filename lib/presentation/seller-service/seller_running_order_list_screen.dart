@@ -6,10 +6,10 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import '../../core/utils/custom_text_style.dart';
-import 'widgets/running_order_widget.dart';
+import 'widgets/seller_running_order_widget.dart';
 
 class RunningOrderListScreen extends StatelessWidget {
-  final List<RunningOrder> runningOrder;
+  final List<SellerRunningOrder> runningOrder;
 
   RunningOrderListScreen({super.key, required this.runningOrder});
 
@@ -27,14 +27,14 @@ class RunningOrderListScreen extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
           backgroundColor: AppColors.strokeColor2,
           foregroundColor: Colors.black,
-          leading: IconButton(
-            icon: const Icon(CupertinoIcons.back),
-            onPressed: () {
-              Get.back();
-            },
-          ),
+          // leading: IconButton(
+          //   icon: const Icon(CupertinoIcons.back),
+          //   onPressed: () {
+          //     Get.back();
+          //   },
+          // ),
           title: Text(
-            "Running Orders",
+            "Seller Running Orders",
             style: AppTextStyle.appBarTitle,
           ),
         ),
@@ -43,16 +43,16 @@ class RunningOrderListScreen extends StatelessWidget {
             return RefreshIndicator(
               color: Colors.black,
                 backgroundColor: AppColors.strokeColor2,
-                child: SellerProfileController.to.seller.value.runningOrder==null
+                child: SellerProfileController.to.seller.value.sellerRunningOrder==null
                 ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ShimmerRunnigOrder(forList: true,),
                 )
                 : ListView.builder(padding: EdgeInsets.all(12),
-              itemCount: SellerProfileController.to.seller.value.runningOrder!.length,
+              itemCount: SellerProfileController.to.seller.value.sellerRunningOrder!.length,
               itemBuilder: (context, index) {
                 return SellerRunningOrderWidget(
-                  runningOrder: SellerProfileController.to.seller.value.runningOrder![index],
+                  sellerRunningOrder: SellerProfileController.to.seller.value.sellerRunningOrder![index],
                 );
               },
             ), onRefresh: () {

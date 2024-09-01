@@ -30,6 +30,8 @@ class BuyerProfileModel {
 
 class BuyerRunningOrder {
   String? jobId;
+  String? offerId;
+  String? serviceCategoryType;
   String? buyerId;
   String? sellerId;
   String? jobTitle;
@@ -43,6 +45,8 @@ class BuyerRunningOrder {
 
   BuyerRunningOrder({
     this.jobId,
+    this.offerId,
+    this.serviceCategoryType,
     this.buyerId,
     this.sellerId,
     this.jobTitle,
@@ -57,6 +61,8 @@ class BuyerRunningOrder {
 
   factory BuyerRunningOrder.fromJson(Map<String, dynamic> json) => BuyerRunningOrder(
     jobId: json["job_id"],
+    offerId: json["offer_id"],
+    serviceCategoryType: json["service_category_type"],
     buyerId: json["buyer_id"],
     sellerId: json["seller_id"],
     jobTitle: json["job_title"],
@@ -71,6 +77,8 @@ class BuyerRunningOrder {
 
   Map<String, dynamic> toJson() => {
     "job_id": jobId,
+    "offer_id": offerId,
+    "service_category_type": serviceCategoryType,
     "buyer_id": buyerId,
     "seller_id": sellerId,
     "job_title": jobTitle,

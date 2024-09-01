@@ -430,7 +430,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     }
   }
 
-  static Future<void> completionReview({dynamic body}) async {
+  static Future<void> completionReview({dynamic body,required String sellerID,required prevNotiID}) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -443,6 +443,33 @@ static Future<void> editOffer({dynamic body,required String token}) async{
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       Get.snackbar('Success', responseData['message']);
+     await FirebaseAPIs.updateJobStatus(ProfileScreenController.to.userInfo.value.userId.toString(), "COMPLETED",prevNotiID );
+      UserInfoModel senderData = UserInfoModel();
+      Map<String, dynamic>? userDetails;
+      userDetails = await FirebaseAPIs().getSenderInfo(sellerID);
+      if (userDetails!.isNotEmpty) {
+        senderData.userId = userDetails["user_id"] ?? "";
+        senderData.name = userDetails["name"] ?? "user";
+        senderData.email = userDetails["email"];
+        senderData.lastActive = userDetails["last_active"];
+        senderData.image = userDetails["image"] ??
+            "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+        senderData.isOnline = userDetails["is_online"];
+        senderData.userType = userDetails["user_type"];
+        senderData.token = userDetails["token"];
+        senderData.mobile = userDetails["mobile"];
+        senderData.cid = userDetails["cid"];
+        senderData.pushToken = userDetails["push_token"];
+        // body["read"]="";
+        Map<String,dynamic> orderNotificationData = body;
+        orderNotificationData["job_id"]=responseData['job_id'].toString();
+        orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.value.name.toString();
+        orderNotificationData["seller_name"]=senderData.name.toString();
+        orderNotificationData["notification_title"]="Congratulations.Buyer got your service";
+        orderNotificationData["created_time"]=DateTime.now().millisecondsSinceEpoch.toString();
+        orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} Buyer Successfully Received your ${body["job_id"]} service";
+        FirebaseAPIs.sendNotificationData( orderNotificationData,senderData, orderNotificationData["notification_title"].toString(), orderNotificationData["notification_msg"].toString());
+      }
        } else {
       Get.snackbar('Error', 'Failed');
     }

@@ -11,27 +11,27 @@ String sellerProfileModelToJson(SellerProfileModel data) => json.encode(data.toJ
 class SellerProfileModel {
   String? status;
   SellerProfile? sellerProfile;
-  List<RunningOrder>? runningOrder;
+  List<SellerRunningOrder>? sellerRunningOrder;
   List<MyService>? myService;
 
   SellerProfileModel({
     this.status,
     this.sellerProfile,
-    this.runningOrder,
+    this.sellerRunningOrder,
     this.myService,
   });
 
   factory SellerProfileModel.fromJson(Map<String, dynamic> json) => SellerProfileModel(
     status: json["status"],
     sellerProfile: json["seller_profile"] == null ? null : SellerProfile.fromJson(json["seller_profile"]),
-    runningOrder: json["running_order"] == null ? [] : List<RunningOrder>.from(json["running_order"]!.map((x) => RunningOrder.fromJson(x))),
+    sellerRunningOrder: json["running_order"] == null ? [] : List<SellerRunningOrder>.from(json["running_order"]!.map((x) => SellerRunningOrder.fromJson(x))),
     myService: json["my_service"] == null ? [] : List<MyService>.from(json["my_service"]!.map((x) => MyService.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "seller_profile": sellerProfile?.toJson(),
-    "running_order": runningOrder == null ? [] : List<dynamic>.from(runningOrder!.map((x) => x.toJson())),
+    "running_order": sellerRunningOrder == null ? [] : List<dynamic>.from(sellerRunningOrder!.map((x) => x.toJson())),
     "my_service": myService == null ? [] : List<dynamic>.from(myService!.map((x) => x.toJson())),
   };
 }
@@ -96,8 +96,10 @@ class MyService {
   };
 }
 
-class RunningOrder {
+class SellerRunningOrder {
   String? jobId;
+  String? offerId;
+  String? serviceCategoryType;
   String? buyerId;
   String? sellerId;
   String? jobTitle;
@@ -107,10 +109,12 @@ class RunningOrder {
   int? quantity;
   int? total;
   String? status;
-  String? awardDate;
+  DateTime? awardDate;
 
-  RunningOrder({
+  SellerRunningOrder({
     this.jobId,
+    this.offerId,
+    this.serviceCategoryType,
     this.buyerId,
     this.sellerId,
     this.jobTitle,
@@ -123,8 +127,10 @@ class RunningOrder {
     this.awardDate,
   });
 
-  factory RunningOrder.fromJson(Map<String, dynamic> json) => RunningOrder(
+  factory SellerRunningOrder.fromJson(Map<String, dynamic> json) => SellerRunningOrder(
     jobId: json["job_id"],
+    offerId: json["offer_id"],
+    serviceCategoryType: json["service_category_type"],
     buyerId: json["buyer_id"],
     sellerId: json["seller_id"],
     jobTitle: json["job_title"],
@@ -134,11 +140,13 @@ class RunningOrder {
     quantity: json["quantity"],
     total: json["total"],
     status: json["status"],
-    awardDate: json["award_date"],
+    awardDate: json["award_date"] == null ? null : DateTime.parse(json["award_date"]),
   );
 
   Map<String, dynamic> toJson() => {
     "job_id": jobId,
+    "offer_id": offerId,
+    "service_category_type": serviceCategoryType,
     "buyer_id": buyerId,
     "seller_id": sellerId,
     "job_title": jobTitle,
@@ -148,7 +156,7 @@ class RunningOrder {
     "quantity": quantity,
     "total": total,
     "status": status,
-    "award_date": awardDate,
+    "award_date": "${awardDate!.year.toString().padLeft(4, '0')}-${awardDate!.month.toString().padLeft(2, '0')}-${awardDate!.day.toString().padLeft(2, '0')}",
   };
 }
 

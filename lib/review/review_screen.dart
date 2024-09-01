@@ -75,7 +75,8 @@ Navigator.pop(context);
         child: ElevatedButton(
         style: ElevatedButton.styleFrom(backgroundColor: Colors.black,foregroundColor: Colors.white),
           onPressed: () {
-        OrderController.to.completionReview(widget.notificationModel.jobId.toString(),reviewTE.text.trim().toString(),ratingValue.toString());
+
+        OrderController.to.completionReview(widget.notificationModel.jobId.toString(),reviewTE.text.trim().toString(),ratingValue.toString(),widget.notificationModel.sellerId.toString(),widget.notificationModel.notificationId.toString());
         Get.snackbar("Review", "Your Review submitted successfully");
         Navigator.pop(context);
             }, child: Text('Submit review')),

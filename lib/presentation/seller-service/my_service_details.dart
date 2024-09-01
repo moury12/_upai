@@ -10,6 +10,8 @@ import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 
+import '../../data/api/firebase_apis.dart';
+
 class MyServiceDetails extends StatelessWidget {
   // final MyService service;
   const MyServiceDetails({super.key});
@@ -38,22 +40,76 @@ class MyServiceDetails extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Align(
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    ImageConstant.productImage,
-                    height: 200,
-                  )),
+              FutureBuilder(
+                future: FirebaseAPIs.fetchOfferImageUrl(SellerProfileController.to.service.value.offerId.toString()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Image.network(
+
+                        height: 200,
+                        // height: double.infinity,
+                        // width: double.infinity,
+                        fit: BoxFit.cover,
+                        snapshot.data.toString());
+                  }
+                  else {
+                    return FutureBuilder(
+                      future: FirebaseAPIs.fetchDefaultOfferImageUrl(SellerProfileController.to.service.value.serviceCategoryType.toString()),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if(snapshot.connectionState==ConnectionState.waiting || snapshot.connectionState==ConnectionState.none)
+                            {
+                              return Image.asset(
+                                height: 200,
+                                ImageConstant.runningOrderImage,
+                                // height: double.infinity,
+                                // width: double.infinity,
+                                fit: BoxFit.cover,
+                              );
+                            }
+                          else
+                            {
+                              return Image.network(
+                                  height: 200,
+
+                                  // height: double.infinity,
+                                  // width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  snapshot.data.toString());
+                            }
+
+                        }
+                        else {
+                          return Image.asset(
+                            height: 200,
+
+                            ImageConstant.runningOrderImage,
+                            // height: double.infinity,
+                            // width: double.infinity,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                      },
+                    );
+                  }
+                },
+              ),
+
+
+                  // Image.asset(
+                  //   ImageConstant.productImage,
+                  //   height: 200,
+                  // )),
               const SizedBox(
                 height: 20,
               ),
-              Container( 
+              Container(
                 // height: double.maxFinite,
                 padding: const EdgeInsets.all(12),
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius:
-                        BorderRadius.only(topRight: Radius.circular(50))),
+                        BorderRadius.only(topRight: Radius.circular(50),)),
                 child: Obx(
                   () {
                     return Column(
