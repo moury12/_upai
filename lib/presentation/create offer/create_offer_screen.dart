@@ -12,6 +12,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 class CreateOfferScreen extends StatefulWidget {
@@ -110,6 +111,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         shadowColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
@@ -130,7 +132,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         ),
       ),
       body: Container(
-        constraints: BoxConstraints.expand(),
+        // constraints: const BoxConstraints.expand(),
         padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
         margin: EdgeInsets.zero,
         decoration: BoxDecoration(
@@ -270,7 +272,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                 ]
                 ),),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
@@ -468,57 +470,18 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(12)),
-                child: // Show loading indicator while loading JSON
-                Obx(() {
-                  if (HomeController.to.districtList.isEmpty) {
-                    HomeController.to.districtList.refresh();
+              Obx(() {
+                if (HomeController.to.districtList.isEmpty) {
+                  HomeController.to.districtList.refresh();
 
-                    return CircularProgressIndicator();
-                  } else {
-                    return FittedBox(
-                      child: DropdownButton<String>(
-                        underline: const SizedBox.shrink(),
-                        value: HomeController.to.selectedDistrict.value,
-                        dropdownColor: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        hint: const Text(
-                          "Select a District ",
-                        ),
-                        items: [
-//                           DropdownMenuItem<String>(
-//                               enabled: false,
-//                               child: SizedBox(width: MediaQuery.of(context).size.width/2.5,
-//                                 child: CustomTextField(
-//                                   hintText: 'Search district here..',
-//                                   onChanged: (value)async {
-// HomeController.to.filterDistrict(value??'');
-// HomeController.to.filterDistrictList.refresh();
-//                                   },
-//                                 ),
-//                               )),
-                          ...HomeController.to.filterDistrictList.map((dis) {
-                            return DropdownMenuItem<String>(
-                              value: dis['name'],
-                              child: Text(dis['name']),
-                            );
-                          })
-                        ],
-                        onChanged: (value) {
-                          HomeController.to.selectedDistrict.value = value;
-                        },
-                      ),
-                    );
-                  }
-                }),
-              ),
+                  return const CircularProgressIndicator();
+                } else {
+                  return const SearchableDropDown(fromHome: false,);
+                }
+              }),
               const SizedBox(
                 height: 10,
               ),
@@ -554,10 +517,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                              child: Stack(
                                alignment: Alignment.center,
                                children:[
-                               SizedBox(
+                               const SizedBox(
                                  height:50,
                                  width: 50,
-                                 child: const CircularProgressIndicator(color: Colors.black,strokeWidth: 6,
+                                 child: CircularProgressIndicator(color: Colors.black,strokeWidth: 6,
                                    // value:HomeController.to.uploadProgress.value,color: Colors.black,
                                    //
                                  ),

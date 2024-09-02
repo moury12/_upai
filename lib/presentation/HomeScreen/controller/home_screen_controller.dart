@@ -81,6 +81,7 @@ class HomeController extends GetxController {
     refreshAllData();
     districtList.value =
     await loadJsonFromAssets('assets/district/district.json');
+    districtList.sort((a, b) => a['name'].toString().compareTo(b['name'].toString()));
     filterDistrictList.assignAll(districtList);
     quantityController.value.text = quantity.value.toString();
     quantityControllerForConfromOrder.value.text =

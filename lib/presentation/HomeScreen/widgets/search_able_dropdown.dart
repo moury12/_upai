@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 
 class SearchableDropDown extends StatefulWidget {
+  final bool? fromHome;
   const SearchableDropDown({
-    super.key,
+    super.key, this.fromHome =true,
   });
 
   @override
@@ -63,17 +64,24 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
           children: [
             Obx(() {
               return Text(
-                HomeController.to.selectedDistrictForAll.value ?? 'Select district',
+               widget.fromHome!? HomeController.to.selectedDistrictForAll.value ??
+                    'Select district':HomeController.to.selectedDistrict.value??'Select district',
                 style: TextStyle(
                     fontSize: 15,
-                    fontWeight: HomeController.to.selectedDistrictForAll.value != null
-                        ?FontWeight.w400: FontWeight.w600,
-                    color: HomeController.to.selectedDistrictForAll.value != null
-                        ? Colors.black
-                        : Colors.black.withOpacity(.6)),
+                    fontWeight:
+                    widget.fromHome!? HomeController.to.selectedDistrictForAll.value != null
+                            ? FontWeight.w400
+                            : FontWeight.w600:HomeController.to.selectedDistrict.value != null
+                            ? FontWeight.w400
+                            : FontWeight.w600,
+                    color:
+                    widget.fromHome!?  HomeController.to.selectedDistrictForAll.value != null
+                            ? Colors.black
+                            : Colors.black.withOpacity(.6):HomeController.to.selectedDistrict.value != null
+                            ? Colors.black
+                            : Colors.black.withOpacity(.6)),
               );
             }),
-
             Icon(
               Icons.arrow_drop_down,
               color: Colors.black54,
@@ -130,9 +138,16 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  HomeController.to.selectedDistrictForAll.value =
-                                      e['name'];
-                                  HomeController.to.filterOffer(HomeController.to.searchOfferController.value.text,HomeController.to.selectedDistrictForAll.value);
+                                  widget.fromHome!?  HomeController.to.selectedDistrictForAll
+                                      .value = e['name']:HomeController.to.selectedDistrict
+                                      .value = e['name'];
+                                 if( widget.fromHome!) {
+                                   HomeController.to.filterOffer(
+                                      HomeController
+                                          .to.searchOfferController.value.text,
+                                      HomeController
+                                          .to.selectedDistrictForAll.value);
+                                 }
                                   Navigator.pop(context);
                                 });
                               },
