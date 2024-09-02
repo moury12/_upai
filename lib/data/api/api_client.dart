@@ -1,7 +1,14 @@
 
 
+import '../../Boxes/boxes.dart';
+
 class ApiClient {
-  static const String _baseUrl = "http://103.119.102.117:8000/upai_api";
+  //static const String _baseUrl = "http://103.119.102.117:8000/upai_api";
+  late String _baseUrl;
+  ApiClient()
+  {
+    _baseUrl= "${Boxes.getDmPathBox().get("BaseUrl").toString()}/upai_api";
+  }
   String get loginUrl => '$_baseUrl/login';
   String get createUserUrl => '$_baseUrl/create_user';
   String get getCategoryList => '$_baseUrl/get_category_list';

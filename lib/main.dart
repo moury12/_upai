@@ -40,7 +40,8 @@ Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
 //   // You can also show a notification or perform other tasks here.
 // }
 
-String boxName="userInfo";
+// String boxName="userInfo";
+// String boxName="userInfo";
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await NotificationService.init();
@@ -52,8 +53,8 @@ Future<void> main() async {
   // Register the background message handler
   FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
   await Hive.initFlutter();
-  await Hive.openBox(boxName);
-
+  await Hive.openBox("userInfo");
+  await Hive.openBox("dmPath");
 
   // DependencyInjection.init();
   runApp(const MyApp());

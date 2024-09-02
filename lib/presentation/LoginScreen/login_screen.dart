@@ -10,6 +10,7 @@ import 'package:upai/presentation/sign%20up%20screen/sign_up_screen.dart';
 import 'package:upai/review/review_screen.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
+import '../../Boxes/boxes.dart';
 import '../../data/repository/repository_details.dart';
 import '../../widgets/custom_button.dart';
 
@@ -167,11 +168,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           // UserInfoModel userInfo = UserInfoModel();
                           // userInfo.id = controller.CIDTE.text.trim().toString();
                           // userInfo.userId=controller.userIdTE.text.trim().toString();
-                          RepositoryData().login(
-                              "upai",
-                              controller.userMobileTE.text.trim().toString(),
-                              controller.passwordTE.text.trim().toString(),
-                              _selectedUserType!.name);
+
+                          await RepositoryData().getDmPath(baseUrl: "http://192.168.0.139:8002/upai_api/dmpath");
+                          if (Boxes.getDmPathBox().containsKey("BaseUrl")) {
+                            RepositoryData().login(
+                                "upai",
+                                controller.userMobileTE.text.trim().toString(),
+                                controller.passwordTE.text.trim().toString(),
+                                _selectedUserType!.name);
+                          }
+                          else
+                            {
+                              Get.snackbar("Something wrong!", "Click again");
+                              return;
+                            }
                         }
                       },
                     ),
@@ -196,7 +206,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-
                 ],
               ),
             ),

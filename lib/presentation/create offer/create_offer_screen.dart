@@ -100,14 +100,12 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         : null;
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery
         .of(context)
         .size
         .height;
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -596,7 +594,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       descriptionController.text,
                                       rateController.text,
                                       addressController.text);
-                                  Get.back();
+                                  // Get.back();
                                   // Get.to(MyServiceDetails());
                                   // SellerProfileController.to.myService.refresh();
                                   //  SellerProfileController.to.service.update(

@@ -11,6 +11,7 @@ import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
+import '../../Boxes/boxes.dart';
 import '../../Model/user_info_model.dart';
 import '../../presentation/Profile/profile_screen_controller.dart';
 import '../../presentation/seller-service/seller_profile_controller.dart';
@@ -275,6 +276,8 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     debugPrint(' body $body');
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
+      await HomeController.to.uploadImage(body["offer_id"].toString());
+      Get.back();
 
       Get.snackbar('Success', responseData['message']);
     } else {
@@ -474,6 +477,25 @@ static Future<void> editOffer({dynamic body,required String token}) async{
       }
        } else {
       Get.snackbar('Error', 'Failed');
+    }
+  }
+  Future<void> getDmPath({required baseUrl}) async {
+    try {
+      String url = baseUrl;
+      if (kDebugMode) {
+        print('++++++++++get Dm path url :----$url');
+      }
+      final response = await http.get(Uri.parse(url));
+      if (kDebugMode) {
+        print('dm path Response data :----${response.body.toString()}');
+      }
+      Map<String, dynamic> data = jsonDecode(response.body);
+      if (data['status'] == "success") {
+        Boxes.getDmPathBox().put("BaseUrl", data['BaseUrl'].toString());
+        print("${Boxes.getDmPathBox().get("BaseUrl")}");
+      }
+    } catch (e) {
+      print("error in api call of dm path");
     }
   }
 }

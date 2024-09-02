@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:googleapis/admob/v1.dart';
-import 'package:intl/intl.dart';
+
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
