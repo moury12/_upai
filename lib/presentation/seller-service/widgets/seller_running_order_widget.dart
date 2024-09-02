@@ -182,9 +182,9 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                           }
                           else {
                             return Image.asset(
-                                  ImageConstant.runningOrderImage,
+                                  ImageConstant.dummy,
                                   height: getResponsiveFontSize(context, 120),
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.none,
                                 );
                           }
                         },

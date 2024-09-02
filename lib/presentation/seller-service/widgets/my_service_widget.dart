@@ -46,7 +46,17 @@ class MyServiceWidget extends StatelessWidget {
                         ? service!.userId.toString()
                         : offerItem!.userId.toString()),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData) {
+                      if(snapshot.connectionState==ConnectionState.waiting && snapshot.connectionState==ConnectionState.none)
+                        {
+                          return Image.asset(
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.none,
+                            ImageConstant.dummy,
+                            // height: 80,
+                          );
+                        }
+                     else if (snapshot.hasData) {
                         return Image.network(
                             width: double.infinity,
                             fit: BoxFit.cover,
@@ -58,7 +68,17 @@ class MyServiceWidget extends StatelessWidget {
                                   ? service!.serviceCategoryType.toString()
                                   : offerItem!.serviceCategoryType.toString()),
                           builder: (context, snapshot) {
-                            if (snapshot.hasData) {
+                            if(snapshot.connectionState==ConnectionState.waiting && snapshot.connectionState==ConnectionState.none)
+                            {
+                              return Image.asset(
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.none,
+                                ImageConstant.dummy,
+                                // height: 80,
+                              );
+                            }
+                           else if (snapshot.hasData) {
                               return Image.network(
                                   width: double.infinity,
                                   fit: BoxFit.cover,
@@ -67,8 +87,8 @@ class MyServiceWidget extends StatelessWidget {
                               return Image.asset(
                                 width: double.infinity,
                                 height: double.infinity,
-                                fit: BoxFit.cover,
-                                ImageConstant.runningOrderImage,
+                                fit: BoxFit.none,
+                                ImageConstant.dummy,
                                 // height: 80,
                               );
                             }

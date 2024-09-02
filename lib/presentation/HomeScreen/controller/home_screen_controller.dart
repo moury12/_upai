@@ -154,6 +154,8 @@ class HomeController extends GetxController {
       "district": selectedDistrict.value,
       "address": address
     });
+    await SellerProfileController.to.refreshAllData();
+    await HomeController.to.refreshAllData();
   }
 
   Future<void> editOffer(String offerId, title, description, rate,
@@ -186,6 +188,7 @@ class HomeController extends GetxController {
         quantity: quantity.value,
         rate: int.parse(rate));
     await SellerProfileController.to.refreshAllData();
+    await HomeController.to.refreshAllData();
     // SellerProfileController.to.myService.refresh();
     // SellerProfileController.to.service.value =
   }

@@ -1,6 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
 
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,10 +10,8 @@ import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
-import 'package:upai/helper_function/helper_function.dart';
+import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
-import 'package:upai/presentation/seller-service/my_service_details.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 class CreateOfferScreen extends StatefulWidget {
@@ -36,7 +33,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
   late TextEditingController rateController;
 
-  List<String> timeUnits = ['Hour', 'Task', 'Per Day', 'piece'];
+  List<String> timeUnits = ['Hour', 'Task', 'Per Day', 'Piece'];
 
   // @override
   // void didChangeDependencies() async {
@@ -49,6 +46,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   @override
   void initState() {
     // print(district.toString());
+
     addressController = TextEditingController(
         text: widget.service != null && widget.service!.address!.isNotEmpty
             ? widget.service!.address
@@ -209,7 +207,57 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           // width: 150,
                           fit: BoxFit.fill,
                         )
-                            : Image(image: AssetImage(ImageConstant.dummy),
+                            : widget.isEdit==true?FutureBuilder(future: FirebaseAPIs.fetchOfferImageUrl(widget.service!.offerId.toString()),
+                            builder: (context, snapshot) {
+                              if(snapshot.connectionState==ConnectionState.waiting && snapshot.connectionState==ConnectionState.none)
+                              {
+                                return Image.asset(
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  fit: BoxFit.none,
+                                  ImageConstant.dummy,
+                                  // height: 80,
+                                );
+                              }
+                              else if (snapshot.hasData) {
+                                return Image.network(
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    snapshot.data.toString());
+                              } else {
+                                return FutureBuilder(
+                                  future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.service!.serviceCategoryType.toString()),
+                                  builder: (context, snapshot) {
+                                    if(snapshot.connectionState==ConnectionState.waiting && snapshot.connectionState==ConnectionState.none)
+                                    {
+                                      return Image.asset(
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        fit: BoxFit.none,
+                                        ImageConstant.dummy,
+                                        // height: 80,
+                                      );
+                                    }
+                                    else if (snapshot.hasData) {
+                                      return Image.network(
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                          snapshot.data.toString());
+                                    } else {
+                                      return Image.asset(
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        fit: BoxFit.none,
+                                        ImageConstant.dummy,
+                                        // height: 80,
+                                      );
+                                    }
+                                  },
+                                );
+                              }
+                            },
+                            ):
+                        Image(image: AssetImage(ImageConstant.dummy),
                           fit: BoxFit.cover,));
                   }),
                   const Positioned(
@@ -289,6 +337,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                 children: [
                   Expanded(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           "Rate",
@@ -309,7 +358,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           // onChanged: (value) => controller.emailController.text.trim() = value!,
                         ),
                       ],
-                      crossAxisAlignment: CrossAxisAlignment.start,
                     ),
                   ),
                   const SizedBox(
@@ -524,7 +572,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,
                                 foregroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 12, horizontal: 12)),
                             onPressed: () async {
                               if (HomeController.to.selectedRateType.value !=
@@ -566,14 +614,14 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       descriptionController.text,
                                       rateController.text,
                                       addressController.text);
-                                  await SellerProfileController.to
-                                      .refreshAllData();
+                                  // await SellerProfileController.to
+                                  //     .refreshAllData();
                                   clear();
                                 }
 
                                 // clear();
                               } else {
-                                Get.snackbar('Error', "All field Required");
+                                Get.snackbar("All field Required", "");
                                 // clear();
                               }
                             },

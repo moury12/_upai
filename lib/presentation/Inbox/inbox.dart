@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -104,6 +105,9 @@ class InboxScreen extends StatelessWidget {
                                             UserInfoModel.fromJson(i.data()));
                                       }
                                       List<UserInfoModel> finalList = ctrl.isSearching ? ctrl.searchList : ctrl.chatList;
+                                      print("xxxxxxxxxxxxxxxxxxxxx");
+                                      log(jsonEncode(finalList));
+
                                       return ListView.builder(
                                         itemCount: finalList.length,
                                         itemBuilder: (context, index) {

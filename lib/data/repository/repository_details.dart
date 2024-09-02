@@ -13,6 +13,7 @@ import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.d
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import '../../Model/user_info_model.dart';
 import '../../presentation/Profile/profile_screen_controller.dart';
+import '../../presentation/seller-service/seller_profile_controller.dart';
 import '/data/api/api_client.dart';
 import '/core/errors/error_controller.dart';
 
@@ -283,7 +284,6 @@ static Future<void> editOffer({dynamic body,required String token}) async{
 }
   static Future<void> updateProfile({dynamic body,required String token}) async{
     final headers={
-
       'Content-Type':'application/json',
       'Authorization': 'Bearer $token',
     };
@@ -371,6 +371,8 @@ static Future<void> editOffer({dynamic body,required String token}) async{
             orderNotificationData, senderData, title,msg);
       }
         ////
+      await SellerProfileController.to.refreshAllData();
+      await HomeController.to.refreshAllData();
 
     }
 

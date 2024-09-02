@@ -64,10 +64,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   // ),
                   // const SizedBox(height: 20),
                   CustomTextField(
+                    labelText: "Mobile Number",
                     validatorText: "Please Enter Mobile Number",
                     prefixIcon: Icons.call,
                     inputType: TextInputType.number,
-                    hintText: "Mobile Number",
+                    hintText: "Enter your mobile number",
                     controller: controller.userMobileTE,
                   ),
                   // CustomTextFeild(
@@ -82,10 +83,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   // ),
                   const SizedBox(height: 20),
                   CustomTextField(
+                    labelText: "Password",
                     validatorText: "Please Enter User Password",
                     isPasswordField: true,
                     prefixIcon: Icons.lock,
-                    hintText: "Password",
+                    hintText: "Enter your password",
                     controller: controller.passwordTE,
                     // onChanged: (value) => controller.emailController.text.trim() = value!,
                   ),

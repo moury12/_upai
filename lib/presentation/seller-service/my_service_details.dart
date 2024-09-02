@@ -47,6 +47,7 @@ class MyServiceDetails extends StatelessWidget {
                     return Image.network(
 
                         height: 200,
+                        width: double.infinity,
                         // height: double.infinity,
                         // width: double.infinity,
                         fit: BoxFit.cover,
@@ -61,10 +62,9 @@ class MyServiceDetails extends StatelessWidget {
                             {
                               return Image.asset(
                                 height: 200,
-                                ImageConstant.runningOrderImage,
+                                ImageConstant.dummy,
                                 // height: double.infinity,
-                                // width: double.infinity,
-                                fit: BoxFit.cover,
+                                // fit: BoxFit.cover,
                               );
                             }
                           else
@@ -75,6 +75,7 @@ class MyServiceDetails extends StatelessWidget {
                                   // height: double.infinity,
                                   // width: double.infinity,
                                   fit: BoxFit.cover,
+                                  width: double.infinity,
                                   snapshot.data.toString());
                             }
 
@@ -82,11 +83,10 @@ class MyServiceDetails extends StatelessWidget {
                         else {
                           return Image.asset(
                             height: 200,
-
-                            ImageConstant.runningOrderImage,
+                            ImageConstant.dummy,
                             // height: double.infinity,
                             // width: double.infinity,
-                            fit: BoxFit.cover,
+                            // fit: BoxFit.cover,
                           );
                         }
                       },
@@ -149,7 +149,7 @@ class MyServiceDetails extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               'Rate Type: ',
                               style: TextStyle(
                                   fontSize: 14,
@@ -157,7 +157,7 @@ class MyServiceDetails extends StatelessWidget {
                             ),
                             Text(
                               '${SellerProfileController.to.service.value.rateType}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400),
                             ),
@@ -165,7 +165,7 @@ class MyServiceDetails extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               'Category Type: ',
                               style: TextStyle(
                                   fontSize: 14,
@@ -179,7 +179,7 @@ class MyServiceDetails extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Text(
+                        const Text(
                           'Description: ',
                           style: TextStyle(
                               fontSize: 14,
@@ -187,7 +187,7 @@ class MyServiceDetails extends StatelessWidget {
                         ),
                         Text(
                           '${SellerProfileController.to.service.value.description}',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400),
                         ),

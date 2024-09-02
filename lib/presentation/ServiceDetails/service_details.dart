@@ -28,34 +28,36 @@ import 'widgets/rate_by_category_widget.dart';
 import 'widgets/request_confirm_offer.dart';
 
 class ServiceDetails extends StatefulWidget {
-   ServiceDetails({super.key, this.offerDetails});
+  ServiceDetails({super.key, this.offerDetails});
   final OfferList? offerDetails;
-  Map<String,dynamic> sellerDetails = {};
+  Map<String, dynamic> sellerDetails = {};
   static const String routeName = '/offer-details';
   @override
   State<ServiceDetails> createState() => _ServiceDetailsState();
 }
 
 class _ServiceDetailsState extends State<ServiceDetails> {
-  String image="";
+  String image = "";
   @override
   void initState() {
     getSellerDetails();
-     ProfileScreenController.to.profileImageUrl.value='';
+    ProfileScreenController.to.profileImageUrl.value = '';
 
-
-ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
+    ProfileScreenController.to.id.value = widget.offerDetails!.userId ?? '';
 // ProfileScreenController.to.fetchProfileImage();
     super.initState();
   }
-@override
-  void dispose() {
-  ProfileScreenController.to.profileImageUrl.value='';
 
-  ProfileScreenController.to.id.value =ProfileScreenController.to.userInfo.value.userId??'';
-  ProfileScreenController.to.fetchProfileImage();
+  @override
+  void dispose() {
+    ProfileScreenController.to.profileImageUrl.value = '';
+
+    ProfileScreenController.to.id.value =
+        ProfileScreenController.to.userInfo.value.userId ?? '';
+    ProfileScreenController.to.fetchProfileImage();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     //  ItemServiceModel singleItem = ItemServiceModel();
@@ -78,28 +80,30 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      if(ProfileScreenController.to.userInfo.value.userId!=widget.offerDetails!.userId)
-                        {
-
+                      if (ProfileScreenController.to.userInfo.value.userId ==
+                          widget.offerDetails!.userId) {
+                        Get.snackbar("This is your Service", "");
+                      } else {
+                        UserInfoModel senderData = UserInfoModel();
+                        Map<String, dynamic>? userDetails;
+                        userDetails = await FirebaseAPIs().getSenderInfo(
+                            widget.offerDetails!.userId.toString());
+                        if (userDetails!.isNotEmpty) {
+                          senderData.userId = userDetails["user_id"] ?? "";
+                          senderData.name = userDetails["name"] ?? "user";
+                          senderData.email = userDetails["email"];
+                          senderData.lastActive = userDetails["last_active"];
+                          senderData.image = userDetails["image"] ??
+                              "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+                          senderData.isOnline = userDetails["is_online"];
+                          senderData.userType = userDetails["user_type"];
+                          senderData.token = userDetails["token"];
+                          senderData.mobile = userDetails["mobile"];
+                          senderData.cid = userDetails["cid"];
+                          senderData.pushToken = userDetails["push_token"];
                         }
-                      UserInfoModel senderData = UserInfoModel();
-                      Map<String, dynamic>? userDetails;
-                      userDetails = await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString());
-                      if (userDetails!.isNotEmpty) {
-                        senderData.userId = userDetails["user_id"] ?? "";
-                        senderData.name = userDetails["name"] ?? "user";
-                        senderData.email = userDetails["email"];
-                        senderData.lastActive = userDetails["last_active"];
-                        senderData.image = userDetails["image"] ??
-                            "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
-                        senderData.isOnline = userDetails["is_online"];
-                        senderData.userType = userDetails["user_type"];
-                        senderData.token = userDetails["token"];
-                        senderData.mobile = userDetails["mobile"];
-                        senderData.cid = userDetails["cid"];
-                        senderData.pushToken = userDetails["push_token"];
+                        Get.toNamed("/chatscreen", arguments: senderData);
                       }
-                      Get.toNamed("/chatscreen", arguments: senderData);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
@@ -118,13 +122,18 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.put(OrderController());
-                      showDialog(
-                        context: context,
-                        builder: (context) => ConfirmOfferRequestWidget(
-                          service: widget,
-                        ),
-                      );
+                      if (ProfileScreenController.to.userInfo.value.userId ==
+                          widget.offerDetails!.userId) {
+                        Get.snackbar("This is your Service", "");
+                      } else {
+                        Get.put(OrderController());
+                        showDialog(
+                          context: context,
+                          builder: (context) => ConfirmOfferRequestWidget(
+                            service: widget,
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
@@ -160,32 +169,57 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                         child: Stack(
                           children: [
                             FutureBuilder(
-                              future: FirebaseAPIs.fetchOfferImageUrl(widget.offerDetails!.offerId.toString()),
+                              future: FirebaseAPIs.fetchOfferImageUrl(
+                                  widget.offerDetails!.offerId.toString()),
                               builder: (context, snapshot) {
-                                if (snapshot.hasData) {
+                                if (snapshot.connectionState ==
+                                        ConnectionState.waiting &&
+                                    snapshot.connectionState ==
+                                        ConnectionState.none) {
+                                  return Image.asset(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    fit: BoxFit.none,
+                                    ImageConstant.dummy,
+                                    // height: 80,
+                                  );
+                                } else if (snapshot.hasData) {
                                   return Image.network(
                                       height: double.infinity,
                                       width: double.infinity,
                                       fit: BoxFit.cover,
                                       snapshot.data.toString());
-                                }
-                                else {
+                                } else {
                                   return FutureBuilder(
-                                    future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.offerDetails!.serviceCategoryType.toString()),
+                                    future:
+                                        FirebaseAPIs.fetchDefaultOfferImageUrl(
+                                            widget.offerDetails!
+                                                .serviceCategoryType
+                                                .toString()),
                                     builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
+                                      if (snapshot.connectionState ==
+                                              ConnectionState.waiting &&
+                                          snapshot.connectionState ==
+                                              ConnectionState.none) {
+                                        return Image.asset(
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          fit: BoxFit.none,
+                                          ImageConstant.dummy,
+                                          // height: 80,
+                                        );
+                                      } else if (snapshot.hasData) {
                                         return Image.network(
                                             height: double.infinity,
                                             width: double.infinity,
                                             fit: BoxFit.cover,
                                             snapshot.data.toString());
-                                      }
-                                      else {
+                                      } else {
                                         return Image.asset(
-                                          ImageConstant.runningOrderImage,
+                                          ImageConstant.dummy,
                                           height: double.infinity,
                                           width: double.infinity,
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.none,
                                         );
                                       }
                                     },
@@ -195,40 +229,72 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                             ),
 
                             Positioned(
-                                child: IconButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              icon: const Icon(
-                                Icons.arrow_back_ios_rounded,
+                              left: 8,
+                                top: 8,
+                                child: Container(
+
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: IconButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                icon: const Icon(
+                                  Icons.arrow_back_ios_rounded,
+                                  color: Colors.white,size: 25,
+                                ),
                               ),
                             )),
                             Positioned(
-                                right: 45,
-                                child: Obx(() {
-                                  return IconButton(
-                                    onPressed: () {
-                                    print(  widget.offerDetails!.description.toString());
-                                      if (ctrl.isFav.value) {
-                                        ctrl.isFav.value = false;
-                                      } else {
-                                        ctrl.isFav.value = true;
-                                      }
-                                    },
-                                    icon: ctrl.isFav.value
-                                        ? const Icon(CupertinoIcons.heart_fill,color: Colors.red,)
-                                        : /*const FaIcon(
-                                            FontAwesomeIcons.heart,
-                                          ),*/
-                                    const Icon(CupertinoIcons.heart),
-                                  );
-                                })),
-                            Positioned(
                                 right: 8,
-                                child: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.share_outlined),
+                                top: 8,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Row(
+                                    children: [
+                                      Obx(() {
+                                        return IconButton(
+                                          onPressed: () {
+                                            print(widget.offerDetails!.description
+                                                .toString());
+                                            if (ctrl.isFav.value) {
+                                              ctrl.isFav.value = false;
+                                            } else {
+                                              ctrl.isFav.value = true;
+                                            }
+                                          },
+                                          icon: ctrl.isFav.value
+                                              ? const Icon(
+                                                  CupertinoIcons.heart_fill,
+                                                  color: Colors.red,size: 25,
+                                                )
+                                              : /*const FaIcon(
+                                                  FontAwesomeIcons.heart,
+                                                ),*/
+                                              const Icon(
+                                                  CupertinoIcons.heart_fill,
+                                                  color: Colors.white,size: 25,),
+                                        );
+                                      }),
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(
+                                          Icons.share_rounded,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 )),
+                            // Positioned(
+                            //     right: 8,
+                            //     child: IconButton(
+                            //       onPressed: () {},
+                            //       icon: const Icon(Icons.share_rounded,color: Colors.white,),
+                            //     )),
                           ],
                         ),
                       ),
@@ -244,40 +310,39 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                       ),
                       const Divider(),
                       ListTile(
-
-                        leading: FutureBuilder(future: ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString()),builder: (context, snapshot) {
-                         if(snapshot.hasData)
-                           {
-                             if(snapshot.data!="") {
+                        leading: FutureBuilder(
+                          future: ProfileScreenController.to.getProfileImageURL(
+                              widget.offerDetails!.userId.toString()),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data != "") {
+                                return CircleAvatar(
+                                    radius: 24,
+                                    backgroundImage:
+                                        NetworkImage(snapshot.data.toString()));
+                              } else {
+                                return CircleAvatar(
+                                    radius: 24,
+                                    backgroundImage: AssetImage(
+                                      ImageConstant.senderImg,
+                                    ));
+                                // return Image.asset(
+                                //   ImageConstant.senderImg,
+                                //   height: 150,
+                                //   width: 150,
+                                //   fit: BoxFit.cover,
+                                // );
+                              }
+                            } else {
                               return CircleAvatar(
-                                radius: 24,
-                                backgroundImage: NetworkImage(snapshot.data.toString())
-                              );
+                                  radius: 24,
+                                  // radius: 30,
+                                  backgroundImage: AssetImage(
+                                    ImageConstant.senderImg,
+                                  ));
                             }
-                             else
-                               {
-                                 return CircleAvatar(
-                                     radius: 24,
-                                     backgroundImage: AssetImage(ImageConstant.senderImg,)
-                                 );
-                                 // return Image.asset(
-                                 //   ImageConstant.senderImg,
-                                 //   height: 150,
-                                 //   width: 150,
-                                 //   fit: BoxFit.cover,
-                                 // );
-                               }
-                          }
-                         else
-                           {
-                             return CircleAvatar(
-                                 radius: 24,
-                                 // radius: 30,
-                                 backgroundImage: AssetImage(ImageConstant.senderImg,)
-                             );
-                           }
-
-                        },),
+                          },
+                        ),
                         horizontalTitleGap: 8.0,
                         title: Text(
                           widget.offerDetails!.userName.toString(),
@@ -307,11 +372,9 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-
                                     "Posted on ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
                                 Text(
-
-                                   "🌏 ${ widget.offerDetails!.district.toString()}"),
+                                    "🌏 ${widget.offerDetails!.district.toString()}"),
                               ],
                             ),
                             Row(
@@ -321,7 +384,7 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                                   flex: 4,
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       // Text(
                                       //   "Price",
@@ -436,10 +499,9 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                             const SizedBox(
                               height: 10,
                             ),
-                             DetailItem(
-                              title: "User ID:",
-                              body:widget.offerDetails!.userId.toString()
-                            ),
+                            DetailItem(
+                                title: "User ID:",
+                                body: widget.offerDetails!.userId.toString()),
                             //  DetailItem(
                             //   title: "Offer ID:",
                             //   body: widget.offerDetails!.offerId.toString(),
@@ -457,15 +519,18 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                             ),
                             DetailItem(
                               title: "Rate:",
-                              body:"${widget.offerDetails!.rate.toString()} ৳ ",
+                              body:
+                                  "${widget.offerDetails!.rate.toString()} ৳ ",
                             ),
                             DetailItem(
                               title: "Quantity:",
-                              body:"${widget.offerDetails!.quantity.toString()} 🛒",
+                              body:
+                                  "${widget.offerDetails!.quantity.toString()} 🛒",
                             ),
                             DetailItem(
                               title: "Address:",
-                              body:"${widget.offerDetails!.address.toString()}",
+                              body:
+                                  "${widget.offerDetails!.address.toString()}",
                             ),
 
                             Text(
@@ -492,9 +557,13 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                               trimCollapsedText: 'Show more',
                               trimExpandedText: ' Show less',
                               moreStyle: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold,color: Colors.green),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green),
                               lessStyle: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold,color: Colors.blueAccent),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blueAccent),
                             ),
                             const SizedBox(
                               height: 20,
@@ -530,7 +599,6 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                               height: 5,
                             ),
 
-
                             // Container(
                             //   decoration: BoxDecoration(
                             //     borderRadius: BorderRadius.circular(8),
@@ -554,64 +622,76 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                             const SizedBox(
                               height: 10,
                             ),
-                            widget.offerDetails!.totalCompletedJob!=0?
-                            Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: Row(
+                            widget.offerDetails!.totalCompletedJob != 0
+                                ? Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            widget.offerDetails!.avgRating.toString(),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black87,
-                                                fontSize: getResponsiveFontSize(
-                                                    context, 16)),
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          RatingBarIndicator(
-                                            rating: widget.offerDetails!.avgRating,
-                                            itemBuilder: (context, index) => Icon(
-                                              Icons.star,
-                                              color: AppColors.colorLightBlack,
+                                          Expanded(
+                                            flex: 2,
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  widget.offerDetails!.avgRating
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black87,
+                                                      fontSize:
+                                                          getResponsiveFontSize(
+                                                              context, 16)),
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                RatingBarIndicator(
+                                                  rating: widget
+                                                      .offerDetails!.avgRating,
+                                                  itemBuilder:
+                                                      (context, index) => Icon(
+                                                    Icons.star,
+                                                    color: AppColors
+                                                        .colorLightBlack,
+                                                  ),
+                                                  itemCount: 5,
+                                                  itemSize: 22.0,
+                                                  direction: Axis.horizontal,
+                                                ),
+                                              ],
                                             ),
-                                            itemCount: 5,
-                                            itemSize: 22.0,
-                                            direction: Axis.horizontal,
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Text("Client Review",
-                                    style: AppTextStyle.titleText),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                SizedBox(
-                                  width: size.width,
-                                  height: 200,
-                                  child: ListView.builder(
-                                    itemCount: widget.offerDetails!.buyerReviewList!.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      return ClientReviewCard(buyerReview:widget.offerDetails!.buyerReviewList![index],size: size);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ):
-                                SizedBox(),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text("Client Review",
+                                          style: AppTextStyle.titleText),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      SizedBox(
+                                        width: size.width,
+                                        height: 200,
+                                        child: ListView.builder(
+                                          itemCount: widget.offerDetails!
+                                              .buyerReviewList!.length,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, index) {
+                                            return ClientReviewCard(
+                                                buyerReview: widget
+                                                    .offerDetails!
+                                                    .buyerReviewList![index],
+                                                size: size);
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox(),
                             // const SizedBox(
                             //   height: 10,
                             // ),
@@ -635,7 +715,6 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                             //   rateCat: "Recommend Service",
                             //   rating: "4.6",
                             // ),
-
 
                             // Container(
                             //   width: size.width,
@@ -695,33 +774,32 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                                               offerItem: HomeController
                                                   .to.getOfferList[index],
                                               button: SizedBox(
-                                                  width: double.infinity,
-                                                  child: ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          Colors.black,
-                                                      foregroundColor:
-                                                          Colors.white,
-                                                    ),
-                                                    onPressed: () {
-                                                      Navigator.pushReplacement(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                ServiceDetails(
-                                                              offerDetails:
-                                                                  HomeController
-                                                                          .to
-                                                                          .getOfferList[
-                                                                      index],
-                                                            ),
-                                                          ));
-                                                    },
-                                                    child: const Text('Book Now'),
+                                                width: double.infinity,
+                                                child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.black,
+                                                    foregroundColor:
+                                                        Colors.white,
                                                   ),
+                                                  onPressed: () {
+                                                    Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ServiceDetails(
+                                                            offerDetails:
+                                                                HomeController
+                                                                        .to
+                                                                        .getOfferList[
+                                                                    index],
+                                                          ),
+                                                        ));
+                                                  },
+                                                  child: const Text('Book Now'),
                                                 ),
-
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -736,7 +814,6 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
                                 }
                               },
                             ),
-
                           ],
                         ),
                       )
@@ -748,9 +825,10 @@ ProfileScreenController.to.id.value =widget.offerDetails!.userId??'';
     );
   }
 
-  void getSellerDetails()async {
-  image= await ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString());
-   // widget.sellerDetails =  (await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString()))!;
+  void getSellerDetails() async {
+    image = await ProfileScreenController.to
+        .getProfileImageURL(widget.offerDetails!.userId.toString());
+    // widget.sellerDetails =  (await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString()))!;
   }
 }
 

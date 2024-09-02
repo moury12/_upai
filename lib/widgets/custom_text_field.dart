@@ -102,10 +102,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
         onFieldSubmitted: widget.onFieldSubmitted,
         onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
         decoration: InputDecoration(
+
           fillColor: Colors.white,
           labelText: widget.labelText,
-          labelStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.black),
+          labelStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.black.withOpacity(0.5)),
           border: OutlineInputBorder(
+
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(color: AppColors.strokeColor2)),
           enabledBorder: OutlineInputBorder(
