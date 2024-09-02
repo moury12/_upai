@@ -75,7 +75,6 @@ class HomeController extends GetxController {
     rateController.value.dispose();
     super.onClose();
   }
-
   @override
   void onInit() async {
     refreshAllData();
@@ -96,14 +95,11 @@ class HomeController extends GetxController {
     rateController.value.addListener(updateTotalAmount);
     super.onInit();
   }
-
   Future<void> refreshAllData() async {
     ctrl = Get.put(ProfileScreenController());
-
     getCategoryList();
     getOfferDataList();
   }
-
   Future<void> filterDistrict(String value) async {
     if (value == "All") {
       filterDistrictList.assignAll(districtList);
@@ -120,7 +116,6 @@ class HomeController extends GetxController {
       filterDistrictList.refresh();
     }
   }
-
   void getCategoryList() async {
     getCatList.value = await RepositoryData()
         .getCategoryList(token: FirebaseAPIs.user['token'].toString());
@@ -132,10 +127,8 @@ class HomeController extends GetxController {
         token: FirebaseAPIs.user['token'].toString(),
         mobile: ctrl!.userInfo.value.userId ?? '',
         name: ctrl!.userInfo.value.name ?? '');
-
     filteredOfferList.value = getOfferList;
   }
-
   void createOffer(String jobTitle,
       String description,
       String rate,

@@ -277,9 +277,9 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       await HomeController.to.uploadImage(body["offer_id"].toString());
-      Get.back();
 
       Get.snackbar('Success', responseData['message']);
+      Get.back();
     } else {
       Get.snackbar('failed',  responseData['message']);
     }
@@ -311,7 +311,6 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     final responseData = jsonDecode(response.body);
     debugPrint(' body $body');
     debugPrint('response body $responseData');
-
     if (responseData['status'] != null && responseData['status'] == 'Success') {
      await HomeController.to.uploadImage(responseData["offer_id"].toString());
      print(responseData["offer_id"].toString());

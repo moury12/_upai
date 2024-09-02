@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
-import 'package:upai/core/utils/custom_text_style.dart';
+
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
@@ -18,7 +18,7 @@ class MyServiceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Determine if we're using service or offerList
-    final isService = service != null;
+    bool isService = service != null;
 
     return Stack(
       clipBehavior: Clip.none,
@@ -42,8 +42,8 @@ class MyServiceWidget extends StatelessWidget {
                   flex: 4,
                   child: FutureBuilder(
                     future: FirebaseAPIs.fetchOfferImageUrl(isService
-                        ? service!.userId.toString()
-                        : offerItem!.userId.toString()),
+                        ? service!.offerId.toString()
+                        : offerItem!.offerId.toString()),
                     builder: (context, snapshot) {
                       if(snapshot.connectionState==ConnectionState.waiting && snapshot.connectionState==ConnectionState.none)
                         {

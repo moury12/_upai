@@ -45,7 +45,6 @@ class MyServiceDetails extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Image.network(
-
                         height: 200,
                         width: double.infinity,
                         // height: double.infinity,
