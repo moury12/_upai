@@ -87,7 +87,8 @@ class InboxScreen extends StatelessWidget {
                             return const Center(child: CircularProgressIndicator());
                             case ConnectionState.active:
                             case ConnectionState.done:
-                              return StreamBuilder(stream: FirebaseAPIs.getAllUsers( snapshot.data?.docs.map((e) => e.id).toList() ?? []),
+                              return StreamBuilder(stream: FirebaseAPIs.getAllUsers(
+                                  snapshot.data?.docs.map((e) => e.id).toList() ?? []),
                                 builder: (context, snapshot) {
                                 switch(snapshot.connectionState){
                                   case ConnectionState.waiting:
@@ -103,7 +104,8 @@ class InboxScreen extends StatelessWidget {
                                         ctrl.chatList.add(
                                             UserInfoModel.fromJson(i.data()));
                                       }
-                                      List<UserInfoModel> finalList = ctrl.isSearching ? ctrl.searchList : ctrl.chatList;
+                                      List<UserInfoModel> finalList = ctrl.isSearching ?
+                                      ctrl.searchList : ctrl.chatList;
                                       return ListView.builder(
                                         itemCount: finalList.length,
                                         itemBuilder: (context, index) {
