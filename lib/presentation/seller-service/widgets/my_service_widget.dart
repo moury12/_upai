@@ -234,10 +234,11 @@ class MyServiceWidget extends StatelessWidget {
             ],
           ),
         ),
-        if (offerItem?.district != null && offerItem!.district!.isNotEmpty ||
+        if (offerItem?.district != null && offerItem!.district!.isNotEmpty &&offerItem!.district!="All Districts"||
             service?.district != null &&
                 service!
-                    .district!.isNotEmpty /*||offerList?.district.isNotEmpty*/)
+                    .district!.isNotEmpty && service!
+                .district!="All Districts"/*||offerList?.district.isNotEmpty*/)
           Positioned(
             top: 0,
             left: 0,
