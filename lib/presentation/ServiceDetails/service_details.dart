@@ -240,6 +240,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 onPressed: () {
                                   Get.back();
                                 },
+
                                 icon: const Icon(
                                   Icons.arrow_back_ios_rounded,
                                   color: Colors.white,size: 25,
