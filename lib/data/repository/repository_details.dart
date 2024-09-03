@@ -276,10 +276,15 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     debugPrint(' body $body');
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      await HomeController.to.uploadImage(body["offer_id"].toString());
+
+      if(HomeController.to.image.value!=null)
+        {
+          await HomeController.to.uploadImage(body["offer_id"].toString());
+        }
 
       Get.snackbar('Success', responseData['message']);
-      Get.back();
+
+
     } else {
       Get.snackbar('failed',  responseData['message']);
     }
@@ -312,7 +317,12 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     debugPrint(' body $body');
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-     await HomeController.to.uploadImage(responseData["offer_id"].toString());
+      if(HomeController.to.image.value!=null)
+        {
+          await HomeController.to.uploadImage(responseData["offer_id"].toString());
+          HomeController.to.image.value=null;
+        }
+
      print(responseData["offer_id"].toString());
       Get.snackbar('Success', responseData['message']);
 

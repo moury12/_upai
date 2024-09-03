@@ -51,10 +51,10 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         backgroundColor: AppColors.BTNbackgroudgrey,
         onPressed: () {
-          Get.to(() => CreateOfferScreen());
+          Get.to(() => const CreateOfferScreen());
         },
         child: const Icon(
           Icons.add_business_outlined,
@@ -357,7 +357,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                                 onTap: () {
                                   SellerProfileController.to.service.value =
                                       service;
-                                  Get.to(MyServiceDetails());
+                                  Get.to(const MyServiceDetails());
                                 },
                                 child: MyServiceWidget(
                                   service: service,

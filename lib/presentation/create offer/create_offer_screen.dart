@@ -288,11 +288,14 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       hint: const Text("Select a category"),
                       items: HomeController.to.getCatList.map((element) {
                         return DropdownMenuItem<CategoryList>(
+
+
                           value: element,
                           child: Text(element.categoryName.toString()),
                         );
                       }).toList(),
-                      onChanged: (value) {
+                      onChanged:widget.isEdit!?null:
+                          (value) {
                         HomeController.to.selectedCategory.value = value!;
                       },
                     ),
@@ -577,10 +580,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       addressController.text);
                                   // await SellerProfileController.to
                                   //     .refreshAllData();
-                                  clear();
+                                   clear();
                                 }
 
-                                // clear();
+                               // clear();
                               } else {
                                 Get.snackbar("All field Required", "");
                                 // clear();
