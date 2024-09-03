@@ -456,7 +456,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['message']);
+      Get.snackbar("Review", "Your Review submitted successfully");
      await FirebaseAPIs.updateJobStatus(ProfileScreenController.to.userInfo.value.userId.toString(), "COMPLETED",notification.notificationId.toString() );
       UserInfoModel senderData = UserInfoModel();
       Map<String, dynamic>? userDetails;
@@ -484,7 +484,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         orderNotificationData["seller_name"]=senderData.name.toString();
         orderNotificationData["notification_title"]="Congratulations.";
         orderNotificationData["created_time"]=DateTime.now().millisecondsSinceEpoch.toString();
-        orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} Buyer Successfully Received your ${body["job_id"]} service";
+        orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} Buyer Successfully Received your ${body["job_id"].toString()} service";
         FirebaseAPIs.sendNotificationData( orderNotificationData,senderData, orderNotificationData["notification_title"].toString(), orderNotificationData["notification_msg"].toString());
       }
        } else {

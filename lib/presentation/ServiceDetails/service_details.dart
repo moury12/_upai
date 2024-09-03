@@ -682,11 +682,15 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                               .buyerReviewList!.length,
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, index) {
-                                            return ClientReviewCard(
-                                                buyerReview: widget
-                                                    .offerDetails!
-                                                    .buyerReviewList![index],
-                                                size: size);
+                                            // if(widget.offerDetails!.buyerReviewList![index].buyerReview!.isNotEmpty)
+                                            //   {
+                                                return ClientReviewCard(
+                                                    buyerReview: widget
+                                                        .offerDetails!
+                                                        .buyerReviewList![index],
+                                                    size: size);
+                                              // }
+
                                           },
                                         ),
                                       ),

@@ -75,10 +75,18 @@ Navigator.pop(context);
         child: ElevatedButton(
         style: ElevatedButton.styleFrom(backgroundColor: Colors.black,foregroundColor: Colors.white),
           onPressed: () {
+          if(reviewTE.value.text.isEmpty)
+            {
+              Get.snackbar("Share your thoughts first", "");
+            }
+          else
+            {
+              OrderController.to.completionReview(reviewTE.text.trim().toString(),ratingValue.toString(),widget.notificationModel);
 
-        OrderController.to.completionReview(reviewTE.text.trim().toString(),ratingValue.toString(),widget.notificationModel);
-        Get.snackbar("Review", "Your Review submitted successfully");
-        Navigator.pop(context);
+              Navigator.pop(context);
+            }
+
+
             }, child: const Text('Submit review')),
       )],);
   }
