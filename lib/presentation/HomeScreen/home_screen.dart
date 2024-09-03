@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     super.initState();
   }
-
+FocusNode searchFocus =FocusNode();
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -54,15 +54,19 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisCount = 5;
       childRatio = 1;
     }
+    void resetData(){
+      controller.searchOfferController.value.clear();
+      controller.selectedDistrictForAll.value = null;
+      controller.isSearching.value = false;
+     searchFocus.unfocus();
+    }
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
           color: Colors.black,
           backgroundColor: Colors.white,
           onRefresh: () {
-            controller.searchOfferController.value.clear();
-            controller.selectedDistrictForAll.value = null;
-            controller.isSearching.value = false;
+            resetData();
             return controller.refreshAllData();
           },
           child: SingleChildScrollView(
@@ -83,28 +87,35 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        TextField(
-                          controller:
-                              HomeController.to.searchOfferController.value,
-                          onChanged: (value) {
-                            if (value.isNotEmpty) {
-                              controller.filterOffer(value,HomeController.to.selectedDistrictForAll.value);
-                              controller.isSearching.value = true;
-                            } else {
-                              controller.isSearching.value = false;
-                            }
-                          },
-                          cursorColor: Colors.black,
-                          decoration: InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              hintText: "Search service you're looking for...",
-                              hintStyle: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.appTextColorGrey),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(10))),
+                        Obx(
+                         () {
+                            return TextField(
+                              focusNode: searchFocus,
+                              controller:
+                                  HomeController.to.searchOfferController.value,
+                              onChanged: (value) {
+                                if (value.isNotEmpty) {
+                                  controller.filterOffer(value,HomeController.to.selectedDistrictForAll.value);
+                                  controller.isSearching.value = true;
+                                } else {
+                                  controller.filterOffer(value,HomeController.to.selectedDistrictForAll.value);
+
+                                  controller.isSearching.value = false;
+                                }
+                              },
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: "Search service you're looking for...",
+                                  hintStyle: TextStyle(
+                                      fontSize: 12,
+                                      color: AppColors.appTextColorGrey),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(10))),
+                            );
+                          }
                         ),
                         const SizedBox(
                           height: 8,
@@ -148,9 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               shape: CircleBorder(),
                             ),
                             onPressed: () async {
-                              controller.searchOfferController.value.clear();
-                              controller.isSearching.value = false;
-                              controller.selectedDistrictForAll.value = null;
+                             resetData();
                               await controller.refreshAllData();
                             },
                             icon: Icon(CupertinoIcons.restart)),

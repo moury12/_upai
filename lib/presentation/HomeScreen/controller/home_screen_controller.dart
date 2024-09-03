@@ -213,7 +213,7 @@ class HomeController extends GetxController {
 
   void filterOffer(String query, String? district) async {
     if (query.isNotEmpty || district != null) {
-      if (district == "All Districts") {
+      if (district == "All Districts"||district ==null) {
         filteredOfferList.value = getOfferList.where(
               (element) {
             final isQueryMatching =
@@ -231,7 +231,7 @@ class HomeController extends GetxController {
               (element) {
             final isDistrictMatching = element.district !=
                 null /*&&selectedDistrictForAll.value!="All Districts"*/ &&
-                element.district!.contains(district!);
+                element.district!.contains(district);
 
             final isQueryMatching =
             element.jobTitle!.toLowerCase().contains(query.toLowerCase());
