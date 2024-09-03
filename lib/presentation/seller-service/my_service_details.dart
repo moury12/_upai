@@ -4,13 +4,17 @@ import 'package:get/get.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/TestData/servicedItemData.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/helper_function/helper_function.dart';
+import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 
 import '../../data/api/firebase_apis.dart';
+import '../ServiceDetails/service_details.dart';
 
 class MyServiceDetails extends StatelessWidget {
   // final MyService service;
@@ -146,50 +150,97 @@ class MyServiceDetails extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            const Text(
-                              'Rate Type: ',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              '${SellerProfileController.to.service.value.rateType}',
-                              style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ],
+                        DetailItem(
+                            title: "Posted On:",
+                            body: MyDateUtil.formatDate(SellerProfileController.to.service.value.dateTime.toString())),
+                         DetailItem(
+                          title: "Offer ID:",
+                          body: '${SellerProfileController.to.service.value.offerId}',
                         ),
-                        Row(
-                          children: [
-                            const Text(
-                              'Category Type: ',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              '${SellerProfileController.to.service.value.serviceCategoryType}',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ],
+
+                        DetailItem(
+                          title: "Category:",
+                          body: '${SellerProfileController.to.service.value.serviceCategoryType}'
                         ),
-                        const Text(
-                          'Description: ',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
+
+                        DetailItem(
+                          title: "Rate Type:",
+                          body: "${SellerProfileController.to.service.value.rateType}",
+                        ),
+                        // DetailItem(
+                        //   title: "Rate:",
+                        //   body:
+                        //   "${widget.offerDetails!.rate.toString()} ৳ ",
+                        // ),
+                        // DetailItem(
+                        //   title: "Quantity:",
+                        //   body:
+                        //   "${widget.offerDetails!.quantity.toString()} 🛒",
+                        // ),
+                        DetailItem(
+                          title: "District:",
+                          body:
+                          '${SellerProfileController.to.service.value.district}',
+                        ),
+                        DetailItem(
+                          title: "Address:",
+                          body:
+                          '${SellerProfileController.to.service.value.address}',
+                        ),
+                        DetailItem(
+                          title: "Description:",
+                          body:
+                          '',
                         ),
                         Text(
                           '${SellerProfileController.to.service.value.description}',
-                          style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
-                        ),
+                          style:AppTextStyle.titleText),
+
+
+                        // Row(
+                        //   children: [
+                        //     const Text(
+                        //       'Rate Type: ',
+                        //       style: TextStyle(
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w600),
+                        //     ),
+                        //     Text(
+                        //       '${SellerProfileController.to.service.value.rateType}',
+                        //       style: const TextStyle(
+                        //           fontSize: 12,
+                        //           fontWeight: FontWeight.w400),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     const Text(
+                        //       'Category Type: ',
+                        //       style: TextStyle(
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w600),
+                        //     ),
+                        //     Text(
+                        //       '${SellerProfileController.to.service.value.serviceCategoryType}',
+                        //       style: TextStyle(
+                        //           fontSize: 12,
+                        //           fontWeight: FontWeight.w400),
+                        //     ),
+                        //   ],
+                        // ),
+                        // const Text(
+                        //   'Description: ',
+                        //   style: TextStyle(
+                        //       fontSize: 14,
+                        //       fontWeight: FontWeight.w600),
+                        // ),
+                        // Text(
+                        //   '${SellerProfileController.to.service.value.description}',
+                        //   style: const TextStyle(
+                        //       fontSize: 12,
+                        //       fontWeight: FontWeight.w400),
+                        // ),
                         SizedBox(height: 8,),
 
                         Row(

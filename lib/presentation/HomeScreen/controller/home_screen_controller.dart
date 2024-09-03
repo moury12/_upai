@@ -68,7 +68,6 @@ class HomeController extends GetxController {
   var filteredOfferList = <OfferList>[].obs;
   var filteredCategoryList = <CategoryList>[].obs;
   final box = Hive.box('userInfo');
-
   @override
   void onClose() {
     quantityController.value.dispose();

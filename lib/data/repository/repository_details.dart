@@ -444,7 +444,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     }
   }
 
-  static Future<void> completionReview({dynamic body,required String sellerID,required prevNotiID}) async {
+  static Future<void> completionReview({dynamic body,required NotificationModel notification}) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -457,10 +457,10 @@ static Future<void> editOffer({dynamic body,required String token}) async{
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       Get.snackbar('Success', responseData['message']);
-     await FirebaseAPIs.updateJobStatus(ProfileScreenController.to.userInfo.value.userId.toString(), "COMPLETED",prevNotiID );
+     await FirebaseAPIs.updateJobStatus(ProfileScreenController.to.userInfo.value.userId.toString(), "COMPLETED",notification.notificationId.toString() );
       UserInfoModel senderData = UserInfoModel();
       Map<String, dynamic>? userDetails;
-      userDetails = await FirebaseAPIs().getSenderInfo(sellerID);
+      userDetails = await FirebaseAPIs().getSenderInfo(notification.sellerId.toString());
       if (userDetails!.isNotEmpty) {
         senderData.userId = userDetails["user_id"] ?? "";
         senderData.name = userDetails["name"] ?? "user";
@@ -476,10 +476,13 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         senderData.pushToken = userDetails["push_token"];
         // body["read"]="";
         Map<String,dynamic> orderNotificationData = body;
+        // orderNotificationData["total"]=
         orderNotificationData["job_id"]=responseData['job_id'].toString();
+        orderNotificationData["total"]=notification.total.toString();
+        orderNotificationData["quantity"]=notification.quantity.toString();
         orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.value.name.toString();
         orderNotificationData["seller_name"]=senderData.name.toString();
-        orderNotificationData["notification_title"]="Congratulations.Buyer got your service";
+        orderNotificationData["notification_title"]="Congratulations.";
         orderNotificationData["created_time"]=DateTime.now().millisecondsSinceEpoch.toString();
         orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} Buyer Successfully Received your ${body["job_id"]} service";
         FirebaseAPIs.sendNotificationData( orderNotificationData,senderData, orderNotificationData["notification_title"].toString(), orderNotificationData["notification_msg"].toString());

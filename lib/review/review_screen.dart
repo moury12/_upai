@@ -76,10 +76,10 @@ Navigator.pop(context);
         style: ElevatedButton.styleFrom(backgroundColor: Colors.black,foregroundColor: Colors.white),
           onPressed: () {
 
-        OrderController.to.completionReview(widget.notificationModel.jobId.toString(),reviewTE.text.trim().toString(),ratingValue.toString(),widget.notificationModel.sellerId.toString(),widget.notificationModel.notificationId.toString());
+        OrderController.to.completionReview(reviewTE.text.trim().toString(),ratingValue.toString(),widget.notificationModel);
         Get.snackbar("Review", "Your Review submitted successfully");
         Navigator.pop(context);
-            }, child: Text('Submit review')),
+            }, child: const Text('Submit review')),
       )],);
   }
 }

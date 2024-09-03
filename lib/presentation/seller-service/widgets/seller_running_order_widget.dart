@@ -104,7 +104,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                                   body: {
                                     "job_id": widget.sellerRunningOrder.jobId,
                                     "status": "DELIVERED",
-                                    "award_date": widget.sellerRunningOrder.awardDate,
+                                    "award_date": widget.sellerRunningOrder.awardDate.toString(),
                                     "completion_date": DateTime.now().toString()
                                   },
                                   isDialogScreen: false,
