@@ -52,7 +52,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
-        backgroundColor: AppColors.BTNbackgroudgrey,
+        backgroundColor: AppColors.kprimaryColor,
         onPressed: () {
           Get.to(() => const CreateOfferScreen());
         },
@@ -86,73 +86,66 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  seller.sellerProfile == null ||
-                          !NetworkController.to.connectedInternet.value
+                  seller.sellerProfile == null || !NetworkController.to.connectedInternet.value
                       ? ShimmerSellerStatus()
                       :
-                  // SizedBox(
-                  //         height: MediaQuery.sizeOf(context).height*.12,
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //           children: [
-                  //             Expanded(
-                  //               child: SellerStatusWidget(
-                  //                 seller: seller,
-                  //                 color: Colors.lightBlue,
-                  //               ),
-                  //             ),
-                  //             SizedBox(
-                  //               width: 8,
-                  //             ),
-                  //             Expanded(
-                  //               child: SellerStatusWidget(
-                  //                 seller: seller,
-                  //                 color: Colors.deepOrangeAccent,
-                  //                 title: 'Completed Job',
-                  //                 value: seller.sellerProfile!.completedJob,
-                  //                 icon: Icons.verified,
-                  //               ),
-                  //             ),
-                  //             // SizedBox(
-                  //             //   width: 5,
-                  //             // ),
-                  //             // Expanded(
-                  //             //   child: SellerStatusWidget(
-                  //             //     seller: seller,
-                  //             //     color: Colors.lightGreenAccent,
-                  //             //     title: 'Review',
-                  //             //     icon: Icons.star_rate_rounded,
-                  //             //     value: seller.sellerProfile!.review,
-                  //             //   ),
-                  //             // ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  GridView(
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                                  mainAxisSpacing: 6,
-                                  crossAxisSpacing:
-                                      getResponsiveFontSize(context, 8),
-                                  maxCrossAxisExtent:
-                                      MediaQuery.of(context).size.width / 2.5),
+                      // SizedBox(
+                      //         height: MediaQuery.sizeOf(context).height*.12,
+                      //         child: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      //           children: [
+                      //             Expanded(
+                      //               child: SellerStatusWidget(
+                      //                 seller: seller,
+                      //                 color: Colors.lightBlue,
+                      //               ),
+                      //             ),
+                      //             SizedBox(
+                      //               width: 8,
+                      //             ),
+                      //             Expanded(
+                      //               child: SellerStatusWidget(
+                      //                 seller: seller,
+                      //                 color: Colors.deepOrangeAccent,
+                      //                 title: 'Completed Job',
+                      //                 value: seller.sellerProfile!.completedJob,
+                      //                 icon: Icons.verified,
+                      //               ),
+                      //             ),
+                      //             // SizedBox(
+                      //             //   width: 5,
+                      //             // ),
+                      //             // Expanded(
+                      //             //   child: SellerStatusWidget(
+                      //             //     seller: seller,
+                      //             //     color: Colors.lightGreenAccent,
+                      //             //     title: 'Review',
+                      //             //     icon: Icons.star_rate_rounded,
+                      //             //     value: seller.sellerProfile!.review,
+                      //             //   ),
+                      //             // ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      GridView(
+                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(mainAxisSpacing: 6, crossAxisSpacing: getResponsiveFontSize(context, 8), maxCrossAxisExtent: MediaQuery.of(context).size.width / 2.5),
                           shrinkWrap: true,
                           primary: false,
                           children: [
                             SellerStatusWidget(
                               seller: seller,
-                              color: Colors.lightBlue,
+                              color: AppColors.kprimaryColor,
                             ),
                             SellerStatusWidget(
                               seller: seller,
-                              color: Colors.deepOrangeAccent,
-                              title: 'Completed Job',
+                              color: AppColors.kprimaryColor,
+                              title: 'Complete',
                               value: seller.sellerProfile!.completedJob,
                               icon: Icons.verified,
                             ),
                             SellerStatusWidget(
                               seller: seller,
-                              color: Colors.lightGreenAccent,
+                              color: AppColors.kprimaryColor,
                               title: 'Review',
                               icon: Icons.star_rate_rounded,
                               value: seller.sellerProfile!.review,
@@ -274,19 +267,13 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                                flex: 2,
-                                child: Text("Running Orders",
-                                    style: AppTextStyle.titleText)),
+                            Expanded(flex: 2, child: Text("Running Orders", style: AppTextStyle.titleText)),
                             Flexible(
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.to(RunningOrderListScreen(
-                                      runningOrder: seller.sellerRunningOrder ?? []));
+                                  Get.to(RunningOrderListScreen(runningOrder: seller.sellerRunningOrder ?? []));
                                 },
-                                child: Text("All Orders >>",
-                                    style:
-                                        AppTextStyle.titleTextSmallUnderline),
+                                child: Text("All Orders >>", style: AppTextStyle.titleTextSmallUnderline),
                               ),
                             ),
                           ],
@@ -294,69 +281,48 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  seller.sellerRunningOrder == null ||
-                          !NetworkController.to.connectedInternet.value
+                  seller.sellerRunningOrder == null || !NetworkController.to.connectedInternet.value
                       ? ShimmerRunnigOrder()
                       : seller.sellerRunningOrder!.isEmpty
                           ? SizedBox.shrink()
                           : Column(
                               children: List.generate(
-                              seller.sellerRunningOrder!.length < 2
-                                  ? seller.sellerRunningOrder!.length
-                                  : 2,
+                              seller.sellerRunningOrder!.length < 2 ? seller.sellerRunningOrder!.length : 2,
                               (index) {
-                                final runningOrder =
-                                    seller.sellerRunningOrder![index];
-                                return SellerRunningOrderWidget(
-                                    sellerRunningOrder: runningOrder);
+                                final runningOrder = seller.sellerRunningOrder![index];
+                                return SellerRunningOrderWidget(sellerRunningOrder: runningOrder);
                               },
                             )),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                          flex: 2,
-                          child: Text("My Services",
-                              style: AppTextStyle.titleText)),
+                      Expanded(flex: 2, child: Text("My Services", style: AppTextStyle.titleText)),
                       Flexible(
                         child: GestureDetector(
                           onTap: () {
                             Get.put(SellerProfileController());
-                            Get.to(MyServiceListScreen(
-                                service: seller.myService ?? []));
+                            Get.to(MyServiceListScreen(service: seller.myService ?? []));
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text("All services >>",
-                                style: AppTextStyle.titleTextSmallUnderline),
+                            child: Text("All services >>", style: AppTextStyle.titleTextSmallUnderline),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  seller.myService == null ||
-                          seller.myService!.isEmpty ||
-                          !NetworkController.to.connectedInternet.value
+                  seller.myService == null || seller.myService!.isEmpty || !NetworkController.to.connectedInternet.value
                       ? ShimmerOfferList()
                       : GridView.builder(
                           shrinkWrap: true,
                           primary: false,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: crossAxisCount,
-                                  crossAxisSpacing: 8,
-                                  mainAxisSpacing: 8),
-                          itemCount:
-                              seller.myService!.reversed.toList().length < 4
-                                  ? seller.myService!.reversed.toList().length
-                                  : 4,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8),
+                          itemCount: seller.myService!.reversed.toList().length < 4 ? seller.myService!.reversed.toList().length : 4,
                           itemBuilder: (context, index) {
-                            final service =
-                                SellerProfileController.to.myService[index];
+                            final service = SellerProfileController.to.myService[index];
                             return GestureDetector(
                                 onTap: () {
-                                  SellerProfileController.to.service.value =
-                                      service;
+                                  SellerProfileController.to.service.value = service;
                                   Get.to(const MyServiceDetails());
                                 },
                                 child: MyServiceWidget(

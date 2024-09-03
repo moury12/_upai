@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,22 +47,13 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   void initState() {
     // print(district.toString());
 
-    addressController = TextEditingController(
-        text: widget.service != null && widget.service!.address!.isNotEmpty
-            ? widget.service!.address
-            : '');
-    titleController = TextEditingController(
-        text: widget.service != null ? widget.service!.jobTitle : '');
-    addressController = TextEditingController(
-        text: widget.service != null ? widget.service!.address : '');
-    descriptionController = TextEditingController(
-        text: widget.service != null ? widget.service!.description : '');
-    rateController = TextEditingController(
-        text: widget.service != null ? widget.service!.rate.toString() : '');
-    HomeController.to.quantityController.value.text =
-    widget.service != null ? widget.service!.quantity.toString() : '';
-    HomeController.to.quantity.value =
-    widget.service != null ? widget.service!.quantity!.toInt() : 1;
+    addressController = TextEditingController(text: widget.service != null && widget.service!.address!.isNotEmpty ? widget.service!.address : '');
+    titleController = TextEditingController(text: widget.service != null ? widget.service!.jobTitle : '');
+    addressController = TextEditingController(text: widget.service != null ? widget.service!.address : '');
+    descriptionController = TextEditingController(text: widget.service != null ? widget.service!.description : '');
+    rateController = TextEditingController(text: widget.service != null ? widget.service!.rate.toString() : '');
+    HomeController.to.quantityController.value.text = widget.service != null ? widget.service!.quantity.toString() : '';
+    HomeController.to.quantity.value = widget.service != null ? widget.service!.quantity!.toInt() : 1;
     // HomeController.to.selectedCategory.value = widget.service != null
     //     ? HomeController.to.getCatList
     //         .where((e) =>
@@ -72,41 +62,23 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     //         .toList()[0]
     //     : null;
     if (widget.service != null) {
-      var filteredList = HomeController.to.getCatList
-          .where((e) =>
-          e.categoryName!
-              .toLowerCase()
-              .contains(widget.service!.serviceCategoryType!.toLowerCase()))
-          .toList();
+      var filteredList = HomeController.to.getCatList.where((e) => e.categoryName!.toLowerCase().contains(widget.service!.serviceCategoryType!.toLowerCase())).toList();
 
       if (filteredList.isNotEmpty) {
         HomeController.to.selectedCategory.value = filteredList[0];
       } else {
-        HomeController.to.selectedCategory.value =
-        null; // Or handle the case when no match is found
+        HomeController.to.selectedCategory.value = null; // Or handle the case when no match is found
       }
     }
     // debugPrint(widget.service!.rateType);
-    HomeController.to.selectedRateType.value = widget.service != null &&
-        timeUnits.any((item) =>
-            item
-                .toString()
-                .toLowerCase()
-                .contains(widget.service!.rateType!.toLowerCase()))
-        ? widget.service!.rateType.toString()
-        : null;
-    HomeController.to.selectedDistrict.value =
-    widget.service != null && widget.service!.district!.isNotEmpty
-        ? widget.service!.district
-        : null;
+    HomeController.to.selectedRateType.value = widget.service != null && timeUnits.any((item) => item.toString().toLowerCase().contains(widget.service!.rateType!.toLowerCase())) ? widget.service!.rateType.toString() : null;
+    HomeController.to.selectedDistrict.value = widget.service != null && widget.service!.district!.isNotEmpty ? widget.service!.district : null;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -119,34 +91,25 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
           onPressed: () {
             Get.back();
           },
-          icon: const Icon(
+          icon: Icon(
             CupertinoIcons.back,
-            color: Colors.black,
+            color: AppColors.kprimaryColor,
           ),
         ),
-        title: Text(
-          widget.isEdit! ? 'Edit Offer' : "Create New Offer",
-          style: AppTextStyle.appBarTitle,
-        ),
+        title: Text(widget.isEdit! ? 'Edit Offer' : "Create New Offer", style: TextStyle(color: AppColors.kprimaryColor, fontSize: 16, fontWeight: FontWeight.bold)),
       ),
       body: Container(
         // constraints: const BoxConstraints.expand(),
-        padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         margin: EdgeInsets.zero,
-        decoration: BoxDecoration(
-            color: AppColors.strokeColor2,
-            borderRadius:
-            const BorderRadius.vertical(top: Radius.circular(35))),
+        decoration: BoxDecoration(color: AppColors.strokeColor2, borderRadius: const BorderRadius.vertical(top: Radius.circular(35))),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 "Job Title",
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                    color: Colors.black),
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: AppColors.kprimaryColor),
               ),
               const SizedBox(
                 height: 10,
@@ -161,12 +124,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
+              Text(
                 "Job Description",
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                    color: Colors.black),
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: AppColors.kprimaryColor),
               ),
               const SizedBox(
                 height: 10,
@@ -181,12 +141,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
               const SizedBox(
                 height: 12,
               ),
-              const Text(
+              Text(
                 "Offer Image (optional)",
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                    color: Colors.black),
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: AppColors.kprimaryColor),
               ),
               const SizedBox(
                 height: 10,
@@ -195,89 +152,83 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                 onTap: () {
                   HomeController.to.showPickerDialog(context);
                 },
-                child: Center(child: Stack(children:
-                [
-                  Obx(() {
-                    return SizedBox(
-                        height: 120, width: 130,
-                        child: HomeController.to.image.value != null
-                            ? Image.file(
-                          File(HomeController.to.image.value!.path),
-                          // height: 150,
-                          // width: 150,
-                          fit: BoxFit.fill,
-                        )
-                            : widget.isEdit==true?FutureBuilder(future: FirebaseAPIs.fetchOfferImageUrl(widget.service!.offerId.toString()),
-                            builder: (context, snapshot) {
-                              if(snapshot.connectionState==ConnectionState.waiting && snapshot.connectionState==ConnectionState.none)
-                              {
-                                return Image.asset(
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  fit: BoxFit.none,
-                                  ImageConstant.dummy,
-                                  // height: 80,
-                                );
-                              }
-                              else if (snapshot.hasData) {
-                                return Image.network(
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                    snapshot.data.toString());
-                              } else {
-                                return FutureBuilder(
-                                  future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.service!.serviceCategoryType.toString()),
-                                  builder: (context, snapshot) {
-                                    if(snapshot.connectionState==ConnectionState.waiting && snapshot.connectionState==ConnectionState.none)
-                                    {
-                                      return Image.asset(
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        fit: BoxFit.none,
-                                        ImageConstant.dummy,
-                                        // height: 80,
-                                      );
-                                    }
-                                    else if (snapshot.hasData) {
-                                      return Image.network(
-                                          width: double.infinity,
-                                          fit: BoxFit.cover,
-                                          snapshot.data.toString());
-                                    } else {
-                                      return Image.asset(
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        fit: BoxFit.none,
-                                        ImageConstant.dummy,
-                                        // height: 80,
-                                      );
-                                    }
-                                  },
-                                );
-                              }
-                            },
-                            ):
-                        Image(image: AssetImage(ImageConstant.dummy),
-                          fit: BoxFit.cover,));
-                  }),
-                  const Positioned(
-                      right: -2,
-                      top: -2,
-
-                      child: Icon(
-                        Icons.photo_camera, size: 25, color: Colors.black,))
-
-                ]
-                ),),
+                child: Center(
+                  child: Stack(children: [
+                    Obx(() {
+                      return SizedBox(
+                          height: 120,
+                          width: 130,
+                          child: HomeController.to.image.value != null
+                              ? Image.file(
+                                  File(HomeController.to.image.value!.path),
+                                  // height: 150,
+                                  // width: 150,
+                                  fit: BoxFit.fill,
+                                )
+                              : widget.isEdit == true
+                                  ? FutureBuilder(
+                                      future: FirebaseAPIs.fetchOfferImageUrl(widget.service!.offerId.toString()),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
+                                          return Image.asset(
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            fit: BoxFit.none,
+                                            ImageConstant.dummy,
+                                            // height: 80,
+                                          );
+                                        } else if (snapshot.hasData) {
+                                          return Image.network(width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
+                                        } else {
+                                          return FutureBuilder(
+                                            future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.service!.serviceCategoryType.toString()),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
+                                                return Image.asset(
+                                                  width: double.infinity,
+                                                  height: double.infinity,
+                                                  fit: BoxFit.none,
+                                                  ImageConstant.dummy,
+                                                  // height: 80,
+                                                );
+                                              } else if (snapshot.hasData) {
+                                                return Image.network(width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
+                                              } else {
+                                                return Image.asset(
+                                                  width: double.infinity,
+                                                  height: double.infinity,
+                                                  fit: BoxFit.none,
+                                                  ImageConstant.dummy,
+                                                  // height: 80,
+                                                );
+                                              }
+                                            },
+                                          );
+                                        }
+                                      },
+                                    )
+                                  : Image(
+                                      image: AssetImage(ImageConstant.dummy),
+                                      fit: BoxFit.cover,
+                                    ));
+                    }),
+                    Positioned(
+                        right: -2,
+                        top: -2,
+                        child: Icon(
+                          Icons.photo_camera,
+                          size: 25,
+                          color: AppColors.kprimaryColor,
+                        ))
+                  ]),
+                ),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(12)),
-
-
+                decoration: BoxDecoration(border: Border.all(color: AppColors.kprimaryColor), borderRadius: BorderRadius.circular(12)),
                 child: Obx(() {
                   return FittedBox(
                     child: DropdownButton<CategoryList>(
@@ -288,16 +239,15 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       hint: const Text("Select a category"),
                       items: HomeController.to.getCatList.map((element) {
                         return DropdownMenuItem<CategoryList>(
-
-
                           value: element,
                           child: Text(element.categoryName.toString()),
                         );
                       }).toList(),
-                      onChanged:widget.isEdit!?null:
-                          (value) {
-                        HomeController.to.selectedCategory.value = value!;
-                      },
+                      onChanged: widget.isEdit!
+                          ? null
+                          : (value) {
+                              HomeController.to.selectedCategory.value = value!;
+                            },
                     ),
                   );
                 }),
@@ -307,9 +257,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(border: Border.all(color: AppColors.kprimaryColor), borderRadius: BorderRadius.circular(12)),
                 child: Obx(() {
                   return FittedBox(
                     child: DropdownButton<String>(
@@ -342,12 +290,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           "Rate",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12,
-                              color: Colors.black),
+                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: AppColors.kprimaryColor),
                         ),
                         const SizedBox(
                           height: 10,
@@ -370,12 +315,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           "Quantity",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12,
-                              color: Colors.black),
+                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: AppColors.kprimaryColor),
                         ),
                         const SizedBox(
                           height: 10,
@@ -388,9 +330,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 child: Container(
                                     margin: const EdgeInsets.all(8),
                                     alignment: Alignment.center,
-                                    decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.black),
+                                    decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.kprimaryColor),
                                     child: FittedBox(
                                       child: IconButton(
                                         icon: const Icon(
@@ -398,14 +338,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           color: Colors.white,
                                         ),
                                         onPressed: () {
-                                          if (HomeController
-                                              .to
-                                              .quantityController
-                                              .value
-                                              .text
-                                              .isEmpty) {
-                                            HomeController.to.quantity.value =
-                                            0;
+                                          if (HomeController.to.quantityController.value.text.isEmpty) {
+                                            HomeController.to.quantity.value = 0;
                                           }
                                           HomeController.to.decreaseQuantity();
                                         },
@@ -416,33 +350,28 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 child: CustomTextField(
                                     padding: EdgeInsets.zero,
                                     textInputFormatter: [
-                                      FilteringTextInputFormatter
-                                          .digitsOnly, /*FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9][0-9][0-9]?$')),*/
+                                      FilteringTextInputFormatter.digitsOnly, /*FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9][0-9][0-9]?$')),*/
                                     ],
                                     validatorText: "Please Enter quantity",
                                     hintText: "0",
                                     textAlign: TextAlign.center,
                                     inputType: TextInputType.number,
-                                    controller: HomeController
-                                        .to.quantityController.value,
+                                    controller: HomeController.to.quantityController.value,
                                     onChanged: (value) {
                                       int? newValue = int.tryParse(value!);
                                       if (newValue != null && newValue > 0) {
-                                        HomeController.to.quantity.value =
-                                            newValue;
+                                        HomeController.to.quantity.value = newValue;
                                       }
                                     }
 
-                                  // onChanged: (value) => controller.emailController.text.trim() = value!,
-                                ),
+                                    // onChanged: (value) => controller.emailController.text.trim() = value!,
+                                    ),
                               ),
                               Expanded(
                                 child: Container(
                                   margin: const EdgeInsets.all(8),
                                   alignment: Alignment.center,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.black),
+                                  decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.kprimaryColor),
                                   child: FittedBox(
                                     child: IconButton(
                                       icon: const Icon(
@@ -450,13 +379,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         color: Colors.white,
                                       ),
                                       onPressed: () {
-                                        if (HomeController.to.quantityController
-                                            .value.text.isEmpty) {
+                                        if (HomeController.to.quantityController.value.text.isEmpty) {
                                           HomeController.to.quantity.value = 0;
                                         }
-                                        debugPrint(HomeController
-                                            .to.quantity.value
-                                            .toString());
+                                        debugPrint(HomeController.to.quantity.value.toString());
                                         HomeController.to.increaseQuantity();
                                       },
                                     ),
@@ -478,20 +404,21 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                 if (HomeController.to.districtList.isEmpty) {
                   HomeController.to.districtList.refresh();
 
-                  return const CircularProgressIndicator();
+                  return CircularProgressIndicator(
+                    color: AppColors.kprimaryColor,
+                  );
                 } else {
-                  return const SearchableDropDown(fromHome: false,);
+                  return const SearchableDropDown(
+                    fromHome: false,
+                  );
                 }
               }),
               const SizedBox(
                 height: 10,
               ),
-              const Text(
+              Text(
                 "Address",
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                    color: Colors.black),
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: AppColors.kprimaryColor),
               ),
               const SizedBox(
                 height: 10,
@@ -512,86 +439,64 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   children: [
                     Expanded(
                       child: Obx(() {
-                        return HomeController.to.isUploading.value?
-                           Padding(
-                             padding: const EdgeInsets.all(8.0),
-                             child: Stack(
-                               alignment: Alignment.center,
-                               children:[
-                               const SizedBox(
-                                 height:50,
-                                 width: 50,
-                                 child: CircularProgressIndicator(color: Colors.black,strokeWidth: 6,
-                                   // value:HomeController.to.uploadProgress.value,color: Colors.black,
-                                   //
-                                 ),
-                               ),
-                               Text(' ${(HomeController.to.uploadProgress.value* 100).toStringAsFixed(0)}%',style: AppTextStyle.titleText,),
+                        return HomeController.to.isUploading.value
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Stack(alignment: Alignment.center, children: [
+                                  SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.kprimaryColor, strokeWidth: 6,
+                                      // value:HomeController.to.uploadProgress.value,color: AppColors.kprimaryColor,
+                                      //
+                                    ),
+                                  ),
+                                  Text(
+                                    ' ${(HomeController.to.uploadProgress.value * 100).toStringAsFixed(0)}%',
+                                    style: AppTextStyle.titleText,
+                                  ),
+                                ]),
+                              )
+                            : ElevatedButton(
+                                style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12)),
+                                onPressed: () async {
+                                  if (HomeController.to.selectedRateType.value != null &&
+                                      HomeController.to.selectedCategory.value != null &&
+                                      HomeController.to.selectedDistrict.value != null &&
+                                      titleController.text.isNotEmpty &&
+                                      descriptionController.text.isNotEmpty &&
+                                      rateController.text.isNotEmpty &&
+                                      addressController.text.isNotEmpty &&
+                                      HomeController.to.quantityController.value.text.isNotEmpty &&
+                                      box.isNotEmpty) {
+                                    if (widget.service != null) {
+                                      HomeController.to.editOffer(widget.service!.offerId ?? '', titleController.text, descriptionController.text, rateController.text, addressController.text);
+                                      // Get.back();
+                                      // Get.to(MyServiceDetails());
+                                      // SellerProfileController.to.myService.refresh();
+                                      //  SellerProfileController.to.service.update(
+                                      //   (val) async {
+                                      //     return SellerProfileController.to
+                                      //         .refreshAllData();
+                                      //   },
+                                      // );
+                                      // await SellerProfileController.to.refreshAllData();
+                                      // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
+                                    } else {
+                                      HomeController.to.createOffer(titleController.text, descriptionController.text, rateController.text, addressController.text);
+                                      // await SellerProfileController.to
+                                      //     .refreshAllData();
+                                      clear();
+                                    }
 
-                               ]
-                             ),
-                           )
-                            :
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12, horizontal: 12)),
-                            onPressed: () async {
-                              if (HomeController.to.selectedRateType.value !=
-                                  null &&
-                                  HomeController.to.selectedCategory.value !=
-                                      null &&
-                                  HomeController.to.selectedDistrict.value !=
-                                      null &&
-                                  titleController.text.isNotEmpty &&
-                                  descriptionController.text.isNotEmpty &&
-                                  rateController.text.isNotEmpty &&
-                                  addressController.text.isNotEmpty &&
-                                  HomeController.to.quantityController.value
-                                      .text
-                                      .isNotEmpty &&
-                                  box.isNotEmpty) {
-                                if (widget.service != null) {
-                                  HomeController.to.editOffer(
-                                      widget.service!.offerId ?? '',
-                                      titleController.text,
-                                      descriptionController.text,
-                                      rateController.text,
-                                      addressController.text);
-                                  // Get.back();
-                                  // Get.to(MyServiceDetails());
-                                  // SellerProfileController.to.myService.refresh();
-                                  //  SellerProfileController.to.service.update(
-                                  //   (val) async {
-                                  //     return SellerProfileController.to
-                                  //         .refreshAllData();
-                                  //   },
-                                  // );
-                                  // await SellerProfileController.to.refreshAllData();
-                                  // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
-                                } else {
-
-                                  HomeController.to.createOffer(
-                                      titleController.text,
-                                      descriptionController.text,
-                                      rateController.text,
-                                      addressController.text);
-                                  // await SellerProfileController.to
-                                  //     .refreshAllData();
-                                   clear();
-                                }
-
-                               // clear();
-                              } else {
-                                Get.snackbar("All field Required", "");
-                                // clear();
-                              }
-                            },
-                            child: Text(widget.service != null
-                                ? 'Update offer'
-                                : 'Create Offer'));
+                                    // clear();
+                                  } else {
+                                    Get.snackbar("All field Required", "");
+                                    // clear();
+                                  }
+                                },
+                                child: Text(widget.service != null ? 'Update offer' : 'Create Offer'));
                       }),
                     ),
                   ],

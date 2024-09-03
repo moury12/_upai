@@ -7,24 +7,22 @@ class OfferService extends StatelessWidget {
   final OfferList offer;
   final EdgeInsets? margin;
   final double? width;
-   const OfferService({super.key, required this.offer, this.margin, this.width});
+  const OfferService({super.key, required this.offer, this.margin, this.width});
 
   @override
   Widget build(BuildContext context) {
-    var size =  MediaQuery.sizeOf(context);
+    var size = MediaQuery.sizeOf(context);
     return Column(
       children: [
         InkWell(
-          onTap: ()
-          {
+          onTap: () {
             print("going to service page");
-            Get.toNamed("/servicedetails",arguments: offer);
+            Get.toNamed("/servicedetails", arguments: offer);
           },
           child: Container(
-            margin: margin?? EdgeInsets.only(right: 10),
-            width:width??size.width*0.42,
+            margin: margin ?? const EdgeInsets.only(right: 10),
+            width: width ?? size.width * 0.42,
             clipBehavior: Clip.antiAlias,
-
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -56,19 +54,21 @@ class OfferService extends StatelessWidget {
                       child: SizedBox(
                         width: size.width,
                         height: 70,
-                      child: Image(
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(ImageConstant.dummy);
-                        },
-                        image: const NetworkImage(
-                          "https://cdn.prod.website-files.com/6410ebf8e483b5bb2c86eb27/6410ebf8e483b5758186fbd8_ABM%20college%20mobile%20app%20dev%20main.jpg"),
-                        fit: BoxFit.fill,
-                      ),),
+                        child: Image(
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(ImageConstant.dummy);
+                          },
+                          image: const NetworkImage("https://cdn.prod.website-files.com/6410ebf8e483b5bb2c86eb27/6410ebf8e483b5758186fbd8_ABM%20college%20mobile%20app%20dev%20main.jpg"),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10,),
-                   Text(
-                     maxLines: 1,
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     '${offer.jobTitle}',
                     style: const TextStyle(
@@ -76,11 +76,9 @@ class OfferService extends StatelessWidget {
                       fontSize: 11,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
-
                     ),
                   ),
-
-                   Text(
+                  Text(
                     '${offer.userName}',
                     style: const TextStyle(
                       color: Color(0xFF817F7F),
@@ -90,7 +88,7 @@ class OfferService extends StatelessWidget {
                       decoration: TextDecoration.underline,
                     ),
                   ),
-                   Text(
+                  Text(
                     '৳ ${offer.rate}',
                     style: const TextStyle(
                       color: Color(0xFF3F3F3F),
@@ -99,7 +97,9 @@ class OfferService extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 5,),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Center(
                     child: Container(
                       width: size.width,

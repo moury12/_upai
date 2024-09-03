@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 
 class SearchableDropDown extends StatefulWidget {
   final bool? fromHome;
   const SearchableDropDown({
-    super.key, this.fromHome =true,
+    super.key,
+    this.fromHome = true,
   });
 
   @override
@@ -28,10 +30,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
     setState(() {
       filterDistrict = HomeController.to.districtList.value
           .where(
-            (element) => element['name']
-                .toString()
-                .toLowerCase()
-                .contains(query.toLowerCase()),
+            (element) => element['name'].toString().toLowerCase().contains(query.toLowerCase()),
           )
           .toList();
     });
@@ -39,8 +38,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     return GestureDetector(
       key: _dropdownKey,
       onTap: () {
@@ -56,35 +54,34 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
       child: Container(
         padding: EdgeInsets.all(8),
         margin: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-            border: Border.all(width: 1, color: Colors.black),
-            borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(border: Border.all(width: 1, color: AppColors.kprimaryColor), borderRadius: BorderRadius.circular(10)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Obx(() {
               return Text(
-               widget.fromHome!? HomeController.to.selectedDistrictForAll.value ??
-                    'Select district':HomeController.to.selectedDistrict.value??'Select district',
+                widget.fromHome! ? HomeController.to.selectedDistrictForAll.value ?? 'Select district' : HomeController.to.selectedDistrict.value ?? 'Select district',
                 style: TextStyle(
                     fontSize: 15,
-                    fontWeight:
-                    widget.fromHome!? HomeController.to.selectedDistrictForAll.value != null
+                    fontWeight: widget.fromHome!
+                        ? HomeController.to.selectedDistrictForAll.value != null
                             ? FontWeight.w400
-                            : FontWeight.w600:HomeController.to.selectedDistrict.value != null
+                            : FontWeight.w600
+                        : HomeController.to.selectedDistrict.value != null
                             ? FontWeight.w400
                             : FontWeight.w600,
-                    color:
-                    widget.fromHome!?  HomeController.to.selectedDistrictForAll.value != null
-                            ? Colors.black
-                            : Colors.black.withOpacity(.6):HomeController.to.selectedDistrict.value != null
-                            ? Colors.black
-                            : Colors.black.withOpacity(.6)),
+                    color: widget.fromHome!
+                        ? HomeController.to.selectedDistrictForAll.value != null
+                            ? AppColors.kprimaryColor
+                            : AppColors.deepGreyColor
+                        : HomeController.to.selectedDistrict.value != null
+                            ? AppColors.kprimaryColor
+                            : AppColors.kprimaryColor.withOpacity(.6)),
               );
             }),
             Icon(
               Icons.arrow_drop_down,
-              color: Colors.black54,
+              color: AppColors.kprimaryColor,
               size: 30,
             )
           ],
@@ -94,8 +91,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
   }
 
   Future<dynamic> showCustomMenu(BuildContext context, RenderBox overlay) {
-    final RenderBox buttonRenderBox =
-        _dropdownKey.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox buttonRenderBox = _dropdownKey.currentContext!.findRenderObject() as RenderBox;
     final Offset buttonOffset = buttonRenderBox.localToGlobal(Offset.zero);
     final Size buttonSize = buttonRenderBox.size;
     return showMenu(
@@ -104,11 +100,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
         context: context,
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        position: RelativeRect.fromLTRB(
-            buttonOffset.dx,
-            buttonOffset.dy + buttonSize.height,
-            overlay.size.width - buttonOffset.dx - buttonSize.width,
-            overlay.size.height - buttonOffset.dy - buttonSize.height),
+        position: RelativeRect.fromLTRB(buttonOffset.dx, buttonOffset.dy + buttonSize.height, overlay.size.width - buttonOffset.dx - buttonSize.width, overlay.size.height - buttonOffset.dy - buttonSize.height),
         items: [
           PopupMenuItem(
               enabled: false,
@@ -120,12 +112,10 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                         controller: searchController,
                         decoration: InputDecoration(
                             hintText: 'Search district',
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    BorderSide(color: Colors.black, width: 2)),
+                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.kprimaryColor, width: 2)),
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
+                              borderRadius: BorderRadius.circular(10),
+                            )),
                         onChanged: (value) {
                           setState(() {
                             filterDistrictItem(value);
@@ -138,16 +128,10 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  widget.fromHome!?  HomeController.to.selectedDistrictForAll
-                                      .value = e['name']:HomeController.to.selectedDistrict
-                                      .value = e['name'];
-                                 if( widget.fromHome!) {
-                                   HomeController.to.filterOffer(
-                                      HomeController
-                                          .to.searchOfferController.value.text,
-                                      HomeController
-                                          .to.selectedDistrictForAll.value);
-                                 }
+                                  widget.fromHome! ? HomeController.to.selectedDistrictForAll.value = e['name'] : HomeController.to.selectedDistrict.value = e['name'];
+                                  if (widget.fromHome!) {
+                                    HomeController.to.filterOffer(HomeController.to.searchOfferController.value.text, HomeController.to.selectedDistrictForAll.value);
+                                  }
                                   Navigator.pop(context);
                                 });
                               },

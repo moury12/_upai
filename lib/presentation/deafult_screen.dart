@@ -25,11 +25,9 @@ class DefaultScreen extends StatelessWidget {
         onPopInvoked: (didPop) {
           if (ctrl.selectedIndex.value != 0) {
             ctrl.selectedIndex.value = 0;
-          } else if(ctrl.selectedIndex.value==0 && HomeController.to.searchOfferController.value.text!=""){
-            HomeController.to.searchOfferController.value.text="";
-          }
-          else
-            {
+          } else if (ctrl.selectedIndex.value == 0 && HomeController.to.searchOfferController.value.text != "") {
+            HomeController.to.searchOfferController.value.text = "";
+          } else {
             showDialog(
               context: context,
               builder: (context) {
@@ -38,19 +36,27 @@ class DefaultScreen extends StatelessWidget {
                   title: Image.asset(
                     ImageConstant.upailogo1,
                     height: 100,
-                    width: 100,fit: BoxFit.contain,
+                    width: 100,
+                    fit: BoxFit.contain,
                   ),
-                  content: Text('Are you sure to close this app?',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500),),
-               actions: [ElevatedButton(
-                 style: ElevatedButton.styleFrom(backgroundColor: AppColors.cancelButtonColor,foregroundColor:Colors.white ),
-                   onPressed: () {
-                   exit(0);
-                     Navigator.pop(context);
-               }, child: Text('Yes')),ElevatedButton(
-                 style: ElevatedButton.styleFrom(backgroundColor: AppColors.confirmButtonColor,foregroundColor:Colors.white ),
-                   onPressed: () {
-                    Navigator.pop(context);
-               }, child: Text('No'))],
+                  content: Text(
+                    'Are you sure to close this app?',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                  ),
+                  actions: [
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.cancelButtonColor, foregroundColor: Colors.white),
+                        onPressed: () {
+                          exit(0);
+                        },
+                        child: Text('Yes')),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('No'))
+                  ],
                 );
               },
             );
@@ -63,41 +69,35 @@ class DefaultScreen extends StatelessWidget {
               return Text(
                 ctrl.appBarTitle.value,
                 style: TextStyle(
-                  fontSize:14,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.colorBlack,
                 ),
               );
             }),
             centerTitle: true,
           ),
-          drawer:  CustomDrawer(),
-          body:  ctrl.screensForClient[ctrl.selectedIndex.value],
+          drawer: CustomDrawer(),
+          body: ctrl.screensForClient[ctrl.selectedIndex.value],
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white,
-
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-
                 backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
                   height: 24,
                   width: 24,
                   'assets/images/home.svg',
-                  color: ctrl.selectedIndex.value == 0
-                      ? ctrl.selectedColor
-                      : ctrl.unselected,
+                  color: ctrl.selectedIndex.value == 0 ? ctrl.selectedColor : ctrl.unselected,
                 ),
                 label: 'Home',
               ),
-              BottomNavigationBarItem( backgroundColor: Colors.white,
+              BottomNavigationBarItem(
+                backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
                   height: 24,
                   width: 24,
                   'assets/images/seller.svg',
-                  color: ctrl.selectedIndex.value == 1
-                      ? ctrl.selectedColor
-                      : ctrl.unselected,
+                  color: ctrl.selectedIndex.value == 1 ? ctrl.selectedColor : ctrl.unselected,
                 ),
                 label: 'Service',
               ),
@@ -112,25 +112,23 @@ class DefaultScreen extends StatelessWidget {
               //   ),
               //   label: 'Explore',
               // ),
-              BottomNavigationBarItem( backgroundColor: Colors.white,
+              BottomNavigationBarItem(
+                backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
                   height: 24,
                   width: 24,
                   'assets/images/inbox.svg',
-                  color: ctrl.selectedIndex.value == 2
-                      ? ctrl.selectedColor
-                      : ctrl.unselected,
+                  color: ctrl.selectedIndex.value == 2 ? ctrl.selectedColor : ctrl.unselected,
                 ),
                 label: 'Inbox',
               ),
-              BottomNavigationBarItem( backgroundColor: Colors.white,
+              BottomNavigationBarItem(
+                backgroundColor: Colors.white,
                 icon: SvgPicture.asset(
                   height: 24,
                   width: 24,
                   'assets/images/notification.svg',
-                  color: ctrl.selectedIndex.value == 3
-                      ? ctrl.selectedColor
-                      : ctrl.unselected,
+                  color: ctrl.selectedIndex.value == 3 ? ctrl.selectedColor : ctrl.unselected,
                 ),
                 label: 'Notification',
               ),
@@ -148,8 +146,8 @@ class DefaultScreen extends StatelessWidget {
               //   label: 'Person',
               // ),
             ],
-            selectedItemColor: Colors.black,
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            selectedItemColor: AppColors.kprimaryColor,
+            selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold, color: AppColors.kprimaryColor),
             unselectedItemColor: AppColors.appTextColorGrey,
             selectedIconTheme: IconThemeData(color: ctrl.selectedColor),
             currentIndex: ctrl.selectedIndex.value,

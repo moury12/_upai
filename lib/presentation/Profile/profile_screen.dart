@@ -27,9 +27,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     ctrl.canEdit.value = false;
-    ctrl.nameTE.text=ctrl.userInfo.value.name??'';
-    ctrl.emailTE.text=ctrl.userInfo.value.email??'';
-    ctrl.phoneTE.text=ctrl.userInfo.value.mobile??'';
+    ctrl.nameTE.text = ctrl.userInfo.value.name ?? '';
+    ctrl.emailTE.text = ctrl.userInfo.value.email ?? '';
+    ctrl.phoneTE.text = ctrl.userInfo.value.mobile ?? '';
     super.initState();
   }
 
@@ -76,8 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         return Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            border: Border.all(
-                                color: AppColors.strokeColor, width: 3),
+                            border: Border.all(color: AppColors.strokeColor, width: 3),
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
@@ -91,18 +90,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 : CachedNetworkImage(
                                     height: 150,
                                     width: 150,
-                                    imageUrl: ctrl
-                                            .profileImageUrl.value.isNotEmpty
-                                        ? ctrl.profileImageUrl.value
-                                        : ImageConstant
-                                            .senderImg, // Fallback image if URL is empty
+                                    imageUrl: ctrl.profileImageUrl.value.isNotEmpty ? ctrl.profileImageUrl.value : ImageConstant.senderImg, // Fallback image if URL is empty
                                     fit: BoxFit.cover,
                                     placeholder: (context, url) => Center(
                                         child: CircularProgressIndicator(
-                                      color: AppColors.colorBlack,
+                                      color: AppColors.kprimaryColor,
                                     )),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(
+                                    errorWidget: (context, url, error) => Image.asset(
                                       ImageConstant.senderImg,
                                       height: 150,
                                       width: 150,
@@ -120,12 +114,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             getImage();
                           },
                           child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
                             child: Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: Icon(Icons.add_a_photo),
+                              child: Icon(
+                                Icons.add_a_photo,
+                                color: AppColors.kprimaryColor,
+                              ),
                             ),
                           ),
                         ),
@@ -202,13 +197,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // if (_formKey.currentState!.validate()) {}
                           uploadFile();
                           ProfileScreenController.to.updateProfile(ctrl.nameTE.text, ctrl.emailTE.text);
-
                         },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.BTNbackgroudgrey,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8))),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                         child: const Text("Update Profile"),
                       ),
                     ),

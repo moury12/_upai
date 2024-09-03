@@ -29,16 +29,12 @@ class _ConfirmOfferRequestWidgetState extends State<ConfirmOfferRequestWidget> {
   ProfileScreenController? ctrl;
   @override
   void initState() {
-     ctrl = Get.put(ProfileScreenController());
+    ctrl = Get.put(ProfileScreenController());
 
-    HomeController.to.quantityControllerForConfromOrder.value.text =
-        widget.service.offerDetails!.quantity.toString();
-    HomeController.to.quantityForConform.value =
-        widget.service.offerDetails!.quantity!.toInt();
-    HomeController.to.rateController.value.text =
-        widget.service.offerDetails!.rate.toString();
-    HomeController.to.selectedRateType.value =
-        widget.service.offerDetails!.rateType!.toLowerCase();
+    HomeController.to.quantityControllerForConfromOrder.value.text = widget.service.offerDetails!.quantity.toString();
+    HomeController.to.quantityForConform.value = widget.service.offerDetails!.quantity!.toInt();
+    HomeController.to.rateController.value.text = widget.service.offerDetails!.rate.toString();
+    HomeController.to.selectedRateType.value = widget.service.offerDetails!.rateType!.toLowerCase();
     // TODO: implement initState
     super.initState();
   }
@@ -46,7 +42,7 @@ class _ConfirmOfferRequestWidgetState extends State<ConfirmOfferRequestWidget> {
   @override
   Widget build(BuildContext context) {
     debugPrint(widget.service.offerDetails!.rateType);
-    final List<String> rateTypes = ['hour', 'task', 'per day', 'piece','package'];
+    final List<String> rateTypes = ['hour', 'task', 'per day', 'piece', 'package'];
 
     return PopScope(
       onPopInvoked: (didPop) {
@@ -66,286 +62,243 @@ class _ConfirmOfferRequestWidgetState extends State<ConfirmOfferRequestWidget> {
         backgroundColor: AppColors.strokeColor2,
         titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        title: ctrl!.userInfo.value.userId==widget.service.offerDetails!.userId?null: const Text(
-          'Request Confirm Offer',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        content:ctrl!.userInfo.value.userId==widget.service.offerDetails!.userId?const Padding(
-          padding: EdgeInsets.all(12),
-          child: Center(child: Text('This is your own service'),),
-        ): Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Divider(
-              height: 1,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            OfferDialogWidget(
+        title: ctrl!.userInfo.value.userId == widget.service.offerDetails!.userId
+            ? null
+            : const Text(
+                'Request Confirm Offer',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+        content: ctrl!.userInfo.value.userId == widget.service.offerDetails!.userId
+            ? const Padding(
+                padding: EdgeInsets.all(12),
+                child: Center(
+                  child: Text('This is your own service'),
+                ),
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Divider(
+                    height: 1,
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  OfferDialogWidget(
+                    label: 'Category:',
+                    text: widget.service.offerDetails!.serviceCategoryType ?? 'No category',
+                  ),
+                  OfferDialogWidget(
+                    label: 'Job Title:',
+                    text: widget.service.offerDetails!.jobTitle ?? 'No category',
+                  ),
+                  OfferDialogWidget(
+                    label: 'Job Description:',
+                    text: widget.service.offerDetails!.description ?? 'No category',
+                  ),
+                  const Divider(
+                    height: 12,
+                  ),
+                  const Text(
+                    'Rate type',
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    margin: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(12)),
+                    child: Obx(() {
+                      if (rateTypes.contains(widget.service.offerDetails!.rateType!.toLowerCase()) && !HomeController.to.change.value) {
+                        HomeController.to.selectedRateType.value = widget.service.offerDetails!.rateType!.toLowerCase();
+                      }
+                      debugPrint('selectedRateType ${HomeController.to.selectedRateType.value}');
+                      debugPrint(HomeController.to.change.value.toString());
 
-              label: 'Category:',
-              text: widget.service.offerDetails!.serviceCategoryType ??
-                  'No category',
-            ),
-            OfferDialogWidget(
-              label: 'Job Title:',
-              text: widget.service.offerDetails!.jobTitle ?? 'No category',
-            ),
-            OfferDialogWidget(
-              label: 'Job Description:',
-              text: widget.service.offerDetails!.description ?? 'No category',
-            ),
-            const Divider(
-              height: 12,
-            ),
-            const Text(
-              'Rate type',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              margin: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(12)),
-              child: Obx(() {
-                if (rateTypes.contains(
-                        widget.service.offerDetails!.rateType!.toLowerCase()) &&
-                    !HomeController.to.change.value) {
-                  HomeController.to.selectedRateType.value =
-                      widget.service.offerDetails!.rateType!.toLowerCase();
-                }
-                debugPrint(
-                    'selectedRateType ${HomeController.to.selectedRateType.value}');
-                debugPrint(HomeController.to.change.value.toString());
-
-                return FittedBox( 
-                  child: DropdownButton<String>(
-                    underline: const SizedBox.shrink(),
-                    value: HomeController.to.selectedRateType.value,
-                    dropdownColor: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    hint: const Text(
-                      "Select a Rate type  ",
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    items: rateTypes.map((unit) {
-                      return DropdownMenuItem<String>(
-
-                        value: unit,
-                        child: Text(
-                          unit,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,color: Colors.black
+                      return FittedBox(
+                        child: DropdownButton<String>(
+                          underline: const SizedBox.shrink(),
+                          value: HomeController.to.selectedRateType.value,
+                          dropdownColor: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          hint: const Text(
+                            "Select a Rate type  ",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
+                          items: rateTypes.map((unit) {
+                            return DropdownMenuItem<String>(
+                              value: unit,
+                              child: Text(
+                                unit,
+                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: null,
+                          //     (value) {
+                          //   HomeController.to.change.value = true;
+                          //   HomeController.to.selectedRateType.value = null;
+                          //   HomeController.to.selectedRateType.value = value;
+                          // },
                         ),
                       );
-                    }).toList(),
-                    onChanged: null,
-                    //     (value) {
-                    //   HomeController.to.change.value = true;
-                    //   HomeController.to.selectedRateType.value = null;
-                    //   HomeController.to.selectedRateType.value = value;
-                    // },
+                    }),
                   ),
-                );
-              }),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
+                  Row(
                     children: [
-                       const Text(
-                        'Rate',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
-                      ),
-                      Obx(() {
-                        // HomeController.to.rateController.value.text =
-                        //     widget.offerDetails!.rate.toString();
-
-                        return CustomTextField(
-                          isEnable: false,
-                          validatorText: "Please Enter Rate",
-                          hintText: "Please Enter Rate",
-                          inputType: TextInputType.number,
-                          controller: HomeController.to.rateController.value,
-                          inputFontSize: 12,
-                          onChanged: (value) {},
-                          // onChanged: (value) => controller.emailController.text.trim() = value!,
-                        );
-                      }),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 6,
-                ),
-                Expanded(
-                  child: Obx(() {
-                    // if (HomeController.to.quantityControllerForConfromOrder
-                    //         .value.text.isEmpty &&
-                    //     !HomeController.to.changeQuantity.value) {
-                    //   HomeController.to.quantityControllerForConfromOrder.value
-                    //       .text = widget.offerDetails!.quantity.toString();
-                    // }
-                    return Column(
-                      children: [
-                         Text(
-                          'quantity',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      Expanded(
+                        child: Column(
                           children: [
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (HomeController
-                                      .to
-                                      .quantityControllerForConfromOrder
-                                      .value
-                                      .text
-                                      .isEmpty) {
-                                    HomeController.to.quantityForConform.value =
-                                        0;
-                                  }
-                                  HomeController.to.decreaseQuantityForConfrom();
-                                },
-                                child: FittedBox(
-                                  child: Container(
-                                      margin: const EdgeInsets.all(8),
-                                      padding: const EdgeInsets.all(8),
-                                      alignment: Alignment.center,
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.black),
-                                      child: Icon(
-                                        Icons.remove,
-                                        color: Colors.white,
-                                      )),
-                                ),
-                              ),
+                            const Text(
+                              'Rate',
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black),
                             ),
-                            Expanded(
-                              child: CustomTextField(padding: EdgeInsets.zero,
-                                  validatorText: "Please Enter quantity",
-                                  hintText: "Please Enter quantity",
-                                  textAlign: TextAlign.center,
-                                  textInputFormatter: [
-                                    FilteringTextInputFormatter
-                                        .digitsOnly, /*FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9][0-9][0-9]?$')),*/
-                                  ],
-                                  inputType: TextInputType.number,
-                                  inputFontSize: 12,
-                                  controller: HomeController.to
-                                      .quantityControllerForConfromOrder.value,
-                                  onChanged: (value) {
-                                    int? newValue = int.tryParse(value!);
-                                    if (newValue != null && newValue > 0) {
-                                      HomeController.to.quantity.value =
-                                          newValue;
-                                    }
-                                  }
-                                  // onChanged: (value) => controller.emailController.text.trim() = value!,
-                                  ),
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (HomeController
-                                      .to
-                                      .quantityControllerForConfromOrder
-                                      .value
-                                      .text
-                                      .isEmpty) {
-                                    HomeController.to.quantityForConform.value =
-                                        0;
-                                  }
-                                  HomeController.to.increaseQuantityForConfrom();
-                                },
-                                child: FittedBox(
-                                  child: Container(
-                                      margin: const EdgeInsets.all(8),
-                                      padding: const EdgeInsets.all(8),
-                                      alignment: Alignment.center,
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.black),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                      )),
-                                ),
-                              ),
-                            ),
+                            Obx(() {
+                              // HomeController.to.rateController.value.text =
+                              //     widget.offerDetails!.rate.toString();
+
+                              return CustomTextField(
+                                isEnable: false,
+                                validatorText: "Please Enter Rate",
+                                hintText: "Please Enter Rate",
+                                inputType: TextInputType.number,
+                                controller: HomeController.to.rateController.value,
+                                inputFontSize: 12,
+                                onChanged: (value) {},
+                                // onChanged: (value) => controller.emailController.text.trim() = value!,
+                              );
+                            }),
                           ],
                         ),
-                      ],
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      Expanded(
+                        child: Obx(() {
+                          // if (HomeController.to.quantityControllerForConfromOrder
+                          //         .value.text.isEmpty &&
+                          //     !HomeController.to.changeQuantity.value) {
+                          //   HomeController.to.quantityControllerForConfromOrder.value
+                          //       .text = widget.offerDetails!.quantity.toString();
+                          // }
+                          return Column(
+                            children: [
+                              Text(
+                                'quantity',
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        if (HomeController.to.quantityControllerForConfromOrder.value.text.isEmpty) {
+                                          HomeController.to.quantityForConform.value = 0;
+                                        }
+                                        HomeController.to.decreaseQuantityForConfrom();
+                                      },
+                                      child: FittedBox(
+                                        child: Container(
+                                            margin: const EdgeInsets.all(8),
+                                            padding: const EdgeInsets.all(8),
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColors.kprimaryColor,
+                                            ),
+                                            child: Icon(
+                                              Icons.remove,
+                                              color: Colors.white,
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: CustomTextField(
+                                        padding: EdgeInsets.zero,
+                                        validatorText: "Please Enter quantity",
+                                        hintText: "Please Enter quantity",
+                                        textAlign: TextAlign.center,
+                                        textInputFormatter: [
+                                          FilteringTextInputFormatter.digitsOnly, /*FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9][0-9][0-9]?$')),*/
+                                        ],
+                                        inputType: TextInputType.number,
+                                        inputFontSize: 12,
+                                        controller: HomeController.to.quantityControllerForConfromOrder.value,
+                                        onChanged: (value) {
+                                          int? newValue = int.tryParse(value!);
+                                          if (newValue != null && newValue > 0) {
+                                            HomeController.to.quantity.value = newValue;
+                                          }
+                                        }
+                                        // onChanged: (value) => controller.emailController.text.trim() = value!,
+                                        ),
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        if (HomeController.to.quantityControllerForConfromOrder.value.text.isEmpty) {
+                                          HomeController.to.quantityForConform.value = 0;
+                                        }
+                                        HomeController.to.increaseQuantityForConfrom();
+                                      },
+                                      child: FittedBox(
+                                        child: Container(
+                                            margin: const EdgeInsets.all(8),
+                                            padding: const EdgeInsets.all(8),
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColors.kprimaryColor,
+                                            ),
+                                            child: Icon(
+                                              Icons.add,
+                                              color: Colors.white,
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    height: 16,
+                  ),
+                  Obx(() {
+                    return Text(
+                      textAlign: TextAlign.center,
+                      'Total amount: ${HomeController.to.totalAmount.value} ৳',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
                     );
                   }),
-                ),
-              ],
-            ),
-            const Divider(
-              height: 16,
-            ),
-            Obx(() {
-              return Text(
-                textAlign: TextAlign.center,
-                'Total amount: ${HomeController.to.totalAmount.value} ৳',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              );
-            }),
-            SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  alignment: Alignment.center,
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white),
-                onPressed: () {
-
-
-                  if (HomeController.to.selectedRateType.value != null &&
-                      HomeController.to.quantityControllerForConfromOrder.value
-                          .text.isNotEmpty &&
-                      HomeController.to.rateController.value.text.isNotEmpty) {
-                    OrderController.to.awardCreateJob(
-                        widget.service.offerDetails!.offerId ?? '',
-                        widget.service.offerDetails!.userId ?? '',
-                        widget.service.offerDetails!.jobTitle ?? '',
-                        widget.service.offerDetails!.description ?? '',
-                        HomeController.to.selectedRateType.value!,
-                        HomeController.to.rateController.value.text,
-                        HomeController
-                            .to.quantityControllerForConfromOrder.value.text,
-                        HomeController.to.totalAmount.value.toString());
-                    Navigator.pop(context);
-                  } else {
-                    Navigator.pop(context);
-                    Get.snackbar("Error", "All field required");
-                  }
-                  /* HomeController.to.changeQuantity.value = false;
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(alignment: Alignment.center, backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white),
+                      onPressed: () {
+                        if (HomeController.to.selectedRateType.value != null && HomeController.to.quantityControllerForConfromOrder.value.text.isNotEmpty && HomeController.to.rateController.value.text.isNotEmpty) {
+                          OrderController.to.awardCreateJob(widget.service.offerDetails!.offerId ?? '', widget.service.offerDetails!.userId ?? '', widget.service.offerDetails!.jobTitle ?? '', widget.service.offerDetails!.description ?? '', HomeController.to.selectedRateType.value!,
+                              HomeController.to.rateController.value.text, HomeController.to.quantityControllerForConfromOrder.value.text, HomeController.to.totalAmount.value.toString());
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.pop(context);
+                          Get.snackbar("Error", "All field required");
+                        }
+                        /* HomeController.to.changeQuantity.value = false;
                   HomeController.to.quantityControllerForConfromOrder.value
                       .text = widget.offerDetails!.quantity.toString();
 
@@ -356,13 +309,16 @@ class _ConfirmOfferRequestWidgetState extends State<ConfirmOfferRequestWidget> {
                   HomeController.to.change.value = false;
                   HomeController.to.rateController.value.text =
                       widget.offerDetails!.rate.toString();*/
-                },
-                child: const Text("Confirm Order",textAlign: TextAlign.center,)),
-            const SizedBox(
-              height: 16,
-            )
-          ],
-        ),
+                      },
+                      child: const Text(
+                        "Confirm Order",
+                        textAlign: TextAlign.center,
+                      )),
+                  const SizedBox(
+                    height: 16,
+                  )
+                ],
+              ),
       ),
     );
   }

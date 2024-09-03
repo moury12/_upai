@@ -22,11 +22,8 @@ class MyServiceDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColors.strokeColor2,
-          foregroundColor: Colors.black,
           leading: IconButton(
             icon: const Icon(CupertinoIcons.back),
             onPressed: () {
@@ -55,35 +52,29 @@ class MyServiceDetails extends StatelessWidget {
                         // width: double.infinity,
                         fit: BoxFit.cover,
                         snapshot.data.toString());
-                  }
-                  else {
+                  } else {
                     return FutureBuilder(
                       future: FirebaseAPIs.fetchDefaultOfferImageUrl(SellerProfileController.to.service.value.serviceCategoryType.toString()),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          if(snapshot.connectionState==ConnectionState.waiting || snapshot.connectionState==ConnectionState.none)
-                            {
-                              return Image.asset(
+                          if (snapshot.connectionState == ConnectionState.waiting || snapshot.connectionState == ConnectionState.none) {
+                            return Image.asset(
+                              height: 200,
+                              ImageConstant.dummy,
+                              // height: double.infinity,
+                              // fit: BoxFit.cover,
+                            );
+                          } else {
+                            return Image.network(
                                 height: 200,
-                                ImageConstant.dummy,
+
                                 // height: double.infinity,
-                                // fit: BoxFit.cover,
-                              );
-                            }
-                          else
-                            {
-                              return Image.network(
-                                  height: 200,
-
-                                  // height: double.infinity,
-                                  // width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  snapshot.data.toString());
-                            }
-
-                        }
-                        else {
+                                // width: double.infinity,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                snapshot.data.toString());
+                          }
+                        } else {
                           return Image.asset(
                             height: 200,
                             ImageConstant.dummy,
@@ -98,11 +89,10 @@ class MyServiceDetails extends StatelessWidget {
                 },
               ),
 
-
-                  // Image.asset(
-                  //   ImageConstant.productImage,
-                  //   height: 200,
-                  // )),
+              // Image.asset(
+              //   ImageConstant.productImage,
+              //   height: 200,
+              // )),
               const SizedBox(
                 height: 20,
               ),
@@ -111,243 +101,197 @@ class MyServiceDetails extends StatelessWidget {
                 padding: const EdgeInsets.all(12),
                 decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius:
-                        BorderRadius.only(topRight: Radius.circular(50),)),
-                child: Obx(
-                  () {
-                    return Column(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(50),
+                    )),
+                child: Obx(() {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        SellerProfileController.to.service.value.jobTitle ?? '',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                      ),
 
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          SellerProfileController.to.service.value.jobTitle ?? '',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700),
-                        ),
+                      GridView(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.5, crossAxisSpacing: 12),
+                        shrinkWrap: true,
+                        primary: false,
+                        children: [
+                          SellerStatusWidget(
+                            title: 'Quantity',
+                            color: AppColors.kprimaryColor,
+                            icon: CupertinoIcons.cart,
+                            value: SellerProfileController.to.service.value.quantity.toString(),
+                          ),
+                          SellerStatusWidget(
+                            title: 'Rate',
+                            color: AppColors.kprimaryColor,
+                            icon: Icons.monetization_on_sharp,
+                            value: '${SellerProfileController.to.service.value.rate.toString()}৳',
+                          ),
+                        ],
+                      ),
+                      DetailItem(title: "Posted On:", body: MyDateUtil.formatDate(SellerProfileController.to.service.value.dateTime.toString())),
+                      DetailItem(
+                        title: "Offer ID:",
+                        body: '${SellerProfileController.to.service.value.offerId}',
+                      ),
 
-                        GridView(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 1.5,
-                                  crossAxisSpacing: 12),
-                          shrinkWrap: true,
-                          primary: false,
-                          children: [
-                            SellerStatusWidget(
-                              title: 'Quantity',
-                              color: Colors.deepPurpleAccent,
-                              icon: CupertinoIcons.cart,
-                              value: SellerProfileController.to.service.value.quantity.toString(),
-                            ),
-                            SellerStatusWidget(
-                              title: 'Rate',
-                              color: Colors.teal,
-                              icon: Icons.monetization_on_sharp,
-                              value: '${SellerProfileController.to.service.value.rate.toString()}৳',
-                            ),
-                          ],
-                        ),
-                        DetailItem(
-                            title: "Posted On:",
-                            body: MyDateUtil.formatDate(SellerProfileController.to.service.value.dateTime.toString())),
-                         DetailItem(
-                          title: "Offer ID:",
-                          body: '${SellerProfileController.to.service.value.offerId}',
-                        ),
+                      DetailItem(title: "Category:", body: '${SellerProfileController.to.service.value.serviceCategoryType}'),
 
-                        DetailItem(
-                          title: "Category:",
-                          body: '${SellerProfileController.to.service.value.serviceCategoryType}'
-                        ),
+                      DetailItem(
+                        title: "Rate Type:",
+                        body: "${SellerProfileController.to.service.value.rateType}",
+                      ),
+                      // DetailItem(
+                      //   title: "Rate:",
+                      //   body:
+                      //   "${widget.offerDetails!.rate.toString()} ৳ ",
+                      // ),
+                      // DetailItem(
+                      //   title: "Quantity:",
+                      //   body:
+                      //   "${widget.offerDetails!.quantity.toString()} 🛒",
+                      // ),
+                      DetailItem(
+                        title: "District:",
+                        body: '${SellerProfileController.to.service.value.district}',
+                      ),
+                      DetailItem(
+                        title: "Address:",
+                        body: '${SellerProfileController.to.service.value.address}',
+                      ),
+                      DetailItem(
+                        title: "Description:",
+                        body: '',
+                      ),
+                      Text('${SellerProfileController.to.service.value.description}', style: AppTextStyle.titleText.copyWith(color: AppColors.colorBlack)),
 
-                        DetailItem(
-                          title: "Rate Type:",
-                          body: "${SellerProfileController.to.service.value.rateType}",
-                        ),
-                        // DetailItem(
-                        //   title: "Rate:",
-                        //   body:
-                        //   "${widget.offerDetails!.rate.toString()} ৳ ",
-                        // ),
-                        // DetailItem(
-                        //   title: "Quantity:",
-                        //   body:
-                        //   "${widget.offerDetails!.quantity.toString()} 🛒",
-                        // ),
-                        DetailItem(
-                          title: "District:",
-                          body:
-                          '${SellerProfileController.to.service.value.district}',
-                        ),
-                        DetailItem(
-                          title: "Address:",
-                          body:
-                          '${SellerProfileController.to.service.value.address}',
-                        ),
-                        DetailItem(
-                          title: "Description:",
-                          body:
-                          '',
-                        ),
-                        Text(
-                          '${SellerProfileController.to.service.value.description}',
-                          style:AppTextStyle.titleText),
+                      // Row(
+                      //   children: [
+                      //     const Text(
+                      //       'Rate Type: ',
+                      //       style: TextStyle(
+                      //           fontSize: 14,
+                      //           fontWeight: FontWeight.w600),
+                      //     ),
+                      //     Text(
+                      //       '${SellerProfileController.to.service.value.rateType}',
+                      //       style: const TextStyle(
+                      //           fontSize: 12,
+                      //           fontWeight: FontWeight.w400),
+                      //     ),
+                      //   ],
+                      // ),
+                      // Row(
+                      //   children: [
+                      //     const Text(
+                      //       'Category Type: ',
+                      //       style: TextStyle(
+                      //           fontSize: 14,
+                      //           fontWeight: FontWeight.w600),
+                      //     ),
+                      //     Text(
+                      //       '${SellerProfileController.to.service.value.serviceCategoryType}',
+                      //       style: TextStyle(
+                      //           fontSize: 12,
+                      //           fontWeight: FontWeight.w400),
+                      //     ),
+                      //   ],
+                      // ),
+                      // const Text(
+                      //   'Description: ',
+                      //   style: TextStyle(
+                      //       fontSize: 14,
+                      //       fontWeight: FontWeight.w600),
+                      // ),
+                      // Text(
+                      //   '${SellerProfileController.to.service.value.description}',
+                      //   style: const TextStyle(
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.w400),
+                      // ),
+                      SizedBox(
+                        height: 8,
+                      ),
 
-
-                        // Row(
-                        //   children: [
-                        //     const Text(
-                        //       'Rate Type: ',
-                        //       style: TextStyle(
-                        //           fontSize: 14,
-                        //           fontWeight: FontWeight.w600),
-                        //     ),
-                        //     Text(
-                        //       '${SellerProfileController.to.service.value.rateType}',
-                        //       style: const TextStyle(
-                        //           fontSize: 12,
-                        //           fontWeight: FontWeight.w400),
-                        //     ),
-                        //   ],
-                        // ),
-                        // Row(
-                        //   children: [
-                        //     const Text(
-                        //       'Category Type: ',
-                        //       style: TextStyle(
-                        //           fontSize: 14,
-                        //           fontWeight: FontWeight.w600),
-                        //     ),
-                        //     Text(
-                        //       '${SellerProfileController.to.service.value.serviceCategoryType}',
-                        //       style: TextStyle(
-                        //           fontSize: 12,
-                        //           fontWeight: FontWeight.w400),
-                        //     ),
-                        //   ],
-                        // ),
-                        // const Text(
-                        //   'Description: ',
-                        //   style: TextStyle(
-                        //       fontSize: 14,
-                        //       fontWeight: FontWeight.w600),
-                        // ),
-                        // Text(
-                        //   '${SellerProfileController.to.service.value.description}',
-                        //   style: const TextStyle(
-                        //       fontSize: 12,
-                        //       fontWeight: FontWeight.w400),
-                        // ),
-                        SizedBox(height: 8,),
-
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    Get.to(CreateOfferScreen(
-                                      service: SellerProfileController.to.service.value,
-                                      isEdit: true,
-                                    ));
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(vertical: 12),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      backgroundColor: Colors.black,
-                                      foregroundColor: Colors.white),
-                                  child: Text(
-                                    'Edit',
-                                    style: TextStyle(
-                                        fontSize:
-                                            14,
-                                        fontWeight: FontWeight.w600),
-                                  )),
-                            ),
-                            SizedBox(
-                              width: 14,
-                            ),
-                            Expanded(
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          backgroundColor: AppColors.strokeColor2,
-                                          title: const Icon(
-                                            CupertinoIcons.delete,
-                                            size: 40,
-                                          ),
-                                          content: Text(
-                                            'Are you sure to delete this service?',
-                                            style: TextStyle(
-                                                fontSize: getResponsiveFontSize(
-                                                    context, 12),
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          actions: [
-                                            ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors.pink,
-                                                    foregroundColor:
-                                                        Colors.white),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                SellerProfileController.to.deleteOffer(SellerProfileController.to.service.value.offerId??'');
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  Get.to(CreateOfferScreen(
+                                    service: SellerProfileController.to.service.value,
+                                    isEdit: true,
+                                  ));
+                                },
+                                style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white),
+                                child: Text(
+                                  'Edit',
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 14,
+                          ),
+                          Expanded(
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        backgroundColor: AppColors.strokeColor2,
+                                        title: Icon(
+                                          CupertinoIcons.delete,
+                                          color: AppColors.cancelButtonColor,
+                                          size: 40,
+                                        ),
+                                        content: Text(
+                                          'Are you sure to delete this service?',
+                                          style: TextStyle(fontSize: getResponsiveFontSize(context, 12), fontWeight: FontWeight.w500),
+                                        ),
+                                        actions: [
+                                          ElevatedButton(
+                                              style: ElevatedButton.styleFrom(backgroundColor: AppColors.cancelButtonColor, foregroundColor: Colors.white),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                                SellerProfileController.to.deleteOffer(SellerProfileController.to.service.value.offerId ?? '');
 
                                                 SellerProfileController.to.myService.refresh();
 
-                                                  Get.back();
-                                                },
-                                                child: const Text('Yes')),
-                                            ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors.black,
-                                                    padding: EdgeInsets.symmetric(
-                                                        vertical: 12),
-                                                    foregroundColor:
-                                                        Colors.white),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('No'))
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      backgroundColor: Colors.pink,padding:
-                                  EdgeInsets.symmetric(vertical: 12),
-                                      foregroundColor: Colors.white),
-                                  child: Text(
-                                    'Delete',
-                                    style: TextStyle(
-                                        fontSize:
-                                            14,
-                                        fontWeight: FontWeight.w600),
-                                  )),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        )
-                      ],
-                    );
-                  }
-                ),
+                                                Get.back();
+                                              },
+                                              child: const Text('Yes')),
+                                          ElevatedButton(
+                                              style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, padding: EdgeInsets.symmetric(vertical: 12), foregroundColor: Colors.white),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('No'))
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), backgroundColor: AppColors.cancelButtonColor, padding: EdgeInsets.symmetric(vertical: 12), foregroundColor: Colors.white),
+                                child: Text(
+                                  'Delete',
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                )),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      )
+                    ],
+                  );
+                }),
               )
             ],
           ),
