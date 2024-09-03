@@ -48,11 +48,10 @@ class DefaultScreen extends StatelessWidget {
                         style: ElevatedButton.styleFrom(backgroundColor: AppColors.cancelButtonColor, foregroundColor: Colors.white),
                         onPressed: () {
                           exit(0);
-                          Navigator.pop(context);
                         },
                         child: Text('Yes')),
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.confirmButtonColor, foregroundColor: Colors.white),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white),
                         onPressed: () {
                           Navigator.pop(context);
                         },
