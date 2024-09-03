@@ -30,10 +30,7 @@ class MyServiceWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  color: AppColors.strokeColor2, spreadRadius: 2, blurRadius: 2)
-            ],
+            boxShadow: [BoxShadow(color: AppColors.kprimaryColor.withOpacity(0.3), spreadRadius: 2, blurRadius: 2)],
           ),
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -41,34 +38,23 @@ class MyServiceWidget extends StatelessWidget {
               Expanded(
                   flex: 4,
                   child: FutureBuilder(
-                    future: FirebaseAPIs.fetchOfferImageUrl(isService
-                        ? service!.offerId.toString()
-                        : offerItem!.offerId.toString()),
+                    future: FirebaseAPIs.fetchOfferImageUrl(isService ? service!.offerId.toString() : offerItem!.offerId.toString()),
                     builder: (context, snapshot) {
-                      if(snapshot.connectionState==ConnectionState.waiting && snapshot.connectionState==ConnectionState.none)
-                        {
-                          return Image.asset(
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.none,
-                            ImageConstant.dummy,
-                            // height: 80,
-                          );
-                        }
-                     else if (snapshot.hasData) {
-                        return Image.network(
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            snapshot.data.toString());
+                      if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
+                        return Image.asset(
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.none,
+                          ImageConstant.dummy,
+                          // height: 80,
+                        );
+                      } else if (snapshot.hasData) {
+                        return Image.network(width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
                       } else {
                         return FutureBuilder(
-                          future: FirebaseAPIs.fetchDefaultOfferImageUrl(
-                              isService
-                                  ? service!.serviceCategoryType.toString()
-                                  : offerItem!.serviceCategoryType.toString()),
+                          future: FirebaseAPIs.fetchDefaultOfferImageUrl(isService ? service!.serviceCategoryType.toString() : offerItem!.serviceCategoryType.toString()),
                           builder: (context, snapshot) {
-                            if(snapshot.connectionState==ConnectionState.waiting && snapshot.connectionState==ConnectionState.none)
-                            {
+                            if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
                               return Image.asset(
                                 width: double.infinity,
                                 height: double.infinity,
@@ -76,12 +62,8 @@ class MyServiceWidget extends StatelessWidget {
                                 ImageConstant.dummy,
                                 // height: 80,
                               );
-                            }
-                           else if (snapshot.hasData) {
-                              return Image.network(
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  snapshot.data.toString());
+                            } else if (snapshot.hasData) {
+                              return Image.network(width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
                             } else {
                               return Image.asset(
                                 width: double.infinity,
@@ -128,11 +110,8 @@ class MyServiceWidget extends StatelessWidget {
                       Text(
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        isService
-                            ? service!.jobTitle ?? ''
-                            : offerItem?.jobTitle ?? '',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w600),
+                        isService ? service!.jobTitle ?? '' : offerItem?.jobTitle ?? '',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                       ),
 
                       Row(
@@ -154,21 +133,16 @@ class MyServiceWidget extends StatelessWidget {
                                   Icon(
                                     CupertinoIcons.cart,
                                     size: 15,
+                                    color: AppColors.kprimaryColor,
                                   ),
                                   SizedBox(
                                     width: 2,
                                   ),
                                   Flexible(
                                     child: Text(
-                                      isService
-                                          ? service!.quantity.toString()
-                                          : offerItem?.quantity.toString() ??
-                                              '0',
+                                      isService ? service!.quantity.toString() : offerItem?.quantity.toString() ?? '0',
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black),
+                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black),
                                     ),
                                   )
                                 ],
@@ -184,8 +158,7 @@ class MyServiceWidget extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
                                 '৳ ${isService ? service!.rate : offerItem?.rate ?? '0'}',
-                                style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w600),
+                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
@@ -227,34 +200,21 @@ class MyServiceWidget extends StatelessWidget {
                       : */
                     ],
                   )),
-              button != null
-                  ? Expanded(flex: 2, child: button!)
-                  : SizedBox.shrink(),
+              button != null ? Expanded(flex: 2, child: button!) : SizedBox.shrink(),
             ],
           ),
         ),
-        if (offerItem?.district != null && offerItem!.district!.isNotEmpty &&offerItem!.district!="All Districts"||
-            service?.district != null &&
-                service!
-                    .district!.isNotEmpty && service!
-                .district!="All Districts"/*||offerList?.district.isNotEmpty*/)
+        if (offerItem?.district != null && offerItem!.district!.isNotEmpty && offerItem!.district != "All Districts" || service?.district != null && service!.district!.isNotEmpty && service!.district != "All Districts" /*||offerList?.district.isNotEmpty*/)
           Positioned(
             top: 0,
             left: 0,
             child: Container(
               padding: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                  color: AppColors.BTNbackgroudgrey,
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(10),
-                      topLeft: Radius.circular(15))),
+              decoration: BoxDecoration(color: AppColors.kprimaryColor, borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), topLeft: Radius.circular(15))),
               child: Text(
                 maxLines: 1,
                 isService ? service!.district ?? '' : offerItem?.district ?? '',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white),
               ),
             ),
           )
@@ -282,9 +242,7 @@ class SellerStatusWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-          color: color!.withOpacity(.2),
-          borderRadius: BorderRadius.circular(15)),
+      decoration: BoxDecoration(color: color!.withOpacity(.1), borderRadius: BorderRadius.circular(15)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -292,26 +250,28 @@ class SellerStatusWidget extends StatelessWidget {
             flex: 5,
             child: Row(
               children: [
-                Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: color ?? Colors.lightBlue, shape: BoxShape.circle),
-                  padding: EdgeInsets.all(4),
-                  child: Icon(
-                    icon ?? Icons.attach_money,
-                    color: Colors.white,
-                    size: 15,
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(color: color ?? Colors.lightBlue, shape: BoxShape.circle),
+                    padding: EdgeInsets.all(4),
+                    child: Icon(
+                      icon ?? Icons.attach_money,
+                      color: Colors.white,
+                      size: 15,
+                    ),
                   ),
                 ),
-                SizedBox(
-                  width: 5,
+                Expanded(
+                  child: SizedBox.shrink(),
                 ),
                 Expanded(
-                    flex: 3,
+                    flex: 10,
                     child: Text(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      title ?? 'Total Earning',
+                      title ?? 'Earning',
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ))
               ],
@@ -321,9 +281,7 @@ class SellerStatusWidget extends StatelessWidget {
             flex: 4,
             child: Text(
               value ?? '${seller!.sellerProfile!.totalEarning}',
-              style: TextStyle(
-                  fontSize: getResponsiveFontSize(context, 18),
-                  fontWeight: FontWeight.w800),
+              style: TextStyle(fontSize: getResponsiveFontSize(context, 18), fontWeight: FontWeight.w800),
             ),
           )
         ],

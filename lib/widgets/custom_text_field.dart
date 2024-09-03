@@ -50,7 +50,14 @@ class CustomTextField extends StatefulWidget {
     this.maxLines,
     this.suffixIcon,
     this.onPressed,
-    this.isEmail = false, this.hintStyle, this.inputFontSize, this.height, this.width, this.textInputFormatter, this.padding, this.isEnable,
+    this.isEmail = false,
+    this.hintStyle,
+    this.inputFontSize,
+    this.height,
+    this.width,
+    this.textInputFormatter,
+    this.padding,
+    this.isEnable,
   });
 
   @override
@@ -64,21 +71,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width:widget.width?? double.infinity,
-      height: widget.height??null,
-
+      width: widget.width ?? double.infinity,
+      height: widget.height,
       child: TextFormField(
         inputFormatters: widget.textInputFormatter ?? [],
-        enabled: widget.isEnable??true,
-
+        enabled: widget.isEnable ?? true,
         onTap: widget.onPressed ?? () {},
         textAlign: widget.textAlign ?? TextAlign.left,
         maxLines: widget.maxLines ?? 1,
         onChanged: widget.onChanged,
-        textInputAction: widget.isPasswordField == true
-            ? TextInputAction.done
-            : TextInputAction.next,
-        style:  TextStyle(color: Colors.black,fontSize:widget.inputFontSize?? null),
+        textInputAction: widget.isPasswordField == true ? TextInputAction.done : TextInputAction.next,
+        style: TextStyle(color: Colors.black, fontSize: widget.inputFontSize ?? null),
         controller: widget.controller,
         keyboardType: widget.inputType,
         key: widget.fieldKey,
@@ -86,11 +89,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         onSaved: widget.onSaved,
         validator: widget.validator ??
             (value) {
-              if ((value == null ||
-                      value.isEmpty ||
-                      (widget.isEmail == true && !value.isEmail)) &&
-                  (widget.validatorText != null &&
-                      widget.validatorText != '')) {
+              if ((value == null || value.isEmpty || (widget.isEmail == true && !value.isEmail)) && (widget.validatorText != null && widget.validatorText != '')) {
                 if (widget.isEmail == true) {
                   return 'Please provide valid email';
                 } else {
@@ -102,50 +101,46 @@ class _CustomTextFieldState extends State<CustomTextField> {
         onFieldSubmitted: widget.onFieldSubmitted,
         onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
         decoration: InputDecoration(
-
           fillColor: Colors.white,
           labelText: widget.labelText,
-          labelStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.black.withOpacity(0.5)),
-          border: OutlineInputBorder(
-
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: AppColors.strokeColor2)),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: AppColors.strokeColor2)),
+          labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black.withOpacity(0.5)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: AppColors.strokeColor2)),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: AppColors.strokeColor2)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(
                 color: Colors.black,
               )),
           filled: true,
-          contentPadding:widget.padding??
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+          contentPadding: widget.padding ?? const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
           prefixIcon: widget.prefixIcon != null
               ? Icon(
                   widget.prefixIcon,
-                  color: AppColors.primaryColor,
+                  color: AppColors.kprimaryColor,
                 )
               : null,
           // decoration: InputDecoration(
           //   border: InputBorder.none,
           // filled: true,
           hintText: widget.hintText,
-          hintStyle:widget.hintStyle?? TextStyle(fontSize:13  ,color: AppColors.colorBlack.withOpacity(0.3)),
+          hintStyle: widget.hintStyle ?? TextStyle(fontSize: 13, color: AppColors.colorBlack.withOpacity(0.3)),
 
-          suffixIcon: widget.suffixIcon!=null ?widget.suffixIcon:widget.isPasswordField!?
-              GestureDetector(
-                onTap: () {
-                  _obscureText = !_obscureText;
-                  setState(() {});
-                },
-                child: widget.isPasswordField!
-                    ? Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: AppColors.primaryColor,
-                      )
-                    : const SizedBox(),
-              ):null,
+          suffixIcon: widget.suffixIcon != null
+              ? widget.suffixIcon
+              : widget.isPasswordField!
+                  ? GestureDetector(
+                      onTap: () {
+                        _obscureText = !_obscureText;
+                        setState(() {});
+                      },
+                      child: widget.isPasswordField!
+                          ? Icon(
+                              _obscureText ? Icons.visibility_off : Icons.visibility,
+                              color: AppColors.primaryColor,
+                            )
+                          : const SizedBox(),
+                    )
+                  : null,
         ),
       ),
     );

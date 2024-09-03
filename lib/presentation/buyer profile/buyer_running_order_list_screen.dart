@@ -7,11 +7,13 @@ import 'package:upai/presentation/buyer%20profile/widgets/buyer_running_order_wi
 import '../../core/utils/custom_text_style.dart';
 import 'buyer_profile_controller.dart';
 
-
 class BuyerRunningOrderListScreen extends StatelessWidget {
   final BuyerProfileModel buyer;
 
-  const BuyerRunningOrderListScreen({super.key, required this.buyer, });
+  const BuyerRunningOrderListScreen({
+    super.key,
+    required this.buyer,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +24,6 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppColors.strokeColor2,
         appBar: AppBar(
-          elevation: 0,
-          shadowColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          backgroundColor: AppColors.strokeColor2,
-          foregroundColor: Colors.black,
           // leading: IconButton(
           //   icon: const Icon(CupertinoIcons.back),
           //   onPressed: () {
@@ -38,31 +35,32 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
             style: AppTextStyle.appBarTitle,
           ),
         ),
-        body: Obx(
-          () {
-            return RefreshIndicator(
-              color: Colors.black,
-                backgroundColor: AppColors.strokeColor2,
-                child: BuyerProfileController.to.buyer.value.buyerRunningOrder==null
-                ?Center(child: Text("No Running order"))
+        body: Obx(() {
+          return RefreshIndicator(
+            color: Colors.black,
+            backgroundColor: AppColors.strokeColor2,
+            child: BuyerProfileController.to.buyer.value.buyerRunningOrder == null
+                ? Center(child: Text("No Running order"))
                 // Padding(
                 //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 //   child: ShimmerRunnigOrder(forList: true,),
                 // )
                 : Container(
-                  child: ListView.builder(padding: EdgeInsets.all(12),
-                                itemCount: BuyerProfileController.to.buyer.value.buyerRunningOrder!.length,
-                                itemBuilder: (context, index) {
-                    print("count $index");
-                  return BuyerRunningOrderWidget(
-                    buyerRunningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
-                  );
-                                },
-                              ),
-                ), onRefresh: () {
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(12),
+                      itemCount: BuyerProfileController.to.buyer.value.buyerRunningOrder!.length,
+                      itemBuilder: (context, index) {
+                        print("count $index");
+                        return BuyerRunningOrderWidget(
+                          buyerRunningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
+                        );
+                      },
+                    ),
+                  ),
+            onRefresh: () {
               return BuyerProfileController.to.refreshAllData();
-            },);
-          }
-        ));
+            },
+          );
+        }));
   }
 }

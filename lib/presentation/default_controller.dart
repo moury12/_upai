@@ -21,19 +21,18 @@ import 'ChatScreen/Controller/chat_screen_controller.dart';
 import 'Inbox/controller/inbox_screen_controller.dart';
 import 'notification/controller/notification_controller.dart';
 import 'seller-service/seller_profile_controller.dart';
-class DefaultController extends GetxController
-{
+
+class DefaultController extends GetxController {
   late UserInfoModel userData;
   final box = Hive.box("userInfo");
- // String userType="";
+  // String userType="";
   @override
   void onClose() {
-
     super.onClose();
   }
+
   @override
   void onInit() {
-
     //for notification permission
     FirebaseMessaging.instance.requestPermission(
       alert: true,
@@ -51,18 +50,16 @@ class DefaultController extends GetxController
     });
     //
     userData = userInfoModelFromJson(box.get('user'));
-     Get.put(HomeController(),permanent: true);
-     Get.put(SellerProfileController(),permanent: true);
-     Get.put(BuyerProfileController(),permanent: true);
-     Get.put(ProfileScreenController(),permanent: true);
+    Get.put(HomeController(), permanent: true);
+    Get.put(SellerProfileController(), permanent: true);
+    Get.put(BuyerProfileController(), permanent: true);
+    Get.put(ProfileScreenController(), permanent: true);
     FirebaseAPIs.getSelfInfo();
     WidgetsBinding.instance.addObserver(AppLifecycleListener());
 
     // var userJsonString = box.get('user');
     // Map<String,dynamic> data = json.decode(userJsonString.toString());
-   // userType = data['user_type'].toString();
-
-
+    // userType = data['user_type'].toString();
 
     //for updating user active status according to lifecycle events
     //resume -- active or online
@@ -83,7 +80,6 @@ class DefaultController extends GetxController
       return Future.value(message);
     });
 
-
     // TODO: implement onInit
     super.onInit();
   }
@@ -94,7 +90,7 @@ class DefaultController extends GetxController
     // ExploreScreen(),
     const InboxScreen(),
     const NotificatonScreen(),
-     ProfileScreen()
+    ProfileScreen()
   ];
   // final List<Widget> screensForServiceProvider = [
   //   const HomeScreen2(),
@@ -102,32 +98,27 @@ class DefaultController extends GetxController
   //    ExploreScreen(),
   //   // const ProfileScreen()
   // ];
-  var selectedColor = Colors.black;
+  var selectedColor = AppColors.kprimaryColor;
   RxInt selectedIndex = 0.obs;
   var unselected = AppColors.appTextColorGrey;
-  RxString appBarTitle="Upai".obs;
+  RxString appBarTitle = "Upai".obs;
 
   void onItemTapped(int index) {
-      selectedIndex.value = index;
-     switch(index)
-     {
-       case 0:
-         appBarTitle.value="Upai";
-       case 1:
-         appBarTitle.value="My Services";
-       // case 2:
-       //   appBarTitle.value="Explore";
-       case 2:
-         appBarTitle.value="Inbox";
-       case 3:
-         appBarTitle.value="Notification";
-       //
-       // case 4:
-       //   appBarTitle.value="Profile";
-
-     }
-
+    selectedIndex.value = index;
+    switch (index) {
+      case 0:
+        appBarTitle.value = "Upai";
+      case 1:
+        appBarTitle.value = "My Services";
+      // case 2:
+      //   appBarTitle.value="Explore";
+      case 2:
+        appBarTitle.value = "Inbox";
+      case 3:
+        appBarTitle.value = "Notification";
+      //
+      // case 4:
+      //   appBarTitle.value="Profile";
+    }
   }
-
-
 }

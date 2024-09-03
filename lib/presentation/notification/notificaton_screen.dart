@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/notification_model.dart';
+import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
@@ -35,7 +36,10 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
                       case ConnectionState.none:
-                        return const Center(child: CircularProgressIndicator());
+                        return Center(
+                            child: CircularProgressIndicator(
+                          color: AppColors.kprimaryColor,
+                        ));
                       case ConnectionState.active:
                       case ConnectionState.done:
                         final data = snapshot.data!.docs;
@@ -43,111 +47,71 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                         if (data.isNotEmpty) {
                           NotificationController.to.notificationList.clear();
                           for (var i in data) {
-                            NotificationController.to.notificationList
-                                .add(NotificationModel.fromJson(i.data()));
+                            NotificationController.to.notificationList.add(NotificationModel.fromJson(i.data()));
                           }
                           return ListView.builder(
-                            itemCount: NotificationController
-                                .to.notificationList.length,
+                            itemCount: NotificationController.to.notificationList.length,
                             itemBuilder: (context, index) {
-                              int reversedIndex = NotificationController
-                                      .to.notificationList.length -
-                                  1 -
-                                  index;
+                              int reversedIndex = NotificationController.to.notificationList.length - 1 - index;
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey.shade200, width: 3),
+                                    border: Border.all(color: AppColors.kprimaryColor.withOpacity(0.3), width: 3),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Column(
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          if(NotificationController.to.notificationList[reversedIndex].status=="DELIVERED" &&ProfileScreenController.to.userInfo.value.userId!=NotificationController.to.notificationList[reversedIndex].sellerId)
-                                            {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) => ReviewScreen(
-                                                    notificationModel:
-                                                    NotificationController.to
-                                                        .notificationList[
-                                                    reversedIndex]),
-                                              );
-                                            }
-
+                                          if (NotificationController.to.notificationList[reversedIndex].status == "DELIVERED" && ProfileScreenController.to.userInfo.value.userId != NotificationController.to.notificationList[reversedIndex].sellerId) {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => ReviewScreen(notificationModel: NotificationController.to.notificationList[reversedIndex]),
+                                            );
+                                          }
                                         },
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Expanded(
                                               flex: 2,
                                               child: Icon(
-                                                  Icons.notifications_on,
-                                                  size: 35),
+                                                Icons.notifications_on,
+                                                size: 35,
+                                                color: AppColors.kprimaryColor,
+                                              ),
                                             ),
                                             Expanded(
                                                 flex: 6,
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(6.0),
+                                                  padding: const EdgeInsets.all(6.0),
                                                   child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        NotificationController
-                                                            .to
-                                                            .notificationList[
-                                                                reversedIndex]
-                                                            .notificationTitle
-                                                            .toString(),
-                                                        style: AppTextStyle
-                                                            .bodyMediumBlack400,
+                                                        NotificationController.to.notificationList[reversedIndex].notificationTitle.toString(),
+                                                        style: AppTextStyle.bodyMediumBlack400,
                                                       ),
-                                                      Text(
-                                                          NotificationController
-                                                              .to
-                                                              .notificationList[
-                                                                  reversedIndex]
-                                                              .notificationMsg
-                                                              .toString()),
-
+                                                      Text(NotificationController.to.notificationList[reversedIndex].notificationMsg.toString()),
                                                     ],
                                                   ),
                                                 )),
                                             Expanded(
                                                 flex: 3,
                                                 child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
                                                     Align(
-                                                      alignment:
-                                                          Alignment.topCenter,
-                                                      child: Text(MyDateUtil.getLastMessageTime(context: context,time: NotificationController
-                                                          .to
-                                                          .notificationList[
-                                                      reversedIndex]
-                                                          .createdTime
-                                                          .toString(),
-                                                              )
-                                                          .toString()),
+                                                      alignment: Alignment.topCenter,
+                                                      child: Text(MyDateUtil.getLastMessageTime(
+                                                        context: context,
+                                                        time: NotificationController.to.notificationList[reversedIndex].createdTime.toString(),
+                                                      ).toString()),
                                                     ),
-                                                    Text(
-                                                        "৳${NotificationController.to.notificationList[reversedIndex].total.toString()}",
-                                                        style: AppTextStyle
-                                                            .bodyMediumBlackSemiBold),
-                                                    Text(
-                                                        "🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}",
-                                                        style: AppTextStyle
-                                                            .bodyMediumSemiBlackBold),
+                                                    Text("৳${NotificationController.to.notificationList[reversedIndex].total.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold),
+                                                    Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold),
                                                   ],
                                                 ))
                                             // Column(
@@ -191,37 +155,25 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                                           ],
                                         ),
                                       ),
-                                      ProfileScreenController
-                                          .to
-                                          .userInfo
-                                          .value
-                                          .userId ==
-                                          NotificationController
-                                              .to
-                                              .notificationList[
-                                          reversedIndex]
-                                              .buyerId
+                                      ProfileScreenController.to.userInfo.value.userId == NotificationController.to.notificationList[reversedIndex].buyerId
                                           ? SizedBox()
                                           : SizedBox(
-                                        height: 40,
-                                        width: 150,
-                                        child: CustomButton(
-                                            onTap: () {
-                                              showDialog(
-                                                context:
-                                                context,
-                                                builder:
-                                                    (context) =>
-                                                    ConfirmOrderWidget(
-                                                      notificationModel: NotificationController
-                                                          .to
-                                                          .notificationList[reversedIndex],
-                                                    ),
-                                              );
-                                            },
-                                            text: "Tap Here"),
+                                              height: 40,
+                                              width: 150,
+                                              child: CustomButton(
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) => ConfirmOrderWidget(
+                                                        notificationModel: NotificationController.to.notificationList[reversedIndex],
+                                                      ),
+                                                    );
+                                                  },
+                                                  text: "Tap Here"),
+                                            ),
+                                      SizedBox(
+                                        height: 10,
                                       ),
-                                      SizedBox(height: 10,),
                                     ],
                                   ),
                                 ),
@@ -232,15 +184,11 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                  width: 80,
-                                  height: 80,
-                                  ImageConstant.notification),
+                              Image.asset(width: 80, height: 80, ImageConstant.notification),
                               SizedBox(
                                 height: 10,
                               ),
-                              Text("No Notification Yet",
-                                  style: AppTextStyle.bodyMedium400),
+                              Text("No Notification Yet", style: AppTextStyle.bodyMedium400),
                             ],
                           );
                         }

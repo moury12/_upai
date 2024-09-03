@@ -19,22 +19,19 @@ class CategoryListScreen extends StatefulWidget {
 }
 
 class _CategoryListScreenState extends State<CategoryListScreen> {
-
   @override
   Widget build(BuildContext context) {
-
     return PopScope(
       onPopInvoked: (didPop) {
         HomeController.to.searchCatController.value.clear();
         HomeController.to.filterCategory('');
       },
-      child: Scaffold( backgroundColor: AppColors.strokeColor2,
+      child: Scaffold(
+        backgroundColor: AppColors.strokeColor2,
         appBar: AppBar(
           elevation: 0,
           shadowColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
-          backgroundColor: AppColors.strokeColor2,
-          foregroundColor: Colors.black,
           leading: IconButton(
             icon: Icon(CupertinoIcons.back),
             onPressed: () {
@@ -45,45 +42,54 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           ),
           title: Text(
             "Category List",
-              style: AppTextStyle.bodyTitle700,
+            style: AppTextStyle.bodyTitle700,
           ),
         ),
         body: Column(
-          children: [    Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(bottom: 12),
-            child: CustomTextField(
-              controller:HomeController.to.searchCatController.value ,
-              onChanged: (value) {
-                HomeController.to.filterCategory(value!);
-              },
-              onPressed: () {
-                HomeController.to.searchCatController.value.clear();
-                HomeController.to.filterCategory('');
-              },
-              hintText: "Search category..",
-              suffixIcon: IconButton(icon: Icon(Icons.cancel,color: Colors.black,),onPressed: () {
-                HomeController.to.searchCatController.value.clear();
-                HomeController.to.filterCategory('');
-              },),
+          children: [
+            SizedBox(
+              height: 10,
             ),
-          ),
-            Obx(() {
-              if(HomeController.to.filteredCategoryList.isNotEmpty){
-              return Expanded(
-                child: GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 12,vertical: 12).copyWith(top:0,right: 4),
-                  itemCount:HomeController.to.filteredCategoryList.length ,
-                  gridDelegate:
-
-                       SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                  itemBuilder: (context, index) {
-                    return CategotyItemtwo(singleCat: HomeController.to.filteredCategoryList[index],maxline: 5,
-
-                    );
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(bottom: 12),
+              child: CustomTextField(
+                controller: HomeController.to.searchCatController.value,
+                onChanged: (value) {
+                  HomeController.to.filterCategory(value!);
+                },
+                onPressed: () {
+                  HomeController.to.searchCatController.value.clear();
+                  HomeController.to.filterCategory('');
+                },
+                hintText: "Search category..",
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    Icons.cancel,
+                    color: AppColors.kprimaryColor,
+                  ),
+                  onPressed: () {
+                    HomeController.to.searchCatController.value.clear();
+                    HomeController.to.filterCategory('');
                   },
                 ),
-              );}
-              else{
+              ),
+            ),
+            Obx(() {
+              if (HomeController.to.filteredCategoryList.isNotEmpty) {
+                return Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12).copyWith(top: 0, right: 4),
+                    itemCount: HomeController.to.filteredCategoryList.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                    itemBuilder: (context, index) {
+                      return CategotyItemtwo(
+                        singleCat: HomeController.to.filteredCategoryList[index],
+                        maxline: 5,
+                      );
+                    },
+                  ),
+                );
+              } else {
                 return Expanded(child: ShimmerCategoryDetailsList());
               }
             }),

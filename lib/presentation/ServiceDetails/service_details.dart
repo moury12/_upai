@@ -52,8 +52,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   void dispose() {
     ProfileScreenController.to.profileImageUrl.value = '';
 
-    ProfileScreenController.to.id.value =
-        ProfileScreenController.to.userInfo.value.userId ?? '';
+    ProfileScreenController.to.id.value = ProfileScreenController.to.userInfo.value.userId ?? '';
     ProfileScreenController.to.fetchProfileImage();
     super.dispose();
   }
@@ -80,21 +79,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      if (ProfileScreenController.to.userInfo.value.userId ==
-                          widget.offerDetails!.userId) {
+                      if (ProfileScreenController.to.userInfo.value.userId == widget.offerDetails!.userId) {
                         Get.snackbar("This is your Service", "");
                       } else {
                         UserInfoModel senderData = UserInfoModel();
                         Map<String, dynamic>? userDetails;
-                        userDetails = await FirebaseAPIs().getSenderInfo(
-                            widget.offerDetails!.userId.toString());
+                        userDetails = await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString());
                         if (userDetails!.isNotEmpty) {
                           senderData.userId = userDetails["user_id"] ?? "";
                           senderData.name = userDetails["name"] ?? "user";
                           senderData.email = userDetails["email"];
                           senderData.lastActive = userDetails["last_active"];
-                          senderData.image = userDetails["image"] ??
-                              "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+                          senderData.image = userDetails["image"] ?? "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
                           senderData.isOnline = userDetails["is_online"];
                           senderData.userType = userDetails["user_type"];
                           senderData.token = userDetails["token"];
@@ -110,7 +106,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      backgroundColor: AppColors.colorBlack,
+                      backgroundColor: AppColors.kprimaryColor,
                     ),
                     child: Text(
                       "Chat Now",
@@ -122,8 +118,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      if (ProfileScreenController.to.userInfo.value.userId ==
-                          widget.offerDetails!.userId) {
+                      if (ProfileScreenController.to.userInfo.value.userId == widget.offerDetails!.userId) {
                         Get.snackbar("This is your Service", "");
                       } else {
                         Get.put(OrderController());
@@ -140,7 +135,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      backgroundColor: AppColors.colorBlack,
+                      backgroundColor: AppColors.kprimaryColor,
                     ),
                     child: Text(
                       "Confirm Offer",
@@ -154,9 +149,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         ),
         body: SafeArea(
           child: widget.offerDetails == null
-              ? const Center(
+              ? Center(
                   child: CircularProgressIndicator(
-                    color: Colors.black,
+                    color: AppColors.kprimaryColor,
                   ),
                 )
               : SingleChildScrollView(
@@ -169,13 +164,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         child: Stack(
                           children: [
                             FutureBuilder(
-                              future: FirebaseAPIs.fetchOfferImageUrl(
-                                  widget.offerDetails!.offerId.toString()),
+                              future: FirebaseAPIs.fetchOfferImageUrl(widget.offerDetails!.offerId.toString()),
                               builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                        ConnectionState.waiting &&
-                                    snapshot.connectionState ==
-                                        ConnectionState.none) {
+                                if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
                                   return Image.asset(
                                     width: double.infinity,
                                     height: double.infinity,
@@ -184,23 +175,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     // height: 80,
                                   );
                                 } else if (snapshot.hasData) {
-                                  return Image.network(
-                                      height: double.infinity,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                      snapshot.data.toString());
+                                  return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
                                 } else {
                                   return FutureBuilder(
-                                    future:
-                                        FirebaseAPIs.fetchDefaultOfferImageUrl(
-                                            widget.offerDetails!
-                                                .serviceCategoryType
-                                                .toString()),
+                                    future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.offerDetails!.serviceCategoryType.toString()),
                                     builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                              ConnectionState.waiting &&
-                                          snapshot.connectionState ==
-                                              ConnectionState.none) {
+                                      if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
                                         return Image.asset(
                                           width: double.infinity,
                                           height: double.infinity,
@@ -209,11 +189,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                           // height: 80,
                                         );
                                       } else if (snapshot.hasData) {
-                                        return Image.network(
-                                            height: double.infinity,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                            snapshot.data.toString());
+                                        return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
                                       } else {
                                         return Image.asset(
                                           ImageConstant.dummy,
@@ -229,38 +205,32 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             ),
 
                             Positioned(
-                              left: 8,
+                                left: 8,
                                 top: 8,
                                 child: Container(
-
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: IconButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-
-                                icon: const Icon(
-                                  Icons.arrow_back_ios_rounded,
-                                  color: Colors.white,size: 25,
-                                ),
-                              ),
-                            )),
+                                  decoration: BoxDecoration(color: AppColors.kprimaryColor, borderRadius: BorderRadius.circular(8)),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    icon: const Icon(
+                                      Icons.arrow_back_ios_rounded,
+                                      color: Colors.white,
+                                      size: 25,
+                                    ),
+                                  ),
+                                )),
                             Positioned(
                                 right: 8,
                                 top: 8,
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(color: AppColors.kprimaryColor, borderRadius: BorderRadius.circular(8)),
                                   child: Row(
                                     children: [
                                       Obx(() {
                                         return IconButton(
                                           onPressed: () {
-                                            print(widget.offerDetails!.description
-                                                .toString());
+                                            print(widget.offerDetails!.description.toString());
                                             if (ctrl.isFav.value) {
                                               ctrl.isFav.value = false;
                                             } else {
@@ -270,14 +240,17 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                           icon: ctrl.isFav.value
                                               ? const Icon(
                                                   CupertinoIcons.heart_fill,
-                                                  color: Colors.red,size: 25,
+                                                  color: Colors.red,
+                                                  size: 25,
                                                 )
                                               : /*const FaIcon(
                                                   FontAwesomeIcons.heart,
                                                 ),*/
                                               const Icon(
                                                   CupertinoIcons.heart_fill,
-                                                  color: Colors.white,size: 25,),
+                                                  color: Colors.white,
+                                                  size: 25,
+                                                ),
                                         );
                                       }),
                                       IconButton(
@@ -309,18 +282,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           style: AppTextStyle.bodyMediumBlackBold,
                         ),
                       ),
-                      const Divider(),
+                      Divider(
+                        color: AppColors.kprimaryColor,
+                      ),
                       ListTile(
                         leading: FutureBuilder(
-                          future: ProfileScreenController.to.getProfileImageURL(
-                              widget.offerDetails!.userId.toString()),
+                          future: ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString()),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               if (snapshot.data != "") {
-                                return CircleAvatar(
-                                    radius: 24,
-                                    backgroundImage:
-                                        NetworkImage(snapshot.data.toString()));
+                                return CircleAvatar(radius: 24, backgroundImage: NetworkImage(snapshot.data.toString()));
                               } else {
                                 return CircleAvatar(
                                     radius: 24,
@@ -363,7 +334,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           ],
                         ),
                       ),
-                      const Divider(),
+                      Divider(color: AppColors.kprimaryColor),
                       Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Column(
@@ -372,10 +343,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                    "Posted on ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
-                                Text(
-                                    "🌏 ${widget.offerDetails!.district.toString()}"),
+                                Text("Posted on ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
+                                Text("🌏 ${widget.offerDetails!.district.toString()}"),
                               ],
                             ),
                             Row(
@@ -384,8 +353,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 Expanded(
                                   flex: 4,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       // Text(
                                       //   "Price",
@@ -500,9 +468,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             const SizedBox(
                               height: 10,
                             ),
-                            DetailItem(
-                                title: "User ID:",
-                                body: widget.offerDetails!.userId.toString()),
+                            DetailItem(title: "User ID:", body: widget.offerDetails!.userId.toString()),
                             //  DetailItem(
                             //   title: "Offer ID:",
                             //   body: widget.offerDetails!.offerId.toString(),
@@ -510,8 +476,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
                             DetailItem(
                               title: "Category:",
-                              body: widget.offerDetails!.serviceCategoryType
-                                  .toString(),
+                              body: widget.offerDetails!.serviceCategoryType.toString(),
                             ),
 
                             DetailItem(
@@ -520,18 +485,15 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             ),
                             DetailItem(
                               title: "Rate:",
-                              body:
-                                  "${widget.offerDetails!.rate.toString()} ৳ ",
+                              body: "${widget.offerDetails!.rate.toString()} ৳ ",
                             ),
                             DetailItem(
                               title: "Quantity:",
-                              body:
-                                  "${widget.offerDetails!.quantity.toString()} 🛒",
+                              body: "${widget.offerDetails!.quantity.toString()} 🛒",
                             ),
                             DetailItem(
                               title: "Address:",
-                              body:
-                                  "${widget.offerDetails!.address.toString()}",
+                              body: "${widget.offerDetails!.address.toString()}",
                             ),
 
                             Text(
@@ -557,14 +519,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               //colorClickableText: Colors.pink,
                               trimCollapsedText: 'Show more',
                               trimExpandedText: ' Show less',
-                              moreStyle: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green),
-                              lessStyle: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blueAccent),
+                              moreStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.green),
+                              lessStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.blueAccent),
                             ),
                             const SizedBox(
                               height: 20,
@@ -627,35 +583,24 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 ? Column(
                                     children: [
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             flex: 2,
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  widget.offerDetails!.avgRating
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black87,
-                                                      fontSize:
-                                                          getResponsiveFontSize(
-                                                              context, 16)),
+                                                  widget.offerDetails!.avgRating.toString(),
+                                                  style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.kprimaryColor, fontSize: getResponsiveFontSize(context, 16)),
                                                 ),
                                                 const SizedBox(
                                                   width: 5,
                                                 ),
                                                 RatingBarIndicator(
-                                                  rating: widget
-                                                      .offerDetails!.avgRating,
-                                                  itemBuilder:
-                                                      (context, index) => Icon(
+                                                  rating: widget.offerDetails!.avgRating,
+                                                  itemBuilder: (context, index) => Icon(
                                                     Icons.star,
-                                                    color: AppColors
-                                                        .colorLightBlack,
+                                                    color: AppColors.kprimaryColor,
                                                   ),
                                                   itemCount: 5,
                                                   itemSize: 22.0,
@@ -669,8 +614,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       const SizedBox(
                                         height: 20,
                                       ),
-                                      Text("Client Review",
-                                          style: AppTextStyle.titleText),
+                                      Text("Client Review", style: AppTextStyle.titleText),
                                       const SizedBox(
                                         height: 15,
                                       ),
@@ -678,15 +622,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         width: size.width,
                                         height: 200,
                                         child: ListView.builder(
-                                          itemCount: widget.offerDetails!
-                                              .buyerReviewList!.length,
+                                          itemCount: widget.offerDetails!.buyerReviewList!.length,
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, index) {
-                                            return ClientReviewCard(
-                                                buyerReview: widget
-                                                    .offerDetails!
-                                                    .buyerReviewList![index],
-                                                size: size);
+                                            return ClientReviewCard(buyerReview: widget.offerDetails!.buyerReviewList![index], size: size);
                                           },
                                         ),
                                       ),
@@ -752,49 +691,37 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Text("Explore Top Services",
-                                style: AppTextStyle.titleText),
+                            Text("Explore Top Services", style: AppTextStyle.titleText),
 
                             Obx(
                               () {
                                 if (HomeController.to.getOfferList.isNotEmpty) {
-                                  List<OfferList> offerList =
-                                      HomeController.to.getOfferList;
+                                  List<OfferList> offerList = HomeController.to.getOfferList;
                                   return SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
                                       children: List.generate(
                                         offerList.length,
                                         (index) => Padding(
-                                          padding: const EdgeInsets.all(12.0)
-                                              .copyWith(left: 8),
+                                          padding: const EdgeInsets.all(12.0).copyWith(left: 8),
                                           child: SizedBox(
                                             width: 180,
                                             height: 220,
                                             child: MyServiceWidget(
-                                              offerItem: HomeController
-                                                  .to.getOfferList[index],
+                                              offerItem: HomeController.to.getOfferList[index],
                                               button: SizedBox(
                                                 width: double.infinity,
                                                 child: ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        Colors.black,
-                                                    foregroundColor:
-                                                        Colors.white,
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: AppColors.kprimaryColor,
+                                                    foregroundColor: Colors.white,
                                                   ),
                                                   onPressed: () {
                                                     Navigator.pushReplacement(
                                                         context,
                                                         MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ServiceDetails(
-                                                            offerDetails:
-                                                                HomeController
-                                                                        .to
-                                                                        .getOfferList[
-                                                                    index],
+                                                          builder: (context) => ServiceDetails(
+                                                            offerDetails: HomeController.to.getOfferList[index],
                                                           ),
                                                         ));
                                                   },
@@ -808,9 +735,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     ),
                                   );
                                 } else {
-                                  return const Center(
+                                  return Center(
                                       child: CircularProgressIndicator(
-                                    color: Colors.black,
+                                    color: AppColors.kprimaryColor,
                                   ));
                                 }
                               },
@@ -827,8 +754,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 
   void getSellerDetails() async {
-    image = await ProfileScreenController.to
-        .getProfileImageURL(widget.offerDetails!.userId.toString());
+    image = await ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString());
     // widget.sellerDetails =  (await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString()))!;
   }
 }

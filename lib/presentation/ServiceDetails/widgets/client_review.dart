@@ -12,7 +12,8 @@ class ClientReviewCard extends StatefulWidget {
   final BuyerReviewList buyerReview;
   const ClientReviewCard({
     super.key,
-    required this.size, required this.buyerReview,
+    required this.size,
+    required this.buyerReview,
   });
 
   final Size size;
@@ -26,7 +27,7 @@ class _ClientReviewCardState extends State<ClientReviewCard> {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        side: const BorderSide(width: 1.50, color: Color(0xFFE0E0E0)),
+        side: BorderSide(width: 1.50, color: AppColors.kprimaryColor),
         borderRadius: BorderRadius.circular(8),
       ),
       color: Colors.white,
@@ -45,21 +46,17 @@ class _ClientReviewCardState extends State<ClientReviewCard> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        FutureBuilder(future: ProfileScreenController.to.getProfileImageURL(widget.buyerReview.buyerId.toString()),builder: (context, snapshot) {
-                            if(snapshot.hasData)
-                            {
-                              if(snapshot.data!="") {
+                        FutureBuilder(
+                          future: ProfileScreenController.to.getProfileImageURL(widget.buyerReview.buyerId.toString()),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data != "") {
+                                return CircleAvatar(backgroundImage: NetworkImage(snapshot.data.toString()));
+                              } else {
                                 return CircleAvatar(
-
-                                    backgroundImage: NetworkImage(snapshot.data.toString())
-                                );
-                              }
-                              else
-                              {
-                                return CircleAvatar(
-
-                                    backgroundImage: AssetImage(ImageConstant.receiverImg,)
-                                );
+                                    backgroundImage: AssetImage(
+                                  ImageConstant.receiverImg,
+                                ));
                                 // return Image.asset(
                                 //   ImageConstant.senderImg,
                                 //   height: 150,
@@ -67,44 +64,53 @@ class _ClientReviewCardState extends State<ClientReviewCard> {
                                 //   fit: BoxFit.cover,
                                 // );
                               }
-                            }
-                            else
-                            {
+                            } else {
                               return CircleAvatar(
-
-                                  backgroundImage: AssetImage(ImageConstant.receiverImg,)
-                              );
+                                  backgroundImage: AssetImage(
+                                ImageConstant.receiverImg,
+                              ));
                             }
-
-                          },),
-                        const SizedBox(width: 5,),
+                          },
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
                         Column(
                           children: [
-                            Text(widget.buyerReview.buyerName.toString(),
-                                style: AppTextStyle.bodySmallblack),
-                            Text(MyDateUtil.formatDate(widget.buyerReview.reviewDate.toString()),
-                                style: AppTextStyle.titleTextSmallest),
+                            Text(widget.buyerReview.buyerName.toString(), style: AppTextStyle.bodySmallblack),
+                            Text(MyDateUtil.formatDate(widget.buyerReview.reviewDate.toString()), style: AppTextStyle.titleTextSmallest),
                           ],
                         ),
                       ],
                     ),
                     Row(
-
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(widget.buyerReview.buyerRating.toString(),style: AppTextStyle.bodySmallGrey,),
-                       const Icon(Icons.star_rate_rounded,color: Colors.black87,size: 16,)
+                        Text(
+                          widget.buyerReview.buyerRating.toString(),
+                          style: AppTextStyle.bodySmallGrey,
+                        ),
+                        Icon(
+                          Icons.star_rate_rounded,
+                          color: AppColors.kprimaryColor,
+                          size: 16,
+                        )
                       ],
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Text(
-                widget.buyerReview.buyerReview.toString(),textAlign: TextAlign.justify,
+                widget.buyerReview.buyerReview.toString(),
+                textAlign: TextAlign.justify,
                 style: AppTextStyle.bodySmallGrey,
-                overflow: TextOverflow.ellipsis, maxLines: 5,)
+                overflow: TextOverflow.ellipsis,
+                maxLines: 5,
+              )
             ],
           ),
         ),

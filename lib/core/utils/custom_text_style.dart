@@ -1,78 +1,69 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
-
 class AppTextStyle {
   // Text Styles
 
-
-
   //styles for upai
   static get appBarTitle => TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w600,
-    color: AppColors.colorBlack,
-  );
-  static get titleText => TextStyle(
-
-    fontSize:14,
-    fontWeight: FontWeight.w500,
-    color: AppColors.appTextColorGrey,
-  );
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        color: AppColors.colorWhite,
+      );
+  static get titleText => TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.kprimaryColor);
   static get titleTextSmallUnderline => TextStyle(
-    decoration: TextDecoration.underline,
-    fontSize:12,
-
-    fontWeight: FontWeight.w600,
-    color: AppColors.appTextColorGrey,
-  );
+        decoration: TextDecoration.underline,
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        color: AppColors.appTextColorGrey,
+      );
   static get titleTextSmallest => TextStyle(
-    fontSize:10,
-    fontWeight: FontWeight.w500,
-    color: AppColors.appTextColorGrey,
-  );
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        color: AppColors.appTextColorGrey,
+      );
   static get titleTextSmall => TextStyle(
-    fontSize:12,
-    fontWeight: FontWeight.w500,
-    color: AppColors.appTextColorGrey,
-  );
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+        color: AppColors.appTextColorGrey,
+      );
   static get bodyMediumBlackBold => TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.bold,
-    color: AppColors.colorBlack,
-  );
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        color: AppColors.colorBlack,
+      );
   static get bodyMediumSemiBlackBold => TextStyle(
-    fontSize: 16,
-    // fontWeight: FontWeight.bold,
-    color: AppColors.titleName,
-  );
+        fontSize: 16,
+        // fontWeight: FontWeight.bold,
+        color: AppColors.titleName,
+      );
   static get bodyMediumBlackSemiBold => TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    color: AppColors.colorBlack,
-  );  static get body12BlackSemiBold => TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w600,
-    color: AppColors.colorBlack,
-  );
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: AppColors.colorBlack,
+      );
+  static get body12BlackSemiBold => TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        color: AppColors.colorWhite,
+      );
   static get bodyMedium => TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w700,
-    color: AppColors.titleName,
-  );
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        color: AppColors.titleName,
+      );
   static get bodySmallGrey => TextStyle(
-    fontSize: 13,
-    // fontWeight: FontWeight.w400,
-    color: AppColors.deepGreyColor,
-  );
+        fontSize: 13,
+        // fontWeight: FontWeight.w400,
+        color: AppColors.deepGreyColor,
+      );
   static get bodySmallblack => TextStyle(
-    fontSize: 13,
-    // fontWeight: FontWeight.w400,
-    color: AppColors.titleName,
-  );
+        fontSize: 13,
+        // fontWeight: FontWeight.w400,
+        color: AppColors.kprimaryColor,
+      );
 
   //
 
@@ -82,15 +73,15 @@ class AppTextStyle {
         color: AppColors.colorBlack,
       );
   static get bodyLargeSemiBlack => TextStyle(
-    fontSize: 25,
-    fontWeight: FontWeight.w700,
-    color: AppColors.titleName,
-  );
+        fontSize: 25,
+        fontWeight: FontWeight.w700,
+        color: AppColors.titleName,
+      );
 
   static get bodyLarge900 => TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w700,
-        color: AppColors.colorBlack,
+        color: AppColors.kprimaryColor,
       );
 
   static get bodyLarge700 => TextStyle(
@@ -98,8 +89,6 @@ class AppTextStyle {
         fontWeight: FontWeight.w700,
         color: AppColors.colorDeepBlue,
       );
-
-
 
   static get bodyMedium400 => TextStyle(
         fontSize: 17,
@@ -119,10 +108,10 @@ class AppTextStyle {
         color: AppColors.colorBlack,
       );
   static get bodyMediumWhite400small => TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: AppColors.colorWhite,
-  );
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: AppColors.colorWhite,
+      );
 
   static get bodyMediumBlack400 => TextStyle(
         fontSize: 17,
@@ -160,16 +149,16 @@ class AppTextStyle {
         color: AppColors.hintColor,
       );
   static get bodySmallwhite => const TextStyle(
-    fontSize: 13,
-    fontWeight: FontWeight.w400,
-    color: Colors.white,
-  );
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      );
 
   static get bodySmallGrey400 => TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w400,
         color: AppColors.titleName,
-       // decoration: TextDecoration.lineThrough,
+        // decoration: TextDecoration.lineThrough,
       );
 
   static get bodySmallBlack400 => TextStyle(
@@ -190,17 +179,16 @@ class AppTextStyle {
         color: AppColors.deepGreyColor,
       );
 
-
   static get bodySmallTextGrey400 => TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w400,
         color: AppColors.colorTextGrey,
       );
   static get bodySmallestTextGrey400 => TextStyle(
-    fontSize: 10,
-    fontWeight: FontWeight.w400,
-    color: AppColors.colorTextGrey,
-  );
+        fontSize: 10,
+        fontWeight: FontWeight.w400,
+        color: AppColors.colorTextGrey,
+      );
 
   static get bodySmallText2Grey400 => TextStyle(
         fontSize: 15,
@@ -215,19 +203,17 @@ class AppTextStyle {
       );
 
   static get bodyTitle700 => TextStyle(
-        fontSize: 23,
+        fontSize: 16,
         fontWeight: FontWeight.w700,
-        color: AppColors.colorDeepBlue,
+        color: AppColors.colorWhite,
       );
 
   // Button Styles
 
   static get buttonStyle => ButtonStyle(
-        backgroundColor:
-            WidgetStateProperty.all<Color>(AppColors.primaryColor),
+        backgroundColor: WidgetStateProperty.all<Color>(AppColors.primaryColor),
         foregroundColor: WidgetStateProperty.all<Color>(AppColors.colorWhite),
-        minimumSize:
-            WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
+        minimumSize: WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0), // Rounded corners
@@ -236,11 +222,9 @@ class AppTextStyle {
       );
 
   static get buttonStyle2 => ButtonStyle(
-        backgroundColor:
-            WidgetStateProperty.all<Color>(AppColors.buttonColor),
+        backgroundColor: WidgetStateProperty.all<Color>(AppColors.buttonColor),
         foregroundColor: WidgetStateProperty.all<Color>(AppColors.colorWhite),
-        minimumSize:
-            WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
+        minimumSize: WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0), // Rounded corners

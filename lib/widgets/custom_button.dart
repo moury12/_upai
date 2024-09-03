@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
+
 // ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
   CustomButton({
@@ -20,10 +21,10 @@ class CustomButton extends StatelessWidget {
       child: MaterialButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-        ) ,
+        ),
         colorBrightness: Brightness.dark,
         height: 56,
-        color: AppColors.BTNbackgroudgrey,
+        color: AppColors.kprimaryColor,
         onPressed: !isLoading.value
             ? () async {
                 isLoading.value = true;

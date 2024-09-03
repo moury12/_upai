@@ -28,12 +28,13 @@ class ServiceListScreen extends StatefulWidget {
 
 class _ServiceListScreenState extends State<ServiceListScreen> {
   HomeController controller = HomeController.to;
-@override
+  @override
   void initState() {
-  Get.put(NetworkController());
+    Get.put(NetworkController());
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -70,16 +71,13 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             elevation: 0,
             shadowColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
-            backgroundColor: AppColors.strokeColor2,
-            foregroundColor: Colors.black,
             leading: IconButton(
-              icon: const Icon(CupertinoIcons.back),
+              icon: Icon(CupertinoIcons.back),
               onPressed: () {
                 Get.back();
                 controller.searchController.value.clear();
 
-                controller.filterOffer(
-                    '', HomeController.to.selectedDistrictForAll.value);
+                controller.filterOffer('', HomeController.to.selectedDistrictForAll.value);
               },
             ),
             title: widget.selectedCat != null
@@ -96,20 +94,17 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             color: Colors.black,
             backgroundColor: Colors.white,
             onRefresh: () async {
-              controller.filterOffer(controller.searchController.value.text,
-                  HomeController.to.selectedDistrictForAll.value);
+              controller.filterOffer(controller.searchController.value.text, HomeController.to.selectedDistrictForAll.value);
             },
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0)
-                      .copyWith(bottom: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0).copyWith(bottom: 8),
                   child: Obx(() {
                     return CustomTextField(
                       controller: controller.searchController.value,
                       onChanged: (value) {
-                        controller.filterOffer(value!,
-                            HomeController.to.selectedDistrictForAll.value);
+                        controller.filterOffer(value!, HomeController.to.selectedDistrictForAll.value);
                       },
                       onPressed: () {
                         // controller.searchController.value.clear();
@@ -119,14 +114,13 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                       },
                       hintText: "Search service..",
                       suffixIcon: IconButton(
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.cancel,
-                          color: Colors.black,
+                          color: AppColors.kprimaryColor,
                         ),
                         onPressed: () {
                           controller.searchController.value.clear();
-                          controller.filterOffer('',
-                              HomeController.to.selectedDistrictForAll.value);
+                          controller.filterOffer('', HomeController.to.selectedDistrictForAll.value);
                         },
                       ),
                     );
@@ -156,13 +150,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                     } else {
                       var offerList = [];
                       if (widget.selectedCat != null) {
-                        offerList = controller.filteredOfferList
-                            .where((item) => item.serviceCategoryType!
-                                .toLowerCase()
-                                .contains(widget.selectedCat
-                                    .toString()
-                                    .toLowerCase()))
-                            .toList();
+                        offerList = controller.filteredOfferList.where((item) => item.serviceCategoryType!.toLowerCase().contains(widget.selectedCat.toString().toLowerCase())).toList();
                       } else {
                         offerList = controller.filteredOfferList;
                       }
@@ -174,12 +162,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                           primary: false,
                           physics: AlwaysScrollableScrollPhysics(),
                           padding: EdgeInsets.symmetric(horizontal: 8),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: childRatio,
-                                  crossAxisCount: crossAxisCount,
-                                  crossAxisSpacing: 8,
-                                  mainAxisSpacing: 8),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: childRatio, crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8),
                           itemCount: offerList.length,
                           itemBuilder: (context, index) {
                             OfferList service = offerList[index];
@@ -190,12 +173,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                                 child: SizedBox(
                                     width: double.infinity,
                                     child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.black,
-                                          foregroundColor: Colors.white,
-                                          alignment: Alignment.center),
+                                      style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, alignment: Alignment.center),
                                       onPressed: () {
-
                                         // if(ProfileScreenController.to.userInfo.value.userId==service.userId)
                                         //   {
                                         //     SellerProfileController.to.service.value =

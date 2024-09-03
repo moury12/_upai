@@ -14,12 +14,26 @@ class CustomTextField2 extends StatefulWidget {
   final ValueChanged<String>? onFieldSubmitted;
   final TextInputType? inputType;
   final IconData? prefixIcon;
-  final Function(String?value)? onChanged;
+  final Function(String? value)? onChanged;
   final String? Function(String?)? validator;
 
-  const CustomTextField2(
-      {super.key, this.controller, this.fieldKey, this.validatorText, this.isPasswordField, this.isEditable, this.hintText, this.labelText, this.helperText, this.onSaved, this.onFieldSubmitted, this.inputType, this.prefixIcon, this.onChanged, this.validator,
-        });
+  const CustomTextField2({
+    super.key,
+    this.controller,
+    this.fieldKey,
+    this.validatorText,
+    this.isPasswordField,
+    this.isEditable,
+    this.hintText,
+    this.labelText,
+    this.helperText,
+    this.onSaved,
+    this.onFieldSubmitted,
+    this.inputType,
+    this.prefixIcon,
+    this.onChanged,
+    this.validator,
+  });
 
   @override
   State<CustomTextField2> createState() => _CustomTextField2State();
@@ -32,17 +46,14 @@ class _CustomTextField2State extends State<CustomTextField2> {
   Widget build(BuildContext context) {
     return TextFormField(
       validator: widget.validator ??
-              (value) {
-            if ((value == null || value.isEmpty) &&
-                (widget.validatorText != null && widget.validatorText != '')) {
+          (value) {
+            if ((value == null || value.isEmpty) && (widget.validatorText != null && widget.validatorText != '')) {
               return '   ${widget.validatorText}';
             }
             return null;
           },
       onChanged: widget.onChanged,
-      textInputAction: widget.isPasswordField == true
-          ? TextInputAction.done
-          : TextInputAction.next,
+      textInputAction: widget.isPasswordField == true ? TextInputAction.done : TextInputAction.next,
       style: const TextStyle(color: Colors.black),
       controller: widget.controller,
       keyboardType: widget.inputType,
@@ -56,19 +67,21 @@ class _CustomTextField2State extends State<CustomTextField2> {
         fillColor: AppColors.textFieldBackGround,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,),
+          borderSide: BorderSide.none,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,),
-        focusedBorder:  OutlineInputBorder(
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,),
+          borderSide: BorderSide.none,
+        ),
         filled: true,
         contentPadding: const EdgeInsets.symmetric(vertical: 10),
         prefixIcon: Icon(
           widget.prefixIcon,
-
-          color: AppColors.primaryColor,
+          color: AppColors.kprimaryColor,
         ),
         // decoration: InputDecoration(
         //   border: InputBorder.none,
@@ -78,16 +91,14 @@ class _CustomTextField2State extends State<CustomTextField2> {
 
         suffixIcon: GestureDetector(
           onTap: () {
-
             _obscureText = !_obscureText;
-
           },
           child: widget.isPasswordField == true
               ? Icon(
-            _obscureText ? Icons.visibility_off : Icons.visibility,
-            color: AppColors.primaryColor,
-          )
-              :const SizedBox(),
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: AppColors.primaryColor,
+                )
+              : const SizedBox(),
         ),
       ),
     );
