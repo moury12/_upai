@@ -20,7 +20,6 @@ class UserInfoModel {
   String? pushToken;
   String? token;
   String? userType;
-
   UserInfoModel({
     this.cid,
     this.userId,

@@ -22,4 +22,6 @@ class InboxScreenController extends GetxController{
   }
 
 
+
+
 }

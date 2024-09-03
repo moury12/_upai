@@ -132,7 +132,6 @@ class NotificationAccessToken {
           handleMessage(context, message);
         });
   }
-
 //
   void firebaseInit(BuildContext context) {
     FirebaseMessaging.onMessage.listen((message) {
