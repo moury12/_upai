@@ -112,9 +112,9 @@ class _MyAppState extends State<MyApp> {
         initialRoute: '/',
         getPages: [
           GetPage(name: '/', page: () => const SplashScreen()),
-          GetPage(name: '/inbox', page: () => const InboxScreen()),
+          GetPage(name: '/inbox', page: () =>  InboxScreen()),
           GetPage(name: '/home', page: () => const HomeScreen()),
-          GetPage(name: '/home2', page: () => const InboxScreen()),
+          // GetPage(name: '/home2', page: () => const InboxScreen()),
 /*
         GetPage(name: ServiceDetails.routeName, page: () =>  ServiceDetails()),
 */

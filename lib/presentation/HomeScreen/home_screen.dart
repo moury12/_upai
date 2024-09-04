@@ -178,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: SizedBox(
                                   width: double.infinity,
                                   child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.black, foregroundColor: Colors.white, alignment: Alignment.center),
+                                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, alignment: Alignment.center),
                                     onPressed: () {
                                       Get.to(
                                         ServiceDetails(

@@ -88,7 +88,7 @@ class DefaultController extends GetxController {
     const HomeScreen(),
     const SellerProfileScreen(),
     // ExploreScreen(),
-    const InboxScreen(),
+     InboxScreen(),
     const NotificatonScreen(),
     ProfileScreen()
   ];

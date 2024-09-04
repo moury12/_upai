@@ -137,14 +137,12 @@ class NotificationAccessToken {
     FirebaseMessaging.onMessage.listen((message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification!.android;
-
       if (kDebugMode) {
         print("notifications title:${notification!.title}");
         print("notifications body:${notification.body}");
         print('count:${android!.count}');
         print('data:${message.data.toString()}');
       }
-
       if (Platform.isIOS) {
         forgroundMessage();
       }
@@ -249,7 +247,7 @@ class NotificationAccessToken {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const InboxScreen(),
+        builder: (context) =>  InboxScreen(),
       ),
     );
   }

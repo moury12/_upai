@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           // userInfo.id = controller.CIDTE.text.trim().toString();
                           // userInfo.userId=controller.userIdTE.text.trim().toString();
 
-                          await RepositoryData().getDmPath(baseUrl: "http://192.168.0.139:8002/upai_api/dmpath");
+                         // await RepositoryData().getDmPath(baseUrl: "http://192.168.0.139:8002/upai_api/dmpath");
                           // if (Boxes.getDmPathBox().containsKey("BaseUrl")) {
                             RepositoryData().login(
                                 "upai",

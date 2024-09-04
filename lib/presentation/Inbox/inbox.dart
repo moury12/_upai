@@ -62,7 +62,7 @@ class InboxScreen extends StatelessWidget {
                           ctrl.update();
                         },
                         decoration:
-                            InputDecoration(fillColor: AppColors.textFieldBackGround, filled: true, hintText: "Search By Name|User ID", hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500), border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(6))),
+                        InputDecoration(fillColor: AppColors.textFieldBackGround, filled: true, hintText: "Search By Name|User ID", hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500), border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(6))),
                       ),
                     ),
                     const SizedBox(
@@ -77,8 +77,8 @@ class InboxScreen extends StatelessWidget {
                             case ConnectionState.none:
                               return Center(
                                   child: CircularProgressIndicator(
-                                color: AppColors.kprimaryColor,
-                              ));
+                                    color: AppColors.kprimaryColor,
+                                  ));
                             case ConnectionState.active:
                             case ConnectionState.done:
                               return StreamBuilder(
@@ -125,38 +125,38 @@ class InboxScreen extends StatelessWidget {
                                 },
                               );
 
-                            //     final data = snapshot.data!.docs;
-                            //     print(data.length);
-                            //     if (data.isNotEmpty) {
-                            //       ctrl.chatList.clear();
-                            //       for (var i in data) {
-                            //         ctrl.chatList.add(
-                            //             UserInfoModel.fromJson(i.data()));
-                            //       }
-                            //       return ListView.builder(
-                            //         itemCount: ctrl.isSearching ? ctrl.searchList
-                            //             .length : ctrl.chatList.length,
-                            //         itemBuilder: (context, index) {
-                            //           if (ctrl.isSearching?ctrl.searchList.isNotEmpty:ctrl.chatList.isNotEmpty) {
-                            //             return InkWell(
-                            //                 onTap: () {
-                            //                   Get.toNamed("/chatscreen",arguments: ctrl.isSearching?ctrl.searchList[index]:ctrl.chatList[index]);
-                            //                 },
-                            //                 child: ChatItemWidget(
-                            //                   userInfoModel: ctrl.isSearching
-                            //                       ? ctrl.searchList[index]
-                            //                       : ctrl.chatList[index],));
-                            //           }
-                            //           else {
-                            //             return const Text("No Chat Available");
-                            //           }
-                            //         },
-                            //       );
-                            //     }
-                            //     else {
-                            //       return const Center(
-                            //           child: Text("No Chat Available"));
-                            //     }
+                          //     final data = snapshot.data!.docs;
+                          //     print(data.length);
+                          //     if (data.isNotEmpty) {
+                          //       ctrl.chatList.clear();
+                          //       for (var i in data) {
+                          //         ctrl.chatList.add(
+                          //             UserInfoModel.fromJson(i.data()));
+                          //       }
+                          //       return ListView.builder(
+                          //         itemCount: ctrl.isSearching ? ctrl.searchList
+                          //             .length : ctrl.chatList.length,
+                          //         itemBuilder: (context, index) {
+                          //           if (ctrl.isSearching?ctrl.searchList.isNotEmpty:ctrl.chatList.isNotEmpty) {
+                          //             return InkWell(
+                          //                 onTap: () {
+                          //                   Get.toNamed("/chatscreen",arguments: ctrl.isSearching?ctrl.searchList[index]:ctrl.chatList[index]);
+                          //                 },
+                          //                 child: ChatItemWidget(
+                          //                   userInfoModel: ctrl.isSearching
+                          //                       ? ctrl.searchList[index]
+                          //                       : ctrl.chatList[index],));
+                          //           }
+                          //           else {
+                          //             return const Text("No Chat Available");
+                          //           }
+                          //         },
+                          //       );
+                          //     }
+                          //     else {
+                          //       return const Center(
+                          //           child: Text("No Chat Available"));
+                          //     }
                           }
                         },
                       ),

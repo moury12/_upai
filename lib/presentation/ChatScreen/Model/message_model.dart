@@ -26,12 +26,12 @@ class Message {
   });
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
-    toId: json["to_id"],
-    fromId: json["from_id"],
-    msg: json["msg"],
+    toId: json["to_id"]??"",
+    fromId: json["from_id"]??"",
+    msg: json["msg"]??"",
     type: json["type"].toString() == Type.image.name ? Type.image : Type.text,
-    sent: json["sent"],
-    read: json["read"],
+    sent: json["sent"]??"",
+    read: json["read"]??"",
   );
   Map<String, dynamic> toJson() => {
     "to_id": toId,

@@ -47,8 +47,9 @@ class OrderController extends GetxController {
       "status": "COMPLETED",
       "buyer_review": reviewText,
       "buyer_rating": double.parse(rating),
-      "seller_review": "empty",
-      "seller_rating": "empty"
+      "seller_review": "",
+      "completion_date":DateTime.now().toString(),
+      "seller_rating": ""
     },notification: notification);
   }
 }

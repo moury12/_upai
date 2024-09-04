@@ -19,13 +19,12 @@ class MyServiceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Determine if we're using service or offerList
     bool isService = service != null;
-
     return Stack(
       clipBehavior: Clip.none,
       children: [
         Container(
           // width: 200,
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           alignment: Alignment.topCenter,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),

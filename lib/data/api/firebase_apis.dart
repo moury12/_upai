@@ -269,6 +269,16 @@ class FirebaseAPIs {
         .limit(1)
         .snapshots();
   }
+  //get only last message of a specific chat
+  static Future<QuerySnapshot<Map<String, dynamic>>> getUserLastMessage(
+      UserInfoModel selectedUser) async {
+    return await mDB
+        .collection(
+        'chats/${getConversationID(selectedUser.userId.toString())}/messages/')
+        .orderBy('sent', descending: true)
+        .limit(1)
+        .get(); // This is changed to `.get()` instead of `.snapshots()`
+  }
 
   // for getting specific user info
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
