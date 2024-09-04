@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:upai/Model/user_info_model.dart';
@@ -139,10 +140,10 @@ class FirebaseAPIs {
 
 
 // for adding an chat user for our conversation
-  static Future<bool> addChatUser(String userId) async {
+  static Future<bool> addChatUser(UserInfoModel targetUser) async {
     final data = await mDB
         .collection('users')
-        .where('user_id', isEqualTo: userId)
+        .where('user_id', isEqualTo: targetUser.userId)
         .get();
 
     log('data: ${data.docs}');
@@ -151,13 +152,15 @@ class FirebaseAPIs {
       //user exists
 
       log('user exists: ${data.docs.first.data()}');
+      targetUser.lastMsgSent= DateTime.now();
+      print(targetUser.lastMsgSent);
 
       mDB
           .collection('users')
           .doc(user['user_id'])
           .collection('my_users')
-          .doc(data.docs.first.id)
-          .set({});
+          .doc(targetUser.userId)
+          .set(targetUser.toJson());
 
       return true;
     } else {
@@ -213,13 +216,17 @@ class FirebaseAPIs {
 
   // for adding an user to my user when first message is send
   static Future<void> sendFirstMessage(UserInfoModel chatUser, String msg,
+
       Type type) async {
+   await FirebaseAPIs.addChatUser(chatUser);
+   // await FirebaseAPIs.addChatUser(me);
+
     await mDB
         .collection('users')
         .doc(chatUser.userId)
         .collection('my_users')
         .doc(user['user_id'])
-        .set({}).then((value) => sendMessage(chatUser, msg, type));
+        .set(me.toJson()).then((value) => sendMessage(chatUser, msg, type));
   }
 
   // for sending message
@@ -239,6 +246,12 @@ class FirebaseAPIs {
         type: type,
         fromId: user['user_id'],
         sent: time);
+    mDB
+        .collection('users')
+        .doc(chatUser.userId)
+        .collection('my_users')
+        .doc(user['user_id'])
+        .update( {"last_msg_sent":DateTime.now()});
 
     final ref = mDB
         .collection(

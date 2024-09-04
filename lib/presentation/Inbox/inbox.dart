@@ -44,7 +44,7 @@ class InboxScreen extends StatelessWidget {
                       child: TextField(
                         controller: ctrl.searchByNameTE,
                         onSubmitted: (value) {
-                          FirebaseAPIs.addChatUser(value.toString());
+                        //  FirebaseAPIs.addChatUser(value.toString());
                         },
                         onChanged: (value) {
                           ctrl.isActionOnChanged = true;
@@ -81,15 +81,6 @@ class InboxScreen extends StatelessWidget {
                                   ));
                             case ConnectionState.active:
                             case ConnectionState.done:
-                              return StreamBuilder(
-                                stream: FirebaseAPIs.getAllUsers(snapshot.data?.docs.map((e) => e.id).toList() ?? []),
-                                builder: (context, snapshot) {
-                                  switch (snapshot.connectionState) {
-                                    case ConnectionState.waiting:
-                                    case ConnectionState.none:
-                                      return const Text("");
-                                    case ConnectionState.active:
-                                    case ConnectionState.done:
                                       final data = snapshot.data!.docs;
                                       print("length of getAllUsers data${data.length}");
                                       if (data.isNotEmpty) {
@@ -97,10 +88,12 @@ class InboxScreen extends StatelessWidget {
                                         for (var i in data) {
                                           ctrl.chatList.add(UserInfoModel.fromJson(i.data()));
                                         }
+                                        ctrl.chatList.sort((a, b) =>
+                                            b.lastMsgSent!
+                                                .compareTo(a.lastMsgSent!));
                                         List<UserInfoModel> finalList = ctrl.isSearching ? ctrl.searchList : ctrl.chatList;
                                         print("xxxxxxxxxxxxxxxxxxxxx");
                                         log(jsonEncode(finalList));
-
                                         return ListView.builder(
                                           itemCount: finalList.length,
                                           itemBuilder: (context, index) {
@@ -121,9 +114,6 @@ class InboxScreen extends StatelessWidget {
                                       } else {
                                         return const Center(child: Text("No Chat Available"));
                                       }
-                                  }
-                                },
-                              );
 
                           //     final data = snapshot.data!.docs;
                           //     print(data.length);
