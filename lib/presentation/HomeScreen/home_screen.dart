@@ -27,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    controller.refreshAllData();
+    print("lsdkflds");
     controller.isSearching.value = false;
     Get.put(NetworkController());
 

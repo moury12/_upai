@@ -6,7 +6,6 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/my_service_list_screen.dart';
@@ -27,6 +26,7 @@ class SellerProfileScreen extends StatefulWidget {
 class _SellerProfileScreenState extends State<SellerProfileScreen> {
   @override
   void initState() {
+
     Get.put(OrderController());
     Get.put(NetworkController());
     // TODO: implement initState
@@ -135,6 +135,8 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                             SellerStatusWidget(
                               seller: seller,
                               color: AppColors.kprimaryColor,
+                              title: 'Earning',
+                              value: seller.sellerProfile!.totalEarning,
                             ),
                             SellerStatusWidget(
                               seller: seller,
@@ -148,7 +150,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                               color: AppColors.kprimaryColor,
                               title: 'Review',
                               icon: Icons.star_rate_rounded,
-                              value: seller.sellerProfile!.review,
+                              value: double.parse(seller.sellerProfile!.review.toString()).toStringAsFixed(1),
                             ),
                           ],
                         ),

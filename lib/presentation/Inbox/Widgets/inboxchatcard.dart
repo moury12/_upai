@@ -65,7 +65,26 @@ class InboxCardWidget extends StatelessWidget {
                         Positioned(
                             right: 8,
                             bottom: 3,
-                            child: receiverUserInfo.isOnline! ? const UserActive() : const UserInactive()
+                            child: StreamBuilder(
+              stream: FirebaseAPIs.getUserInfo(receiverUserInfo.userId.toString()),
+              builder: (context, snapshot) {
+              final data = snapshot.data?.docs;
+              final receiverData = data
+                  ?.map((e) => UserInfoModel.fromJson(e.data()))
+                  .toList() ??
+
+              [];
+
+              if (receiverData.isNotEmpty) {
+                return receiverData[0].isOnline! ? const UserActive() : const UserInactive();
+              }
+              else
+                {
+                  return const UserInactive();
+                }
+              }),
+
+
                         )
                       ]
 

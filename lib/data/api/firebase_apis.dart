@@ -141,7 +141,9 @@ class FirebaseAPIs {
 
 // for adding an chat user for our conversation
   static Future<bool> addChatUser(UserInfoModel targetUser) async {
+
     final data = await mDB
+
         .collection('users')
         .where('user_id', isEqualTo: targetUser.userId)
         .get();
@@ -150,7 +152,7 @@ class FirebaseAPIs {
 
     if (data.docs.isNotEmpty && data.docs.first.id != user['user_id']) {
       //user exists
-
+      // final lastTime =DateTime.now().toString();
       log('user exists: ${data.docs.first.data()}');
       targetUser.lastMsgSent= DateTime.now();
       print(targetUser.lastMsgSent);
@@ -174,6 +176,7 @@ class FirebaseAPIs {
 
   // update online or last active status of user
   static Future<void> updateActiveStatus(bool isOnline) async {
+
     mDB.collection('users').doc(user['user_id']).update({
       'is_online': isOnline,
       'last_active': DateTime
@@ -218,8 +221,11 @@ class FirebaseAPIs {
   static Future<void> sendFirstMessage(UserInfoModel chatUser, String msg,
 
       Type type) async {
+    getSelfInfo();
    await FirebaseAPIs.addChatUser(chatUser);
+
    // await FirebaseAPIs.addChatUser(me);
+   me.lastMsgSent=DateTime.now();
 
     await mDB
         .collection('users')
@@ -246,12 +252,23 @@ class FirebaseAPIs {
         type: type,
         fromId: user['user_id'],
         sent: time);
+
+    final lastSent = DateTime
+        .now().toString();
+    //add last sent msg time
+
     mDB
         .collection('users')
         .doc(chatUser.userId)
         .collection('my_users')
         .doc(user['user_id'])
-        .update( {"last_msg_sent":DateTime.now()});
+        .update({"last_msg_sent":lastSent});
+    mDB
+        .collection('users')
+        .doc(user['user_id'])
+        .collection('my_users')
+        .doc(chatUser.userId)
+        .update({"last_msg_sent":lastSent});
 
     final ref = mDB
         .collection(

@@ -279,7 +279,7 @@ class SellerStatusWidget extends StatelessWidget {
           Expanded(
             flex: 4,
             child: Text(
-              value ?? '${seller!.sellerProfile!.totalEarning}',
+              value ?? '0',
               style: TextStyle(fontSize: getResponsiveFontSize(context, 18), fontWeight: FontWeight.w800),
             ),
           )

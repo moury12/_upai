@@ -97,7 +97,7 @@ class InboxScreen extends StatelessWidget {
                                         return ListView.builder(
                                           itemCount: finalList.length,
                                           itemBuilder: (context, index) {
-                                            int reversedIndex = finalList.length - 1 - index;
+                                           // int reversedIndex = finalList.length - 1 - index;
                                             if (finalList.isNotEmpty) {
                                               return InkWell(
                                                   onTap: () {
