@@ -255,7 +255,7 @@ class SellerStatusWidget extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(color: color ?? Colors.lightBlue, shape: BoxShape.circle),
-                    padding: EdgeInsets.all(4),
+
                     child: Icon(
                       icon ?? Icons.attach_money,
                       color: Colors.white,

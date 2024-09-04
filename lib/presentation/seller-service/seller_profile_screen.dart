@@ -293,7 +293,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                                 return SellerRunningOrderWidget(sellerRunningOrder: runningOrder);
                               },
                             )),
-                  Row(
+                  seller.myService == null || seller.myService!.isEmpty?SizedBox(): Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(flex: 2, child: Text("My Services", style: AppTextStyle.titleText)),
@@ -311,9 +311,9 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       ),
                     ],
                   ),
-                  seller.myService == null || seller.myService!.isEmpty || !NetworkController.to.connectedInternet.value
+                 !NetworkController.to.connectedInternet.value
                       ? ShimmerOfferList()
-                      : GridView.builder(
+                      :  seller.myService == null || seller.myService!.isEmpty?SizedBox():GridView.builder(
                           shrinkWrap: true,
                           primary: false,
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8),

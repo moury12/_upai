@@ -70,6 +70,10 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                                               builder: (context) => ReviewScreen(notificationModel: NotificationController.to.notificationList[reversedIndex]),
                                             );
                                           }
+                                          else
+                                            {
+                                              Get.snackbar("You have already reviewed the order", "");
+                                            }
                                         },
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,

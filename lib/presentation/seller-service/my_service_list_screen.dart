@@ -43,20 +43,20 @@ class MyServiceListScreen extends StatelessWidget {
       child: Scaffold(
           backgroundColor: AppColors.strokeColor2,
           appBar: AppBar(
-            elevation: 0,
-            shadowColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            backgroundColor: AppColors.strokeColor2,
-            foregroundColor: Colors.black,
-            leading: IconButton(
-              icon: const Icon(CupertinoIcons.back),
-              onPressed: () {
-                Get.back();
-                // controller.searchController.value.clear();
-                //
-                // controller.filterOffer('');
-              },
-            ),
+            // elevation: 0,
+            // shadowColor: Colors.transparent,
+            // surfaceTintColor: Colors.transparent,
+            // backgroundColor: AppColors.strokeColor2,
+            // foregroundColor: Colors.black,
+            // leading: IconButton(
+            //   icon: const Icon(CupertinoIcons.back),
+            //   onPressed: () {
+            //     Get.back();
+            //     // controller.searchController.value.clear();
+            //     //
+            //     // controller.filterOffer('');
+            //   },
+            // ),
             title: Text(
               "My Services",
               style: AppTextStyle.appBarTitle,
@@ -78,9 +78,9 @@ class MyServiceListScreen extends StatelessWidget {
                         hintText: "Search service..",
                         onChanged: (value) {},
                         suffixIcon: IconButton(
-                          icon: const Icon(
+                          icon:  Icon(
                             Icons.cancel,
-                            color: Colors.black,
+                            color:AppColors.kprimaryColor,
                           ),
                           onPressed: () {
                             SellerProfileController
@@ -93,6 +93,7 @@ class MyServiceListScreen extends StatelessWidget {
                         ),
                       );
                     })),
+
                 Expanded(child: Obx(() {
                   return SellerProfileController.to.filterList.isEmpty
                       ? Padding(

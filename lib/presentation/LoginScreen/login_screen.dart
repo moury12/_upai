@@ -170,18 +170,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           // userInfo.userId=controller.userIdTE.text.trim().toString();
 
                           await RepositoryData().getDmPath(baseUrl: "http://192.168.0.139:8002/upai_api/dmpath");
-                          if (Boxes.getDmPathBox().containsKey("BaseUrl")) {
+                          // if (Boxes.getDmPathBox().containsKey("BaseUrl")) {
                             RepositoryData().login(
                                 "upai",
                                 controller.userMobileTE.text.trim().toString(),
                                 controller.passwordTE.text.trim().toString(),
                                 _selectedUserType!.name);
-                          }
-                          else
-                            {
-                              Get.snackbar("Something wrong!", "Click again");
-                              return;
-                            }
+                          // }
+                          // else
+                          //   {
+                          //     Get.snackbar("Something wrong!", "Click again");
+                          //     return;
+                          //   }
                         }
                       },
                     ),
