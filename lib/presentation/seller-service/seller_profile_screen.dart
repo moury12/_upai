@@ -150,7 +150,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                               color: AppColors.kprimaryColor,
                               title: 'Review',
                               icon: Icons.star_rate_rounded,
-                              value: double.parse(seller.sellerProfile!.review.toString()).toStringAsFixed(1),
+                              value: seller.sellerProfile!.review.toString(),
                             ),
                           ],
                         ),

@@ -82,7 +82,6 @@ Navigator.pop(context);
           else
             {
               OrderController.to.completionReview(reviewTE.text.trim().toString(),ratingValue.toString(),widget.notificationModel);
-
               Navigator.pop(context);
             }
             }, child: const Text('Submit review')),

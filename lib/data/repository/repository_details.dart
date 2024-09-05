@@ -67,10 +67,14 @@ class RepositoryData {
         //FirebaseAPIs.currentUser();
         FirebaseAPIs.user=userInfo.toJson();
         if (!await FirebaseAPIs.userExists()) {
-          FirebaseAPIs.createUser(userInfo.toJson());
+         await FirebaseAPIs.createUser(userInfo.toJson());
+         FirebaseAPIs.updateActiveStatus(true);
           print("user creating");
+          // FirebaseAPIs.getSelfInfo();
           Get.offAndToNamed("/defaultscreen");
         } else {
+          FirebaseAPIs.updateActiveStatus(true);
+          // FirebaseAPIs.getSelfInfo();
           Get.offAndToNamed("/defaultscreen");
         }
       } else {
@@ -145,6 +149,7 @@ class RepositoryData {
       return sellerProfileModel;
     } catch (e) {
       throw Exception(e.toString());
+
     }
   }
 
@@ -336,7 +341,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    final response = await http.post(Uri.parse(ApiClient().jobStatus),
+    final response = await http.put(Uri.parse(ApiClient().jobStatus),
         body: jsonEncode(body), headers: headers);
     final responseData = jsonDecode(response.body);
     debugPrint(' body $body');
@@ -344,11 +349,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       Get.snackbar('Success', responseData['message']);
-      if(isDialogScreen)
-        {
-          FirebaseAPIs.updateJobStatus(idStatusUpdate,body["status"],notification.notificationId.toString(),);
-          Navigator.pop(context);
-        }
+
 
 
       ////
@@ -385,6 +386,11 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         ////
       await SellerProfileController.to.refreshAllData();
       await HomeController.to.refreshAllData();
+      if(isDialogScreen)
+      {
+        FirebaseAPIs.updateJobStatus(idStatusUpdate,body["status"],notification.notificationId.toString(),);
+        Navigator.pop(context);
+      }
 
     }
 
@@ -449,15 +455,15 @@ static Future<void> editOffer({dynamic body,required String token}) async{
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    final response = await http.post(Uri.parse(ApiClient().completionReview),
+    final response = await http.put(Uri.parse(ApiClient().completionReview),
         body: jsonEncode(body), headers: headers);
     final responseData = jsonDecode(response.body);
     debugPrint(' body $body');
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar("Review", "Your Review submitted successfully");
-     await FirebaseAPIs.updateJobStatus(ProfileScreenController.to.userInfo.value.userId.toString(), "COMPLETED",notification.notificationId.toString() );
+      Get.snackbar("Success", "Your Review submitted successfully");
+      // jobStatus(notification: notification, isDialogScreen: false, title: "title", msg: "msg", idStatusUpdate: "COMPLETED");
       UserInfoModel senderData = UserInfoModel();
       Map<String, dynamic>? userDetails;
       userDetails = await FirebaseAPIs().getSenderInfo(notification.sellerId.toString());
@@ -477,7 +483,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         // body["read"]="";
         Map<String,dynamic> orderNotificationData = body;
         // orderNotificationData["total"]=
-        orderNotificationData["job_id"]=responseData['job_id'].toString();
+        orderNotificationData["job_id"]=notification.jobId.toString();
         orderNotificationData["total"]=notification.total.toString();
         orderNotificationData["quantity"]=notification.quantity.toString();
         orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.value.name.toString();
@@ -486,8 +492,10 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         orderNotificationData["created_time"]=DateTime.now().millisecondsSinceEpoch.toString();
         orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} Buyer Successfully Received your ${body["job_id"].toString()} service";
         FirebaseAPIs.sendNotificationData( orderNotificationData,senderData, orderNotificationData["notification_title"].toString(), orderNotificationData["notification_msg"].toString());
+        await FirebaseAPIs.updateJobStatus(ProfileScreenController.to.userInfo.value.userId.toString(), "COMPLETED",notification.notificationId.toString() );
       }
-       } else {
+       }
+    else {
       Get.snackbar('Error', 'Failed');
     }
   }

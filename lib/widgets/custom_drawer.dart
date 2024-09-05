@@ -107,9 +107,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   icon: Icons.logout,
                   label: 'Log out',
                   onTap: () async {
-                    FirebaseAPIs.user = {};
-                    FirebaseAPIs.updateActiveStatus(false);
-                    FirebaseAPIs.deletePushToken(ProfileScreenController.to.userInfo.value.userId.toString());
+                   await FirebaseAPIs.updateActiveStatus(false);
+                   await  FirebaseAPIs.updatePushToken(ProfileScreenController.to.userInfo.value.userId.toString(),"");
                     final box = Hive.box('userInfo');
                     await box.delete("user");
                     SplashScreenController.to.isLogin.value = false;
@@ -118,7 +117,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Get.delete<HomeController>(force: true);
                     Get.delete<ProfileScreenController>(force: true);
                     print("Data deleted");
-
+                   FirebaseAPIs.user = {};
                     Get.offAllNamed('/login');
                   },
                 ),

@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:upai/Model/user_info_model.dart';
@@ -40,19 +38,6 @@ class FirebaseAPIs {
   }
 
   static Future<void> createUser(Map<String, dynamic> userInfo) async {
-    // final time = DateTime.now().millisecondsSinceEpoch.toString();
-    //
-    // final chatUser = ChatUser(
-    // id: user.uid,
-    // name: user.displayName.toString(),
-    // email: user.email.toString(),
-    // about: "Hey, I'm using We Chat!",
-    // image: user.photoURL.toString(),
-    // createdAt: time,
-    // isOnline: false,
-    // lastActive: time,
-    // pushToken: '');
-
     return await mDB
         .collection('users')
         .doc(userInfo['user_id'])
@@ -69,8 +54,10 @@ class FirebaseAPIs {
       if (await userExists()) {
         me = UserInfoModel.fromJson(selectedUser.data()!);
          await getFirebaseMessagingToken();
+         print("self info called");
+       await FirebaseAPIs.updatePushToken(user["user_id"].toString(),me.pushToken.toString());
         //for setting user status to active
-        FirebaseAPIs.updateActiveStatus(true);
+        //FirebaseAPIs.updateActiveStatus(true);
         // log('My Data: ${user.data()}');
       } else {
         await createUser(user).then((value) => getSelfInfo());
@@ -183,7 +170,7 @@ class FirebaseAPIs {
           .now()
           .millisecondsSinceEpoch
           .toString(),
-       'push_token': me.pushToken,
+       // 'push_token': me.pushToken,
     });
   }
   //updateprofileImage url
@@ -196,9 +183,9 @@ class FirebaseAPIs {
     mDB.collection('notifications').doc(id).collection("notification_list").doc(notificationID).update(
         {"status":status});
   }
-  static Future<void> deletePushToken(String userID) async {
+  static Future<void> updatePushToken(String userID,String pushToken) async {
     mDB.collection('users').doc(userID).update(
-        {"push_token":""});
+        {"push_token":pushToken});
   }
   //****************************************
   // useful for getting conversation id

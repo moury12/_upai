@@ -56,7 +56,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                 children: [
                   Text(
                     textAlign: TextAlign.center,
-                    'Is your service complete?',
+                    'Is your service ready to deliver?',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
@@ -105,7 +105,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                                     "job_id": widget.sellerRunningOrder.jobId,
                                     "status": "DELIVERED",
                                     "award_date": widget.sellerRunningOrder.awardDate.toString(),
-                                    "completion_date": DateTime.now().toString()
+                                   // "completion_date": DateTime.now().toString()
                                   },
                                   isDialogScreen: false,
                                   context: context,
