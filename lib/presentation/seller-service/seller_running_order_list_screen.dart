@@ -25,8 +25,7 @@ class RunningOrderListScreen extends StatelessWidget {
           elevation: 0,
           shadowColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
-          backgroundColor: AppColors.strokeColor2,
-          foregroundColor: Colors.black,
+
           // leading: IconButton(
           //   icon: const Icon(CupertinoIcons.back),
           //   onPressed: () {

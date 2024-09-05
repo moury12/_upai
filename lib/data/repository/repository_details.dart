@@ -449,7 +449,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    final response = await http.post(Uri.parse(ApiClient().completionReview),
+    final response = await http.put(Uri.parse(ApiClient().completionReview),
         body: jsonEncode(body), headers: headers);
     final responseData = jsonDecode(response.body);
     debugPrint(' body $body');
