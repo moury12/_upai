@@ -186,7 +186,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                                 newNotificationData.status = "ACCEPTED";
                                                 newNotificationData.notificationTitle = "Order Request Confirmed";
                                                 newNotificationData.createdTime = DateTime.now().millisecondsSinceEpoch.toString();
-                                                newNotificationData.notificationMsg = '${widget.notificationModel.sellerName} has accepted your order visit service screen for more details';
+                                                newNotificationData.notificationMsg = '${widget.notificationModel.sellerName} has accepted your order visit My Running Order screen for more details';
                                                 await RepositoryData.jobStatus(
                                                     title: newNotificationData.notificationTitle.toString(),
                                                     msg: newNotificationData.notificationMsg,

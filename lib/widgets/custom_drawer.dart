@@ -35,6 +35,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
             child: Column(
+              mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
@@ -124,6 +125,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 // _buildMenuOption(icon: Icons.add, label: "nw", onTap: (){
                 //   Get.to(NotificationScreenTest());
                 // })
+
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text("app version:07_09_2024"),)
               ],
             ),
           ),

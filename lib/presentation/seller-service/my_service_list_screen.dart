@@ -58,7 +58,7 @@ class MyServiceListScreen extends StatelessWidget {
             //   },
             // ),
             title: Text(
-              "My Services",
+              "My Offers",
               style: AppTextStyle.appBarTitle,
             ),
           ),

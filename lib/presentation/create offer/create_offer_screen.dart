@@ -78,6 +78,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
   @override
   Widget build(BuildContext context) {
+    HomeController.to.isLoading.value=false;
+    HomeController.to.isUploading.value=false;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -92,7 +94,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
             Get.back();
           },
           icon: Icon(
-            CupertinoIcons.back,
+            Icons.arrow_back,
             color: AppColors.kprimaryColor,
           ),
         ),
@@ -457,10 +459,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     style: AppTextStyle.titleText,
                                   ),
                                 ]),
-                              )
+                              ):HomeController.to.isLoading.value?Center(child: CircularProgressIndicator(color: AppColors.kprimaryColor,))
                             : ElevatedButton(
                                 style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12)),
                                 onPressed: () async {
+                                  HomeController.to.isLoading.value=true;
                                   if (HomeController.to.selectedRateType.value != null &&
                                       HomeController.to.selectedCategory.value != null &&
                                       HomeController.to.selectedDistrict.value != null &&
@@ -471,8 +474,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       HomeController.to.quantityController.value.text.isNotEmpty &&
                                       box.isNotEmpty) {
                                     if (widget.service != null) {
-                                      HomeController.to.editOffer(widget.service!.offerId ?? '', titleController.text, descriptionController.text, rateController.text, addressController.text);
-                                      // Get.back();
+                                    await HomeController.to.editOffer(widget.service!.offerId ?? '', titleController.text, descriptionController.text, rateController.text, addressController.text);
+
                                       // Get.to(MyServiceDetails());
                                       // SellerProfileController.to.myService.refresh();
                                       //  SellerProfileController.to.service.update(
@@ -483,6 +486,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       // );
                                       // await SellerProfileController.to.refreshAllData();
                                       // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
+                                      clear();
+                                    Get.back();
                                     } else {
                                       HomeController.to.createOffer(titleController.text, descriptionController.text, rateController.text, addressController.text);
                                       // await SellerProfileController.to
@@ -495,6 +500,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     Get.snackbar("All field Required", "");
                                     // clear();
                                   }
+                                  HomeController.to.isLoading.value=false;
                                 },
                                 child: Text(widget.service != null ? 'Update offer' : 'Create Offer'));
                       }),

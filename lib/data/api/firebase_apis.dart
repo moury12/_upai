@@ -459,4 +459,9 @@ class FirebaseAPIs {
       return null;
     }
   }
+  static Future<void> updateUserDetails(String name,String email) async {
+    mDB.collection('users').doc(user['user_id']).update(
+        {"name":name,
+        "email":email});
+  }
 }

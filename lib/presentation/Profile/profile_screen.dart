@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import '../../core/utils/custom_text_style.dart';
 import '../../core/utils/image_path.dart';
@@ -195,8 +196,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           // if (_formKey.currentState!.validate()) {}
-                          uploadFile();
+                          if(image!=null)
+                            {uploadFile();}
+
                           ProfileScreenController.to.updateProfile(ctrl.nameTE.text, ctrl.emailTE.text);
+                          FirebaseAPIs.updateUserDetails(ctrl.nameTE.text, ctrl.emailTE.text);
+
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                         child: const Text("Update Profile"),

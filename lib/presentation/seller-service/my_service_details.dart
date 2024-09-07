@@ -41,53 +41,62 @@ class MyServiceDetails extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              FutureBuilder(
-                future: FirebaseAPIs.fetchOfferImageUrl(SellerProfileController.to.service.value.offerId.toString()),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Image.network(
-                        height: 200,
-                        width: double.infinity,
-                        // height: double.infinity,
-                        // width: double.infinity,
-                        fit: BoxFit.cover,
-                        snapshot.data.toString());
-                  } else {
-                    return FutureBuilder(
-                      future: FirebaseAPIs.fetchDefaultOfferImageUrl(SellerProfileController.to.service.value.serviceCategoryType.toString()),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          if (snapshot.connectionState == ConnectionState.waiting || snapshot.connectionState == ConnectionState.none) {
+              Obx(() {
+                return FutureBuilder(
+                  future: FirebaseAPIs.fetchOfferImageUrl(
+                      SellerProfileController.to.service.value.offerId
+                          .toString()),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Image.network(
+                          height: 200,
+                          width: double.infinity,
+                          // height: double.infinity,
+                          // width: double.infinity,
+                          fit: BoxFit.cover,
+                          snapshot.data.toString());
+                    } else {
+                      return FutureBuilder(
+                        future: FirebaseAPIs.fetchDefaultOfferImageUrl(
+                            SellerProfileController.to.service.value
+                                .serviceCategoryType.toString()),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting ||
+                                snapshot.connectionState ==
+                                    ConnectionState.none) {
+                              return Image.asset(
+                                height: 200,
+                                ImageConstant.dummy,
+                                // height: double.infinity,
+                                // fit: BoxFit.cover,
+                              );
+                            } else {
+                              return Image.network(
+                                  height: 200,
+
+                                  // height: double.infinity,
+                                  // width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  snapshot.data.toString());
+                            }
+                          } else {
                             return Image.asset(
                               height: 200,
                               ImageConstant.dummy,
                               // height: double.infinity,
+                              // width: double.infinity,
                               // fit: BoxFit.cover,
                             );
-                          } else {
-                            return Image.network(
-                                height: 200,
-
-                                // height: double.infinity,
-                                // width: double.infinity,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                snapshot.data.toString());
                           }
-                        } else {
-                          return Image.asset(
-                            height: 200,
-                            ImageConstant.dummy,
-                            // height: double.infinity,
-                            // width: double.infinity,
-                            // fit: BoxFit.cover,
-                          );
-                        }
-                      },
-                    );
-                  }
-                },
-              ),
+                        },
+                      );
+                    }
+                  },
+                );
+              }),
 
               // Image.asset(
               //   ImageConstant.productImage,
@@ -110,12 +119,16 @@ class MyServiceDetails extends StatelessWidget {
                     children: [
                       Text(
                         SellerProfileController.to.service.value.jobTitle ?? '',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w700),
                       ),
 
                       GridView(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.5, crossAxisSpacing: 12),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 1.5,
+                            crossAxisSpacing: 12),
                         shrinkWrap: true,
                         primary: false,
                         children: [
@@ -123,27 +136,33 @@ class MyServiceDetails extends StatelessWidget {
                             title: 'Quantity',
                             color: AppColors.kprimaryColor,
                             icon: CupertinoIcons.cart,
-                            value: SellerProfileController.to.service.value.quantity.toString(),
+                            value: SellerProfileController.to.service.value
+                                .quantity.toString(),
                           ),
                           SellerStatusWidget(
                             title: 'Rate',
                             color: AppColors.kprimaryColor,
                             icon: Icons.monetization_on_sharp,
-                            value: '${SellerProfileController.to.service.value.rate.toString()}৳',
+                            value: '${SellerProfileController.to.service.value
+                                .rate.toString()}৳',
                           ),
                         ],
                       ),
-                      DetailItem(title: "Posted On:", body: MyDateUtil.formatDate(SellerProfileController.to.service.value.dateTime.toString())),
+                      DetailItem(title: "Posted On:",
+                          body: MyDateUtil.formatDate(SellerProfileController.to
+                              .service.value.dateTime.toString())),
                       DetailItem(
                         title: "Offer ID:",
-                        body: '${SellerProfileController.to.service.value.offerId}',
+                        body: '${SellerProfileController.to.service.value
+                            .offerId}',
                       ),
-
-                      DetailItem(title: "Category:", body: '${SellerProfileController.to.service.value.serviceCategoryType}'),
-
+                      DetailItem(title: "Category:",
+                          body: '${SellerProfileController.to.service.value
+                              .serviceCategoryType}'),
                       DetailItem(
                         title: "Rate Type:",
-                        body: "${SellerProfileController.to.service.value.rateType}",
+                        body: "${SellerProfileController.to.service.value
+                            .rateType}",
                       ),
                       // DetailItem(
                       //   title: "Rate:",
@@ -157,17 +176,22 @@ class MyServiceDetails extends StatelessWidget {
                       // ),
                       DetailItem(
                         title: "District:",
-                        body: '${SellerProfileController.to.service.value.district}',
+                        body: '${SellerProfileController.to.service.value
+                            .district}',
                       ),
                       DetailItem(
                         title: "Address:",
-                        body: '${SellerProfileController.to.service.value.address}',
+                        body: '${SellerProfileController.to.service.value
+                            .address}',
                       ),
                       DetailItem(
                         title: "Description:",
                         body: '',
                       ),
-                      Text('${SellerProfileController.to.service.value.description}', style: AppTextStyle.titleText.copyWith(color: AppColors.colorBlack)),
+                      Text('${SellerProfileController.to.service.value
+                          .description}',
+                          style: AppTextStyle.titleText.copyWith(
+                              color: AppColors.colorBlack)),
 
                       // Row(
                       //   children: [
@@ -225,14 +249,22 @@ class MyServiceDetails extends StatelessWidget {
                             child: ElevatedButton(
                                 onPressed: () {
                                   Get.to(CreateOfferScreen(
-                                    service: SellerProfileController.to.service.value,
+                                    service: SellerProfileController.to.service
+                                        .value,
                                     isEdit: true,
                                   ));
                                 },
-                                style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white),
+                                style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(vertical: 12),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10)),
+                                    backgroundColor: AppColors.kprimaryColor,
+                                    foregroundColor: Colors.white),
                                 child: Text(
                                   'Edit',
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                  style: TextStyle(fontSize: 14,
+                                      fontWeight: FontWeight.w600),
                                 )),
                           ),
                           SizedBox(
@@ -253,22 +285,40 @@ class MyServiceDetails extends StatelessWidget {
                                         ),
                                         content: Text(
                                           'Are you sure to delete this service?',
-                                          style: TextStyle(fontSize: getResponsiveFontSize(context, 12), fontWeight: FontWeight.w500),
+                                          style: TextStyle(
+                                              fontSize: getResponsiveFontSize(
+                                                  context, 12),
+                                              fontWeight: FontWeight.w500),
                                         ),
                                         actions: [
                                           ElevatedButton(
-                                              style: ElevatedButton.styleFrom(backgroundColor: AppColors.cancelButtonColor, foregroundColor: Colors.white),
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: AppColors
+                                                      .cancelButtonColor,
+                                                  foregroundColor: Colors
+                                                      .white),
                                               onPressed: () {
                                                 Navigator.pop(context);
-                                                SellerProfileController.to.deleteOffer(SellerProfileController.to.service.value.offerId ?? '');
+                                                SellerProfileController.to
+                                                    .deleteOffer(
+                                                    SellerProfileController.to
+                                                        .service.value
+                                                        .offerId ?? '');
 
-                                                SellerProfileController.to.myService.refresh();
+                                                SellerProfileController.to
+                                                    .myService.refresh();
 
                                                 Get.back();
                                               },
                                               child: const Text('Yes')),
                                           ElevatedButton(
-                                              style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, padding: EdgeInsets.symmetric(vertical: 12), foregroundColor: Colors.white),
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: AppColors
+                                                      .kprimaryColor,
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 12),
+                                                  foregroundColor: Colors
+                                                      .white),
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               },
@@ -278,10 +328,18 @@ class MyServiceDetails extends StatelessWidget {
                                     },
                                   );
                                 },
-                                style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), backgroundColor: AppColors.cancelButtonColor, padding: EdgeInsets.symmetric(vertical: 12), foregroundColor: Colors.white),
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10)),
+                                    backgroundColor: AppColors
+                                        .cancelButtonColor,
+                                    padding: EdgeInsets.symmetric(vertical: 12),
+                                    foregroundColor: Colors.white),
                                 child: Text(
                                   'Delete',
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                  style: TextStyle(fontSize: 14,
+                                      fontWeight: FontWeight.w600),
                                 )),
                           ),
                         ],
