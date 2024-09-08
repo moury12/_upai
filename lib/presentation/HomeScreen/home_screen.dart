@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Row(
                   children: [
-                    Expanded(flex: 4, child: SearchableDropDown()),
+                    const Expanded(flex: 4, child: SearchableDropDown()),
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(color: AppColors.kprimaryColor, shape: BoxShape.circle),
@@ -195,8 +195,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       );
                     } else {
-                      return Padding(
-                        padding: const EdgeInsets.all(12.0),
+                      return const Padding(
+                        padding: EdgeInsets.all(12.0),
                         child: Center(
                           child: Text(
                             "No Service Available",

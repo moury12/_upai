@@ -179,13 +179,14 @@ class RepositoryData {
 
   Future<List<CategoryList>> getCategoryList({
     required String token,
+    required String userId,
   }) async {
     try {
       String url =
-          "${ApiClient().getCategoryList}?cid=upai&user_mobile=0190001&name=md rabbi2";
+          "${ApiClient().getCategoryList}?cid=upai&user_mobile=$userId";
       if (kDebugMode) {
-        print('++++++++++get area list url :----$url');
-        print('Token : ${token}');
+        print('++++++++++get category list url :----$url');
+        print('Token : $token');
       }
 
       final response = await http.get(Uri.parse(url), headers: {
@@ -218,11 +219,10 @@ class RepositoryData {
   Future<List<OfferList>> getOfferList({
     required String token,
     required String mobile,
-    required String name,
   }) async {
     try {
       String url =
-          "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&name=$name";
+          "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile";
       if (kDebugMode) {
         print('++++++++++get Offer list url :----$url');
         print('Token : $token');
@@ -333,7 +333,6 @@ static Future<void> editOffer({dynamic body,required String token}) async{
           await HomeController.to.uploadImage(responseData["offer_id"].toString());
           HomeController.to.image.value=null;
         }
-
      print(responseData["offer_id"].toString());
       Get.snackbar('Success', responseData['message']);
 
@@ -355,9 +354,6 @@ static Future<void> editOffer({dynamic body,required String token}) async{
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       Get.snackbar('Success', responseData['message']);
-
-
-
       ////
       UserInfoModel senderData = UserInfoModel();
       Map<String, dynamic>? userDetails;
@@ -375,7 +371,6 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         senderData.mobile = userDetails["mobile"];
         senderData.cid = userDetails["cid"];
         senderData.pushToken = userDetails["push_token"];
-
         // body["read"]="";
         Map<String, dynamic> orderNotificationData = {};
         orderNotificationData =notification.toJson();
@@ -490,13 +485,15 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         Map<String,dynamic> orderNotificationData = body;
         // orderNotificationData["total"]=
         orderNotificationData["job_id"]=notification.jobId.toString();
+        orderNotificationData["seller_id"]=notification.sellerId.toString();
+        orderNotificationData["buyer_id"]=notification.buyerId.toString();
         orderNotificationData["total"]=notification.total.toString();
         orderNotificationData["quantity"]=notification.quantity.toString();
         orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.value.name.toString();
         orderNotificationData["seller_name"]=senderData.name.toString();
         orderNotificationData["notification_title"]="Congratulations.";
         orderNotificationData["created_time"]=DateTime.now().millisecondsSinceEpoch.toString();
-        orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} Buyer Successfully Received your ${body["job_id"].toString()} service";
+        orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} Successfully Received your ${body["job_id"].toString()} service";
         FirebaseAPIs.sendNotificationData( orderNotificationData,senderData, orderNotificationData["notification_title"].toString(), orderNotificationData["notification_msg"].toString());
         await FirebaseAPIs.updateJobStatus(ProfileScreenController.to.userInfo.value.userId.toString(), "COMPLETED",notification.notificationId.toString() );
       }

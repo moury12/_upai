@@ -26,7 +26,7 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserInfoModel? receiverUserData;
+    UserInfoModel receiverUserData=receiverInfo;
     Size size = MediaQuery.of(context).size;
     return GetBuilder<ChatScreenController>(builder: (ctrl) {
       return PopScope(
@@ -235,13 +235,13 @@ class ChatScreen extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-              InkWell(
-                  onTap: () {},
-                  child: SvgPicture.asset(
-                    ImageConstant.videoCallIcon,
-                  )),
+              // InkWell(
+              //     onTap: () {},
+              //     child: SvgPicture.asset(
+              //       ImageConstant.videoCallIcon,
+              //     )),
               const SizedBox(
-                width: 16,
+                width: 8,
               ),
             ],
           ),
@@ -273,7 +273,7 @@ class ChatScreen extends StatelessWidget {
                               return ChatMessageTile(
                                 context,
                                 message: ctrl.messageList[index],
-                                receiverInfo: receiverUserData!,
+                                receiverInfo: receiverUserData,
                               );
 
                               //return MessageCard(message: ctrl.messageList[index]);

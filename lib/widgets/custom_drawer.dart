@@ -96,7 +96,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 _buildMenuOption(
                   icon: Icons.home_repair_service_rounded,
-                  label: 'My Orders',
+                  label: 'My running orders',
                   onTap: () {
                     BuyerProfileController.to.getBuyerProfile();
                     Get.to(BuyerRunningOrderListScreen(
@@ -128,7 +128,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
                 Align(
                   alignment: Alignment.bottomRight,
-                  child: Text("app version:07_09_2024"),)
+                  child: Text("app version:08-09-2024"),)
               ],
             ),
           ),

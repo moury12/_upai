@@ -120,15 +120,14 @@ class HomeController extends GetxController {
   }
   void getCategoryList() async {
     getCatList.value = await RepositoryData()
-        .getCategoryList(token: FirebaseAPIs.user['token'].toString());
+        .getCategoryList(token: FirebaseAPIs.user['token'].toString(),userId:ProfileScreenController.to.userInfo.value.userId.toString());
     filteredCategoryList.value = getCatList;
   }
 
   void getOfferDataList() async {
     getOfferList.value = await RepositoryData().getOfferList(
         token: FirebaseAPIs.user['token'].toString(),
-        mobile: ctrl!.userInfo.value.userId ?? '',
-        name: ctrl!.userInfo.value.name ?? '');
+        mobile: ctrl!.userInfo.value.userId ?? '');
     filteredOfferList.value = getOfferList;
   }
   void createOffer(String jobTitle,

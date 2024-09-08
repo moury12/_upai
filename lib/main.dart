@@ -101,6 +101,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'Upai',
         theme: ThemeData(
+          // fontFamily: 'Kalpurush',
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(foregroundColor: AppColors.colorWhite, backgroundColor: AppColors.kprimaryColor, centerTitle: true),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: AppColors.kprimaryColor),

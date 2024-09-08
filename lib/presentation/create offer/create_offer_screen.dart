@@ -70,6 +70,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         HomeController.to.selectedCategory.value = null; // Or handle the case when no match is found
       }
     }
+    else
+      {
+        HomeController.to.selectedCategory.value = null;
+        HomeController.to.image.value=null;
+      }
     // debugPrint(widget.service!.rateType);
     HomeController.to.selectedRateType.value = widget.service != null && timeUnits.any((item) => item.toString().toLowerCase().contains(widget.service!.rateType!.toLowerCase())) ? widget.service!.rateType.toString() : null;
     HomeController.to.selectedDistrict.value = widget.service != null && widget.service!.district!.isNotEmpty ? widget.service!.district : null;

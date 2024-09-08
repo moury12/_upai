@@ -57,7 +57,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                           child: Text('You Have Already Confirmed This Order'),
                         )
                       : widget.notificationModel.status == "REJECTED"
-                          ? Center(
+                          ? const Center(
                               child: Text('You Have Already Rejected This Order'),
                             )
                           : widget.notificationModel.status == "PENDING"
@@ -104,7 +104,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                     CustomTextField(
                                       isEnable: false,
                                       hintText: widget.notificationModel.rateType,
-                                      hintStyle: TextStyle(color: Colors.black),
+                                      hintStyle: const TextStyle(color: Colors.black),
                                       textAlign: TextAlign.center,
                                     ),
                                     SizedBox(
@@ -239,7 +239,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                     )
                                   ],
                                 )
-                              : Center(child: Text("Action Already Done")),
+                              : const Center(child: Text("Action Already Done")),
                   // ):
                   //
                 ),

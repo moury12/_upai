@@ -35,6 +35,7 @@ dependencies:
   get: ^4.6.6
   http: ^1.2.1
   flutter_local_notifications: ^17.2.2
+
   flutter:
     sdk: flutter
 
@@ -60,6 +61,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+#  fonts:
+#    - family: Kalpurush
+#      fonts:
+#        - asset: assets/fonts/Kalpurush.ttf
 
 
   uses-material-design: true

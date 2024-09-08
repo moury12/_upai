@@ -72,7 +72,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             shadowColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             leading: IconButton(
-              icon: Icon(CupertinoIcons.back),
+              icon: Icon(Icons.arrow_back),
               onPressed: () {
                 Get.back();
                 controller.searchController.value.clear();

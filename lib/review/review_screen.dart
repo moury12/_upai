@@ -17,7 +17,7 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   TextEditingController reviewTE = TextEditingController();
-  double ratingValue = 0.0;
+  double ratingValue = 3.5;
   @override
   void initState() {
     Get.put(OrderController());
@@ -43,7 +43,7 @@ Navigator.pop(context);
               const Text("Rate our Service",style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
               ),
               RatingBar(
-                initialRating: 3.5,
+                initialRating: ratingValue,
                 allowHalfRating: true,
                 ratingWidget: RatingWidget(full: Icon(Icons.star_rounded), half: Icon(Icons.star_half_rounded), empty: Icon(Icons.star_border_rounded)),
                 onRatingUpdate: (value) {
