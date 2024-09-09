@@ -89,44 +89,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   seller.sellerProfile == null || !NetworkController.to.connectedInternet.value
                       ? ShimmerSellerStatus()
                       :
-                      // SizedBox(
-                      //         height: MediaQuery.sizeOf(context).height*.12,
-                      //         child: Row(
-                      //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //           children: [
-                      //             Expanded(
-                      //               child: SellerStatusWidget(
-                      //                 seller: seller,
-                      //                 color: Colors.lightBlue,
-                      //               ),
-                      //             ),
-                      //             SizedBox(
-                      //               width: 8,
-                      //             ),
-                      //             Expanded(
-                      //               child: SellerStatusWidget(
-                      //                 seller: seller,
-                      //                 color: Colors.deepOrangeAccent,
-                      //                 title: 'Completed Job',
-                      //                 value: seller.sellerProfile!.completedJob,
-                      //                 icon: Icons.verified,
-                      //               ),
-                      //             ),
-                      //             // SizedBox(
-                      //             //   width: 5,
-                      //             // ),
-                      //             // Expanded(
-                      //             //   child: SellerStatusWidget(
-                      //             //     seller: seller,
-                      //             //     color: Colors.lightGreenAccent,
-                      //             //     title: 'Review',
-                      //             //     icon: Icons.star_rate_rounded,
-                      //             //     value: seller.sellerProfile!.review,
-                      //             //   ),
-                      //             // ),
-                      //           ],
-                      //         ),
-                      //       ),
+
                       GridView(
                           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(mainAxisSpacing: 6, crossAxisSpacing: getResponsiveFontSize(context, 8), maxCrossAxisExtent: MediaQuery.of(context).size.width / 2.5),
                           shrinkWrap: true,

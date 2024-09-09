@@ -140,7 +140,7 @@ class RepositoryData {
             'Authorization': 'Bearer $token',
           });
       final Map<String, dynamic> responseData = jsonDecode(response.body);
-      debugPrint('seller profile $responseData');
+      // debugPrint('seller profile $responseData');
       if(responseData['status']!=null&&responseData['status']=="Success"){
         sellerProfileModel =SellerProfileModel.fromJson(responseData);
       }else{

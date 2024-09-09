@@ -67,7 +67,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                       Expanded(
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.lightGreen,
+                                backgroundColor: AppColors.kprimaryColor,
                                 padding: EdgeInsets.symmetric(vertical: 12),
                                 foregroundColor: Colors.white),
                             onPressed: () async {
