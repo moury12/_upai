@@ -6,6 +6,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
+import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
 
 import '../../../core/utils/image_path.dart';
 
@@ -94,8 +95,9 @@ class InboxCardWidget extends StatelessWidget {
                               style: AppTextStyle.bodyMediumBlackSemiBold,
                             ),
                             subtitle: message == null
-                                ? const Text("")
-                                : Text(
+                                ? const Text(""):
+                            message!.read!.isNotEmpty?
+                                Text(
                                     overflow: TextOverflow.ellipsis,
                                     message!.type == Type.image
                                         ? "Image"
@@ -103,7 +105,15 @@ class InboxCardWidget extends StatelessWidget {
                                             ? "You: ${message!.msg}"
                                             : "${message!.msg}",
                                     maxLines: 1,
-                                  ),
+                                  ):Text(
+                              overflow: TextOverflow.ellipsis,
+                              message!.type == Type.image
+                                  ? "Image"
+                                  : sendByMe
+                                  ? "You: ${message!.msg}"
+                                  : "${message!.msg}",
+                              maxLines: 1,style: AppTextStyle.unReadMsgStyle,
+                            ),
                             contentPadding: EdgeInsets.zero,
                             trailing: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -121,18 +131,28 @@ class InboxCardWidget extends StatelessWidget {
                                 sendByMe
                                     ? const Text("")
                                     : message!.read!.isEmpty
-                                        ? Container(
-                                            height: 15,
-                                            width: 15,
-                                            decoration: BoxDecoration(
-                                              color: AppColors
-                                                  .messageIndicatorColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                            ),
-                                            // child: const Center(child: Text("2",style: TextStyle(color: Colors.white),)),
-                                          )
-                                        : const Text(""),
+                                        ? Builder(
+                                          builder: (context) {
+                                            InboxScreenController.to.unReadNotification.value=true;
+                                            return Container(
+                                                height: 15,
+                                                width: 15,
+                                                decoration: BoxDecoration(
+                                                  color: AppColors
+                                                      .messageIndicatorColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(100),
+                                                ),
+                                                // child: const Center(child: Text("2",style: TextStyle(color: Colors.white),)),
+                                              );
+                                          }
+                                        )
+                                        : Builder(
+                                          builder: (context) {
+                                            InboxScreenController.to.unReadNotification.value=false;
+                                            return const Text("");
+                                          }
+                                        ),
                               ],
                             ),
                           );

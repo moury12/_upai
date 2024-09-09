@@ -340,7 +340,6 @@ static Future<void> editOffer({dynamic body,required String token}) async{
       Get.snackbar('Error', 'Failed to create offer');
     }
   }
-
   static Future<void> jobStatus({ context ,required NotificationModel notification,required bool isDialogScreen,dynamic body,required String title,required msg,required String idStatusUpdate}) async {
     final headers = {
       'Accept': 'application/json',

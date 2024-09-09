@@ -27,7 +27,7 @@ import 'presentation/Inbox/inbox.dart';
 @pragma('vm:entry-point')
 Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  NotificationAccessToken().showNotification(message);
+  //NotificationAccessToken().showNotification(message);
   //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
 

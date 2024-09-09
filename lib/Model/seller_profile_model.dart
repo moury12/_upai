@@ -171,9 +171,9 @@ class SellerProfile {
   });
 
   factory SellerProfile.fromJson(Map<String, dynamic> json) => SellerProfile(
-    totalEarning: json["total_earning"],
-    completedJob: json["completed_job"],
-    review: json["review"]?.toDouble(),
+    totalEarning: json["total_earning"]??"0",
+    completedJob: json["completed_job"]??"0",
+    review: json["review"]?.toDouble()??0.0,
   );
 
   Map<String, dynamic> toJson() => {
