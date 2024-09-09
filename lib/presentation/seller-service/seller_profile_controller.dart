@@ -20,6 +20,7 @@ class SellerProfileController extends GetxController {
   void onInit() {
     // debugPrint('user info ${Boxes.getUserData().get('user')}');
     refreshAllData();
+
     searchMyServiceController.value.addListener(
       () {
         filterMyService(searchMyServiceController.value.text);

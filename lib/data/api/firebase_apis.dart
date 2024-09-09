@@ -426,7 +426,7 @@ class FirebaseAPIs {
         final data = documentSnapshot.data();
         return data?['imageUrl'].toString();
       } else {
-        print('Document does not exist');
+      //  print('Document does not exist');
         return null;
       }
     } catch (e) {
@@ -451,7 +451,7 @@ class FirebaseAPIs {
         final data = documentSnapshot.data();
         return data?['imageURL'].toString();
       } else {
-        print('Document does not exist');
+      //  print('Document does not exist');
         return null;
       }
     } catch (e) {
