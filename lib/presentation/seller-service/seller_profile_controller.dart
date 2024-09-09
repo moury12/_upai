@@ -19,15 +19,15 @@ class SellerProfileController extends GetxController {
   @override
   void onInit() {
     // debugPrint('user info ${Boxes.getUserData().get('user')}');
-
+    refreshAllData();
     searchMyServiceController.value.addListener(
       () {
         filterMyService(searchMyServiceController.value.text);
       },
     );
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      refreshAllData();
-    });
+
+
+
 
     // TODO: implement onInit
     super.onInit();
