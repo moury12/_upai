@@ -34,6 +34,7 @@ class HomeController extends GetxController {
   RxDouble uploadProgress = 0.0.obs;
   RxBool isUploading = false.obs;
   RxBool isLoading=false.obs;
+  RxBool isUnRead=false.obs;
 
   Rx<File?> image = Rx<File?>(null);
   final _picker = ImagePicker();

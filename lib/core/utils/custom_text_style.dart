@@ -208,7 +208,7 @@ class AppTextStyle {
         color: AppColors.colorWhite,
       );
   static get unReadMsgStyle => TextStyle(
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: FontWeight.w700,
     color: AppColors.colorBlack,
   );

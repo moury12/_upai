@@ -6,6 +6,9 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
+import 'package:upai/presentation/notification/controller/notification_controller.dart';
 
 import '../../../core/utils/image_path.dart';
 
@@ -93,17 +96,30 @@ class InboxCardWidget extends StatelessWidget {
                               receiverUserData!.name.toString(),
                               style: AppTextStyle.bodyMediumBlackSemiBold,
                             ),
-                            subtitle: message == null
-                                ? const Text("")
-                                : Text(
+                            subtitle: message != null
+                                ?sendByMe?
+                            Text(
                                     overflow: TextOverflow.ellipsis,
                                     message!.type == Type.image
                                         ? "Image"
-                                        : sendByMe
-                                            ? "You: ${message!.msg}"
-                                            : "${message!.msg}",
+                                        : "You: ${message!.msg}",
                                     maxLines: 1,
-                                  ),
+                                  )
+                                :message!.read!.isEmpty?
+                            Text(
+                              overflow: TextOverflow.ellipsis,
+                              message!.type == Type.image
+                                  ? "Image"
+                                  : "${message!.msg}",
+                              maxLines: 1,style: AppTextStyle.unReadMsgStyle,
+                            ):Text(
+                              overflow: TextOverflow.ellipsis,
+                              message!.type == Type.image
+                                  ? "Image"
+                                  : "${message!.msg}",
+                              maxLines: 1,
+                            )
+                                :const Text(""),
                             contentPadding: EdgeInsets.zero,
                             trailing: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -119,20 +135,10 @@ class InboxCardWidget extends StatelessWidget {
                                   height: 5,
                                 ),
                                 sendByMe
-                                    ? const Text("")
+                                    ? const SizedBox()
                                     : message!.read!.isEmpty
-                                        ? Container(
-                                            height: 15,
-                                            width: 15,
-                                            decoration: BoxDecoration(
-                                              color: AppColors
-                                                  .messageIndicatorColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                            ),
-                                            // child: const Center(child: Text("2",style: TextStyle(color: Colors.white),)),
-                                          )
-                                        : const Text(""),
+                                        ? const UnReadIndicator()
+                                        : const ReadIndicator(),
                               ],
                             ),
                           );
@@ -211,6 +217,41 @@ class InboxCardWidget extends StatelessWidget {
                     );
                   }
                 })));
+  }
+}
+
+class ReadIndicator extends StatelessWidget {
+
+  const ReadIndicator({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    HomeController.to.isUnRead.value=true;
+    return const Text("");
+  }
+}
+
+class UnReadIndicator extends StatelessWidget {
+  const UnReadIndicator({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    HomeController.to.isUnRead.value=false;
+    return Container(
+        height: 15,
+        width: 15,
+        decoration: BoxDecoration(
+          color: AppColors
+              .messageIndicatorColor,
+          borderRadius:
+              BorderRadius.circular(100),
+        ),
+        // child: const Center(child: Text("2",style: TextStyle(color: Colors.white),)),
+      );
   }
 }
 
