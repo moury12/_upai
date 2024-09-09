@@ -196,13 +196,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                           },
                         ));
                       } else {
-                        return Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ShimmerOfferList(
-                            fromServiceList: true,
-                          ),
-                        ));
+                        return const Center(child: Text('There is no service available'),);
                       }
                     }
                   },
