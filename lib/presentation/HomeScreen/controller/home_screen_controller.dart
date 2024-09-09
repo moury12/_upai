@@ -149,7 +149,7 @@ class HomeController extends GetxController {
       "district": selectedDistrict.value,
       "address": address
     });
-    await SellerProfileController.to.refreshAllData();
+    // await SellerProfileController.to.refreshAllData();
     await HomeController.to.refreshAllData();
   }
 
@@ -186,7 +186,7 @@ class HomeController extends GetxController {
         quantity: quantity.value,
         rate: int.parse(rate));
 
-    await SellerProfileController.to.refreshAllData();
+    // await SellerProfileController.to.refreshAllData();
     getOfferDataList();
     // Get.back();
     // SellerProfileController.to.myService.refresh();

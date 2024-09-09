@@ -5,7 +5,7 @@ import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
-
+import 'dart:async';
 class SellerProfileController extends GetxController {
   static SellerProfileController get to => Get.find();
   Rx<SellerProfileModel> seller = SellerProfileModel().obs;
@@ -19,12 +19,16 @@ class SellerProfileController extends GetxController {
   @override
   void onInit() {
     // debugPrint('user info ${Boxes.getUserData().get('user')}');
-    refreshAllData();
+
     searchMyServiceController.value.addListener(
       () {
         filterMyService(searchMyServiceController.value.text);
       },
     );
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      refreshAllData();
+    });
+
     // TODO: implement onInit
     super.onInit();
   }
@@ -51,8 +55,8 @@ class SellerProfileController extends GetxController {
         ctrl!.userInfo.value.token.toString(), ctrl!.userInfo.value.userId ?? '');
     myService.value = seller.value.myService!;
     filterList.assignAll(myService);
-    debugPrint('myService.toJson()');
-    debugPrint(myService.toString());
+    // debugPrint('myService.toJson()');
+    // debugPrint(myService.toString());
   }
 
   void filterMyService(String query) {
