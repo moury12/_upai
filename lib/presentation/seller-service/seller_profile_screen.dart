@@ -150,7 +150,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                               color: AppColors.kprimaryColor,
                               title: 'Review',
                               icon: Icons.star_rate_rounded,
-                              value: double.parse(seller.sellerProfile!.review.toString()).toStringAsFixed(1),
+                              value: seller.sellerProfile!.review.toString(),
                             ),
                           ],
                         ),
@@ -273,7 +273,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                             Flexible(
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.to(RunningOrderListScreen(runningOrder: seller.sellerRunningOrder ?? []));
+                                  Get.to(SellerRunningOrderListScreen(runningOrder: seller.sellerRunningOrder ?? []));
                                 },
                                 child: Text("All Orders >>", style: AppTextStyle.titleTextSmallUnderline),
                               ),
@@ -298,7 +298,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   seller.myService == null || seller.myService!.isEmpty?SizedBox(): Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(flex: 2, child: Text("My Services", style: AppTextStyle.titleText)),
+                      Expanded(flex: 2, child: Text("My Offers", style: AppTextStyle.titleText)),
                       Flexible(
                         child: GestureDetector(
                           onTap: () {
@@ -307,7 +307,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text("All services >>", style: AppTextStyle.titleTextSmallUnderline),
+                            child: Text("All Offers >>", style: AppTextStyle.titleTextSmallUnderline),
                           ),
                         ),
                       ),

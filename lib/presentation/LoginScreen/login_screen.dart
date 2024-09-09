@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                          // await RepositoryData().getDmPath(baseUrl: "http://192.168.0.139:8002/upai_api/dmpath");
                           // if (Boxes.getDmPathBox().containsKey("BaseUrl")) {
-                            RepositoryData().login(
+                           await RepositoryData().login(
                                 "upai",
                                 controller.userMobileTE.text.trim().toString(),
                                 controller.passwordTE.text.trim().toString(),

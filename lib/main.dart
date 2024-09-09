@@ -27,7 +27,7 @@ import 'presentation/Inbox/inbox.dart';
 @pragma('vm:entry-point')
 Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  NotificationAccessToken().showNotification(message);
+  //NotificationAccessToken().showNotification(message);
   //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
 
@@ -101,6 +101,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'Upai',
         theme: ThemeData(
+          // fontFamily: 'Kalpurush',
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(foregroundColor: AppColors.colorWhite, backgroundColor: AppColors.kprimaryColor, centerTitle: true),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: AppColors.kprimaryColor),

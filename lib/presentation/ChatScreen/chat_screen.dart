@@ -21,9 +21,12 @@ class ChatScreen extends StatelessWidget {
   // final String? name, photo, userName, chatRoomId;
 
   final UserInfoModel receiverInfo = Get.arguments;
+  //final UserInfoModel receiverUserInfo=UserInfoModel();
+
 
   @override
   Widget build(BuildContext context) {
+    UserInfoModel receiverUserData=receiverInfo;
     Size size = MediaQuery.of(context).size;
     return GetBuilder<ChatScreenController>(builder: (ctrl) {
       return PopScope(
@@ -53,6 +56,7 @@ class ChatScreen extends StatelessWidget {
                     [];
 
                 if (receiverData.isNotEmpty) {
+                  receiverUserData=receiverData[0];
                   return Row(
                     children: [
                       Container(
@@ -131,6 +135,7 @@ class ChatScreen extends StatelessWidget {
                     ],
                   );
                 } else {
+                  receiverUserData=receiverInfo;
                   return Row(
                     children: [
                       Container(
@@ -230,13 +235,13 @@ class ChatScreen extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-              InkWell(
-                  onTap: () {},
-                  child: SvgPicture.asset(
-                    ImageConstant.videoCallIcon,
-                  )),
+              // InkWell(
+              //     onTap: () {},
+              //     child: SvgPicture.asset(
+              //       ImageConstant.videoCallIcon,
+              //     )),
               const SizedBox(
-                width: 16,
+                width: 8,
               ),
             ],
           ),
@@ -268,7 +273,7 @@ class ChatScreen extends StatelessWidget {
                               return ChatMessageTile(
                                 context,
                                 message: ctrl.messageList[index],
-                                receiverInfo: receiverInfo,
+                                receiverInfo: receiverUserData,
                               );
 
                               //return MessageCard(message: ctrl.messageList[index]);

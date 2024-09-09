@@ -76,7 +76,7 @@ class DefaultScreen extends StatelessWidget {
             }),
             centerTitle: true,
           ),
-          drawer: CustomDrawer(),
+          drawer: const CustomDrawer(),
           body: ctrl.screensForClient[ctrl.selectedIndex.value],
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white,

@@ -207,6 +207,11 @@ class AppTextStyle {
         fontWeight: FontWeight.w700,
         color: AppColors.colorWhite,
       );
+  static get unReadMsgStyle => TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.colorBlack,
+  );
 
   // Button Styles
 

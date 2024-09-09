@@ -33,7 +33,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           shadowColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
           leading: IconButton(
-            icon: Icon(CupertinoIcons.back),
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Get.back();
               HomeController.to.searchCatController.value.clear();

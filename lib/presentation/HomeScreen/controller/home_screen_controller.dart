@@ -24,6 +24,7 @@ import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart'
 import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/notification/controller/notification_controller.dart';
+import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/seller_profile_screen.dart';
 
@@ -32,6 +33,7 @@ class HomeController extends GetxController {
   //image segment
   RxDouble uploadProgress = 0.0.obs;
   RxBool isUploading = false.obs;
+  RxBool isLoading=false.obs;
 
   Rx<File?> image = Rx<File?>(null);
   final _picker = ImagePicker();
@@ -118,15 +120,14 @@ class HomeController extends GetxController {
   }
   void getCategoryList() async {
     getCatList.value = await RepositoryData()
-        .getCategoryList(token: FirebaseAPIs.user['token'].toString());
+        .getCategoryList(token: FirebaseAPIs.user['token'].toString(),userId:ProfileScreenController.to.userInfo.value.userId.toString());
     filteredCategoryList.value = getCatList;
   }
 
   void getOfferDataList() async {
     getOfferList.value = await RepositoryData().getOfferList(
         token: FirebaseAPIs.user['token'].toString(),
-        mobile: ctrl!.userInfo.value.userId ?? '',
-        name: ctrl!.userInfo.value.name ?? '');
+        mobile: ctrl!.userInfo.value.userId ?? '');
     filteredOfferList.value = getOfferList;
   }
   void createOffer(String jobTitle,
@@ -167,7 +168,9 @@ class HomeController extends GetxController {
           "rate": rate,
           "district": selectedDistrict.value,
           "address": address
+
         });
+    //Get.snackbar('Success', "Update Done");
 
     SellerProfileController.to.service.value = MyService(
         userName: ProfileScreenController.to.userInfo.value.name,
@@ -179,11 +182,13 @@ class HomeController extends GetxController {
         district: selectedDistrict.value,
         jobTitle: title,
         offerId: offerId,
+        dateTime: SellerProfileController.to.service.value.dateTime,
         quantity: quantity.value,
         rate: int.parse(rate));
+
     await SellerProfileController.to.refreshAllData();
     getOfferDataList();
-    Get.back();
+    // Get.back();
     // SellerProfileController.to.myService.refresh();
     // SellerProfileController.to.service.value =
   }

@@ -159,11 +159,10 @@ class SellerRunningOrder {
     "award_date": "${awardDate!.year.toString().padLeft(4, '0')}-${awardDate!.month.toString().padLeft(2, '0')}-${awardDate!.day.toString().padLeft(2, '0')}",
   };
 }
-
 class SellerProfile {
   String? totalEarning;
   String? completedJob;
-  String? review;
+  double? review;
 
   SellerProfile({
     this.totalEarning,
@@ -174,7 +173,7 @@ class SellerProfile {
   factory SellerProfile.fromJson(Map<String, dynamic> json) => SellerProfile(
     totalEarning: json["total_earning"]??"0",
     completedJob: json["completed_job"]??"0",
-    review: json["review"]??"0",
+    review: json["review"]?.toDouble()??0.0,
   );
 
   Map<String, dynamic> toJson() => {

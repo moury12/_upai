@@ -70,7 +70,7 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                                               builder: (context) => ReviewScreen(notificationModel: NotificationController.to.notificationList[reversedIndex]),
                                             );
                                           }
-                                          else
+                                          else if(NotificationController.to.notificationList[reversedIndex].status == "COMPLETED" && ProfileScreenController.to.userInfo.value.userId.toString() != NotificationController.to.notificationList[reversedIndex].sellerId.toString())
                                             {
                                               Get.snackbar("You have already reviewed the order", "");
                                             }
@@ -159,22 +159,24 @@ class _NotificatonScreenState extends State<NotificatonScreen> {
                                           ],
                                         ),
                                       ),
-                                      ProfileScreenController.to.userInfo.value.userId == NotificationController.to.notificationList[reversedIndex].buyerId
-                                          ? SizedBox()
-                                          : SizedBox(
-                                              height: 40,
-                                              width: 150,
-                                              child: CustomButton(
-                                                  onTap: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (context) => ConfirmOrderWidget(
-                                                        notificationModel: NotificationController.to.notificationList[reversedIndex],
-                                                      ),
-                                                    );
-                                                  },
-                                                  text: "Tap Here"),
-                                            ),
+                                      ProfileScreenController.to.userInfo.value.userId != NotificationController.to.notificationList[reversedIndex].buyerId
+                                      && NotificationController.to.notificationList[reversedIndex].status.toString()=="PENDING"
+                                          ? SizedBox(
+                                        height: 40,
+                                        width: 150,
+                                        child: CustomButton(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) => ConfirmOrderWidget(
+                                                  notificationModel: NotificationController.to.notificationList[reversedIndex],
+                                                ),
+                                              );
+                                            },
+                                            text: "Tap Here"),
+                                      )
+
+                                          : SizedBox(),
                                       SizedBox(
                                         height: 10,
                                       ),

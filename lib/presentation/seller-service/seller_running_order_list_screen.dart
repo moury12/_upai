@@ -8,10 +8,10 @@ import 'package:upai/presentation/seller-service/seller_profile_controller.dart'
 import '../../core/utils/custom_text_style.dart';
 import 'widgets/seller_running_order_widget.dart';
 
-class RunningOrderListScreen extends StatelessWidget {
+class SellerRunningOrderListScreen extends StatelessWidget {
   final List<SellerRunningOrder> runningOrder;
 
-  RunningOrderListScreen({super.key, required this.runningOrder});
+  const SellerRunningOrderListScreen({super.key, required this.runningOrder});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,11 @@ class RunningOrderListScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppColors.strokeColor2,
         appBar: AppBar(
-          elevation: 0,
-          shadowColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-
+          // elevation: 0,
+          // shadowColor: Colors.transparent,
+          // surfaceTintColor: Colors.transparent,
+          backgroundColor: AppColors.kprimaryColor,
+          // foregroundColor: Colors.black,
           // leading: IconButton(
           //   icon: const Icon(CupertinoIcons.back),
           //   onPressed: () {

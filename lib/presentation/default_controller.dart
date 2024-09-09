@@ -34,20 +34,20 @@ class DefaultController extends GetxController {
   @override
   void onInit() {
     //for notification permission
-    FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
-
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
-    });
+    // FirebaseMessaging.instance.requestPermission(
+    //   alert: true,
+    //   badge: true,
+    //   sound: true,
+    // );
+    //
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   print('Got a message whilst in the foreground!');
+    //   print('Message data: ${message.data}');
+    //
+    //   if (message.notification != null) {
+    //     print('Message also contained a notification: ${message.notification}');
+    //   }
+    // });
     //
     userData = userInfoModelFromJson(box.get('user'));
     Get.put(HomeController(), permanent: true);

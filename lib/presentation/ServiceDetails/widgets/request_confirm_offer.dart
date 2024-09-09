@@ -108,9 +108,9 @@ class _ConfirmOfferRequestWidgetState extends State<ConfirmOfferRequestWidget> {
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                   // padding: const EdgeInsets.symmetric(horizontal: 12),
                     margin: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(12)),
+                   // decoration: BoxDecoration(border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(12)),
                     child: Obx(() {
                       if (rateTypes.contains(widget.service.offerDetails!.rateType!.toLowerCase()) && !HomeController.to.change.value) {
                         HomeController.to.selectedRateType.value = widget.service.offerDetails!.rateType!.toLowerCase();
@@ -118,35 +118,13 @@ class _ConfirmOfferRequestWidgetState extends State<ConfirmOfferRequestWidget> {
                       debugPrint('selectedRateType ${HomeController.to.selectedRateType.value}');
                       debugPrint(HomeController.to.change.value.toString());
 
-                      return FittedBox(
-                        child: DropdownButton<String>(
-                          underline: const SizedBox.shrink(),
-                          value: HomeController.to.selectedRateType.value,
-                          dropdownColor: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          hint: const Text(
-                            "Select a Rate type  ",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          items: rateTypes.map((unit) {
-                            return DropdownMenuItem<String>(
-                              value: unit,
-                              child: Text(
-                                unit,
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: null,
-                          //     (value) {
-                          //   HomeController.to.change.value = true;
-                          //   HomeController.to.selectedRateType.value = null;
-                          //   HomeController.to.selectedRateType.value = value;
-                          // },
-                        ),
+                      return CustomTextField(
+                        isEnable: false,
+                        textAlign: TextAlign.center,
+                        inputType: TextInputType.number,
+                        controller: TextEditingController()..text=HomeController.to.selectedRateType.value.toString(),
+                        inputFontSize: 12,
+                        // onChanged: (value) => controller.emailController.text.trim() = value!,
                       );
                     }),
                   ),
@@ -166,6 +144,7 @@ class _ConfirmOfferRequestWidgetState extends State<ConfirmOfferRequestWidget> {
                               return CustomTextField(
                                 isEnable: false,
                                 validatorText: "Please Enter Rate",
+                                textAlign: TextAlign.center,
                                 hintText: "Please Enter Rate",
                                 inputType: TextInputType.number,
                                 controller: HomeController.to.rateController.value,
