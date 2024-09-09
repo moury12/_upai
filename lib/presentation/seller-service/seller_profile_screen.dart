@@ -26,7 +26,7 @@ class SellerProfileScreen extends StatefulWidget {
 class _SellerProfileScreenState extends State<SellerProfileScreen> {
   @override
   void initState() {
-
+   SellerProfileController.to.refreshAllData();
     Get.put(OrderController());
     Get.put(NetworkController());
     // TODO: implement initState
