@@ -125,7 +125,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                       ...filterDistrict.map(
                         (e) {
                           return PopupMenuItem(
-                            child: GestureDetector(
+                            child: InkWell(
                               onTap: () {
                                 setState(() {
                                   widget.fromHome! ? HomeController.to.selectedDistrictForAll.value = e['name'] : HomeController.to.selectedDistrict.value = e['name'];
