@@ -62,6 +62,24 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Image.network(
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child; // Image has finished loading
+                          }
+                          return SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.kprimaryColor,
+                                // value: loadingProgress.expectedTotalBytes != null
+                                //     ? loadingProgress.cumulativeBytesLoaded /
+                                //     (loadingProgress.expectedTotalBytes ?? 1)
+                                //     : null,
+                              ),
+                            ),
+                          );
+                        },
                         height: getResponsiveFontSize(context, 120),
                         fit: BoxFit.cover, snapshot.data.toString());
                   }
@@ -71,6 +89,24 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Image.network(
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child; // Image has finished loading
+                                }
+                                return SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.kprimaryColor,
+                                      // value: loadingProgress.expectedTotalBytes != null
+                                      //     ? loadingProgress.cumulativeBytesLoaded /
+                                      //     (loadingProgress.expectedTotalBytes ?? 1)
+                                      //     : null,
+                                    ),
+                                  ),
+                                );
+                              },
                               height: getResponsiveFontSize(context, 120),
                               fit: BoxFit.cover, snapshot.data.toString());
                         }

@@ -232,7 +232,25 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   return Image.network(
                                       width: double.infinity,
                                       fit: BoxFit.cover,
-                                      snapshot.data.toString());
+                                      snapshot.data.toString(),
+                                    loadingBuilder: (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child; // Image has finished loading
+                                      }
+                                      return SizedBox(
+                                        height: 100,
+                                        width: 100,
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            color: AppColors.kprimaryColor,
+                                            // value: loadingProgress.expectedTotalBytes != null
+                                            //     ? loadingProgress.cumulativeBytesLoaded /
+                                            //     (loadingProgress.expectedTotalBytes ?? 1)
+                                            //     : null,
+                                          ),
+                                        ),
+                                      );
+                                    },);
                                 } else {
                                   return FutureBuilder(
                                     future: FirebaseAPIs
@@ -593,7 +611,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         .value.text.isNotEmpty &&
                                     box.isNotEmpty) {
                                   if (widget.service != null) {
-                                     HomeController.to.editOffer(
+                                    await HomeController.to.editOffer(
                                         widget.service!.offerId ?? '',
                                         titleController.text,
                                         descriptionController.text,
@@ -611,7 +629,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     // await SellerProfileController.to.refreshAllData();
                                     // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
                                     // clear();
+
                                     Get.back();
+                                    Get.snackbar("Success", "Updated Successfully");
 
                                   }
                                   else {

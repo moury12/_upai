@@ -54,7 +54,26 @@ class MyServiceDetails extends StatelessWidget {
                           // height: double.infinity,
                           // width: double.infinity,
                           fit: BoxFit.fill,
-                          snapshot.data.toString());
+                          snapshot.data.toString(),
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child; // Image has finished loading
+                          }
+                          return SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.kprimaryColor,
+                                // value: loadingProgress.expectedTotalBytes != null
+                                //     ? loadingProgress.cumulativeBytesLoaded /
+                                //     (loadingProgress.expectedTotalBytes ?? 1)
+                                //     : null,
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     } else {
                       return FutureBuilder(
                         future: FirebaseAPIs.fetchDefaultOfferImageUrl(
@@ -74,13 +93,32 @@ class MyServiceDetails extends StatelessWidget {
                               );
                             } else {
                               return Image.network(
+
                                   height: 200,
 
                                   // height: double.infinity,
                                   // width: double.infinity,
                                   fit: BoxFit.fill,
                                   width: double.infinity,
-                                  snapshot.data.toString());
+                                  snapshot.data.toString(),
+                                loadingBuilder: (context, child, loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child; // Image has finished loading
+                                  }
+                                  return SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.kprimaryColor,
+                                        // value: loadingProgress.expectedTotalBytes != null
+                                        //     ? loadingProgress.cumulativeBytesLoaded /
+                                        //     (loadingProgress.expectedTotalBytes ?? 1)
+                                        //     : null,
+                                      ),
+                                    ),
+                                  );
+                                },);
                             }
                           } else {
                             return Image.asset(

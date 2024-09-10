@@ -3,31 +3,18 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/state_manager.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
-import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/ChatScreen/Controller/chat_screen_controller.dart';
-import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
-import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
-import 'package:upai/presentation/notification/controller/notification_controller.dart';
-import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
-import 'package:upai/presentation/seller-service/seller_profile_screen.dart';
 
 class HomeController extends GetxController {
 
@@ -175,7 +162,7 @@ class HomeController extends GetxController {
           "address": address
 
         });
-    //Get.snackbar('Success', "Update Done");
+    // Get.snackbar('Success', "Update Done");
 
     SellerProfileController.to.service.value = MyService(
         userName: ProfileScreenController.to.userInfo.value.name,

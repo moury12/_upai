@@ -166,8 +166,34 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                 child: FutureBuilder(
                   future: FirebaseAPIs.fetchOfferImageUrl(widget.sellerRunningOrder.offerId.toString()),
                   builder: (context, snapshot) {
+                    // if(snapshot.connectionState==ConnectionState.waiting||snapshot.connectionState==ConnectionState.none)
+                    //   {
+                    //     return Image.asset(
+                    //       ImageConstant.dummy,
+                    //       height: getResponsiveFontSize(context, 120),
+                    //       fit: BoxFit.none,
+                    //     );
+                    //   }
                     if (snapshot.hasData) {
                       return Image.network(
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child; // Image has finished loading
+                            }
+                            return SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.kprimaryColor,
+                                  // value: loadingProgress.expectedTotalBytes != null
+                                  //     ? loadingProgress.cumulativeBytesLoaded /
+                                  //     (loadingProgress.expectedTotalBytes ?? 1)
+                                  //     : null,
+                                ),
+                              ),
+                            );
+                          },
                           height: getResponsiveFontSize(context, 120),
                           fit: BoxFit.cover, snapshot.data.toString());
                     }
@@ -177,6 +203,24 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Image.network(
+                                loadingBuilder: (context, child, loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child; // Image has finished loading
+                                  }
+                                  return SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.kprimaryColor,
+                                        // value: loadingProgress.expectedTotalBytes != null
+                                        //     ? loadingProgress.cumulativeBytesLoaded /
+                                        //     (loadingProgress.expectedTotalBytes ?? 1)
+                                        //     : null,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 height: getResponsiveFontSize(context, 120),
                                 fit: BoxFit.cover, snapshot.data.toString());
                           }

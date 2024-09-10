@@ -1,9 +1,7 @@
 import 'dart:developer';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -16,10 +14,6 @@ import 'package:upai/presentation/seller-service/seller_profile_screen.dart';
 import 'package:upai/presentation/Inbox/inbox.dart';
 import 'package:upai/presentation/Profile/profile_screen.dart';
 import 'package:upai/presentation/notification/notificaton_screen.dart';
-
-import 'ChatScreen/Controller/chat_screen_controller.dart';
-import 'Inbox/controller/inbox_screen_controller.dart';
-import 'notification/controller/notification_controller.dart';
 import 'seller-service/seller_profile_controller.dart';
 
 class DefaultController extends GetxController {

@@ -286,35 +286,87 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         color: AppColors.kprimaryColor,
                       ),
                       ListTile(
-                        leading: FutureBuilder(
-                          future: ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString()),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              if (snapshot.data != "") {
-                                return CircleAvatar(radius: 24, backgroundImage: NetworkImage(snapshot.data.toString()));
-                              } else {
-                                return CircleAvatar(
-                                    radius: 24,
-                                    backgroundImage: AssetImage(
-                                      ImageConstant.senderImg,
-                                    ));
-                                // return Image.asset(
-                                //   ImageConstant.senderImg,
-                                //   height: 150,
-                                //   width: 150,
-                                //   fit: BoxFit.cover,
-                                // );
-                              }
-                            } else {
-                              return CircleAvatar(
-                                  radius: 24,
-                                  // radius: 30,
-                                  backgroundImage: AssetImage(
-                                    ImageConstant.senderImg,
-                                  ));
-                            }
-                          },
-                        ),
+                        leading:
+                           CircleAvatar(
+                             radius: 24,
+
+                             child: FutureBuilder(
+                              future: ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString()),
+                              builder: (context, snapshot) {
+                                if(snapshot.connectionState==ConnectionState.waiting || snapshot.connectionState==ConnectionState.none)
+                                {
+                                  return Center(child: CircularProgressIndicator(color: AppColors.kprimaryColor,));
+                                }
+                              else if (snapshot.hasData) {
+                                   if (snapshot.data != "") {
+                                    return CachedNetworkImage(
+                                      imageUrl: snapshot.data.toString(),
+                                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                                        radius: 24,
+                                        backgroundImage: imageProvider,
+                                      ),
+                                      placeholder: (context, url) => CircularProgressIndicator(color: AppColors.kprimaryColor,), // Loading indicator
+                                      errorWidget: (context, url, error) => CircleAvatar(
+                                          radius: 24,
+                                          // radius: 30,
+                                          backgroundImage: AssetImage(
+                                            ImageConstant.senderImg,
+                                          )), // Error icon
+                                    );
+                                  } else {
+                                    return CircleAvatar(
+                                        radius: 24,
+                                        backgroundImage: AssetImage(
+                                          ImageConstant.senderImg,
+                                        ));
+                                  }
+                                } else {
+                                  return CircleAvatar(
+                                      radius: 24,
+                                      // radius: 30,
+                                      backgroundImage: AssetImage(
+                                        ImageConstant.senderImg,
+                                      ));
+                                }
+                              },
+                                                       ),
+                           ),
+
+
+                        // FutureBuilder(
+                        //   future: ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString()),
+                        //   builder: (context, snapshot) {
+                        //     if(snapshot.connectionState==ConnectionState.waiting || snapshot.connectionState==ConnectionState.none)
+                        //     {
+                        //       return CircularProgressIndicator(color: AppColors.kprimaryColor,);
+                        //     }
+                        //   else if (snapshot.hasData) {
+                        //        if (snapshot.data != "") {
+                        //         return CircleAvatar(
+                        //           onBackgroundImageError: (exception, stackTrace) {
+                        //
+                        //           },
+                        //
+                        //             radius: 24, backgroundImage: NetworkImage(
+                        //
+                        //             snapshot.data.toString()));
+                        //       } else {
+                        //         return CircleAvatar(
+                        //             radius: 24,
+                        //             backgroundImage: AssetImage(
+                        //               ImageConstant.senderImg,
+                        //             ));
+                        //       }
+                        //     } else {
+                        //       return CircleAvatar(
+                        //           radius: 24,
+                        //           // radius: 30,
+                        //           backgroundImage: AssetImage(
+                        //             ImageConstant.senderImg,
+                        //           ));
+                        //     }
+                        //   },
+                        // ),
                         horizontalTitleGap: 8.0,
                         title: Text(
                           widget.offerDetails!.userName.toString(),
