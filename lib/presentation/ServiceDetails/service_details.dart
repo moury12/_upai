@@ -308,6 +308,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       placeholder: (context, url) => CircularProgressIndicator(color: AppColors.kprimaryColor,), // Loading indicator
                                       errorWidget: (context, url, error) => CircleAvatar(
                                           radius: 24,
+
                                           // radius: 30,
                                           backgroundImage: AssetImage(
                                             ImageConstant.senderImg,
