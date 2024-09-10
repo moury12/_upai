@@ -276,7 +276,8 @@ static Future<void> editOffer({dynamic body,required String token}) async{
       'Content-Type':'application/json',
       'Authorization': 'Bearer $token',
     };
-    final response =await http.put(Uri.parse(ApiClient().editOffer),body: jsonEncode(body),headers: headers);
+    final response =await http.put(Uri.parse(ApiClient().editOffer),
+        body: jsonEncode(body),headers: headers);
     final responseData =jsonDecode(response.body);
     debugPrint(' body $body');
     debugPrint('response body $responseData');
