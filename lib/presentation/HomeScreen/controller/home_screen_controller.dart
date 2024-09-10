@@ -69,6 +69,11 @@ class HomeController extends GetxController {
     rateController.value.dispose();
     super.onClose();
   }
+  // @override
+  // void onReady() {
+  //   selectedDistrictForAll.value=null;
+  //   super.onReady();
+  // }
   @override
   void onInit() async {
     refreshAllData();

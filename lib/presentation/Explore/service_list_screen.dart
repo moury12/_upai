@@ -62,6 +62,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
       canPop: true,
       onPopInvoked: (didPop) {
         controller.searchController.value.clear();
+        controller.selectedDistrictForAll.value=null;
 
         controller.filterOffer('', null);
       },
