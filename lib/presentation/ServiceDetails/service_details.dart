@@ -289,7 +289,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         leading:
                            CircleAvatar(
                              radius: 24,
-
+                             backgroundColor: Colors.transparent,
                              child: FutureBuilder(
                               future: ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString()),
                               builder: (context, snapshot) {

@@ -42,6 +42,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   child: Obx(() {
                     return ClipRRect(
 
+
                       borderRadius: BorderRadius.circular(360),
 
                       child: ProfileScreenController.to.profileImageUrl.value.isNotEmpty
