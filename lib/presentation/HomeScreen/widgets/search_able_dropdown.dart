@@ -125,6 +125,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                       ...filterDistrict.map(
                         (e) {
                           return PopupMenuItem(
+
                             child: InkWell(
                               onTap: () {
                                 setState(() {
@@ -135,13 +136,18 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                                   Navigator.pop(context);
                                 });
                               },
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: Text(
-                                  e['name'],
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Text(
+                                    e['name'],
+                                  ),
                                 ),
                               ),
                             ),
+                            padding: EdgeInsets.zero,
+                            height: 10,
                           );
                         },
                       ).toList()
