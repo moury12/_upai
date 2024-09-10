@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
-
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
-
 class MyServiceWidget extends StatelessWidget {
   final MyService? service;
   final OfferList? offerItem;
@@ -48,7 +45,29 @@ class MyServiceWidget extends StatelessWidget {
                           // height: 80,
                         );
                       } else if (snapshot.hasData) {
-                        return Image.network(width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
+                        return Image.network(
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            snapshot.data.toString(),
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child; // Image has finished loading
+                            }
+                            return SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.kprimaryColor,
+                                  // value: loadingProgress.expectedTotalBytes != null
+                                  //     ? loadingProgress.cumulativeBytesLoaded /
+                                  //     (loadingProgress.expectedTotalBytes ?? 1)
+                                  //     : null,
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       } else {
                         return FutureBuilder(
                           future: FirebaseAPIs.fetchDefaultOfferImageUrl(isService ? service!.serviceCategoryType.toString() : offerItem!.serviceCategoryType.toString()),
@@ -62,7 +81,29 @@ class MyServiceWidget extends StatelessWidget {
                                 // height: 80,
                               );
                             } else if (snapshot.hasData) {
-                              return Image.network(width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
+                              return Image.network(
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  snapshot.data.toString(),
+                                loadingBuilder: (context, child, loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child; // Image has finished loading
+                                  }
+                                  return SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.kprimaryColor,
+                                        // value: loadingProgress.expectedTotalBytes != null
+                                        //     ? loadingProgress.cumulativeBytesLoaded /
+                                        //     (loadingProgress.expectedTotalBytes ?? 1)
+                                        //     : null,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
                             } else {
                               return Image.asset(
                                 width: double.infinity,

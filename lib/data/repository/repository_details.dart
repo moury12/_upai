@@ -283,18 +283,15 @@ static Future<void> editOffer({dynamic body,required String token}) async{
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
 
-
+      Get.snackbar('Success', responseData['message']);
       if(HomeController.to.image.value!=null)
         {
-
           await HomeController.to.uploadImage(body["offer_id"].toString());
           print("image upload called");
-          Get.snackbar('Success', responseData['message']);
         }
-      else
-        {
-          Get.snackbar('Success', responseData['message']);
-        }
+     // Get.back();
+
+
 
 
     } else {

@@ -41,13 +41,33 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 Center(
                   child: Obx(() {
                     return ClipRRect(
+
                       borderRadius: BorderRadius.circular(360),
+
                       child: ProfileScreenController.to.profileImageUrl.value.isNotEmpty
                           ? Image.network(
-                              ProfileScreenController.to.profileImageUrl.value,
+                              ProfileScreenController.to.profileImageUrl.value.toString(),
                               fit: BoxFit.cover,
                               height: 100,
                               width: 100,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child; // Image has finished loading
+                          }
+                          return SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.kprimaryColor,
+                                // value: loadingProgress.expectedTotalBytes != null
+                                //     ? loadingProgress.cumulativeBytesLoaded /
+                                //     (loadingProgress.expectedTotalBytes ?? 1)
+                                //     : null,
+                              ),
+                            ),
+                          );
+                        },
                               errorBuilder: (context, child, loadingProgress) => SizedBox(
                                   height: 100,
                                   width: 100,

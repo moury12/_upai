@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -189,7 +190,7 @@ class HomeController extends GetxController {
         dateTime: SellerProfileController.to.service.value.dateTime,
         quantity: quantity.value,
         rate: int.parse(rate));
-    getOfferDataList();
+    // getOfferDataList();
     await SellerProfileController.to.refreshAllData();
 
     // Get.back();
@@ -418,6 +419,20 @@ class HomeController extends GetxController {
 //
 
   }
+  // Future<File?> compressImage(File file) async {
+  //   // Get the directory to store the compressed image
+  //   final directory = await getTemporaryDirectory();
+  //   final targetPath = path.join(directory.path, "compressed_${path.basename(file.path)}");
+  //
+  //   // Compress the image
+  //   var result = await FlutterImageCompress.compressAndGetFile(
+  //     file.absolute.path, // Original file path
+  //     targetPath,         // Destination path
+  //     quality: 50,        // Adjust quality (0-100), lower quality means more compression
+  //   );
+  //
+  //   return result;
+  // }
 
 
 }

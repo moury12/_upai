@@ -593,7 +593,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         .value.text.isNotEmpty &&
                                     box.isNotEmpty) {
                                   if (widget.service != null) {
-                                    await HomeController.to.editOffer(
+                                     HomeController.to.editOffer(
                                         widget.service!.offerId ?? '',
                                         titleController.text,
                                         descriptionController.text,
@@ -610,9 +610,12 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     // );
                                     // await SellerProfileController.to.refreshAllData();
                                     // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
-                                    clear();
+                                    // clear();
                                     Get.back();
-                                  } else {
+
+                                  }
+                                  else {
+
                                   await  HomeController.to.createOffer(
                                         titleController.text,
                                         descriptionController.text,
@@ -623,14 +626,14 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     clear();
                                   }
 
+
                                   // clear();
                                 } else {
                                   Get.snackbar(
                                       "All field Required", "");
                                   // clear();
                                 }
-                                HomeController.to.isLoading.value =
-                                false;
+                                HomeController.to.isLoading.value = false;
                               },
                               child: Text(widget.service != null
                                   ? 'Update offer'
