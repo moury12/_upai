@@ -97,9 +97,9 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                               newNotificationData.description =
                                   widget.sellerRunningOrder.description.toString();
                               newNotificationData.notificationTitle =
-                                  "${widget.sellerRunningOrder.jobTitle} Job Completed";
+                                  "Service Completed";
                               newNotificationData.notificationMsg =
-                                  "Confirm and Give a review to the seller";
+                                  "${widget.sellerRunningOrder.jobTitle} service completed confirm and give a review to the seller";
                               await RepositoryData.jobStatus(
                                   body: {
                                     "job_id": widget.sellerRunningOrder.jobId,

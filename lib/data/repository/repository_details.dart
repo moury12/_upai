@@ -331,8 +331,10 @@ static Future<void> editOffer({dynamic body,required String token}) async{
       if(HomeController.to.image.value!=null)
         {
           await HomeController.to.uploadImage(responseData["offer_id"].toString());
+          print("create image called");
           HomeController.to.image.value=null;
         }
+     print(HomeController.to.image.value.toString());
      print(responseData["offer_id"].toString());
       Get.snackbar('Success', responseData['message']);
 

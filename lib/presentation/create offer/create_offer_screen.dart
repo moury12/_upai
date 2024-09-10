@@ -60,9 +60,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     rateController = TextEditingController(
         text: widget.service != null ? widget.service!.rate.toString() : '');
     HomeController.to.quantityController.value.text =
-        widget.service != null ? widget.service!.quantity.toString() : '';
+    widget.service != null ? widget.service!.quantity.toString() : '';
     HomeController.to.quantity.value =
-        widget.service != null ? widget.service!.quantity!.toInt() : 1;
+    widget.service != null ? widget.service!.quantity!.toInt() : 1;
     // HomeController.to.selectedCategory.value = widget.service != null
     //     ? HomeController.to.getCatList
     //         .where((e) =>
@@ -73,15 +73,15 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     if (widget.service != null) {
       var filteredList = HomeController.to.getCatList
           .where((e) => e.categoryName!
-              .toLowerCase()
-              .contains(widget.service!.serviceCategoryType!.toLowerCase()))
+          .toLowerCase()
+          .contains(widget.service!.serviceCategoryType!.toLowerCase()))
           .toList();
 
       if (filteredList.isNotEmpty) {
         HomeController.to.selectedCategory.value = filteredList[0];
       } else {
         HomeController.to.selectedCategory.value =
-            null; // Or handle the case when no match is found
+        null; // Or handle the case when no match is found
       }
     } else {
       HomeController.to.selectedCategory.value = null;
@@ -89,15 +89,15 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     }
     // debugPrint(widget.service!.rateType);
     HomeController.to.selectedRateType.value = widget.service != null &&
-            timeUnits.any((item) => item
+        timeUnits.any((item) => item
 
-                .contains(widget.service!.rateType!))
+            .contains(widget.service!.rateType!))
         ? widget.service!.rateType.toString()
         : null;
     HomeController.to.selectedDistrict.value =
-        widget.service != null && widget.service!.district!.isNotEmpty
-            ? widget.service!.district
-            : null;
+    widget.service != null && widget.service!.district!.isNotEmpty
+        ? widget.service!.district
+        : null;
     super.initState();
   }
 
@@ -140,7 +140,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
           decoration: BoxDecoration(
               color: AppColors.strokeColor2,
               borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(35))),
+              const BorderRadius.vertical(top: Radius.circular(35))),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,75 +207,75 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             width: 130,
                             child: HomeController.to.image.value != null
                                 ? Image.file(
-                                    File(HomeController.to.image.value!.path),
-                                    // height: 150,
-                                    // width: 150,
-                                    fit: BoxFit.fill,
-                                  )
+                              File(HomeController.to.image.value!.path),
+                              // height: 150,
+                              // width: 150,
+                              fit: BoxFit.fill,
+                            )
                                 : widget.isEdit == true
-                                    ? FutureBuilder(
-                                        future: FirebaseAPIs.fetchOfferImageUrl(
-                                            widget.service!.offerId.toString()),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                                  ConnectionState.waiting &&
-                                              snapshot.connectionState ==
-                                                  ConnectionState.none) {
-                                            return Image.asset(
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                              fit: BoxFit.none,
-                                              ImageConstant.dummy,
-                                              // height: 80,
-                                            );
-                                          } else if (snapshot.hasData) {
-                                            return Image.network(
-                                                width: double.infinity,
-                                                fit: BoxFit.cover,
-                                                snapshot.data.toString());
-                                          } else {
-                                            return FutureBuilder(
-                                              future: FirebaseAPIs
-                                                  .fetchDefaultOfferImageUrl(
-                                                      widget.service!
-                                                          .serviceCategoryType
-                                                          .toString()),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.connectionState ==
-                                                        ConnectionState
-                                                            .waiting &&
-                                                    snapshot.connectionState ==
-                                                        ConnectionState.none) {
-                                                  return Image.asset(
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    fit: BoxFit.none,
-                                                    ImageConstant.dummy,
-                                                    // height: 80,
-                                                  );
-                                                } else if (snapshot.hasData) {
-                                                  return Image.network(
-                                                      width: double.infinity,
-                                                      fit: BoxFit.cover,
-                                                      snapshot.data.toString());
-                                                } else {
-                                                  return Image.asset(
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    fit: BoxFit.none,
-                                                    ImageConstant.dummy,
-                                                    // height: 80,
-                                                  );
-                                                }
-                                              },
-                                            );
-                                          }
-                                        },
-                                      )
-                                    : Image(
-                                        image: AssetImage(ImageConstant.dummy),
-                                        fit: BoxFit.cover,
-                                      ));
+                                ? FutureBuilder(
+                              future: FirebaseAPIs.fetchOfferImageUrl(
+                                  widget.service!.offerId.toString()),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting &&
+                                    snapshot.connectionState ==
+                                        ConnectionState.none) {
+                                  return Image.asset(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    fit: BoxFit.none,
+                                    ImageConstant.dummy,
+                                    // height: 80,
+                                  );
+                                } else if (snapshot.hasData) {
+                                  return Image.network(
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                      snapshot.data.toString());
+                                } else {
+                                  return FutureBuilder(
+                                    future: FirebaseAPIs
+                                        .fetchDefaultOfferImageUrl(
+                                        widget.service!
+                                            .serviceCategoryType
+                                            .toString()),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState
+                                              .waiting &&
+                                          snapshot.connectionState ==
+                                              ConnectionState.none) {
+                                        return Image.asset(
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          fit: BoxFit.none,
+                                          ImageConstant.dummy,
+                                          // height: 80,
+                                        );
+                                      } else if (snapshot.hasData) {
+                                        return Image.network(
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
+                                            snapshot.data.toString());
+                                      } else {
+                                        return Image.asset(
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          fit: BoxFit.none,
+                                          ImageConstant.dummy,
+                                          // height: 80,
+                                        );
+                                      }
+                                    },
+                                  );
+                                }
+                              },
+                            )
+                                : Image(
+                              image: AssetImage(ImageConstant.dummy),
+                              fit: BoxFit.cover,
+                            ));
                       }),
                       Positioned(
                           right: -2,
@@ -313,9 +313,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         onChanged: widget.isEdit!
                             ? null
                             : (value) {
-                                HomeController.to.selectedCategory.value =
-                                    value!;
-                              },
+                          HomeController.to.selectedCategory.value =
+                          value!;
+                        },
                       ),
                     );
                   }),
@@ -423,7 +423,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                 .text
                                                 .isEmpty) {
                                               HomeController.to.quantity.value =
-                                                  0;
+                                              0;
                                             }
                                             HomeController.to
                                                 .decreaseQuantity();
@@ -452,8 +452,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         }
                                       }
 
-                                      // onChanged: (value) => controller.emailController.text.trim() = value!,
-                                      ),
+                                    // onChanged: (value) => controller.emailController.text.trim() = value!,
+                                  ),
                                 ),
                                 Expanded(
                                   child: Container(
@@ -476,7 +476,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                               .text
                                               .isEmpty) {
                                             HomeController.to.quantity.value =
-                                                0;
+                                            0;
                                           }
                                           debugPrint(HomeController
                                               .to.quantity.value
@@ -542,100 +542,99 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         child: Obx(() {
                           return HomeController.to.isUploading.value
                               ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 50,
-                                          width: 50,
-                                          child: CircularProgressIndicator(
-                                            color: AppColors.kprimaryColor,
-                                            strokeWidth: 6,
-                                            // value:HomeController.to.uploadProgress.value,color: AppColors.kprimaryColor,
-                                            //
-                                          ),
-                                        ),
-                                        Text(
-                                          ' ${(HomeController.to.uploadProgress.value * 100).toStringAsFixed(0)}%',
-                                          style: AppTextStyle.titleText,
-                                        ),
-                                      ]),
-                                )
-                              : HomeController.to.isLoading.value
-                                  ? Center(
-                                      child: CircularProgressIndicator(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: CircularProgressIndicator(
                                       color: AppColors.kprimaryColor,
-                                    ))
-                                  : ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              AppColors.kprimaryColor,
-                                          foregroundColor: Colors.white,
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 12, horizontal: 12)),
-                                      onPressed: () async {
-                                        HomeController.to.isLoading.value =
-                                            true;
-                                        if (HomeController.to.selectedRateType.value != null &&
-                                            HomeController
-                                                    .to.selectedCategory.value !=
-                                                null &&
-                                            HomeController.to.selectedDistrict
-                                                    .value !=
-                                                null &&
-                                            titleController.text.isNotEmpty &&
-                                            descriptionController
-                                                .text.isNotEmpty &&
-                                            rateController.text.isNotEmpty &&
-                                            addressController.text.isNotEmpty &&
-                                            HomeController.to.quantityController
-                                                .value.text.isNotEmpty &&
-                                            box.isNotEmpty) {
-                                          if (widget.service != null) {
-                                            await HomeController.to.editOffer(
-                                                widget.service!.offerId ?? '',
-                                                titleController.text,
-                                                descriptionController.text,
-                                                rateController.text,
-                                                addressController.text);
+                                      strokeWidth: 6,
+                                      // value:HomeController.to.uploadProgress.value,color: AppColors.kprimaryColor,
+                                      //
+                                    ),
+                                  ),
+                                  Text(
+                                    ' ${(HomeController.to.uploadProgress.value * 100).toStringAsFixed(0)}%',
+                                    style: AppTextStyle.titleText,
+                                  ),
+                                ]),
+                          )
+                              : HomeController.to.isLoading.value
+                              ? Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.kprimaryColor,
+                              ))
+                              : ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                  AppColors.kprimaryColor,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 12)),
+                              onPressed: () async {
+                                HomeController.to.isLoading.value =
+                                true;
+                                if (HomeController.to.selectedRateType.value != null &&
+                                    HomeController
+                                        .to.selectedCategory.value !=
+                                        null &&
+                                    HomeController.to.selectedDistrict
+                                        .value !=
+                                        null &&
+                                    titleController.text.isNotEmpty &&
+                                    descriptionController
+                                        .text.isNotEmpty &&
+                                    rateController.text.isNotEmpty &&
+                                    addressController.text.isNotEmpty &&
+                                    HomeController.to.quantityController
+                                        .value.text.isNotEmpty &&
+                                    box.isNotEmpty) {
+                                  if (widget.service != null) {
+                                    await HomeController.to.editOffer(
+                                        widget.service!.offerId ?? '',
+                                        titleController.text,
+                                        descriptionController.text,
+                                        rateController.text,
+                                        addressController.text);
 
-                                            Get.back();
-                                            // Get.to(MyServiceDetails());
-                                            // SellerProfileController.to.myService.refresh();
-                                            //  SellerProfileController.to.service.update(
-                                            //   (val) async {
-                                            //     return SellerProfileController.to
-                                            //         .refreshAllData();
-                                            //   },
-                                            // );
-                                            // await SellerProfileController.to.refreshAllData();
-                                            // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
-                                            // clear();
+                                    // Get.to(MyServiceDetails());
+                                    // SellerProfileController.to.myService.refresh();
+                                    //  SellerProfileController.to.service.update(
+                                    //   (val) async {
+                                    //     return SellerProfileController.to
+                                    //         .refreshAllData();
+                                    //   },
+                                    // );
+                                    // await SellerProfileController.to.refreshAllData();
+                                    // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
+                                    clear();
+                                    Get.back();
+                                  } else {
+                                  await  HomeController.to.createOffer(
+                                        titleController.text,
+                                        descriptionController.text,
+                                        rateController.text,
+                                        addressController.text);
+                                    // await SellerProfileController.to
+                                    //     .refreshAllData();
+                                    clear();
+                                  }
 
-                                          } else {
-                                            HomeController.to.createOffer(
-                                                titleController.text,
-                                                descriptionController.text,
-                                                rateController.text,
-                                                addressController.text);
-                                            // await SellerProfileController.to
-                                            //     .refreshAllData();
-                                            clear();
-                                          }
-
-                                          // clear();
-                                        } else {
-                                          Get.snackbar(
-                                              "All field Required", "");
-                                          // clear();
-                                        }
-                                        HomeController.to.isLoading.value =
-                                            false;
-                                      },
-                                      child: Text(widget.service != null
-                                          ? 'Update offer'
-                                          : 'Create Offer'));
+                                  // clear();
+                                } else {
+                                  Get.snackbar(
+                                      "All field Required", "");
+                                  // clear();
+                                }
+                                HomeController.to.isLoading.value =
+                                false;
+                              },
+                              child: Text(widget.service != null
+                                  ? 'Update offer'
+                                  : 'Create Offer'));
                         }),
                       ),
                     ],
@@ -652,7 +651,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   void clear() {
     titleController.clear();
     descriptionController.clear();
-    HomeController.to.image.value=null;
+    // HomeController.to.image.value=null;
     HomeController.to.selectedCategory.value = null;
     HomeController.to.selectedRateType.value = null;
     HomeController.to.selectedDistrict.value = null;

@@ -30,6 +30,9 @@ import 'package:upai/presentation/seller-service/seller_profile_screen.dart';
 
 class HomeController extends GetxController {
 
+  //for create edit offer
+  //
+
   //image segment
   RxDouble uploadProgress = 0.0.obs;
   RxBool isUploading = false.obs;
@@ -131,7 +134,7 @@ class HomeController extends GetxController {
         mobile: ctrl!.userInfo.value.userId ?? '');
     filteredOfferList.value = getOfferList;
   }
-  void createOffer(String jobTitle,
+  Future<void> createOffer(String jobTitle,
       String description,
       String rate,
       String address,) async {
@@ -287,6 +290,7 @@ class HomeController extends GetxController {
     );
     if (pickedFile != null) {
       image.value = File(pickedFile.path);
+      print('image got');
       // ctrl.update();
       // ctrl.canEdit!.value = true;
       // debugPrint('///////////////');
@@ -414,5 +418,6 @@ class HomeController extends GetxController {
 //
 
   }
+
 
 }
