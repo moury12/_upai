@@ -600,6 +600,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                 rateController.text,
                                                 addressController.text);
 
+                                            Get.back();
                                             // Get.to(MyServiceDetails());
                                             // SellerProfileController.to.myService.refresh();
                                             //  SellerProfileController.to.service.update(
@@ -610,8 +611,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                             // );
                                             // await SellerProfileController.to.refreshAllData();
                                             // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
-                                            clear();
-                                            Get.back();
+                                            // clear();
+
                                           } else {
                                             HomeController.to.createOffer(
                                                 titleController.text,

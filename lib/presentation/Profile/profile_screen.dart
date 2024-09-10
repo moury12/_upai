@@ -253,15 +253,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // setState(() {
       //
       // });
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-            "No Image Selected!",
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.deepOrange,
-        ));
-      }
+      // if (mounted) {
+      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      //     content: Text(
+      //       "No Image Selected!",
+      //       style: TextStyle(color: Colors.white),
+      //     ),
+      //     backgroundColor: Colors.deepOrange,
+      //   ));
+      // }
     }
   }
 

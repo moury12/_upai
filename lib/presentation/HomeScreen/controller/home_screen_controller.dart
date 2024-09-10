@@ -186,9 +186,9 @@ class HomeController extends GetxController {
         dateTime: SellerProfileController.to.service.value.dateTime,
         quantity: quantity.value,
         rate: int.parse(rate));
-
-    await SellerProfileController.to.refreshAllData();
     getOfferDataList();
+    await SellerProfileController.to.refreshAllData();
+
     // Get.back();
     // SellerProfileController.to.myService.refresh();
     // SellerProfileController.to.service.value =

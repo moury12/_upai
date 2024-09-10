@@ -39,8 +39,8 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
           return RefreshIndicator(
             color: Colors.black,
             backgroundColor: AppColors.strokeColor2,
-            child: BuyerProfileController.to.buyer.value.buyerRunningOrder == null
-                ? Center(child: Text("No Running order"))
+            child: BuyerProfileController.to.buyer.value.buyerRunningOrder!.isEmpty
+                ? const Center(child: Text("No Running order"))
                 // Padding(
                 //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 //   child: ShimmerRunnigOrder(forList: true,),

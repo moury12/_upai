@@ -98,6 +98,9 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             },
             child: Column(
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0).copyWith(bottom: 8),
                   child: Obx(() {

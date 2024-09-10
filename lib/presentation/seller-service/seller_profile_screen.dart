@@ -238,7 +238,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                                 onTap: () {
                                   Get.to(SellerRunningOrderListScreen(runningOrder: seller.sellerRunningOrder ?? []));
                                 },
-                                child: Text("All Orders >>", style: AppTextStyle.titleTextSmallUnderline),
+                                child: Text("All Orders >", style: AppTextStyle.titleTextSmallUnderline),
                               ),
                             ),
                           ],
@@ -270,7 +270,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text("All Offers >>", style: AppTextStyle.titleTextSmallUnderline),
+                            child: Text("All Offers >", style: AppTextStyle.titleTextSmallUnderline),
                           ),
                         ),
                       ),

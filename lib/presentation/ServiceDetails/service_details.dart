@@ -37,10 +37,10 @@ class ServiceDetails extends StatefulWidget {
 }
 
 class _ServiceDetailsState extends State<ServiceDetails> {
-  String image = "";
+  //String image = "";
   @override
   void initState() {
-    getSellerDetails();
+    // getSellerDetails();
     ProfileScreenController.to.profileImageUrl.value = '';
 
     ProfileScreenController.to.id.value = widget.offerDetails!.userId ?? '';
@@ -175,7 +175,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     // height: 80,
                                   );
                                 } else if (snapshot.hasData) {
-                                  return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
+                                  return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.fill, snapshot.data.toString());
                                 } else {
                                   return FutureBuilder(
                                     future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.offerDetails!.serviceCategoryType.toString()),
@@ -189,7 +189,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                           // height: 80,
                                         );
                                       } else if (snapshot.hasData) {
-                                        return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
+                                        return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.fill, snapshot.data.toString());
                                       } else {
                                         return Image.asset(
                                           ImageConstant.dummy,
@@ -625,7 +625,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                           itemCount: widget.offerDetails!.buyerReviewList!.length,
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, index) {
-                                            return ClientReviewCard(buyerReview: widget.offerDetails!.buyerReviewList![index], size: size);
+                                            if(widget.offerDetails!.buyerReviewList![index].buyerReview!.isNotEmpty)
+                                              {
+                                                return ClientReviewCard(buyerReview: widget.offerDetails!.buyerReviewList![index], size: size);
+
+                                              }
+                                            else
+                                              {
+                                                return SizedBox();
+                                              }
+
                                           },
                                         ),
                                       ),
@@ -753,10 +762,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     );
   }
 
-  void getSellerDetails() async {
-    image = await ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString());
-    // widget.sellerDetails =  (await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString()))!;
-  }
+  // void getSellerDetails() async {
+  //   image = await ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString());
+  //   // widget.sellerDetails =  (await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString()))!;
+  // }
 }
 
 class DetailItem extends StatelessWidget {

@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         decoration: BoxDecoration(color: AppColors.kprimaryColor, shape: BoxShape.circle),
                         child: IconButton(
                             style: IconButton.styleFrom(
-                              shape: CircleBorder(),
+                              shape: const CircleBorder(),
                             ),
                             onPressed: () async {
                               resetData();
@@ -159,6 +159,47 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text("Browse Category", style: AppTextStyle.titleText),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(CategoryListScreen.routeName);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 12.0),
+                              child: Text("Browse All > ", style: AppTextStyle.titleTextSmallUnderline),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Obx(() {
+                        return HomeController.to.getCatList.isEmpty || !NetworkController.to.connectedInternet.value
+                            ? ShimmerCategoryList()
+                            : SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: List.generate(
+                              HomeController.to.getCatList.length,
+                                  (index) {
+                                return CategotyItemtwo(
+                                  singleCat: HomeController.to.getCatList[index],
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                ),
                 Obx(() {
                   if (controller.isSearching.value || HomeController.to.selectedDistrictForAll.value != null) {
                     var offerList = [];
@@ -168,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         shrinkWrap: true,
                         clipBehavior: Clip.none,
                         primary: false,
-                        padding: EdgeInsets.symmetric(horizontal: 8).copyWith(top: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8).copyWith(top: 8),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: childRatio, crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8),
                         itemCount: offerList.length,
                         itemBuilder: (context, index) {
@@ -211,41 +252,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text("Browse Category", style: AppTextStyle.titleText),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(CategoryListScreen.routeName);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Text("Browse All > ", style: AppTextStyle.titleTextSmallUnderline),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Obx(() {
-                            return HomeController.to.getCatList.isEmpty || !NetworkController.to.connectedInternet.value
-                                ? ShimmerCategoryList()
-                                : SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      children: List.generate(
-                                        HomeController.to.getCatList.length,
-                                        (index) {
-                                          return CategotyItemtwo(
-                                            singleCat: HomeController.to.getCatList[index],
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  );
-                          }),
-
                           /*      Obx(() {
                             return SizedBox(
                                 width: size.width,

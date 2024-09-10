@@ -53,7 +53,7 @@ class MyServiceDetails extends StatelessWidget {
                           width: double.infinity,
                           // height: double.infinity,
                           // width: double.infinity,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                           snapshot.data.toString());
                     } else {
                       return FutureBuilder(
@@ -78,7 +78,7 @@ class MyServiceDetails extends StatelessWidget {
 
                                   // height: double.infinity,
                                   // width: double.infinity,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.fill,
                                   width: double.infinity,
                                   snapshot.data.toString());
                             }

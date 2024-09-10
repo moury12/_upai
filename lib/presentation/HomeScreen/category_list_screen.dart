@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/widgets/cat_two.dart';
-import 'package:upai/widgets/category_item.dart';
 import 'package:upai/widgets/custom_text_field.dart';
-
 import '../../core/utils/custom_text_style.dart';
 import 'controller/home_screen_controller.dart';
 import 'widgets/shimmer_for_home.dart';
@@ -33,7 +31,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           shadowColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Get.back();
               HomeController.to.searchCatController.value.clear();
@@ -47,11 +45,11 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
         ),
         body: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(bottom: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0).copyWith(bottom: 12),
               child: CustomTextField(
                 controller: HomeController.to.searchCatController.value,
                 onChanged: (value) {

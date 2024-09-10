@@ -79,7 +79,7 @@ class RepositoryData {
         }
       } else {
         Get.snackbar(data["status"], data["message"],
-            colorText: Colors.white, backgroundColor: Colors.pink);
+            colorText: Colors.white, backgroundColor: Colors.red);
       }
       // var loginResponse = loginResponseModelFromJson(response.);
       print(response);
@@ -492,7 +492,7 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         orderNotificationData["seller_name"]=senderData.name.toString();
         orderNotificationData["notification_title"]="Congratulations.";
         orderNotificationData["created_time"]=DateTime.now().millisecondsSinceEpoch.toString();
-        orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} Successfully Received your ${body["job_id"].toString()} service";
+        orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} Successfully Received your ${notification.jobTitle.toString()} service";
         FirebaseAPIs.sendNotificationData( orderNotificationData,senderData, orderNotificationData["notification_title"].toString(), orderNotificationData["notification_msg"].toString());
         await FirebaseAPIs.updateJobStatus(ProfileScreenController.to.userInfo.value.userId.toString(), "COMPLETED",notification.notificationId.toString() );
       }
