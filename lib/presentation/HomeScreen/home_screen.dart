@@ -22,11 +22,14 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   HomeController controller = HomeController.to;
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    resetData();
+debugPrint('uiyiuvu');
     controller.refreshAllData();
     print("lsdkflds");
     controller.isSearching.value = false;
@@ -34,7 +37,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
     super.initState();
   }
-
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      // Reset data when the app is resumed or navigated back to this screen
+      resetData();
+      controller.refreshAllData();
+    }
+  }
+  void resetData() {
+    controller.searchOfferController.value.clear();
+    controller.selectedDistrictForAll.value=null;
+    controller.isSearching.value = false;
+    searchFocus.unfocus();
+  }
   FocusNode searchFocus = FocusNode();
   @override
   Widget build(BuildContext context) {
@@ -57,12 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisCount = 5;
       childRatio = 1;
     }
-    void resetData() {
-      controller.searchOfferController.value.clear();
-      controller.selectedDistrictForAll.value = null;
-      controller.isSearching.value = false;
-      searchFocus.unfocus();
-    }
+
 
     return Scaffold(
       body: SafeArea(
