@@ -166,6 +166,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             FutureBuilder(
                               future: FirebaseAPIs.fetchOfferImageUrl(widget.offerDetails!.offerId.toString()),
                               builder: (context, snapshot) {
+
                                 if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
                                   return Image.asset(
                                     width: double.infinity,
@@ -175,7 +176,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     // height: 80,
                                   );
                                 } else if (snapshot.hasData) {
-                                  return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.fill, snapshot.data.toString());
+                                  return Image.network(
+                                      height: double.infinity, width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
                                 } else {
                                   return FutureBuilder(
                                     future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.offerDetails!.serviceCategoryType.toString()),
@@ -189,7 +191,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                           // height: 80,
                                         );
                                       } else if (snapshot.hasData) {
-                                        return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.fill, snapshot.data.toString());
+                                        return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
                                       } else {
                                         return Image.asset(
                                           ImageConstant.dummy,

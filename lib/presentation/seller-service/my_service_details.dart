@@ -53,7 +53,7 @@ class MyServiceDetails extends StatelessWidget {
                           width: double.infinity,
                           // height: double.infinity,
                           // width: double.infinity,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           snapshot.data.toString(),
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) {
@@ -98,7 +98,7 @@ class MyServiceDetails extends StatelessWidget {
 
                                   // height: double.infinity,
                                   // width: double.infinity,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                   width: double.infinity,
                                   snapshot.data.toString(),
                                 loadingBuilder: (context, child, loadingProgress) {
