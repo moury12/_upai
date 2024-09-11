@@ -228,7 +228,9 @@ class ChatScreen extends StatelessWidget {
             ),
             actions: [
               InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    ctrl.makePhoneCall(receiverUserData.userId.toString());
+                  },
                   child: SvgPicture.asset(
                     ImageConstant.audioCallIcon,
                   )),
@@ -407,7 +409,7 @@ class ChatScreen extends StatelessWidget {
                                       if (ctrl.messageList.isEmpty) {
                                         //on first message (add user to my_user collection of chat user)
                                         FirebaseAPIs.sendFirstMessage(
-                                            receiverInfo,
+                                            receiverUserData,
                                             ctrl.messageController.text
                                                 .trim()
                                                 .toString(),
@@ -415,7 +417,7 @@ class ChatScreen extends StatelessWidget {
                                       } else {
                                         //simply send message
                                         FirebaseAPIs.sendMessage(
-                                            receiverInfo,
+                                            receiverUserData,
                                             ctrl.messageController.text
                                                 .trim()
                                                 .toString(),

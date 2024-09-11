@@ -149,7 +149,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
                 const Align(
                   alignment: Alignment.bottomRight,
-                  child: Text("app version:10-09-2024"),)
+                  child: Text("app version:11-09-2024"),)
               ],
             ),
           ),

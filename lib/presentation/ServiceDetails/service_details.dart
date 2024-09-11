@@ -17,6 +17,7 @@ import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/full_screen_image.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/review/review_screen.dart';
@@ -37,7 +38,7 @@ class ServiceDetails extends StatefulWidget {
 }
 
 class _ServiceDetailsState extends State<ServiceDetails> {
-  //String image = "";
+  String image = "https://lh5.googleusercontent.com/proxy/t08n2HuxPfw8OpbutGWjekHAgxfPFv-pZZ5_-uTfhEGK8B5Lp-VN4VjrdxKtr8acgJA93S14m9NdELzjafFfy13b68pQ7zzDiAmn4Xg8LvsTw1jogn_7wStYeOx7ojx5h63Gliw";
   @override
   void initState() {
     // getSellerDetails();
@@ -163,47 +164,54 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         height: 200,
                         child: Stack(
                           children: [
-                            FutureBuilder(
-                              future: FirebaseAPIs.fetchOfferImageUrl(widget.offerDetails!.offerId.toString()),
-                              builder: (context, snapshot) {
-
-                                if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
-                                  return Image.asset(
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    fit: BoxFit.none,
-                                    ImageConstant.dummy,
-                                    // height: 80,
-                                  );
-                                } else if (snapshot.hasData) {
-                                  return Image.network(
-                                      height: double.infinity, width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
-                                } else {
-                                  return FutureBuilder(
-                                    future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.offerDetails!.serviceCategoryType.toString()),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
-                                        return Image.asset(
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                          fit: BoxFit.none,
-                                          ImageConstant.dummy,
-                                          // height: 80,
-                                        );
-                                      } else if (snapshot.hasData) {
-                                        return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
-                                      } else {
-                                        return Image.asset(
-                                          ImageConstant.dummy,
-                                          height: double.infinity,
-                                          width: double.infinity,
-                                          fit: BoxFit.none,
-                                        );
-                                      }
-                                    },
-                                  );
-                                }
+                            GestureDetector(
+                              onTap: (){
+                              Get.to(FullScreenImage(imageUrl: image));
                               },
+                              child: FutureBuilder(
+                                future: FirebaseAPIs.fetchOfferImageUrl(widget.offerDetails!.offerId.toString()),
+                                builder: (context, snapshot) {
+
+                                  if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
+                                    return Image.asset(
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      fit: BoxFit.none,
+                                      ImageConstant.dummy,
+                                      // height: 80,
+                                    );
+                                  } else if (snapshot.hasData) {
+                                    image =snapshot.data.toString();
+                                    return Image.network(
+                                        height: double.infinity, width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
+                                  } else {
+                                    return FutureBuilder(
+                                      future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.offerDetails!.serviceCategoryType.toString()),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
+                                          return Image.asset(
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            fit: BoxFit.none,
+                                            ImageConstant.dummy,
+                                            // height: 80,
+                                          );
+                                        } else if (snapshot.hasData) {
+                                          image =snapshot.data.toString();
+                                          return Image.network(height: double.infinity, width: double.infinity, fit: BoxFit.cover, snapshot.data.toString());
+                                        } else {
+                                          return Image.asset(
+                                            ImageConstant.dummy,
+                                            height: double.infinity,
+                                            width: double.infinity,
+                                            fit: BoxFit.none,
+                                          );
+                                        }
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
                             ),
 
                             Positioned(

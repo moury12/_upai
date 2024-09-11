@@ -206,7 +206,6 @@ class FirebaseAPIs {
 
   // for adding an user to my user when first message is send
   static Future<void> sendFirstMessage(UserInfoModel chatUser, String msg,
-
       Type type) async {
     getSelfInfo();
    await FirebaseAPIs.addChatUser(chatUser);
@@ -223,8 +222,7 @@ class FirebaseAPIs {
   }
 
   // for sending message
-  static Future<void> sendMessage(UserInfoModel chatUser, String msg,
-      Type type) async {
+  static Future<void> sendMessage(UserInfoModel chatUser, String msg, Type type) async {
     //message sending time (also used as id)
     final time = DateTime
         .now()
@@ -261,7 +259,7 @@ class FirebaseAPIs {
         .collection(
         'chats/${getConversationID(chatUser.userId.toString())}/messages/');
     await ref.doc(time).set(message.toJson()).then((value) =>
-    sendPushNotification(chatUser,chatUser.name.toString(), type == Type.text ? msg : 'image'));
+    sendPushNotification(chatUser,chatUser.name.toString(), type == Type.text ? msg : 'image',"inbox"));
   }
 
   //update read status of message
@@ -323,7 +321,7 @@ class FirebaseAPIs {
   }
   // for sending push notification (Updated Codes)
   static Future<void> sendPushNotification(
-      UserInfoModel chatUser,String title,String msg) async {
+      UserInfoModel chatUser,String title,String msg,String screen) async {
 
     try {
       final body = {
@@ -336,9 +334,7 @@ class FirebaseAPIs {
             // "click_action": "FLUTTER_NOTIFICATION_CLICK" // Ensure this is set to handle the notification click
           },
           "data": {
-            "type": "chat", // Custom data field, can be anything you need to handle
-            "title": title, // Optional: redundant, but can be used if needed in foreground handling
-            "body": msg,    // Optional: redundant, but can be used if needed in foreground handling
+            "screen": screen, // Custom data field, can be anything you need to handle// Optional: redundant, but can be used if needed in foreground handling
           }
         }
       };
@@ -391,7 +387,7 @@ class FirebaseAPIs {
     }
   }
 
-  static Future<void> sendNotificationData(dynamic body,UserInfoModel chatUser,String title, String msg,) async {
+  static Future<void> sendNotificationData(dynamic body,UserInfoModel chatUser,String title, String msg) async {
     String notificationID = DateTime.now().microsecondsSinceEpoch.toString();
     body["notification_id"]=notificationID;
     await mDB
@@ -399,7 +395,7 @@ class FirebaseAPIs {
         .doc(chatUser.userId.toString())
         .collection("notification_list")
         .doc(notificationID)
-        .set(body).then((value) => sendPushNotification(chatUser,title,msg));
+        .set(body).then((value) => sendPushNotification(chatUser,title,msg,"notification"));
   }
   // for getting notfication
   static Stream<QuerySnapshot<Map<String, dynamic>>> getMyNotificationList() {

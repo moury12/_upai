@@ -26,7 +26,9 @@ import 'presentation/Inbox/inbox.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   //NotificationAccessToken().showNotification(message);
   //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
@@ -88,8 +90,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     notificationAccessToken.requestNotificationPermission();
-    notificationAccessToken.firebaseInit(context);
-    notificationAccessToken.setupInteractMessage(context);
+    notificationAccessToken.firebaseInit();
+    notificationAccessToken.setupInteractMessage();
     // TODO: implement initState
     super.initState();
   }

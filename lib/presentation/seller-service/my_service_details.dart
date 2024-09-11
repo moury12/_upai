@@ -10,6 +10,7 @@ import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
+import 'package:upai/presentation/full_screen_image.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 
@@ -20,8 +21,10 @@ class MyServiceDetails extends StatelessWidget {
   // final MyService service;
   const MyServiceDetails({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+    String image = "https://lh5.googleusercontent.com/proxy/t08n2HuxPfw8OpbutGWjekHAgxfPFv-pZZ5_-uTfhEGK8B5Lp-VN4VjrdxKtr8acgJA93S14m9NdELzjafFfy13b68pQ7zzDiAmn4Xg8LvsTw1jogn_7wStYeOx7ojx5h63Gliw";
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -42,45 +45,61 @@ class MyServiceDetails extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Obx(() {
-                return FutureBuilder(
-                  future: FirebaseAPIs.fetchOfferImageUrl(
-                      SellerProfileController.to.service.value.offerId
-                          .toString()),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Image.network(
+                return GestureDetector(
+                  onTap: (){
+                    Get.to(FullScreenImage(imageUrl: image));
+                  },
+                  child: FutureBuilder(
+                    future: FirebaseAPIs.fetchOfferImageUrl(
+                        SellerProfileController.to.service.value.offerId
+                            .toString()),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState ==
+                          ConnectionState.waiting ||
+                          snapshot.connectionState ==
+                              ConnectionState.none) {
+                        return Image.asset(
                           height: 200,
-                          width: double.infinity,
+                          ImageConstant.dummy,
                           // height: double.infinity,
-                          // width: double.infinity,
-                          fit: BoxFit.cover,
-                          snapshot.data.toString(),
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child; // Image has finished loading
-                          }
-                          return SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.kprimaryColor,
-                                // value: loadingProgress.expectedTotalBytes != null
-                                //     ? loadingProgress.cumulativeBytesLoaded /
-                                //     (loadingProgress.expectedTotalBytes ?? 1)
-                                //     : null,
+                          // fit: BoxFit.cover,
+                        );
+                      }
+
+                     else if (snapshot.hasData) {
+                        image= snapshot.data.toString();
+                        return Image.network(
+                            height: 200,
+                            width: double.infinity,
+                            // height: double.infinity,
+                            // width: double.infinity,
+                            fit: BoxFit.cover,
+                            snapshot.data.toString(),
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child; // Image has finished loading
+                            }
+                            return SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.kprimaryColor,
+                                  // value: loadingProgress.expectedTotalBytes != null
+                                  //     ? loadingProgress.cumulativeBytesLoaded /
+                                  //     (loadingProgress.expectedTotalBytes ?? 1)
+                                  //     : null,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      return FutureBuilder(
-                        future: FirebaseAPIs.fetchDefaultOfferImageUrl(
-                            SellerProfileController.to.service.value
-                                .serviceCategoryType.toString()),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
+                            );
+                          },
+                        );
+                      } else {
+                        return FutureBuilder(
+                          future: FirebaseAPIs.fetchDefaultOfferImageUrl(
+                              SellerProfileController.to.service.value
+                                  .serviceCategoryType.toString()),
+                          builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting ||
                                 snapshot.connectionState ==
@@ -91,48 +110,50 @@ class MyServiceDetails extends StatelessWidget {
                                 // height: double.infinity,
                                 // fit: BoxFit.cover,
                               );
-                            } else {
-                              return Image.network(
-
-                                  height: 200,
-
-                                  // height: double.infinity,
-                                  // width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  snapshot.data.toString(),
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child; // Image has finished loading
-                                  }
-                                  return SizedBox(
-                                    height: 100,
-                                    width: 100,
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        color: AppColors.kprimaryColor,
-                                        // value: loadingProgress.expectedTotalBytes != null
-                                        //     ? loadingProgress.cumulativeBytesLoaded /
-                                        //     (loadingProgress.expectedTotalBytes ?? 1)
-                                        //     : null,
-                                      ),
-                                    ),
-                                  );
-                                },);
                             }
-                          } else {
-                            return Image.asset(
-                              height: 200,
-                              ImageConstant.dummy,
-                              // height: double.infinity,
-                              // width: double.infinity,
-                              // fit: BoxFit.cover,
-                            );
-                          }
-                        },
-                      );
-                    }
-                  },
+                           else if (snapshot.hasData) {
+                              image = snapshot.data.toString();
+                                return Image.network(
+                                    height: 200,
+                                    // height: double.infinity,
+                                    // width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    snapshot.data.toString(),
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child; // Image has finished loading
+                                    }
+                                    return SizedBox(
+                                      height: 100,
+                                      width: 100,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppColors.kprimaryColor,
+                                          // value: loadingProgress.expectedTotalBytes != null
+                                          //     ? loadingProgress.cumulativeBytesLoaded /
+                                          //     (loadingProgress.expectedTotalBytes ?? 1)
+                                          //     : null,
+                                        ),
+                                      ),
+                                    );
+                                  },);
+
+                            }
+                           else {
+                              return Image.asset(
+                                height: 200,
+                                ImageConstant.dummy,
+                                // height: double.infinity,
+                                // width: double.infinity,
+                                // fit: BoxFit.cover,
+                              );
+                            }
+                          },
+                        );
+                      }
+                    },
+                  ),
                 );
               }),
 

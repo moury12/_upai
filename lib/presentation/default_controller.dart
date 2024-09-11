@@ -21,11 +21,6 @@ class DefaultController extends GetxController {
   final box = Hive.box("userInfo");
   // String userType="";
   @override
-  void onClose() {
-    super.onClose();
-  }
-
-  @override
   void onInit() {
     //for notification permission
     // FirebaseMessaging.instance.requestPermission(
@@ -44,10 +39,10 @@ class DefaultController extends GetxController {
     // });
     //
     userData = userInfoModelFromJson(box.get('user'));
+    Get.put(ProfileScreenController(), permanent: true);
     Get.put(HomeController(), permanent: true);
     Get.put(SellerProfileController(), permanent: true);
     Get.put(BuyerProfileController(), permanent: true);
-    Get.put(ProfileScreenController(), permanent: true);
     FirebaseAPIs.getSelfInfo();
     WidgetsBinding.instance.addObserver(AppLifecycleListener());
 
@@ -82,9 +77,9 @@ class DefaultController extends GetxController {
     const HomeScreen(),
     const SellerProfileScreen(),
     // ExploreScreen(),
-     InboxScreen(),
-    const NotificatonScreen(),
-    ProfileScreen()
+     const InboxScreen(),
+    const NotificationScreen(),
+    // ProfileScreen()
   ];
   // final List<Widget> screensForServiceProvider = [
   //   const HomeScreen2(),

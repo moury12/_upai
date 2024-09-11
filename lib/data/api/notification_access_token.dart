@@ -8,11 +8,18 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:googleapis_auth/auth.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:upai/presentation/Inbox/inbox.dart';
+import 'package:upai/presentation/Profile/profile_screen.dart';
+import 'package:upai/presentation/deafult_screen.dart';
 
-class NotificationAccessToken {
+import '../../binding/initial_binding.dart';
+import '../../presentation/default_controller.dart';
+import '../../presentation/notification/notificaton_screen.dart';
+
+class NotificationAccessToken  {
 
 
   // Future<String> getServiceKeyToken() async{
@@ -118,8 +125,7 @@ class NotificationAccessToken {
 //   }
 
   //function to initialise flutter local notification plugin to show notifications for android when app is active
-  void initLocalNotifications(
-      BuildContext context, RemoteMessage message) async {
+  void initLocalNotifications(RemoteMessage message) async {
     var androidInitializationSettings =
     const AndroidInitializationSettings('@mipmap/ic_launcher');
     var iosInitializationSettings = const DarwinInitializationSettings();
@@ -129,11 +135,11 @@ class NotificationAccessToken {
     await _flutterLocalNotificationsPlugin.initialize(initializationSetting,
         onDidReceiveNotificationResponse: (payload) {
           // handle interaction when app is active for android
-          handleMessage(context, message);
+          handleMessage(message);
         });
   }
 //
-  void firebaseInit(BuildContext context) {
+  void firebaseInit() {
     FirebaseMessaging.onMessage.listen((message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification!.android;
@@ -148,14 +154,14 @@ class NotificationAccessToken {
       }
 
       if (Platform.isAndroid) {
-        initLocalNotifications(context, message);
+        initLocalNotifications(message);
         showNotification(message);
       }
     });
   }
 
   //handle tap on notification when app is in background or terminated
-  Future<void> setupInteractMessage(BuildContext context) async {
+  Future<void> setupInteractMessage() async {
     // // when app is terminated
     // RemoteMessage? initialMessage =
     //     await FirebaseMessaging.instance.getInitialMessage();
@@ -166,7 +172,7 @@ class NotificationAccessToken {
 
     //when app ins background
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      handleMessage(context, event);
+      handleMessage(event);
     });
 
     // Handle terminated state
@@ -174,7 +180,7 @@ class NotificationAccessToken {
         .getInitialMessage()
         .then((RemoteMessage? message) {
       if (message != null && message.data.isNotEmpty) {
-        handleMessage(context, message);
+        handleMessage(message);
       }
     });
   }
@@ -196,12 +202,12 @@ class NotificationAccessToken {
     AndroidNotificationDetails(
         channel.id.toString(), channel.name.toString(),
         channelDescription: 'your channel description',
-        importance: Importance.high,
-        priority: Priority.high,
+        importance: Importance.max,
+        priority: Priority.max,
         playSound: true,
         ticker: 'ticker',
         sound: channel.sound,
-      enableVibration: true,
+        enableVibration: true,
 
       //     sound: RawResourceAndroidNotificationSound('jetsons_doorbell')
       //  icon: largeIconPath
@@ -223,7 +229,7 @@ class NotificationAccessToken {
         message.notification!.title.toString(),
         message.notification!.body.toString(),
         notificationDetails,
-        payload: 'my_data',
+        payload:'data',
 
       );
     });
@@ -239,16 +245,32 @@ class NotificationAccessToken {
   }
 
   Future<void> handleMessage(
-      BuildContext context,
       RemoteMessage message,
       ) async {
+    final DefaultController controller =  Get.put(DefaultController());
+     RootBinding().dependencies();
     print(
         "Navigating to appointments screen. Hit here to handle the message. Message data: ${message.data}");
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>  InboxScreen(),
-      ),
-    );
+    if(message.data['screen'].toString()=="inbox")
+      {
+
+        controller.selectedIndex.value=2;
+        print("hello maruf");
+        print(controller.selectedIndex.value);
+        Get.offAll(DefaultScreen());
+      }
+    else if(message.data['screen'].toString()=="notification")
+      {
+        controller.selectedIndex.value=3;
+        print("hello maruf");
+        print(controller.selectedIndex.value);
+        Get.offAll(DefaultScreen());
+      }
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) =>  InboxScreen(),
+    //   ),
+    // );
   }
 }

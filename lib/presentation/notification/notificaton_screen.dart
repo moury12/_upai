@@ -13,14 +13,14 @@ import '../../data/api/firebase_apis.dart';
 import '../../review/review_screen.dart';
 import 'controller/notification_controller.dart';
 
-class NotificatonScreen extends StatefulWidget {
-  const NotificatonScreen({super.key});
+class NotificationScreen extends StatefulWidget {
+  const NotificationScreen({super.key});
 
   @override
-  State<NotificatonScreen> createState() => _NotificatonScreenState();
+  State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _NotificatonScreenState extends State<NotificatonScreen> {
+class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
