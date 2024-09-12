@@ -6,18 +6,15 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:googleapis_auth/auth.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:upai/presentation/Inbox/inbox.dart';
-import 'package:upai/presentation/Profile/profile_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 
 import '../../binding/initial_binding.dart';
 import '../../presentation/default_controller.dart';
-import '../../presentation/notification/notificaton_screen.dart';
+
 
 class NotificationAccessToken  {
 

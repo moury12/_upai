@@ -64,13 +64,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          if (NotificationController.to.notificationList[reversedIndex].status == "DELIVERED" && ProfileScreenController.to.userInfo.value.userId != NotificationController.to.notificationList[reversedIndex].sellerId) {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => ReviewScreen(notificationModel: NotificationController.to.notificationList[reversedIndex]),
-                                            );
-                                          }
-                                          else if(NotificationController.to.notificationList[reversedIndex].status == "COMPLETED" && ProfileScreenController.to.userInfo.value.userId.toString() != NotificationController.to.notificationList[reversedIndex].sellerId.toString())
+                                         if(NotificationController.to.notificationList[reversedIndex].status == "COMPLETED" && ProfileScreenController.to.userInfo.value.userId.toString() != NotificationController.to.notificationList[reversedIndex].sellerId.toString())
                                             {
                                               Get.snackbar("You have already reviewed the order", "");
                                             }
@@ -175,11 +169,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                             },
                                             text: "Tap Here"),
                                       )
-
-                                          : SizedBox(),
+                                          : NotificationController.to.notificationList[reversedIndex].status == "DELIVERED" && ProfileScreenController.to.userInfo.value.userId != NotificationController.to.notificationList[reversedIndex].sellerId?SizedBox(
+                                        height: 40,
+                                        width: 150,
+                                        child: CustomButton(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) => ReviewScreen(notificationModel: NotificationController.to.notificationList[reversedIndex]),
+                                              );
+                                            },
+                                            text: "Review"),
+                                      ):SizedBox(),
                                       SizedBox(
                                         height: 10,
-                                      ),
+                                      )
                                     ],
                                   ),
                                 ),
