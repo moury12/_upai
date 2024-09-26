@@ -171,7 +171,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               child: FutureBuilder(
                                 future: FirebaseAPIs.fetchOfferImageUrl(widget.offerDetails!.offerId.toString()),
                                 builder: (context, snapshot) {
-
                                   if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
                                     return Image.asset(
                                       width: double.infinity,
@@ -763,46 +762,46 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Text("Explore Top Services", style: AppTextStyle.titleText),
+                            Text("Explore My Other Services", style: AppTextStyle.titleText),
 
                             Obx(
                               () {
                                 if (HomeController.to.getOfferList.isNotEmpty) {
                                   List<OfferList> offerList = HomeController.to.getOfferList;
+                                  List<OfferList> myOffersList = offerList.where((offer)=>offer.userId.toString()==widget.offerDetails!.userId.toString()).toList();
                                   return SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
                                       children: List.generate(
-                                        offerList.length,
-                                        (index) => Padding(
-                                          padding: const EdgeInsets.all(12.0).copyWith(left: 8),
-                                          child: SizedBox(
-                                            width: 180,
-                                            height: 220,
-                                            child: MyServiceWidget(
-                                              offerItem: HomeController.to.getOfferList[index],
-                                              button: SizedBox(
-                                                width: double.infinity,
-                                                child: ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(
-                                                    backgroundColor: AppColors.kprimaryColor,
-                                                    foregroundColor: Colors.white,
+                                        myOffersList.length,
+                                        (index) {
+                                          if(myOffersList.isNotEmpty){
+                                            return Padding(
+                                              padding: const EdgeInsets.all(12.0).copyWith(left: 8),
+                                              child: SizedBox(
+                                                width: 180,
+                                                height: 180,
+                                                child: InkWell(
+                                                  onTap: (){    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => ServiceDetails(
+                                                          offerDetails:myOffersList[index],
+                                                        ),
+                                                      ));},
+                                                  child: MyServiceWidget(
+                                                    offerItem: myOffersList[index],
                                                   ),
-                                                  onPressed: () {
-                                                    Navigator.pushReplacement(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) => ServiceDetails(
-                                                            offerDetails: HomeController.to.getOfferList[index],
-                                                          ),
-                                                        ));
-                                                  },
-                                                  child: const Text('Book Now'),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                        ),
+                                            );
+                                          }
+                                          else
+                                            {
+                                             return Text("");
+                                            }
+
+                                        },
                                       ),
                                     ),
                                   );

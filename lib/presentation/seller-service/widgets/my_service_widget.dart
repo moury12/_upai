@@ -33,7 +33,8 @@ class MyServiceWidget extends StatelessWidget {
             children: [
               Expanded(
                   flex: 4,
-                  child: FutureBuilder(
+                  child:
+                  FutureBuilder(
                     future: FirebaseAPIs.fetchOfferImageUrl(isService ? service!.offerId.toString() : offerItem!.offerId.toString()),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
@@ -117,7 +118,8 @@ class MyServiceWidget extends StatelessWidget {
                         );
                       }
                     },
-                  )),
+                  )
+              ),
               Expanded(
                   flex: 4,
                   child: Column(

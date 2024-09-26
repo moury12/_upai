@@ -27,12 +27,14 @@ class HomeController extends GetxController {
   RxBool isLoading=false.obs;
   RxBool isUnRead=false.obs;
 
+
   Rx<File?> image = Rx<File?>(null);
   final _picker = ImagePicker();
   String img = '';
 
   //
   RxBool isSearching = false.obs;
+  RxBool searchICon = false.obs;
 
   static HomeController get to => Get.find();
   RxList<CategoryList> getCatList = <CategoryList>[].obs;
@@ -305,7 +307,6 @@ class HomeController extends GetxController {
       // }
     }
   }
-
   void showPickerDialog(BuildContext context) {
     showModalBottomSheet(
       context: context,
