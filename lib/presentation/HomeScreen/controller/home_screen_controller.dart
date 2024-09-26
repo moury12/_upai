@@ -38,11 +38,16 @@ class HomeController extends GetxController {
   RxList<CategoryList> getCatList = <CategoryList>[].obs;
   RxList<dynamic> districtList = [].obs;
   RxList<dynamic> filterDistrictList = [].obs;
+  RxList<dynamic> yourServiceList = [].obs;
   RxList<OfferList> getOfferList = <OfferList>[].obs;
+  Rx<TextEditingController> serviceController = TextEditingController().obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;
   Rx<TextEditingController> searchOfferController = TextEditingController().obs;
   Rx<TextEditingController> searchCatController = TextEditingController().obs;
   Rx<TextEditingController> rateController = TextEditingController().obs;
+  RxList<dynamic> packageList = <dynamic>[].obs;
+
+
   Rx<bool> change = false.obs;
   Rx<bool> changeQuantity = true.obs;
   Rx<bool> changeRate = false.obs;
@@ -57,6 +62,7 @@ class HomeController extends GetxController {
       TextEditingController().obs;
   Rx<CategoryList?> selectedCategory = Rx<CategoryList?>(null);
   Rx<String?> selectedRateType = Rx<String?>(null);
+  Rx<String?> selectedServiceType = Rx<String?>(null);
   Rx<String?> selectedDistrictForAll = Rx<String?>(null);
   Rx<String?> selectedDistrict = Rx<String?>(null);
   var filteredOfferList = <OfferList>[].obs;
@@ -81,6 +87,21 @@ class HomeController extends GetxController {
     await loadJsonFromAssets('assets/district/district.json');
     districtList.sort((a, b) => a['name'].toString().compareTo(b['name'].toString()));
     filterDistrictList.assignAll(districtList);
+    packageList.assignAll([
+      {
+        "p_name": "Basic",
+        
+        "service_list": yourServiceList
+      },
+      {
+        "p_name": "Standard",
+        "service_list": yourServiceList
+      },
+      {
+        "p_name": "Premium",
+        "service_list": yourServiceList
+      }
+    ]);
     quantityController.value.text = quantity.value.toString();
     quantityControllerForConfromOrder.value.text =
         quantityForConform.value.toString();
