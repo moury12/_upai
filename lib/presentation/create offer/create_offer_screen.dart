@@ -15,6 +15,8 @@ import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.d
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
+import 'widget/tab_content_view.dart';
+
 class CreateOfferScreen extends StatefulWidget {
   final MyService? service;
   final bool? isEdit;
@@ -367,48 +369,117 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                     defaultSizeBoxWidth,
                     CustomButton(
                         onTap: () {
-                          HomeController.to.yourServiceList.add(
-                              HomeController.to.serviceController.value.text);
+                          HomeController.to.yourServiceList.add({
+                            "name":
+                                HomeController.to.serviceController.value.text,
+                            "selected": false
+                          });
+                          debugPrint( HomeController.to.yourServiceList.toString());
                         },
                         title: 'Add')
                   ],
                 ),
 
-                Obx(
-                  () {
-                    return Wrap(
-                      children: List.generate(
-                        HomeController.to.yourServiceList.length,
-                        (index) => Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.symmetric(vertical: 8,horizontal: 4),
-                          decoration: BoxDecoration(color: AppColors.kprimaryColor,borderRadius: BorderRadius.circular(5)),
-                            child: Text(HomeController.to.yourServiceList[index],style: TextStyle(color: Colors.white),)),
+                Obx(() {
+                  return Wrap(
+                    children: List.generate(
+                      HomeController.to.yourServiceList.length,
+                          (index) => Container(
+                        padding: EdgeInsets.all(8),
+                        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.kprimaryColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          HomeController.to.yourServiceList[index]['name'],
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
+                    ),
+                  );
+                }),
+                DefaultTabController(
+                  length: HomeController.to.packageList.length,
+                  child: Obx(() {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TabBar(
+                          onTap: (value) {
+                            // HomeController.to.selectPackage(value);
+                            HomeController.to.update();
+                          },
+                          tabs: [
+                            ...List.generate(
+                              HomeController.to.packageList.length,
+                                  (index) => Text(
+                                HomeController.to.packageList[index]['p_name'],
+                              ),
+                            ),
+                          ],
+                        ),
+                        TabContentView(
+                          children: List.generate(
+                            HomeController.to.packageList.length,
+                                (index) => SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Rate",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      color: AppColors.kprimaryColor,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  CustomTextField(
+                                    validatorText: "Please Enter Rate",
+                                    hintText: "Please Enter Rate",
+                                    inputType: TextInputType.number,
+                                    controller: HomeController.to.packageList[index]['price'],
+                                  ),
+                                  ...List.generate(
+                                    HomeController.to.packageList[index]['service_list'].length,
+                                        (serviceIndex) {
+                                      return Row(
+                                        children: [
+                                          Text(
+                                            HomeController.to.packageList[index]['service_list'][serviceIndex]['name'],
+                                          ),
+                                          Checkbox(
+                                            value: HomeController.to.packageList[index]['service_list'][serviceIndex]['selected'],
+                                            onChanged: (value) {
+                                              // Update the selected value for the specific service in the package
+                                              HomeController.to.packageList[index]['service_list'][serviceIndex]['selected'] = value ?? false;
+
+                                              // Refresh the package list to notify the UI of changes
+                                              HomeController.to.packageList.refresh();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     );
-                  }
-                ),Text(
-                  "Package: ",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.kprimaryColor),
+                  }),
                 ),
-                // Wrap(
-                //   children: List.generate(HomeController.to.packageList.length, (index) =>Obx(
-                //     () {
-                //       return GestureDetector(
-                //         onTap: () {
-                //           HomeController.to.selectPackage(index);
-                //         },
-                //         child: Container(padding: EdgeInsets.all(8),
-                //             margin: EdgeInsets.symmetric(vertical: 8,horizontal: 4),
-                //             decoration: BoxDecoration(color:HomeController.to.packageList[index]['selected']?Colors.orange: AppColors.kprimaryColor,borderRadius: BorderRadius.circular(5)),
-                //             child: Text(HomeController.to.packageList[index]['p_name'],style: TextStyle(color: Colors.white,fontSize: 18),)),
-                //       );
-                //     }
-                //   ),)
+
+                // Text(
+                //   "Package: ",
+                //   style: TextStyle(
+                //       fontWeight: FontWeight.w700,
+                //       fontSize: 12,
+                //       color: AppColors.kprimaryColor),
                 // ),
+
                 defaultSizeBoxHeight,
                 Row(
                   children: [

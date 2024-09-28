@@ -40,15 +40,12 @@ class HomeController extends GetxController {
   RxList<CategoryList> getCatList = <CategoryList>[].obs;
   RxList<dynamic> districtList = [].obs;
   RxList<dynamic> filterDistrictList = [].obs;
-  RxList<dynamic> yourServiceList = [].obs;
   RxList<OfferList> getOfferList = <OfferList>[].obs;
   Rx<TextEditingController> serviceController = TextEditingController().obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;
   Rx<TextEditingController> searchOfferController = TextEditingController().obs;
   Rx<TextEditingController> searchCatController = TextEditingController().obs;
   Rx<TextEditingController> rateController = TextEditingController().obs;
-  RxList<dynamic> packageList = <dynamic>[].obs;
-
 
   Rx<bool> change = false.obs;
   Rx<bool> changeQuantity = true.obs;
@@ -60,6 +57,8 @@ class HomeController extends GetxController {
 RxInt? selectedPackageIndex;
   Rx<TextEditingController> quantityController =
       TextEditingController(text: '1').obs;
+  Rx<TextEditingController> priceController =
+      TextEditingController().obs;
   Rx<TextEditingController> quantityControllerForConfromOrder =
       TextEditingController().obs;
   Rx<CategoryList?> selectedCategory = Rx<CategoryList?>(null);
@@ -82,6 +81,13 @@ RxInt? selectedPackageIndex;
   //   selectedDistrictForAll.value=null;
   //   super.onReady();
   // }
+  RxList<TextEditingController> priceControllers = List.generate(3, (_) => TextEditingController()).obs;
+  RxList<dynamic> packageList = <dynamic>[].obs;
+  RxList<dynamic> yourServiceList = [
+
+  ].obs;
+
+  RxBool checkPackageService = false.obs;
   @override
   void onInit() async {
     refreshAllData();
@@ -92,16 +98,19 @@ RxInt? selectedPackageIndex;
     packageList.assignAll([
       {
         "p_name": "Basic",
+        "price":priceControllers[0],
         "service_list": yourServiceList,
         "selected": false // Add selected key for tracking
       },
       {
         "p_name": "Standard",
+        "price":priceControllers[1],
         "service_list": yourServiceList, // Add service list for Standard
         "selected": false
       },
       {
         "p_name": "Premium",
+        "price":priceControllers[2],
         "service_list": yourServiceList, // Add service list for Premium
         "selected": false
       }
@@ -182,7 +191,7 @@ void selectPackage(int index){
         packageList[i]['selected']=false;
       }
     }
-    selectedPackageIndex!.value = index;
+
     packageList.refresh();
 }
   Future<void> editOffer(String offerId, title, description, rate,
