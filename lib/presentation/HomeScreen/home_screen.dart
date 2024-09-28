@@ -14,6 +14,7 @@ import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/widgets/cat_two.dart';
 import 'package:upai/widgets/custom_text_field.dart';
+import 'package:upai/widgets/service_offer_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,14 +23,16 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   HomeController controller = HomeController.to;
+  final List<String> localCategories = ['Local Category 1', 'Local Category 2', 'Local Category 3'];
+  final List<String> onlineCategories = ['Online Category 1', 'Online Category 2', 'Online Category 3'];
 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     resetData();
-debugPrint('uiyiuvu');
+    debugPrint('uiyiuvu');
     controller.refreshAllData();
     print("lsdkflds");
     controller.isSearching.value = false;
@@ -37,6 +40,7 @@ debugPrint('uiyiuvu');
 
     super.initState();
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
@@ -46,17 +50,26 @@ debugPrint('uiyiuvu');
       controller.refreshAllData();
     }
   }
+
   void resetData() {
     controller.searchOfferController.value.clear();
-    controller.selectedDistrictForAll.value=null;
+    controller.selectedDistrictForAll.value = null;
     controller.isSearching.value = false;
     searchFocus.unfocus();
   }
+
   FocusNode searchFocus = FocusNode();
+
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     // Determine the number of columns and aspect ratio dynamically
     int crossAxisCount = 2;
@@ -75,7 +88,6 @@ debugPrint('uiyiuvu');
       childRatio = 1;
     }
 
-
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
@@ -92,33 +104,18 @@ debugPrint('uiyiuvu');
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  decoration: BoxDecoration(color: AppColors.textFieldBackGround, borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
+                  decoration: BoxDecoration(
+                      color: AppColors.textFieldBackGround,
+                      borderRadius: BorderRadius.vertical(
+                          bottom: Radius.circular(20))),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Obx(() {
-                          return TextField(
-                            focusNode: searchFocus,
-                            controller: HomeController.to.searchOfferController.value,
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                controller.filterOffer(value, HomeController.to.selectedDistrictForAll.value);
-                                controller.isSearching.value = true;
-                              } else {
-                                controller.filterOffer(value, HomeController.to.selectedDistrictForAll.value);
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
 
-                                controller.isSearching.value = false;
-                              }
-                            },
-                            cursorColor: Colors.black,
-                            decoration: InputDecoration(
-                                fillColor: AppColors.colorWhite, filled: true, hintText: "Search service you're looking for...", hintStyle: TextStyle(fontSize: 14, color: AppColors.appTextColorGrey), border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10))),
-                          );
-                        }),
                         // const SizedBox(
                         //   height: 8,
                         // ),
@@ -142,7 +139,7 @@ debugPrint('uiyiuvu');
                         //   ),
                         // ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                       ],
                     ),
@@ -153,24 +150,124 @@ debugPrint('uiyiuvu');
                     const Expanded(flex: 4, child: SearchableDropDown()),
                     Expanded(
                       child: Container(
-                        decoration: BoxDecoration(color: AppColors.kprimaryColor, shape: BoxShape.circle),
-                        child: IconButton(
-                            style: IconButton.styleFrom(
-                              shape: const CircleBorder(),
-                            ),
-                            onPressed: () async {
-                              resetData();
-                              await controller.refreshAllData();
-                            },
-                            icon: Icon(
-                              CupertinoIcons.restart,
-                              size: 25,
-                              color: AppColors.colorWhite,
-                            )),
+                        decoration: BoxDecoration(
+                            color: AppColors.kprimaryColor,
+                            shape: BoxShape.circle),
+                        child: Obx(() {
+                          return IconButton(
+                              style: IconButton.styleFrom(
+                                shape: const CircleBorder(),
+                              ),
+                              onPressed: () async {
+                                controller.searchICon.value =
+                                !controller.searchICon.value;
+                                // resetData();
+                                // await controller.refreshAllData();
+                              },
+                              icon: controller.searchICon.value ?
+                              Icon(
+                                Icons.cancel_outlined,
+                                size: 25,
+                                color: AppColors.colorWhite,
+                              ) : Icon(
+                                CupertinoIcons.search,
+                                size: 25,
+                                color: AppColors.colorWhite,
+                              )
+                          );
+                        }),
                       ),
                     )
+                    // Expanded(
+                    //   child: Container(
+                    //     decoration: BoxDecoration(color: AppColors.kprimaryColor, shape: BoxShape.circle),
+                    //     child: IconButton(
+                    //         style: IconButton.styleFrom(
+                    //           shape: const CircleBorder(),
+                    //         ),
+                    //         onPressed: () async {
+                    //           resetData();
+                    //           await controller.refreshAllData();
+                    //         },
+                    //         icon: Icon(
+                    //           CupertinoIcons.restart,
+                    //           size: 25,
+                    //           color: AppColors.colorWhite,
+                    //         )),
+                    //   ),
+                    // )
                   ],
                 ),
+               Obx(() {
+                  return  controller.searchICon.value?TextField(
+                    focusNode: searchFocus,
+                    controller: HomeController.to.searchOfferController.value,
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        controller.filterOffer(value,
+                            HomeController.to.selectedDistrictForAll.value);
+                        controller.isSearching.value = true;
+                      } else {
+                        controller.filterOffer(value,
+                            HomeController.to.selectedDistrictForAll.value);
+
+                        controller.isSearching.value = false;
+                      }
+                    },
+                    cursorColor: Colors.black,
+                    decoration: InputDecoration(
+                        fillColor: AppColors.colorWhite,
+                        filled: true,
+                        hintText: "Search service you're looking for...",
+                        hintStyle: TextStyle(fontSize: 14, color: AppColors
+                            .appTextColorGrey),
+                        border: OutlineInputBorder(borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10))),
+                  ):const SizedBox.shrink();
+                }),
+                Container(
+                  height: 200,
+                  child: DefaultTabController(
+                    length: 2,
+                    child: Column(
+                      children: [
+                        TabBar(
+                          labelColor:AppColors.kprimaryColor,
+                          tabs: [
+                            Tab(text: 'Local'),
+                            Tab(text: 'Online'),
+                          ],
+                        ),
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              // Local Categories List
+                              ListView.builder(
+                                itemCount: localCategories.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Text(localCategories[index]),
+                                  );
+                                },
+                              ),
+                              // Online Categories List
+                              ListView.builder(
+                                itemCount: onlineCategories.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Text(onlineCategories[index]),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(
@@ -179,21 +276,25 @@ debugPrint('uiyiuvu');
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: Text("Browse Category", style: AppTextStyle.titleText),
+                            child: Text("Browse Category",
+                                style: AppTextStyle.titleText),
                           ),
                           GestureDetector(
                             onTap: () {
                               Get.toNamed(CategoryListScreen.routeName);
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12.0),
-                              child: Text("Browse All > ", style: AppTextStyle.titleTextSmallUnderline),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12.0),
+                              child: Text("Browse All > ",
+                                  style: AppTextStyle.titleTextSmallUnderline),
                             ),
                           ),
                         ],
                       ),
                       Obx(() {
-                        return HomeController.to.getCatList.isEmpty || !NetworkController.to.connectedInternet.value
+                        return HomeController.to.getCatList.isEmpty ||
+                            !NetworkController.to.connectedInternet.value
                             ? ShimmerCategoryList()
                             : SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
@@ -202,7 +303,8 @@ debugPrint('uiyiuvu');
                               HomeController.to.getCatList.length,
                                   (index) {
                                 return CategotyItemtwo(
-                                  singleCat: HomeController.to.getCatList[index],
+                                  singleCat: HomeController.to
+                                      .getCatList[index],
                                 );
                               },
                             ),
@@ -213,36 +315,41 @@ debugPrint('uiyiuvu');
                   ),
                 ),
                 Obx(() {
-                  if (controller.isSearching.value || HomeController.to.selectedDistrictForAll.value != null) {
+                  if (controller.isSearching.value ||
+                      HomeController.to.selectedDistrictForAll.value != null) {
                     var offerList = [];
                     offerList = controller.filteredOfferList;
                     if (offerList.isNotEmpty) {
-                      return GridView.builder(
+                      return ListView.builder(
                         shrinkWrap: true,
-                        clipBehavior: Clip.none,
-                        primary: false,
-                        padding: const EdgeInsets.symmetric(horizontal: 8).copyWith(top: 8),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: childRatio, crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8)
+                            .copyWith(top: 8),
                         itemCount: offerList.length,
                         itemBuilder: (context, index) {
                           final service = offerList[index];
-                          return MyServiceWidget(
+                          return ServiceOfferWidget(
                             offerItem: service,
                             button: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: SizedBox(
                                   width: double.infinity,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, alignment: Alignment.center),
-                                    onPressed: () {
-                                      Get.to(
-                                        ServiceDetails(
-                                          offerDetails: service,
-                                        ),
-                                      );
-                                    },
-                                    child: const Text('Book Now'),
-                                  )),
+                                  // child: ElevatedButton(
+                                  //   style: ElevatedButton.styleFrom(
+                                  //       backgroundColor: AppColors
+                                  //           .kprimaryColor,
+                                  //       foregroundColor: Colors.white,
+                                  //       alignment: Alignment.center),
+                                  //   onPressed: () {
+                                  //     Get.to(
+                                  //       ServiceDetails(
+                                  //         offerDetails: service,
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  //   child: const Text('Book Now'),
+                                  // )
+                          ),
+
                             ),
                           );
                         },
@@ -253,7 +360,8 @@ debugPrint('uiyiuvu');
                         child: Center(
                           child: Text(
                             "No Service Available",
-                            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 12),
                           ),
                         ),
                       );
@@ -292,49 +400,94 @@ debugPrint('uiyiuvu');
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: Text("Explore Top Services", style: AppTextStyle.titleText),
+                                child: Text("Explore Top Services",
+                                    style: AppTextStyle.titleText),
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(ServiceListScreen.routeName, arguments: "");
+                                  Get.toNamed(ServiceListScreen.routeName,
+                                      arguments: "");
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Text("Browse All > ", style: AppTextStyle.titleTextSmallUnderline),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12.0),
+                                  child: Text("Browse All > ",
+                                      style: AppTextStyle
+                                          .titleTextSmallUnderline),
                                 ),
                               ),
                             ],
                           ),
                           Obx(() {
-                            return HomeController.to.getOfferList.isEmpty || !NetworkController.to.connectedInternet.value
-                                ? const ShimmerOfferList()
-                                : GridView.builder(
-                                    shrinkWrap: true,
-                                    primary: false,
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, childAspectRatio: childRatio, crossAxisSpacing: 12, mainAxisSpacing: 12),
-                                    itemCount: controller.getOfferList.length < 4 ? controller.getOfferList.length : 4,
-                                    itemBuilder: (context, index) {
-                                      final service = controller.getOfferList[index];
-                                      return MyServiceWidget(
-                                        offerItem: service,
-                                        button: SizedBox(
-                                          width: double.infinity,
-                                          child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, alignment: Alignment.center),
-                                            onPressed: () async {
-                                              Get.to(
-                                                ServiceDetails(
-                                                  offerDetails: service,
-                                                ),
-                                              );
-                                              // Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDetails(offerDetails: service,),));
-                                            },
-                                            child: Text('Book Now'),
-                                          ),
+                            return HomeController.to.getOfferList.isEmpty ||
+                                !NetworkController.to.connectedInternet.value
+                                ? const ShimmerRunnigOrder()
+                                :ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: controller.getOfferList.length,
+                                itemBuilder: (context, index) {
+                                  final service = controller.getOfferList[index];
+                                  return InkWell(
+                                    onTap: (){
+                                      Get.to(
+                                        ServiceDetails(
+                                          offerDetails: service,
                                         ),
                                       );
                                     },
-                                  );
+
+
+                                      child: ServiceOfferWidget(offerItem: service,));
+
+
+                            });
+                            // GridView.builder(
+                            //   shrinkWrap: true,
+                            //   primary: false,
+                            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            //       crossAxisCount: crossAxisCount,
+                            //       childAspectRatio: childRatio,
+                            //       crossAxisSpacing: 12,
+                            //       mainAxisSpacing: 12),
+                            //   itemCount: controller.getOfferList.length < 4
+                            //       ? controller.getOfferList.length
+                            //       : 4,
+                            //   itemBuilder: (context, index) {
+                            //     final service = controller.getOfferList[index];
+                            //     return InkWell(
+                            //       onTap: (){
+                            //               Get.to(
+                            //                 ServiceDetails(
+                            //                   offerDetails: service,
+                            //                 ),
+                            //               );
+                            //
+                            //       },
+                            //       child: MyServiceWidget(
+                            //         offerItem: service,
+                            //         // SizedBox(
+                            //         //   width: double.infinity,
+                            //         //   child: ElevatedButton(
+                            //         //     style: ElevatedButton.styleFrom(
+                            //         //         backgroundColor: AppColors
+                            //         //             .kprimaryColor,
+                            //         //         foregroundColor: Colors.white,
+                            //         //         alignment: Alignment.center),
+                            //         //     onPressed: () async {
+                            //         //       Get.to(
+                            //         //         ServiceDetails(
+                            //         //           offerDetails: service,
+                            //         //         ),
+                            //         //       );
+                            //         //       // Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDetails(offerDetails: service,),));
+                            //         //     },
+                            //         //     child: Text('Book Now'),
+                            //         //   ),
+                            //         // ),
+                            //       ),
+                            //     );
+                            //   },
+                            // );
                           }),
                           // SizedBox(
                           //     width: size.width,

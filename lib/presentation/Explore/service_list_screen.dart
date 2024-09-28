@@ -12,6 +12,7 @@ import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/widgets/custom_text_field.dart';
+import 'package:upai/widgets/service_offer_widget.dart';
 
 import '../../core/utils/custom_text_style.dart';
 import '../seller-service/my_service_details.dart';
@@ -160,44 +161,61 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
 
                       if (offerList.isNotEmpty) {
                         return Expanded(
-                            child: GridView.builder(
-                          shrinkWrap: true,
-                          primary: false,
-                          physics: AlwaysScrollableScrollPhysics(),
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: childRatio, crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8),
-                          itemCount: offerList.length,
-                          itemBuilder: (context, index) {
-                            OfferList service = offerList[index];
-                            return MyServiceWidget(
-                              offerItem: service,
-                              button: Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: SizedBox(
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, alignment: Alignment.center),
-                                      onPressed: () {
-                                        // if(ProfileScreenController.to.userInfo.value.userId==service.userId)
-                                        //   {
-                                        //     SellerProfileController.to.service.value =
-                                        //     SellerProfileController
-                                        //         .to.filterList[index];
-                                        //
-                                        //     Get.to(const MyServiceDetails());
-                                        //   }
-                                        Get.to(
-                                          ServiceDetails(
-                                            offerDetails: service,
-                                          ),
-                                        );
-                                      },
-                                      child: Text('Book Now'),
-                                    )),
-                              ),
-                            );
-                          },
-                        ));
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: offerList.length,
+                              itemBuilder: (context, index) {
+                                OfferList service = offerList[index];
+                                return InkWell(
+                                  onTap: (){    Get.to(
+                                    ServiceDetails(
+                                      offerDetails: service,
+                                    ),
+                                  );},
+                                  child: ServiceOfferWidget(
+                                    offerItem: service,
+                                  ),
+                                );
+                              },
+                            ));
+                        //     GridView.builder(
+                        //   shrinkWrap: true,
+                        //   primary: false,
+                        //   physics: AlwaysScrollableScrollPhysics(),
+                        //   padding: EdgeInsets.symmetric(horizontal: 8),
+                        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: childRatio, crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8),
+                        //   itemCount: offerList.length,
+                        //   itemBuilder: (context, index) {
+                        //     OfferList service = offerList[index];
+                        //     return MyServiceWidget(
+                        //       offerItem: service,
+                        //       button: Padding(
+                        //         padding: const EdgeInsets.only(top: 8.0),
+                        //         child: SizedBox(
+                        //             width: double.infinity,
+                        //             child: ElevatedButton(
+                        //               style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, alignment: Alignment.center),
+                        //               onPressed: () {
+                        //                 // if(ProfileScreenController.to.userInfo.value.userId==service.userId)
+                        //                 //   {
+                        //                 //     SellerProfileController.to.service.value =
+                        //                 //     SellerProfileController
+                        //                 //         .to.filterList[index];
+                        //                 //
+                        //                 //     Get.to(const MyServiceDetails());
+                        //                 //   }
+                        //                 Get.to(
+                        //                   ServiceDetails(
+                        //                     offerDetails: service,
+                        //                   ),
+                        //                 );
+                        //               },
+                        //               child: Text('Book Now'),
+                        //             )),
+                        //       ),
+                        //     );
+                        //   },
+                        // ));
                       } else {
                         return const Center(child: Text('There is no service available'),);
                       }
