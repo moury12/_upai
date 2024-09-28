@@ -376,7 +376,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 !NetworkController.to.connectedInternet.value
                                 ? const ShimmerRunnigOrder()
                                 :ListView.builder(
-
                                 shrinkWrap: true,
                                 itemCount: controller.getOfferList.length,
                                 itemBuilder: (context, index) {
