@@ -20,7 +20,7 @@ class ServiceOfferWidget extends StatelessWidget {
         Container(
             padding: EdgeInsets.all(12),
             margin: EdgeInsets.only(bottom: 8),
-            height: 150,
+            // height: 150,
             decoration: BoxDecoration(
               color: Colors.white,
 
@@ -130,105 +130,110 @@ class ServiceOfferWidget extends StatelessWidget {
                   Expanded(
                     flex: 6,
                     child:
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Container(
+                      height: 120,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
 
 
-                      //
-                      // crossAxisAlignment: CrossAxisAlignment.start,
+                        //
+                        // crossAxisAlignment: CrossAxisAlignment.start,
 
-                      children: [
-                        /*Row( mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                                'Job id: ${runningOrder.jobId ?? 'job id'}',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500)),Text(
-                                '${runningOrder.awardDate ?? ''}',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500)),
-                          ],
-                        ),*/
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                                child: Text(
-                                  isService ? service!.jobTitle ?? '' : offerItem?.jobTitle ?? '',
+                        children: [
+                          /*Row( mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                  'Job id: ${runningOrder.jobId ?? 'job id'}',
                                   style: TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.w600),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                )),
-                            Text( '৳ ${isService ? service!.rate : offerItem?.rate ?? '0'}',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w700)),
-                          ],
-                        ),
-                        // Text('Description:',
-                        //     style:
-                        //     TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-                        Text(
-                          isService ? service!.description ?? '' : offerItem?.description ?? '',
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500)),Text(
+                                  '${runningOrder.awardDate ?? ''}',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500)),
+                            ],
+                          ),*/
 
-                           SizedBox(height: 10,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                  child: Text(
+                                    isService ? service!.jobTitle ?? '' : offerItem?.jobTitle ?? '',
+                                    style: TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.w600),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  )),
+                              Text( '৳ ${isService ? service!.rate : offerItem?.rate ?? '0'}',
+                                  style: TextStyle(
+                                      fontSize: 16, fontWeight: FontWeight.w700)),
+                            ],
+                          ),
+                          // Text('Description:',
+                          //     style:
+                          //     TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                          Text(
+                            isService ? service!.description ?? '' : offerItem?.description ?? '',
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
 
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
 
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top:2.0),
-                                    child: Icon(
-                                      CupertinoIcons.star_fill,
-                                      size: 15,
+                         Spacer(),
+
+
+                          Row(
+
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top:2.0),
+                                      child: Icon(
+                                        CupertinoIcons.star_fill,
+                                        size: 15,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 2,
-                                  ),
-                                  Text( isService ? "": offerItem?.avgRating.toStringAsFixed(1)?? 0.0,
-                                    textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 14, fontWeight: FontWeight.w500)),
-                                ],
+                                    SizedBox(
+                                      width: 2,
+                                    ),
+                                    Text( isService ? "": offerItem?.avgRating.toStringAsFixed(1)?? 0.0,
+                                      textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontSize: 14, fontWeight: FontWeight.w500)),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.lightBlue.withOpacity(.5)),
-                                padding:
-                                EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                child: Icon(CupertinoIcons.heart_fill,color: Colors.white,)
-                                // Text(
-                                //     textAlign: TextAlign.center,
-                                //     '${widget.sellerRunningOrder.status ?? ''}',
-                                //     style: TextStyle(
-                                //         fontSize: 12, fontWeight: FontWeight.w500)),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.green.withOpacity(.8)),
+                                  padding:
+                                  const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                  child: Icon(CupertinoIcons.heart_fill,color: Colors.white,)
+                                  // Text(
+                                  //     textAlign: TextAlign.center,
+                                  //     '${widget.sellerRunningOrder.status ?? ''}',
+                                  //     style: TextStyle(
+                                  //         fontSize: 12, fontWeight: FontWeight.w500)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],

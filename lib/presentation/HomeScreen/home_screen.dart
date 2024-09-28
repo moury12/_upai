@@ -25,6 +25,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   HomeController controller = HomeController.to;
+  final List<String> localCategories = ['Local Category 1', 'Local Category 2', 'Local Category 3'];
+  final List<String> onlineCategories = ['Online Category 1', 'Online Category 2', 'Online Category 3'];
 
   @override
   void initState() {
@@ -223,6 +225,49 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             borderRadius: BorderRadius.circular(10))),
                   ):const SizedBox.shrink();
                 }),
+                Container(
+                  height: 200,
+                  child: DefaultTabController(
+                    length: 2,
+                    child: Column(
+                      children: [
+                        TabBar(
+                          labelColor:AppColors.kprimaryColor,
+                          tabs: [
+                            Tab(text: 'Local'),
+                            Tab(text: 'Online'),
+                          ],
+                        ),
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              // Local Categories List
+                              ListView.builder(
+                                itemCount: localCategories.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Text(localCategories[index]),
+                                  );
+                                },
+                              ),
+                              // Online Categories List
+                              ListView.builder(
+                                itemCount: onlineCategories.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Text(onlineCategories[index]),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(
@@ -282,27 +327,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         itemCount: offerList.length,
                         itemBuilder: (context, index) {
                           final service = offerList[index];
-                          return MyServiceWidget(
+                          return ServiceOfferWidget(
                             offerItem: service,
                             button: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: SizedBox(
                                   width: double.infinity,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors
-                                            .kprimaryColor,
-                                        foregroundColor: Colors.white,
-                                        alignment: Alignment.center),
-                                    onPressed: () {
-                                      Get.to(
-                                        ServiceDetails(
-                                          offerDetails: service,
-                                        ),
-                                      );
-                                    },
-                                    child: const Text('Book Now'),
-                                  )),
+                                  // child: ElevatedButton(
+                                  //   style: ElevatedButton.styleFrom(
+                                  //       backgroundColor: AppColors
+                                  //           .kprimaryColor,
+                                  //       foregroundColor: Colors.white,
+                                  //       alignment: Alignment.center),
+                                  //   onPressed: () {
+                                  //     Get.to(
+                                  //       ServiceDetails(
+                                  //         offerDetails: service,
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  //   child: const Text('Book Now'),
+                                  // )
+                          ),
+
                             ),
                           );
                         },
