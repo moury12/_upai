@@ -55,7 +55,7 @@ class HomeController extends GetxController {
   RxInt quantityForConform = 1.obs;
   var totalAmount = 0.obs;
   ProfileScreenController? ctrl;
-
+RxInt? selectedPackageIndex;
   Rx<TextEditingController> quantityController =
       TextEditingController(text: '1').obs;
   Rx<TextEditingController> quantityControllerForConfromOrder =
@@ -90,16 +90,18 @@ class HomeController extends GetxController {
     packageList.assignAll([
       {
         "p_name": "Basic",
-        
-        "service_list": yourServiceList
+        "service_list": yourServiceList,
+        "selected": false // Add selected key for tracking
       },
       {
         "p_name": "Standard",
-        "service_list": yourServiceList
+        "service_list": yourServiceList, // Add service list for Standard
+        "selected": false
       },
       {
         "p_name": "Premium",
-        "service_list": yourServiceList
+        "service_list": yourServiceList, // Add service list for Premium
+        "selected": false
       }
     ]);
     quantityController.value.text = quantity.value.toString();
@@ -170,7 +172,17 @@ class HomeController extends GetxController {
     await SellerProfileController.to.refreshAllData();
     await HomeController.to.refreshAllData();
   }
-
+void selectPackage(int index){
+    for (int i=0;i<packageList.length;i++){
+      if(i==index){
+        packageList[i]['selected']=true;
+      }else{
+        packageList[i]['selected']=false;
+      }
+    }
+    selectedPackageIndex!.value = index;
+    packageList.refresh();
+}
   Future<void> editOffer(String offerId, title, description, rate,
       address) async {
     await RepositoryData.editOffer(
@@ -356,27 +368,6 @@ class HomeController extends GetxController {
       },
     );
   }
-
-  // Future uploadFile() async {
-  //   if (image == null) return;
-  //   final fileName = 'profile';
-  //  // final destination = '${ctrl.userInfo.value.userId}/$fileName';
-  //
-  //   try {
-  //     final ref = FirebaseStorage.instance.ref(destination).child('file/');
-  //     // Uint8List imageData = await File(image!.path).readAsBytes();
-  //
-  //     await ref.putFile(image!);
-  //     ctrl.fetchProfileImage();
-  //   } catch (e) {
-  //     ctrl.canEdit.value = false;
-  //     print('error occured');
-  //   }
-  // }
-  //
-
-
-//upload image in firebase
   Future<void> uploadImage(String offerId) async {
 
       isUploading.value = true;
@@ -432,20 +423,7 @@ class HomeController extends GetxController {
 //
 
   }
-  // Future<File?> compressImage(File file) async {
-  //   // Get the directory to store the compressed image
-  //   final directory = await getTemporaryDirectory();
-  //   final targetPath = path.join(directory.path, "compressed_${path.basename(file.path)}");
-  //
-  //   // Compress the image
-  //   var result = await FlutterImageCompress.compressAndGetFile(
-  //     file.absolute.path, // Original file path
-  //     targetPath,         // Destination path
-  //     quality: 50,        // Adjust quality (0-100), lower quality means more compression
-  //   );
-  //
-  //   return result;
-  // }
+
 
 
 }

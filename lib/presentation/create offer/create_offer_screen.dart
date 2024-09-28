@@ -393,12 +393,22 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
                       color: AppColors.kprimaryColor),
-                ), Wrap(
-                  children: List.generate(HomeController.to.packageList.length, (index) =>Container(padding: EdgeInsets.all(8),
-                      margin: EdgeInsets.symmetric(vertical: 8,horizontal: 4),
-                      decoration: BoxDecoration(color: AppColors.kprimaryColor,borderRadius: BorderRadius.circular(5)),
-                      child: Text(HomeController.to.packageList[index]['p_name'],style: TextStyle(color: Colors.white,fontSize: 18),)),)
                 ),
+                // Wrap(
+                //   children: List.generate(HomeController.to.packageList.length, (index) =>Obx(
+                //     () {
+                //       return GestureDetector(
+                //         onTap: () {
+                //           HomeController.to.selectPackage(index);
+                //         },
+                //         child: Container(padding: EdgeInsets.all(8),
+                //             margin: EdgeInsets.symmetric(vertical: 8,horizontal: 4),
+                //             decoration: BoxDecoration(color:HomeController.to.packageList[index]['selected']?Colors.orange: AppColors.kprimaryColor,borderRadius: BorderRadius.circular(5)),
+                //             child: Text(HomeController.to.packageList[index]['p_name'],style: TextStyle(color: Colors.white,fontSize: 18),)),
+                //       );
+                //     }
+                //   ),)
+                // ),
                 defaultSizeBoxHeight,
                 Row(
                   children: [
