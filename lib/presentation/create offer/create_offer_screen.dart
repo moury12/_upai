@@ -38,6 +38,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
   List<String> timeUnits = ['Hour', 'Task', 'Per Day', 'Piece'];
   List<String> serviceType = ['Local', 'Online'];
+  Map data = {};
 
   @override
   void initState() {
@@ -374,7 +375,20 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 HomeController.to.serviceController.value.text,
                             "selected": false
                           });
-                          debugPrint( HomeController.to.yourServiceList.toString());
+                          HomeController.to.packageList.forEach((package) {
+                            package['service_list'] = List.from(HomeController
+                                .to.yourServiceList
+                                .map((service) {
+                              return {
+                                "name": service['name'],
+                                "selected":
+                                    false // Each service starts as unselected for each package
+                              };
+                            }).toList());
+                          });
+                          HomeController.to.packageList.refresh();
+                          debugPrint(
+                              HomeController.to.yourServiceList.toString());
                         },
                         title: 'Add')
                   ],
@@ -384,9 +398,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   return Wrap(
                     children: List.generate(
                       HomeController.to.yourServiceList.length,
-                          (index) => Container(
+                      (index) => Container(
                         padding: EdgeInsets.all(8),
-                        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                         decoration: BoxDecoration(
                           color: AppColors.kprimaryColor,
                           borderRadius: BorderRadius.circular(5),
@@ -409,11 +424,16 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           onTap: (value) {
                             // HomeController.to.selectPackage(value);
                             HomeController.to.update();
+                            debugPrint(
+                                HomeController.to.packageList.toString());
+
+                            print('*********************');
+                            // print(HomeController.to.packageList[2]['service_list'][2]['selected']);
                           },
                           tabs: [
                             ...List.generate(
                               HomeController.to.packageList.length,
-                                  (index) => Text(
+                              (index) => Text(
                                 HomeController.to.packageList[index]['p_name'],
                               ),
                             ),
@@ -422,7 +442,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         TabContentView(
                           children: List.generate(
                             HomeController.to.packageList.length,
-                                (index) => SingleChildScrollView(
+                            (index) => SingleChildScrollView(
                               child: Column(
                                 children: [
                                   Text(
@@ -438,24 +458,47 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     validatorText: "Please Enter Rate",
                                     hintText: "Please Enter Rate",
                                     inputType: TextInputType.number,
-                                    controller: HomeController.to.packageList[index]['price'],
+                                    controller: HomeController
+                                        .to.packageList[index]['price'],
                                   ),
                                   ...List.generate(
-                                    HomeController.to.packageList[index]['service_list'].length,
-                                        (serviceIndex) {
+                                    HomeController
+                                        .to
+                                        .packageList[index]['service_list']
+                                        .length,
+                                    (serviceIndex) {
+                                      // data[index]={serviceIndex:HomeController.to.packageList[index]['service_list'][serviceIndex]['selected']};
+                                      //
+                                      // print('YYYYYYYYYYYYYYY');
+                                      // print(data);
+                                      var serviceList = HomeController.to
+                                          .packageList[index]['service_list'];
                                       return Row(
                                         children: [
                                           Text(
-                                            HomeController.to.packageList[index]['service_list'][serviceIndex]['name'],
+                                            HomeController.to.packageList[index]
+                                                    ['service_list']
+                                                [serviceIndex]['name'],
                                           ),
                                           Checkbox(
-                                            value: HomeController.to.packageList[index]['service_list'][serviceIndex]['selected'],
+                                            value: HomeController
+                                                        .to.packageList[index]
+                                                    ['service_list']
+                                                [serviceIndex]['selected'],
+                                            //value: data[serviceIndex],
                                             onChanged: (value) {
+                                              debugPrint(index.toString());
+                                              debugPrint(
+                                                  serviceIndex.toString());
                                               // Update the selected value for the specific service in the package
-                                              HomeController.to.packageList[index]['service_list'][serviceIndex]['selected'] = value ?? false;
+                                              HomeController.to.packageList[
+                                                          index]['service_list']
+                                                      [serviceIndex]
+                                                  ['selected'] = value ?? false;
 
                                               // Refresh the package list to notify the UI of changes
-                                              HomeController.to.packageList.refresh();
+                                              HomeController.to.packageList
+                                                  .refresh();
                                             },
                                           ),
                                         ],

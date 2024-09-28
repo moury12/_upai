@@ -99,19 +99,19 @@ RxInt? selectedPackageIndex;
       {
         "p_name": "Basic",
         "price":priceControllers[0],
-        "service_list": yourServiceList,
+        "service_list": List.from(yourServiceList),
         "selected": false // Add selected key for tracking
       },
       {
         "p_name": "Standard",
         "price":priceControllers[1],
-        "service_list": yourServiceList, // Add service list for Standard
+        "service_list": List.from(yourServiceList), // Add service list for Standard
         "selected": false
       },
       {
         "p_name": "Premium",
         "price":priceControllers[2],
-        "service_list": yourServiceList, // Add service list for Premium
+        "service_list": List.from(yourServiceList), // Add service list for Premium
         "selected": false
       }
     ]);
