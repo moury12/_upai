@@ -61,6 +61,7 @@ class HomeController extends GetxController {
   Rx<String?> selectedRateType = Rx<String?>(null);
   Rx<String?> selectedDistrictForAll = Rx<String?>(null);
   Rx<String?> selectedDistrict = Rx<String?>(null);
+  Rx<String?> searchingValue = "".obs;
   var filteredOfferList = <OfferList>[].obs;
   var filteredCategoryList = <CategoryList>[].obs;
   final box = Hive.box('userInfo');

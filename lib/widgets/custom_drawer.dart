@@ -22,136 +22,134 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Drawer(
-        backgroundColor: AppColors.backgroundLight,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
+    return Drawer(
+      backgroundColor: AppColors.backgroundLight,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Obx(() {
-                    return ClipRRect(
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Obx(() {
+                  return ClipRRect(
 
 
-                      borderRadius: BorderRadius.circular(360),
+                    borderRadius: BorderRadius.circular(360),
 
-                      child: ProfileScreenController.to.profileImageUrl.value.isNotEmpty
-                          ? Image.network(
-                              ProfileScreenController.to.profileImageUrl.value.toString(),
-                              fit: BoxFit.cover,
-                              height: 100,
-                              width: 100,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child; // Image has finished loading
-                          }
-                          return SizedBox(
+                    child: ProfileScreenController.to.profileImageUrl.value.isNotEmpty
+                        ? Image.network(
+                            ProfileScreenController.to.profileImageUrl.value.toString(),
+                            fit: BoxFit.cover,
                             height: 100,
                             width: 100,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.kprimaryColor,
-                                // value: loadingProgress.expectedTotalBytes != null
-                                //     ? loadingProgress.cumulativeBytesLoaded /
-                                //     (loadingProgress.expectedTotalBytes ?? 1)
-                                //     : null,
-                              ),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child; // Image has finished loading
+                        }
+                        return SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.kprimaryColor,
+                              // value: loadingProgress.expectedTotalBytes != null
+                              //     ? loadingProgress.cumulativeBytesLoaded /
+                              //     (loadingProgress.expectedTotalBytes ?? 1)
+                              //     : null,
                             ),
-                          );
-                        },
-                              errorBuilder: (context, child, loadingProgress) => SizedBox(
-                                  height: 100,
-                                  width: 100,
-                                  child: Center(
-                                      child: CircularProgressIndicator(
-                                    color: AppColors.kprimaryColor,
-                                  ))),
-                            )
-                          : Image.asset(
-                              ImageConstant.senderImg,
-                              fit: BoxFit.cover,
-                              height: 100,
-                              width: 100,
-                            ),
+                          ),
+                        );
+                      },
+                            errorBuilder: (context, child, loadingProgress) => SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: Center(
+                                    child: CircularProgressIndicator(
+                                  color: AppColors.kprimaryColor,
+                                ))),
+                          )
+                        : Image.asset(
+                            ImageConstant.senderImg,
+                            fit: BoxFit.cover,
+                            height: 100,
+                            width: 100,
+                          ),
 
-                      // backgroundColor: Colors.grey.shade200,
-                    );
-                  }),
-                ),
-                const SizedBox(height: 15),
-                Center(
-                  child: Obx(() {
-                    return Text(
-                      ProfileScreenController.to.userInfo.value.name.toString(),
-                      style: AppTextStyle.bodyLarge700.copyWith(
-                        fontSize: 20.0,
-                        color: AppColors.kprimaryColor,
-                      ),
-                    );
-                  }),
-                ),
-                Center(
-                  child: Text(
-                    ProfileScreenController.to.userInfo.value.userId.toString(),
-                    style: AppTextStyle.titleText.copyWith(
-                      fontSize: 14.0,
-                      color: AppColors.secondaryTextColor,
+                    // backgroundColor: Colors.grey.shade200,
+                  );
+                }),
+              ),
+              const SizedBox(height: 15),
+              Center(
+                child: Obx(() {
+                  return Text(
+                    ProfileScreenController.to.userInfo.value.name.toString(),
+                    style: AppTextStyle.bodyLarge700.copyWith(
+                      fontSize: 20.0,
+                      color: AppColors.kprimaryColor,
                     ),
+                  );
+                }),
+              ),
+              Center(
+                child: Text(
+                  ProfileScreenController.to.userInfo.value.userId.toString(),
+                  style: AppTextStyle.titleText.copyWith(
+                    fontSize: 14.0,
+                    color: AppColors.secondaryTextColor,
                   ),
                 ),
-                const SizedBox(height: 20),
-                _buildMenuOption(
-                  icon: Icons.person,
-                  label: 'Profile',
-                  onTap: () => Get.toNamed('/profile'),
-                ),
-                _buildMenuOption(
-                  icon: Icons.home_repair_service_rounded,
-                  label: 'My running orders',
-                  onTap: () {
-                    BuyerProfileController.to.getBuyerProfile();
-                    Get.to(BuyerRunningOrderListScreen(
-                      buyer: BuyerProfileController.to.buyer.value,
-                    ));
-                  },
-                ),
-                _buildMenuOption(
-                  icon: Icons.logout,
-                  label: 'Log out',
-                  onTap: () async {
-                   await FirebaseAPIs.updateActiveStatus(false);
-                   await  FirebaseAPIs.updatePushToken(ProfileScreenController.to.userInfo.value.userId.toString(),"");
-                    final box = Hive.box('userInfo');
-                    await box.delete("user");
-                    SplashScreenController.to.isLogin.value = false;
-                    Get.delete<SellerProfileController>(force: true);
-                    Get.delete<BuyerProfileController>(force: true);
-                    Get.delete<HomeController>(force: true);
-                    Get.delete<ProfileScreenController>(force: true);
-                    print("Data deleted");
-                   FirebaseAPIs.user = {};
-                    Get.offAllNamed('/login');
-                  },
-                ),
-                // _buildMenuOption(icon: Icons.add, label: "nw", onTap: (){
-                //   Get.to(NotificationScreenTest());
-                // })
+              ),
+              const SizedBox(height: 20),
+              _buildMenuOption(
+                icon: Icons.person,
+                label: 'Profile',
+                onTap: () => Get.toNamed('/profile'),
+              ),
+              _buildMenuOption(
+                icon: Icons.home_repair_service_rounded,
+                label: 'My running orders',
+                onTap: () {
+                  BuyerProfileController.to.getBuyerProfile();
+                  Get.to(BuyerRunningOrderListScreen(
+                    buyer: BuyerProfileController.to.buyer.value,
+                  ));
+                },
+              ),
+              _buildMenuOption(
+                icon: Icons.logout,
+                label: 'Log out',
+                onTap: () async {
+                 await FirebaseAPIs.updateActiveStatus(false);
+                 await  FirebaseAPIs.updatePushToken(ProfileScreenController.to.userInfo.value.userId.toString(),"");
+                  final box = Hive.box('userInfo');
+                  await box.delete("user");
+                  SplashScreenController.to.isLogin.value = false;
+                  Get.delete<SellerProfileController>(force: true);
+                  Get.delete<BuyerProfileController>(force: true);
+                  Get.delete<HomeController>(force: true);
+                  Get.delete<ProfileScreenController>(force: true);
+                  print("Data deleted");
+                 FirebaseAPIs.user = {};
+                  Get.offAllNamed('/login');
+                },
+              ),
+              // _buildMenuOption(icon: Icons.add, label: "nw", onTap: (){
+              //   Get.to(NotificationScreenTest());
+              // })
 
-                const Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text("app version:12-09-2024"),)
-              ],
-            ),
+              const Align(
+                alignment: Alignment.bottomRight,
+                child: Text("app version:12-09-2024"),)
+            ],
           ),
         ),
       ),

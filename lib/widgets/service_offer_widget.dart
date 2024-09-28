@@ -38,46 +38,21 @@ class ServiceOfferWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: FutureBuilder(
-                        future: FirebaseAPIs.fetchOfferImageUrl(isService ? service!.offerId.toString() : offerItem!.offerId.toString()),
-                        builder: (context, snapshot) {
-                          // if(snapshot.connectionState==ConnectionState.waiting||snapshot.connectionState==ConnectionState.none)
-                          //   {
-                          //     return Image.asset(
-                          //       ImageConstant.dummy,
-                          //       height: getResponsiveFontSize(context, 120),
-                          //       fit: BoxFit.none,
-                          //     );
-                          //   }
-                          if (snapshot.hasData) {
-                            return Image.network(
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child; // Image has finished loading
-                                  }
-                                  return SizedBox(
-                                    height: 100,
-                                    width: 100,
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        color: AppColors.kprimaryColor,
-                                        // value: loadingProgress.expectedTotalBytes != null
-                                        //     ? loadingProgress.cumulativeBytesLoaded /
-                                        //     (loadingProgress.expectedTotalBytes ?? 1)
-                                        //     : null,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                height: getResponsiveFontSize(context, 120),
-                                fit: BoxFit.cover, snapshot.data.toString());
-                          }
-                          else {
-                            return FutureBuilder(
-                              future: FirebaseAPIs.fetchDefaultOfferImageUrl(isService ? service!.serviceCategoryType.toString() : offerItem!.serviceCategoryType.toString()),
+                    child: Stack(
+                      children:[
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: FutureBuilder(
+                              future: FirebaseAPIs.fetchOfferImageUrl(isService ? service!.offerId.toString() : offerItem!.offerId.toString()),
                               builder: (context, snapshot) {
+                                // if(snapshot.connectionState==ConnectionState.waiting||snapshot.connectionState==ConnectionState.none)
+                                //   {
+                                //     return Image.asset(
+                                //       ImageConstant.dummy,
+                                //       height: getResponsiveFontSize(context, 120),
+                                //       fit: BoxFit.none,
+                                //     );
+                                //   }
                                 if (snapshot.hasData) {
                                   return Image.network(
                                       loadingBuilder: (context, child, loadingProgress) {
@@ -85,8 +60,8 @@ class ServiceOfferWidget extends StatelessWidget {
                                           return child; // Image has finished loading
                                         }
                                         return SizedBox(
-                                          height: 100,
-                                          width: 100,
+                                          height: 120,
+                                          width: double.infinity,
                                           child: Center(
                                             child: CircularProgressIndicator(
                                               color: AppColors.kprimaryColor,
@@ -98,28 +73,79 @@ class ServiceOfferWidget extends StatelessWidget {
                                           ),
                                         );
                                       },
-                                      height: getResponsiveFontSize(context, 120),
-                                      fit: BoxFit.cover, snapshot.data.toString());
+                                      height: 120,
+                                      width: double.infinity,
+                                      // height: getResponsiveFontSize(context, 120),
+                                      fit: BoxFit.cover, snapshot.data.toString()
+                                  );
                                 }
                                 else {
-                                  return Image.asset(
-                                    ImageConstant.dummy,
-                                    height: getResponsiveFontSize(context, 120),
-                                    fit: BoxFit.none,
+                                  return FutureBuilder(
+                                    future: FirebaseAPIs.fetchDefaultOfferImageUrl(isService ? service!.serviceCategoryType.toString() : offerItem!.serviceCategoryType.toString()),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Image.network(
+                                            loadingBuilder: (context, child, loadingProgress) {
+                                              if (loadingProgress == null) {
+                                                return child; // Image has finished loading
+                                              }
+                                              return SizedBox(
+                                                height: 120,
+                                                width: double.infinity,
+                                                child: Center(
+                                                  child: CircularProgressIndicator(
+                                                    color: AppColors.kprimaryColor,
+                                                    // value: loadingProgress.expectedTotalBytes != null
+                                                    //     ? loadingProgress.cumulativeBytesLoaded /
+                                                    //     (loadingProgress.expectedTotalBytes ?? 1)
+                                                    //     : null,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                      height: 120,
+                                      width: double.infinity,
+                                            // height: getResponsiveFontSize(context, 120),
+                                             fit: BoxFit.cover, snapshot.data.toString());
+                                      }
+                                      else {
+                                        return Image.asset(
+                                          ImageConstant.dummy,
+                                          // height: getResponsiveFontSize(context, 120),
+                                          height: 120,
+                                          width: double.infinity,
+                                          fit: BoxFit.none,
+                                        );
+                                      }
+                                    },
                                   );
                                 }
                               },
-                            );
-                          }
-                        },
-                      )
-                      ////
+                            )
+                          ////
 
-                      // Image.asset(
-                      //   ImageConstant.runningOrderImage,
-                      //   height: getResponsiveFontSize(context, 120),
-                      //   fit: BoxFit.fill,
-                      // ),
+                          // Image.asset(
+                          //   ImageConstant.runningOrderImage,
+                          //   height: getResponsiveFontSize(context, 120),
+                          //   fit: BoxFit.fill,
+                          // ),
+
+                        ),
+
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(color: AppColors.kprimaryColor, borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), topLeft: Radius.circular(15))),
+                            child: Text(
+                              maxLines: 1,
+                              isService ? service!.district ?? '' : offerItem?.district ?? '',
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white),
+                            ),
+                          ),
+                        )
+                      ]
 
                     ),
                   ),
