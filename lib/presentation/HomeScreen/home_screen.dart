@@ -25,8 +25,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   HomeController controller = HomeController.to;
-  final List<String> localCategories = ['Local Category 1', 'Local Category 2', 'Local Category 3'];
-  final List<String> onlineCategories = ['Online Category 1', 'Online Category 2', 'Online Category 3'];
+  final List<String> localCategories = [
+    'Local Category 1',
+    'Local Category 2',
+    'Local Category 3'
+  ];
+  final List<String> onlineCategories = [
+    'Online Category 1',
+    'Online Category 2',
+    'Online Category 3'
+  ];
 
   @override
   void initState() {
@@ -198,80 +206,65 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     // )
                   ],
                 ),
-               Obx(() {
-                  return  controller.searchICon.value?TextField(
-                    focusNode: searchFocus,
-                    controller: HomeController.to.searchOfferController.value,
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        controller.filterOffer(value,
-                            HomeController.to.selectedDistrictForAll.value);
-                        controller.isSearching.value = true;
-                      } else {
-                        controller.filterOffer(value,
-                            HomeController.to.selectedDistrictForAll.value);
+                Obx(() {
+                  return controller.searchICon.value ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8,),
+                    child: SizedBox(
+                      height: 50,
+                      child: TextField(
+                        focusNode: searchFocus,
+                        controller: HomeController.to.searchOfferController
+                            .value,
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            controller.searchingValue.value=value;
+                            controller.filterOffer(value,
+                                HomeController.to.selectedDistrictForAll.value);
+                            controller.isSearching.value = true;
+                          } else {
+                            controller.filterOffer(value,
+                                HomeController.to.selectedDistrictForAll.value);
 
-                        controller.isSearching.value = false;
-                      }
-                    },
-                    cursorColor: Colors.black,
-                    decoration: InputDecoration(
-                        fillColor: AppColors.colorWhite,
-                        filled: true,
-                        hintText: "Search service you're looking for...",
-                        hintStyle: TextStyle(fontSize: 14, color: AppColors
-                            .appTextColorGrey),
-                        border: OutlineInputBorder(borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10))),
-                  ):const SizedBox.shrink();
-                }),
-                Container(
-                  height: 200,
-                  child: DefaultTabController(
-                    length: 2,
-                    child: Column(
-                      children: [
-                        TabBar(
-                          labelColor:AppColors.kprimaryColor,
-                          tabs: [
-                            Tab(text: 'Local'),
-                            Tab(text: 'Online'),
-                          ],
-                        ),
-                        Expanded(
-                          child: TabBarView(
-                            children: [
-                              // Local Categories List
-                              ListView.builder(
-                                itemCount: localCategories.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    title: Text(localCategories[index]),
-                                  );
-                                },
-                              ),
-                              // Online Categories List
-                              ListView.builder(
-                                itemCount: onlineCategories.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    title: Text(onlineCategories[index]),
-                                  );
-                                },
-                              ),
-                            ],
+                            controller.isSearching.value = false;
+                          }
+                        },
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+
+
+                          fillColor: AppColors.colorWhite,
+                          filled: true,
+
+                          hintText: "Search service you're looking for...",
+                          hintStyle: TextStyle(fontSize: 14, color: AppColors
+                              .appTextColorGrey),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppColors.kprimaryColor,),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                        ),
-                      ],
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppColors.kprimaryColor,),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: AppColors.kprimaryColor),
+                            // Yellow border when focused
+                            borderRadius: BorderRadius.circular(10),
+                          ),),
+                      ),
                     ),
-                  ),
-                ),
+                  ) : const SizedBox.shrink();
+                }),
 
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(
                     children: [
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -293,24 +286,91 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         ],
                       ),
                       Obx(() {
-                        return HomeController.to.getCatList.isEmpty ||
-                            !NetworkController.to.connectedInternet.value
-                            ? ShimmerCategoryList()
-                            : SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: List.generate(
-                              HomeController.to.getCatList.length,
-                                  (index) {
-                                return CategotyItemtwo(
-                                  singleCat: HomeController.to
-                                      .getCatList[index],
-                                );
-                              },
+                        return Container(
+                          height: 200,
+                          child: DefaultTabController(
+                            length: 2,
+                            child: Column(
+                              children: [
+                                TabBar(
+                                  labelColor: AppColors.kprimaryColor,
+                                  indicatorColor: AppColors.kprimaryColor,
+                                  tabs: [
+                                    Tab(text: 'Local'),
+                                    Tab(text: 'Online'),
+                                  ],
+                                ),
+                                Expanded(
+                                  child: TabBarView(
+                                    children: [
+                                      // Local Categories List
+                                      ListView.builder(
+                                        itemCount: controller.getCatList.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            onTap:(){
+                                              Get.to(ServiceListScreen(
+                                                selectedCat: controller.getCatList[index].categoryName.toString(),
+                                              ));
+                                            },
+                                            child: ListTile(
+
+                                              title: Text(
+                                                  controller.getCatList[index]
+                                                      .categoryName
+                                                      .toString()),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      // Online Categories List
+                                      ListView.builder(
+                                        itemCount: controller.getCatList.length,
+                                        itemBuilder: (context, index) {
+                                          return  InkWell(
+                                            onTap:(){
+                                              Get.to(ServiceListScreen(
+                                                selectedCat: controller.getCatList[index].categoryName.toString(),
+                                              ));
+                                            },
+                                            child: ListTile(
+
+                                              title: Text(
+                                                  controller.getCatList[index]
+                                                      .categoryName
+                                                      .toString()),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         );
                       }),
+
+                      // Obx(() {
+                      //   return HomeController.to.getCatList.isEmpty ||
+                      //       !NetworkController.to.connectedInternet.value
+                      //       ? ShimmerCategoryList()
+                      //       : SingleChildScrollView(
+                      //     scrollDirection: Axis.horizontal,
+                      //     child: Row(
+                      //       children: List.generate(
+                      //         HomeController.to.getCatList.length,
+                      //             (index) {
+                      //           return CategotyItemtwo(
+                      //             singleCat: HomeController.to
+                      //                 .getCatList[index],
+                      //           );
+                      //         },
+                      //       ),
+                      //     ),
+                      //   );
+                      // }),
                     ],
                   ),
                 ),
@@ -327,29 +387,39 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         itemCount: offerList.length,
                         itemBuilder: (context, index) {
                           final service = offerList[index];
-                          return ServiceOfferWidget(
-                            offerItem: service,
-                            button: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: SizedBox(
-                                  width: double.infinity,
-                                  // child: ElevatedButton(
-                                  //   style: ElevatedButton.styleFrom(
-                                  //       backgroundColor: AppColors
-                                  //           .kprimaryColor,
-                                  //       foregroundColor: Colors.white,
-                                  //       alignment: Alignment.center),
-                                  //   onPressed: () {
-                                  //     Get.to(
-                                  //       ServiceDetails(
-                                  //         offerDetails: service,
-                                  //       ),
-                                  //     );
-                                  //   },
-                                  //   child: const Text('Book Now'),
-                                  // )
-                          ),
+                          return InkWell(
+                            onTap: (){
+                              Get.to(
+                                ServiceDetails(
+                                  offerDetails: service,
+                                ),
+                              );
 
+                            },
+                            child: ServiceOfferWidget(
+                              offerItem: service,
+                              // button: Padding(
+                              //   padding: const EdgeInsets.only(top: 8.0),
+                              //   child: SizedBox(
+                              //     width: double.infinity,
+                              //     // child: ElevatedButton(
+                              //     //   style: ElevatedButton.styleFrom(
+                              //     //       backgroundColor: AppColors
+                              //     //           .kprimaryColor,
+                              //     //       foregroundColor: Colors.white,
+                              //     //       alignment: Alignment.center),
+                              //     //   onPressed: () {
+                              //     //     Get.to(
+                              //     //       ServiceDetails(
+                              //     //         offerDetails: service,
+                              //     //       ),
+                              //     //     );
+                              //     //   },
+                              //     //   child: const Text('Book Now'),
+                              //     // )
+                              //   ),
+                              //
+                              // ),
                             ),
                           );
                         },
@@ -422,25 +492,32 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             return HomeController.to.getOfferList.isEmpty ||
                                 !NetworkController.to.connectedInternet.value
                                 ? const ShimmerRunnigOrder()
-                                :ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: controller.getOfferList.length,
-                                itemBuilder: (context, index) {
-                                  final service = controller.getOfferList[index];
-                                  return InkWell(
-                                    onTap: (){
-                                      Get.to(
-                                        ServiceDetails(
-                                          offerDetails: service,
-                                        ),
-                                      );
-                                    },
+                                : SizedBox(
+                              height: MediaQuery
+                                  .sizeOf(context)
+                                  .width,
+                              child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+
+                                  itemCount: controller.getOfferList.length,
+                                  itemBuilder: (context, index) {
+                                    final service = controller
+                                        .getOfferList[index];
+                                    return InkWell(
+                                        onTap: () {
+                                          Get.to(
+                                            ServiceDetails(
+                                              offerDetails: service,
+                                            ),
+                                          );
+                                        },
 
 
-                                      child: ServiceOfferWidget(offerItem: service,));
-
-
-                            });
+                                        child: ServiceOfferWidget(
+                                          offerItem: service,));
+                                  }),
+                            );
                             // GridView.builder(
                             //   shrinkWrap: true,
                             //   primary: false,
