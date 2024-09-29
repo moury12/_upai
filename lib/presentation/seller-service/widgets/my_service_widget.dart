@@ -21,6 +21,8 @@ class MyServiceWidget extends StatelessWidget {
       children: [
         Container(
           // width: 200,
+          height: 200,
+          width: 200,
           padding: const EdgeInsets.all(12),
           alignment: Alignment.topCenter,
           decoration: BoxDecoration(
@@ -172,17 +174,22 @@ class MyServiceWidget extends StatelessWidget {
                                 // overflowAlignment: OverflowBarAlignment.end,
                                 // alignment: MainAxisAlignment.end,
                                 children: [
-                                  Icon(
-                                    CupertinoIcons.cart,
-                                    size: 15,
-                                    color: AppColors.kprimaryColor,
-                                  ),
+                                  isService ? Icon(
+                                CupertinoIcons.cart,
+                                size: 15,
+                                color: AppColors.kprimaryColor,
+                              ): Icon(
+                              CupertinoIcons.star_fill,
+                              size: 15,
+                              color: AppColors.kprimaryColor,
+                            ),
+
                                   SizedBox(
                                     width: 2,
                                   ),
                                   Flexible(
                                     child: Text(
-                                      isService ? service!.quantity.toString() : offerItem?.quantity.toString() ?? '0',
+                                      isService ? service!.quantity.toString() : offerItem?.avgRating.toString() ?? '0',
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black),
                                     ),
