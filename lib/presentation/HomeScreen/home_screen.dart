@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   HomeController controller = HomeController.to;
   final List<String> localCategories = [
@@ -111,7 +112,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               children: [
                 Row(
                   children: [
-                    const Expanded(flex: 4, child: SearchableDropDown()),
+                    const Expanded(flex: 4, child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: SearchableDropDown(),
+                    )),
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
@@ -162,300 +166,310 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     // )
                   ],
                 ),
-                controller.searchICon.value? Column(
-                  children: [
-                    Obx(() {
-                      return controller.searchICon.value ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8,),
-                        child: SizedBox(
-                          height: 50,
-                          child: TextField(
-                            focusNode: searchFocus,
-                            controller: HomeController.to.searchOfferController
-                                .value,
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                controller.searchingValue.value=value;
-                                controller.filterOffer(value,
-                                    HomeController.to.selectedDistrictForAll.value);
-                                controller.isSearching.value = true;
-                              } else {
-                                controller.filterOffer(value,
-                                    HomeController.to.selectedDistrictForAll.value);
+                controller.searchICon.value ?
+                Obx(() {
+                  return Column(
+                    children: [
+                      controller.searchICon.value ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8,),
+                          child: SizedBox(
+                            height: 50,
+                            child: TextField(
+                              focusNode: searchFocus,
+                              controller: HomeController.to
+                                  .searchOfferController
+                                  .value,
+                              onChanged: (value) {
+                                if (value.isNotEmpty) {
+                                  controller.searchingValue.value = value;
+                                  controller.filterOffer(value,
+                                      HomeController.to.selectedDistrictForAll
+                                          .value);
+                                  controller.isSearching.value = true;
+                                } else {
+                                  controller.filterOffer(value,
+                                      HomeController.to.selectedDistrictForAll
+                                          .value);
 
-                                controller.isSearching.value = false;
-                              }
+                                  controller.isSearching.value = false;
+                                }
+                              },
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+
+
+                                fillColor: AppColors.colorWhite,
+                                filled: true,
+
+                                hintText: "Search service you're looking for...",
+                                hintStyle: TextStyle(
+                                    fontSize: 14, color: AppColors
+                                    .appTextColorGrey),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColors.kprimaryColor,),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColors.kprimaryColor,),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: AppColors.kprimaryColor),
+                                  // Yellow border when focused
+                                  borderRadius: BorderRadius.circular(10),
+                                ),),
+                            ),
+                          ),
+                        ) : const SizedBox.shrink(),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text("Browse Category",
+                                style: AppTextStyle.titleText),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(CategoryListScreen.routeName);
                             },
-                            cursorColor: Colors.black,
-                            decoration: InputDecoration(
-
-
-                              fillColor: AppColors.colorWhite,
-                              filled: true,
-
-                              hintText: "Search service you're looking for...",
-                              hintStyle: TextStyle(fontSize: 14, color: AppColors
-                                  .appTextColorGrey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.kprimaryColor,),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.kprimaryColor,),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: AppColors.kprimaryColor),
-                                // Yellow border when focused
-                                borderRadius: BorderRadius.circular(10),
-                              ),),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12.0),
+                              child: Text("Browse All > ",
+                                  style: AppTextStyle.titleTextSmallUnderline),
+                            ),
                           ),
-                        ),
-                      ) : const SizedBox.shrink();
-                    }),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text("Browse Category",
-                              style: AppTextStyle.titleText),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed(CategoryListScreen.routeName);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 12.0),
-                            child: Text("Browse All > ",
-                                style: AppTextStyle.titleTextSmallUnderline),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Obx(() {
-                      return Container(
-                        height: 200,
-                        child: DefaultTabController(
-                          length: 2,
-                          child: Column(
-                            children: [
-                              TabBar(
-                                labelColor: AppColors.kprimaryColor,
-                                indicatorColor: AppColors.kprimaryColor,
-                                tabs: [
-                                  Tab(text: 'Local'),
-                                  Tab(text: 'Online'),
-                                ],
-                              ),
-                              Expanded(
-                                child: TabBarView(
-                                  children: [
-                                    // Local Categories List
-                                    ListView.builder(
-                                      itemCount: controller.getCatList.length,
-                                      itemBuilder: (context, index) {
-                                        return InkWell(
-                                          onTap:(){
-                                            Get.to(ServiceListScreen(
-                                              selectedCat: controller.getCatList[index].categoryName.toString(),
-                                            ));
-                                          },
-                                          child: ListTile(
-
-                                            title: Text(
-                                                controller.getCatList[index]
-                                                    .categoryName
-                                                    .toString()),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    // Online Categories List
-                                    ListView.builder(
-                                      itemCount: controller.getCatList.length,
-                                      itemBuilder: (context, index) {
-                                        return  InkWell(
-                                          onTap:(){
-                                            Get.to(ServiceListScreen(
-                                              selectedCat: controller.getCatList[index].categoryName.toString(),
-                                            ));
-                                          },
-                                          child: ListTile(
-
-                                            title: Text(
-                                                controller.getCatList[index]
-                                                    .categoryName
-                                                    .toString()),
-                                          ),
-                                        );
-                                      },
-                                    ),
+                        ],
+                      ), Container(
+                          height: 200,
+                          child: DefaultTabController(
+                            length: 2,
+                            child: Column(
+                              children: [
+                                TabBar(
+                                  labelColor: AppColors.kprimaryColor,
+                                  indicatorColor: AppColors.kprimaryColor,
+                                  tabs: [
+                                    Tab(text: 'Local'),
+                                    Tab(text: 'Online'),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-                  ],
-                ):Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text("Explore Top Services",
-                                    style: AppTextStyle.titleText),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(ServiceListScreen.routeName,
-                                      arguments: "");
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12.0),
-                                  child: Text("Browse All > ",
-                                      style: AppTextStyle.titleTextSmallUnderline),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Obx(() {
-                            return HomeController.to.getOfferList.isEmpty ||
-                                !NetworkController.to.connectedInternet.value
-                                ? const ShimmerRunnigOrder()
-                                : SizedBox(
-                              height: 200,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: controller.getOfferList.length,
-                                  itemBuilder: (context, index) {
-                                    final service = controller
-                                        .getOfferList[index];
-                                    return InkWell(
-                                        onTap: () {
-                                          Get.to(
-                                            ServiceDetails(
-                                              offerDetails: service,
+                                Expanded(
+                                  child: TabBarView(
+                                    children: [
+                                      // Local Categories List
+                                      ListView.builder(
+                                        itemCount: controller.getCatList.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            onTap: () {
+                                              Get.to(ServiceListScreen(
+                                                selectedCat: controller
+                                                    .getCatList[index]
+                                                    .categoryName.toString(),
+                                              ));
+                                            },
+                                            child: ListTile(
+
+                                              title: Text(
+                                                  controller.getCatList[index]
+                                                      .categoryName
+                                                      .toString()),
                                             ),
                                           );
                                         },
+                                      ),
+                                      // Online Categories List
+                                      ListView.builder(
+                                        itemCount: controller.getCatList.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            onTap: () {
+                                              Get.to(ServiceListScreen(
+                                                selectedCat: controller
+                                                    .getCatList[index]
+                                                    .categoryName.toString(),
+                                              ));
+                                            },
+                                            child: ListTile(
 
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(right: 16.0,top: 4,bottom: 4,left: 4),
-                                          child: MyServiceWidget(
-                                            offerItem: service,),
-                                        ));
-                                  }),
-                            );
-
-                          }),
-
-
-
-                          // Obx(() {
-                          //   return HomeController.to.getCatList.isEmpty ||
-                          //       !NetworkController.to.connectedInternet.value
-                          //       ? ShimmerCategoryList()
-                          //       : SingleChildScrollView(
-                          //     scrollDirection: Axis.horizontal,
-                          //     child: Row(
-                          //       children: List.generate(
-                          //         HomeController.to.getCatList.length,
-                          //             (index) {
-                          //           return CategotyItemtwo(
-                          //             singleCat: HomeController.to
-                          //                 .getCatList[index],
-                          //           );
-                          //         },
-                          //       ),
-                          //     ),
-                          //   );
-                          // }),
-                        ],
-                      ),
-                    ),
-                    Obx(() {
-                      if (controller.isSearching.value ||
-                          HomeController.to.selectedDistrictForAll.value != null) {
-                        var offerList = [];
-                        offerList = controller.filteredOfferList;
-                        if (offerList.isNotEmpty) {
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.symmetric(horizontal: 8)
-                                .copyWith(top: 8),
-                            itemCount: offerList.length,
-                            itemBuilder: (context, index) {
-                              final service = offerList[index];
-                              return InkWell(
-                                onTap: (){
-                                  Get.to(
-                                    ServiceDetails(
-                                      offerDetails: service,
-                                    ),
-                                  );
-
-                                },
-                                child: ServiceOfferWidget(
-                                  offerItem: service,
-                                  // button: Padding(
-                                  //   padding: const EdgeInsets.only(top: 8.0),
-                                  //   child: SizedBox(
-                                  //     width: double.infinity,
-                                  //     // child: ElevatedButton(
-                                  //     //   style: ElevatedButton.styleFrom(
-                                  //     //       backgroundColor: AppColors
-                                  //     //           .kprimaryColor,
-                                  //     //       foregroundColor: Colors.white,
-                                  //     //       alignment: Alignment.center),
-                                  //     //   onPressed: () {
-                                  //     //     Get.to(
-                                  //     //       ServiceDetails(
-                                  //     //         offerDetails: service,
-                                  //     //       ),
-                                  //     //     );
-                                  //     //   },
-                                  //     //   child: const Text('Book Now'),
-                                  //     // )
-                                  //   ),
-                                  //
-                                  // ),
+                                              title: Text(
+                                                  controller.getCatList[index]
+                                                      .categoryName
+                                                      .toString()),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              );
-                            },
-                          );
-                        } else {
-                          return const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: Center(
-                              child: Text(
-                                "No Service Available",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 12),
-                              ),
+                              ],
                             ),
-                          );
-                        }
-                      } else {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              /*      Obx(() {
+                          ),
+                        )
+                    ],
+                  );
+                }) :Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text("Explore Top Services",
+                                      style: AppTextStyle.titleText),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(ServiceListScreen.routeName,
+                                        arguments: "");
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12.0),
+                                    child: Text("Browse All > ",
+                                        style: AppTextStyle
+                                            .titleTextSmallUnderline),
+                                  ),
+                                ),
+                              ],
+                            ),
+                             HomeController.to.getOfferList.isEmpty ||
+                                  !NetworkController.to.connectedInternet.value
+                                  ? const ShimmerRunnigOrder()
+                                  : SizedBox(
+                                height: 200,
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    physics: BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: controller.getOfferList.length,
+                                    itemBuilder: (context, index) {
+                                      final service = controller
+                                          .getOfferList[index];
+                                      return InkWell(
+                                          onTap: () {
+                                            Get.to(
+                                              ServiceDetails(
+                                                offerDetails: service,
+                                              ),
+                                            );
+                                          },
+
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 16.0,
+                                                top: 4,
+                                                bottom: 4,
+                                                left: 4),
+                                            child: MyServiceWidget(
+                                              offerItem: service,),
+                                          ));
+                                    }),
+                              )
+
+
+
+                            // Obx(() {
+                            //   return HomeController.to.getCatList.isEmpty ||
+                            //       !NetworkController.to.connectedInternet.value
+                            //       ? ShimmerCategoryList()
+                            //       : SingleChildScrollView(
+                            //     scrollDirection: Axis.horizontal,
+                            //     child: Row(
+                            //       children: List.generate(
+                            //         HomeController.to.getCatList.length,
+                            //             (index) {
+                            //           return CategotyItemtwo(
+                            //             singleCat: HomeController.to
+                            //                 .getCatList[index],
+                            //           );
+                            //         },
+                            //       ),
+                            //     ),
+                            //   );
+                            // }),
+                          ],
+                        ),
+                      ),
+                      Obx(() {
+                        if (controller.isSearching.value ||
+                            HomeController.to.selectedDistrictForAll.value !=
+                                null) {
+                          var offerList = [];
+                          offerList = controller.filteredOfferList;
+                          if (offerList.isNotEmpty) {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              padding: const EdgeInsets.symmetric(horizontal: 8)
+                                  .copyWith(top: 8),
+                              itemCount: offerList.length,
+                              itemBuilder: (context, index) {
+                                final service = offerList[index];
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(
+                                      ServiceDetails(
+                                        offerDetails: service,
+                                      ),
+                                    );
+                                  },
+                                  child: ServiceOfferWidget(
+                                    offerItem: service,
+                                    // button: Padding(
+                                    //   padding: const EdgeInsets.only(top: 8.0),
+                                    //   child: SizedBox(
+                                    //     width: double.infinity,
+                                    //     // child: ElevatedButton(
+                                    //     //   style: ElevatedButton.styleFrom(
+                                    //     //       backgroundColor: AppColors
+                                    //     //           .kprimaryColor,
+                                    //     //       foregroundColor: Colors.white,
+                                    //     //       alignment: Alignment.center),
+                                    //     //   onPressed: () {
+                                    //     //     Get.to(
+                                    //     //       ServiceDetails(
+                                    //     //         offerDetails: service,
+                                    //     //       ),
+                                    //     //     );
+                                    //     //   },
+                                    //     //   child: const Text('Book Now'),
+                                    //     // )
+                                    //   ),
+                                    //
+                                    // ),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Center(
+                                child: Text(
+                                  "No Service Available",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12),
+                                ),
+                              ),
+                            );
+                          }
+                        } else {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                /*      Obx(() {
                             return SizedBox(
                                 width: size.width,
                                 height: 150,
@@ -479,145 +493,150 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 ));
                           }),*/
 
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text("Explore Top Services",
-                                        style: AppTextStyle.titleText),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Get.toNamed(ServiceListScreen.routeName,
-                                          arguments: "");
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 12.0),
-                                      child: Text("Browse All > ",
-                                          style: AppTextStyle
-                                              .titleTextSmallUnderline),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text("Explore Top Services",
+                                          style: AppTextStyle.titleText),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Obx(() {
-                                return HomeController.to.getOfferList.isEmpty ||
-                                    !NetworkController.to.connectedInternet.value
-                                    ? const ShimmerRunnigOrder()
-                                    : SizedBox(
-                                  height: MediaQuery
-                                      .sizeOf(context)
-                                      .width,
-                                  child: ListView.builder(
-                                      physics: BouncingScrollPhysics(),
-                                      shrinkWrap: true,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(ServiceListScreen.routeName,
+                                            arguments: "");
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 12.0),
+                                        child: Text("Browse All > ",
+                                            style: AppTextStyle
+                                                .titleTextSmallUnderline),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Obx(() {
+                                  return HomeController.to.getOfferList
+                                      .isEmpty ||
+                                      !NetworkController.to.connectedInternet
+                                          .value
+                                      ? const ShimmerRunnigOrder()
+                                      : SizedBox(
+                                    height: MediaQuery
+                                        .sizeOf(context)
+                                        .width,
+                                    child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        shrinkWrap: true,
 
-                                      itemCount: controller.getOfferList.length,
-                                      itemBuilder: (context, index) {
-                                        final service = controller
-                                            .getOfferList[index];
-                                        return InkWell(
-                                            onTap: () {
-                                              Get.to(
-                                                ServiceDetails(
-                                                  offerDetails: service,
-                                                ),
-                                              );
-                                            },
+                                        itemCount: controller.getOfferList
+                                            .length,
+                                        itemBuilder: (context, index) {
+                                          final service = controller
+                                              .getOfferList[index];
+                                          return InkWell(
+                                              onTap: () {
+                                                Get.to(
+                                                  ServiceDetails(
+                                                    offerDetails: service,
+                                                  ),
+                                                );
+                                              },
 
 
-                                            child: ServiceOfferWidget(
-                                              offerItem: service,));
-                                      }),
-                                );
+                                              child: ServiceOfferWidget(
+                                                offerItem: service,));
+                                        }),
+                                  );
 
-                                // GridView.builder(
-                                //   shrinkWrap: true,
-                                //   primary: false,
-                                //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                //       crossAxisCount: crossAxisCount,
-                                //       childAspectRatio: childRatio,
-                                //       crossAxisSpacing: 12,
-                                //       mainAxisSpacing: 12),
-                                //   itemCount: controller.getOfferList.length < 4
-                                //       ? controller.getOfferList.length
-                                //       : 4,
-                                //   itemBuilder: (context, index) {
-                                //     final service = controller.getOfferList[index];
-                                //     return InkWell(
-                                //       onTap: (){
-                                //               Get.to(
-                                //                 ServiceDetails(
-                                //                   offerDetails: service,
-                                //                 ),
+                                  // GridView.builder(
+                                  //   shrinkWrap: true,
+                                  //   primary: false,
+                                  //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  //       crossAxisCount: crossAxisCount,
+                                  //       childAspectRatio: childRatio,
+                                  //       crossAxisSpacing: 12,
+                                  //       mainAxisSpacing: 12),
+                                  //   itemCount: controller.getOfferList.length < 4
+                                  //       ? controller.getOfferList.length
+                                  //       : 4,
+                                  //   itemBuilder: (context, index) {
+                                  //     final service = controller.getOfferList[index];
+                                  //     return InkWell(
+                                  //       onTap: (){
+                                  //               Get.to(
+                                  //                 ServiceDetails(
+                                  //                   offerDetails: service,
+                                  //                 ),
+                                  //               );
+                                  //
+                                  //       },
+                                  //       child: MyServiceWidget(
+                                  //         offerItem: service,
+                                  //         // SizedBox(
+                                  //         //   width: double.infinity,
+                                  //         //   child: ElevatedButton(
+                                  //         //     style: ElevatedButton.styleFrom(
+                                  //         //         backgroundColor: AppColors
+                                  //         //             .kprimaryColor,
+                                  //         //         foregroundColor: Colors.white,
+                                  //         //         alignment: Alignment.center),
+                                  //         //     onPressed: () async {
+                                  //         //       Get.to(
+                                  //         //         ServiceDetails(
+                                  //         //           offerDetails: service,
+                                  //         //         ),
+                                  //         //       );
+                                  //         //       // Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDetails(offerDetails: service,),));
+                                  //         //     },
+                                  //         //     child: Text('Book Now'),
+                                  //         //   ),
+                                  //         // ),
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  // );
+                                }),
+                                // SizedBox(
+                                //     width: size.width,
+                                //     height: 300,
+                                //     child: Obx(
+                                //       () {
+                                //         if (controller.getOfferList.isNotEmpty) {
+                                //           List<OfferList> offerList =
+                                //               controller.getOfferList;
+                                //           return ListView.builder(
+                                //             itemCount: 5,
+                                //             scrollDirection: Axis.horizontal,
+                                //             itemBuilder: (context, index) {
+                                //               // singleItem =
+                                //               //     ItemServiceModel.fromJson(serviceList[index]);
+                                //               return OfferService(
+                                //                 offer: offerList[index],
                                 //               );
-                                //
+                                //             },
+                                //           );
+                                //         } else {
+                                //           return Center(
+                                //               child: const CircularProgressIndicator(
+                                //             color: Colors.black,
+                                //           ));
+                                //         }
                                 //       },
-                                //       child: MyServiceWidget(
-                                //         offerItem: service,
-                                //         // SizedBox(
-                                //         //   width: double.infinity,
-                                //         //   child: ElevatedButton(
-                                //         //     style: ElevatedButton.styleFrom(
-                                //         //         backgroundColor: AppColors
-                                //         //             .kprimaryColor,
-                                //         //         foregroundColor: Colors.white,
-                                //         //         alignment: Alignment.center),
-                                //         //     onPressed: () async {
-                                //         //       Get.to(
-                                //         //         ServiceDetails(
-                                //         //           offerDetails: service,
-                                //         //         ),
-                                //         //       );
-                                //         //       // Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDetails(offerDetails: service,),));
-                                //         //     },
-                                //         //     child: Text('Book Now'),
-                                //         //   ),
-                                //         // ),
-                                //       ),
-                                //     );
-                                //   },
-                                // );
-                              }),
-                              // SizedBox(
-                              //     width: size.width,
-                              //     height: 300,
-                              //     child: Obx(
-                              //       () {
-                              //         if (controller.getOfferList.isNotEmpty) {
-                              //           List<OfferList> offerList =
-                              //               controller.getOfferList;
-                              //           return ListView.builder(
-                              //             itemCount: 5,
-                              //             scrollDirection: Axis.horizontal,
-                              //             itemBuilder: (context, index) {
-                              //               // singleItem =
-                              //               //     ItemServiceModel.fromJson(serviceList[index]);
-                              //               return OfferService(
-                              //                 offer: offerList[index],
-                              //               );
-                              //             },
-                              //           );
-                              //         } else {
-                              //           return Center(
-                              //               child: const CircularProgressIndicator(
-                              //             color: Colors.black,
-                              //           ));
-                              //         }
-                              //       },
-                              //     )),
-                            ],
-                          ),
-                        );
-                      }
-                    }),
-                    SizedBox(
-                      height: 8,
-                    )
+                                //     )),
+                              ],
+                            ),
+                          );
+                        }
+                      }),
+                      SizedBox(
+                        height: 8,
+                      )
 
-                  ],
-                ),
+                    ],
+                  )
+
 
 
               ],
