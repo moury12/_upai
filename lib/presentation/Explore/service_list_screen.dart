@@ -22,7 +22,7 @@ class ServiceListScreen extends StatefulWidget {
   static const String routeName = '/explore-top';
   final String? selectedCat;
 
-  ServiceListScreen({super.key, this.selectedCat});
+  const ServiceListScreen({super.key, this.selectedCat});
 
   @override
   State<ServiceListScreen> createState() => _ServiceListScreenState();
@@ -130,7 +130,11 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                     );
                   }),
                 ),
-                SearchableDropDown(),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: SearchableDropDown(),
+                ),
+                SizedBox(height: 10,),
                 Obx(
                   () {
                     if (!NetworkController.to.connectedInternet.value) {

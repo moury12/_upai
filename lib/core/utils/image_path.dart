@@ -20,4 +20,11 @@ class ImageConstant {
   static String notification = '$_imagePath/notificationpng.png';
   static String runningOrderImage = 'assets/images/runningorderimage.png';
   static String productImage = 'assets/images/products.png';
+  static String laundryIcon = 'assets/category_icon_upai/laundry.png';
+  static String furnitureIcon = 'assets/category_icon_upai/furniture.png';
+  static String laptopIcon = 'assets/category_icon_upai/laptop_repair.png';
+  static String formFillUpIcon = 'assets/category_icon_upai/application_form.png';
+  static String roomCleanIcon = 'assets/category_icon_upai/room_cleaning.png';
+  static String electricalIcon = 'assets/category_icon_upai/electrical.png';
+
 }
