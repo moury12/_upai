@@ -32,6 +32,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   get: ^4.6.6
   http: ^1.2.1
+  lottie: ^3.1.2
   flutter_local_notifications: ^17.2.2
 
   flutter:
@@ -74,6 +75,7 @@ flutter:
     - assets/images/
     - assets/district/district.json
     - assets/category_icon_upai/
+    - assets/search_json/search_cross_icon.json
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

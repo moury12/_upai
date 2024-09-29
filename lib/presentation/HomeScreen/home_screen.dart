@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/domain/services/checkInternet.dart';
@@ -26,22 +27,22 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
   HomeController controller = HomeController.to;
-  // final List<String> localCategories = [
-  //   'Local Category 1',
-  //   'Local Category 2',
-  //   'Local Category 3'
-  // ];
-  // final List<String> onlineCategories = [
-  //   'Online Category 1',
-  //   'Online Category 2',
-  //   'Online Category 3'
-  // ];
-
+  final List<String> localCategories = [
+    'Local Category 1',
+    'Local Category 2',
+    'Local Category 3'
+  ];
+  final List<String> onlineCategories = [
+    'Online Category 1',
+    'Online Category 2',
+    'Online Category 3'
+  ];
+late AnimationController animationController;
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
+    // WidgetsBinding.instance.addObserver(this);
     resetData();
     debugPrint('uiyiuvu');
     controller.refreshAllData();
@@ -49,18 +50,33 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     controller.isSearching.value = false;
     Get.put(NetworkController());
 
+animationController=AnimationController(vsync: this,duration: Duration(seconds: 1));
+    animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        // Stop after completing the animation to the cross icon
+        animationController.stop();
+      } else if (status == AnimationStatus.dismissed) {
+        // Stop after reversing back to the search icon
+        animationController.stop();
+      }
+    });
     super.initState();
   }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed) {
-      // Reset data when the app is resumed or navigated back to this screen
-      resetData();
-      controller.refreshAllData();
-    }
+@override
+  void dispose() {
+    animationController.dispose();
+    // TODO: implement dispose
+    super.dispose();
   }
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   super.didChangeAppLifecycleState(state);
+  //   if (state == AppLifecycleState.resumed) {
+  //     // Reset data when the app is resumed or navigated back to this screen
+  //     resetData();
+  //     controller.refreshAllData();
+  //   }
+  // }
 
   void resetData() {
     controller.searchOfferController.value.clear();
@@ -73,8 +89,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     // Determine the number of columns and aspect ratio dynamically
     int crossAxisCount = 2;
@@ -121,31 +143,42 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         decoration: BoxDecoration(
                             color: AppColors.kprimaryColor,
                             shape: BoxShape.circle),
-                        child: Obx(() {
-                          return IconButton(
+                        child:
+                           IconButton(
                               style: IconButton.styleFrom(
                                 shape: const CircleBorder(),
                               ),
                               onPressed: () async {
-                                controller.searchICon.value =
-                                    !controller.searchICon.value;
-                                print(controller.searchICon.value);
+                              controller.searchICon.value =
+                              !controller.searchICon.value;
+                                if(controller.searchICon.value){
+                                  animationController.animateTo(1.0);
+                                }else{
+                                  animationController.animateBack(0.3);
+                                }
+                                setState(() {
+
+                                });
                                 // resetData();
                                 // await controller.refreshAllData();
                               },
-                              icon: controller.searchICon.value
-                                  ? Icon(
-                                      Icons.cancel_outlined,
-                                      size: 25,
-                                      color: AppColors.colorWhite,
-                                    )
-                                  : Icon(
-                                      CupertinoIcons.search,
-                                      size: 25,
-                                      color: AppColors.colorWhite,
-                                    ));
-                        }),
-                      ),
+                              icon:Lottie.asset('assets/search_json/search_cross_icon.json',height: 35,
+
+                                controller: animationController,onLoaded: (composition) {
+                                animationController..duration=composition.duration..stop();
+                              },)
+                              // controller.searchICon.value ?
+                              // Icon(
+                              //   Icons.cancel_outlined,
+                              //   size: 25,
+                              //   color: AppColors.colorWhite,
+                              // ) : Icon(
+                              //   CupertinoIcons.search,
+                              //   size: 25,
+                              //   color: AppColors.colorWhite,
+                              // )
+                          )
+                          ),
                     )
                   ],
                 ),

@@ -94,13 +94,24 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
     final RenderBox buttonRenderBox = _dropdownKey.currentContext!.findRenderObject() as RenderBox;
     final Offset buttonOffset = buttonRenderBox.localToGlobal(Offset.zero);
     final Size buttonSize = buttonRenderBox.size;
+    final Size screenSize = MediaQuery.of(context).size;
+
+    // Desired width and height for your custom menu (you can adjust these values)
+    final double menuWidth = 300.0;
+    final double menuHeight = 400.0;
+
+    // Calculate the x and y offsets to center the menu
+    final double xOffset = (screenSize.width - menuWidth) / 2;
+    final double yOffset = (screenSize.height - menuHeight) / 2;
     return showMenu(
         surfaceTintColor: Colors.white,
         color: Colors.white,
         context: context,
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        position: RelativeRect.fromLTRB(buttonOffset.dx, buttonOffset.dy + buttonSize.height, overlay.size.width - buttonOffset.dx - buttonSize.width, overlay.size.height - buttonOffset.dy - buttonSize.height),
+        position:widget.fromHome==true?
+        RelativeRect.fromLTRB(buttonOffset.dx, buttonOffset.dy + buttonSize.height,
+            overlay.size.width - buttonOffset.dx - buttonSize.width, overlay.size.height - buttonOffset.dy - buttonSize.height):RelativeRect.fromLTRB(xOffset, yOffset, xOffset, yOffset),
         items: [
           PopupMenuItem(
               enabled: false,
