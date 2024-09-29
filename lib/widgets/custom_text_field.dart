@@ -104,12 +104,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
           fillColor: Colors.white,
           labelText: widget.labelText,
           labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black.withOpacity(0.5)),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: AppColors.strokeColor2)),
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: AppColors.strokeColor2)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: AppColors.kprimaryColor)),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: AppColors.kprimaryColor)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(
-                color: Colors.black,
+              borderSide:  BorderSide(
+                color:AppColors.kprimaryColor,
               )),
           filled: true,
           contentPadding: widget.padding ?? const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
