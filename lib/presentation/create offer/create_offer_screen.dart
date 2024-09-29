@@ -106,8 +106,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         HomeController.to.image.value = null;
       },
       child: Scaffold(
+
         backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           shadowColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,

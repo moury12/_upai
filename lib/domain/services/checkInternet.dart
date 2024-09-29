@@ -20,9 +20,10 @@ class NetworkController extends GetxController {
 
   void _updateConnectionStatus(ConnectivityResult connectivityResult) {
 
-    if (connectivityResult == ConnectivityResult.none) {
+    if (connectivityResult == ConnectivityResult.none||connectivityResult==ConnectivityResult.other) {
       FirebaseAPIs.updateActiveStatus(false);
       connectedInternet.value = false;
+
       Get.rawSnackbar(
           messageText: const Text(
               'PLEASE CONNECT TO THE INTERNET',

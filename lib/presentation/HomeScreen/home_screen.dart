@@ -149,13 +149,13 @@ animationController=AnimationController(vsync: this,duration: Duration(seconds: 
                                 shape: const CircleBorder(),
                               ),
                               onPressed: () async {
-                              controller.searchICon.value =
-                              !controller.searchICon.value;
                                 if(controller.searchICon.value){
                                   animationController.animateTo(1.0);
                                 }else{
                                   animationController.animateBack(0.3);
                                 }
+                                controller.searchICon.value =
+                                !controller.searchICon.value;
                                 setState(() {
 
                                 });
@@ -189,59 +189,59 @@ animationController=AnimationController(vsync: this,duration: Duration(seconds: 
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Column(
                               children: [
-                                SizedBox(
-                                  height: 50,
-                                  child: TextField(
-                                    focusNode: searchFocus,
-                                    controller: HomeController
-                                        .to.searchOfferController.value,
-                                    onChanged: (value) {
-                                      if (value.isNotEmpty) {
-                                        controller.searchingValue.value = value;
-                                        controller.filterOffer(
-                                            value,
-                                            HomeController.to
-                                                .selectedDistrictForAll.value);
-                                        controller.isSearching.value = true;
-                                      } else {
-                                        controller.filterOffer(
-                                            value,
-                                            HomeController.to
-                                                .selectedDistrictForAll.value);
-
-                                        controller.isSearching.value = false;
-                                      }
-                                    },
-                                    cursorColor: Colors.black,
-                                    decoration: InputDecoration(
-                                      fillColor: AppColors.colorWhite,
-                                      filled: true,
-                                      hintText:
-                                          "Search service you're looking for...",
-                                      hintStyle: TextStyle(
-                                          fontSize: 14,
-                                          color: AppColors.appTextColorGrey),
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.kprimaryColor,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.kprimaryColor,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: AppColors.kprimaryColor),
-                                        // Yellow border when focused
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                // SizedBox(
+                                //   height: 50,
+                                //   child: TextField(
+                                //     focusNode: searchFocus,
+                                //     controller: HomeController
+                                //         .to.searchOfferController.value,
+                                //     onChanged: (value) {
+                                //       if (value.isNotEmpty) {
+                                //         controller.searchingValue.value = value;
+                                //         controller.filterOffer(
+                                //             value,
+                                //             HomeController.to
+                                //                 .selectedDistrictForAll.value);
+                                //         controller.isSearching.value = true;
+                                //       } else {
+                                //         controller.filterOffer(
+                                //             value,
+                                //             HomeController.to
+                                //                 .selectedDistrictForAll.value);
+                                //
+                                //         controller.isSearching.value = false;
+                                //       }
+                                //     },
+                                //     cursorColor: Colors.black,
+                                //     decoration: InputDecoration(
+                                //       fillColor: AppColors.colorWhite,
+                                //       filled: true,
+                                //       hintText:
+                                //           "Search service you're looking for...",
+                                //       hintStyle: TextStyle(
+                                //           fontSize: 14,
+                                //           color: AppColors.appTextColorGrey),
+                                //       border: OutlineInputBorder(
+                                //         borderSide: BorderSide(
+                                //           color: AppColors.kprimaryColor,
+                                //         ),
+                                //         borderRadius: BorderRadius.circular(10),
+                                //       ),
+                                //       enabledBorder: OutlineInputBorder(
+                                //         borderSide: BorderSide(
+                                //           color: AppColors.kprimaryColor,
+                                //         ),
+                                //         borderRadius: BorderRadius.circular(10),
+                                //       ),
+                                //       focusedBorder: OutlineInputBorder(
+                                //         borderSide: BorderSide(
+                                //             color: AppColors.kprimaryColor),
+                                //         // Yellow border when focused
+                                //         borderRadius: BorderRadius.circular(10),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,

@@ -26,9 +26,15 @@ class DefaultScreen extends StatelessWidget {
           if (ctrl.selectedIndex.value != 0) {
             ctrl.selectedIndex.value = 0;
           }
-          else if (ctrl.selectedIndex.value == 0 && HomeController.to.searchOfferController.value.text != "") {
-            HomeController.to.searchOfferController.value.text = "";
-          } else {
+          else if (ctrl.selectedIndex.value == 0 &&HomeController.to.searchOfferController.value.text != "") {
+
+              HomeController.to.searchOfferController.value.text = "";
+          }
+          else if (ctrl.selectedIndex.value == 0 &&HomeController.to.searchICon.value) {
+
+            HomeController.to.searchICon.value=false;
+          }
+          else {
             showDialog(
               context: context,
               builder: (context) {
