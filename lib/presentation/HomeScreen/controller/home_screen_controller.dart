@@ -83,6 +83,7 @@ RxInt? selectedPackageIndex;
   //   super.onReady();
   // }
   RxList<TextEditingController> priceControllers = List.generate(3, (_) => TextEditingController()).obs;
+  RxList<TextEditingController> durationControllers = List.generate(3, (_) => TextEditingController()).obs;
   RxList<dynamic> packageList = <dynamic>[].obs;
   RxList<dynamic> yourServiceList = [
 
@@ -99,19 +100,19 @@ RxInt? selectedPackageIndex;
     packageList.assignAll([
       {
         "p_name": "Basic",
-        "price":priceControllers[0],
+        "price":priceControllers[0],"duration":durationControllers[0],
         "service_list": List.from(yourServiceList),
         "selected": false // Add selected key for tracking
       },
       {
         "p_name": "Standard",
-        "price":priceControllers[1],
+        "price":priceControllers[1],"duration":durationControllers[1],
         "service_list": List.from(yourServiceList), // Add service list for Standard
         "selected": false
       },
       {
         "p_name": "Premium",
-        "price":priceControllers[2],
+        "price":priceControllers[2],"duration":durationControllers[2],
         "service_list": List.from(yourServiceList), // Add service list for Premium
         "selected": false
       }

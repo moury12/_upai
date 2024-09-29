@@ -53,7 +53,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
       },
       child: Container(
         padding: EdgeInsets.all(8),
-        margin: EdgeInsets.all(8),
+        // margin: EdgeInsets.all(0),
         decoration: BoxDecoration(border: Border.all(width: 1, color: AppColors.kprimaryColor), borderRadius: BorderRadius.circular(10)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
