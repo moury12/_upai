@@ -51,15 +51,15 @@ late AnimationController animationController;
     Get.put(NetworkController());
 
 animationController=AnimationController(vsync: this,duration: Duration(seconds: 1));
-    animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        // Stop after completing the animation to the cross icon
-        animationController.stop();
-      } else if (status == AnimationStatus.dismissed) {
-        // Stop after reversing back to the search icon
-        animationController.stop();
-      }
-    });
+    // animationController.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     // Stop after completing the animation to the cross icon
+    //     animationController.stop();
+    //   } else if (status == AnimationStatus.dismissed) {
+    //     // Stop after reversing back to the search icon
+    //     animationController.stop();
+    //   }
+    // });
     super.initState();
   }
 @override
@@ -156,9 +156,10 @@ animationController=AnimationController(vsync: this,duration: Duration(seconds: 
                                 }
                                 controller.searchICon.value =
                                 !controller.searchICon.value;
-                                setState(() {
+                              setState(() {
 
-                                });
+                              });
+                              debugPrint( controller.searchICon.value.toString());
                                 // resetData();
                                 // await controller.refreshAllData();
                               },

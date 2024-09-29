@@ -33,6 +33,7 @@ class DefaultScreen extends StatelessWidget {
           else if (ctrl.selectedIndex.value == 0 &&HomeController.to.searchICon.value) {
 
             HomeController.to.searchICon.value=false;
+
           }
           else {
             showDialog(
