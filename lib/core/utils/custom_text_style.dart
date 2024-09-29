@@ -215,25 +215,25 @@ class AppTextStyle {
 
   // Button Styles
 
-  static get buttonStyle => ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(AppColors.primaryColor),
-        foregroundColor: WidgetStateProperty.all<Color>(AppColors.colorWhite),
-        minimumSize: WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
-        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0), // Rounded corners
-          ),
-        ),
-      );
-
-  static get buttonStyle2 => ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(AppColors.buttonColor),
-        foregroundColor: WidgetStateProperty.all<Color>(AppColors.colorWhite),
-        minimumSize: WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
-        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0), // Rounded corners
-          ),
-        ),
-      );
+  // static get buttonStyle => ButtonStyle(
+  //       backgroundColor: WidgetStateProperty.all<Color>(AppColors.primaryColor),
+  //       foregroundColor: WidgetStateProperty.all<Color>(AppColors.colorWhite),
+  //       minimumSize: WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
+  //       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+  //         RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(8.0), // Rounded corners
+  //         ),
+  //       ),
+  //     );
+  //
+  // static get buttonStyle2 => ButtonStyle(
+  //       backgroundColor: WidgetStateProperty.all<Color>(AppColors.buttonColor),
+  //       foregroundColor: WidgetStateProperty.all<Color>(AppColors.colorWhite),
+  //       minimumSize: WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
+  //       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+  //         RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(8.0), // Rounded corners
+  //         ),
+  //       ),
+  //     );
 }

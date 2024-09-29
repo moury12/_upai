@@ -8,11 +8,14 @@ import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/widgets/custom_text_field.dart';
+
+import 'widget/tab_content_view.dart';
 
 class CreateOfferScreen extends StatefulWidget {
   final MyService? service;
@@ -34,14 +37,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   late TextEditingController rateController;
 
   List<String> timeUnits = ['Hour', 'Task', 'Per Day', 'Piece'];
-
-  // @override
-  // void didChangeDependencies() async {
-  //   district = await loadJsonFromAssets('assets/district/district.json');
-  //   debugPrint(district.toString());
-  //   // TODO: implement didChangeDependencies
-  //   super.didChangeDependencies();
-  // }
+  List<String> serviceType = ['Local', 'Online'];
+  Map data = {};
 
   @override
   void initState() {
@@ -60,9 +57,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     rateController = TextEditingController(
         text: widget.service != null ? widget.service!.rate.toString() : '');
     HomeController.to.quantityController.value.text =
-    widget.service != null ? widget.service!.quantity.toString() : '';
+        widget.service != null ? widget.service!.quantity.toString() : '';
     HomeController.to.quantity.value =
-    widget.service != null ? widget.service!.quantity!.toInt() : 1;
+        widget.service != null ? widget.service!.quantity!.toInt() : 1;
     // HomeController.to.selectedCategory.value = widget.service != null
     //     ? HomeController.to.getCatList
     //         .where((e) =>
@@ -73,15 +70,15 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     if (widget.service != null) {
       var filteredList = HomeController.to.getCatList
           .where((e) => e.categoryName!
-          .toLowerCase()
-          .contains(widget.service!.serviceCategoryType!.toLowerCase()))
+              .toLowerCase()
+              .contains(widget.service!.serviceCategoryType!.toLowerCase()))
           .toList();
 
       if (filteredList.isNotEmpty) {
         HomeController.to.selectedCategory.value = filteredList[0];
       } else {
         HomeController.to.selectedCategory.value =
-        null; // Or handle the case when no match is found
+            null; // Or handle the case when no match is found
       }
     } else {
       HomeController.to.selectedCategory.value = null;
@@ -89,15 +86,13 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     }
     // debugPrint(widget.service!.rateType);
     HomeController.to.selectedRateType.value = widget.service != null &&
-        timeUnits.any((item) => item
-
-            .contains(widget.service!.rateType!))
+            timeUnits.any((item) => item.contains(widget.service!.rateType!))
         ? widget.service!.rateType.toString()
         : null;
     HomeController.to.selectedDistrict.value =
-    widget.service != null && widget.service!.district!.isNotEmpty
-        ? widget.service!.district
-        : null;
+        widget.service != null && widget.service!.district!.isNotEmpty
+            ? widget.service!.district
+            : null;
     super.initState();
   }
 
@@ -140,7 +135,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
           decoration: BoxDecoration(
               color: AppColors.strokeColor2,
               borderRadius:
-              const BorderRadius.vertical(top: Radius.circular(35))),
+                  const BorderRadius.vertical(top: Radius.circular(35))),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,9 +147,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       fontSize: 12,
                       color: AppColors.kprimaryColor),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                defaultSizeBoxHeight,
                 CustomTextField(
                   validatorText: "Please Enter Job Title",
 
@@ -162,9 +155,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   controller: titleController,
                   // onChanged: (value) => controller.emailController.text.trim() = value!,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                defaultSizeBoxHeight,
                 Text(
                   "Job Description",
                   style: TextStyle(
@@ -172,9 +163,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       fontSize: 12,
                       color: AppColors.kprimaryColor),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                defaultSizeBoxHeight,
                 CustomTextField(
                   validatorText: "Please Enter Job Description",
                   hintText: "Please Enter Job Description",
@@ -182,9 +171,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   maxLines: 3,
                   // onChanged: (value) => controller.emailController.text.trim() = value!,
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
+                defaultSizeBoxHeight,
                 Text(
                   "Offer Image (optional)",
                   style: TextStyle(
@@ -192,9 +179,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       fontSize: 12,
                       color: AppColors.kprimaryColor),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                defaultSizeBoxHeight,
                 InkWell(
                   onTap: () {
                     HomeController.to.showPickerDialog(context);
@@ -207,93 +192,97 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             width: 130,
                             child: HomeController.to.image.value != null
                                 ? Image.file(
-                              File(HomeController.to.image.value!.path),
-                              // height: 150,
-                              // width: 150,
-                              fit: BoxFit.fill,
-                            )
+                                    File(HomeController.to.image.value!.path),
+                                    // height: 150,
+                                    // width: 150,
+                                    fit: BoxFit.fill,
+                                  )
                                 : widget.isEdit == true
-                                ? FutureBuilder(
-                              future: FirebaseAPIs.fetchOfferImageUrl(
-                                  widget.service!.offerId.toString()),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting &&
-                                    snapshot.connectionState ==
-                                        ConnectionState.none) {
-                                  return Image.asset(
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    fit: BoxFit.none,
-                                    ImageConstant.dummy,
-                                    // height: 80,
-                                  );
-                                } else if (snapshot.hasData) {
-                                  return Image.network(
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                      snapshot.data.toString(),
-                                    loadingBuilder: (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child; // Image has finished loading
-                                      }
-                                      return SizedBox(
-                                        height: 100,
-                                        width: 100,
-                                        child: Center(
-                                          child: CircularProgressIndicator(
-                                            color: AppColors.kprimaryColor,
-                                            // value: loadingProgress.expectedTotalBytes != null
-                                            //     ? loadingProgress.cumulativeBytesLoaded /
-                                            //     (loadingProgress.expectedTotalBytes ?? 1)
-                                            //     : null,
-                                          ),
-                                        ),
-                                      );
-                                    },);
-                                } else {
-                                  return FutureBuilder(
-                                    future: FirebaseAPIs
-                                        .fetchDefaultOfferImageUrl(
-                                        widget.service!
-                                            .serviceCategoryType
-                                            .toString()),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState
-                                              .waiting &&
-                                          snapshot.connectionState ==
-                                              ConnectionState.none) {
-                                        return Image.asset(
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                          fit: BoxFit.none,
-                                          ImageConstant.dummy,
-                                          // height: 80,
-                                        );
-                                      } else if (snapshot.hasData) {
-                                        return Image.network(
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                            snapshot.data.toString());
-                                      } else {
-                                        return Image.asset(
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                          fit: BoxFit.none,
-                                          ImageConstant.dummy,
-                                          // height: 80,
-                                        );
-                                      }
-                                    },
-                                  );
-                                }
-                              },
-                            )
-                                : Image(
-                              image: AssetImage(ImageConstant.dummy),
-                              fit: BoxFit.cover,
-                            ));
+                                    ? FutureBuilder(
+                                        future: FirebaseAPIs.fetchOfferImageUrl(
+                                            widget.service!.offerId.toString()),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                                  ConnectionState.waiting &&
+                                              snapshot.connectionState ==
+                                                  ConnectionState.none) {
+                                            return Image.asset(
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                              fit: BoxFit.none,
+                                              ImageConstant.dummy,
+                                              // height: 80,
+                                            );
+                                          } else if (snapshot.hasData) {
+                                            return Image.network(
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                              snapshot.data.toString(),
+                                              loadingBuilder: (context, child,
+                                                  loadingProgress) {
+                                                if (loadingProgress == null) {
+                                                  return child; // Image has finished loading
+                                                }
+                                                return SizedBox(
+                                                  height: 100,
+                                                  width: 100,
+                                                  child: Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color: AppColors
+                                                          .kprimaryColor,
+                                                      // value: loadingProgress.expectedTotalBytes != null
+                                                      //     ? loadingProgress.cumulativeBytesLoaded /
+                                                      //     (loadingProgress.expectedTotalBytes ?? 1)
+                                                      //     : null,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          } else {
+                                            return FutureBuilder(
+                                              future: FirebaseAPIs
+                                                  .fetchDefaultOfferImageUrl(
+                                                      widget.service!
+                                                          .serviceCategoryType
+                                                          .toString()),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                        ConnectionState
+                                                            .waiting &&
+                                                    snapshot.connectionState ==
+                                                        ConnectionState.none) {
+                                                  return Image.asset(
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                    fit: BoxFit.none,
+                                                    ImageConstant.dummy,
+                                                    // height: 80,
+                                                  );
+                                                } else if (snapshot.hasData) {
+                                                  return Image.network(
+                                                      width: double.infinity,
+                                                      fit: BoxFit.cover,
+                                                      snapshot.data.toString());
+                                                } else {
+                                                  return Image.asset(
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                    fit: BoxFit.none,
+                                                    ImageConstant.dummy,
+                                                    // height: 80,
+                                                  );
+                                                }
+                                              },
+                                            );
+                                          }
+                                        },
+                                      )
+                                    : Image(
+                                        image: AssetImage(ImageConstant.dummy),
+                                        fit: BoxFit.cover,
+                                      ));
                       }),
                       Positioned(
                           right: -2,
@@ -306,9 +295,37 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                     ]),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                defaultSizeBoxHeight,
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.kprimaryColor),
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Obx(() {
+                    return FittedBox(
+                      child: DropdownButton<String>(
+                        dropdownColor: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        underline: const SizedBox.shrink(),
+                        value: HomeController.to.selectedServiceType.value,
+                        hint: const Text("Select a service type"),
+                        items: serviceType.map((element) {
+                          return DropdownMenuItem<String>(
+                            value: element,
+                            child: Text(element),
+                          );
+                        }).toList(),
+                        onChanged: widget.isEdit!
+                            ? null
+                            : (value) {
+                                HomeController.to.selectedServiceType.value =
+                                    value!;
+                              },
+                      ),
+                    );
+                  }),
                 ),
+                defaultSizeBoxHeight,
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
@@ -331,47 +348,182 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         onChanged: widget.isEdit!
                             ? null
                             : (value) {
-                          HomeController.to.selectedCategory.value =
-                          value!;
-                        },
+                                HomeController.to.selectedCategory.value =
+                                    value!;
+                              },
                       ),
                     );
                   }),
                 ),
-                const SizedBox(
-                  height: 12,
+                defaultSizeBoxHeight,
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        validatorText: "Please Enter service",
+
+                        hintText: "Enter service",
+                        controller: HomeController.to.serviceController.value,
+                        // onChanged: (value) => controller.emailController.text.trim() = value!,
+                      ),
+                    ),
+                    defaultSizeBoxWidth,
+                    CustomButton(
+                        onTap: () {
+                          HomeController.to.yourServiceList.add({
+                            "name":
+                                HomeController.to.serviceController.value.text,
+                            "selected": false
+                          });
+                          HomeController.to.packageList.forEach((package) {
+                            package['service_list'] = List.from(HomeController
+                                .to.yourServiceList
+                                .map((service) {
+                              return {
+                                "name": service['name'],
+                                "selected":
+                                    false // Each service starts as unselected for each package
+                              };
+                            }).toList());
+                          });
+                          HomeController.to.packageList.refresh();
+                          debugPrint(
+                              HomeController.to.yourServiceList.toString());
+                        },
+                        title: 'Add')
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.kprimaryColor),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Obx(() {
-                    return FittedBox(
-                      child: DropdownButton<String>(
-                        underline: const SizedBox.shrink(),
-                        value: HomeController.to.selectedRateType.value,
-                        dropdownColor: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        hint: const Text(
-                          "Select a Rate type  ",
+
+                Obx(() {
+                  return Wrap(
+                    children: List.generate(
+                      HomeController.to.yourServiceList.length,
+                      (index) => Container(
+                        padding: EdgeInsets.all(8),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.kprimaryColor,
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        items: timeUnits.map((unit) {
-                          return DropdownMenuItem<String>(
-                            value: unit,
-                            child: Text(unit),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          HomeController.to.selectedRateType.value = value;
-                        },
+                        child: Text(
+                          HomeController.to.yourServiceList[index]['name'],
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
+                    ),
+                  );
+                }),
+                DefaultTabController(
+                  length: HomeController.to.packageList.length,
+                  child: Obx(() {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TabBar(
+                          onTap: (value) {
+                            // HomeController.to.selectPackage(value);
+                            HomeController.to.update();
+                            debugPrint(
+                                HomeController.to.packageList.toString());
+
+                            print('*********************');
+                            // print(HomeController.to.packageList[2]['service_list'][2]['selected']);
+                          },
+                          tabs: [
+                            ...List.generate(
+                              HomeController.to.packageList.length,
+                              (index) => Text(
+                                HomeController.to.packageList[index]['p_name'],
+                              ),
+                            ),
+                          ],
+                        ),
+                        TabContentView(
+                          children: List.generate(
+                            HomeController.to.packageList.length,
+                            (index) => SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Rate",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      color: AppColors.kprimaryColor,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  CustomTextField(
+                                    validatorText: "Please Enter Rate",
+                                    hintText: "Please Enter Rate",
+                                    inputType: TextInputType.number,
+                                    controller: HomeController
+                                        .to.packageList[index]['price'],
+                                  ),
+                                  ...List.generate(
+                                    HomeController
+                                        .to
+                                        .packageList[index]['service_list']
+                                        .length,
+                                    (serviceIndex) {
+                                      // data[index]={serviceIndex:HomeController.to.packageList[index]['service_list'][serviceIndex]['selected']};
+                                      //
+                                      // print('YYYYYYYYYYYYYYY');
+                                      // print(data);
+                                      var serviceList = HomeController.to
+                                          .packageList[index]['service_list'];
+                                      return Row(
+                                        children: [
+                                          Text(
+                                            HomeController.to.packageList[index]
+                                                    ['service_list']
+                                                [serviceIndex]['name'],
+                                          ),
+                                          Checkbox(
+                                            value: HomeController
+                                                        .to.packageList[index]
+                                                    ['service_list']
+                                                [serviceIndex]['selected'],
+                                            //value: data[serviceIndex],
+                                            onChanged: (value) {
+                                              debugPrint(index.toString());
+                                              debugPrint(
+                                                  serviceIndex.toString());
+                                              // Update the selected value for the specific service in the package
+                                              HomeController.to.packageList[
+                                                          index]['service_list']
+                                                      [serviceIndex]
+                                                  ['selected'] = value ?? false;
+
+                                              // Refresh the package list to notify the UI of changes
+                                              HomeController.to.packageList
+                                                  .refresh();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     );
                   }),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+
+                // Text(
+                //   "Package: ",
+                //   style: TextStyle(
+                //       fontWeight: FontWeight.w700,
+                //       fontSize: 12,
+                //       color: AppColors.kprimaryColor),
+                // ),
+
+                defaultSizeBoxHeight,
                 Row(
                   children: [
                     Expanded(
@@ -441,7 +593,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                 .text
                                                 .isEmpty) {
                                               HomeController.to.quantity.value =
-                                              0;
+                                                  0;
                                             }
                                             HomeController.to
                                                 .decreaseQuantity();
@@ -470,8 +622,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         }
                                       }
 
-                                    // onChanged: (value) => controller.emailController.text.trim() = value!,
-                                  ),
+                                      // onChanged: (value) => controller.emailController.text.trim() = value!,
+                                      ),
                                 ),
                                 Expanded(
                                   child: Container(
@@ -494,7 +646,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                               .text
                                               .isEmpty) {
                                             HomeController.to.quantity.value =
-                                            0;
+                                                0;
                                           }
                                           debugPrint(HomeController
                                               .to.quantity.value
@@ -513,9 +665,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                defaultSizeBoxHeight,
                 Obx(() {
                   if (HomeController.to.districtList.isEmpty) {
                     HomeController.to.districtList.refresh();
@@ -529,9 +679,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                     );
                   }
                 }),
-                const SizedBox(
-                  height: 10,
-                ),
+                defaultSizeBoxHeight,
                 Text(
                   "Address",
                   style: TextStyle(
@@ -539,9 +687,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       fontSize: 12,
                       color: AppColors.kprimaryColor),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                defaultSizeBoxHeight,
                 CustomTextField(
                   validatorText: "Please Enter address",
 
@@ -560,104 +706,106 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         child: Obx(() {
                           return HomeController.to.isUploading.value
                               ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 50,
-                                    width: 50,
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.kprimaryColor,
-                                      strokeWidth: 6,
-                                      // value:HomeController.to.uploadProgress.value,color: AppColors.kprimaryColor,
-                                      //
-                                    ),
-                                  ),
-                                  Text(
-                                    ' ${(HomeController.to.uploadProgress.value * 100).toStringAsFixed(0)}%',
-                                    style: AppTextStyle.titleText,
-                                  ),
-                                ]),
-                          )
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        SizedBox(
+                                          height: 50,
+                                          width: 50,
+                                          child: CircularProgressIndicator(
+                                            color: AppColors.kprimaryColor,
+                                            strokeWidth: 6,
+                                            // value:HomeController.to.uploadProgress.value,color: AppColors.kprimaryColor,
+                                            //
+                                          ),
+                                        ),
+                                        Text(
+                                          ' ${(HomeController.to.uploadProgress.value * 100).toStringAsFixed(0)}%',
+                                          style: AppTextStyle.titleText,
+                                        ),
+                                      ]),
+                                )
                               : HomeController.to.isLoading.value
-                              ? Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.kprimaryColor,
-                              ))
-                              : ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                  AppColors.kprimaryColor,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12, horizontal: 12)),
-                              onPressed: () async {
-                                HomeController.to.isLoading.value =
-                                true;
-                                if (HomeController.to.selectedRateType.value != null &&
-                                    HomeController
-                                        .to.selectedCategory.value !=
-                                        null &&
-                                    HomeController.to.selectedDistrict
-                                        .value !=
-                                        null &&
-                                    titleController.text.isNotEmpty &&
-                                    descriptionController
-                                        .text.isNotEmpty &&
-                                    rateController.text.isNotEmpty &&
-                                    addressController.text.isNotEmpty &&
-                                    HomeController.to.quantityController
-                                        .value.text.isNotEmpty &&
-                                    box.isNotEmpty) {
-                                  if (widget.service != null) {
-                                    await HomeController.to.editOffer(
-                                        widget.service!.offerId ?? '',
-                                        titleController.text,
-                                        descriptionController.text,
-                                        rateController.text,
-                                        addressController.text);
+                                  ? Center(
+                                      child: CircularProgressIndicator(
+                                      color: AppColors.kprimaryColor,
+                                    ))
+                                  : CustomButton(
+                                      title: widget.service != null
+                                          ? 'Update offer'
+                                          : 'Create Offer',
+                                      onTap: () async {
+                                        {
+                                          HomeController.to.isLoading.value =
+                                              true;
+                                          if (HomeController.to.selectedRateType.value != null &&
+                                              HomeController.to.selectedCategory
+                                                      .value !=
+                                                  null &&
+                                              HomeController.to.selectedDistrict
+                                                      .value !=
+                                                  null &&
+                                              titleController.text.isNotEmpty &&
+                                              descriptionController
+                                                  .text.isNotEmpty &&
+                                              rateController.text.isNotEmpty &&
+                                              addressController
+                                                  .text.isNotEmpty &&
+                                              HomeController
+                                                  .to
+                                                  .quantityController
+                                                  .value
+                                                  .text
+                                                  .isNotEmpty &&
+                                              box.isNotEmpty) {
+                                            if (widget.service != null) {
+                                              await HomeController.to.editOffer(
+                                                  widget.service!.offerId ?? '',
+                                                  titleController.text,
+                                                  descriptionController.text,
+                                                  rateController.text,
+                                                  addressController.text);
 
-                                    // Get.to(MyServiceDetails());
-                                    // SellerProfileController.to.myService.refresh();
-                                    //  SellerProfileController.to.service.update(
-                                    //   (val) async {
-                                    //     return SellerProfileController.to
-                                    //         .refreshAllData();
-                                    //   },
-                                    // );
-                                    // await SellerProfileController.to.refreshAllData();
-                                    // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
-                                    // clear();
+                                              // Get.to(MyServiceDetails());
+                                              // SellerProfileController.to.myService.refresh();
+                                              //  SellerProfileController.to.service.update(
+                                              //   (val) async {
+                                              //     return SellerProfileController.to
+                                              //         .refreshAllData();
+                                              //   },
+                                              // );
+                                              // await SellerProfileController.to.refreshAllData();
+                                              // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
+                                              // clear();
 
-                                    Get.back();
-                                    Get.snackbar("Success", "Updated Successfully");
+                                              Get.back();
+                                              Get.snackbar("Success",
+                                                  "Updated Successfully");
+                                            } else {
+                                              await HomeController.to
+                                                  .createOffer(
+                                                      titleController.text,
+                                                      descriptionController
+                                                          .text,
+                                                      rateController.text,
+                                                      addressController.text);
+                                              // await SellerProfileController.to
+                                              //     .refreshAllData();
+                                              clear();
+                                            }
 
-                                  }
-                                  else {
-
-                                  await  HomeController.to.createOffer(
-                                        titleController.text,
-                                        descriptionController.text,
-                                        rateController.text,
-                                        addressController.text);
-                                    // await SellerProfileController.to
-                                    //     .refreshAllData();
-                                    clear();
-                                  }
-
-
-                                  // clear();
-                                } else {
-                                  Get.snackbar(
-                                      "All field Required", "");
-                                  // clear();
-                                }
-                                HomeController.to.isLoading.value = false;
-                              },
-                              child: Text(widget.service != null
-                                  ? 'Update offer'
-                                  : 'Create Offer'));
+                                            // clear();
+                                          } else {
+                                            Get.snackbar(
+                                                "All field Required", "");
+                                            // clear();
+                                          }
+                                          HomeController.to.isLoading.value =
+                                              false;
+                                        }
+                                      },
+                                    );
                         }),
                       ),
                     ],
@@ -682,5 +830,26 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     addressController.clear();
     HomeController.to.quantityController.value.clear();
     HomeController.to.quantity.value = 1;
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  final String title;
+  final Function() onTap;
+  const CustomButton({
+    super.key,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.kprimaryColor,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12)),
+        onPressed: onTap,
+        child: Text(title));
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
@@ -100,9 +101,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             },
             child: Column(
               children: [
-                const SizedBox(
-                  height: 10,
-                ),
+                defaultSizeBoxHeight,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0).copyWith(bottom: 8),
                   child: Obx(() {
