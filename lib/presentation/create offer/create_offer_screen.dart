@@ -107,7 +107,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           shadowColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
@@ -172,220 +172,268 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   // onChanged: (value) => controller.emailController.text.trim() = value!,
                 ),
                 defaultSizeBoxHeight,
-                Text(
-                  "Offer Image (optional)",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.kprimaryColor),
-                ),
-                defaultSizeBoxHeight,
-                InkWell(
-                  onTap: () {
-                    HomeController.to.showPickerDialog(context);
-                  },
-                  child: Center(
-                    child: Stack(children: [
-                      Obx(() {
-                        return SizedBox(
-                            height: 120,
-                            width: 130,
-                            child: HomeController.to.image.value != null
-                                ? Image.file(
-                                    File(HomeController.to.image.value!.path),
-                                    // height: 150,
-                                    // width: 150,
-                                    fit: BoxFit.fill,
-                                  )
-                                : widget.isEdit == true
-                                    ? FutureBuilder(
-                                        future: FirebaseAPIs.fetchOfferImageUrl(
-                                            widget.service!.offerId.toString()),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                                  ConnectionState.waiting &&
-                                              snapshot.connectionState ==
-                                                  ConnectionState.none) {
-                                            return Image.asset(
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                              fit: BoxFit.none,
-                                              ImageConstant.dummy,
-                                              // height: 80,
-                                            );
-                                          } else if (snapshot.hasData) {
-                                            return Image.network(
-                                              width: double.infinity,
-                                              fit: BoxFit.cover,
-                                              snapshot.data.toString(),
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress == null) {
-                                                  return child; // Image has finished loading
-                                                }
-                                                return SizedBox(
-                                                  height: 100,
-                                                  width: 100,
-                                                  child: Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: AppColors
-                                                          .kprimaryColor,
-                                                      // value: loadingProgress.expectedTotalBytes != null
-                                                      //     ? loadingProgress.cumulativeBytesLoaded /
-                                                      //     (loadingProgress.expectedTotalBytes ?? 1)
-                                                      //     : null,
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          } else {
-                                            return FutureBuilder(
-                                              future: FirebaseAPIs
-                                                  .fetchDefaultOfferImageUrl(
-                                                      widget.service!
-                                                          .serviceCategoryType
-                                                          .toString()),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.connectionState ==
-                                                        ConnectionState
-                                                            .waiting &&
-                                                    snapshot.connectionState ==
-                                                        ConnectionState.none) {
-                                                  return Image.asset(
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    fit: BoxFit.none,
-                                                    ImageConstant.dummy,
-                                                    // height: 80,
-                                                  );
-                                                } else if (snapshot.hasData) {
-                                                  return Image.network(
-                                                      width: double.infinity,
-                                                      fit: BoxFit.cover,
-                                                      snapshot.data.toString());
-                                                } else {
-                                                  return Image.asset(
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    fit: BoxFit.none,
-                                                    ImageConstant.dummy,
-                                                    // height: 80,
-                                                  );
-                                                }
-                                              },
-                                            );
-                                          }
-                                        },
-                                      )
-                                    : Image(
-                                        image: AssetImage(ImageConstant.dummy),
-                                        fit: BoxFit.cover,
-                                      ));
-                      }),
-                      Positioned(
-                          right: -2,
-                          top: -2,
-                          child: Icon(
-                            Icons.photo_camera,
-                            size: 25,
-                            color: AppColors.kprimaryColor,
-                          ))
-                    ]),
-                  ),
-                ),
-                defaultSizeBoxHeight,
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [ Text(
-                    "Category Type",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.kprimaryColor,
-                    ),
-                  ),
-                    defaultSizeBoxHeight,
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.kprimaryColor),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Obx(() {
-                        return FittedBox(
-                          child: DropdownButton<String>(
-                            dropdownColor: Colors.white,
-                            style:TextStyle(color: AppColors.kprimaryColor,) ,
-                            iconEnabledColor: AppColors.kprimaryColor,
-                            borderRadius: BorderRadius.circular(12),
-                            underline: const SizedBox.shrink(),
-                            value: HomeController.to.selectedServiceType.value,
-                            hint:  Text("Select a service type",style: TextStyle(color: AppColors.kprimaryColor,),),
-                            items: serviceType.map((element) {
-                              return DropdownMenuItem<String>(
-                                value: element,
-                                child: Text(element),
-                              );
-                            }).toList(),
-                            onChanged: widget.isEdit!
-                                ? null
-                                : (value) {
-                                    HomeController.to.selectedServiceType.value =
-                                        value!;
-                                  },
-                          ),
-                        );
-                      }),
-                    ),
-                  ],
-                ),
-                defaultSizeBoxHeight,
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Text(
-                      "Category",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                        color: AppColors.kprimaryColor,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Offer Image (optional)",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12,
+                                color: AppColors.kprimaryColor),
+                          ),
+                          defaultSizeBoxHeight,
+                          InkWell(
+                            onTap: () {
+                              HomeController.to.showPickerDialog(context);
+                            },
+                            child: Center(
+                              child: Stack(children: [
+                                Obx(() {
+                                  return SizedBox(
+                                      height: 120,
+                                      width: 130,
+                                      child: HomeController.to.image.value != null
+                                          ? Image.file(
+                                              File(HomeController
+                                                  .to.image.value!.path),
+                                              // height: 150,
+                                              // width: 150,
+                                              fit: BoxFit.fill,
+                                            )
+                                          : widget.isEdit == true
+                                              ? FutureBuilder(
+                                                  future: FirebaseAPIs
+                                                      .fetchOfferImageUrl(widget
+                                                          .service!.offerId
+                                                          .toString()),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.connectionState ==
+                                                            ConnectionState
+                                                                .waiting &&
+                                                        snapshot.connectionState ==
+                                                            ConnectionState
+                                                                .none) {
+                                                      return Image.asset(
+                                                        width: double.infinity,
+                                                        height: double.infinity,
+                                                        fit: BoxFit.none,
+                                                        ImageConstant.dummy,
+                                                        // height: 80,
+                                                      );
+                                                    } else if (snapshot.hasData) {
+                                                      return Image.network(
+                                                        width: double.infinity,
+                                                        fit: BoxFit.cover,
+                                                        snapshot.data.toString(),
+                                                        loadingBuilder: (context,
+                                                            child,
+                                                            loadingProgress) {
+                                                          if (loadingProgress ==
+                                                              null) {
+                                                            return child; // Image has finished loading
+                                                          }
+                                                          return SizedBox(
+                                                            height: 100,
+                                                            width: 100,
+                                                            child: Center(
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                color: AppColors
+                                                                    .kprimaryColor,
+                                                                // value: loadingProgress.expectedTotalBytes != null
+                                                                //     ? loadingProgress.cumulativeBytesLoaded /
+                                                                //     (loadingProgress.expectedTotalBytes ?? 1)
+                                                                //     : null,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                                    } else {
+                                                      return FutureBuilder(
+                                                        future: FirebaseAPIs
+                                                            .fetchDefaultOfferImageUrl(
+                                                                widget.service!
+                                                                    .serviceCategoryType
+                                                                    .toString()),
+                                                        builder:
+                                                            (context, snapshot) {
+                                                          if (snapshot.connectionState ==
+                                                                  ConnectionState
+                                                                      .waiting &&
+                                                              snapshot.connectionState ==
+                                                                  ConnectionState
+                                                                      .none) {
+                                                            return Image.asset(
+                                                              width:
+                                                                  double.infinity,
+                                                              height:
+                                                                  double.infinity,
+                                                              fit: BoxFit.none,
+                                                              ImageConstant.dummy,
+                                                              // height: 80,
+                                                            );
+                                                          } else if (snapshot
+                                                              .hasData) {
+                                                            return Image.network(
+                                                                width: double
+                                                                    .infinity,
+                                                                fit: BoxFit.cover,
+                                                                snapshot.data
+                                                                    .toString());
+                                                          } else {
+                                                            return Image.asset(
+                                                              width:
+                                                                  double.infinity,
+                                                              height:
+                                                                  double.infinity,
+                                                              fit: BoxFit.none,
+                                                              ImageConstant.dummy,
+                                                              // height: 80,
+                                                            );
+                                                          }
+                                                        },
+                                                      );
+                                                    }
+                                                  },
+                                                )
+                                              : Image(
+                                                  image: AssetImage(
+                                                      ImageConstant.dummy),
+                                                  fit: BoxFit.cover,
+                                                ));
+                                }),
+                                Positioned(
+                                    right: -2,
+                                    top: -2,
+                                    child: Icon(
+                                      Icons.photo_camera,
+                                      size: 25,
+                                      color: AppColors.kprimaryColor,
+                                    ))
+                              ]),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    defaultSizeBoxHeight,
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.kprimaryColor),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Obx(() {
-                        return FittedBox(
-                          child: DropdownButton<CategoryList>(
-                            dropdownColor: Colors.white,
-                            iconEnabledColor: AppColors.kprimaryColor,
-                            borderRadius: BorderRadius.circular(12),
-                            underline: const SizedBox.shrink(),
-                            style:TextStyle(color: AppColors.kprimaryColor,) ,
-                            value: HomeController.to.selectedCategory.value,
-                            hint:  Text("Select a category",style: TextStyle(color: AppColors.kprimaryColor,),),
-                            items: HomeController.to.getCatList.map((element) {
-                              return DropdownMenuItem<CategoryList>(
-                                value: element,
-                                child: Text(element.categoryName.toString()),
-                              );
-                            }).toList(),
-                            onChanged: widget.isEdit!
-                                ? null
-                                : (value) {
-                                    HomeController.to.selectedCategory.value =
-                                        value!;
-                                  },
+                    
+
+                    Expanded(
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Category Type",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: AppColors.kprimaryColor,
+                            ),
                           ),
-                        );
-                      }),
-                    ),
+                          defaultSizeBoxHeight,
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: AppColors.kprimaryColor),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Obx(() {
+                              return FittedBox(
+                                child: DropdownButton<String>(
+                                  dropdownColor: Colors.white,
+                                  style: TextStyle(
+                                    color: AppColors.kprimaryColor,
+                                  ),
+                                  iconEnabledColor: AppColors.kprimaryColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                  underline: const SizedBox.shrink(),
+                                  value:
+                                      HomeController.to.selectedServiceType.value,
+                                  hint: Text(
+                                    "Select a service type",
+                                    style: TextStyle(
+                                      color: AppColors.kprimaryColor,
+                                    ),
+                                  ),
+                                  items: serviceType.map((element) {
+                                    return DropdownMenuItem<String>(
+                                      value: element,
+                                      child: Text(element),
+                                    );
+                                  }).toList(),
+                                  onChanged: widget.isEdit!
+                                      ? null
+                                      : (value) {
+                                          HomeController.to.selectedServiceType
+                                              .value = value!;
+                                        },
+                                ),
+                              );
+                            }),
+                          ),
+                          defaultSizeBoxHeight,
+                          Text(
+                            "Category",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: AppColors.kprimaryColor,
+                            ),
+                          ),
+                          defaultSizeBoxHeight,
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: AppColors.kprimaryColor),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Obx(() {
+                              return FittedBox(
+                                child: DropdownButton<CategoryList>(
+                                  dropdownColor: Colors.white,
+                                  iconEnabledColor: AppColors.kprimaryColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                  underline: const SizedBox.shrink(),
+                                  style: TextStyle(
+                                    color: AppColors.kprimaryColor,
+                                  ),
+                                  value: HomeController.to.selectedCategory.value,
+                                  hint: Text(
+                                    "Select a category",
+                                    style: TextStyle(
+                                      color: AppColors.kprimaryColor,
+                                    ),
+                                  ),
+                                  items:
+                                      HomeController.to.getCatList.map((element) {
+                                    return DropdownMenuItem<CategoryList>(
+                                      value: element,
+                                      child:
+                                          Text(element.categoryName.toString()),
+                                    );
+                                  }).toList(),
+                                  onChanged: widget.isEdit!
+                                      ? null
+                                      : (value) {
+                                          HomeController
+                                              .to.selectedCategory.value = value!;
+                                        },
+                                ),
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
                 defaultSizeBoxHeight,
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "Services",
@@ -403,43 +451,48 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             validatorText: "Please Enter service",
 
                             hintText: "Enter service",
-                            controller: HomeController.to.serviceController.value,
+                            controller:
+                                HomeController.to.serviceController.value,
                             // onChanged: (value) => controller.emailController.text.trim() = value!,
                           ),
                         ),
                         defaultSizeBoxWidth,
                         CustomButton(
-                            onTap: () {if(HomeController.to.serviceController.value.text.isNotEmpty){
-                              HomeController.to.yourServiceList.add({
-                                "name":
-                                    HomeController.to.serviceController.value.text,
-                                "selected": false
-                              });
-                              HomeController.to.packageList.forEach((package) {
-                                package['service_list'] = List.from(HomeController
-                                    .to.yourServiceList
-                                    .map((service) {
-                                  return {
-                                    "name": service['name'],
-                                    "selected":
-                                        false // Each service starts as unselected for each package
-                                  };
-                                }).toList());
-                              });
-                              HomeController.to.packageList.refresh();
-                              HomeController.to.serviceController.value.clear();
-                              debugPrint(
-                                  HomeController.to.yourServiceList.toString());}
-                              else{
-                                Get.snackbar("failed", "Please Enter valid service");
-                            }
+                            onTap: () {
+                              if (HomeController
+                                  .to.serviceController.value.text.isNotEmpty) {
+                                HomeController.to.yourServiceList.add({
+                                  "name": HomeController
+                                      .to.serviceController.value.text,
+                                  "selected": false
+                                });
+                                HomeController.to.packageList
+                                    .forEach((package) {
+                                  package['service_list'] = List.from(
+                                      HomeController.to.yourServiceList
+                                          .map((service) {
+                                    return {
+                                      "name": service['name'],
+                                      "selected":
+                                          false // Each service starts as unselected for each package
+                                    };
+                                  }).toList());
+                                });
+                                HomeController.to.packageList.refresh();
+                                HomeController.to.serviceController.value
+                                    .clear();
+                                debugPrint(HomeController.to.yourServiceList
+                                    .toString());
+                              } else {
+                                Get.snackbar(
+                                    "failed", "Please Enter valid service");
+                              }
                             },
                             title: 'Add')
                       ],
                     ),
                   ],
                 ),
-
                 Obx(() {
                   return Wrap(
                     children: List.generate(
@@ -452,17 +505,27 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           color: AppColors.kprimaryColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Row(mainAxisSize: MainAxisSize.min,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
                               HomeController.to.yourServiceList[index]['name'],
                               style: TextStyle(color: Colors.white),
-                            ), IconButton(
+                            ),
+                            IconButton(
                                 onPressed: () {
-                                  HomeController.to.yourServiceList.removeAt(index);
-                                  HomeController.to.packageList.forEach((element) => element['service_list']..removeAt(index),);
-                                   HomeController.to.packageList.refresh();
-                            }, icon: Icon(CupertinoIcons.multiply_circle,color: Colors.white,))
+                                  HomeController.to.yourServiceList
+                                      .removeAt(index);
+                                  HomeController.to.packageList.forEach(
+                                    (element) => element['service_list']
+                                      ..removeAt(index),
+                                  );
+                                  HomeController.to.packageList.refresh();
+                                },
+                                icon: Icon(
+                                  CupertinoIcons.multiply_circle,
+                                  color: Colors.white,
+                                ))
                           ],
                         ),
                       ),
@@ -477,7 +540,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         TabBar(
-
                           onTap: (value) {
                             // HomeController.to.selectPackage(value);
                             HomeController.to.update();
@@ -490,7 +552,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                               (index) => Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  HomeController.to.packageList[index]['p_name'],
+                                  HomeController.to.packageList[index]
+                                      ['p_name'],
                                 ),
                               ),
                             ),
@@ -509,7 +572,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     children: [
                                       Expanded(
                                         child: Column(
-
                                           children: [
                                             Text(
                                               "Price",
@@ -521,19 +583,23 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                             ),
                                             const SizedBox(height: 10),
                                             CustomTextField(
-                                              validatorText: "Please Enter Price",
+                                              validatorText:
+                                                  "Please Enter Price",
                                               hintText: "Please Enter Price",
                                               inputType: TextInputType.number,
-                                              controller: HomeController
-                                                  .to.packageList[index]['price'],
+                                              controller: HomeController.to
+                                                  .packageList[index]['price'],
                                             ),
                                           ],
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                         ),
                                       ),
                                       defaultSizeBoxWidth,
                                       Expanded(
-                                        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               "Duration",
@@ -541,15 +607,17 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 12,
                                                 color: AppColors.kprimaryColor,
-                                               ),
+                                              ),
                                             ),
                                             const SizedBox(height: 10),
                                             CustomTextField(
-                                              validatorText: "Please Enter Duration",
+                                              validatorText:
+                                                  "Please Enter Duration",
                                               hintText: "Please Enter Duration",
                                               inputType: TextInputType.number,
                                               controller: HomeController
-                                                  .to.packageList[index]['duration'],
+                                                      .to.packageList[index]
+                                                  ['duration'],
                                             ),
                                           ],
                                         ),
@@ -569,15 +637,20 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       var serviceList = HomeController.to
                                           .packageList[index]['service_list'];
                                       return Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             HomeController.to.packageList[index]
                                                     ['service_list']
-                                                [serviceIndex]['name'],style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),
+                                                [serviceIndex]['name'],
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600),
                                           ),
                                           Checkbox(
-                                            activeColor: AppColors.kprimaryColor,
+                                            activeColor:
+                                                AppColors.kprimaryColor,
                                             value: HomeController
                                                         .to.packageList[index]
                                                     ['service_list']
@@ -611,166 +684,18 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                     );
                   }),
                 ),
-                // Text(
-                //   "Package: ",
-                //   style: TextStyle(
-                //       fontWeight: FontWeight.w700,
-                //       fontSize: 12,
-                //       color: AppColors.kprimaryColor),
-                // ),
-
-                // defaultSizeBoxHeight,
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           Text(
-                //             "Rate",
-                //             style: TextStyle(
-                //                 fontWeight: FontWeight.w700,
-                //                 fontSize: 12,
-                //                 color: AppColors.kprimaryColor),
-                //           ),
-                //           const SizedBox(
-                //             height: 10,
-                //           ),
-                //           CustomTextField(
-                //             validatorText: "Please Enter Rate",
-                //             hintText: "Please Enter Rate",
-                //             inputType: TextInputType.number,
-                //             controller: rateController,
-                //
-                //             // onChanged: (value) => controller.emailController.text.trim() = value!,
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //     const SizedBox(
-                //       width: 10,
-                //     ),
-                //     Expanded(
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           Text(
-                //             "Quantity",
-                //             style: TextStyle(
-                //                 fontWeight: FontWeight.w700,
-                //                 fontSize: 12,
-                //                 color: AppColors.kprimaryColor),
-                //           ),
-                //           const SizedBox(
-                //             height: 10,
-                //           ),
-                //           Obx(() {
-                //             return Row(
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               children: [
-                //                 Expanded(
-                //                   child: Container(
-                //                       margin: const EdgeInsets.all(8),
-                //                       alignment: Alignment.center,
-                //                       decoration: BoxDecoration(
-                //                           shape: BoxShape.circle,
-                //                           color: AppColors.kprimaryColor),
-                //                       child: FittedBox(
-                //                         child: IconButton(
-                //                           icon: const Icon(
-                //                             Icons.remove,
-                //                             color: Colors.white,
-                //                           ),
-                //                           onPressed: () {
-                //                             if (HomeController
-                //                                 .to
-                //                                 .quantityController
-                //                                 .value
-                //                                 .text
-                //                                 .isEmpty) {
-                //                               HomeController.to.quantity.value =
-                //                                   0;
-                //                             }
-                //                             HomeController.to
-                //                                 .decreaseQuantity();
-                //                           },
-                //                         ),
-                //                       )),
-                //                 ),
-                //                 Expanded(
-                //                   child: CustomTextField(
-                //                       padding: EdgeInsets.zero,
-                //                       textInputFormatter: [
-                //                         FilteringTextInputFormatter
-                //                             .digitsOnly, /*FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9][0-9][0-9]?$')),*/
-                //                       ],
-                //                       validatorText: "Please Enter quantity",
-                //                       hintText: "0",
-                //                       textAlign: TextAlign.center,
-                //                       inputType: TextInputType.number,
-                //                       controller: HomeController
-                //                           .to.quantityController.value,
-                //                       onChanged: (value) {
-                //                         int? newValue = int.tryParse(value!);
-                //                         if (newValue != null && newValue > 0) {
-                //                           HomeController.to.quantity.value =
-                //                               newValue;
-                //                         }
-                //                       }
-                //
-                //                       // onChanged: (value) => controller.emailController.text.trim() = value!,
-                //                       ),
-                //                 ),
-                //                 Expanded(
-                //                   child: Container(
-                //                     margin: const EdgeInsets.all(8),
-                //                     alignment: Alignment.center,
-                //                     decoration: BoxDecoration(
-                //                         shape: BoxShape.circle,
-                //                         color: AppColors.kprimaryColor),
-                //                     child: FittedBox(
-                //                       child: IconButton(
-                //                         icon: const Icon(
-                //                           Icons.add,
-                //                           color: Colors.white,
-                //                         ),
-                //                         onPressed: () {
-                //                           if (HomeController
-                //                               .to
-                //                               .quantityController
-                //                               .value
-                //                               .text
-                //                               .isEmpty) {
-                //                             HomeController.to.quantity.value =
-                //                                 0;
-                //                           }
-                //                           debugPrint(HomeController
-                //                               .to.quantity.value
-                //                               .toString());
-                //                           HomeController.to.increaseQuantity();
-                //                         },
-                //                       ),
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ],
-                //             );
-                //           }),
-                //         ],
-                //       ),
-                //     )
-                //   ],
-                // ),
                 defaultSizeBoxHeight,
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text(
-                    "District",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.kprimaryColor,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "District",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 12,
+                        color: AppColors.kprimaryColor,
+                      ),
                     ),
-                  ),
                     defaultSizeBoxHeight,
                     Obx(() {
                       if (HomeController.to.districtList.isEmpty) {
