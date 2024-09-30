@@ -63,10 +63,10 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
     return PopScope(
       canPop: true,
       onPopInvoked: (didPop) {
-        controller.searchController.value.clear();
-        controller.selectedDistrictForAll.value=null;
-
-        controller.filterOffer('', null);
+        // controller.searchController.value.clear();
+        // controller.selectedDistrictForAll.value=null;
+        //
+        // controller.filterOffer('', null);
       },
       child: Scaffold(
           backgroundColor: AppColors.strokeColor2,
@@ -177,6 +177,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                                     ),
                                   );},
                                   child: ServiceOfferWidget(
+                                    index: index,
                                     offerItem: service,
                                   ),
                                 );

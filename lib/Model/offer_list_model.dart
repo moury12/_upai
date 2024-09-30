@@ -47,6 +47,7 @@ class OfferList {
   int? rate;
   String? district;
   String? address;
+  bool isFav;
   List<BuyerReviewList>? buyerReviewList;
 
   OfferList({
@@ -61,6 +62,7 @@ class OfferList {
     this.description,
     this.quantity,
     this.rateType,
+    this.isFav=false,
     this.rate,
     this.district,
     this.address,
@@ -82,6 +84,7 @@ class OfferList {
     rate: json["rate"],
     district: json["district"],
     address: json["address"],
+    isFav: false,
     buyerReviewList: json["buyer_review_list"] == null ? [] : List<BuyerReviewList>.from(json["buyer_review_list"]!.map((x) => BuyerReviewList.fromJson(x))),
   );
 

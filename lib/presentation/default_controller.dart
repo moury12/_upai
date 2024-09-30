@@ -97,6 +97,9 @@ class DefaultController extends GetxController {
     switch (index) {
       case 0:
         appBarTitle.value = "Upai";
+        // if(HomeController.to.searchICon.value){
+        //   HomeController.to.searchICon.value=false;
+        // }
       case 1:
         appBarTitle.value = "My Services";
       // case 2:

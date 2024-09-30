@@ -46,7 +46,6 @@ class HomeController extends GetxController {
   Rx<TextEditingController> searchOfferController = TextEditingController().obs;
   Rx<TextEditingController> searchCatController = TextEditingController().obs;
   Rx<TextEditingController> rateController = TextEditingController().obs;
-
   Rx<bool> change = false.obs;
   Rx<bool> changeQuantity = true.obs;
   Rx<bool> changeRate = false.obs;
@@ -88,11 +87,12 @@ RxInt? selectedPackageIndex;
   RxList<dynamic> yourServiceList = [
 
   ].obs;
-
+  List<RxBool> isFav=<RxBool>[].obs;
   RxBool checkPackageService = false.obs;
   @override
   void onInit() async {
-    refreshAllData();
+
+   await refreshAllData();
     districtList.value =
     await loadJsonFromAssets('assets/district/district.json');
     districtList.sort((a, b) => a['name'].toString().compareTo(b['name'].toString()));
@@ -128,6 +128,8 @@ RxInt? selectedPackageIndex;
     });
     quantityControllerForConfromOrder.value.addListener(updateTotalAmount);
     rateController.value.addListener(updateTotalAmount);
+    isFav =  List.generate(getOfferList.length, (index) => false.obs,);
+
     super.onInit();
   }
   Future<void> refreshAllData() async {

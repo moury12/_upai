@@ -49,6 +49,7 @@ class MyService {
   int? rate;
   String? district;
   String? address;
+  bool? isFav;
 
   MyService({
     this.offerId,
@@ -63,6 +64,7 @@ class MyService {
     this.rate,
     this.district,
     this.address,
+    this.isFav=false
   });
 
   factory MyService.fromJson(Map<String, dynamic> json) => MyService(
@@ -78,6 +80,7 @@ class MyService {
     rate: json["rate"],
     district: json["district"],
     address: json["address"],
+    isFav: false
   );
 
   Map<String, dynamic> toJson() => {

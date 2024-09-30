@@ -47,17 +47,15 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     // WidgetsBinding.instance.addObserver(this);
     super.initState();
-    resetData();
-    debugPrint('uiyiuvu');
+   resetData();
     controller.refreshAllData();
-    print("lsdkflds");
     // controller.isSearching.value = false;
     Get.put(NetworkController());
 
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1),);
     if (controller.searchICon.value) {
-      animationController.value = 0.3; // Set to cross icon
+      animationController.value = 0.4; // Set to cross icon
     } else {
       animationController.value = 1.0; // Set to search icon
     }
@@ -159,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen>
                           flex: 4,
                           child: Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: SearchableDropDown(),
+                            child: SearchableDropDown(fromHome: true,),
                           )),
                       Expanded(
                         child: Container(
@@ -177,7 +175,8 @@ class _HomeScreenState extends State<HomeScreen>
                                 },
                                 icon: Lottie.asset(
                                   'assets/search_json/search_cross_icon.json',
-                                  height: 35,
+                                   height: 35,
+
                                   controller: animationController,
                                   onLoaded: (composition) {
                                     animationController
@@ -260,29 +259,29 @@ class _HomeScreenState extends State<HomeScreen>
                                   //     ),
                                   //   ),
                                   // ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text("Browse Category",
-                                            style: AppTextStyle.titleText),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Get.toNamed(
-                                              CategoryListScreen.routeName);
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 12.0),
-                                          child: Text("Browse All > ",
-                                              style: AppTextStyle
-                                                  .titleTextSmallUnderline),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   mainAxisAlignment:
+                                  //       MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     Expanded(
+                                  //       child: Text("Browse Category",
+                                  //           style: AppTextStyle.titleText),
+                                  //     ),
+                                  //     GestureDetector(
+                                  //       onTap: () {
+                                  //         Get.toNamed(
+                                  //             CategoryListScreen.routeName);
+                                  //       },
+                                  //       child: Padding(
+                                  //         padding: const EdgeInsets.symmetric(
+                                  //             vertical: 12.0),
+                                  //         child: Text("Browse All > ",
+                                  //             style: AppTextStyle
+                                  //                 .titleTextSmallUnderline),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                   DefaultTabController(
                                     length: 2,
                                     child: Expanded(
@@ -444,9 +443,13 @@ class _HomeScreenState extends State<HomeScreen>
                                             ),
                                             GestureDetector(
                                               onTap: () {
+                                                resetData();
+                                                HomeController.to.filteredOfferList.refresh();
+                                                HomeController.to.filterOffer('', null);
                                                 Get.toNamed(
                                                     ServiceListScreen.routeName,
                                                     arguments: "");
+
                                               },
                                               child: Padding(
                                                 padding:
@@ -572,6 +575,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                     );
                                                   },
                                                   child: ServiceOfferWidget(
+                                                    index: index,
                                                     offerItem: service,
                                                   ),
                                                 );
@@ -661,6 +665,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                             },
                                                             child:
                                                                 ServiceOfferWidget(
+                                                                  index: index,
                                                               offerItem:
                                                                   service,
                                                             ));
@@ -693,7 +698,7 @@ class _HomeScreenState extends State<HomeScreen>
     if (controller.searchICon.value) {
       animationController.animateTo(1.0);
     } else {
-      animationController.animateBack(0.3);
+      animationController.animateBack(0.4);
     }
     controller.searchICon.value = !controller.searchICon.value;
 
