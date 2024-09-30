@@ -25,17 +25,18 @@ class DefaultScreen extends StatelessWidget {
         onPopInvoked: (didPop) {
           if (ctrl.selectedIndex.value != 0) {
             ctrl.selectedIndex.value = 0;
+            // HomeController.to.searchICon.value=false;
           }
           else if (ctrl.selectedIndex.value == 0 &&HomeController.to.searchOfferController.value.text != "") {
 
               HomeController.to.searchOfferController.value.text = "";
           }
-          else if (ctrl.selectedIndex.value == 0 &&HomeController.to.searchICon.value) {
-
-            HomeController.to.searchICon.value=false;
-
-          }
-          else {
+//           else if (ctrl.selectedIndex.value == 0 &&HomeController.to.searchICon.value) {
+//
+//             HomeController.to.searchICon.value=false;
+// // HomeController.to.update();
+//           }
+          else if(ctrl.selectedIndex.value == 0 &&!HomeController.to.searchICon.value) {
             showDialog(
               context: context,
               builder: (context) {
