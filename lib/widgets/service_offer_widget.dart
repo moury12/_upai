@@ -30,8 +30,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
   @override
   void initState() {
     super.initState();
-debugPrint('++++++++++++++++++++++++++');
-debugPrint(widget.index.toString());
+
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,

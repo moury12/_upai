@@ -165,6 +165,10 @@ class AppTextStyle {
         fontSize: 14,
         fontWeight: FontWeight.w400,
         color: AppColors.colorBlack,
+      ); static get bodySmallBlack600 => TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w600,
+        color: AppColors.colorBlack,
       );
 
   static get bodySmallBlack400f15 => TextStyle(
