@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen>
     controller.refreshAllData();
     // controller.isSearching.value = false;
     Get.put(NetworkController());
-
+retrieveFavOffers();
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1),);
     if (controller.searchICon.value) {
@@ -288,6 +288,7 @@ class _HomeScreenState extends State<HomeScreen>
                                       child: Column(
                                         children: [
                                           TabBar(
+                                            overlayColor: WidgetStateColor.transparent,
                                             labelColor: AppColors.kprimaryColor,
                                             indicatorColor:
                                                 AppColors.kprimaryColor,
@@ -466,7 +467,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                     .to.getOfferList.isEmpty ||
                                                 !NetworkController
                                                     .to.connectedInternet.value
-                                            ? const ShimmerRunnigOrder()
+                                            ?  ShimmerExploreTopService()
                                             : SizedBox(
                                                 height: 200,
                                                 child: ListView.builder(
@@ -666,6 +667,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                             child:
                                                                 ServiceOfferWidget(
                                                                   index: index,
+
                                                               offerItem:
                                                                   service,
                                                             ));

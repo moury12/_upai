@@ -241,7 +241,7 @@ class RepositoryData {
       if (data['status'] == "Success") {
         print("skjdfklsdjf");
         offerList = offerListModelFromJson(response.body).offerList!;
-        print(offerList);
+        print('--------------${data.toString()}');
         // var areaData = data["area-list"] as List;
         //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.green,content: Text("Successfull")));
 

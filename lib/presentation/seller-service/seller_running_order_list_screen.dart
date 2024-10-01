@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import '../../core/utils/custom_text_style.dart';
@@ -43,12 +44,13 @@ class SellerRunningOrderListScreen extends StatelessWidget {
             return RefreshIndicator(
               color: Colors.black,
                 backgroundColor: AppColors.strokeColor2,
-                child: SellerProfileController.to.seller.value.sellerRunningOrder==null
+                child: !NetworkController
+                    .to.connectedInternet.value
                 ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ShimmerRunnigOrder(forList: true,),
                 )
-                : ListView.builder(padding: EdgeInsets.all(12),
+                : SellerProfileController.to.seller.value.sellerRunningOrder!.isEmpty||SellerProfileController.to.seller.value.sellerRunningOrder==null?Center(child: Text("Running Order is Empty"),):ListView.builder(padding: EdgeInsets.all(12),
               itemCount: SellerProfileController.to.seller.value.sellerRunningOrder!.length,
               itemBuilder: (context, index) {
                 return SellerRunningOrderWidget(

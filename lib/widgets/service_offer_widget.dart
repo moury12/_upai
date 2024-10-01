@@ -13,10 +13,11 @@ import 'package:upai/presentation/ServiceDetails/service_details_controller.dart
 class ServiceOfferWidget extends StatefulWidget {
   final MyService? service;
   final OfferList? offerItem;
+  final OfferList? favOfferItem;
   final Widget? button;
   final int index;
   const ServiceOfferWidget(
-      {super.key, this.service, this.offerItem, this.button, required this.index});
+      {super.key, this.service, this.offerItem, this.button, required this.index, this.favOfferItem});
 
   @override
   State<ServiceOfferWidget> createState() => _ServiceOfferWidgetState();
@@ -30,17 +31,26 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
   @override
   void initState() {
     super.initState();
-
+    retrieveFavOffers();
+    // print(HomeController.to.favOfferList.length);
+    for (int i=0;i>HomeController.to.favOfferList.length;i++){
+      if(HomeController.to.favOfferList[i].offerId==widget.offerItem!.offerId){
+        widget.offerItem!.isFav=true;
+      }
+      print('HomeController.to.favOfferList[i].offerId');print(HomeController.to.favOfferList[i].offerId);
+    }
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
     _animation = Tween<double>(begin: 30.0, end: 35.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+      CurvedAnimation(parent: _controller, curve: Curves.linear),
     );
   }
+void checkIfFavOffer() async{
 
+}
   @override
   void dispose() {
     _controller.dispose();
@@ -199,7 +209,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
           Expanded(
             flex: 6,
             child: Container(
-              height: 120,
+              height: 140,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -296,12 +306,21 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
 
                               // Pause for a moment and then zoom out
                               // await Future.delayed(Duration(milliseconds: 100));
-                              _controller.reverse();
-                             widget.offerItem!.isFav =
-                              !widget.offerItem!.isFav;
+                             await _controller.reverse();
+                             // widget.offerItem!.isFav =
+                             //  !widget.offerItem!.isFav;
+                             if( !widget.offerItem!.isFav){
+                               saveOfferToHive(widget.offerItem!);
+                               widget.offerItem!.isFav =true;
+                             }else{
+                               deleteFavOffers(widget.offerItem!.offerId.toString());
+                               widget.offerItem!.isFav =false;
+                             }
+                             debugPrint(widget.offerItem!.isFav.toString());
                              setState(() {
 
                              });
+
                             },
                             icon: AnimatedBuilder(
                                 animation: _animation,

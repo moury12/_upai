@@ -41,6 +41,7 @@ class HomeController extends GetxController {
   RxList<dynamic> districtList = [].obs;
   RxList<dynamic> filterDistrictList = [].obs;
   RxList<OfferList> getOfferList = <OfferList>[].obs;
+  RxList<OfferList> favOfferList = <OfferList>[].obs;
   Rx<TextEditingController> serviceController = TextEditingController().obs;
   Rx<TextEditingController> searchController = TextEditingController().obs;
   Rx<TextEditingController> searchOfferController = TextEditingController().obs;

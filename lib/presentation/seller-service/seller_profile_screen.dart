@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
@@ -51,16 +52,13 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        hoverColor: AppColors.kprimaryColor,
         shape: const CircleBorder(),
-        backgroundColor: AppColors.kprimaryColor,
+        backgroundColor: Colors.white,
         onPressed: () {
           Get.to(() => const CreateOfferScreen());
         },
-        child: const Icon(
-          Icons.add_business_outlined,
-          size: 30,
-          color: Colors.white,
-        ),
+        child: Lottie.asset('assets/search_json/add_service.json')
       ),
       body: RefreshIndicator(
         color: Colors.black,
@@ -151,7 +149,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   //                 Text(
                   //                   "৳${seller.sellerProfile!.totalEarning.toString() ?? '-'}",
                   //                   style: AppTextStyle.bodyLargeSemiBlack,
-                  //                 ),
+                  //                  ),
                   //                 const SizedBox(
                   //                   height: 5,
                   //                 ),

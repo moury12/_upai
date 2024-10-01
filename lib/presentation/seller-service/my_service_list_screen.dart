@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
@@ -69,8 +70,8 @@ class MyServiceListScreen extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0)
-                        .copyWith(bottom: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 12)
+                       ,
                     child: Obx(() {
                       return CustomTextField(
                         controller: SellerProfileController
@@ -95,13 +96,15 @@ class MyServiceListScreen extends StatelessWidget {
                     })),
 
                 Expanded(child: Obx(() {
-                  return SellerProfileController.to.filterList.isEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: ShimmerOfferList(
-                            fromServiceList: true,
-                          ),
-                        )
+                  return !NetworkController
+                      .to.connectedInternet.value?Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ShimmerOfferList(
+                      fromServiceList: true,
+                    ),
+                  ):
+                    SellerProfileController.to.filterList.isEmpty
+                      ? Center(child: Text('Offer List empty'))
                       : GridView.builder(
                           shrinkWrap: true,
                           primary: false,

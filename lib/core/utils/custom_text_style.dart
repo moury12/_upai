@@ -60,9 +60,9 @@ class AppTextStyle {
         color: AppColors.deepGreyColor,
       );
   static get bodySmallblack => TextStyle(
-        fontSize: 13,
-        // fontWeight: FontWeight.w400,
-        color: AppColors.kprimaryColor,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        color: Colors.black,
       );
 
   //
@@ -79,15 +79,19 @@ class AppTextStyle {
       );
 
   static get bodyLarge900 => TextStyle(
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: FontWeight.w700,
         color: AppColors.kprimaryColor,
+      );  static get textFont14bold => TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        color: AppColors.colorBlack,
       );
 
   static get bodyLarge700 => TextStyle(
         fontSize: 23,
         fontWeight: FontWeight.w700,
-        color: AppColors.colorDeepBlue,
+        color: AppColors.colorBlack,
       );
 
   static get bodyMedium400 => TextStyle(
@@ -155,7 +159,7 @@ class AppTextStyle {
       );
 
   static get bodySmallGrey400 => TextStyle(
-        fontSize: 15,
+        fontSize: 14,
         fontWeight: FontWeight.w400,
         color: AppColors.titleName,
         // decoration: TextDecoration.lineThrough,

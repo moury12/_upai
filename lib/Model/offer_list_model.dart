@@ -85,8 +85,9 @@ class OfferList {
     district: json["district"],
     address: json["address"],
     isFav: false,
-    buyerReviewList: json["buyer_review_list"] == null ? [] : List<BuyerReviewList>.from(json["buyer_review_list"]!.map((x) => BuyerReviewList.fromJson(x))),
-  );
+    buyerReviewList: json["buyer_review_list"] != null && json["buyer_review_list"] is List
+        ? List<BuyerReviewList>.from(json["buyer_review_list"]!.map((x) => BuyerReviewList.fromJson(x)))
+        : [],   );
 
   Map<String, dynamic> toJson() => {
     "offer_id": offerId,

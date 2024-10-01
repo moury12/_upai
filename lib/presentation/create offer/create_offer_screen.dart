@@ -478,7 +478,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         TabBar(
-
+                          overlayColor: WidgetStateColor.transparent,
                           onTap: (value) {
                             // HomeController.to.selectPackage(value);
                             HomeController.to.update();
@@ -585,7 +585,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                 [serviceIndex]['selected'],
                                             //value: data[serviceIndex],
                                             onChanged: (value) {
-                                              debugPrint(index.toString());
+                                              debugPrint( HomeController.to.packageList.toString());
                                               debugPrint(
                                                   serviceIndex.toString());
                                               // Update the selected value for the specific service in the package

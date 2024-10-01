@@ -38,7 +38,7 @@ class ShimmerRunnigOrder extends StatelessWidget {
         baseColor: Colors.grey[300]!,
         highlightColor: Colors.grey[100]!,
         child:SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           child: Column(
               children: List.generate(
                  forList!?10:3,
@@ -46,7 +46,33 @@ class ShimmerRunnigOrder extends StatelessWidget {
 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
-                    child: ShimmerContainer(height: 120,width: double.infinity,),
+                    child: ShimmerContainer(height: 150,width: double.infinity,),
+                  );
+                },
+              )),
+        ));
+  }
+}
+class ShimmerExploreTopService extends StatelessWidget {
+
+
+  ShimmerExploreTopService({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child:SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Row(
+              children: List.generate(
+                 10,
+                    (index) {
+
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: ShimmerContainer(height: 200,width: 250,),
                   );
                 },
               )),

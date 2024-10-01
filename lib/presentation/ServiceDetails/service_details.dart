@@ -9,12 +9,15 @@ import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/ServiceDetails/rating_list_screen.dart';
+import 'package:upai/presentation/create%20offer/widget/tab_content_view.dart';
 import 'package:upai/presentation/full_screen_image.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
@@ -41,10 +44,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   @override
   void initState() {
     // getSellerDetails();
+    Get.put(ServiceDetailsController());
     ProfileScreenController.to.profileImageUrl.value = '';
 
     ProfileScreenController.to.id.value = widget.offerDetails!.userId ?? '';
 // ProfileScreenController.to.fetchProfileImage();
+//     debugPrint(widget.offerDetails!.buyerReviewList!.toList().toString());
     super.initState();
   }
 
@@ -60,8 +65,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
   @override
   Widget build(BuildContext context) {
-    //  ItemServiceModel singleItem = ItemServiceModel();
-    final ctrl = Get.put(ServiceDetailsController());
+
     var size = MediaQuery.sizeOf(context);
 
     return PopScope(
@@ -70,91 +74,151 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         HomeController.to.selectedRateType.value = null;
       },
       child: Scaffold(
+        floatingActionButton: ElevatedButton(
+          onPressed: () async {
+            if (ProfileScreenController.to.userInfo.value.userId ==
+                widget.offerDetails!.userId) {
+              Get.snackbar("This is your Service", "");
+            } else {
+              UserInfoModel senderData = UserInfoModel();
+              Map<String, dynamic>? userDetails;
+              userDetails = await FirebaseAPIs()
+                  .getSenderInfo(widget.offerDetails!.userId.toString());
+              if (userDetails!.isNotEmpty) {
+                senderData.userId = userDetails["user_id"] ?? "";
+                senderData.name = userDetails["name"] ?? "user";
+                senderData.email = userDetails["email"];
+                senderData.lastActive = userDetails["last_active"];
+                senderData.image = userDetails["image"] ??
+                    "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+                senderData.isOnline = userDetails["is_online"];
+                senderData.userType = userDetails["user_type"];
+                senderData.token = userDetails["token"];
+                senderData.mobile = userDetails["mobile"];
+                senderData.cid = userDetails["cid"];
+                senderData.pushToken = userDetails["push_token"];
+              }
+              Get.toNamed("/chatscreen", arguments: senderData);
+            }
+          },
+          style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              overlayColor: AppColors.kprimaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              backgroundColor: AppColors.colorWhite,
+              elevation: 0,
+              surfaceTintColor: Colors.transparent,
+              shadowColor: Colors.transparent),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.transparent,
+                  child: FutureBuilder(
+                    future: ProfileScreenController.to.getProfileImageURL(
+                        widget.offerDetails!.userId.toString()),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting ||
+                          snapshot.connectionState == ConnectionState.none) {
+                        return Center(
+                            child: CircularProgressIndicator(
+                          color: AppColors.kprimaryColor,
+                        ));
+                      } else if (snapshot.hasData) {
+                        if (snapshot.data != "") {
+                          return CachedNetworkImage(
+                            imageUrl: snapshot.data.toString(),
+                            imageBuilder: (context, imageProvider) =>
+                                CircleAvatar(
+                              radius: 20,
+                              backgroundImage: imageProvider,
+                            ),
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(
+                              color: AppColors.kprimaryColor,
+                            ), // Loading indicator
+                            errorWidget: (context, url, error) => CircleAvatar(
+                                radius: 20,
+
+                                // radius: 30,
+                                backgroundImage: AssetImage(
+                                  ImageConstant.senderImg,
+                                )), // Error icon
+                          );
+                        } else {
+                          return CircleAvatar(
+                              radius: 20,
+                              backgroundImage: AssetImage(
+                                ImageConstant.senderImg,
+                              ));
+                        }
+                      } else {
+                        return CircleAvatar(
+                            radius: 20,
+                            // radius: 30,
+                            backgroundImage: AssetImage(
+                              ImageConstant.senderImg,
+                            ));
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "Chat",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+        ),
         bottomNavigationBar: Container(
           color: AppColors.backgroundLight,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (ProfileScreenController.to.userInfo.value.userId ==
-                          widget.offerDetails!.userId) {
-                        Get.snackbar("This is your Service", "");
-                      } else {
-                        UserInfoModel senderData = UserInfoModel();
-                        Map<String, dynamic>? userDetails;
-                        userDetails = await FirebaseAPIs().getSenderInfo(
-                            widget.offerDetails!.userId.toString());
-                        if (userDetails!.isNotEmpty) {
-                          senderData.userId = userDetails["user_id"] ?? "";
-                          senderData.name = userDetails["name"] ?? "user";
-                          senderData.email = userDetails["email"];
-                          senderData.lastActive = userDetails["last_active"];
-                          senderData.image = userDetails["image"] ??
-                              "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
-                          senderData.isOnline = userDetails["is_online"];
-                          senderData.userType = userDetails["user_type"];
-                          senderData.token = userDetails["token"];
-                          senderData.mobile = userDetails["mobile"];
-                          senderData.cid = userDetails["cid"];
-                          senderData.pushToken = userDetails["push_token"];
-                        }
-                        Get.toNamed("/chatscreen", arguments: senderData);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      backgroundColor: AppColors.kprimaryColor,
+            child: ElevatedButton(
+              onPressed: () {
+                if (ProfileScreenController.to.userInfo.value.userId ==
+                    widget.offerDetails!.userId) {
+                  Get.snackbar("This is your Service", "");
+                } else {
+                  Get.put(OrderController());
+                  showDialog(
+                    context: context,
+                    builder: (context) => ConfirmOfferRequestWidget(
+                      service: widget,
                     ),
-                    child: Text(
-                      "Chat Now",
-                      style: AppTextStyle.bodySmallwhite,
-                    ),
-                  ),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (ProfileScreenController.to.userInfo.value.userId ==
-                          widget.offerDetails!.userId) {
-                        Get.snackbar("This is your Service", "");
-                      } else {
-                        Get.put(OrderController());
-                        showDialog(
-                          context: context,
-                          builder: (context) => ConfirmOfferRequestWidget(
-                            service: widget,
-                          ),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      backgroundColor: AppColors.kprimaryColor,
-                    ),
-                    child: Text(
-                      "Confirm Offer",
-                      style: AppTextStyle.bodySmallwhite,
-                    ),
-                  ),
-                ),
-              ],
+                backgroundColor: AppColors.kprimaryColor,
+              ),
+              child: Text(
+                "Confirm Offer(Basic)",
+                style: AppTextStyle.bodySmallwhite,
+              ),
             ),
           ),
         ),
         appBar: AppBar(
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
           elevation: 0,
           leading: IconButton(
             onPressed: () {
@@ -169,33 +233,28 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             Obx(() {
               return IconButton(
                 onPressed: () {
-                  print(widget.offerDetails!.description.toString());
-                  if (ctrl.isFav.value) {
-                    ctrl.isFav.value = false;
-                  } else {
-                    ctrl.isFav.value = true;
-                  }
+                  print( ServiceDetailsController.to.isFav.value.toString());
+                  ServiceDetailsController.to.isFav.value =! ServiceDetailsController.to.isFav.value;
+                  // ServiceDetailsController.to.isFav.value = widget.offerDetails!.isFav;
                 },
-                icon: ctrl.isFav.value
-                    ? const Icon(
+                icon: ServiceDetailsController.to.isFav.value
+                    ? Icon(
                         CupertinoIcons.heart_fill,
                         size: 25,
+                        color: AppColors.kprimaryColor,
                       )
-                    : /*const FaIcon(
-                                                  FontAwesomeIcons.heart,
-                                                ),*/
-                    const Icon(
+                    : Icon(
                         CupertinoIcons.heart,
                         size: 25,
                       ),
               );
             }),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                CupertinoIcons.share,
-              ),
-            ),
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: const Icon(
+            //     CupertinoIcons.share,
+            //   ),
+            // ),
           ],
         ),
         body: SafeArea(
@@ -240,10 +299,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     snapshot.data.toString());
                               } else {
                                 return FutureBuilder(
-                                  future: FirebaseAPIs
-                                      .fetchDefaultOfferImageUrl(widget
-                                          .offerDetails!.serviceCategoryType
-                                          .toString()),
+                                  future:
+                                      FirebaseAPIs.fetchDefaultOfferImageUrl(
+                                          widget
+                                              .offerDetails!.serviceCategoryType
+                                              .toString()),
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                             ConnectionState.waiting &&
@@ -278,11 +338,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           ),
                         ),
                       ),
-
-
-                      // Divider(
-                      //   color: AppColors.kprimaryColor,
-                      // ),
                       ListTile(
                         leading: CircleAvatar(
                           radius: 24,
@@ -340,43 +395,52 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             },
                           ),
                         ),
-
                         horizontalTitleGap: 8.0,
                         title: Text(
                           widget.offerDetails!.userName.toString(),
                           style: AppTextStyle.bodyMediumBlackSemiBold,
                         ),
                         trailing: const SizedBox.shrink(),
-                        subtitle: OverflowBar(
+                        subtitle: Row(
                           children: [
                             Text(
                               "Completed Job:${widget.offerDetails!.totalCompletedJob.toString()}",
                               style: AppTextStyle.bodySmallBlack600,
                             ),
-                          SizedBox(width: 5,),
-                          RatingBarIndicator(
-                            rating: widget.offerDetails!.avgRating,
-                            itemBuilder: (context, index) => const Icon(
-                              CupertinoIcons.star_fill,
-                              color: Colors.black,
+                            SizedBox(
+                              width: 5,
                             ),
-                            unratedColor: Colors.black.withOpacity(.2),
-                            itemCount: 5,  // Maximum rating value
-                            itemSize: 10.0,  // Size of stars
-                            direction: Axis.horizontal,
-                          ),
-
+                            Row(
+                              children: [
+                                RatingBarIndicator(
+                                  rating: widget.offerDetails!.avgRating,
+                                  itemBuilder: (context, index) => const Icon(
+                                    CupertinoIcons.star_fill,
+                                    color: Colors.black,
+                                  ),
+                                  unratedColor: Colors.black.withOpacity(.2),
+                                  itemCount: 5, // Maximum rating value
+                                  itemSize: 10.0, // Size of stars
+                                  direction: Axis.horizontal,
+                                ),
+                                Text(
+                                  "${widget.offerDetails!.avgRating.toStringAsFixed(1)}",
+                                  style: AppTextStyle.bodySmallBlack600,
+                                )
+                              ],
+                            ),
                           ],
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Text(
-                          widget.offerDetails!.jobTitle.toString(),
+                          widget.offerDetails!.jobTitle
+                              .toString()
+                              .toUpperCase(),
                           style: AppTextStyle.bodyLarge700,
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Column(
@@ -387,139 +451,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               children: [
                                 Text(
                                     "Posted on ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
-                                Text(
-                                    "🌏 ${widget.offerDetails!.district.toString()}"),
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  flex: 4,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // Text(
-                                      //   "Price",
-                                      //   style: AppTextStyle.bodyMediumBlack400,
-                                      // ),
-                                      Text(
-                                        "৳ ${widget.offerDetails!.rate.toString()}/${widget.offerDetails!.rateType}",
-                                        style: AppTextStyle.bodyLarge900,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // Expanded(
-                                //   flex: 2,
-                                //   child: Column(
-                                //     children: [
-                                //       SizedBox(
-                                //         width: double.infinity,
-                                //         child: ElevatedButton(
-                                //           onPressed: () async {
-                                //             UserInfoModel senderData =
-                                //                 UserInfoModel();
-                                //             Map<String, dynamic>? userDetails;
-                                //             userDetails = await FirebaseAPIs()
-                                //                 .getSenderInfo("016");
-                                //             if (userDetails!.isNotEmpty) {
-                                //               senderData.userId =
-                                //                   userDetails["user_id"] ?? "";
-                                //               senderData.name =
-                                //                   userDetails["name"] ?? "user";
-                                //               senderData.email =
-                                //                   userDetails["email"];
-                                //               senderData.lastActive =
-                                //                   userDetails["last_active"];
-                                //               senderData.image = userDetails[
-                                //                       "image"] ??
-                                //                   "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
-                                //               senderData.isOnline =
-                                //                   userDetails["is_online"];
-                                //               senderData.userType =
-                                //                   userDetails["user_type"];
-                                //               senderData.token =
-                                //                   userDetails["token"];
-                                //               senderData.mobile =
-                                //                   userDetails["mobile"];
-                                //               senderData.cid =
-                                //                   userDetails["cid"];
-                                //               senderData.pushToken =
-                                //                   userDetails["push_token"];
-                                //             }
-                                //
-                                //             Get.toNamed("/chatscreen",
-                                //                 arguments: senderData);
-                                //           },
-                                //           style: ElevatedButton.styleFrom(
-                                //               alignment: Alignment.center,
-                                //               padding: EdgeInsets.symmetric(
-                                //                   vertical: 12, horizontal: 12),
-                                //               shape: RoundedRectangleBorder(
-                                //                   borderRadius:
-                                //                       BorderRadius.circular(8)),
-                                //               backgroundColor:
-                                //                   AppColors.BTNbackgroudgrey,
-                                //               foregroundColor:
-                                //                   AppColors.colorWhite),
-                                //           child: Text(
-                                //             "Chat Now",
-                                //             textAlign: TextAlign.center,
-                                //             style: AppTextStyle.bodySmallwhite,
-                                //           ),
-                                //         ),
-                                //       ),
-                                //       SizedBox(
-                                //         height: 8,
-                                //       ),
-                                //       SizedBox(
-                                //         width: double.infinity,
-                                //         child: ElevatedButton(
-                                //           onPressed: () {
-                                //             Get.put(OrderController());
-                                //             showDialog(
-                                //               context: context,
-                                //               builder: (context) =>
-                                //                   ConfrimOfferWidget(
-                                //                 service: widget,
-                                //               ),
-                                //             );
-                                //           },
-                                //           style: ElevatedButton.styleFrom(
-                                //               alignment: Alignment.center,
-                                //               padding: EdgeInsets.symmetric(
-                                //                   vertical: 12, horizontal: 12),
-                                //               shape: RoundedRectangleBorder(
-                                //                   borderRadius:
-                                //                       BorderRadius.circular(8)),
-                                //               backgroundColor:
-                                //                   AppColors.BTNbackgroudgrey,
-                                //               foregroundColor:
-                                //                   AppColors.colorWhite),
-                                //           child: Text(
-                                //             textAlign: TextAlign.center,
-                                //             "Confirm Offer",
-                                //             style: AppTextStyle.bodySmallwhite,
-                                //           ),
-                                //         ),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            DetailItem(
-                                title: "User ID:",
-                                body: widget.offerDetails!.userId.toString()),
-                            //  DetailItem(
-                            //   title: "Offer ID:",
-                            //   body: widget.offerDetails!.offerId.toString(),
-                            // ),
 
                             DetailItem(
                               title: "Category:",
@@ -528,18 +461,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             ),
 
                             DetailItem(
-                              title: "Rate Type:",
-                              body: widget.offerDetails!.rateType.toString(),
-                            ),
-                            DetailItem(
-                              title: "Rate:",
+                              title: "District:",
                               body:
-                                  "${widget.offerDetails!.rate.toString()} ৳ ",
-                            ),
-                            DetailItem(
-                              title: "Quantity:",
-                              body:
-                                  "${widget.offerDetails!.quantity.toString()} 🛒",
+                                  " ${widget.offerDetails!.district.toString()}",
                             ),
                             DetailItem(
                               title: "Address:",
@@ -554,13 +478,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             const SizedBox(
                               height: 5,
                             ),
-                            // Text(
-                            //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                            //       " It has survived not only five centuries, but also the"
-                            //       " leap into electronic typesetting, remaining essentially unchanged...."
-                            //       " See More",
-                            //   style: AppTextStyle.bodySmallblack,
-                            // ),
+
                             ReadMoreText(
                               widget.offerDetails!.description.toString(),
                               style: AppTextStyle.bodySmallGrey400,
@@ -579,64 +497,88 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.blueAccent),
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            // Text(
-                            //   "Includes",
-                            //   style: AppTextStyle.titleTextSmall,
-                            // ),
-                            // const SizedBox(
-                            //   height: 5,
-                            // ),
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     borderRadius: BorderRadius.circular(4),
-                            //     color: AppColors.background1,
-                            //   ),
-                            //   width: size.width,
-                            //   height: 100,
-                            //   child: ListView.builder(
-                            //     itemBuilder: (context, index) {
-                            //       return Padding(
-                            //         padding: const EdgeInsets.only(
-                            //             left: 12.0, right: 12.0, top: 2),
-                            //         child: Text(
-                            //           "✔️ Feature",
-                            //           style: AppTextStyle.bodySmallGrey,
-                            //         ),
-                            //       );
-                            //     },
-                            //   ),
-                            // ),
-                            const SizedBox(
-                              height: 5,
+                            // defaultSizeBoxHeight,
+                            DefaultTabController(
+                              length: 3,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TabBar(
+                                      indicatorColor: AppColors.kprimaryColor,
+                                      labelColor: AppColors.kprimaryColor,
+                                      overlayColor:
+                                          WidgetStateColor.transparent,
+                                      tabs: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Basic',
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Standard',
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Premium',
+                                          ),
+                                        ),
+                                      ]),
+                                  defaultSizeBoxHeight,
+                                  TabContentView(
+                                      children: List.generate(
+                                    3,
+                                    (index) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Description",
+                                          style:
+                                              AppTextStyle.bodyMediumBlackBold,
+                                        ),
+                                        Text(
+                                          'A dummy is a type of doll that looks like a person. Entertainers called ventriloquists can make dummies appear to talk. The automobile industry uses dummies in cars to study how safe cars are during a crash. A dummy can also be anything that looks real but doesnt work: a fake.',
+                                          style: AppTextStyle.bodySmallGrey400,
+                                        ),
+                                        defaultSizeBoxHeight,
+                                        PackageDetails(
+                                          title: "Price",
+                                          lable:
+                                              "৳ ${widget.offerDetails!.rate.toString()}",
+                                        ),
+                                        PackageDetails(
+                                          title: "Duration",
+                                          lable: "6 Days",
+                                        ),
+                                        PackageDetails(
+                                          title: "Revisions",
+                                          lable: "4 Days",
+                                        ),
+                                        ...List.generate(
+                                          6,
+                                          (index) => PackageDetails(
+                                            title: "Logo Transparency",
+                                            ticMark: Icon(
+                                              CupertinoIcons.checkmark,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ))
+                                ],
+                              ),
                             ),
 
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     borderRadius: BorderRadius.circular(8),
-                            //     color: AppColors.background1,
-                            //   ),
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.all(8.0),
-                            //     child: Row(
-                            //       mainAxisAlignment:
-                            //           MainAxisAlignment.spaceBetween,
-                            //       children: [
-                            //         Text(
-                            //           "Frequently Asked ",
-                            //           style: AppTextStyle.bodyMediumBlack400,
-                            //         ),
-                            //         const Icon(Icons.arrow_forward_ios)
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            widget.offerDetails!.totalCompletedJob != 0
+                            widget.offerDetails!.totalCompletedJob != null &&
+                                    widget.offerDetails!.totalCompletedJob!
+                                            .toInt() >
+                                        0
                                 ? Column(
                                     children: [
                                       Row(
@@ -655,9 +597,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                           FontWeight.bold,
                                                       color: AppColors
                                                           .kprimaryColor,
-                                                      fontSize:
-                                                          getResponsiveFontSize(
-                                                              context, 16)),
+                                                      fontSize: 25),
                                                 ),
                                                 const SizedBox(
                                                   width: 5,
@@ -667,12 +607,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                       .offerDetails!.avgRating,
                                                   itemBuilder:
                                                       (context, index) => Icon(
-                                                    Icons.star,
+                                                    Icons.star_rate_rounded,
                                                     color:
                                                         AppColors.kprimaryColor,
                                                   ),
                                                   itemCount: 5,
-                                                  itemSize: 22.0,
+                                                  itemSize: 30.0,
                                                   direction: Axis.horizontal,
                                                 ),
                                               ],
@@ -680,100 +620,76 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text("Client Review",
-                                          style: AppTextStyle.titleText),
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      SizedBox(
-                                        width: size.width,
-                                        height: 200,
-                                        child: ListView.builder(
-                                          itemCount: widget.offerDetails!
-                                              .buyerReviewList!.length,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) {
-                                            if (widget
-                                                .offerDetails!
-                                                .buyerReviewList![index]
-                                                .buyerReview!
-                                                .isNotEmpty) {
-                                              return ClientReviewCard(
-                                                  buyerReview: widget
+                                      defaultSizeBoxHeight,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                              "${widget.offerDetails!.buyerReviewList!.length} Reviews",
+                                              style: AppTextStyle
+                                                  .bodyMediumBlackBold),
+                                          GestureDetector(
+                                              onTap: () {
+                                                Get.to(RatingListScreen(
+                                                  buyerReviewList: widget
                                                       .offerDetails!
-                                                      .buyerReviewList![index],
-                                                  size: size);
-                                            } else {
-                                              return SizedBox();
-                                            }
-                                          },
-                                        ),
+                                                      .buyerReviewList!,
+                                                  overallRating: widget
+                                                      .offerDetails!.avgRating,
+                                                ));
+                                              },
+                                              child: Text(
+                                                'See All',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color:
+                                                        AppColors.kprimaryColor,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ))
+                                        ],
                                       ),
+                                      defaultSizeBoxHeight,
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                          children: List.generate(
+                                            widget
+                                                        .offerDetails!
+                                                        .buyerReviewList!
+                                                        .length <
+                                                    5
+                                                ? widget.offerDetails!
+                                                    .buyerReviewList!.length
+                                                : 5,
+                                            (index) {
+                                              return SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.1,
+                                                  height: 150,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0),
+                                                    child: ClientReviewCard(
+                                                      maxLine: 3,
+                                                      buyerReview: widget
+                                                              .offerDetails!
+                                                              .buyerReviewList![
+                                                          index],
+                                                    ),
+                                                  ));
+                                            },
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   )
-                                : SizedBox(),
-                            // const SizedBox(
-                            //   height: 10,
-                            // ),
-                            // const RateByCat(
-                            //   rateCat: "Seller Communication Level",
-                            //   rating: "4.6",
-                            // ),
-                            // const RateByCat(
-                            //   rateCat: "Service Quality",
-                            //   rating: "4.6",
-                            // ),
-                            // const RateByCat(
-                            //   rateCat: "Service as described",
-                            //   rating: "4.6",
-                            // ),
-                            // const RateByCat(
-                            //   rateCat: "Seller Behavior",
-                            //   rating: "4.6",
-                            // ),
-                            // const RateByCat(
-                            //   rateCat: "Recommend Service",
-                            //   rating: "4.6",
-                            // ),
-
-                            // Container(
-                            //   width: size.width,
-                            //   height: 400,
-                            //   child:  Column(
-                            //     children: [
-                            //       ListTile(
-                            //         leading: CircleAvatar(
-                            //           backgroundImage:  AssetImage(ImageConstant.man),
-                            //         ),
-                            //         title: Text("Client Name",style: AppTextStyle.bodyMedium,),
-                            //         subtitle: Text("22 Jan, 2023",style: AppTextStyle.bodySmallBlack400S15CGrey,),
-                            //         trailing:Row(
-                            //           children: [
-                            //             Expanded(
-                            //               child: RatingBarIndicator(
-                            //                 rating: 4.4,
-                            //                 itemBuilder: (context, index) => Icon(
-                            //                   Icons.star,
-                            //                   color: AppColors.colorLightBlack,
-                            //                 ),
-                            //                 itemCount: 5,
-                            //                 itemSize: 16.0,
-                            //                 direction: Axis.horizontal,
-                            //               ),
-                            //             ),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-
-                            const SizedBox(
-                              height: 10,
-                            ),
+                                : SizedBox.shrink(),
+                            defaultSizeBoxHeight,
                             Text("Explore My Other Services",
                                 style: AppTextStyle.titleText),
 
@@ -854,6 +770,39 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   // }
 }
 
+class PackageDetails extends StatelessWidget {
+  final String title;
+  final String? lable;
+  final Widget? ticMark;
+  const PackageDetails({
+    super.key,
+    required this.title,
+    this.lable,
+    this.ticMark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: AppTextStyle.bodySmallGrey400,
+          ),
+          ticMark ??
+              Text(
+                lable ?? '',
+                style: AppTextStyle.textFont14bold,
+              ),
+        ],
+      ),
+    );
+  }
+}
+
 class DetailItem extends StatelessWidget {
   final String title, body;
   const DetailItem({
@@ -872,12 +821,12 @@ class DetailItem extends StatelessWidget {
             Expanded(
                 child: Text(
               title,
-              style: AppTextStyle.bodyMediumBlackBold,
+              style: AppTextStyle.textFont14bold,
             )),
             Expanded(
                 child: Text(
               body,
-              style: AppTextStyle.bodyMediumSemiBlackBold,
+              style: AppTextStyle.bodySmallGrey400,
             )),
           ],
         ),

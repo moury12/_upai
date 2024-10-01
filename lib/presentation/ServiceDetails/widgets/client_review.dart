@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:readmore/readmore.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
@@ -10,13 +11,14 @@ import '../../Profile/profile_screen_controller.dart';
 
 class ClientReviewCard extends StatefulWidget {
   final BuyerReviewList buyerReview;
+  final int? maxLine;
   const ClientReviewCard({
     super.key,
-    required this.size,
-    required this.buyerReview,
+
+    required this.buyerReview, this.maxLine,
   });
 
-  final Size size;
+
 
   @override
   State<ClientReviewCard> createState() => _ClientReviewCardState();
@@ -26,93 +28,108 @@ class _ClientReviewCardState extends State<ClientReviewCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+
+margin: EdgeInsets.zero,
+      elevation: 0,
       shape: RoundedRectangleBorder(
-        side: BorderSide(width: 1.50, color: AppColors.kprimaryColor),
+        side: BorderSide(width: 1.50, color: AppColors.kprimaryColor.withOpacity(.2)),
         borderRadius: BorderRadius.circular(8),
       ),
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(14.0),
-        child: SizedBox(
-          width: widget.size.width * 0.8,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: widget.size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        FutureBuilder(
-                          future: ProfileScreenController.to.getProfileImageURL(widget.buyerReview.buyerId.toString()),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              if (snapshot.data != "") {
-                                return CircleAvatar(backgroundImage: NetworkImage(snapshot.data.toString()));
-                              } else {
-                                return CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                  ImageConstant.receiverImg,
-                                ));
-                                // return Image.asset(
-                                //   ImageConstant.senderImg,
-                                //   height: 150,
-                                //   width: 150,
-                                //   fit: BoxFit.cover,
-                                // );
-                              }
-                            } else {
-                              return CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                ImageConstant.receiverImg,
-                              ));
-                            }
-                          },
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Column(
-                          children: [
-                            Text(widget.buyerReview.buyerName.toString(), style: AppTextStyle.bodySmallblack),
-                            Text(MyDateUtil.formatDate(widget.buyerReview.reviewDate.toString()), style: AppTextStyle.titleTextSmallest),
-                          ],
-                        ),
-                      ],
+                    FutureBuilder(
+                      future: ProfileScreenController.to.getProfileImageURL(widget.buyerReview.buyerId.toString()),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.data != "") {
+                            return CircleAvatar(backgroundImage: NetworkImage(snapshot.data.toString()));
+                          } else {
+                            return CircleAvatar(
+                                backgroundImage: AssetImage(
+                              ImageConstant.receiverImg,
+                            ));
+                            // return Image.asset(
+                            //   ImageConstant.senderImg,
+                            //   height: 150,
+                            //   width: 150,
+                            //   fit: BoxFit.cover,
+                            // );
+                          }
+                        } else {
+                          return CircleAvatar(
+                              backgroundImage: AssetImage(
+                            ImageConstant.receiverImg,
+                          ));
+                        }
+                      },
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    const SizedBox(
+                      width:12,
+                    ),
+                    Column(crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.buyerReview.buyerRating.toString(),
-                          style: AppTextStyle.bodySmallGrey,
-                        ),
-                        Icon(
-                          Icons.star_rate_rounded,
-                          color: AppColors.kprimaryColor,
-                          size: 16,
-                        )
+                        Text(widget.buyerReview.buyerName.toString(), style: AppTextStyle.bodySmallblack),
+                        Text(MyDateUtil.formatDate(widget.buyerReview.reviewDate.toString()), style: AppTextStyle.titleTextSmallest),
                       ],
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                widget.buyerReview.buyerReview.toString(),
-                textAlign: TextAlign.justify,
-                style: AppTextStyle.bodySmallGrey,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 5,
-              )
-            ],
-          ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    Icon(
+                      Icons.star_rate_rounded,
+                      color: AppColors.kprimaryColor,
+                      size: 20,
+                    ),Text(
+                      widget.buyerReview.buyerRating.toString(),
+                      style: AppTextStyle.bodySmallGrey,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+
+           widget.maxLine!=null? Text(
+              widget.buyerReview.buyerReview.toString(),
+              textAlign: TextAlign.justify,
+              style: AppTextStyle.bodySmallGrey,
+              overflow: TextOverflow.visible,
+              maxLines: widget.maxLine??null,
+            ):ReadMoreText(
+             widget.buyerReview.buyerReview.toString(),
+             style: AppTextStyle.bodySmallGrey400,
+             textAlign: TextAlign.start,
+             trimMode: TrimMode.Line,
+             trimLines: 3,
+             //colorClickableText: Colors.pink,
+             trimCollapsedText: 'Show more',
+             trimExpandedText: ' Show less',
+             moreStyle: const TextStyle(
+                 fontSize: 12,
+                 fontWeight: FontWeight.bold,
+                 color: Colors.green),
+             lessStyle: const TextStyle(
+                 fontSize: 12,
+                 fontWeight: FontWeight.bold,
+                 color: Colors.grey),
+           ),
+          ],
         ),
       ),
     );
