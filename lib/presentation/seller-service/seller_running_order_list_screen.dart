@@ -21,7 +21,7 @@ class SellerRunningOrderListScreen extends StatelessWidget {
 
     int crossAxisCount = MediaQuery.of(context).size.width > 600 ? 4 : 2;
     return Scaffold(
-        backgroundColor: AppColors.strokeColor2,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           // elevation: 0,
           // shadowColor: Colors.transparent,

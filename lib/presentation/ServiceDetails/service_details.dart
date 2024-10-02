@@ -65,7 +65,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
   @override
   Widget build(BuildContext context) {
-
     var size = MediaQuery.sizeOf(context);
 
     return PopScope(
@@ -193,12 +192,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   Get.snackbar("This is your Service", "");
                 } else {
                   Get.put(OrderController());
-                  showDialog(
-                    context: context,
-                    builder: (context) => ConfirmOfferRequestWidget(
-                      service: widget,
-                    ),
-                  );
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -233,8 +226,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             Obx(() {
               return IconButton(
                 onPressed: () {
-                  print( ServiceDetailsController.to.isFav.value.toString());
-                  ServiceDetailsController.to.isFav.value =! ServiceDetailsController.to.isFav.value;
+                  print(ServiceDetailsController.to.isFav.value.toString());
+                  ServiceDetailsController.to.isFav.value =
+                      !ServiceDetailsController.to.isFav.value;
                   // ServiceDetailsController.to.isFav.value = widget.offerDetails!.isFav;
                 },
                 icon: ServiceDetailsController.to.isFav.value
@@ -413,7 +407,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             Row(
                               children: [
                                 RatingBarIndicator(
-                                  rating: widget.offerDetails!.avgRating,
+                                  rating: double.parse(
+                                      widget.offerDetails!.avgRating ?? '0.0'),
                                   itemBuilder: (context, index) => const Icon(
                                     CupertinoIcons.star_fill,
                                     color: Colors.black,
@@ -424,7 +419,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   direction: Axis.horizontal,
                                 ),
                                 Text(
-                                  "${widget.offerDetails!.avgRating.toStringAsFixed(1)}",
+                                  "${widget.offerDetails!.avgRating ?? '0.0'}",
                                   style: AppTextStyle.bodySmallBlack600,
                                 )
                               ],
@@ -498,86 +493,143 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   color: Colors.blueAccent),
                             ),
                             // defaultSizeBoxHeight,
-                            DefaultTabController(
-                              length: 3,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TabBar(
-                                      indicatorColor: AppColors.kprimaryColor,
-                                      labelColor: AppColors.kprimaryColor,
-                                      overlayColor:
-                                          WidgetStateColor.transparent,
-                                      tabs: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Basic',
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Standard',
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Premium',
-                                          ),
-                                        ),
-                                      ]),
-                                  defaultSizeBoxHeight,
-                                  TabContentView(
-                                      children: List.generate(
-                                    3,
-                                    (index) => Column(
+                            widget.offerDetails!.package!.isNotEmpty
+                                ? DefaultTabController(
+                                    length:
+                                        widget.offerDetails!.package!.length,
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "Description",
-                                          style:
-                                              AppTextStyle.bodyMediumBlackBold,
-                                        ),
-                                        Text(
-                                          'A dummy is a type of doll that looks like a person. Entertainers called ventriloquists can make dummies appear to talk. The automobile industry uses dummies in cars to study how safe cars are during a crash. A dummy can also be anything that looks real but doesnt work: a fake.',
-                                          style: AppTextStyle.bodySmallGrey400,
-                                        ),
+                                        TabBar(
+                                            indicatorColor:
+                                                AppColors.kprimaryColor,
+                                            labelColor: AppColors.kprimaryColor,
+                                            overlayColor:
+                                                WidgetStateColor.transparent,
+                                            tabs: List.generate(
+                                              widget.offerDetails!.package!
+                                                  .length,
+                                              (index) => Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(widget
+                                                        .offerDetails!
+                                                        .package![index]
+                                                        .packageName ??
+                                                    ''),
+                                              ),
+                                            )),
                                         defaultSizeBoxHeight,
-                                        PackageDetails(
-                                          title: "Price",
-                                          lable:
-                                              "৳ ${widget.offerDetails!.rate.toString()}",
-                                        ),
-                                        PackageDetails(
-                                          title: "Duration",
-                                          lable: "6 Days",
-                                        ),
-                                        PackageDetails(
-                                          title: "Revisions",
-                                          lable: "4 Days",
-                                        ),
-                                        ...List.generate(
-                                          6,
-                                          (index) => PackageDetails(
-                                            title: "Logo Transparency",
-                                            ticMark: Icon(
-                                              CupertinoIcons.checkmark,
-                                            ),
+                                        TabContentView(
+                                            children: List.generate(
+                                          widget.offerDetails!.package!.length,
+                                          (index) => Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              widget
+                                                      .offerDetails!
+                                                      .package![index]
+                                                      .packageDescription!
+                                                      .isEmpty
+                                                  ? SizedBox.shrink()
+                                                  : Text(
+                                                      "Description",
+                                                      style: AppTextStyle
+                                                          .bodyMediumBlackBold,
+                                                    ),
+                                              widget
+                                                      .offerDetails!
+                                                      .package![index]
+                                                      .packageDescription!
+                                                      .isEmpty
+                                                  ? SizedBox.shrink()
+                                                  : Text(
+                                                      widget
+                                                              .offerDetails!
+                                                              .package![index]
+                                                              .packageDescription ??
+                                                          '',
+                                                      style: AppTextStyle
+                                                          .bodySmallGrey400,
+                                                    ),
+                                              widget
+                                                      .offerDetails!
+                                                      .package![index]
+                                                      .packageDescription!
+                                                      .isEmpty
+                                                  ? SizedBox.shrink()
+                                                  : defaultSizeBoxHeight,
+                                              PackageDetails(
+                                                title: "Price",
+                                                lable:
+                                                    "৳ ${widget.offerDetails!.package![index].price ?? ''}",
+                                              ),
+                                              PackageDetails(
+                                                title: "Duration",
+                                                lable:
+                                                    "${widget.offerDetails!.package![index].duration} Days",
+                                              ),
+                                              // PackageDetails(
+                                              //   title: "Revisions",
+                                              //   lable: "4 Days",
+                                              // ),
+                                              widget
+                                                      .offerDetails!
+                                                      .package![index]
+                                                      .serviceList!
+                                                      .isEmpty
+                                                  ? SizedBox.shrink()
+                                                  : Column(
+                                                      children: List.generate(
+                                                        widget
+                                                            .offerDetails!
+                                                            .package![index]
+                                                            .serviceList!
+                                                            .length,
+                                                        (serviceIndex) =>
+                                                            PackageDetails(
+                                                          title:
+                                                              "${widget.offerDetails!.package![index].serviceList![serviceIndex].serviceName}",
+                                                          ticMark: Icon(
+                                                            widget
+                                                                            .offerDetails!
+                                                                            .package![
+                                                                                index]
+                                                                            .serviceList![
+                                                                                serviceIndex]
+                                                                            .status!
+                                                                            .toLowerCase() ==
+                                                                        'true' ||
+                                                                    widget
+                                                                            .offerDetails!
+                                                                            .package![
+                                                                                index]
+                                                                            .serviceList![
+                                                                                serviceIndex]
+                                                                            .status!
+                                                                            .toLowerCase() ==
+                                                                        'yes'
+                                                                ? CupertinoIcons
+                                                                    .checkmark
+                                                                : CupertinoIcons
+                                                                    .clear,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                            ],
                                           ),
-                                        )
+                                        ))
                                       ],
                                     ),
-                                  ))
-                                ],
-                              ),
-                            ),
-
+                                  )
+                                : SizedBox.shrink(),
                             widget.offerDetails!.totalCompletedJob != null &&
-                                    widget.offerDetails!.totalCompletedJob!
-                                            .toInt() >
+                                    int.parse(widget.offerDetails!
+                                                .totalCompletedJob ??
+                                            '0') >
                                         0
                                 ? Column(
                                     children: [
@@ -603,8 +655,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                   width: 5,
                                                 ),
                                                 RatingBarIndicator(
-                                                  rating: widget
-                                                      .offerDetails!.avgRating,
+                                                  rating: double.parse(widget
+                                                          .offerDetails!
+                                                          .avgRating ??
+                                                      '0.0'),
                                                   itemBuilder:
                                                       (context, index) => Icon(
                                                     Icons.star_rate_rounded,
@@ -635,8 +689,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                   buyerReviewList: widget
                                                       .offerDetails!
                                                       .buyerReviewList!,
-                                                  overallRating: widget
-                                                      .offerDetails!.avgRating,
+                                                  overallRating: double.parse(
+                                                      widget.offerDetails!
+                                                              .avgRating ??
+                                                          '0.0'),
                                                 ));
                                               },
                                               child: Text(

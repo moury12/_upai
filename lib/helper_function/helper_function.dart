@@ -18,15 +18,15 @@ Future<dynamic> loadJsonFromAssets(String filePath) async{
 void retrieveFavOffers() async {
   var box = await Hive.openBox('offer');
 
-  // Retrieve all stored offers as Map
-  List<Map<String, dynamic>> storedOffers = (box.values).toList().cast<Map<String, dynamic>>();
 
-  // Convert each Map (JSON) back to OfferList object
+  // List<Map<String, dynamic>> storedOffers =jsonDecode(box.values.toString());
+  List<Map<String, dynamic>> storedOffers = box.values
+      .map((offer) => jsonDecode(offer))
+      .cast<Map<String, dynamic>>()
+      .toList();
   HomeController.to.favOfferList.value= storedOffers.map((json) => OfferList.fromJson(json)).toList();
 
-  // Now you can use the list of OfferList objects
-print(box.values);
-print(box.keys);
+
 }
 void saveOfferToHive(OfferList offer) async{
   var box = await Hive.openBox('offer');

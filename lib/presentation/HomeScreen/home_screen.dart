@@ -482,7 +482,7 @@ retrieveFavOffers();
                                                         (context, index) {
                                                       final service = controller
                                                           .getOfferList[index];
-                                                      return InkWell(
+                                                      return GestureDetector(
                                                           onTap: () {
                                                             Get.to(
                                                               ServiceDetails(

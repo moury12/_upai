@@ -316,15 +316,16 @@ static Future<void> editOffer({dynamic body,required String token}) async{
       Get.snackbar('failed',  responseData['message']);
     }
   }
-  static Future<void> createOffer({dynamic body}) async {
+  static Future<void> createOffer({dynamic body,required String token}) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     };
     final response = await http.post(Uri.parse(ApiClient().createOffer),
         body: jsonEncode(body), headers: headers);
     final responseData = jsonDecode(response.body);
-    debugPrint(' body $body');
+    debugPrint(' body ${jsonEncode(body)}');
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       if(HomeController.to.image.value!=null)

@@ -152,7 +152,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-                color: AppColors.strokeColor2, spreadRadius: 2, blurRadius: 2)
+                color: AppColors.strokeColor2, spreadRadius: 2, blurRadius: 5)
           ],
           borderRadius: BorderRadius.circular(15),
         ),

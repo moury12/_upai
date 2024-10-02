@@ -88,15 +88,7 @@ class OfferService extends StatelessWidget {
                       decoration: TextDecoration.underline,
                     ),
                   ),
-                  Text(
-                    '৳ ${offer.rate}',
-                    style: const TextStyle(
-                      color: Color(0xFF3F3F3F),
-                      fontSize: 11,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+
                   const SizedBox(
                     height: 5,
                   ),

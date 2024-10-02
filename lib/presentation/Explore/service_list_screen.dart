@@ -69,7 +69,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
         // controller.filterOffer('', null);
       },
       child: Scaffold(
-          backgroundColor: AppColors.strokeColor2,
+          backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
             shadowColor: Colors.transparent,
@@ -80,7 +80,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                 Get.back();
                 controller.searchController.value.clear();
 
-                controller.filterOffer('', HomeController.to.selectedDistrictForAll.value);
+                controller.filterOffer(
+                    '', HomeController.to.selectedDistrictForAll.value);
               },
             ),
             title: widget.selectedCat != null
@@ -97,18 +98,21 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             color: Colors.black,
             backgroundColor: Colors.white,
             onRefresh: () async {
-              controller.filterOffer(controller.searchController.value.text, HomeController.to.selectedDistrictForAll.value);
+              controller.filterOffer(controller.searchController.value.text,
+                  HomeController.to.selectedDistrictForAll.value);
             },
             child: Column(
               children: [
                 defaultSizeBoxHeight,
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0).copyWith(bottom: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0)
+                      .copyWith(bottom: 8),
                   child: Obx(() {
                     return CustomTextField(
                       controller: controller.searchController.value,
                       onChanged: (value) {
-                        controller.filterOffer(value!, HomeController.to.selectedDistrictForAll.value);
+                        controller.filterOffer(value!,
+                            HomeController.to.selectedDistrictForAll.value);
                       },
                       onPressed: () {
                         // controller.searchController.value.clear();
@@ -124,7 +128,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                         ),
                         onPressed: () {
                           controller.searchController.value.clear();
-                          controller.filterOffer('', HomeController.to.selectedDistrictForAll.value);
+                          controller.filterOffer('',
+                              HomeController.to.selectedDistrictForAll.value);
                         },
                       ),
                     );
@@ -134,7 +139,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: SearchableDropDown(),
                 ),
-                SizedBox(height: 10,),
+
                 Obx(
                   () {
                     if (!NetworkController.to.connectedInternet.value) {
@@ -158,7 +163,13 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                     } else {
                       var offerList = [];
                       if (widget.selectedCat != null) {
-                        offerList = controller.filteredOfferList.where((item) => item.serviceCategoryType!.toLowerCase().contains(widget.selectedCat.toString().toLowerCase())).toList();
+                        offerList = controller.filteredOfferList
+                            .where((item) => item.serviceCategoryType!
+                                .toLowerCase()
+                                .contains(widget.selectedCat
+                                    .toString()
+                                    .toLowerCase()))
+                            .toList();
                       } else {
                         offerList = controller.filteredOfferList;
                       }
@@ -166,23 +177,26 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                       if (offerList.isNotEmpty) {
                         return Expanded(
                             child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: offerList.length,
-                              itemBuilder: (context, index) {
-                                OfferList service = offerList[index];
-                                return InkWell(
-                                  onTap: (){    Get.to(
-                                    ServiceDetails(
-                                      offerDetails: service,
-                                    ),
-                                  );},
-                                  child: ServiceOfferWidget(
-                                    index: index,
-                                    offerItem: service,
+                          padding: EdgeInsets.all(8),
+                          shrinkWrap: true,
+                          itemCount: offerList.length,
+                          itemBuilder: (context, index) {
+                            OfferList service = offerList[index];
+                            return InkWell(
+                              onTap: () {
+                                Get.to(
+                                  ServiceDetails(
+                                    offerDetails: service,
                                   ),
                                 );
                               },
-                            ));
+                              child: ServiceOfferWidget(
+                                index: index,
+                                offerItem: service,
+                              ),
+                            );
+                          },
+                        ));
                         //     GridView.builder(
                         //   shrinkWrap: true,
                         //   primary: false,
@@ -222,7 +236,9 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                         //   },
                         // ));
                       } else {
-                        return const Center(child: Text('There is no service available'),);
+                        return const Center(
+                          child: Text('There is no service available'),
+                        );
                       }
                     }
                   },

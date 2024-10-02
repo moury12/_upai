@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:googleapis/admob/v1.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
@@ -15,6 +16,7 @@ import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.d
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
+import '../HomeScreen/widgets/custom_button_widget.dart';
 import 'widget/tab_content_view.dart';
 
 class CreateOfferScreen extends StatefulWidget {
@@ -43,23 +45,23 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   @override
   void initState() {
     // print(district.toString());
-
     addressController = TextEditingController(
         text: widget.service != null && widget.service!.address!.isNotEmpty
             ? widget.service!.address
             : '');
+    HomeController.to.initializeControllers();
     titleController = TextEditingController(
         text: widget.service != null ? widget.service!.jobTitle : '');
     addressController = TextEditingController(
         text: widget.service != null ? widget.service!.address : '');
     descriptionController = TextEditingController(
         text: widget.service != null ? widget.service!.description : '');
-    rateController = TextEditingController(
-        text: widget.service != null ? widget.service!.rate.toString() : '');
-    HomeController.to.quantityController.value.text =
-        widget.service != null ? widget.service!.quantity.toString() : '';
-    HomeController.to.quantity.value =
-        widget.service != null ? widget.service!.quantity!.toInt() : 1;
+    // rateController = TextEditingController(
+    //     text: widget.service != null ? widget.service!.rate.toString() : '');
+    // HomeController.to.quantityController.value.text =
+    //     widget.service != null ? widget.service!.quantity.toString() : '';
+    // HomeController.to.quantity.value =
+    //     widget.service != null ? widget.service!.quantity!.toInt() : 1;
     // HomeController.to.selectedCategory.value = widget.service != null
     //     ? HomeController.to.getCatList
     //         .where((e) =>
@@ -85,10 +87,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
       HomeController.to.image.value = null;
     }
     // debugPrint(widget.service!.rateType);
-    HomeController.to.selectedRateType.value = widget.service != null &&
-            timeUnits.any((item) => item.contains(widget.service!.rateType!))
-        ? widget.service!.rateType.toString()
-        : null;
+    // HomeController.to.selectedRateType.value = widget.service != null &&
+    //         timeUnits.any((item) => item.contains(widget.service!.rateType!))
+    //     ? widget.service!.rateType.toString()
+    //     : null;
     HomeController.to.selectedDistrict.value =
         widget.service != null && widget.service!.district!.isNotEmpty
             ? widget.service!.district
@@ -106,7 +108,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         HomeController.to.image.value = null;
       },
       child: Scaffold(
-
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
@@ -123,6 +124,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
               color: AppColors.kprimaryColor,
             ),
           ),
+          // actions: [IconButton(onPressed:  () => clear(), icon: Icon(Icons.clear,color: Colors.black,))],
           title: Text(widget.isEdit! ? 'Edit Offer' : "Create New Offer",
               style: TextStyle(
                   color: AppColors.kprimaryColor,
@@ -297,15 +299,17 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   ),
                 ),
                 defaultSizeBoxHeight,
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [ Text(
-                    "Category Type",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.kprimaryColor,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Category Type",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 12,
+                        color: AppColors.kprimaryColor,
+                      ),
                     ),
-                  ),
                     defaultSizeBoxHeight,
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -316,12 +320,19 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         return FittedBox(
                           child: DropdownButton<String>(
                             dropdownColor: Colors.white,
-                            style:TextStyle(color: AppColors.kprimaryColor,) ,
+                            style: TextStyle(
+                              color: AppColors.kprimaryColor,
+                            ),
                             iconEnabledColor: AppColors.kprimaryColor,
                             borderRadius: BorderRadius.circular(12),
                             underline: const SizedBox.shrink(),
                             value: HomeController.to.selectedServiceType.value,
-                            hint:  Text("Select a service type",style: TextStyle(color: AppColors.kprimaryColor,),),
+                            hint: Text(
+                              "Select a service type",
+                              style: TextStyle(
+                                color: AppColors.kprimaryColor,
+                              ),
+                            ),
                             items: serviceType.map((element) {
                               return DropdownMenuItem<String>(
                                 value: element,
@@ -331,8 +342,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             onChanged: widget.isEdit!
                                 ? null
                                 : (value) {
-                                    HomeController.to.selectedServiceType.value =
-                                        value!;
+                                    HomeController
+                                        .to.selectedServiceType.value = value!;
                                   },
                           ),
                         );
@@ -341,7 +352,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   ],
                 ),
                 defaultSizeBoxHeight,
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "Category",
@@ -364,9 +376,16 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             iconEnabledColor: AppColors.kprimaryColor,
                             borderRadius: BorderRadius.circular(12),
                             underline: const SizedBox.shrink(),
-                            style:TextStyle(color: AppColors.kprimaryColor,) ,
+                            style: TextStyle(
+                              color: AppColors.kprimaryColor,
+                            ),
                             value: HomeController.to.selectedCategory.value,
-                            hint:  Text("Select a category",style: TextStyle(color: AppColors.kprimaryColor,),),
+                            hint: Text(
+                              "Select a category",
+                              style: TextStyle(
+                                color: AppColors.kprimaryColor,
+                              ),
+                            ),
                             items: HomeController.to.getCatList.map((element) {
                               return DropdownMenuItem<CategoryList>(
                                 value: element,
@@ -386,7 +405,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   ],
                 ),
                 defaultSizeBoxHeight,
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "Services",
@@ -404,43 +424,48 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             validatorText: "Please Enter service",
 
                             hintText: "Enter service",
-                            controller: HomeController.to.serviceController.value,
+                            controller:
+                                HomeController.to.serviceController.value,
                             // onChanged: (value) => controller.emailController.text.trim() = value!,
                           ),
                         ),
                         defaultSizeBoxWidth,
                         CustomButton(
-                            onTap: () {if(HomeController.to.serviceController.value.text.isNotEmpty){
-                              HomeController.to.yourServiceList.add({
-                                "name":
-                                    HomeController.to.serviceController.value.text,
-                                "selected": false
-                              });
-                              HomeController.to.packageList.forEach((package) {
-                                package['service_list'] = List.from(HomeController
-                                    .to.yourServiceList
-                                    .map((service) {
-                                  return {
-                                    "name": service['name'],
-                                    "selected":
-                                        false // Each service starts as unselected for each package
-                                  };
-                                }).toList());
-                              });
-                              HomeController.to.packageList.refresh();
-                              HomeController.to.serviceController.value.clear();
-                              debugPrint(
-                                  HomeController.to.yourServiceList.toString());}
-                              else{
-                                Get.snackbar("failed", "Please Enter valid service");
-                            }
+                            onTap: () {
+                              if (HomeController
+                                  .to.serviceController.value.text.isNotEmpty) {
+                                HomeController.to.yourServiceList.add({
+                                  "service_name": HomeController
+                                      .to.serviceController.value.text,
+                                  "status": false
+                                });
+                                HomeController.to.packageList
+                                    .forEach((package) {
+                                  package['service_list'] = List.from(
+                                      HomeController.to.yourServiceList
+                                          .map((service) {
+                                    return {
+                                      "service_name": service['service_name'],
+                                      "status":
+                                          false // Each service starts as unselected for each package
+                                    };
+                                  }).toList());
+                                });
+                                HomeController.to.packageList.refresh();
+                                HomeController.to.serviceController.value
+                                    .clear();
+                                debugPrint(HomeController.to.yourServiceList
+                                    .toString());
+                              } else {
+                                Get.snackbar(
+                                    "failed", "Please Enter valid service");
+                              }
                             },
                             title: 'Add')
                       ],
                     ),
                   ],
                 ),
-
                 Obx(() {
                   return Wrap(
                     children: List.generate(
@@ -453,17 +478,28 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           color: AppColors.kprimaryColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Row(mainAxisSize: MainAxisSize.min,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              HomeController.to.yourServiceList[index]['name'],
+                              HomeController.to.yourServiceList[index]
+                                  ['service_name'],
                               style: TextStyle(color: Colors.white),
-                            ), IconButton(
+                            ),
+                            IconButton(
                                 onPressed: () {
-                                  HomeController.to.yourServiceList.removeAt(index);
-                                  HomeController.to.packageList.forEach((element) => element['service_list']..removeAt(index),);
-                                   HomeController.to.packageList.refresh();
-                            }, icon: Icon(CupertinoIcons.multiply_circle,color: Colors.white,))
+                                  HomeController.to.yourServiceList
+                                      .removeAt(index);
+                                  HomeController.to.packageList.forEach(
+                                    (element) => element['service_list']
+                                      ..removeAt(index),
+                                  );
+                                  HomeController.to.packageList.refresh();
+                                },
+                                icon: Icon(
+                                  CupertinoIcons.multiply_circle,
+                                  color: Colors.white,
+                                ))
                           ],
                         ),
                       ),
@@ -471,307 +507,280 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   );
                 }),
                 defaultSizeBoxHeight,
-                DefaultTabController(
-                  length: HomeController.to.packageList.length,
-                  child: Obx(() {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TabBar(
-                          overlayColor: WidgetStateColor.transparent,
-                          onTap: (value) {
-                            // HomeController.to.selectPackage(value);
-                            HomeController.to.update();
-                            debugPrint(
-                                HomeController.to.packageList.toString());
-                          },
-                          tabs: [
-                            ...List.generate(
-                              HomeController.to.packageList.length,
-                              (index) => Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  HomeController.to.packageList[index]['p_name'],
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                          color: AppColors.kprimaryColor, width: 1.5)),
+                  child: DefaultTabController(
+                    length: HomeController.to.packageList.length,
+                    child: Obx(() {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          HomeController.to.packageList.isEmpty
+                              ? SizedBox.shrink()
+                              : TabBar(
+                                  overlayColor: WidgetStateColor.transparent,
+                                  onTap: (value) {
+                                    // HomeController.to.selectPackage(value);
+                                    HomeController.to.update();
+                                    debugPrint(HomeController.to.packageList
+                                        .toString());
+                                  },
+                                  tabs: [
+                                    ...List.generate(
+                                      HomeController.to.packageList.length,
+                                      (index) => Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          HomeController.to.packageList[index]
+                                              ['package_name'],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                  indicatorColor: AppColors.kprimaryColor,
+                                  labelColor: AppColors.kprimaryColor,
                                 ),
-                              ),
-                            ),
-                          ],
-                          indicatorColor: AppColors.kprimaryColor,
-                          labelColor: AppColors.kprimaryColor,
-                        ),
-                        TabContentView(
-                          children: List.generate(
-                            HomeController.to.packageList.length,
-                            (index) => SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  defaultSizeBoxHeight,
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-
-                                          children: [
-                                            Text(
-                                              "Price",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 12,
-                                                color: AppColors.kprimaryColor,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            CustomTextField(
-                                              validatorText: "Please Enter Price",
-                                              hintText: "Please Enter Price",
-                                              inputType: TextInputType.number,
-                                              controller: HomeController
-                                                  .to.packageList[index]['price'],
-                                            ),
-                                          ],
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                        ),
-                                      ),
-                                      defaultSizeBoxWidth,
-                                      Expanded(
-                                        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Duration",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 12,
-                                                color: AppColors.kprimaryColor,
-                                               ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            CustomTextField(
-                                              validatorText: "Please Enter Duration",
-                                              hintText: "Please Enter Duration",
-                                              inputType: TextInputType.number,
-                                              controller: HomeController
-                                                  .to.packageList[index]['duration'],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  ...List.generate(
-                                    HomeController
-                                        .to
-                                        .packageList[index]['service_list']
-                                        .length,
-                                    (serviceIndex) {
-                                      // data[index]={serviceIndex:HomeController.to.packageList[index]['service_list'][serviceIndex]['selected']};
-                                      //
-                                      // print('YYYYYYYYYYYYYYY');
-                                      // print(data);
-                                      var serviceList = HomeController.to
-                                          .packageList[index]['service_list'];
-                                      return Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          TabContentView(
+                            children: HomeController.to.packageList.isNotEmpty
+                                ? List.generate(
+                                    HomeController.to.packageList.length,
+                                    (index) => SingleChildScrollView(
+                                      child: Column(
                                         children: [
-                                          Text(
-                                            HomeController.to.packageList[index]
-                                                    ['service_list']
-                                                [serviceIndex]['name'],style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),
+                                          defaultSizeBoxHeight,
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Price",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 12,
+                                                        color: AppColors
+                                                            .kprimaryColor,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    CustomTextField(
+                                                      validatorText:
+                                                          "Please Enter Price",
+                                                      hintText:
+                                                          "Please Enter Price",
+                                                      inputType:
+                                                          TextInputType.number,
+                                                      controller: HomeController
+                                                              .to
+                                                              .priceControllers[
+                                                          index],
+                                                      onChanged: (value) {
+                                                        HomeController.to
+                                                                .packageList[index]
+                                                            ['price'] = value;
+                                                        HomeController
+                                                            .to.packageList
+                                                            .refresh();
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              defaultSizeBoxWidth,
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Duration",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 12,
+                                                        color: AppColors
+                                                            .kprimaryColor,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    CustomTextField(
+                                                      validatorText:
+                                                          "Please Enter Duration",
+                                                      hintText:
+                                                          "Please Enter Duration",
+                                                      inputType:
+                                                          TextInputType.number,
+                                                      onChanged: (value) {
+                                                        HomeController.to
+                                                                .packageList[index]
+                                                            [
+                                                            'duration'] = value;
+                                                        HomeController
+                                                            .to.packageList
+                                                            .refresh();
+                                                      },
+                                                      controller: HomeController
+                                                              .to
+                                                              .durationControllers[
+                                                          index],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Checkbox(
-                                            activeColor: AppColors.kprimaryColor,
-                                            value: HomeController
-                                                        .to.packageList[index]
-                                                    ['service_list']
-                                                [serviceIndex]['selected'],
-                                            //value: data[serviceIndex],
-                                            onChanged: (value) {
-                                              debugPrint( HomeController.to.packageList.toString());
-                                              debugPrint(
-                                                  serviceIndex.toString());
-                                              // Update the selected value for the specific service in the package
-                                              HomeController.to.packageList[
-                                                          index]['service_list']
-                                                      [serviceIndex]
-                                                  ['selected'] = value ?? false;
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              defaultSizeBoxHeight,
+                                              Text(
+                                                "Package Description",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 12,
+                                                  color:
+                                                      AppColors.kprimaryColor,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              CustomTextField(
+                                                validatorText:
+                                                    "Please Enter Description",
+                                                hintText:
+                                                    "Please Enter Description",
+                                                maxLines: 3,
+                                                onChanged: (value) {
+                                                  HomeController.to.packageList[
+                                                              index][
+                                                          'package_description'] =
+                                                      value;
+                                                  HomeController.to.packageList
+                                                      .refresh();
+                                                },
+                                                controller: HomeController.to
+                                                        .descriptionControllers[
+                                                    index],
+                                              ),
+                                            ],
+                                          ),
+                                          HomeController
+                                                  .to
+                                                  .packageList[index]
+                                                      ['service_list']
+                                                  .isEmpty
+                                              ? SizedBox.shrink()
+                                              : Column(
+                                                  children: List.generate(
+                                                    HomeController
+                                                        .to
+                                                        .packageList[index]
+                                                            ['service_list']
+                                                        .length,
+                                                    (serviceIndex) {
+                                                      // data[index]={serviceIndex:HomeController.to.packageList[index]['service_list'][serviceIndex]['selected']};
+                                                      //
+                                                      // print('YYYYYYYYYYYYYYY');
+                                                      // print(data);
+                                                      var serviceList =
+                                                          HomeController.to
+                                                                      .packageList[
+                                                                  index]
+                                                              ['service_list'];
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            HomeController.to.packageList[index]
+                                                                            [
+                                                                            'service_list']
+                                                                        [
+                                                                        serviceIndex]
+                                                                    [
+                                                                    'service_name'] ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                          Checkbox(
+                                                            activeColor: AppColors
+                                                                .kprimaryColor,
+                                                            value: HomeController
+                                                                            .to
+                                                                            .packageList[
+                                                                        index][
+                                                                    'service_list']
+                                                                [
+                                                                serviceIndex]['status'],
+                                                            //value: data[serviceIndex],
+                                                            onChanged: (value) {
+                                                              debugPrint(
+                                                                  HomeController
+                                                                      .to
+                                                                      .packageList
+                                                                      .toString());
+                                                              debugPrint(
+                                                                  serviceIndex
+                                                                      .toString());
+                                                              // Update the selected value for the specific service in the package
+                                                              HomeController.to.packageList[index]
+                                                                              [
+                                                                              'service_list']
+                                                                          [
+                                                                          serviceIndex]
+                                                                      [
+                                                                      'status'] =
+                                                                  value ??
+                                                                      false;
 
-                                              // Refresh the package list to notify the UI of changes
-                                              HomeController.to.packageList
-                                                  .refresh();
-                                            },
-                                          ),
+                                                              // Refresh the package list to notify the UI of changes
+                                                              HomeController.to
+                                                                  .packageList
+                                                                  .refresh();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  ),
+                                                )
                                         ],
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
+                                      ),
+                                    ),
+                                  )
+                                : [
+                                    Center(child: Text('No Packages Available'))
+                                  ],
                           ),
-                        ),
-                      ],
-                    );
-                  }),
-                ),
-                // Text(
-                //   "Package: ",
-                //   style: TextStyle(
-                //       fontWeight: FontWeight.w700,
-                //       fontSize: 12,
-                //       color: AppColors.kprimaryColor),
-                // ),
-
-                // defaultSizeBoxHeight,
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           Text(
-                //             "Rate",
-                //             style: TextStyle(
-                //                 fontWeight: FontWeight.w700,
-                //                 fontSize: 12,
-                //                 color: AppColors.kprimaryColor),
-                //           ),
-                //           const SizedBox(
-                //             height: 10,
-                //           ),
-                //           CustomTextField(
-                //             validatorText: "Please Enter Rate",
-                //             hintText: "Please Enter Rate",
-                //             inputType: TextInputType.number,
-                //             controller: rateController,
-                //
-                //             // onChanged: (value) => controller.emailController.text.trim() = value!,
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //     const SizedBox(
-                //       width: 10,
-                //     ),
-                //     Expanded(
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           Text(
-                //             "Quantity",
-                //             style: TextStyle(
-                //                 fontWeight: FontWeight.w700,
-                //                 fontSize: 12,
-                //                 color: AppColors.kprimaryColor),
-                //           ),
-                //           const SizedBox(
-                //             height: 10,
-                //           ),
-                //           Obx(() {
-                //             return Row(
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               children: [
-                //                 Expanded(
-                //                   child: Container(
-                //                       margin: const EdgeInsets.all(8),
-                //                       alignment: Alignment.center,
-                //                       decoration: BoxDecoration(
-                //                           shape: BoxShape.circle,
-                //                           color: AppColors.kprimaryColor),
-                //                       child: FittedBox(
-                //                         child: IconButton(
-                //                           icon: const Icon(
-                //                             Icons.remove,
-                //                             color: Colors.white,
-                //                           ),
-                //                           onPressed: () {
-                //                             if (HomeController
-                //                                 .to
-                //                                 .quantityController
-                //                                 .value
-                //                                 .text
-                //                                 .isEmpty) {
-                //                               HomeController.to.quantity.value =
-                //                                   0;
-                //                             }
-                //                             HomeController.to
-                //                                 .decreaseQuantity();
-                //                           },
-                //                         ),
-                //                       )),
-                //                 ),
-                //                 Expanded(
-                //                   child: CustomTextField(
-                //                       padding: EdgeInsets.zero,
-                //                       textInputFormatter: [
-                //                         FilteringTextInputFormatter
-                //                             .digitsOnly, /*FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9][0-9][0-9]?$')),*/
-                //                       ],
-                //                       validatorText: "Please Enter quantity",
-                //                       hintText: "0",
-                //                       textAlign: TextAlign.center,
-                //                       inputType: TextInputType.number,
-                //                       controller: HomeController
-                //                           .to.quantityController.value,
-                //                       onChanged: (value) {
-                //                         int? newValue = int.tryParse(value!);
-                //                         if (newValue != null && newValue > 0) {
-                //                           HomeController.to.quantity.value =
-                //                               newValue;
-                //                         }
-                //                       }
-                //
-                //                       // onChanged: (value) => controller.emailController.text.trim() = value!,
-                //                       ),
-                //                 ),
-                //                 Expanded(
-                //                   child: Container(
-                //                     margin: const EdgeInsets.all(8),
-                //                     alignment: Alignment.center,
-                //                     decoration: BoxDecoration(
-                //                         shape: BoxShape.circle,
-                //                         color: AppColors.kprimaryColor),
-                //                     child: FittedBox(
-                //                       child: IconButton(
-                //                         icon: const Icon(
-                //                           Icons.add,
-                //                           color: Colors.white,
-                //                         ),
-                //                         onPressed: () {
-                //                           if (HomeController
-                //                               .to
-                //                               .quantityController
-                //                               .value
-                //                               .text
-                //                               .isEmpty) {
-                //                             HomeController.to.quantity.value =
-                //                                 0;
-                //                           }
-                //                           debugPrint(HomeController
-                //                               .to.quantity.value
-                //                               .toString());
-                //                           HomeController.to.increaseQuantity();
-                //                         },
-                //                       ),
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ],
-                //             );
-                //           }),
-                //         ],
-                //       ),
-                //     )
-                //   ],
-                // ),
-                defaultSizeBoxHeight,
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text(
-                    "District",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.kprimaryColor,
-                    ),
+                        ],
+                      );
+                    }),
                   ),
+                ),
+                defaultSizeBoxHeight,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "District",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 12,
+                        color: AppColors.kprimaryColor,
+                      ),
+                    ),
                     defaultSizeBoxHeight,
                     Obx(() {
                       if (HomeController.to.districtList.isEmpty) {
@@ -848,25 +857,16 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         {
                                           HomeController.to.isLoading.value =
                                               true;
-                                          if (HomeController.to.selectedRateType.value != null &&
-                                              HomeController.to.selectedCategory
-                                                      .value !=
-                                                  null &&
-                                              HomeController.to.selectedDistrict
-                                                      .value !=
+                                          if (HomeController.to.selectedCategory.value != null &&
+                                              HomeController.to.selectedDistrict.value !=
                                                   null &&
                                               titleController.text.isNotEmpty &&
                                               descriptionController
                                                   .text.isNotEmpty &&
-                                              rateController.text.isNotEmpty &&
                                               addressController
                                                   .text.isNotEmpty &&
                                               HomeController
-                                                  .to
-                                                  .quantityController
-                                                  .value
-                                                  .text
-                                                  .isNotEmpty &&
+                                                  .to.packageList.isNotEmpty &&
                                               box.isNotEmpty) {
                                             if (widget.service != null) {
                                               await HomeController.to.editOffer(
@@ -885,7 +885,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                               //   },
                                               // );
                                               // await SellerProfileController.to.refreshAllData();
-                                              // Future.delayed(Duration(milliseconds: 300),() => Get.back(),);
+                                              // Future.delayed(Description(milliseconds: 300),() => Get.back(),);
                                               // clear();
 
                                               Get.back();
@@ -931,34 +931,43 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   void clear() {
     titleController.clear();
     descriptionController.clear();
-    // HomeController.to.image.value=null;
+    for (var controller in HomeController.to.priceControllers) {
+      controller.clear();
+
+    }
+    for (var controller in HomeController.to.descriptionControllers) {
+      controller.clear();
+    }
+    for (var controller in HomeController.to.durationControllers) {
+      controller.clear();
+    }  HomeController.to.packageList.forEach(
+          (element) => element['service_list']
+        ..clear(),
+    );
+    HomeController.to.yourServiceList.clear();
+    // HomeController.to.packageList.map((e) => e['service_list'].clear(),);
     HomeController.to.selectedCategory.value = null;
     HomeController.to.selectedRateType.value = null;
     HomeController.to.selectedDistrict.value = null;
+    HomeController.to.packageList.refresh();
+    HomeController.to.selectedServiceType.value = null;
     rateController.clear();
     addressController.clear();
     HomeController.to.quantityController.value.clear();
     HomeController.to.quantity.value = 1;
   }
+  // @override
+  // void dispose() {
+  //   for (var controller in HomeController.to.priceControllers) {
+  //     controller.dispose();
+  //   }
+  //   for (var controller in HomeController.to.descriptionControllers) {
+  //     controller.dispose();
+  //   }
+  //   for (var controller in HomeController.to.durationControllers) {
+  //     controller.dispose();
+  //   }
+  //   super.dispose();
+  // }
 }
 
-class CustomButton extends StatelessWidget {
-  final String title;
-  final Function() onTap;
-  const CustomButton({
-    super.key,
-    required this.title,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.kprimaryColor,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12)),
-        onPressed: onTap,
-        child: Text(title));
-  }
-}

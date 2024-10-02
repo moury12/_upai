@@ -33,12 +33,12 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
     super.initState();
     retrieveFavOffers();
     // print(HomeController.to.favOfferList.length);
-    for (int i=0;i>HomeController.to.favOfferList.length;i++){
-      if(HomeController.to.favOfferList[i].offerId==widget.offerItem!.offerId){
-        widget.offerItem!.isFav=true;
-      }
-      print('HomeController.to.favOfferList[i].offerId');print(HomeController.to.favOfferList[i].offerId);
-    }
+    // for (int i=0;i>HomeController.to.favOfferList.length;i++){
+    //   if(HomeController.to.favOfferList[i].offerId==widget.offerItem!.offerId){
+    //     widget.offerItem!.isFav=true;
+    //   }
+    //   print('HomeController.to.favOfferList[i].offerId');print(HomeController.to.favOfferList[i].offerId);
+    // }
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -61,287 +61,311 @@ void checkIfFavOffer() async{
   Widget build(BuildContext context) {
     // Determine if we're using service or offerList
     bool isService = widget.service != null;
-    return Container(
-      padding: EdgeInsets.all(12),
-      margin: EdgeInsets.only(bottom: 8),
-      // height: 150,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-              color: AppColors.strokeColor2, spreadRadius: 2, blurRadius: 2)
-        ],
-        borderRadius: BorderRadius.circular(15),
-      ),
+    return Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.all(12),
+          margin: EdgeInsets.only(bottom: 8),
+          // height: 150,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: AppColors.strokeColor2, spreadRadius: 2, blurRadius: 2)
+            ],
+            borderRadius: BorderRadius.circular(15),
+          ),
 
-      child: Row(
-        //mainAxisSize: MainAxisSize.max,
+          child: Row(
+            //mainAxisSize: MainAxisSize.max,
 
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 5,
-            child: Stack(children: [
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: FutureBuilder(
-                    future: FirebaseAPIs.fetchOfferImageUrl(isService
-                        ? widget.service!.offerId.toString()
-                        : widget.offerItem!.offerId.toString()),
-                    builder: (context, snapshot) {
-                      // if(snapshot.connectionState==ConnectionState.waiting||snapshot.connectionState==ConnectionState.none)
-                      //   {
-                      //     return Image.asset(
-                      //       ImageConstant.dummy,
-                      //       height: getResponsiveFontSize(context, 120),
-                      //       fit: BoxFit.none,
-                      //     );
-                      //   }
-                      if (snapshot.hasData) {
-                        return Image.network(
-                            loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child; // Image has finished loading
-                          }
-                          return SizedBox(
-                            height: 120,
-                            width: double.infinity,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.kprimaryColor,
-                                // value: loadingProgress.expectedTotalBytes != null
-                                //     ? loadingProgress.cumulativeBytesLoaded /
-                                //     (loadingProgress.expectedTotalBytes ?? 1)
-                                //     : null,
-                              ),
-                            ),
-                          );
-                        },
-                            height: 120,
-                            width: double.infinity,
-                            // height: getResponsiveFontSize(context, 120),
-                            fit: BoxFit.cover,
-                            snapshot.data.toString());
-                      } else {
-                        return FutureBuilder(
-                          future: FirebaseAPIs.fetchDefaultOfferImageUrl(
-                              isService
-                                  ? widget.service!.serviceCategoryType
-                                      .toString()
-                                  : widget.offerItem!.serviceCategoryType
-                                      .toString()),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Image.network(loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child; // Image has finished loading
-                                }
-                                return SizedBox(
-                                  height: 120,
-                                  width: double.infinity,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.kprimaryColor,
-                                      // value: loadingProgress.expectedTotalBytes != null
-                                      //     ? loadingProgress.cumulativeBytesLoaded /
-                                      //     (loadingProgress.expectedTotalBytes ?? 1)
-                                      //     : null,
-                                    ),
-                                  ),
-                                );
-                              },
-                                  height: 120,
-                                  width: double.infinity,
-                                  // height: getResponsiveFontSize(context, 120),
-                                  fit: BoxFit.cover,
-                                  snapshot.data.toString());
-                            } else {
-                              return Image.asset(
-                                ImageConstant.dummy,
-                                // height: getResponsiveFontSize(context, 120),
-                                height: 120,
-                                width: double.infinity,
-                                fit: BoxFit.none,
-                              );
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 5,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: FutureBuilder(
+                      future: FirebaseAPIs.fetchOfferImageUrl(isService
+                          ? widget.service!.offerId.toString()
+                          : widget.offerItem!.offerId.toString()),
+                      builder: (context, snapshot) {
+                        // if(snapshot.connectionState==ConnectionState.waiting||snapshot.connectionState==ConnectionState.none)
+                        //   {
+                        //     return Image.asset(
+                        //       ImageConstant.dummy,
+                        //       height: getResponsiveFontSize(context, 120),
+                        //       fit: BoxFit.none,
+                        //     );
+                        //   }
+                        if (snapshot.hasData) {
+                          return Image.network(
+                              loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child; // Image has finished loading
                             }
+                            return SizedBox(
+                              height: 120,
+                              width: double.infinity,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.kprimaryColor,
+                                  // value: loadingProgress.expectedTotalBytes != null
+                                  //     ? loadingProgress.cumulativeBytesLoaded /
+                                  //     (loadingProgress.expectedTotalBytes ?? 1)
+                                  //     : null,
+                                ),
+                              ),
+                            );
                           },
-                        );
-                      }
-                    },
-                  )
-                  ////
+                              height: 120,
+                              width: double.infinity,
+                              // height: getResponsiveFontSize(context, 120),
+                              fit: BoxFit.cover,
+                              snapshot.data.toString());
+                        } else {
+                          return FutureBuilder(
+                            future: FirebaseAPIs.fetchDefaultOfferImageUrl(
+                                isService
+                                    ? widget.service!.serviceCategoryType
+                                        .toString()
+                                    : widget.offerItem!.serviceCategoryType
+                                        .toString()),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Image.network(loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child; // Image has finished loading
+                                  }
+                                  return SizedBox(
+                                    height: 120,
+                                    width: double.infinity,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.kprimaryColor,
+                                        // value: loadingProgress.expectedTotalBytes != null
+                                        //     ? loadingProgress.cumulativeBytesLoaded /
+                                        //     (loadingProgress.expectedTotalBytes ?? 1)
+                                        //     : null,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                    height: 120,
+                                    width: double.infinity,
+                                    // height: getResponsiveFontSize(context, 120),
+                                    fit: BoxFit.cover,
+                                    snapshot.data.toString());
+                              } else {
+                                return Image.asset(
+                                  ImageConstant.dummy,
+                                  // height: getResponsiveFontSize(context, 120),
+                                  height: 120,
+                                  width: double.infinity,
+                                  fit: BoxFit.none,
+                                );
+                              }
+                            },
+                          );
+                        }
+                      },
+                    )
+                    ////
 
-                  // Image.asset(
-                  //   ImageConstant.runningOrderImage,
-                  //   height: getResponsiveFontSize(context, 120),
-                  //   fit: BoxFit.fill,
-                  // ),
+                    // Image.asset(
+                    //   ImageConstant.runningOrderImage,
+                    //   height: getResponsiveFontSize(context, 120),
+                    //   fit: BoxFit.fill,
+                    // ),
 
-                  ),
-              Positioned(
-                top: 0,
-                left: 0,
+                    ),
+              ),
+              SizedBox(
+                width: 12,
+              ),
+              Expanded(
+                flex: 6,
                 child: Container(
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                      color: AppColors.kprimaryColor,
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(10),
-                          topLeft: Radius.circular(15))),
-                  child: Text(
-                    maxLines: 1,
-                    isService
-                        ? widget.service!.district ?? ''
-                        : widget.offerItem?.district ?? '',
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white),
+                  height: 140,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                    //
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+
+                    children: [
+                      /*Row( mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                      'Job id: ${runningOrder.jobId ?? 'job id'}',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500)),Text(
+                                      '${runningOrder.awardDate ?? ''}',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500)),
+                                ],
+                              ),*/
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Text(
+                            isService
+                                ? widget.service!.jobTitle ?? ''
+                                : widget.offerItem?.jobTitle ?? '',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w600),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          )),IconButton(
+                              onPressed: () async{
+
+
+                                await _controller.forward();
+
+                                // Pause for a moment and then zoom out
+                                // await Future.delayed(Duration(milliseconds: 100));
+                                await _controller.reverse();
+                                // widget.offerItem!.isFav =
+                                //  !widget.offerItem!.isFav;
+                                if( !widget.offerItem!.isFav!){
+                                  saveOfferToHive(widget.offerItem!);
+                                  widget.offerItem!.isFav =true;
+                                }else{
+                                  deleteFavOffers(widget.offerItem!.offerId.toString());
+                                  widget.offerItem!.isFav =false;
+                                }
+                                debugPrint(widget.offerItem!.isFav.toString());
+                                setState(() {
+
+                                });
+
+                              },
+                              icon: AnimatedBuilder(
+                                  animation: _animation,
+                                  builder: (context, child) {
+                                    return Icon(
+                                      widget.offerItem!.isFav!
+                                          ? CupertinoIcons.heart_fill
+                                          : CupertinoIcons.heart,
+                                      color: AppColors.kprimaryColor,
+                                      size: _animation.value,
+                                    );
+                                  }))
+
+                        ],
+                      ),
+                      // Text('Description:',
+                      //     style:
+                      //     TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                      Text(
+                        isService
+                            ? widget.service!.description ?? ''
+                            : widget.offerItem?.description ?? '',
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+
+                      Spacer(),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2.0),
+                                  child: Icon(
+                                    CupertinoIcons.star_fill,
+                                    size: 15,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 2,
+                                ),
+                                Text(
+                                    isService
+                                        ? ""
+                                        : double.parse(widget.offerItem?.avgRating??'0.0').toStringAsFixed(1)
+                                                ,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.w500)),
+                                Spacer(),
+                                Text('From ',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400),),
+                                Text(
+                                    '৳ ${widget.offerItem!.package!.isEmpty?'0.0':widget.offerItem!.package![0].price??'0.0'}',
+                                    style: TextStyle(
+                                        fontSize: 16, fontWeight: FontWeight.w700)),
+                              ],
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               )
-            ]),
+            ],
           ),
-          SizedBox(
-            width: 12,
-          ),
-          Expanded(
-            flex: 6,
-            child: Container(
-              height: 140,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-
-                //
-                // crossAxisAlignment: CrossAxisAlignment.start,
-
-                children: [
-                  /*Row( mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                  'Job id: ${runningOrder.jobId ?? 'job id'}',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500)),Text(
-                                  '${runningOrder.awardDate ?? ''}',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500)),
-                            ],
-                          ),*/
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: Text(
-                        isService
-                            ? widget.service!.jobTitle ?? ''
-                            : widget.offerItem?.jobTitle ?? '',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w600),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      )),
-                      Text(
-                          '৳ ${isService ? widget.service!.rate : widget.offerItem?.rate ?? '0'}',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w700)),
-                    ],
-                  ),
-                  // Text('Description:',
-                  //     style:
-                  //     TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-                  Text(
-                    isService
-                        ? widget.service!.description ?? ''
-                        : widget.offerItem?.description ?? '',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-
-                  Spacer(),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 2.0),
-                              child: Icon(
-                                CupertinoIcons.star_fill,
-                                size: 15,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 2,
-                            ),
-                            Text(
-                                isService
-                                    ? ""
-                                    : widget.offerItem?.avgRating
-                                            .toStringAsFixed(1) ??
-                                        0.0,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: IconButton(
-                            onPressed: () async{
-
-
-                              await _controller.forward();
-
-                              // Pause for a moment and then zoom out
-                              // await Future.delayed(Duration(milliseconds: 100));
-                             await _controller.reverse();
-                             // widget.offerItem!.isFav =
-                             //  !widget.offerItem!.isFav;
-                             if( !widget.offerItem!.isFav){
-                               saveOfferToHive(widget.offerItem!);
-                               widget.offerItem!.isFav =true;
-                             }else{
-                               deleteFavOffers(widget.offerItem!.offerId.toString());
-                               widget.offerItem!.isFav =false;
-                             }
-                             debugPrint(widget.offerItem!.isFav.toString());
-                             setState(() {
-
-                             });
-
-                            },
-                            icon: AnimatedBuilder(
-                                animation: _animation,
-                                builder: (context, child) {
-                                  return Icon(
-                                   widget.offerItem!.isFav
-                                        ? CupertinoIcons.heart_fill
-                                        : CupertinoIcons.heart,
-                                    color: AppColors.kprimaryColor,
-                                    size: _animation.value,
-                                  );
-                                })),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+        ), isService
+            ? widget.service!.district!.isEmpty?SizedBox.shrink():Positioned(
+          top: 0,
+          left: 0,
+          child: Container(
+            padding: EdgeInsets.all(4),
+            decoration: BoxDecoration(
+                color: AppColors.kprimaryColor,
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(10),
+                    topLeft: Radius.circular(15))),
+            child: Text(
+              maxLines: 1,
+              isService
+                  ? widget.service!.district ?? ''
+                  : widget.offerItem?.district ?? '',
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white),
             ),
-          )
-        ],
-      ),
+          ),
+        ): widget.offerItem!.district!.isEmpty?
+        SizedBox.shrink():
+        Positioned(
+          top: 0,
+          left: 0,
+          child: Container(
+            padding: EdgeInsets.all(4),
+            decoration: BoxDecoration(
+                color: AppColors.kprimaryColor,
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(10),
+                    topLeft: Radius.circular(15))),
+            child: Text(
+              maxLines: 1,
+              isService
+                  ? widget.service!.district ?? ''
+                  : widget.offerItem?.district ?? '',
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.d
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/SplashScreen/controller/splash_screen_controller.dart';
 import 'package:upai/presentation/buyer%20profile/buyer_profile_controller.dart';
+import 'package:upai/presentation/favourite_offer/favourite_offer_screen.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import '../core/utils/image_path.dart';
 import '../data/api/firebase_apis.dart';
@@ -112,7 +113,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
               _buildMenuOption(
                 icon: Icons.person,
                 label: 'Profile',
-                onTap: () => Get.toNamed('/profile'),
+                onTap: () {Get.toNamed('/profile');
+                  if (Scaffold.of(context).isDrawerOpen) {
+                    Scaffold.of(context).closeDrawer();
+                  }
+                } ,
               ),
               _buildMenuOption(
                 icon: Icons.home_repair_service_rounded,
@@ -121,7 +126,23 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   BuyerProfileController.to.getBuyerProfile();
                   Get.to(BuyerRunningOrderListScreen(
                     buyer: BuyerProfileController.to.buyer.value,
-                  ));
+                  ));  if (Scaffold.of(context).isDrawerOpen) {
+                    Scaffold.of(context).closeDrawer();
+                  }
+                },
+              ), _buildMenuOption(
+                icon: Icons.favorite,
+                label: 'Favourite Offer',
+                onTap: () {
+
+                  Get.to(FavouriteOfferScreen());
+                  if (Scaffold.of(context).isDrawerOpen) {
+                    Scaffold.of(context).closeDrawer();
+                  }
+                  // BuyerProfileController.to.getBuyerProfile();
+                  // Get.to(BuyerRunningOrderListScreen(
+                  //   buyer: BuyerProfileController.to.buyer.value,
+                  // ));
                 },
               ),
               _buildMenuOption(

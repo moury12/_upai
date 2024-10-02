@@ -28,9 +28,10 @@ class MyServiceWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: Colors.white,
-            boxShadow: [BoxShadow(color: AppColors.kprimaryColor.withOpacity(0.3), spreadRadius: 2, blurRadius: 2)],
+            boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3), spreadRadius: 2, blurRadius: 5)],
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Expanded(
@@ -123,7 +124,7 @@ class MyServiceWidget extends StatelessWidget {
                   )
               ),
               Expanded(
-                  flex: 4,
+                  flex: 3,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -158,60 +159,14 @@ class MyServiceWidget extends StatelessWidget {
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                       ),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // Expanded(
-                          //   child:
-                          // ),
-                          Expanded(
-                            child: Container(
-                              width: double.infinity,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                // overflowAlignment: OverflowBarAlignment.end,
-                                // alignment: MainAxisAlignment.end,
-                                children: [
-                                  isService ? Icon(
-                                CupertinoIcons.cart,
-                                size: 15,
-                                color: AppColors.kprimaryColor,
-                              ): Icon(
-                              CupertinoIcons.star_fill,
-                              size: 15,
-                              color: AppColors.kprimaryColor,
-                            ),
+                      Text(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
 
-                                  SizedBox(
-                                    width: 2,
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      isService ? service!.quantity.toString() : offerItem?.avgRating.toString() ?? '0',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
-                                '৳ ${isService ? service!.rate : offerItem?.rate ?? '0'}',
-                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                        ],
+                        /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
+                        'From ৳ ${isService ?service!.package!.isEmpty?'0': service!.package![0].price ?? '0' :offerItem!.package!.isEmpty ? '0': offerItem?.package![0].price ?? '0'}',
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,),
                       ),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -39,65 +39,122 @@ class SellerProfileModel {
 class MyService {
   String? offerId;
   String? serviceCategoryType;
-  DateTime? dateTime;
+  String? dateTime;
   String? userId;
   String? userName;
   String? jobTitle;
   String? description;
-  int? quantity;
-  String? rateType;
-  int? rate;
   String? district;
   String? address;
-  bool? isFav;
+  List<Package>? package;
 
-  MyService({
-    this.offerId,
-    this.serviceCategoryType,
-    this.dateTime,
-    this.userId,
-    this.userName,
-    this.jobTitle,
-    this.description,
-    this.quantity,
-    this.rateType,
-    this.rate,
-    this.district,
-    this.address,
-    this.isFav=false
-  });
+  MyService(
+      {this.offerId,
+        this.serviceCategoryType,
+        this.dateTime,
+        this.userId,
+        this.userName,
+        this.jobTitle,
+        this.description,
+        this.district,
+        this.address,
+        this.package});
 
-  factory MyService.fromJson(Map<String, dynamic> json) => MyService(
-    offerId: json["offer_id"],
-    serviceCategoryType: json["service_category_type"],
-    dateTime: json["date_time"] == null ? null : DateTime.parse(json["date_time"]),
-    userId: json["user_id"],
-    userName: json["user_name"],
-    jobTitle: json["job_title"],
-    description: json["description"],
-    quantity: json["quantity"],
-    rateType: json["rate_type"],
-    rate: json["rate"],
-    district: json["district"],
-    address: json["address"],
-    isFav: false
-  );
+  MyService.fromJson(Map<String, dynamic> json) {
+    offerId = json['offer_id'];
+    serviceCategoryType = json['service_category_type'];
+    dateTime = json['date_time'];
+    userId = json['user_id'];
+    userName = json['user_name'];
+    jobTitle = json['job_title'];
+    description = json['description'];
+    district = json['district'];
+    address = json['address'];
+    if (json['package'] != null) {
+      package = <Package>[];
+      json['package'].forEach((v) {
+        package!.add(Package.fromJson(v));
+      });
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-    "offer_id": offerId,
-    "service_category_type": serviceCategoryType,
-    "date_time": dateTime?.toIso8601String(),
-    "user_id": userId,
-    "user_name": userName,
-    "job_title": jobTitle,
-    "description": description,
-    "quantity": quantity,
-    "rate_type": rateType,
-    "rate": rate,
-    "district": district,
-    "address": address,
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['offer_id'] = offerId;
+    data['service_category_type'] = serviceCategoryType;
+    data['date_time'] = dateTime;
+    data['user_id'] = userId;
+    data['user_name'] = userName;
+    data['job_title'] = jobTitle;
+    data['description'] = description;
+    data['district'] = district;
+    data['address'] = address;
+    if (package != null) {
+      data['package'] = package!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
+
+class Package {
+  String? packageName;
+  int? price;
+  String? duration;
+  String? packageDescription;
+  List<ServiceList>? serviceList;
+
+  Package(
+      {this.packageName,
+        this.price,
+        this.duration,
+        this.packageDescription,
+        this.serviceList});
+
+  Package.fromJson(Map<String, dynamic> json) {
+    packageName = json['package_name'];
+    price = json['price'];
+    duration = json['duration'];
+    packageDescription = json['package_description'];
+    if (json['service_list'] != null) {
+      serviceList = <ServiceList>[];
+      json['service_list'].forEach((v) {
+        serviceList!.add(ServiceList.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['package_name'] = packageName;
+    data['price'] = price;
+    data['duration'] = duration;
+    data['package_description'] = packageDescription;
+    if (serviceList != null) {
+      data['service_list'] = serviceList!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ServiceList {
+  String? serviceName;
+  String? status;
+
+  ServiceList({this.serviceName, this.status});
+
+  ServiceList.fromJson(Map<String, dynamic> json) {
+    serviceName = json['service_name'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['service_name'] = serviceName;
+    data['status'] = status;
+    return data;
+  }
+}
+
 
 class SellerRunningOrder {
   String? jobId;

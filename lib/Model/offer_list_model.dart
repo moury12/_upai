@@ -35,107 +35,175 @@ class OfferListModel {
 class OfferList {
   String? offerId;
   String? serviceCategoryType;
-  DateTime? dateTime;
+  String? dateTime;
   String? userId;
   String? userName;
-  int? totalCompletedJob;
-  dynamic avgRating;
+  String? totalCompletedJob;
+  String? avgRating;
   String? jobTitle;
   String? description;
-  int? quantity;
-  String? rateType;
-  int? rate;
   String? district;
   String? address;
-  bool isFav;
+  bool? isFav;
+  List<Package>? package;
   List<BuyerReviewList>? buyerReviewList;
 
-  OfferList({
-    this.offerId,
-    this.serviceCategoryType,
-    this.dateTime,
-    this.userId,
-    this.userName,
-    this.totalCompletedJob,
-    this.avgRating,
-    this.jobTitle,
-    this.description,
-    this.quantity,
-    this.rateType,
-    this.isFav=false,
-    this.rate,
-    this.district,
-    this.address,
-    this.buyerReviewList,
-  });
+  OfferList(
+      {this.offerId,
+        this.serviceCategoryType,
+        this.dateTime,
+        this.userId,
+        this.userName,
+        this.totalCompletedJob,
+        this.avgRating,
+        this.jobTitle,
+        this.description,
+        this.district,
+        this.address,
+        this.package,
+        this.isFav=false,
+        this.buyerReviewList});
 
-  factory OfferList.fromJson(Map<String, dynamic> json) => OfferList(
-    offerId: json["offer_id"],
-    serviceCategoryType: json["service_category_type"],
-    dateTime: json["date_time"] == null ? null : DateTime.parse(json["date_time"]),
-    userId: json["user_id"],
-    userName: json["user_name"],
-    totalCompletedJob: json["total_completed_job"],
-    avgRating: json["avg_rating"],
-    jobTitle: json["job_title"],
-    description: json["description"],
-    quantity: json["quantity"],
-    rateType: json["rate_type"],
-    rate: json["rate"],
-    district: json["district"],
-    address: json["address"],
-    isFav: false,
-    buyerReviewList: json["buyer_review_list"] != null && json["buyer_review_list"] is List
-        ? List<BuyerReviewList>.from(json["buyer_review_list"]!.map((x) => BuyerReviewList.fromJson(x)))
-        : [],   );
+  OfferList.fromJson(Map<String, dynamic> json) {
+    offerId = json['offer_id'].toString()=='null'?'':json['offer_id'].toString();
+    serviceCategoryType = json['service_category_type'].toString()=='null'?'':json['service_category_type'].toString();
+    dateTime = json['date_time'].toString()=='null'?'':json['date_time'].toString();
+    userId = json['user_id'].toString()=='null'?'':json['user_id'].toString();
+    userName = json['user_name'].toString()=='null'?'':json['user_name'].toString();
+    totalCompletedJob = json['total_completed_job'].toString()=='null'?'':json['total_completed_job'].toString();
+    avgRating = json['avg_rating'].toString()=='null'?'':json['avg_rating'].toString();
+    jobTitle = json['job_title'].toString()=='null'?'':json['job_title'].toString();
+    description = json['description'].toString()=='null'?'':json['description'].toString();
+    district = json['district'].toString()=='null'?'':json['district'].toString();
+    address = json['address'].toString()=='null'?'':json['address'].toString();
+    isFav=false;
+    if (json['package'] != null) {
+      package = <Package>[];
+      json['package'].forEach((v) {
+        package!.add(Package.fromJson(v));
+      });
+    }
+    if (json['buyer_review_list'] != null) {
+      buyerReviewList = <BuyerReviewList>[];
+      json['buyer_review_list'].forEach((v) {
+        buyerReviewList!.add(BuyerReviewList.fromJson(v));
+      });
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-    "offer_id": offerId,
-    "service_category_type": serviceCategoryType,
-    "date_time": dateTime?.toIso8601String(),
-    "user_id": userId,
-    "user_name": userName,
-    "total_completed_job": totalCompletedJob,
-    "avg_rating": avgRating,
-    "job_title": jobTitle,
-    "description": description,
-    "quantity": quantity,
-    "rate_type": rateType,
-    "rate": rate,
-    "district": district,
-    "address": address,
-    "buyer_review_list": buyerReviewList == null ? [] : List<dynamic>.from(buyerReviewList!.map((x) => x.toJson())),
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['offer_id'] = offerId;
+    data['service_category_type'] = serviceCategoryType;
+    data['date_time'] = dateTime;
+    data['user_id'] = userId;
+    data['user_name'] = userName;
+    data['total_completed_job'] = totalCompletedJob;
+    data['avg_rating'] = avgRating;
+    data['job_title'] = jobTitle;
+    data['description'] = description;
+    data['district'] = district;
+    data['address'] = address;
+    if (package != null) {
+      data['package'] = package!.map((v) => v.toJson()).toList();
+    }
+    if (buyerReviewList != null) {
+      data['buyer_review_list'] =
+          buyerReviewList!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Package {
+  String? packageName;
+  String? price;
+  String? duration;
+  String? packageDescription;
+  List<ServiceList>? serviceList;
+
+  Package(
+      {this.packageName,
+        this.price,
+        this.duration,
+        this.packageDescription,
+        this.serviceList});
+
+  Package.fromJson(Map<String, dynamic> json) {
+    packageName = json['package_name'].toString()=='null'?'':json['package_name'].toString();
+    price = json['price'].toString()=='null'?'':json['price'].toString();
+    duration = json['duration'].toString()=='null'?'':json['duration'].toString();
+    packageDescription = json['package_description'].toString()=='null'?'':json['package_description'].toString();
+    if (json['service_list'] != null) {
+      serviceList = <ServiceList>[];
+      json['service_list'].forEach((v) {
+        serviceList!.add(ServiceList.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['package_name'] = packageName;
+    data['price'] = price;
+    data['duration'] = duration;
+    data['package_description'] = packageDescription;
+    if (serviceList != null) {
+      data['service_list'] = serviceList!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ServiceList {
+  String? serviceName;
+  String? status;
+
+  ServiceList({this.serviceName, this.status});
+
+  ServiceList.fromJson(Map<String, dynamic> json) {
+    serviceName = json['service_name'].toString()=='null'?'':json['service_name'].toString();
+    status = json['status'].toString()=='null'?'':json['status'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['service_name'] = serviceName;
+    data['status'] = status;
+    return data;
+  }
 }
 
 class BuyerReviewList {
   String? buyerId;
   String? buyerReview;
-  dynamic buyerRating;
+  String? buyerRating;
   String? buyerName;
-  DateTime? reviewDate;
+  String? reviewDate;
 
-  BuyerReviewList({
-    this.buyerId,
-    this.buyerReview,
-    this.buyerRating,
-    this.buyerName,
-    this.reviewDate,
-  });
+  BuyerReviewList(
+      {this.buyerId,
+        this.buyerReview,
+        this.buyerRating,
+        this.buyerName,
+        this.reviewDate});
 
-  factory BuyerReviewList.fromJson(Map<String, dynamic> json) => BuyerReviewList(
-    buyerId: json["buyer_id"],
-    buyerReview: json["buyer_review"],
-    buyerRating: json["buyer_rating"],
-    buyerName: json["buyer_name"],
-    reviewDate: json["review_date"] == null ? null : DateTime.parse(json["review_date"]),
-  );
+  BuyerReviewList.fromJson(Map<String, dynamic> json) {
+    buyerId = json['buyer_id'].toString()=='null'?'':json['buyer_id'].toString();
+    buyerReview = json['buyer_review'].toString()=='null'?'':json['buyer_review'].toString();
+    buyerRating = json['buyer_rating'].toString()=='null'?'':json['buyer_rating'].toString();
+    buyerName = json['buyer_name'].toString()=='null'?'':json['buyer_name'].toString();
+    reviewDate = json['review_date'].toString()=='null'?'':json['review_date'].toString();
+  }
 
-  Map<String, dynamic> toJson() => {
-    "buyer_id": buyerId,
-    "buyer_review": buyerReview,
-    "buyer_rating": buyerRating,
-    "buyer_name": buyerName,
-    "review_date": "${reviewDate!.year.toString().padLeft(4, '0')}-${reviewDate!.month.toString().padLeft(2, '0')}-${reviewDate!.day.toString().padLeft(2, '0')}",
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['buyer_id'] = buyerId;
+    data['buyer_review'] = buyerReview;
+    data['buyer_rating'] = buyerRating;
+    data['buyer_name'] = buyerName;
+    data['review_date'] = reviewDate;
+    return data;
+  }
 }
+

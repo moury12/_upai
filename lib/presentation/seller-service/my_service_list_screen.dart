@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/my_service_details.dart';
@@ -42,7 +43,7 @@ class MyServiceListScreen extends StatelessWidget {
         // controller.filterOffer('');
       },
       child: Scaffold(
-          backgroundColor: AppColors.strokeColor2,
+          backgroundColor: Colors.white,
           appBar: AppBar(
             // elevation: 0,
             // shadowColor: Colors.transparent,
@@ -70,7 +71,7 @@ class MyServiceListScreen extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 12)
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 12).copyWith(bottom: 0)
                        ,
                     child: Obx(() {
                       return CustomTextField(
@@ -108,7 +109,7 @@ class MyServiceListScreen extends StatelessWidget {
                       : GridView.builder(
                           shrinkWrap: true,
                           primary: false,
-                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: crossAxisCount,

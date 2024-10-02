@@ -70,20 +70,29 @@ RxInt? selectedPackageIndex;
   var filteredOfferList = <OfferList>[].obs;
   var filteredCategoryList = <CategoryList>[].obs;
   final box = Hive.box('userInfo');
-  @override
-  void onClose() {
-    quantityController.value.dispose();
-    quantityControllerForConfromOrder.value.dispose();
-    rateController.value.dispose();
-    super.onClose();
-  }
+
   // @override
   // void onReady() {
   //   selectedDistrictForAll.value=null;
   //   super.onReady();
   // }
-  RxList<TextEditingController> priceControllers = List.generate(3, (_) => TextEditingController()).obs;
-  RxList<TextEditingController> durationControllers = List.generate(3, (_) => TextEditingController()).obs;
+  RxList<TextEditingController> priceControllers =RxList();
+  RxList<TextEditingController> durationControllers =RxList();
+  RxList<TextEditingController> descriptionControllers =RxList();
+  void initializeControllers() {
+    // Assuming 3 packages for example
+    int numberOfPackages = 3;
+    HomeController.to.priceControllers = List.generate(numberOfPackages, (_) => TextEditingController()).obs;
+    HomeController.to.durationControllers = List.generate(numberOfPackages, (_) => TextEditingController()).obs;
+    HomeController.to.descriptionControllers = List.generate(numberOfPackages, (_) => TextEditingController()).obs;
+  }
+  void updatePackageList() {
+    for (int i = 0; i < HomeController.to.packageList.length; i++) {
+      HomeController.to.packageList[i]['package_description'] = descriptionControllers[i].text;
+      HomeController.to.packageList[i]['price'] = priceControllers[i].text;
+      HomeController.to.packageList[i]['duration'] = durationControllers[i].text;
+    }
+  }
   RxList<dynamic> packageList = <dynamic>[].obs;
   RxList<dynamic> yourServiceList = [
 
@@ -98,26 +107,56 @@ RxInt? selectedPackageIndex;
     await loadJsonFromAssets('assets/district/district.json');
     districtList.sort((a, b) => a['name'].toString().compareTo(b['name'].toString()));
     filterDistrictList.assignAll(districtList);
+   initializeControllers();
+   updatePackageList();
     packageList.assignAll([
-      {
-        "p_name": "Basic",
-        "price":priceControllers[0],"duration":durationControllers[0],
-        "service_list": List.from(yourServiceList),
-        "selected": false // Add selected key for tracking
-      },
-      {
-        "p_name": "Standard",
-        "price":priceControllers[1],"duration":durationControllers[1],
-        "service_list": List.from(yourServiceList), // Add service list for Standard
-        "selected": false
-      },
-      {
-        "p_name": "Premium",
-        "price":priceControllers[2],"duration":durationControllers[2],
-        "service_list": List.from(yourServiceList), // Add service list for Premium
-        "selected": false
-      }
+
+        {
+          "package_name": "Basic",
+          "price":'',
+          "duration": '',
+          "package_description":'',
+          "service_list": List.from(yourServiceList)
+        },
+        {
+          "package_name": "Standard",
+          "price":'',
+          "duration": '',
+          "package_description": '',
+          "service_list": List.from(yourServiceList)
+
+        },
+        {
+          "package_name": "premium",
+          "price":'',
+          "duration": '',
+          "package_description": '',
+          "service_list": List.from(yourServiceList)
+
+        }
+
     ]);
+
+    // packageList.assignAll([
+    //   {
+    //     "p_name": "Basic",
+    //     "price":'durationControllers[0],
+    //     "service_list": List.from(yourServiceList),
+    //     "selected": false // Add selected key for tracking
+    //   },
+    //   {
+    //     "p_name": "Standard",
+    //     "price":priceControllers[1],"duration":durationControllers[1],
+    //     "service_list": List.from(yourServiceList), // Add service list for Standard
+    //     "selected": false
+    //   },
+    //   {
+    //     "p_name": "Premium",
+    //     "price":priceControllers[2],"duration":durationControllers[2],
+    //     "service_list": List.from(yourServiceList), // Add service list for Premium
+    //     "selected": false
+    //   }
+    // ]);
     quantityController.value.text = quantity.value.toString();
     quantityControllerForConfromOrder.value.text =
         quantityForConform.value.toString();
@@ -132,6 +171,23 @@ RxInt? selectedPackageIndex;
     isFav =  List.generate(getOfferList.length, (index) => false.obs,);
 
     super.onInit();
+  }
+  @override
+  void onClose() {
+    quantityController.value.dispose();
+    quantityControllerForConfromOrder.value.dispose();
+    rateController.value.dispose();
+    for (var controller in priceControllers) {
+      controller.dispose();
+
+    }
+    for (var controller in descriptionControllers) {
+      controller.dispose();
+    }
+    for (var controller in durationControllers) {
+      controller.dispose();
+    }
+    super.onClose();
   }
   Future<void> refreshAllData() async {
     ctrl = Get.put(ProfileScreenController());
@@ -172,18 +228,21 @@ RxInt? selectedPackageIndex;
       String address,) async {
     //debugPrint(box.values.map((e) => e['user_id'],).toString());
     Map<String, dynamic> data = jsonDecode(box.get("user"));
-    await RepositoryData.createOffer(body: {
+    await RepositoryData.createOffer(
+      token: FirebaseAPIs.user['token'].toString(),
+        body: {
       "cid": "upai",
       "user_mobile": data['user_id'].toString(),
       "service_category_type": selectedCategory.value!.categoryName,
       "job_title": jobTitle,
       "description": description,
-      "quantity": quantity.value.toString(),
-      "rate_type": selectedRateType.value,
-      "rate": rate,
+      // "quantity": quantity.value.toString(),
+      // "rate_type": selectedRateType.value,
+      // "rate": rate,
       "date_time": DateTime.now().toString(),
       "district": selectedDistrict.value,
-      "address": address
+      "address": address,
+      "package":packageList
     });
     await SellerProfileController.to.refreshAllData();
     await HomeController.to.refreshAllData();
@@ -222,15 +281,15 @@ void selectPackage(int index){
         userName: ProfileScreenController.to.userInfo.value.name,
         userId: ProfileScreenController.to.userInfo.value.userId,
         serviceCategoryType: selectedCategory.value!.categoryName,
-        rateType: selectedRateType.value,
+        // rateType: selectedRateType.value,
         address: address,
         description: description,
         district: selectedDistrict.value,
         jobTitle: title,
         offerId: offerId,
         dateTime: SellerProfileController.to.service.value.dateTime,
-        quantity: quantity.value,
-        rate: int.parse(rate));
+        /*quantity: quantity.value,
+        rate: int.parse(rate)*/);
     // getOfferDataList();
     await SellerProfileController.to.refreshAllData();
 
