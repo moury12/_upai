@@ -15,6 +15,7 @@ import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/ServiceDetails/rating_list_screen.dart';
 import 'package:upai/presentation/create%20offer/widget/tab_content_view.dart';
@@ -30,8 +31,9 @@ import 'widgets/rate_by_category_widget.dart';
 import 'widgets/request_confirm_offer.dart';
 
 class ServiceDetails extends StatefulWidget {
-  ServiceDetails({super.key, this.offerDetails});
+  ServiceDetails({super.key, this.offerDetails, });
   final OfferList? offerDetails;
+  // final String? offerId;
   Map<String, dynamic> sellerDetails = {};
   static const String routeName = '/offer-details';
   @override
@@ -43,6 +45,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       "https://lh5.googleusercontent.com/proxy/t08n2HuxPfw8OpbutGWjekHAgxfPFv-pZZ5_-uTfhEGK8B5Lp-VN4VjrdxKtr8acgJA93S14m9NdELzjafFfy13b68pQ7zzDiAmn4Xg8LvsTw1jogn_7wStYeOx7ojx5h63Gliw";
   @override
   void initState() {
+
     // getSellerDetails();
     Get.put(ServiceDetailsController());
     ProfileScreenController.to.profileImageUrl.value = '';

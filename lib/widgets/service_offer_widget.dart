@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -17,7 +18,12 @@ class ServiceOfferWidget extends StatefulWidget {
   final Widget? button;
   final int index;
   const ServiceOfferWidget(
-      {super.key, this.service, this.offerItem, this.button, required this.index, this.favOfferItem});
+      {super.key,
+      this.service,
+      this.offerItem,
+      this.button,
+      required this.index,
+      this.favOfferItem});
 
   @override
   State<ServiceOfferWidget> createState() => _ServiceOfferWidgetState();
@@ -31,14 +37,6 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
   @override
   void initState() {
     super.initState();
-    retrieveFavOffers();
-    // print(HomeController.to.favOfferList.length);
-    // for (int i=0;i>HomeController.to.favOfferList.length;i++){
-    //   if(HomeController.to.favOfferList[i].offerId==widget.offerItem!.offerId){
-    //     widget.offerItem!.isFav=true;
-    //   }
-    //   print('HomeController.to.favOfferList[i].offerId');print(HomeController.to.favOfferList[i].offerId);
-    // }
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -47,10 +45,10 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
     _animation = Tween<double>(begin: 30.0, end: 35.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.linear),
     );
-  }
-void checkIfFavOffer() async{
 
-}
+  }
+
+
   @override
   void dispose() {
     _controller.dispose();
@@ -99,8 +97,8 @@ void checkIfFavOffer() async{
                         //     );
                         //   }
                         if (snapshot.hasData) {
-                          return Image.network(
-                              loadingBuilder: (context, child, loadingProgress) {
+                          return Image.network(loadingBuilder:
+                                  (context, child, loadingProgress) {
                             if (loadingProgress == null) {
                               return child; // Image has finished loading
                             }
@@ -222,29 +220,29 @@ void checkIfFavOffer() async{
                                 fontSize: 14, fontWeight: FontWeight.w600),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                          )),IconButton(
-                              onPressed: () async{
-
-
+                          )),
+                          IconButton(
+                              onPressed: () async {
                                 await _controller.forward();
 
                                 // Pause for a moment and then zoom out
                                 // await Future.delayed(Duration(milliseconds: 100));
                                 await _controller.reverse();
-                                // widget.offerItem!.isFav =
-                                //  !widget.offerItem!.isFav;
-                                if( !widget.offerItem!.isFav!){
+
+                                if (!widget.offerItem!.isFav!) {
+                                  widget.offerItem!.isFav = true;
                                   saveOfferToHive(widget.offerItem!);
-                                  widget.offerItem!.isFav =true;
-                                }else{
-                                  deleteFavOffers(widget.offerItem!.offerId.toString());
-                                  widget.offerItem!.isFav =false;
+
+                                } else {
+                                  widget.offerItem!.isFav = false;
+                                  deleteFavOffers(
+                                      widget.offerItem!.offerId.toString());
+                                  // HomeController.to.favOfferList.refresh();
+                                  // HomeController.to.getOfferList.refresh();
+
                                 }
                                 debugPrint(widget.offerItem!.isFav.toString());
-                                setState(() {
-
-                                });
-
+                                setState(() {});
                               },
                               icon: AnimatedBuilder(
                                   animation: _animation,
@@ -257,7 +255,6 @@ void checkIfFavOffer() async{
                                       size: _animation.value,
                                     );
                                   }))
-
                         ],
                       ),
                       // Text('Description:',
@@ -267,7 +264,8 @@ void checkIfFavOffer() async{
                         isService
                             ? widget.service!.description ?? ''
                             : widget.offerItem?.description ?? '',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.w400),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -296,21 +294,29 @@ void checkIfFavOffer() async{
                                 Text(
                                     isService
                                         ? ""
-                                        : double.parse(widget.offerItem?.avgRating??'0.0').toStringAsFixed(1)
-                                                ,
+                                        : double.parse(
+                                                widget.offerItem?.avgRating ??
+                                                    '0.0')
+                                            .toStringAsFixed(1),
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
-                                        fontSize: 14, fontWeight: FontWeight.w500)),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
                                 Spacer(),
-                                Text('From ',style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400),),
                                 Text(
-                                    '৳ ${widget.offerItem!.package!.isEmpty?'0.0':widget.offerItem!.package![0].price??'0.0'}',
+                                  'From ',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Text(
+                                    '৳ ${ widget.offerItem!.package == null||widget.offerItem!.package!.isEmpty  ? '0.0' : widget.offerItem!.package![0].price ?? '0.0'}',
                                     style: TextStyle(
-                                        fontSize: 16, fontWeight: FontWeight.w700)),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700)),
                               ],
                             ),
                           ),
-
                         ],
                       ),
                     ],
@@ -319,52 +325,56 @@ void checkIfFavOffer() async{
               )
             ],
           ),
-        ), isService
-            ? widget.service!.district!.isEmpty?SizedBox.shrink():Positioned(
-          top: 0,
-          left: 0,
-          child: Container(
-            padding: EdgeInsets.all(4),
-            decoration: BoxDecoration(
-                color: AppColors.kprimaryColor,
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(10),
-                    topLeft: Radius.circular(15))),
-            child: Text(
-              maxLines: 1,
-              isService
-                  ? widget.service!.district ?? ''
-                  : widget.offerItem?.district ?? '',
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
-            ),
-          ),
-        ): widget.offerItem!.district!.isEmpty?
-        SizedBox.shrink():
-        Positioned(
-          top: 0,
-          left: 0,
-          child: Container(
-            padding: EdgeInsets.all(4),
-            decoration: BoxDecoration(
-                color: AppColors.kprimaryColor,
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(10),
-                    topLeft: Radius.circular(15))),
-            child: Text(
-              maxLines: 1,
-              isService
-                  ? widget.service!.district ?? ''
-                  : widget.offerItem?.district ?? '',
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
-            ),
-          ),
-        )
+        ),
+        isService
+            ? widget.service!.district!.isEmpty
+                ? SizedBox.shrink()
+                : Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                          color: AppColors.kprimaryColor,
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(10),
+                              topLeft: Radius.circular(15))),
+                      child: Text(
+                        maxLines: 1,
+                        isService
+                            ? widget.service!.district ?? ''
+                            : widget.offerItem?.district ?? '',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                    ),
+                  )
+            : widget.offerItem!.district!.isEmpty
+                ? SizedBox.shrink()
+                : Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                          color: AppColors.kprimaryColor,
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(10),
+                              topLeft: Radius.circular(15))),
+                      child: Text(
+                        maxLines: 1,
+                        isService
+                            ? widget.service!.district ?? ''
+                            : widget.offerItem?.district ?? '',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                    ),
+                  )
       ],
     );
   }

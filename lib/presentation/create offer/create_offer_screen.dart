@@ -33,10 +33,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final box = Hive.box('userInfo');
 
   late TextEditingController titleController;
-  late TextEditingController addressController;
+ static TextEditingController addressController=TextEditingController();
   late TextEditingController descriptionController;
 
-  late TextEditingController rateController;
+
 
   List<String> timeUnits = ['Hour', 'Task', 'Per Day', 'Piece'];
   List<String> serviceType = ['Local', 'Online'];
@@ -48,12 +48,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     addressController = TextEditingController(
         text: widget.service != null && widget.service!.address!.isNotEmpty
             ? widget.service!.address
-            : '');
+            : addressController.text);
     HomeController.to.initializeControllers();
     titleController = TextEditingController(
         text: widget.service != null ? widget.service!.jobTitle : '');
-    addressController = TextEditingController(
-        text: widget.service != null ? widget.service!.address : '');
+
     descriptionController = TextEditingController(
         text: widget.service != null ? widget.service!.description : '');
     // rateController = TextEditingController(
@@ -873,7 +872,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                   widget.service!.offerId ?? '',
                                                   titleController.text,
                                                   descriptionController.text,
-                                                  rateController.text,
+                                                  '',
                                                   addressController.text);
 
                                               // Get.to(MyServiceDetails());
@@ -897,7 +896,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                       titleController.text,
                                                       descriptionController
                                                           .text,
-                                                      rateController.text,
+
                                                       addressController.text);
                                               // await SellerProfileController.to
                                               //     .refreshAllData();
@@ -951,7 +950,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     HomeController.to.selectedDistrict.value = null;
     HomeController.to.packageList.refresh();
     HomeController.to.selectedServiceType.value = null;
-    rateController.clear();
+
     addressController.clear();
     HomeController.to.quantityController.value.clear();
     HomeController.to.quantity.value = 1;

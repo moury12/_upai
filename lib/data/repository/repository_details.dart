@@ -194,13 +194,13 @@ class RepositoryData {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
-      if (kDebugMode) {
-        print('Response category data :----${response.body}');
-      }
+      // if (kDebugMode) {
+      //   print('Response category data :----${response.body}');
+      // }
       // var data = jsonDecode(response.body);
       final data = jsonDecode(response.body.toString());
       if (data['status'] == "Success") {
-        print("skjdfklsdjf");
+        // print("skjdfklsdjf");
         catList = categoryListModelFromJson(response.body).categoryList!;
 
         // var areaData = data["area-list"] as List;
@@ -239,9 +239,9 @@ class RepositoryData {
       // var data = jsonDecode(response.body);
       final data = jsonDecode(response.body.toString());
       if (data['status'] == "Success") {
-        print("skjdfklsdjf");
+        // print("skjdfklsdjf");
         offerList = offerListModelFromJson(response.body).offerList!;
-        print('--------------${data.toString()}');
+        // print('--------------${data.toString()}');
         // var areaData = data["area-list"] as List;
         //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.green,content: Text("Successfull")));
 

@@ -215,7 +215,14 @@ RxInt? selectedPackageIndex;
         .getCategoryList(token: FirebaseAPIs.user['token'].toString(),userId:ProfileScreenController.to.userInfo.value.userId.toString());
     filteredCategoryList.value = getCatList;
   }
-
+  // void checkIfFavOffer() async {
+  //
+  //   bool isFav = await isFavourite(widget.offerItem!.offerId!);
+  //   debugPrint(widget.offerItem!.isFav.toString());
+  //
+  //   widget.offerItem!.isFav=isFav;
+  //
+  // }
   void getOfferDataList() async {
     getOfferList.value = await RepositoryData().getOfferList(
         token: FirebaseAPIs.user['token'].toString(),
@@ -224,7 +231,7 @@ RxInt? selectedPackageIndex;
   }
   Future<void> createOffer(String jobTitle,
       String description,
-      String rate,
+
       String address,) async {
     //debugPrint(box.values.map((e) => e['user_id'],).toString());
     Map<String, dynamic> data = jsonDecode(box.get("user"));

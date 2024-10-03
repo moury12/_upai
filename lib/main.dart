@@ -57,7 +57,7 @@ Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox("userInfo");
   await Hive.openBox("dmPath");
-
+  await Hive.openBox('offer');
   // DependencyInjection.init();
   runApp(const MyApp());
 }

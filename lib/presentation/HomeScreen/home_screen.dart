@@ -565,8 +565,10 @@ retrieveFavOffers();
                                                       .copyWith(top: 8),
                                               itemCount: offerList.length,
                                               itemBuilder: (context, index) {
+
                                                 final service =
                                                     offerList[index];
+                                                service.isFav = isFavourite(service.offerId);
                                                 return InkWell(
                                                   onTap: () {
                                                     Get.to(

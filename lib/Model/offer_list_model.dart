@@ -4,6 +4,10 @@
 
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:upai/Boxes/boxes.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+
 OfferListModel offerListModelFromJson(String str) => OfferListModel.fromJson(json.decode(str));
 
 String offerListModelToJson(OfferListModel data) => json.encode(data.toJson());
@@ -44,51 +48,54 @@ class OfferList {
   String? description;
   String? district;
   String? address;
-  bool? isFav;
+  bool? isFav; // This should be non-nullable but initialized properly.
   List<Package>? package;
   List<BuyerReviewList>? buyerReviewList;
 
-  OfferList(
-      {this.offerId,
-        this.serviceCategoryType,
-        this.dateTime,
-        this.userId,
-        this.userName,
-        this.totalCompletedJob,
-        this.avgRating,
-        this.jobTitle,
-        this.description,
-        this.district,
-        this.address,
-        this.package,
-        this.isFav=false,
-        this.buyerReviewList});
+  // Constructor to initialize isFav
+  OfferList({
+    this.offerId,
+    this.serviceCategoryType,
+    this.dateTime,
+    this.userId,
+    this.userName,
+    this.totalCompletedJob,
+    this.avgRating,
+    this.jobTitle,
+    this.description,
+    this.district,
+    this.address,
+    this.package,
+    this.buyerReviewList,
+    this.isFav, // Use a default parameter for the constructor
+  }) /*: isFav = isFav.obs*/; // Initialize isFav as an RxBool
 
-  OfferList.fromJson(Map<String, dynamic> json) {
-    offerId = json['offer_id'].toString()=='null'?'':json['offer_id'].toString();
-    serviceCategoryType = json['service_category_type'].toString()=='null'?'':json['service_category_type'].toString();
-    dateTime = json['date_time'].toString()=='null'?'':json['date_time'].toString();
-    userId = json['user_id'].toString()=='null'?'':json['user_id'].toString();
-    userName = json['user_name'].toString()=='null'?'':json['user_name'].toString();
-    totalCompletedJob = json['total_completed_job'].toString()=='null'?'':json['total_completed_job'].toString();
-    avgRating = json['avg_rating'].toString()=='null'?'':json['avg_rating'].toString();
-    jobTitle = json['job_title'].toString()=='null'?'':json['job_title'].toString();
-    description = json['description'].toString()=='null'?'':json['description'].toString();
-    district = json['district'].toString()=='null'?'':json['district'].toString();
-    address = json['address'].toString()=='null'?'':json['address'].toString();
-    isFav=false;
-    if (json['package'] != null) {
-      package = <Package>[];
-      json['package'].forEach((v) {
-        package!.add(Package.fromJson(v));
-      });
-    }
-    if (json['buyer_review_list'] != null) {
-      buyerReviewList = <BuyerReviewList>[];
-      json['buyer_review_list'].forEach((v) {
-        buyerReviewList!.add(BuyerReviewList.fromJson(v));
-      });
-    }
+  // Factory constructor to create an OfferList from JSON
+  factory OfferList.fromJson(Map<String, dynamic> json) {
+    // Parse all fields
+    return OfferList(
+      offerId: json['offer_id']?.toString() == 'null' ? '' : json['offer_id'].toString(),
+      serviceCategoryType: json['service_category_type']?.toString() == 'null' ? '' : json['service_category_type'].toString(),
+      dateTime: json['date_time']?.toString() == 'null' ? '' : json['date_time'].toString(),
+      userId: json['user_id']?.toString() == 'null' ? '' : json['user_id'].toString(),
+      userName: json['user_name']?.toString() == 'null' ? '' : json['user_name'].toString(),
+      totalCompletedJob: json['total_completed_job']?.toString() == 'null' ? '' : json['total_completed_job'].toString(),
+      avgRating: json['avg_rating']?.toString() == 'null' ? '' : json['avg_rating'].toString(),
+      jobTitle: json['job_title']?.toString() == 'null' ? '' : json['job_title'].toString(),
+      description: json['description']?.toString() == 'null' ? '' : json['description'].toString(),
+      district: json['district']?.toString() == 'null' ? '' : json['district'].toString(),
+      address: json['address']?.toString() == 'null' ? '' : json['address'].toString(),
+      isFav: Boxes.getFavBox().containsKey(json['offer_id']), // Default to false, as unfavored
+      // Handle package parsing
+        package: json['package'] != null
+            ? (json['package'] as List).map((v) => Package.fromJson(v)).toList()
+            : null,
+        // Handle buyer review list parsing
+      buyerReviewList: json['buyer_review_list'] != null
+            ? (json['buyer_review_list'] as List).map((v) => BuyerReviewList.fromJson(v)).toList()
+            : null,
+
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -104,12 +111,12 @@ class OfferList {
     data['description'] = description;
     data['district'] = district;
     data['address'] = address;
+    data['is_fav'] = isFav;
     if (package != null) {
       data['package'] = package!.map((v) => v.toJson()).toList();
     }
     if (buyerReviewList != null) {
-      data['buyer_review_list'] =
-          buyerReviewList!.map((v) => v.toJson()).toList();
+      data['buyer_review_list'] = buyerReviewList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
