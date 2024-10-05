@@ -266,33 +266,7 @@
 //                   SizedBox(
 //                     height: 10,
 //                   ),
-//                   ElevatedButton(
-//                       style: ElevatedButton.styleFrom(alignment: Alignment.center, backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white),
-//                       onPressed: () {
-//                         if (HomeController.to.selectedRateType.value != null && HomeController.to.quantityControllerForConfromOrder.value.text.isNotEmpty && HomeController.to.rateController.value.text.isNotEmpty) {
-//                           OrderController.to.awardCreateJob(widget.service.offerDetails!.offerId ?? '', widget.service.offerDetails!.userId ?? '', widget.service.offerDetails!.jobTitle ?? '', widget.service.offerDetails!.description ?? '', HomeController.to.selectedRateType.value!,
-//                               HomeController.to.rateController.value.text, HomeController.to.quantityControllerForConfromOrder.value.text, HomeController.to.totalAmount.value.toString());
-//                           Navigator.pop(context);
-//                         } else {
-//                           Navigator.pop(context);
-//                           Get.snackbar("Error", "All field required");
-//                         }
-//                         /* HomeController.to.changeQuantity.value = false;
-//                   HomeController.to.quantityControllerForConfromOrder.value
-//                       .text = widget.offerDetails!.quantity.toString();
-//
-//                   HomeController.to.changeQuantity.value = false;
-//                   HomeController.to.quantity.value =
-//                       widget.offerDetails!.quantity!.toInt();
-//                   HomeController.to.selectedRateType.value = null;
-//                   HomeController.to.change.value = false;
-//                   HomeController.to.rateController.value.text =
-//                       widget.offerDetails!.rate.toString();*/
-//                       },
-//                       child: const Text(
-//                         "Confirm Order",
-//                         textAlign: TextAlign.center,
-//                       )),
+
 //                   const SizedBox(
 //                     height: 16,
 //                   )

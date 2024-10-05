@@ -97,75 +97,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                     const Divider(
                                       height: 12,
                                     ),
-                                    const Text(
-                                      'Rate type',
-                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                                    ),
-                                    CustomTextField(
-                                      isEnable: false,
-                                      hintText: widget.notificationModel.rateType,
-                                      hintStyle: const TextStyle(color: Colors.black),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            children: [
-                                              const Text(
-                                                'Rate',
-                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black),
-                                              ),
 
-                                              // HomeController.to.rateController.value.text =
-                                              //     widget.offerDetails!.rate.toString();
-
-                                              CustomTextField(
-                                                isEnable: false,
-                                                hintText: widget.notificationModel.rate,
-                                                hintStyle: const TextStyle(color: Colors.black),
-                                                textAlign: TextAlign.center,
-                                                // onChanged: (value) => controller.emailController.text.trim() = value!,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 6,
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            children: [
-                                              const Text(
-                                                'Quantity',
-                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child: CustomTextField(
-                                                      isEnable: false,
-
-                                                      hintText: widget.notificationModel.quantity,
-                                                      hintStyle: const TextStyle(color: Colors.black),
-                                                      textAlign: TextAlign.center,
-                                                      // onChanged: (value) => controller.emailController.text.trim() = value!,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Divider(
-                                      height: 16,
-                                    ),
 
                                     Text(
                                       textAlign: TextAlign.center,

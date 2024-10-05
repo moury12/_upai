@@ -569,7 +569,7 @@ retrieveFavOffers();
                                                 final service =
                                                     offerList[index];
                                                 service.isFav = isFavourite(service.offerId);
-                                                return InkWell(
+                                                return GestureDetector(
                                                   onTap: () {
                                                     Get.to(
                                                       ServiceDetails(

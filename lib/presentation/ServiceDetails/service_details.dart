@@ -43,8 +43,11 @@ class ServiceDetails extends StatefulWidget {
 class _ServiceDetailsState extends State<ServiceDetails> {
   String image =
       "https://lh5.googleusercontent.com/proxy/t08n2HuxPfw8OpbutGWjekHAgxfPFv-pZZ5_-uTfhEGK8B5Lp-VN4VjrdxKtr8acgJA93S14m9NdELzjafFfy13b68pQ7zzDiAmn4Xg8LvsTw1jogn_7wStYeOx7ojx5h63Gliw";
+
+  // late TabController tabController;
   @override
   void initState() {
+// tabController =DefaultTabController.of(context);
 
     // getSellerDetails();
     Get.put(ServiceDetailsController());
@@ -69,6 +72,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
+
 
     return PopScope(
       canPop: true,
@@ -185,7 +189,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           ),
         ),
         bottomNavigationBar: Container(
-          color: AppColors.backgroundLight,
+          color: AppColors.colorWhite,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: ElevatedButton(
@@ -195,6 +199,13 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   Get.snackbar("This is your Service", "");
                 } else {
                   Get.put(OrderController());
+                  var packageName =widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].packageName;
+                  var packagePrice =widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].price;
+                    OrderController.to.awardCreateJob(widget.offerDetails!.offerId ?? '', widget.offerDetails!.userId ?? '', widget.offerDetails!.jobTitle ?? '', widget.offerDetails!.description ?? '',
+                        (ServiceDetailsController.to.tabIndex.value+1).toString(),
+                        packageName!, packagePrice!);
+
+
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -204,13 +215,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 ),
                 backgroundColor: AppColors.kprimaryColor,
               ),
-              child: Text(
-                "Confirm Offer(Basic)",
-                style: AppTextStyle.bodySmallwhite,
+              child:widget.offerDetails!.package==null||widget.offerDetails!.package!.isEmpty?Text('Confirm', style: AppTextStyle.bodySmallwhite,): Obx(
+                 () {
+                  return Text(
+                    "Confirm Offer ( ${widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].packageName} )",
+                    style: AppTextStyle.bodySmallwhite,
+                  );
+                }
               ),
             ),
           ),
         ),
+
         appBar: AppBar(
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
@@ -226,15 +242,25 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             ),
           ),
           actions: [
-            Obx(() {
-              return IconButton(
+           IconButton(
                 onPressed: () {
                   print(ServiceDetailsController.to.isFav.value.toString());
-                  ServiceDetailsController.to.isFav.value =
-                      !ServiceDetailsController.to.isFav.value;
+                  if (!widget.offerDetails!.isFav!) {
+                    widget.offerDetails!.isFav = true;
+                    saveOfferToHive(widget.offerDetails!);
+
+                  } else {
+                    widget.offerDetails!.isFav = false;
+                    deleteFavOffers(
+                        widget.offerDetails!.offerId.toString());
+                    // HomeController.to.favOfferList.refresh();
+                    // HomeController.to.getOfferList.refresh();
+
+                  }
+                  setState(() {});
                   // ServiceDetailsController.to.isFav.value = widget.offerDetails!.isFav;
                 },
-                icon: ServiceDetailsController.to.isFav.value
+                icon: widget.offerDetails!.isFav!
                     ? Icon(
                         CupertinoIcons.heart_fill,
                         size: 25,
@@ -244,8 +270,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         CupertinoIcons.heart,
                         size: 25,
                       ),
-              );
-            }),
+              )
             // IconButton(
             //   onPressed: () {},
             //   icon: const Icon(
@@ -498,135 +523,142 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             // defaultSizeBoxHeight,
                             widget.offerDetails!.package!.isNotEmpty
                                 ? DefaultTabController(
+
                                     length:
                                         widget.offerDetails!.package!.length,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        TabBar(
-                                            indicatorColor:
-                                                AppColors.kprimaryColor,
-                                            labelColor: AppColors.kprimaryColor,
-                                            overlayColor:
-                                                WidgetStateColor.transparent,
-                                            tabs: List.generate(
-                                              widget.offerDetails!.package!
-                                                  .length,
-                                              (index) => Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(widget
-                                                        .offerDetails!
-                                                        .package![index]
-                                                        .packageName ??
-                                                    ''),
-                                              ),
-                                            )),
-                                        defaultSizeBoxHeight,
-                                        TabContentView(
-                                            children: List.generate(
-                                          widget.offerDetails!.package!.length,
-                                          (index) => Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              widget
-                                                      .offerDetails!
-                                                      .package![index]
-                                                      .packageDescription!
-                                                      .isEmpty
-                                                  ? SizedBox.shrink()
-                                                  : Text(
-                                                      "Description",
-                                                      style: AppTextStyle
-                                                          .bodyMediumBlackBold,
-                                                    ),
-                                              widget
-                                                      .offerDetails!
-                                                      .package![index]
-                                                      .packageDescription!
-                                                      .isEmpty
-                                                  ? SizedBox.shrink()
-                                                  : Text(
-                                                      widget
-                                                              .offerDetails!
-                                                              .package![index]
-                                                              .packageDescription ??
-                                                          '',
-                                                      style: AppTextStyle
-                                                          .bodySmallGrey400,
-                                                    ),
-                                              widget
-                                                      .offerDetails!
-                                                      .package![index]
-                                                      .packageDescription!
-                                                      .isEmpty
-                                                  ? SizedBox.shrink()
-                                                  : defaultSizeBoxHeight,
-                                              PackageDetails(
-                                                title: "Price",
-                                                lable:
-                                                    "৳ ${widget.offerDetails!.package![index].price ?? ''}",
-                                              ),
-                                              PackageDetails(
-                                                title: "Duration",
-                                                lable:
-                                                    "${widget.offerDetails!.package![index].duration} Days",
-                                              ),
-                                              // PackageDetails(
-                                              //   title: "Revisions",
-                                              //   lable: "4 Days",
-                                              // ),
-                                              widget
-                                                      .offerDetails!
-                                                      .package![index]
-                                                      .serviceList!
-                                                      .isEmpty
-                                                  ? SizedBox.shrink()
-                                                  : Column(
-                                                      children: List.generate(
-                                                        widget
+                                    child:
+                                         Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            TabBar(
+                                              onTap: (value) {
+                                              ServiceDetailsController.to.tabIndex.value =value;
+                                                print(ServiceDetailsController.to.tabIndex.value);
+                                              },
+                                                indicatorColor:
+                                                    AppColors.kprimaryColor,
+                                                labelColor: AppColors.kprimaryColor,
+                                                overlayColor:
+                                                    WidgetStateColor.transparent,
+                                                tabs: List.generate(
+                                                  widget.offerDetails!.package!
+                                                      .length,
+                                                  (index) => Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(8.0),
+                                                    child: Text(widget
                                                             .offerDetails!
                                                             .package![index]
-                                                            .serviceList!
-                                                            .length,
-                                                        (serviceIndex) =>
-                                                            PackageDetails(
-                                                          title:
-                                                              "${widget.offerDetails!.package![index].serviceList![serviceIndex].serviceName}",
-                                                          ticMark: Icon(
-                                                            widget
-                                                                            .offerDetails!
-                                                                            .package![
-                                                                                index]
-                                                                            .serviceList![
-                                                                                serviceIndex]
-                                                                            .status!
-                                                                            .toLowerCase() ==
-                                                                        'true' ||
-                                                                    widget
-                                                                            .offerDetails!
-                                                                            .package![
-                                                                                index]
-                                                                            .serviceList![
-                                                                                serviceIndex]
-                                                                            .status!
-                                                                            .toLowerCase() ==
-                                                                        'yes'
-                                                                ? CupertinoIcons
-                                                                    .checkmark
-                                                                : CupertinoIcons
-                                                                    .clear,
-                                                          ),
+                                                            .packageName ??
+                                                        ''),
+                                                  ),
+                                                )),
+                                            defaultSizeBoxHeight,
+                                            TabContentView(
+                                                children: List.generate(
+                                              widget.offerDetails!.package!.length,
+                                              (index) => Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  widget
+                                                          .offerDetails!
+                                                          .package![index]
+                                                          .packageDescription!
+                                                          .isEmpty
+                                                      ? SizedBox.shrink()
+                                                      : Text(
+                                                          "Description",
+                                                          style: AppTextStyle
+                                                              .bodyMediumBlackBold,
                                                         ),
-                                                      ),
-                                                    )
-                                            ],
-                                          ),
-                                        ))
-                                      ],
-                                    ),
+                                                  widget
+                                                          .offerDetails!
+                                                          .package![index]
+                                                          .packageDescription!
+                                                          .isEmpty
+                                                      ? SizedBox.shrink()
+                                                      : Text(
+                                                          widget
+                                                                  .offerDetails!
+                                                                  .package![index]
+                                                                  .packageDescription ??
+                                                              '',
+                                                          style: AppTextStyle
+                                                              .bodySmallGrey400,
+                                                        ),
+                                                  widget
+                                                          .offerDetails!
+                                                          .package![index]
+                                                          .packageDescription!
+                                                          .isEmpty
+                                                      ? SizedBox.shrink()
+                                                      : defaultSizeBoxHeight,
+                                                  PackageDetails(
+                                                    title: "Price",
+                                                    lable:
+                                                        "৳ ${widget.offerDetails!.package![index].price ?? ''}",
+                                                  ),
+                                                  PackageDetails(
+                                                    title: "Duration",
+                                                    lable:
+                                                        "${widget.offerDetails!.package![index].duration} Days",
+                                                  ),
+                                                  // PackageDetails(
+                                                  //   title: "Revisions",
+                                                  //   lable: "4 Days",
+                                                  // ),
+                                                  widget
+                                                          .offerDetails!
+                                                          .package![index]
+                                                          .serviceList!
+                                                          .isEmpty
+                                                      ? SizedBox.shrink()
+                                                      : Column(
+                                                          children: List.generate(
+                                                            widget
+                                                                .offerDetails!
+                                                                .package![index]
+                                                                .serviceList!
+                                                                .length,
+                                                            (serviceIndex) =>
+                                                                PackageDetails(
+                                                              title:
+                                                                  "${widget.offerDetails!.package![index].serviceList![serviceIndex].serviceName}",
+                                                              ticMark: Icon(
+                                                                widget
+                                                                                .offerDetails!
+                                                                                .package![
+                                                                                    index]
+                                                                                .serviceList![
+                                                                                    serviceIndex]
+                                                                                .status!
+                                                                                .toLowerCase() ==
+                                                                            'true' ||
+                                                                        widget
+                                                                                .offerDetails!
+                                                                                .package![
+                                                                                    index]
+                                                                                .serviceList![
+                                                                                    serviceIndex]
+                                                                                .status!
+                                                                                .toLowerCase() ==
+                                                                            'yes'
+                                                                    ? CupertinoIcons
+                                                                        .checkmark
+                                                                    : CupertinoIcons
+                                                                        .clear,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                ],
+                                              ),
+                                            ))
+                                          ],
+                                        ),
+
                                   )
                                 : SizedBox.shrink(),
                             widget.offerDetails!.totalCompletedJob != null &&

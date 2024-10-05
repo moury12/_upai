@@ -129,29 +129,6 @@ class MyServiceWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      // SizedBox(
-                      //   height: 2,
-                      // ),
-                      // FittedBox(
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       Text(
-                      //         'Offer ID: ${isService ? service!.offerId : offerList?.offerId ?? ' '}',
-                      //         style: TextStyle(
-                      //             fontSize: 10, fontWeight: FontWeight.w600),
-                      //       ),
-                      //       SizedBox(
-                      //         width: MediaQuery.of(context).size.width / 5,
-                      //       ),
-                      //       Text(
-                      //         '${DateFormat('dd-MM-yyyy').format(DateTime.parse(isService ? service!.dateTime.toString() : offerList?.dateTime.toString() ?? ''))}',
-                      //         style: TextStyle(
-                      //             fontSize: 10, fontWeight: FontWeight.w600),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       Text(
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

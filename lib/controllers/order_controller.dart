@@ -26,17 +26,17 @@ class OrderController extends GetxController {
   void jobStatus(context,SellerRunningOrder runningOrder) async {
 
   }
-  void awardCreateJob(String offerId,String sellerId,String title,String description,String rateType,String rate,String quantity,String total,) async {
+  void awardCreateJob(String offerId,String sellerId,String title,String description,String packageId,String packageName,String price,) async {
     await RepositoryData.awardCreateJob(body: {
       "offer_id": offerId,
       "buyer_id": "${ctrl!.userInfo.value.userId}",
       "seller_id": sellerId,
       "job_title":title,
       "description": description,
-      "rate_type": rateType,
-      "rate": rate,
-      "quantity": quantity,
-      "total": total,
+      "package_id":packageId,
+      "package_name":packageName,
+      "price":price,
+
       "status": "PENDING"
     },sellerID: sellerId);
   }
