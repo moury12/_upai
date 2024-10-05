@@ -808,8 +808,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                       .copyWith(left: 8),
                                               child: SizedBox(
                                                 width: 180,
-                                                height: 180,
-                                                child: InkWell(
+                                                // height: 180,
+                                                child: GestureDetector(
                                                   onTap: () {
                                                     Navigator.pushReplacement(
                                                         context,

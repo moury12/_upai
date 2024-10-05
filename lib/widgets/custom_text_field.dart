@@ -74,6 +74,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       width: widget.width ?? double.infinity,
       height: widget.height,
       child: TextFormField(
+        cursorColor: AppColors.kprimaryColor,
         inputFormatters: widget.textInputFormatter ?? [],
         enabled: widget.isEnable ?? true,
         onTap: widget.onPressed ?? () {},

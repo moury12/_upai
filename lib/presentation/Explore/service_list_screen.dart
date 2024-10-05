@@ -6,6 +6,7 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
@@ -155,9 +156,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                       return Expanded(
                         child: SingleChildScrollView(
                           physics: AlwaysScrollableScrollPhysics(),
-                          child: Center(
-                            child: Text('service list is empty'),
-                          ),
+                          child: NoServiceWidget()
                         ),
                       );
                     } else {
@@ -236,9 +235,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                         //   },
                         // ));
                       } else {
-                        return const Center(
-                          child: Text('There is no service available'),
-                        );
+                        return NoServiceWidget();
                       }
                     }
                   },

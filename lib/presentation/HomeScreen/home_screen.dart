@@ -477,7 +477,8 @@ retrieveFavOffers();
                                                         BouncingScrollPhysics(),
                                                     shrinkWrap: true,
                                                     itemCount: controller
-                                                        .getOfferList.length,
+                                                        .getOfferList.length<=5?controller
+                                                        .getOfferList.length:5,
                                                     itemBuilder:
                                                         (context, index) {
                                                       final service = controller
@@ -563,12 +564,12 @@ retrieveFavOffers();
                                                   const EdgeInsets.symmetric(
                                                           horizontal: 8)
                                                       .copyWith(top: 8),
-                                              itemCount: offerList.length,
+                                              itemCount: offerList.length<=5?offerList.length:5,
                                               itemBuilder: (context, index) {
 
                                                 final service =
                                                     offerList[index];
-                                                service.isFav = isFavourite(service.offerId);
+
                                                 return GestureDetector(
                                                   onTap: () {
                                                     Get.to(
@@ -587,17 +588,7 @@ retrieveFavOffers();
                                           ],
                                         );
                                       } else {
-                                        return const Padding(
-                                          padding: EdgeInsets.all(12.0),
-                                          child: Center(
-                                            child: Text(
-                                              "No Service Available",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12),
-                                            ),
-                                          ),
-                                        );
+                                        return NoServiceWidget();
                                       }
                                     } else {
                                       return Padding(
@@ -651,7 +642,8 @@ retrieveFavOffers();
                                                           NeverScrollableScrollPhysics(),
                                                       shrinkWrap: true,
                                                       itemCount: controller
-                                                          .getOfferList.length,
+                                                          .getOfferList.length<=5?controller
+                                                          .getOfferList.length:5,
                                                       itemBuilder:
                                                           (context, index) {
                                                         final service = controller
@@ -708,5 +700,26 @@ retrieveFavOffers();
 
     setState(() {});
     debugPrint(controller.searchICon.value.toString());
+  }
+}
+
+class NoServiceWidget extends StatelessWidget {
+  const NoServiceWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(12.0),
+      child: Center(
+        child: Text(
+          "No Service Available",
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12),
+        ),
+      ),
+    );
   }
 }
