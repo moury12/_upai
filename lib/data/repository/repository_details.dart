@@ -219,10 +219,11 @@ class RepositoryData {
   Future<List<OfferList>> getOfferList({
     required String token,
     required String mobile,
+    bool isLoadMore = false
   }) async {
     try {
       String url =
-          "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile";
+          "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&page=${HomeController.to.currentPage.value}";
       if (kDebugMode) {
         print('++++++++++get Offer list url :----$url');
         print('Token : $token');
@@ -241,6 +242,11 @@ class RepositoryData {
       if (data['status'] == "Success") {
         // print("skjdfklsdjf");
         offerList = offerListModelFromJson(response.body).offerList!;
+        if(offerList.isNotEmpty){
+          if(isLoadMore){
+            // offerList.addAll(iterable)
+          }
+        }
         // print('--------------${data.toString()}');
         // var areaData = data["area-list"] as List;
         //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.green,content: Text("Successfull")));

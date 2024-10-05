@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:upai/Model/category_list_model.dart';
@@ -20,7 +21,7 @@ class HomeController extends GetxController {
 
   //for create edit offer
   //
-
+RxInt currentPage =1.obs;
   //image segment
   RxDouble uploadProgress = 0.0.obs;
   RxBool isUploading = false.obs;
