@@ -476,6 +476,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     "Posted on ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
                               ],
                             ),
+                            DetailItem(
+                              title: "User ID:",
+                              body: widget.offerDetails!.userId
+                                  .toString(),
+                            ),
 
                             DetailItem(
                               title: "Category:",
@@ -486,7 +491,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             DetailItem(
                               title: "District:",
                               body:
-                                  " ${widget.offerDetails!.district.toString()}",
+                                  "${widget.offerDetails!.district.toString()}",
                             ),
                             DetailItem(
                               title: "Address:",

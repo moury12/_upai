@@ -20,10 +20,8 @@ class NotificationModel {
   String? sellerName;
   String? jobTitle;
   String? description;
-  String? rateType;
-  String? rate;
-  String? quantity;
-  String? total;
+  String? price;
+  String? package;
   String? status;
   String? createdTime;
 
@@ -39,10 +37,8 @@ class NotificationModel {
     this.sellerName,
     this.jobTitle,
     this.description,
-    this.rateType,
-    this.rate,
-    this.quantity,
-    this.total,
+    this.price,
+    this.package,
     this.status,
     this.createdTime,
   });
@@ -59,10 +55,8 @@ class NotificationModel {
     sellerName: json["seller_name"]??"",
     jobTitle: json["job_title"]??"",
     description: json["description"]??"",
-    rateType: json["rate_type"]??"",
-    rate: json["rate"]??"",
-    quantity: json["quantity"]??"",
-    total: json["total"]??"",
+    price: json["price"]??"",
+    package: json["package_name"]??"",
     status: json["status"]??"",
     createdTime: json["created_time"]??"",
   );
@@ -79,10 +73,8 @@ class NotificationModel {
     "seller_name": sellerName,
     "job_title": jobTitle,
     "description": description,
-    "rate_type": rateType,
-    "rate": rate,
-    "quantity": quantity,
-    "total": total,
+    "price": price,
+    "package_name": package,
     "status": status,
     "created_time": createdTime,
   };

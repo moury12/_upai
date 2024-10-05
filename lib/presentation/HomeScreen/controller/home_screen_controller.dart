@@ -127,7 +127,7 @@ RxInt? selectedPackageIndex;
 
         },
         {
-          "package_name": "premium",
+          "package_name": "Premium",
           "price":'',
           "duration": '',
           "package_description": '',
