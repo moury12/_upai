@@ -751,10 +751,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         scrollDirection: Axis.horizontal,
                                         child: Row(
                                           children: List.generate(
-                                            widget
-                                                        .offerDetails!
-                                                        .buyerReviewList!
-                                                        .length <
+                                            widget.offerDetails!.buyerReviewList!.length <
                                                     5
                                                 ? widget.offerDetails!
                                                     .buyerReviewList!.length
