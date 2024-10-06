@@ -20,12 +20,10 @@ import '../../../data/repository/repository_details.dart';
 
 class ConfirmOrderWidget extends StatefulWidget {
   final NotificationModel notificationModel;
-
   const ConfirmOrderWidget({
     super.key,
     required this.notificationModel,
   });
-
   @override
   State<ConfirmOrderWidget> createState() => _ConfirmOrderWidgetState();
 }
@@ -93,6 +91,10 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                       label: 'Buyer Name:',
                                       text: widget.notificationModel.buyerName ?? 'Unknown',
                                     ),
+                                    OfferDialogWidget(
+                                      label: 'Package Name:',
+                                      text: widget.notificationModel.package ?? '',
+                                    ),
 
                                     const Divider(
                                       height: 12,
@@ -101,7 +103,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
 
                                     Text(
                                       textAlign: TextAlign.center,
-                                      'Total amount: ${widget.notificationModel.total} ৳',
+                                      'Total amount: ${widget.notificationModel.price} ৳',
                                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
                                     ),
 

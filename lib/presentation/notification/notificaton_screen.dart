@@ -108,8 +108,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                         time: NotificationController.to.notificationList[reversedIndex].createdTime.toString(),
                                                       ).toString()),
                                                     ),
-                                                    Text("৳${NotificationController.to.notificationList[reversedIndex].total.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold),
-                                                    Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold),
+                                                    Text("৳${NotificationController.to.notificationList[reversedIndex].price.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold),
+                                                    // Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold),
                                                   ],
                                                 ))
                                             // Column(

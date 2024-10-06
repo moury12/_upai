@@ -31,9 +31,15 @@ class ServiceListScreen extends StatefulWidget {
 
 class _ServiceListScreenState extends State<ServiceListScreen> {
   HomeController controller = HomeController.to;
+  final ScrollController scrollController = ScrollController();
   @override
   void initState() {
     Get.put(NetworkController());
+   /* scrollController.addListener(() {
+      if(scrollController.position.pixels==scrollController.position.maxScrollExtent){
+        HomeController.to.getOfferDataList(loadMoreData: true);
+      }
+    },);*/
     // TODO: implement initState
     super.initState();
   }
@@ -178,6 +184,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                             child: ListView.builder(
                           padding: EdgeInsets.all(8),
                           shrinkWrap: true,
+                          controller: scrollController,
                           itemCount: offerList.length,
                           itemBuilder: (context, index) {
                             OfferList service = offerList[index];

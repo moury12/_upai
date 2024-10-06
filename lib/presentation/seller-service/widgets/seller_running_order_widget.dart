@@ -80,13 +80,13 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                                   widget.sellerRunningOrder.buyerId;
                               newNotificationData.sellerId =
                                   widget.sellerRunningOrder.sellerId;
-                              newNotificationData.quantity =
-                                  widget.sellerRunningOrder.quantity.toString();
-                              newNotificationData.rateType =
-                                  widget.sellerRunningOrder.rateType;
-                              newNotificationData.rate =
-                                  widget.sellerRunningOrder.rate.toString();
-                              newNotificationData.total =
+                              // newNotificationData.quantity =
+                              //     widget.sellerRunningOrder.quantity.toString();
+                              // newNotificationData.rateType =
+                              //     widget.sellerRunningOrder.rateType;
+                              // newNotificationData.rate =
+                              //     widget.sellerRunningOrder.rate.toString();
+                              newNotificationData.price =
                                   widget.sellerRunningOrder.total.toString();
                               newNotificationData.jobTitle =
                                   widget.sellerRunningOrder.jobTitle.toString();
@@ -116,7 +116,6 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                                   notification: newNotificationData,
                                   idStatusUpdate:
                                       newNotificationData.sellerId.toString());
-
                               await SellerProfileController.to.refreshAllData();
                             },
                             child: const Text('Yes')),

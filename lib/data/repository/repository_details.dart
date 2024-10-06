@@ -219,8 +219,7 @@ class RepositoryData {
   Future<List<OfferList>> getOfferList({
     required String token,
     required String mobile,
-    bool isLoadMore = false
-  }) async {
+   required bool isLoadMore}) async {
     try {
       String url =
           "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&page=${HomeController.to.currentPage.value}";
@@ -238,14 +237,20 @@ class RepositoryData {
         print('Response data :----${response.body}');
       }
       // var data = jsonDecode(response.body);
-      final data = jsonDecode(response.body.toString());
+      Map<String, dynamic> data = jsonDecode(response.body.toString());
+      List<dynamic> offerDataList =data['offerList'];
       if (data['status'] == "Success") {
         // print("skjdfklsdjf");
-        offerList = offerListModelFromJson(response.body).offerList!;
+        var mappedOffers =offerDataList.map((e) => OfferList.fromJson(e),).toList();
         if(offerList.isNotEmpty){
           if(isLoadMore){
-            // offerList.addAll(iterable)
+             offerList.addAll(mappedOffers);
+          }else{
+            offerList.assignAll(mappedOffers);
           }
+          HomeController.to.currentPage.value++;
+        }else{
+          isLoadMore = false;
         }
         // print('--------------${data.toString()}');
         // var areaData = data["area-list"] as List;
@@ -425,32 +430,32 @@ static Future<void> editOffer({dynamic body,required String token}) async{
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       Get.snackbar('Success', '${responseData['message']} job id is ${responseData['job_id']}');
-      // UserInfoModel senderData = UserInfoModel();
-      // Map<String, dynamic>? userDetails;
-      // userDetails = await FirebaseAPIs().getSenderInfo(sellerID);
-      // if (userDetails!.isNotEmpty) {
-      //   senderData.userId = userDetails["user_id"] ?? "";
-      //   senderData.name = userDetails["name"] ?? "user";
-      //   senderData.email = userDetails["email"];
-      //   senderData.lastActive = userDetails["last_active"];
-      //   senderData.image = userDetails["image"] ??
-      //       "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
-      //   senderData.isOnline = userDetails["is_online"];
-      //   senderData.userType = userDetails["user_type"];
-      //   senderData.token = userDetails["token"];
-      //   senderData.mobile = userDetails["mobile"];
-      //   senderData.cid = userDetails["cid"];
-      //   senderData.pushToken = userDetails["push_token"];
-      //   // body["read"]="";
-      //   Map<String,dynamic> orderNotificationData = body;
-      //   orderNotificationData["job_id"]=responseData['job_id'].toString();
-      //   orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.value.name.toString();
-      //   orderNotificationData["seller_name"]=senderData.name.toString();
-      //   orderNotificationData["notification_title"]="You Have a Confirm Order Request";
-      //   orderNotificationData["created_time"]=DateTime.now().millisecondsSinceEpoch.toString();
-      //    orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} send you a request for confirm order of ${body["job_title"]}";
-      //   FirebaseAPIs.sendNotificationData( orderNotificationData,senderData,"Confirm offer request","${ProfileScreenController.to.userInfo.value.name.toString()} send you request for confirm order\nOffer ID:${body["offer_id"]}");
-      // }
+      UserInfoModel senderData = UserInfoModel();
+      Map<String, dynamic>? userDetails;
+      userDetails = await FirebaseAPIs().getSenderInfo(sellerID);
+      if (userDetails!.isNotEmpty) {
+        senderData.userId = userDetails["user_id"] ?? "";
+        senderData.name = userDetails["name"] ?? "user";
+        senderData.email = userDetails["email"];
+        senderData.lastActive = userDetails["last_active"];
+        senderData.image = userDetails["image"] ??
+            "https://img.freepik.com/free-photo/young-man-with-glasses-bow-tie-3d-rendering_1142-43322.jpg?t=st=1720243349~exp=1720246949~hmac=313470ceb91cfcf0621b84a20f2738fbbd35f6c71907fcaefb6b0fd0b321c374&w=740";
+        senderData.isOnline = userDetails["is_online"];
+        senderData.userType = userDetails["user_type"];
+        senderData.token = userDetails["token"];
+        senderData.mobile = userDetails["mobile"];
+        senderData.cid = userDetails["cid"];
+        senderData.pushToken = userDetails["push_token"];
+        // body["read"]="";
+        Map<String,dynamic> orderNotificationData = body;
+        orderNotificationData["job_id"]=responseData['job_id'].toString();
+        orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.value.name.toString();
+        orderNotificationData["seller_name"]=senderData.name.toString();
+        orderNotificationData["notification_title"]="You Have a Confirm Order Request";
+        orderNotificationData["created_time"]=DateTime.now().millisecondsSinceEpoch.toString();
+         orderNotificationData["notification_msg"]="${ProfileScreenController.to.userInfo.value.name.toString()} send you a request for confirm order of ${body["job_title"]}";
+        FirebaseAPIs.sendNotificationData( orderNotificationData,senderData,"Confirm offer request","${ProfileScreenController.to.userInfo.value.name.toString()} send you request for confirm order\nOffer title:${body["job_title"]}");
+      }
     } else {
       Get.snackbar('Error', 'Failed ${responseData['message']}');
     }
@@ -492,8 +497,8 @@ static Future<void> editOffer({dynamic body,required String token}) async{
         orderNotificationData["job_id"]=notification.jobId.toString();
         orderNotificationData["seller_id"]=notification.sellerId.toString();
         orderNotificationData["buyer_id"]=notification.buyerId.toString();
-        orderNotificationData["total"]=notification.total.toString();
-        orderNotificationData["quantity"]=notification.quantity.toString();
+        orderNotificationData["price"]=notification.price.toString();
+        // orderNotificationData["quantity"]=notification.quantity.toString();
         orderNotificationData["buyer_name"]=ProfileScreenController.to.userInfo.value.name.toString();
         orderNotificationData["seller_name"]=senderData.name.toString();
         orderNotificationData["notification_title"]="Congratulations.";

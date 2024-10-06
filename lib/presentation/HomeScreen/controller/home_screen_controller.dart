@@ -128,7 +128,7 @@ RxInt? selectedPackageIndex;
 
         },
         {
-          "package_name": "premium",
+          "package_name": "Premium",
           "price":'',
           "duration": '',
           "package_description": '',
@@ -224,8 +224,9 @@ RxInt? selectedPackageIndex;
   //   widget.offerItem!.isFav=isFav;
   //
   // }
-  void getOfferDataList() async {
+  void getOfferDataList({bool loadMoreData = false}) async {
     getOfferList.value = await RepositoryData().getOfferList(
+      isLoadMore: loadMoreData,
         token: FirebaseAPIs.user['token'].toString(),
         mobile: ctrl!.userInfo.value.userId ?? '');
     filteredOfferList.value = getOfferList;
