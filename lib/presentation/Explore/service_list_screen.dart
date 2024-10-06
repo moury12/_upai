@@ -35,11 +35,11 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
   @override
   void initState() {
     Get.put(NetworkController());
-   /* scrollController.addListener(() {
+   scrollController.addListener(() {
       if(scrollController.position.pixels==scrollController.position.maxScrollExtent){
         HomeController.to.getOfferDataList(loadMoreData: true);
       }
-    },);*/
+    },);
     // TODO: implement initState
     super.initState();
   }
@@ -244,6 +244,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                       } else {
                         return NoServiceWidget();
                       }
+
                     }
                   },
                 ),

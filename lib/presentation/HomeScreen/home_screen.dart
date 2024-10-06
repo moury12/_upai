@@ -463,12 +463,12 @@ retrieveFavOffers();
                                             ),
                                           ],
                                         ),
-                                        HomeController
-                                                    .to.getOfferList.isEmpty ||
+
                                                 !NetworkController
                                                     .to.connectedInternet.value
                                             ?  ShimmerExploreTopService()
-                                            : SizedBox(
+                                            :HomeController
+                                                    .to.getOfferList.isEmpty ?NoServiceWidget(): SizedBox(
                                                 height: 200,
                                                 child: ListView.builder(
                                                     scrollDirection:
@@ -628,16 +628,14 @@ retrieveFavOffers();
                                               ],
                                             ),
                                             Obx(() {
-                                              return HomeController
-                                                          .to
-                                                          .getOfferList
-                                                          .isEmpty ||
+                                              return
                                                       !NetworkController
                                                           .to
                                                           .connectedInternet
                                                           .value
                                                   ? const ShimmerRunnigOrder()
-                                                  : ListView.builder(
+                                                          :HomeController
+                                                          .to.getOfferList.isEmpty ?NoServiceWidget(): ListView.builder(
                                                       physics:
                                                           NeverScrollableScrollPhysics(),
                                                       shrinkWrap: true,

@@ -436,7 +436,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               children: [
                                 RatingBarIndicator(
                                   rating: double.parse(
-                                      widget.offerDetails!.avgRating ?? '0.0'),
+                                      double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1) ),
                                   itemBuilder: (context, index) => const Icon(
                                     CupertinoIcons.star_fill,
                                     color: Colors.black,
@@ -447,7 +447,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   direction: Axis.horizontal,
                                 ),
                                 Text(
-                                  "${widget.offerDetails!.avgRating ?? '0.0'}",
+                                  "${double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1) }",
                                   style: AppTextStyle.bodySmallBlack600,
                                 )
                               ],
@@ -682,8 +682,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  widget.offerDetails!.avgRating
-                                                      .toString(),
+                                                  double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1),
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -695,10 +694,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                   width: 5,
                                                 ),
                                                 RatingBarIndicator(
-                                                  rating: double.parse(widget
-                                                          .offerDetails!
-                                                          .avgRating ??
-                                                      '0.0'),
+                                                  rating: double.parse(double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1)),
                                                   itemBuilder:
                                                       (context, index) => Icon(
                                                     Icons.star_rate_rounded,
@@ -730,9 +726,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                       .offerDetails!
                                                       .buyerReviewList!,
                                                   overallRating: double.parse(
-                                                      widget.offerDetails!
-                                                              .avgRating ??
-                                                          '0.0'),
+                                                      double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1)),
                                                 ));
                                               },
                                               child: Text(

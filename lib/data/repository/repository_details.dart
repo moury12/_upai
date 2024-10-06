@@ -219,10 +219,11 @@ class RepositoryData {
   Future<List<OfferList>> getOfferList({
     required String token,
     required String mobile,
+    required int currentPage,
    required bool isLoadMore}) async {
     try {
       String url =
-          "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&page=${HomeController.to.currentPage.value}";
+          "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&page=${currentPage}";
       if (kDebugMode) {
         print('++++++++++get Offer list url :----$url');
         print('Token : $token');
@@ -233,25 +234,26 @@ class RepositoryData {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
-      if (kDebugMode) {
-        print('Response data :----${response.body}');
-      }
+      // if (kDebugMode) {
+      //   print('Response data :----${response.body}');
+      // }
       // var data = jsonDecode(response.body);
       Map<String, dynamic> data = jsonDecode(response.body.toString());
       List<dynamic> offerDataList =data['offerList'];
       if (data['status'] == "Success") {
         // print("skjdfklsdjf");
-        var mappedOffers =offerDataList.map((e) => OfferList.fromJson(e),).toList();
-        if(offerList.isNotEmpty){
-          if(isLoadMore){
-             offerList.addAll(mappedOffers);
-          }else{
-            offerList.assignAll(mappedOffers);
-          }
-          HomeController.to.currentPage.value++;
-        }else{
-          isLoadMore = false;
-        }
+        offerList =offerDataList.map((e) => OfferList.fromJson(e),).toList();
+        // print('Response data :----${mappedOffers.map((e) => e.offerId.toString(),)}');
+        // if(offerList.isNotEmpty){
+        //   if(isLoadMore){
+        //      offerList.addAll(mappedOffers);
+        //   }else{
+        //     offerList.assignAll(mappedOffers);
+        //   }
+        //   currentPage++;
+        // }else{
+        //   isLoadMore = false;
+        // }
         // print('--------------${data.toString()}');
         // var areaData = data["area-list"] as List;
         //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.green,content: Text("Successfull")));

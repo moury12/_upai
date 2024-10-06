@@ -36,6 +36,7 @@ RxInt currentPage =1.obs;
   //
   RxBool isSearching = false.obs;
   RxBool searchICon = false.obs;
+  RxBool isFilttering = false.obs;
 
   static HomeController get to => Get.find();
   RxList<CategoryList> getCatList = <CategoryList>[].obs;
@@ -71,7 +72,7 @@ RxInt? selectedPackageIndex;
   var filteredOfferList = <OfferList>[].obs;
   var filteredCategoryList = <CategoryList>[].obs;
   final box = Hive.box('userInfo');
-
+var isLoadingMore = false.obs;
   // @override
   // void onReady() {
   //   selectedDistrictForAll.value=null;
@@ -193,6 +194,7 @@ RxInt? selectedPackageIndex;
   Future<void> refreshAllData() async {
     ctrl = Get.put(ProfileScreenController());
     getCategoryList();
+
     getOfferDataList();
   }
   Future<void> filterDistrict(String value) async {
@@ -225,11 +227,32 @@ RxInt? selectedPackageIndex;
   //
   // }
   void getOfferDataList({bool loadMoreData = false}) async {
-    getOfferList.value = await RepositoryData().getOfferList(
+    if (loadMoreData) {
+      isLoadingMore.value = true; // Start loading more data
+    }
+    List<OfferList> newOffers = await RepositoryData().getOfferList(
       isLoadMore: loadMoreData,
+        currentPage: loadMoreData ? currentPage.value : 1,
         token: FirebaseAPIs.user['token'].toString(),
         mobile: ctrl!.userInfo.value.userId ?? '');
+    print('Fetched new offers: ${newOffers.map((element) => element,)}');
+
+
+    if (newOffers.isNotEmpty) {
+      if (loadMoreData) {
+        getOfferList.addAll(newOffers);
+        getOfferList.refresh();// Append new data
+      } else {
+        getOfferList.assignAll(newOffers);
+        getOfferList.refresh();
+      }
+      if (loadMoreData) {
+        currentPage.value++;
+      }
+      // Increment page
+    }
     filteredOfferList.value = getOfferList;
+    isLoadingMore.value = false;
   }
   Future<void> createOffer(String jobTitle,
       String description,
@@ -331,6 +354,7 @@ void selectPackage(int index){
   }
 
   void filterOffer(String query, String? district) async {
+
     if (query.isNotEmpty || district != null) {
       if (district == "All Districts"||district ==null) {
         filteredOfferList.value = getOfferList.where(
@@ -350,7 +374,7 @@ void selectPackage(int index){
               (element) {
             final isDistrictMatching = element.district !=
                 null /*&&selectedDistrictForAll.value!="All Districts"*/ &&
-                element.district!.contains(district);
+                element.district!.toLowerCase()==district.toLowerCase();
 
             final isQueryMatching =
             element.jobTitle!.toLowerCase().contains(query.toLowerCase());
@@ -363,6 +387,7 @@ void selectPackage(int index){
       debugPrint('----++--${selectedDistrictForAll.value}');
       filteredOfferList.value = getOfferList;
     }
+
   }
 
   void filterCategory(String query) async {
