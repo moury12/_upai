@@ -532,9 +532,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       HomeController.to.packageList.length,
                                       (index) => Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          HomeController.to.packageList[index]
-                                              ['package_name'],
+                                        child: FittedBox(
+                                          child: Text(
+                                            HomeController.to.packageList[index]
+                                                ['package_name'],
+                                          ),
                                         ),
                                       ),
                                     ),

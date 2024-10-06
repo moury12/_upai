@@ -751,33 +751,41 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         scrollDirection: Axis.horizontal,
                                         child: Row(
                                           children: List.generate(
-                                            widget
-                                                        .offerDetails!
-                                                        .buyerReviewList!
-                                                        .length <
+                                            widget.offerDetails!.buyerReviewList!.length <
                                                     5
                                                 ? widget.offerDetails!
                                                     .buyerReviewList!.length
                                                 : 5,
                                             (index) {
-                                              return SizedBox(
-                                                  width: MediaQuery.of(context)
+                                              if(widget
+                                                  .offerDetails!
+                                                  .buyerReviewList![
+                                              index].buyerReview!.isNotEmpty)
+                                                {
+                                                  return SizedBox(
+                                                      width: MediaQuery.of(context)
                                                           .size
                                                           .width /
-                                                      1.1,
-                                                  height: 150,
-                                                  child: Padding(
-                                                    padding:
+                                                          1.1,
+                                                      height: 150,
+                                                      child: Padding(
+                                                        padding:
                                                         const EdgeInsets.only(
                                                             left: 8.0),
-                                                    child: ClientReviewCard(
-                                                      maxLine: 3,
-                                                      buyerReview: widget
+                                                        child: ClientReviewCard(
+                                                          maxLine: 3,
+                                                          buyerReview: widget
                                                               .offerDetails!
                                                               .buyerReviewList![
                                                           index],
-                                                    ),
-                                                  ));
+                                                        ),
+                                                      ));
+                                                }
+                                              else
+                                                {
+                                                  return SizedBox.shrink();
+                                                }
+
                                             },
                                           ),
                                         ),
