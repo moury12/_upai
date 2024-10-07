@@ -144,8 +144,7 @@ class RepositoryData {
       if(responseData['status']!=null&&responseData['status']=="Success"){
         sellerProfileModel =SellerProfileModel.fromJson(responseData);
       }else{
-        Get.snackbar('Failed', 'Failed to load data');
-      }
+debugPrint('Failed to load data');      }
       return sellerProfileModel;
     } catch (e) {
       throw Exception(e.toString());
@@ -169,7 +168,7 @@ class RepositoryData {
       if(responseData['status']!=null&&responseData['status']=="Success"){
         buyerProfileModel =BuyerProfileModel.fromJson(responseData);
       }else{
-        Get.snackbar('Failed', 'Failed to load data');
+        debugPrint('failed');
       }
       return buyerProfileModel;
     } catch (e) {

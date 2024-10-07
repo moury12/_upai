@@ -37,7 +37,11 @@ class _FavouriteOfferScreenState extends State<FavouriteOfferScreen> {
             return GestureDetector(
               onTap: () {
                 OfferList? offer= getOfferByID(favItem.offerId!,HomeController.to.getOfferList);
-                Get.to(ServiceDetails(offerDetails: offer,));
+                if(offer!=null) {
+                  Get.to(ServiceDetails(offerDetails: offer,));
+                }else{
+                  Get.snackbar("Failed", "Sorry! You can't view the service details right now. Please try again later");
+                }
               } ,
                 child: ServiceOfferWidget(offerItem: favItem,index: index, ));
           },);

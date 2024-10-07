@@ -44,6 +44,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   @override
   void initState() {
     // print(district.toString());
+    HomeController.to.getCategoryList();
     addressController = TextEditingController(
         text: widget.service != null && widget.service!.address!.isNotEmpty
             ? widget.service!.address
@@ -54,19 +55,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
     descriptionController = TextEditingController(
         text: widget.service != null ? widget.service!.description : '');
-    // rateController = TextEditingController(
-    //     text: widget.service != null ? widget.service!.rate.toString() : '');
-    // HomeController.to.quantityController.value.text =
-    //     widget.service != null ? widget.service!.quantity.toString() : '';
-    // HomeController.to.quantity.value =
-    //     widget.service != null ? widget.service!.quantity!.toInt() : 1;
-    // HomeController.to.selectedCategory.value = widget.service != null
-    //     ? HomeController.to.getCatList
-    //         .where((e) =>
-    //             e.categoryName!.toLowerCase().contains(widget.service!.serviceCategoryType!.toLowerCase())
-    //             )
-    //         .toList()[0]
-    //     : null;
+
     if (widget.service != null) {
       var filteredList = HomeController.to.getCatList
           .where((e) => e.categoryName!
@@ -122,7 +111,17 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
               color: AppColors.kprimaryColor,
             ),
           ),
-          // actions: [IconButton(onPressed:  () => clear(), icon: Icon(Icons.clear,color: Colors.black,))],
+/*           actions: [IconButton(onPressed:  () {
+             if(
+             HomeController.to.packageList.map((element) => element['service_list'],)
+                 .where((element) => element.isNotEmpty,).toList().isNotEmpty
+             ){
+               print('true');
+               // print(HomeController.to.priceControllers.map((element) => element.text,).toList());
+             }else{
+               print('false');
+             }
+           }, icon: Icon(Icons.clear,color: Colors.black,))],*/
           title: Text(widget.isEdit! ? 'Edit Offer' : "Create New Offer",
               style: TextStyle(
                   color: AppColors.kprimaryColor,
@@ -857,7 +856,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         {
                                           HomeController.to.isLoading.value =
                                               true;
-                                          if (HomeController.to.selectedCategory.value != null &&
+                                          if (HomeController.to.selectedCategory.value != null &&HomeController.to.selectedServiceType.value != null &&
                                               HomeController.to.selectedDistrict.value !=
                                                   null &&
                                               titleController.text.isNotEmpty &&
@@ -867,6 +866,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                   .text.isNotEmpty &&
                                               HomeController
                                                   .to.packageList.isNotEmpty &&
+                                              HomeController.to.priceControllers.map((element) => element.text,)
+                                              .where((element) => element.isNotEmpty,).toList().isNotEmpty&&HomeController.to.durationControllers.map((element) => element.text,)
+                                              .where((element) => element.isNotEmpty,).toList().isNotEmpty&&    HomeController.to.packageList.map((element) => element['service_list'],)
+                                              .where((element) => element.isNotEmpty,).toList().isNotEmpty&&
                                               box.isNotEmpty) {
                                             if (widget.service != null) {
                                               await HomeController.to.editOffer(
@@ -907,7 +910,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                             // clear();
                                           } else {
                                             Get.snackbar(
-                                                "All field Required", "");
+                                                "Failed", "All field Required");
                                             // clear();
                                           }
                                           HomeController.to.isLoading.value =
