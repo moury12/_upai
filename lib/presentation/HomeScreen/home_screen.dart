@@ -425,7 +425,9 @@ retrieveFavOffers();
                               ),
                             )
                           : SingleChildScrollView(
-                              child: Column(
+                        physics: const AlwaysScrollableScrollPhysics(),
+
+                        child: Column(
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -464,11 +466,12 @@ retrieveFavOffers();
                                           ],
                                         ),
 
-                                                !NetworkController
+                                        HomeController
+                                            .to.getOfferList.isEmpty|| !NetworkController
                                                     .to.connectedInternet.value
                                             ?  ShimmerExploreTopService()
-                                            :HomeController
-                                                    .to.getOfferList.isEmpty ?NoServiceWidget(): SizedBox(
+                                            :/*HomeController
+                                                    .to.getOfferList.isEmpty ?NoServiceWidget():*/ SizedBox(
                                                 height: 200,
                                                 child: ListView.builder(
                                                     scrollDirection:
@@ -632,10 +635,11 @@ retrieveFavOffers();
                                                       !NetworkController
                                                           .to
                                                           .connectedInternet
-                                                          .value
+                                                          .value||HomeController
+                                                          .to.getOfferList.isEmpty
                                                   ? const ShimmerRunnigOrder()
-                                                          :HomeController
-                                                          .to.getOfferList.isEmpty ?NoServiceWidget(): ListView.builder(
+                                                          /*:HomeController
+                                                          .to.getOfferList.isEmpty ?NoServiceWidget()*/: ListView.builder(
                                                       physics:
                                                           NeverScrollableScrollPhysics(),
                                                       shrinkWrap: true,

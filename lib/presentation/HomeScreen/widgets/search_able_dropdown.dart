@@ -100,7 +100,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
         context: context,
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        position: RelativeRect.fromLTRB(buttonOffset.dx, buttonOffset.dy + buttonSize.height, overlay.size.width - buttonOffset.dx - buttonSize.width, overlay.size.height - buttonOffset.dy - buttonSize.height),
+        position:widget.fromHome==false?RelativeRect.fromLTRB(0,0,0,0): RelativeRect.fromLTRB(buttonOffset.dx, buttonOffset.dy + buttonSize.height, overlay.size.width - buttonOffset.dx - buttonSize.width, overlay.size.height - buttonOffset.dy - buttonSize.height),
         items: [
           PopupMenuItem(
               enabled: false,
