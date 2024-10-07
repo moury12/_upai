@@ -221,40 +221,44 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           )),
-                          IconButton(
-                              onPressed: () async {
-                                await _controller.forward();
+                          SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: IconButton(
+                                onPressed: () async {
+                                  await _controller.forward();
 
-                                // Pause for a moment and then zoom out
-                                // await Future.delayed(Duration(milliseconds: 100));
-                                await _controller.reverse();
+                                  // Pause for a moment and then zoom out
+                                  // await Future.delayed(Duration(milliseconds: 100));
+                                  await _controller.reverse();
 
-                                if (!widget.offerItem!.isFav!) {
-                                  widget.offerItem!.isFav = true;
-                                  saveOfferToHive(widget.offerItem!);
+                                  if (!widget.offerItem!.isFav!) {
+                                    widget.offerItem!.isFav = true;
+                                    saveOfferToHive(widget.offerItem!);
 
-                                } else {
-                                  widget.offerItem!.isFav = false;
-                                  deleteFavOffers(
-                                      widget.offerItem!.offerId.toString());
-                                  // HomeController.to.favOfferList.refresh();
-                                  // HomeController.to.getOfferList.refresh();
+                                  } else {
+                                    widget.offerItem!.isFav = false;
+                                    deleteFavOffers(
+                                        widget.offerItem!.offerId.toString());
+                                    // HomeController.to.favOfferList.refresh();
+                                    // HomeController.to.getOfferList.refresh();
 
-                                }
-                                debugPrint(widget.offerItem!.isFav.toString());
-                                setState(() {});
-                              },
-                              icon: AnimatedBuilder(
-                                  animation: _animation,
-                                  builder: (context, child) {
-                                    return Icon(
-                                      widget.offerItem!.isFav!
-                                          ? CupertinoIcons.heart_fill
-                                          : CupertinoIcons.heart,
-                                      color: AppColors.kprimaryColor,
-                                      size: _animation.value,
-                                    );
-                                  }))
+                                  }
+                                  debugPrint(widget.offerItem!.isFav.toString());
+                                  setState(() {});
+                                },
+                                icon: AnimatedBuilder(
+                                    animation: _animation,
+                                    builder: (context, child) {
+                                      return Icon(
+                                        widget.offerItem!.isFav!
+                                            ? CupertinoIcons.heart_fill
+                                            : CupertinoIcons.heart,
+                                        color: AppColors.kprimaryColor,
+                                        size: _animation.value,
+                                      );
+                                    })),
+                          )
                         ],
                       ),
                       // Text('Description:',
