@@ -163,8 +163,7 @@ class SellerRunningOrder {
   String? jobTitle;
   String? description;
   String? packageName;
-  // int? rate;
-  // int? quantity;
+  String? duration;
   int? price;
   String? status;
   DateTime? awardDate;
@@ -178,8 +177,7 @@ class SellerRunningOrder {
     this.jobTitle,
     this.description,
     this.packageName,
-    // this.rate,
-    // this.quantity,
+    this.duration,
     this.price,
     this.status,
     this.awardDate,
@@ -194,7 +192,7 @@ class SellerRunningOrder {
     jobTitle: json["job_title"],
     description: json["description"],
     packageName: json["package_name"],
-    // rate: json["rate"],
+    duration: json["duration"],
     // quantity: json["quantity"],
     price: json["price"],
     status: json["status"],
@@ -210,9 +208,7 @@ class SellerRunningOrder {
     "job_title": jobTitle,
     "description": description,
     "package_name": packageName,
-    "duration": packageName,
-    // "rate": rate,
-    // "quantity": quantity,
+    "duration": duration,
     "price": price,
     "status": status,
     "award_date": "${awardDate!.year.toString().padLeft(4, '0')}-${awardDate!.month.toString().padLeft(2, '0')}-${awardDate!.day.toString().padLeft(2, '0')}",

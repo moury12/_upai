@@ -147,6 +147,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
         padding: EdgeInsets.all(12),
         margin: EdgeInsets.only(bottom: 8),
         //width: double.infinity,
+        height: 140,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -160,89 +161,92 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
           children: [
             Expanded(
               flex: 2,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: FutureBuilder(
-                  future: FirebaseAPIs.fetchOfferImageUrl(widget.sellerRunningOrder.offerId.toString()),
-                  builder: (context, snapshot) {
-                    // if(snapshot.connectionState==ConnectionState.waiting||snapshot.connectionState==ConnectionState.none)
-                    //   {
-                    //     return Image.asset(
-                    //       ImageConstant.dummy,
-                    //       height: getResponsiveFontSize(context, 120),
-                    //       fit: BoxFit.none,
-                    //     );
-                    //   }
-                    if (snapshot.hasData) {
-                      return Image.network(
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child; // Image has finished loading
-                            }
-                            return SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColors.kprimaryColor,
-                                  // value: loadingProgress.expectedTotalBytes != null
-                                  //     ? loadingProgress.cumulativeBytesLoaded /
-                                  //     (loadingProgress.expectedTotalBytes ?? 1)
-                                  //     : null,
+              child: SizedBox(
+                height: 140,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: FutureBuilder(
+                    future: FirebaseAPIs.fetchOfferImageUrl(widget.sellerRunningOrder.offerId.toString()),
+                    builder: (context, snapshot) {
+                      // if(snapshot.connectionState==ConnectionState.waiting||snapshot.connectionState==ConnectionState.none)
+                      //   {
+                      //     return Image.asset(
+                      //       ImageConstant.dummy,
+                      //       height: getResponsiveFontSize(context, 120),
+                      //       fit: BoxFit.none,
+                      //     );
+                      //   }
+                      if (snapshot.hasData) {
+                        return Image.network(
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child; // Image has finished loading
+                              }
+                              return SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.kprimaryColor,
+                                    // value: loadingProgress.expectedTotalBytes != null
+                                    //     ? loadingProgress.cumulativeBytesLoaded /
+                                    //     (loadingProgress.expectedTotalBytes ?? 1)
+                                    //     : null,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          height: getResponsiveFontSize(context, 120),
-                          fit: BoxFit.cover, snapshot.data.toString());
-                    }
-                    else {
-                      return FutureBuilder(
-                        future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.sellerRunningOrder.serviceCategoryType.toString()),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Image.network(
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child; // Image has finished loading
-                                  }
-                                  return SizedBox(
-                                    height: 100,
-                                    width: 100,
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        color: AppColors.kprimaryColor,
-                                        // value: loadingProgress.expectedTotalBytes != null
-                                        //     ? loadingProgress.cumulativeBytesLoaded /
-                                        //     (loadingProgress.expectedTotalBytes ?? 1)
-                                        //     : null,
+                              );
+                            },
+                            // height: getResponsiveFontSize(context, 120),
+                            fit: BoxFit.cover, snapshot.data.toString());
+                      }
+                      else {
+                        return FutureBuilder(
+                          future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.sellerRunningOrder.serviceCategoryType.toString()),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Image.network(
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child; // Image has finished loading
+                                    }
+                                    return SizedBox(
+                                      height: 100,
+                                      width: 100,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppColors.kprimaryColor,
+                                          // value: loadingProgress.expectedTotalBytes != null
+                                          //     ? loadingProgress.cumulativeBytesLoaded /
+                                          //     (loadingProgress.expectedTotalBytes ?? 1)
+                                          //     : null,
+                                        ),
                                       ),
-                                    ),
+                                    );
+                                  },
+                                  // height: getResponsiveFontSize(context, 120),
+                                  fit: BoxFit.cover, snapshot.data.toString());
+                            }
+                            else {
+                              return Image.asset(
+                                    ImageConstant.dummy,
+                                    // height: getResponsiveFontSize(context, 120),
+                                    fit: BoxFit.none,
                                   );
-                                },
-                                height: getResponsiveFontSize(context, 120),
-                                fit: BoxFit.cover, snapshot.data.toString());
-                          }
-                          else {
-                            return Image.asset(
-                                  ImageConstant.dummy,
-                                  height: getResponsiveFontSize(context, 120),
-                                  fit: BoxFit.none,
-                                );
-                          }
-                        },
-                      );
-                    }
-                  },
+                            }
+                          },
+                        );
+                      }
+                    },
+                  ),
+                  ////
+
+                  // Image.asset(
+                  //   ImageConstant.runningOrderImage,
+                  //   height: getResponsiveFontSize(context, 120),
+                  //   fit: BoxFit.fill,
+                  // ),
+
                 ),
-                ////
-
-                // Image.asset(
-                //   ImageConstant.runningOrderImage,
-                //   height: getResponsiveFontSize(context, 120),
-                //   fit: BoxFit.fill,
-                // ),
-
               ),
             ),
             SizedBox(
@@ -250,92 +254,96 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
             ),
             Expanded(
               flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /*Row( mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                          'Job id: ${runningOrder.jobId ?? 'job id'}',
+              child: SizedBox(
+                height: 120,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /*Row( mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                            'Job id: ${runningOrder.jobId ?? 'job id'}',
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500)),Text(
+                            '${runningOrder.awardDate ?? ''}',
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500)),
+                      ],
+                    ),*/
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            child: Text(
+                          widget.sellerRunningOrder.jobTitle ?? 'job title',
                           style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500)),Text(
-                          '${runningOrder.awardDate ?? ''}',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500)),
-                    ],
-                  ),*/
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: Text(
-                        widget.sellerRunningOrder.jobTitle ?? 'job title',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w600),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      )),
-                      Text("৳ ${widget.sellerRunningOrder.price ?? '0.00'}",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w700)),
-                    ],
-                  ),
-                  Text('Description:',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-                  Text(
-                    widget.sellerRunningOrder.description ?? '',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  // Text(
-                  //     '${widget.sellerRunningOrder.rateType ?? ' '}(${widget.sellerRunningOrder.rate})',
-                  //     style:
-                  //         TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.shopping_bag,
-                              size: 14,
-                            ),
-                            SizedBox(
-                              width: 2,
-                            ),
-                            Text('${widget.sellerRunningOrder.packageName ?? ''}',
+                              fontSize: 14, fontWeight: FontWeight.w600),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        )),
+                        Text("৳ ${widget.sellerRunningOrder.price ?? '0.00'}",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w700)),
+                      ],
+                    ),
+                    // Text('Description:',
+                    //     style:
+                    //         TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                    Text(
+                      widget.sellerRunningOrder.description ?? '',
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    // Text(
+                    //     '${widget.sellerRunningOrder.rateType ?? ' '}(${widget.sellerRunningOrder.rate})',
+                    //     style:
+                    //         TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.shopping_bag,
+                                size: 14,
+                              ),
+                              SizedBox(
+                                width: 2,
+                              ),
+                              Text('${widget.sellerRunningOrder.packageName ?? ''}',
+                                  style: TextStyle(
+                                      fontSize: 12, )),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.lightBlue.withOpacity(.5)),
+                            padding:
+                                EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                            child: Text(
+                                textAlign: TextAlign.center,
+                                '${widget.sellerRunningOrder.status ?? ''}',
                                 style: TextStyle(
-                                    fontSize: 12, )),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.lightBlue.withOpacity(.5)),
-                          padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                          child: Text(
-                              textAlign: TextAlign.center,
-                              '${widget.sellerRunningOrder.status ?? ''}',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w500)),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+                                    fontSize: 12, fontWeight: FontWeight.w500)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             )
           ],

@@ -184,7 +184,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
               ),
               Expanded(
                 flex: 6,
-                child: Container(
+                child: SizedBox(
                   height: 140,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -2,16 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/buyer_profile_model.dart';
-import 'package:upai/Model/notification_model.dart';
-import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 
 import '../../../data/api/firebase_apis.dart';
-import '../../../data/repository/repository_details.dart';
 
 class BuyerRunningOrderWidget extends StatefulWidget {
   final Function()? jobStatus;
@@ -39,6 +35,7 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 140,
       padding: EdgeInsets.all(12),
       margin: EdgeInsets.only(bottom: 8),
       //width: double.infinity,
@@ -55,81 +52,84 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
         children: [
           Expanded(
             flex: 2,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: FutureBuilder(
-                future: FirebaseAPIs.fetchOfferImageUrl(widget.buyerRunningOrder.offerId.toString()),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Image.network(
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child; // Image has finished loading
-                          }
-                          return SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.kprimaryColor,
-                                // value: loadingProgress.expectedTotalBytes != null
-                                //     ? loadingProgress.cumulativeBytesLoaded /
-                                //     (loadingProgress.expectedTotalBytes ?? 1)
-                                //     : null,
+            child: SizedBox(
+              height: 140,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: FutureBuilder(
+                  future: FirebaseAPIs.fetchOfferImageUrl(widget.buyerRunningOrder.offerId.toString()),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Image.network(
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child; // Image has finished loading
+                            }
+                            return SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.kprimaryColor,
+                                  // value: loadingProgress.expectedTotalBytes != null
+                                  //     ? loadingProgress.cumulativeBytesLoaded /
+                                  //     (loadingProgress.expectedTotalBytes ?? 1)
+                                  //     : null,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        height: getResponsiveFontSize(context, 120),
-                        fit: BoxFit.cover, snapshot.data.toString());
-                  }
-                  else {
-                    return FutureBuilder(
-                      future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.buyerRunningOrder.serviceCategoryType.toString()),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Image.network(
-                              loadingBuilder: (context, child, loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child; // Image has finished loading
-                                }
-                                return SizedBox(
-                                  height: 100,
-                                  width: 100,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.kprimaryColor,
-                                      // value: loadingProgress.expectedTotalBytes != null
-                                      //     ? loadingProgress.cumulativeBytesLoaded /
-                                      //     (loadingProgress.expectedTotalBytes ?? 1)
-                                      //     : null,
+                            );
+                          },
+                          // height: getResponsiveFontSize(context, 120),
+                          fit: BoxFit.cover, snapshot.data.toString());
+                    }
+                    else {
+                      return FutureBuilder(
+                        future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.buyerRunningOrder.serviceCategoryType.toString()),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Image.network(
+                                loadingBuilder: (context, child, loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child; // Image has finished loading
+                                  }
+                                  return SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.kprimaryColor,
+                                        // value: loadingProgress.expectedTotalBytes != null
+                                        //     ? loadingProgress.cumulativeBytesLoaded /
+                                        //     (loadingProgress.expectedTotalBytes ?? 1)
+                                        //     : null,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              height: getResponsiveFontSize(context, 120),
-                              fit: BoxFit.cover, snapshot.data.toString());
-                        }
-                        else {
-                          return Image.asset(
-                            ImageConstant.dummy,
-                            height: getResponsiveFontSize(context, 120),
-                            // fit: BoxFit.cover,
-                          );
-                        }
-                      },
-                    );
-                  }
-                },
+                                  );
+                                },
+                                // height: getResponsiveFontSize(context, 120),
+                                fit: BoxFit.cover, snapshot.data.toString());
+                          }
+                          else {
+                            return Image.asset(
+                              ImageConstant.dummy,
+                              // height: getResponsiveFontSize(context, 120),
+                              // fit: BoxFit.cover,
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
+                ),
+                ////
+
+                // Image.asset(
+                //   ImageConstant.runningOrderImage,
+                //   height: getResponsiveFontSize(context, 120),
+                //   fit: BoxFit.fill,
+                // ),
+
               ),
-              ////
-
-              // Image.asset(
-              //   ImageConstant.runningOrderImage,
-              //   height: getResponsiveFontSize(context, 120),
-              //   fit: BoxFit.fill,
-              // ),
-
             ),
           ),
           SizedBox(
@@ -163,16 +163,25 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                           style: const TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w600),
                           maxLines: 2,
+
                           overflow: TextOverflow.ellipsis,
                         )),
-                    Text("৳ ${widget.buyerRunningOrder.price ?? '0.00'}",
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w700)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("৳ ${widget.buyerRunningOrder.price ?? '0.00'}",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w700)),
+                        // Text("${widget.buyerRunningOrder.duration ?? '1'} Days",
+                        //     style: TextStyle(
+                        //         fontSize: 12, fontWeight: FontWeight.w700)),
+                      ],
+                    ),
                   ],
                 ),
-                const Text('Description:',
-                    style:
-                    TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                // const Text('Description:',
+                //     style:
+                //     TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                 Text(
                   widget.buyerRunningOrder.description ?? '',
                   style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
@@ -183,6 +192,7 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                 //     '${widget.buyerRunningOrder.rateType ?? ' '}(${widget.buyerRunningOrder.rate})',
                 //     style:
                 //     TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
+                Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -192,15 +202,15 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
-                            CupertinoIcons.cart,
+                            Icons.shopping_bag,
                             size: 14,
                           ),
                           SizedBox(
                             width: 2,
                           ),
-                          // Text('${widget.buyerRunningOrder.quantity ?? ''}',
-                          //     style: TextStyle(
-                          //         fontSize: 14, fontWeight: FontWeight.w500)),
+                          Text('${widget.buyerRunningOrder.packageName?? ''}',
+                              style: TextStyle(
+                                fontSize: 12, )),
                         ],
                       ),
                     ),
