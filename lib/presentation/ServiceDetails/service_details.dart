@@ -201,7 +201,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   Get.put(OrderController());
                   var packageName =widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].packageName;
                   var packagePrice =widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].price;
-                    OrderController.to.awardCreateJob(widget.offerDetails!.offerId ?? '', widget.offerDetails!.userId ?? '', widget.offerDetails!.jobTitle ?? '', widget.offerDetails!.description ?? '',
+                  var duration =widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].duration;
+                    OrderController.to.awardCreateJob(duration!,widget.offerDetails!.offerId ?? '', widget.offerDetails!.userId ?? '', widget.offerDetails!.jobTitle ?? '', widget.offerDetails!.description ?? '',
                         (ServiceDetailsController.to.tabIndex.value+1).toString(),
                         packageName!, packagePrice!);
 
