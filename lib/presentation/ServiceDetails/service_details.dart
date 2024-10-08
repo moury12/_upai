@@ -886,9 +886,11 @@ class PackageDetails extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: AppTextStyle.bodySmallGrey400,
+          Expanded(
+            child: Text(
+              title,
+              style: AppTextStyle.bodySmallGrey400,
+            ),
           ),
           ticMark ??
               Text(

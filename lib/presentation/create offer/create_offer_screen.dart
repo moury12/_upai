@@ -476,12 +476,14 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              HomeController.to.yourServiceList[index]
-                                  ['service_name'],
-                              style: TextStyle(color: Colors.white),
+                            Expanded(
+                              child: Text(
+                                HomeController.to.yourServiceList[index]
+                                    ['service_name'],
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                             IconButton(
                                 onPressed: () {
@@ -698,20 +700,22 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text(
-                                                            HomeController.to.packageList[index]
-                                                                            [
-                                                                            'service_list']
-                                                                        [
-                                                                        serviceIndex]
-                                                                    [
-                                                                    'service_name'] ??
-                                                                '',
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
+                                                          Expanded(
+                                                            child: Text(
+                                                              HomeController.to.packageList[index]
+                                                                              [
+                                                                              'service_list']
+                                                                          [
+                                                                          serviceIndex]
+                                                                      [
+                                                                      'service_name'] ??
+                                                                  '',
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
                                                           ),
                                                           Checkbox(
                                                             activeColor: AppColors
