@@ -48,6 +48,7 @@ class OfferList {
   String? description;
   String? district;
   String? address;
+  String? serviceType;
   bool? isFav; // This should be non-nullable but initialized properly.
   List<Package>? package;
   List<BuyerReviewList>? buyerReviewList;
@@ -65,6 +66,7 @@ class OfferList {
     this.description,
     this.district,
     this.address,
+    this.serviceType,
     this.package,
     this.buyerReviewList,
     this.isFav, // Use a default parameter for the constructor
@@ -85,6 +87,7 @@ class OfferList {
       description: json['description']?.toString() == 'null' ? '' : json['description'].toString(),
       district: json['district']?.toString() == 'null' ? '' : json['district'].toString(),
       address: json['address']?.toString() == 'null' ? '' : json['address'].toString(),
+      serviceType: json['service_type']?.toString() == 'null' ? '' : json['service_type'].toString(),
       isFav: Boxes.getFavBox().containsKey(json['offer_id']), // Default to false, as unfavored
       // Handle package parsing
         package: json['package'] != null
@@ -111,6 +114,7 @@ class OfferList {
     data['description'] = description;
     data['district'] = district;
     data['address'] = address;
+    data['service_type'] = serviceType;
     data['is_fav'] = isFav;
     if (package != null) {
       data['package'] = package!.map((v) => v.toJson()).toList();

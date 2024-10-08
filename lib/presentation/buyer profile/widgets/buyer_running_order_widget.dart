@@ -165,7 +165,7 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         )),
-                    Text("৳ ${widget.buyerRunningOrder.total ?? '0.00'}",
+                    Text("৳ ${widget.buyerRunningOrder.price ?? '0.00'}",
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w700)),
                   ],
@@ -179,10 +179,10 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                Text(
-                    '${widget.buyerRunningOrder.rateType ?? ' '}(${widget.buyerRunningOrder.rate})',
-                    style:
-                    TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
+                // Text(
+                //     '${widget.buyerRunningOrder.rateType ?? ' '}(${widget.buyerRunningOrder.rate})',
+                //     style:
+                //     TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -198,9 +198,9 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                           SizedBox(
                             width: 2,
                           ),
-                          Text('${widget.buyerRunningOrder.quantity ?? ''}',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w500)),
+                          // Text('${widget.buyerRunningOrder.quantity ?? ''}',
+                          //     style: TextStyle(
+                          //         fontSize: 14, fontWeight: FontWeight.w500)),
                         ],
                       ),
                     ),

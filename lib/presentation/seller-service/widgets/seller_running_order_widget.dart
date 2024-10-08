@@ -87,7 +87,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                               // newNotificationData.rate =
                               //     widget.sellerRunningOrder.rate.toString();
                               newNotificationData.price =
-                                  widget.sellerRunningOrder.total.toString();
+                                  widget.sellerRunningOrder.price.toString();
                               newNotificationData.jobTitle =
                                   widget.sellerRunningOrder.jobTitle.toString();
                               newNotificationData.status = "DELIVERED";
@@ -278,7 +278,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       )),
-                      Text("৳ ${widget.sellerRunningOrder.total ?? '0.00'}",
+                      Text("৳ ${widget.sellerRunningOrder.price ?? '0.00'}",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w700)),
                     ],
@@ -292,10 +292,10 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                      '${widget.sellerRunningOrder.rateType ?? ' '}(${widget.sellerRunningOrder.rate})',
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
+                  // Text(
+                  //     '${widget.sellerRunningOrder.rateType ?? ' '}(${widget.sellerRunningOrder.rate})',
+                  //     style:
+                  //         TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -305,15 +305,15 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Icon(
-                              CupertinoIcons.cart,
+                              Icons.shopping_bag,
                               size: 14,
                             ),
                             SizedBox(
                               width: 2,
                             ),
-                            Text('${widget.sellerRunningOrder.quantity ?? ''}',
+                            Text('${widget.sellerRunningOrder.packageName ?? ''}',
                                 style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w500)),
+                                    fontSize: 14, )),
                           ],
                         ),
                       ),

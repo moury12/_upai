@@ -274,6 +274,7 @@ var isLoadingMore = false.obs;
       "date_time": DateTime.now().toString(),
       "district": selectedDistrict.value,
       "address": address,
+      "service_type":selectedServiceType.value,
       "package":packageList
     });
     await SellerProfileController.to.refreshAllData();
@@ -287,7 +288,6 @@ void selectPackage(int index){
         packageList[i]['selected']=false;
       }
     }
-
     packageList.refresh();
 }
   Future<void> editOffer(String offerId, title, description, rate,
@@ -305,7 +305,6 @@ void selectPackage(int index){
           "rate": rate,
           "district": selectedDistrict.value,
           "address": address
-
         });
     // Get.snackbar('Success', "Update Done");
 

@@ -487,6 +487,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               body: widget.offerDetails!.serviceCategoryType
                                   .toString(),
                             ),
+                            DetailItem(
+                              title: "Service Type:",
+                              body: widget.offerDetails!.serviceType
+                                  .toString(),
+                            ),
 
                             DetailItem(
                               title: "District:",
@@ -716,7 +721,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                              "${widget.offerDetails!.buyerReviewList!.length} Reviews",
+                                              "${widget.offerDetails!.totalCompletedJob!.length} Reviews",
                                               style: AppTextStyle
                                                   .bodyMediumBlackBold),
                                           GestureDetector(
