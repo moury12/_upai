@@ -325,7 +325,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                           ),
                         ),
                         Expanded(
-                          flex: 4,
+                          flex: 2,
                           child: Container(
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
@@ -333,11 +333,13 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                                 color: Colors.lightBlue.withOpacity(.5)),
                             padding:
                                 EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                            child: Text(
-                                textAlign: TextAlign.center,
-                                '${widget.sellerRunningOrder.status ?? ''}',
-                                style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w500)),
+                            child: FittedBox(
+                              child: Text(
+                                  textAlign: TextAlign.center,
+                                  '${widget.sellerRunningOrder.status ?? ''}',
+                                  style: TextStyle(
+                                      fontSize: 12, fontWeight: FontWeight.w500)),
+                            ),
                           ),
                         )
                       ],

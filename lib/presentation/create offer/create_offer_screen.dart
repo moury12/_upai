@@ -478,7 +478,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         child: Row(
                            mainAxisSize: MainAxisSize.min,
                           children: [
-                            Expanded(
+                            Flexible(
                               child: Text(
                                 HomeController.to.yourServiceList[index]
                                     ['service_name'],

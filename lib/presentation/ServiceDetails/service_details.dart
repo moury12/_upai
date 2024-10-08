@@ -728,7 +728,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                 Get.to(RatingListScreen(
                                                   buyerReviewList: widget
                                                       .offerDetails!
-                                                      .buyerReviewList!,
+                                                      .buyerReviewList!.where((element) => element.buyerReview!.isNotEmpty,).toList(),
                                                   overallRating: double.parse(
                                                       double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1)),
                                                 ));

@@ -225,6 +225,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
                             height: 40,
                             width: 40,
                             child: IconButton(
+                                highlightColor: Colors.transparent,
                                 onPressed: () async {
                                   await _controller.forward();
 

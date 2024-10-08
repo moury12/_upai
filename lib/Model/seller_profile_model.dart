@@ -46,6 +46,7 @@ class MyService {
   String? description;
   String? district;
   String? address;
+  String? serviceType;
   List<Package>? package;
 
   MyService(
@@ -58,6 +59,7 @@ class MyService {
         this.description,
         this.district,
         this.address,
+        this.serviceType,
         this.package});
 
   MyService.fromJson(Map<String, dynamic> json) {
@@ -68,6 +70,7 @@ class MyService {
     userName = json['user_name'];
     jobTitle = json['job_title'];
     description = json['description'];
+    serviceType = json['service_type'];
     district = json['district'];
     address = json['address'];
     if (json['package'] != null) {
@@ -88,6 +91,7 @@ class MyService {
     data['job_title'] = jobTitle;
     data['description'] = description;
     data['district'] = district;
+    data['service_type'] = serviceType;
     data['address'] = address;
     if (package != null) {
       data['package'] = package!.map((v) => v.toJson()).toList();
@@ -163,6 +167,7 @@ class SellerRunningOrder {
   String? jobTitle;
   String? description;
   String? packageName;
+  String? serviceType;
   String? duration;
   int? price;
   String? status;
@@ -178,6 +183,7 @@ class SellerRunningOrder {
     this.description,
     this.packageName,
     this.duration,
+    this.serviceType,
     this.price,
     this.status,
     this.awardDate,
@@ -192,6 +198,7 @@ class SellerRunningOrder {
     jobTitle: json["job_title"],
     description: json["description"],
     packageName: json["package_name"],
+    serviceType: json["service_type"],
     duration: json["duration"],
     // quantity: json["quantity"],
     price: json["price"],
@@ -209,6 +216,7 @@ class SellerRunningOrder {
     "description": description,
     "package_name": packageName,
     "duration": duration,
+    "service_type": serviceType,
     "price": price,
     "status": status,
     "award_date": "${awardDate!.year.toString().padLeft(4, '0')}-${awardDate!.month.toString().padLeft(2, '0')}-${awardDate!.day.toString().padLeft(2, '0')}",

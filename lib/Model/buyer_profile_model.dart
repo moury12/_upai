@@ -38,7 +38,7 @@ class BuyerRunningOrder {
   String? description;
   String? duration;
   String? packageName;
-  // String? rateType;
+  String? serviceType;
   // int? rate;
   // int? quantity;
   int? price;
@@ -55,6 +55,7 @@ class BuyerRunningOrder {
     this.description,
     this.duration,
     this.packageName,
+    this.serviceType,
     // this.rateType,
     // this.rate,
     // this.quantity,
@@ -73,7 +74,7 @@ class BuyerRunningOrder {
     description: json["description"],
     duration: json["duration"],
     packageName: json["package_name"],
-    // rateType: json["rate_type"],
+    serviceType: json["service_type"],
     // rate: json["rate"],
     // quantity: json["quantity"],
     price: json["price"],
@@ -90,6 +91,7 @@ class BuyerRunningOrder {
     "job_title": jobTitle,
     "description": description,
     "duration": duration,
+    "service_type": serviceType,
     "package_name": packageName,
     "total": price,
     "status": status,

@@ -6,6 +6,7 @@ import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
+import 'package:upai/presentation/ServiceDetails/service_details.dart';
 
 import '../../../data/api/firebase_apis.dart';
 
@@ -172,6 +173,7 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                         Text("৳ ${widget.buyerRunningOrder.price ?? '0.00'}",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w700)),
+
                         // Text("${widget.buyerRunningOrder.duration ?? '1'} Days",
                         //     style: TextStyle(
                         //         fontSize: 12, fontWeight: FontWeight.w700)),
@@ -188,11 +190,12 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
+                // DetailItem(title: "Category", body: widget.buyerRunningOrder.serviceCategoryType.toString()),
                 // Text(
                 //     '${widget.buyerRunningOrder.rateType ?? ' '}(${widget.buyerRunningOrder.rate})',
                 //     style:
                 //     TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
-                Spacer(),
+                const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -215,7 +218,7 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                       ),
                     ),
                     Expanded(
-                      flex: 4,
+                      flex: 2,
                       child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -223,11 +226,13 @@ class _BuyerRunningOrderWidgetState extends State<BuyerRunningOrderWidget> {
                             color: Colors.lightBlue.withOpacity(.5)),
                         padding:
                         EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                        child: Text(
-                            textAlign: TextAlign.center,
-                            '${widget.buyerRunningOrder.status ?? ''}',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w500)),
+                        child: FittedBox(
+                          child: Text(
+                              textAlign: TextAlign.center,
+                              '${widget.buyerRunningOrder.status ?? ''}',
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w500)),
+                        ),
                       ),
                     )
                   ],
