@@ -109,7 +109,6 @@ class Package {
         this.duration,
         this.packageDescription,
         this.serviceList});
-
   Package.fromJson(Map<String, dynamic> json) {
     packageName = json['package_name'];
     price = json['price'];
@@ -155,7 +154,6 @@ class ServiceList {
   }
 }
 
-
 class SellerRunningOrder {
   String? jobId;
   String? offerId;
@@ -164,10 +162,10 @@ class SellerRunningOrder {
   String? sellerId;
   String? jobTitle;
   String? description;
-  String? rateType;
-  int? rate;
-  int? quantity;
-  int? total;
+  String? packageName;
+  // int? rate;
+  // int? quantity;
+  int? price;
   String? status;
   DateTime? awardDate;
 
@@ -179,10 +177,10 @@ class SellerRunningOrder {
     this.sellerId,
     this.jobTitle,
     this.description,
-    this.rateType,
-    this.rate,
-    this.quantity,
-    this.total,
+    this.packageName,
+    // this.rate,
+    // this.quantity,
+    this.price,
     this.status,
     this.awardDate,
   });
@@ -195,10 +193,10 @@ class SellerRunningOrder {
     sellerId: json["seller_id"],
     jobTitle: json["job_title"],
     description: json["description"],
-    rateType: json["rate_type"],
-    rate: json["rate"],
-    quantity: json["quantity"],
-    total: json["total"],
+    packageName: json["package_name"],
+    // rate: json["rate"],
+    // quantity: json["quantity"],
+    price: json["price"],
     status: json["status"],
     awardDate: json["award_date"] == null ? null : DateTime.parse(json["award_date"]),
   );
@@ -211,10 +209,10 @@ class SellerRunningOrder {
     "seller_id": sellerId,
     "job_title": jobTitle,
     "description": description,
-    "rate_type": rateType,
-    "rate": rate,
-    "quantity": quantity,
-    "total": total,
+    "package_name": packageName,
+    // "rate": rate,
+    // "quantity": quantity,
+    "price": price,
     "status": status,
     "award_date": "${awardDate!.year.toString().padLeft(4, '0')}-${awardDate!.month.toString().padLeft(2, '0')}-${awardDate!.day.toString().padLeft(2, '0')}",
   };

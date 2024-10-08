@@ -274,6 +274,7 @@ var isLoadingMore = false.obs;
       "date_time": DateTime.now().toString(),
       "district": selectedDistrict.value,
       "address": address,
+      "service_type":selectedServiceType.value,
       "package":packageList
     });
     await SellerProfileController.to.refreshAllData();
