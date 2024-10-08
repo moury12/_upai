@@ -716,7 +716,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                              "${widget.offerDetails!.buyerReviewList!.length} Reviews",
+                                              "${widget.offerDetails!.totalCompletedJob!.length} Reviews",
                                               style: AppTextStyle
                                                   .bodyMediumBlackBold),
                                           GestureDetector(
