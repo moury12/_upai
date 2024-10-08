@@ -210,6 +210,7 @@ class SellerRunningOrder {
     "job_title": jobTitle,
     "description": description,
     "package_name": packageName,
+    "duration": packageName,
     // "rate": rate,
     // "quantity": quantity,
     "price": price,

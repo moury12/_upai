@@ -860,7 +860,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         {
                                           HomeController.to.isLoading.value =
                                               true;
-                                          if (HomeController.to.selectedCategory.value != null &&HomeController.to.selectedServiceType.value != null &&
+                                          if (HomeController.to.selectedServiceType.value != null&&
+                                          HomeController.to.selectedCategory.value != null &&HomeController.to.selectedServiceType.value != null &&
                                               HomeController.to.selectedDistrict.value !=
                                                   null &&
                                               titleController.text.isNotEmpty &&

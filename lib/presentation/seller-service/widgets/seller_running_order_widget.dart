@@ -313,7 +313,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                             ),
                             Text('${widget.sellerRunningOrder.packageName ?? ''}',
                                 style: TextStyle(
-                                    fontSize: 14, )),
+                                    fontSize: 12, )),
                           ],
                         ),
                       ),

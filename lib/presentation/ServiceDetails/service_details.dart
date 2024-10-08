@@ -492,7 +492,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               body: widget.offerDetails!.serviceType
                                   .toString(),
                             ),
-
                             DetailItem(
                               title: "District:",
                               body:
