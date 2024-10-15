@@ -25,6 +25,7 @@ class CustomTextField extends StatefulWidget {
   final IconData? prefixIcon;
   final Function(String? value)? onChanged;
   final Function()? onPressed;
+  final Color? enableBorderColor;
   final String? validatorText;
   final Widget? suffixIcon;
   final TextStyle? hintStyle;
@@ -57,7 +58,7 @@ class CustomTextField extends StatefulWidget {
     this.width,
     this.textInputFormatter,
     this.padding,
-    this.isEnable,
+    this.isEnable, this.enableBorderColor,
   });
 
   @override
@@ -106,7 +107,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           labelText: widget.labelText,
           labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black.withOpacity(0.5)),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: AppColors.kprimaryColor)),
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: AppColors.kprimaryColor)),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color:widget.enableBorderColor?? AppColors.kprimaryColor)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide:  BorderSide(

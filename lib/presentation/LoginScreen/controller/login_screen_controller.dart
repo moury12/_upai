@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
@@ -10,7 +12,12 @@ class LoginController extends GetxController {
   final CIDTE = TextEditingController();
   final passwordTE = TextEditingController();
   final userMobileTE = TextEditingController();
+  Rx<TextEditingController> phoneController = TextEditingController().obs;
   RxBool isHidden = true.obs;
+  RxBool enterCorrectPhone = false.obs;
+  RxBool otpVerification= false.obs;
+  // Timer? timer;
+  var phoneNumber = ''.obs;
 
   void changeVisibilty()
   {
@@ -19,9 +26,17 @@ class LoginController extends GetxController {
     update();
 
   }
-
-  // login() async {
-  //   await RepositoryData()
-  //       .login(CID.text.trim(), passwordTE.text.trim());
+  @override
+  void onInit() {
+    phoneController.value.addListener(() {
+      phoneNumber.value =phoneController.value.text;
+    },);
+    super.onInit();
+  }
+//   void startTimer(){
+//     timer=Timer.periodic(Duration(seconds: 2), (timer) {
+// time.value.
+//     },);
+//   }
   }
 

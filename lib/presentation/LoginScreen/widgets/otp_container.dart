@@ -23,42 +23,35 @@ class _OtpContainerState extends State<OtpContainer> {
       //     border: Border.all(
       //         width: widget.controller.text.isNotEmpty ? 1 : 0.5,
       //         color: AppColors.kPrimaryColor)),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Stack(
-          children: [
-            CustomTextField(
-              inputType: TextInputType.number,
-              width: 50,
-              height: 50,
-              textAlign: TextAlign.center,
-              onChanged: (value) {
-                if (value!.length == 1) {
-                  FocusScope.of(context).nextFocus();
-                  setState(() {});
-                }
-                if (value.isEmpty) {
-                  FocusScope.of(context).previousFocus();
-                  setState(() {});
-                }
-              },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 12.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: CustomTextField(
+            inputType: TextInputType.number,
+            enableBorderColor: Colors.grey.withOpacity(.5),
+            hintText: '-',
+            width: 50,
+            height: 50,
+            textAlign: TextAlign.center,
+            onChanged: (value) {
+              if (value!.length == 1) {
+                FocusScope.of(context).nextFocus();
+                setState(() {});
+              }
+              if (value.isEmpty) {
+                FocusScope.of(context).previousFocus();
+                setState(() {});
+              }
+            },
 
-              // inputFormatters: [
-              //   LengthLimitingTextInputFormatter(1),
-              //   FilteringTextInputFormatter.digitsOnly,
-              // ],
+            // inputFormatters: [
+            //   LengthLimitingTextInputFormatter(1),
+            //   FilteringTextInputFormatter.digitsOnly,
+            // ],
 
-              controller: widget.controller,
-            ),
-            Positioned(
-                bottom: -43,
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.black, shape: BoxShape.circle),
-                ))
-          ],
+            controller: widget.controller,
+          ),
         ),
       ),
     );
