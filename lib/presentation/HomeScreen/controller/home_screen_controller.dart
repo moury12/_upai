@@ -63,7 +63,7 @@ RxInt? selectedPackageIndex;
       TextEditingController().obs;
   Rx<TextEditingController> quantityControllerForConfromOrder =
       TextEditingController().obs;
-  Rx<CategoryList?> selectedCategory = Rx<CategoryList?>(null);
+var selectedCategory = Rx<CategoryList?>(null);
   Rx<String?> selectedRateType = Rx<String?>(null);
   Rx<String?> selectedServiceType = Rx<String?>(null);
   Rx<String?> selectedDistrictForAll = Rx<String?>(null);

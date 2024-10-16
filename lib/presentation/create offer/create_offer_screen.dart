@@ -31,11 +31,9 @@ class CreateOfferScreen extends StatefulWidget {
 class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final box = Hive.box('userInfo');
 
-  late TextEditingController titleController;
- static TextEditingController addressController=TextEditingController();
-  late TextEditingController descriptionController;
-
-
+  static TextEditingController titleController=TextEditingController();
+  static TextEditingController addressController = TextEditingController();
+  static TextEditingController descriptionController = TextEditingController();
 
   List<String> timeUnits = ['Hour', 'Task', 'Per Day', 'Piece'];
   List<String> serviceType = ['Local', 'Online'];
@@ -44,33 +42,86 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   @override
   void initState() {
     // print(district.toString());
-    HomeController.to.getCategoryList();
+    // HomeController.to.getCategoryList();
     addressController = TextEditingController(
         text: widget.service != null && widget.service!.address!.isNotEmpty
             ? widget.service!.address
             : addressController.text);
     HomeController.to.initializeControllers();
     titleController = TextEditingController(
-        text: widget.service != null ? widget.service!.jobTitle : '');
+        text: widget.service != null ? widget.service!.jobTitle : titleController.text);
+    // print( 'package-------------');
+    // print(widget.service!.package!.map((e) => e.packageName,));
+    for (var i = 0; i < HomeController.to.priceControllers.length; i++) {
+      // Ensure we don't exceed the number of packages
+
+        if(widget.service!=null/*||widget.service!.package!=null*/) {
+          if (i < widget.service!.package!.length) {
+          HomeController.to.priceControllers[i].text = widget.service!.package![i].price.toString();
+        }else{
+          HomeController.to.priceControllers[i].text=HomeController.to.priceControllers[i].text;
+        }
+      }
+    }
+    for (var i = 0; i < HomeController.to.durationControllers.length; i++) {
+      // Ensure we don't exceed the number of packages
+
+        if(widget.service!=null/*||widget.service!.package!=null*/) {
+          if (i < widget.service!.package!.length) {
+        HomeController.to.durationControllers[i].text = widget.service!.package![i].duration.toString();}
+        else{
+          HomeController.to.durationControllers[i].text=HomeController.to.durationControllers[i].text;
+        }
+      }
+    }
+    for (var i = 0; i < HomeController.to.descriptionControllers.length; i++) {
+      // Ensure we don't exceed the number of packages
+
+        if(widget.service!=null/*||widget.service!.package!=null*/) {
+          if (i < widget.service!.package!.length) {
+        HomeController.to.descriptionControllers[i].text = widget.service!.package![i].packageDescription.toString();}
+        else{
+          HomeController.to.descriptionControllers[i].text=HomeController.to.descriptionControllers[i].text;
+        }
+      }
+    }
+
+
 
     descriptionController = TextEditingController(
-        text: widget.service != null ? widget.service!.description : '');
-
+        text: widget.service != null ? widget.service!.description : descriptionController.text);
+    if (widget.service != null) {
+      var matchedServiceType = serviceType
+          .where(
+            (element) => element == widget.service!.serviceType,
+          )
+          .toList();
+      if (matchedServiceType.isNotEmpty) {
+        HomeController.to.selectedServiceType.value = matchedServiceType[0];
+      } else {
+        HomeController.to.selectedServiceType.value = null;
+      }
+    } else {
+      HomeController.to.selectedServiceType.value = HomeController.to.selectedServiceType.value;
+    }
     if (widget.service != null) {
       var filteredList = HomeController.to.getCatList
-          .where((e) => e.categoryName!
-              .toLowerCase()
-              .contains(widget.service!.serviceCategoryType!.toLowerCase()))
+          .where((e) =>
+              e.categoryName!.toLowerCase() ==
+              widget.service!.serviceCategoryType!.toLowerCase())
           .toList();
+      print('filteredList.first');
+      print(filteredList[0].categoryName);
 
       if (filteredList.isNotEmpty) {
-        HomeController.to.selectedCategory.value = filteredList[0];
+        HomeController.to.selectedCategory.value = filteredList.first;
       } else {
         HomeController.to.selectedCategory.value =
             null; // Or handle the case when no match is found
       }
-    } else {
-      HomeController.to.selectedCategory.value = null;
+    }
+    else {
+      HomeController.to.selectedCategory.value = HomeController.to.selectedCategory.value;
       HomeController.to.image.value = null;
     }
     // debugPrint(widget.service!.rateType);
@@ -81,7 +132,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     HomeController.to.selectedDistrict.value =
         widget.service != null && widget.service!.district!.isNotEmpty
             ? widget.service!.district
-            : null;
+            : HomeController.to.selectedDistrict.value;
+
     super.initState();
   }
 
@@ -367,6 +419,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           border: Border.all(color: AppColors.kprimaryColor),
                           borderRadius: BorderRadius.circular(12)),
                       child: Obx(() {
+                        // print('object');
+                        for (var element in HomeController.to.getCatList) {
+                          print(element.toJson());
+                        }
+                        // print(HomeController.to.selectedCategory.value!.toJson());
                         return FittedBox(
                           child: DropdownButton<CategoryList>(
                             dropdownColor: Colors.white,
@@ -376,7 +433,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             style: TextStyle(
                               color: AppColors.kprimaryColor,
                             ),
-                            value: HomeController.to.selectedCategory.value,
+                            value: /*HomeController.to.selectedCategory.value != null
+                                && HomeController.to.getCatList.contains(HomeController.to.selectedCategory.value)
+                                ? */
+                                HomeController
+                                    .to.selectedCategory.value /*:null */,
                             hint: Text(
                               "Select a category",
                               style: TextStyle(
@@ -386,7 +447,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             items: HomeController.to.getCatList.map((element) {
                               return DropdownMenuItem<CategoryList>(
                                 value: element,
-                                child: Text(element.categoryName.toString()),
+                                child: Text(element.categoryName ?? ''),
                               );
                             }).toList(),
                             onChanged: widget.isEdit!
@@ -436,8 +497,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       .to.serviceController.value.text,
                                   "status": false
                                 });
-                                HomeController.to.packageList
-                                    .forEach((package) {
+                                for (var package in HomeController.to.packageList) {
                                   package['service_list'] = List.from(
                                       HomeController.to.yourServiceList
                                           .map((service) {
@@ -447,7 +507,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           false // Each service starts as unselected for each package
                                     };
                                   }).toList());
-                                });
+                                }
                                 HomeController.to.packageList.refresh();
                                 HomeController.to.serviceController.value
                                     .clear();
@@ -476,7 +536,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Row(
-                           mainAxisSize: MainAxisSize.min,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Flexible(
                               child: Text(
@@ -489,10 +549,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 onPressed: () {
                                   HomeController.to.yourServiceList
                                       .removeAt(index);
-                                  HomeController.to.packageList.forEach(
-                                    (element) => element['service_list']
-                                      ..removeAt(index),
-                                  );
+                                  for (var element in HomeController.to.packageList) {
+                                    element['service_list']
+                                      ..removeAt(index);
+                                  }
                                   HomeController.to.packageList.refresh();
                                 },
                                 icon: Icon(
@@ -860,9 +920,21 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         {
                                           HomeController.to.isLoading.value =
                                               true;
-                                          if (HomeController.to.selectedServiceType.value != null&&
-                                          HomeController.to.selectedCategory.value != null &&HomeController.to.selectedServiceType.value != null &&
-                                              HomeController.to.selectedDistrict.value !=
+                                          if (HomeController
+                                                      .to
+                                                      .selectedServiceType
+                                                      .value !=
+                                                  null &&
+                                              HomeController.to.selectedCategory
+                                                      .value !=
+                                                  null &&
+                                              HomeController
+                                                      .to
+                                                      .selectedServiceType
+                                                      .value !=
+                                                  null &&
+                                              HomeController.to.selectedDistrict
+                                                      .value !=
                                                   null &&
                                               titleController.text.isNotEmpty &&
                                               descriptionController
@@ -871,10 +943,38 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                   .text.isNotEmpty &&
                                               HomeController
                                                   .to.packageList.isNotEmpty &&
-                                              HomeController.to.priceControllers.map((element) => element.text,)
-                                              .where((element) => element.isNotEmpty,).toList().isNotEmpty&&HomeController.to.durationControllers.map((element) => element.text,)
-                                              .where((element) => element.isNotEmpty,).toList().isNotEmpty&&    HomeController.to.packageList.map((element) => element['service_list'],)
-                                              .where((element) => element.isNotEmpty,).toList().isNotEmpty&&
+                                              HomeController.to.priceControllers
+                                                  .map(
+                                                    (element) => element.text,
+                                                  )
+                                                  .where(
+                                                    (element) =>
+                                                        element.isNotEmpty,
+                                                  )
+                                                  .toList()
+                                                  .isNotEmpty &&
+                                              HomeController
+                                                  .to.durationControllers
+                                                  .map(
+                                                    (element) => element.text,
+                                                  )
+                                                  .where(
+                                                    (element) =>
+                                                        element.isNotEmpty,
+                                                  )
+                                                  .toList()
+                                                  .isNotEmpty &&
+                                              HomeController.to.packageList
+                                                  .map(
+                                                    (element) =>
+                                                        element['service_list'],
+                                                  )
+                                                  .where(
+                                                    (element) =>
+                                                        element.isNotEmpty,
+                                                  )
+                                                  .toList()
+                                                  .isNotEmpty &&
                                               box.isNotEmpty) {
                                             if (widget.service != null) {
                                               await HomeController.to.editOffer(
@@ -905,7 +1005,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                       titleController.text,
                                                       descriptionController
                                                           .text,
-
                                                       addressController.text);
                                               // await SellerProfileController.to
                                               //     .refreshAllData();
@@ -941,17 +1040,16 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     descriptionController.clear();
     for (var controller in HomeController.to.priceControllers) {
       controller.clear();
-
     }
     for (var controller in HomeController.to.descriptionControllers) {
       controller.clear();
     }
     for (var controller in HomeController.to.durationControllers) {
       controller.clear();
-    }  HomeController.to.packageList.forEach(
-          (element) => element['service_list']
-        ..clear(),
-    );
+    }
+    for (var element in HomeController.to.packageList) {
+      element['service_list']..clear();
+    }
     HomeController.to.yourServiceList.clear();
     // HomeController.to.packageList.map((e) => e['service_list'].clear(),);
     HomeController.to.selectedCategory.value = null;
@@ -978,4 +1076,3 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   //   super.dispose();
   // }
 }
-
