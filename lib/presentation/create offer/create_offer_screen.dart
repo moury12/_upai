@@ -21,9 +21,9 @@ import 'widget/tab_content_view.dart';
 class CreateOfferScreen extends StatefulWidget {
   static const String routeName ='/create-offer';
   final MyService? service;
-  final bool? isEdit;
 
-  const CreateOfferScreen({super.key, this.service, this.isEdit = false});
+
+  const CreateOfferScreen({super.key, this.service, });
 
   @override
   State<CreateOfferScreen> createState() => _CreateOfferScreenState();
@@ -31,19 +31,22 @@ class CreateOfferScreen extends StatefulWidget {
 
 class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final box = Hive.box('userInfo');
-
-
-
-
+  // var serviceArgument =Get.arguments()['service'];
+   var isEditArgument =false;
+  Map<String, dynamic>? arguments = Get.arguments;
   @override
   void initState() {
 
-
+   if(arguments!=null) {
+      CreateOfferController.to.editOfferData(arguments!['service']);
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Get.arguments()');
+    debugPrint(arguments.toString());
     HomeController.to.isLoading.value = false;
     HomeController.to.isUploading.value = false;
     return PopScope(
@@ -67,18 +70,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
               color: AppColors.kprimaryColor,
             ),
           ),
-/*           actions: [IconButton(onPressed:  () {
-             if(
-             CreateOfferController.to.packageList.map((element) => element['service_list'],)
-                 .where((element) => element.isNotEmpty,).toList().isNotEmpty
-             ){
-               print('true');
-               // print(CreateOfferController.to.priceControllers.map((element) => element.text,).toList());
-             }else{
-               print('false');
-             }
-           }, icon: Icon(Icons.clear,color: Colors.black,))],*/
-          title: Text(widget.isEdit! ? 'Edit Offer' : "Create New Offer",
+
+          title: Text(isEditArgument ? 'Edit Offer' : "Create New Offer",
               style: TextStyle(
                   color: AppColors.kprimaryColor,
                   fontSize: 16,
@@ -153,7 +146,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     // width: 150,
                                     fit: BoxFit.fill,
                                   )
-                                : widget.isEdit == true
+                                : isEditArgument== true
                                     ? FutureBuilder(
                                         future: FirebaseAPIs.fetchOfferImageUrl(
                                             widget.service!.offerId.toString()),
@@ -292,7 +285,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 child: Text(element),
                               );
                             }).toList(),
-                            onChanged: widget.isEdit!
+                            onChanged: isEditArgument
                                 ? null
                                 : (value) {
                               CreateOfferController
@@ -323,10 +316,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           border: Border.all(color: AppColors.kprimaryColor),
                           borderRadius: BorderRadius.circular(12)),
                       child: Obx(() {
-                        // print('object');
-                        for (var element in HomeController.to.getCatList) {
-                          print(element.toJson());
-                        }
+
                         // print(CreateOfferController.to.selectedCategory.value!.toJson());
                         return FittedBox(
                           child: DropdownButton<CategoryList>(
@@ -354,7 +344,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 child: Text(element.categoryName ?? ''),
                               );
                             }).toList(),
-                            onChanged: widget.isEdit!
+                            onChanged: isEditArgument
                                 ? null
                                 : (value) {
                                     CreateOfferController.to.selectedCategory.value =

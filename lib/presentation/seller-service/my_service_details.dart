@@ -349,10 +349,11 @@ class MyServiceDetails extends StatelessWidget {
             Expanded(
               child: ElevatedButton(
                   onPressed: () {
-                    Get.to(CreateOfferScreen(
-                      service: SellerProfileController.to.service.value,
-                      isEdit: true,
-                    ));
+
+                    Get.toNamed(CreateOfferScreen.routeName,arguments: {
+                      "service": SellerProfileController.to.service.value,
+                      "isEdit": true,
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 12),

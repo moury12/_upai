@@ -28,15 +28,15 @@ class CreateOfferController extends GetxController{
   void initializeControllers() {
     // Assuming 3 packages for example
     int numberOfPackages = 3;
-    CreateOfferController.to.packagePriceControllers = List.generate(numberOfPackages, (_) => TextEditingController()).obs;
-    CreateOfferController.to.packageDurationControllers = List.generate(numberOfPackages, (_) => TextEditingController()).obs;
-    CreateOfferController.to.packageDescriptionControllers = List.generate(numberOfPackages, (_) => TextEditingController()).obs;
+    packagePriceControllers = List.generate(numberOfPackages, (_) => TextEditingController()).obs;
+    packageDurationControllers = List.generate(numberOfPackages, (_) => TextEditingController()).obs;
+    packageDescriptionControllers = List.generate(numberOfPackages, (_) => TextEditingController()).obs;
   }
   void updatePackageList() {
-    for (int i = 0; i < CreateOfferController.to.packageList.length; i++) {
-      CreateOfferController.to.packageList[i]['package_description'] = packageDescriptionControllers[i].text;
-      CreateOfferController.to.packageList[i]['price'] = packagePriceControllers[i].text;
-      CreateOfferController.to.packageList[i]['duration'] = packageDurationControllers[i].text;
+    for (int i = 0; i < packageList.length; i++) {
+      packageList[i]['package_description'] = packageDescriptionControllers[i].text;
+      packageList[i]['price'] = packagePriceControllers[i].text;
+      packageList[i]['duration'] = packageDurationControllers[i].text;
     }
   }
   RxList<dynamic> packageList = <dynamic>[].obs;
@@ -49,41 +49,41 @@ class CreateOfferController extends GetxController{
         text: service != null && service!.address!.isNotEmpty
             ? service!.address
             : addressController.value.text);
-    CreateOfferController.to.initializeControllers();
+    initializeControllers();
     titleController.value = TextEditingController(
         text: service != null ? service!.jobTitle : titleController.value.text);
 
-    for (var i = 0; i < CreateOfferController.to.packagePriceControllers.length; i++) {
+    for (var i = 0; i < packagePriceControllers.length; i++) {
 
 
       if(service!=null/*||service!.package!=null*/) {
         if (i < service!.package!.length) {
-          CreateOfferController.to.packagePriceControllers[i].text = service!.package![i].price.toString();
-          CreateOfferController.to.packageList[i]['price'] = service!.package![i].price.toString();
+          packagePriceControllers[i].text = service!.package![i].price.toString();
+          packageList[i]['price'] = service!.package![i].price.toString();
         }else{
-          CreateOfferController.to.packagePriceControllers[i].text=CreateOfferController.to.packagePriceControllers[i].text;
+          packagePriceControllers[i].text=packagePriceControllers[i].text;
         }
       }
     }
-    for (var i = 0; i < CreateOfferController.to.packageDurationControllers.length; i++) {
+    for (var i = 0; i < packageDurationControllers.length; i++) {
       // Ensure we don't exceed the number of packages
 
       if(service!=null/*||service!.package!=null*/) {
         if (i < service!.package!.length) {
-          CreateOfferController.to.packageDurationControllers[i].text = service!.package![i].duration.toString();}
+          packageDurationControllers[i].text = service!.package![i].duration.toString();}
         else{
-          CreateOfferController.to.packageDurationControllers[i].text=CreateOfferController.to.packageDurationControllers[i].text;
+          packageDurationControllers[i].text=packageDurationControllers[i].text;
         }
       }
     }
-    for (var i = 0; i < CreateOfferController.to.packageDescriptionControllers.length; i++) {
+    for (var i = 0; i < packageDescriptionControllers.length; i++) {
       // Ensure we don't exceed the number of packages
 
       if(service!=null/*||service!.package!=null*/) {
         if (i < service!.package!.length) {
-          CreateOfferController.to.packageDescriptionControllers[i].text = service!.package![i].packageDescription.toString();}
+          packageDescriptionControllers[i].text = service!.package![i].packageDescription.toString();}
         else{
-          CreateOfferController.to.packageDescriptionControllers[i].text=CreateOfferController.to.packageDescriptionControllers[i].text;
+          packageDescriptionControllers[i].text=packageDescriptionControllers[i].text;
         }
       }
     }
@@ -99,12 +99,12 @@ class CreateOfferController extends GetxController{
       )
           .toList();
       if (matchedServiceType.isNotEmpty) {
-        CreateOfferController.to.selectedServiceType.value = matchedServiceType[0];
+        selectedServiceType.value = matchedServiceType[0];
       } else {
-        CreateOfferController.to.selectedServiceType.value = null;
+        selectedServiceType.value = null;
       }
     } else {
-      CreateOfferController.to.selectedServiceType.value = CreateOfferController.to.selectedServiceType.value;
+      selectedServiceType.value = selectedServiceType.value;
     }
     if (service != null) {
       var filteredList = HomeController.to.getCatList
@@ -116,21 +116,21 @@ class CreateOfferController extends GetxController{
       print(filteredList[0].categoryName);
 
       if (filteredList.isNotEmpty) {
-        CreateOfferController.to.selectedCategory.value = filteredList.first;
+        selectedCategory.value = filteredList.first;
       } else {
-        CreateOfferController.to.selectedCategory.value =
+        selectedCategory.value =
         null; // Or handle the case when no match is found
       }
     }
     else {
-      CreateOfferController.to.selectedCategory.value = CreateOfferController.to.selectedCategory.value;
+      selectedCategory.value = selectedCategory.value;
       HomeController.to.image.value = null;
     }
 
-    CreateOfferController.to.selectedDistrict.value =
+    selectedDistrict.value =
     service != null && service!.district!.isNotEmpty
         ? service!.district
-        : CreateOfferController.to.selectedDistrict.value;
+        : selectedDistrict.value;
   }
 @override
   void onInit() {
