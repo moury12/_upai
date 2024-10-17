@@ -6,7 +6,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
 import 'package:upai/presentation/notification/controller/notification_controller.dart';
 

@@ -5,7 +5,7 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/widgets/cat_two.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 import '../../core/utils/custom_text_style.dart';
-import 'controller/home_screen_controller.dart';
+import 'controller/home_controller.dart';
 import 'widgets/shimmer_for_home.dart';
 
 class CategoryListScreen extends StatefulWidget {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:upai/binding/create_offer_binding.dart';
 import 'package:upai/binding/initial_binding.dart';
 import 'package:upai/binding/profile_binding.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -19,6 +20,7 @@ import 'package:upai/presentation/Profile/profile_screen.dart';
 
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/SplashScreen/splash_screen.dart';
+import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 import 'package:upai/review/review_screen.dart';
 import 'data/api/notification_access_token.dart';
@@ -103,13 +105,10 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'Upai',
         theme: ThemeData(
-          // fontFamily: 'Kalpurush',
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(foregroundColor: AppColors.colorWhite, backgroundColor: AppColors.kprimaryColor, centerTitle: true),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: AppColors.kprimaryColor),
           primaryColor: Colors.white,
-
-          // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
         initialRoute: '/',
@@ -117,18 +116,15 @@ class _MyAppState extends State<MyApp> {
           GetPage(name: '/', page: () => const SplashScreen()),
           GetPage(name: '/inbox', page: () =>  InboxScreen()),
           GetPage(name: '/home', page: () => const HomeScreen()),
-          // GetPage(name: '/home2', page: () => const InboxScreen()),
-/*
-        GetPage(name: ServiceDetails.routeName, page: () =>  ServiceDetails()),
-*/
           GetPage(name: '/chatscreen', page: () => ChatScreen()),
           GetPage(name: '/defaultscreen', page: () => DefaultScreen()),
           GetPage(name: '/login', page: () => const LoginScreen()),
           GetPage(name: '/profile', page: () => ProfileScreen(), binding: ProfileBinding()),
-          // GetPage(name: ReviewScreen.routeName, page: () =>  const ReviewScreen()),
           GetPage(name: ServiceListScreen.routeName, page: () => ServiceListScreen()),
           GetPage(name: CategoryListScreen.routeName, page: () => const CategoryListScreen()),
           GetPage(name: OtpScreen.routeName, page: () => const OtpScreen()),
+          GetPage(name: CreateOfferScreen.routeName, page: () => const CreateOfferScreen(),
+          binding: CreateOfferBinding()),
         ],
         initialBinding: RootBinding());
   }

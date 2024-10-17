@@ -6,7 +6,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:upai/Boxes/boxes.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 
 OfferListModel offerListModelFromJson(String str) => OfferListModel.fromJson(json.decode(str));
 

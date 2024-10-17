@@ -8,7 +8,7 @@ import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Explore/service_list_screen.dart';
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';

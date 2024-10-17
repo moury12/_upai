@@ -8,7 +8,7 @@ import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/presentation/seller-service/seller_profile_controller.dart';

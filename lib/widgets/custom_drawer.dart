@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/SplashScreen/controller/splash_screen_controller.dart';
 import 'package:upai/presentation/buyer%20profile/buyer_profile_controller.dart';

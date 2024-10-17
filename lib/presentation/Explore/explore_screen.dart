@@ -4,7 +4,7 @@
 // import 'package:upai/Model/category_list_model.dart';
 // import 'package:upai/TestData/category_data.dart';
 // import 'package:upai/core/utils/app_colors.dart';
-// import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+// import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 //
 // import '../../core/utils/custom_text_style.dart';
 // import '../../widgets/category_item.dart';

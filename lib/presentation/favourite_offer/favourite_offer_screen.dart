@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/ServiceDetails/service_details.dart';
 import 'package:upai/widgets/service_offer_widget.dart';
 

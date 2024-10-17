@@ -56,7 +56,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
         shape: const CircleBorder(),
         backgroundColor: Colors.white,
         onPressed: () {
-          Get.to(() => const CreateOfferScreen());
+          Get.toNamed(CreateOfferScreen.routeName);
         },
         child: Lottie.asset('assets/search_json/add_service.json')
       ),

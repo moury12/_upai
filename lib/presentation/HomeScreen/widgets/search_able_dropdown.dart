@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
+import 'package:upai/presentation/create%20offer/controller/create_offer_controller.dart';
 
 class SearchableDropDown extends StatefulWidget {
   final bool? fromHome;
@@ -60,21 +61,21 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
           children: [
             Obx(() {
               return Text(
-                widget.fromHome! ? HomeController.to.selectedDistrictForAll.value ?? 'Select district' : HomeController.to.selectedDistrict.value ?? 'Select district',
+                widget.fromHome! ? HomeController.to.selectedDistrictForAll.value ?? 'Select district' : CreateOfferController.to.selectedDistrict.value ?? 'Select district',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: widget.fromHome!
                         ? HomeController.to.selectedDistrictForAll.value != null
                             ? FontWeight.w400
                             : FontWeight.w600
-                        : HomeController.to.selectedDistrict.value != null
+                        : CreateOfferController.to.selectedDistrict.value != null
                             ? FontWeight.w400
                             : FontWeight.w600,
                     color: widget.fromHome!
                         ? HomeController.to.selectedDistrictForAll.value != null
                             ? AppColors.kprimaryColor
                             : AppColors.deepGreyColor
-                        : HomeController.to.selectedDistrict.value != null
+                        : CreateOfferController.to.selectedDistrict.value != null
                             ? AppColors.kprimaryColor
                             : AppColors.kprimaryColor.withOpacity(.6)),
               );
@@ -129,7 +130,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                             child: InkWell(
                               onTap: () {
                                 setState(() {
-                                  widget.fromHome! ? HomeController.to.selectedDistrictForAll.value = e['name'] : HomeController.to.selectedDistrict.value = e['name'];
+                                  widget.fromHome! ? HomeController.to.selectedDistrictForAll.value = e['name'] : CreateOfferController.to.selectedDistrict.value = e['name'];
                                   if (widget.fromHome!) {
                                     HomeController.to.filterOffer(HomeController.to.searchOfferController.value.text, HomeController.to.selectedDistrictForAll.value);
                                   }

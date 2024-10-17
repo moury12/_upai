@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/offer_list_model.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 
 double getResponsiveFontSize(BuildContext context, double baseFontSize) {
   double screenWidth = MediaQuery.of(context).size.width;

@@ -7,7 +7,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/widgets/custom_drawer.dart';
 import 'package:upai/presentation/default_controller.dart';
 import 'package:get/get.dart';

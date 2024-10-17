@@ -9,7 +9,7 @@ import 'package:upai/Model/notification_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_screen_controller.dart';
+import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import '../../Boxes/boxes.dart';
 import '../../Model/user_info_model.dart';

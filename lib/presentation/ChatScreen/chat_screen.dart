@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/user_info_model.dart';
-import 'package:upai/TestData/suggest_msg_data.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/ChatScreen/Controller/chat_screen_controller.dart';
 import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
 import 'package:upai/presentation/ChatScreen/Widgets/chat_message_tile.dart';
+import 'package:upai/sampleresponse/suggest_msg_data.dart';
 import '../../core/utils/image_path.dart';
 import 'Widgets/suggest_msg_widget.dart';
 
