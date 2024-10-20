@@ -1,0 +1,1 @@
+List<String> serviceType = ['Local', 'Online'];

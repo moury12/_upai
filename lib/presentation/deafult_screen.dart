@@ -3,10 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upai/core/utils/app_colors.dart';
-import 'package:upai/core/utils/custom_text_style.dart';
-import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/core/utils/image_path.dart';
-import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/widgets/custom_drawer.dart';
 import 'package:upai/presentation/default_controller.dart';
@@ -25,17 +22,14 @@ class DefaultScreen extends StatelessWidget {
         onPopInvoked: (didPop) {
           if (ctrl.selectedIndex.value != 0) {
             ctrl.selectedIndex.value = 0;
-            // HomeController.to.searchICon.value=false;
           }
-          else if (ctrl.selectedIndex.value == 0 &&HomeController.to.searchOfferController.value.text != "") {
+          else if (ctrl.selectedIndex.value == 0 &&(HomeController.to.searchOfferController.value.text != ""||HomeController.to.selectedDistrictForAll.value!=null)) {
 
               HomeController.to.searchOfferController.value.text = "";
+              HomeController.to.selectedDistrictForAll.value=null;
+
           }
-//           else if (ctrl.selectedIndex.value == 0 &&HomeController.to.searchICon.value) {
-//
-//             HomeController.to.searchICon.value=false;
-// // HomeController.to.update();
-//           }
+
           else if(ctrl.selectedIndex.value == 0 &&!HomeController.to.searchICon.value) {
             showDialog(
               context: context,
@@ -73,12 +67,14 @@ class DefaultScreen extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.white,
+            foregroundColor: AppColors.kprimaryColor,
             surfaceTintColor: Colors.white,
             title: Obx(() {
-              return Text(
+              return ctrl.selectedIndex.value==0?Image.asset(ImageConstant.upaiLogoAppbar,height:90,fit: BoxFit.fitHeight,) : Text(
                 ctrl.appBarTitle.value,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 17,
                   fontWeight: FontWeight.w600,
                 ),
               );

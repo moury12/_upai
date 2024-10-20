@@ -15,7 +15,7 @@ import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
+import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find();

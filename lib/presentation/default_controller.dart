@@ -14,7 +14,7 @@ import 'package:upai/presentation/seller-service/seller_profile_screen.dart';
 import 'package:upai/presentation/Inbox/inbox.dart';
 import 'package:upai/presentation/Profile/profile_screen.dart';
 import 'package:upai/presentation/notification/notificaton_screen.dart';
-import 'seller-service/seller_profile_controller.dart';
+import 'seller-service/controller/seller_profile_controller.dart';
 
 class DefaultController extends GetxController {
   late UserInfoModel userData;
@@ -22,22 +22,7 @@ class DefaultController extends GetxController {
   // String userType="";
   @override
   void onInit() {
-    //for notification permission
-    // FirebaseMessaging.instance.requestPermission(
-    //   alert: true,
-    //   badge: true,
-    //   sound: true,
-    // );
-    //
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   print('Got a message whilst in the foreground!');
-    //   print('Message data: ${message.data}');
-    //
-    //   if (message.notification != null) {
-    //     print('Message also contained a notification: ${message.notification}');
-    //   }
-    // });
-    //
+
     userData = userInfoModelFromJson(box.get('user'));
     Get.put(ProfileScreenController(), permanent: true);
     Get.put(HomeController(), permanent: true);

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
-import 'package:upai/presentation/Explore/service_list_screen.dart';
+import 'package:upai/presentation/service-list/service_list_screen.dart';
 
 import '../Model/category_list_model.dart';
 import 'dart:math';

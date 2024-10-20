@@ -14,7 +14,7 @@ import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import '../../Boxes/boxes.dart';
 import '../../Model/user_info_model.dart';
 import '../../presentation/Profile/profile_screen_controller.dart';
-import '../../presentation/seller-service/seller_profile_controller.dart';
+import '../../presentation/seller-service/controller/seller_profile_controller.dart';
 import '/data/api/api_client.dart';
 import '/core/errors/error_controller.dart';
 

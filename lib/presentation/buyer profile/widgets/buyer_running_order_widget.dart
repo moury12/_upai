@@ -6,7 +6,6 @@ import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/ServiceDetails/service_details.dart';
 
 import '../../../data/api/firebase_apis.dart';
 

@@ -43,6 +43,10 @@ class AppTextStyle {
         fontSize: 16,
         fontWeight: FontWeight.w600,
         color: AppColors.colorBlack,
+      );static get bodyMediumWhiteSemiBold => TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: AppColors.colorWhite,
       );
   static get body12BlackSemiBold => TextStyle(
         fontSize: 12,

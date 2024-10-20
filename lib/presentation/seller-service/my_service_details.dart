@@ -9,13 +9,13 @@ import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
-import 'package:upai/presentation/create%20offer/widget/tab_content_view.dart';
+import 'package:upai/presentation/Service-details/service_details.dart';
+import 'package:upai/presentation/create-offer/create_offer_screen.dart';
 import 'package:upai/presentation/full_screen_image.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
+import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 
 import '../../data/api/firebase_apis.dart';
-import '../ServiceDetails/service_details.dart';
+import '../create-offer/widget/tab_content_view.dart';
 
 class MyServiceDetails extends StatelessWidget {
   // final MyService service;

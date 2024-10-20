@@ -7,17 +7,14 @@ import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
+import 'package:upai/presentation/HomeScreen/widgets/filter_banner_widget.dart';
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
-import 'package:upai/presentation/Profile/profile_screen_controller.dart';
-import 'package:upai/presentation/ServiceDetails/service_details.dart';
-import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
+import 'package:upai/presentation/Service-details/service_details.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 import 'package:upai/widgets/service_offer_widget.dart';
 
 import '../../core/utils/custom_text_style.dart';
-import '../seller-service/my_service_details.dart';
-import '../seller-service/seller_profile_controller.dart';
 
 class ServiceListScreen extends StatefulWidget {
   static const String routeName = '/explore-top';
@@ -110,7 +107,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             },
             child: Column(
               children: [
-                defaultSizeBoxHeight,
+
+                FilterBanner(isService: true,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0)
                       .copyWith(bottom: 8),
@@ -142,10 +140,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                     );
                   }),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: SearchableDropDown(),
-                ),
+
 
                 Obx(
                   () {

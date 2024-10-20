@@ -15,20 +15,15 @@ import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
-import 'package:upai/presentation/ServiceDetails/rating_list_screen.dart';
-import 'package:upai/presentation/create%20offer/widget/tab_content_view.dart';
+import 'package:upai/presentation/Service-details/rating_list_screen.dart';
+
+import 'package:upai/presentation/create-offer/widget/tab_content_view.dart';
 import 'package:upai/presentation/full_screen_image.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
-import 'package:upai/review/review_screen.dart';
-import 'package:upai/widgets/item_service.dart';
 import '../../Model/offer_list_model.dart';
 import 'service_details_controller.dart';
 import 'widgets/client_review.dart';
-import 'widgets/rate_by_category_widget.dart';
-import 'widgets/request_confirm_offer.dart';
 
 class ServiceDetails extends StatefulWidget {
   ServiceDetails({super.key, this.offerDetails, });

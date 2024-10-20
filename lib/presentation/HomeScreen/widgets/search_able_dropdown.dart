@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/create%20offer/controller/create_offer_controller.dart';
+import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 
 class SearchableDropDown extends StatefulWidget {
   final bool? fromHome;
+  final Widget? child;
   const SearchableDropDown({
     super.key,
-    this.fromHome = true,
+    this.fromHome = true, this.child,
   });
 
   @override
@@ -52,7 +55,35 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
           },
         );
       },
-      child: Container(
+      child:widget.fromHome==true? Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+              color: AppColors.kprimaryColor,
+              borderRadius: BorderRadius.circular(10)),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                ImageConstant.locationIcon,
+                height: 30,
+                color: Colors.white,
+              ),
+              const SizedBox(
+                width: 7,
+              ),
+              Flexible(
+                child: Obx(
+                () {
+                    return Text(
+                      HomeController.to.selectedDistrictForAll.value ?? 'Location',
+                      style: AppTextStyle.bodyMediumWhiteSemiBold,
+                    );
+                  }
+                ),
+              )
+            ],
+          )): Container(
         padding: EdgeInsets.all(8),
         // margin: EdgeInsets.all(0),
         decoration: BoxDecoration(border: Border.all(width: 1, color: AppColors.kprimaryColor), borderRadius: BorderRadius.circular(10)),

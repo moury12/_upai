@@ -5,7 +5,7 @@ import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/SplashScreen/controller/splash_screen_controller.dart';
 import 'package:upai/presentation/buyer%20profile/buyer_profile_controller.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
+import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 
 class NetworkController extends GetxController {
   static NetworkController  get to =>Get.find();

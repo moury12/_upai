@@ -1,21 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:get/get.dart';
-import 'package:googleapis/admob/v1.dart';
-import 'package:upai/controllers/order_controller.dart';
-
 import 'package:upai/core/utils/app_colors.dart';
-import 'package:upai/data/api/firebase_apis.dart';
-
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/Profile/profile_screen_controller.dart';
-import 'package:upai/presentation/ServiceDetails/service_details.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
-import 'package:upai/widgets/custom_text_field.dart';
-
+import 'package:upai/presentation/Service-details/service_details.dart';
 import '../../../Model/notification_model.dart';
-import '../../../Model/user_info_model.dart';
 import '../../../data/repository/repository_details.dart';
 
 class ConfirmOrderWidget extends StatefulWidget {

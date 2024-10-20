@@ -8,22 +8,25 @@ import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
+import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
-import 'package:upai/presentation/create%20offer/controller/create_offer_controller.dart';
+import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 import 'package:upai/widgets/custom_text_field.dart';
-
 import '../HomeScreen/widgets/custom_button_widget.dart';
-import 'widget/tab_content_view.dart';
+import 'widget/custom_drop_down.dart';
+import 'widget/package_create_widget.dart';
 
 class CreateOfferScreen extends StatefulWidget {
-  static const String routeName ='/create-offer';
+  static const String routeName = '/create-offer';
   final MyService? service;
 
-
-  const CreateOfferScreen({super.key, this.service, });
+  const CreateOfferScreen({
+    super.key,
+    this.service,
+  });
 
   @override
   State<CreateOfferScreen> createState() => _CreateOfferScreenState();
@@ -32,12 +35,11 @@ class CreateOfferScreen extends StatefulWidget {
 class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final box = Hive.box('userInfo');
   // var serviceArgument =Get.arguments()['service'];
-   var isEditArgument =false;
+  var isEditArgument = false;
   Map<String, dynamic>? arguments = Get.arguments;
   @override
   void initState() {
-
-   if(arguments!=null) {
+    if (arguments != null) {
       CreateOfferController.to.editOfferData(arguments!['service']);
     }
     super.initState();
@@ -70,7 +72,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
               color: AppColors.kprimaryColor,
             ),
           ),
-
           title: Text(isEditArgument ? 'Edit Offer' : "Create New Offer",
               style: TextStyle(
                   color: AppColors.kprimaryColor,
@@ -116,7 +117,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                 CustomTextField(
                   validatorText: "Please Enter Job Description",
                   hintText: "Please Enter Job Description",
-                  controller: CreateOfferController.to.descriptionController.value,
+                  controller:
+                      CreateOfferController.to.descriptionController.value,
                   maxLines: 3,
                   // onChanged: (value) => controller.emailController.text.trim() = value!,
                 ),
@@ -146,7 +148,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     // width: 150,
                                     fit: BoxFit.fill,
                                   )
-                                : isEditArgument== true
+                                : isEditArgument == true
                                     ? FutureBuilder(
                                         future: FirebaseAPIs.fetchOfferImageUrl(
                                             widget.service!.offerId.toString()),
@@ -257,44 +259,19 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       ),
                     ),
                     defaultSizeBoxHeight,
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.kprimaryColor),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Obx(() {
-                        return FittedBox(
-                          child: DropdownButton<String>(
-                            dropdownColor: Colors.white,
-                            style: TextStyle(
-                              color: AppColors.kprimaryColor,
-                            ),
-                            iconEnabledColor: AppColors.kprimaryColor,
-                            borderRadius: BorderRadius.circular(12),
-                            underline: const SizedBox.shrink(),
-                            value: CreateOfferController.to.selectedServiceType.value,
-                            hint: Text(
-                              "Select a service type",
-                              style: TextStyle(
-                                color: AppColors.kprimaryColor,
-                              ),
-                            ),
-                            items: CreateOfferController.to.serviceType.map((element) {
-                              return DropdownMenuItem<String>(
-                                value: element,
-                                child: Text(element),
-                              );
-                            }).toList(),
-                            onChanged: isEditArgument
-                                ? null
-                                : (value) {
-                              CreateOfferController
-                                        .to.selectedServiceType.value = value!;
-                                  },
-                          ),
-                        );
-                      }),
-                    ),
+                    Obx(() {
+                      return CustomDropDown<String>(
+                        label: "Select a service type",
+                        isEditArgument: isEditArgument,
+                        menuList: serviceType,
+                        value:
+                            CreateOfferController.to.selectedServiceType.value,
+                        onChanged: (val) {
+                          CreateOfferController.to.selectedServiceType.value =
+                              val;
+                        },
+                      );
+                    }),
                   ],
                 ),
                 defaultSizeBoxHeight,
@@ -310,50 +287,22 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       ),
                     ),
                     defaultSizeBoxHeight,
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.kprimaryColor),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Obx(() {
-
-                        // print(CreateOfferController.to.selectedCategory.value!.toJson());
-                        return FittedBox(
-                          child: DropdownButton<CategoryList>(
-                            dropdownColor: Colors.white,
-                            iconEnabledColor: AppColors.kprimaryColor,
-                            borderRadius: BorderRadius.circular(12),
-                            underline: const SizedBox.shrink(),
-                            style: TextStyle(
-                              color: AppColors.kprimaryColor,
-                            ),
-                            value: /*CreateOfferController.to.selectedCategory.value != null
-                                && HomeController.to.getCatList.contains(CreateOfferController.to.selectedCategory.value)
-                                ? */
-                            CreateOfferController
-                                    .to.selectedCategory.value /*:null */,
-                            hint: Text(
-                              "Select a category",
-                              style: TextStyle(
-                                color: AppColors.kprimaryColor,
-                              ),
-                            ),
-                            items: HomeController.to.getCatList.map((element) {
-                              return DropdownMenuItem<CategoryList>(
-                                value: element,
-                                child: Text(element.categoryName ?? ''),
-                              );
-                            }).toList(),
-                            onChanged: isEditArgument
-                                ? null
-                                : (value) {
-                                    CreateOfferController.to.selectedCategory.value =
-                                        value!;
-                                  },
-                          ),
-                        );
-                      }),
-                    ),
+                    Obx(() {
+                      return CustomDropDown<dynamic>(
+                        label: "Select a service Category",
+                        isEditArgument: isEditArgument,
+                        menuList: HomeController.to.getCatList
+                            .map(
+                              (element) => element.categoryName,
+                            )
+                            .toList(),
+                        value: CreateOfferController.to.selectedCategory.value,
+                        onChanged: (value) {
+                          CreateOfferController.to.selectedCategory.value =
+                              value;
+                        },
+                      );
+                    }),
                   ],
                 ),
                 defaultSizeBoxHeight,
@@ -376,19 +325,23 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             validatorText: "Please Enter service",
 
                             hintText: "Enter service",
-                            controller:CreateOfferController.to.serviceController.value,
+                            controller: CreateOfferController
+                                .to.serviceController.value,
                             // onChanged: (value) => controller.emailController.text.trim() = value!,
                           ),
                         ),
                         defaultSizeBoxWidth,
                         CustomButton(
                             onTap: () {
-                              if (CreateOfferController.to.serviceController.value.text.isNotEmpty) {
+                              if (CreateOfferController
+                                  .to.serviceController.value.text.isNotEmpty) {
                                 CreateOfferController.to.yourServiceList.add({
-                                  "service_name": CreateOfferController.to.serviceController.value.text,
+                                  "service_name": CreateOfferController
+                                      .to.serviceController.value.text,
                                   "status": false
                                 });
-                                for (var package in CreateOfferController.to.packageList) {
+                                for (var package
+                                    in CreateOfferController.to.packageList) {
                                   package['service_list'] = List.from(
                                       CreateOfferController.to.yourServiceList
                                           .map((service) {
@@ -399,9 +352,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     };
                                   }).toList());
                                 }
-                                CreateOfferController.to.packageList.refresh();CreateOfferController.to.serviceController.value
+                                CreateOfferController.to.packageList.refresh();
+                                CreateOfferController.to.serviceController.value
                                     .clear();
-                                debugPrint(CreateOfferController.to.yourServiceList
+                                debugPrint(CreateOfferController
+                                    .to.yourServiceList
                                     .toString());
                               } else {
                                 Get.snackbar(
@@ -419,8 +374,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       CreateOfferController.to.yourServiceList.length,
                       (index) => Container(
                         padding: const EdgeInsets.only(left: 8),
-                        margin:
-                            const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 4),
                         decoration: BoxDecoration(
                           color: AppColors.kprimaryColor,
                           borderRadius: BorderRadius.circular(10),
@@ -439,11 +394,12 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 onPressed: () {
                                   CreateOfferController.to.yourServiceList
                                       .removeAt(index);
-                                  for (var element in CreateOfferController.to.packageList) {
-                                    element['service_list']
-                                      .removeAt(index);
+                                  for (var element
+                                      in CreateOfferController.to.packageList) {
+                                    element['service_list'].removeAt(index);
                                   }
-                                  CreateOfferController.to.packageList.refresh();
+                                  CreateOfferController.to.packageList
+                                      .refresh();
                                 },
                                 icon: const Icon(
                                   CupertinoIcons.multiply_circle,
@@ -456,250 +412,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   );
                 }),
                 defaultSizeBoxHeight,
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                          color: AppColors.kprimaryColor, width: 1.5)),
-                  child: DefaultTabController(
-                    length: CreateOfferController.to.packageList.length,
-                    child: Obx(() {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CreateOfferController.to.packageList.isEmpty
-                              ? const SizedBox.shrink()
-                              : TabBar(
-                                  overlayColor: WidgetStateColor.transparent,
-                                  onTap: (value) {
-                                    // HomeController.to.selectPackage(value);
-                                    HomeController.to.update();
-                                    debugPrint(CreateOfferController.to.packageList
-                                        .toString());
-                                  },
-                                  tabs: [
-                                    ...List.generate(
-                                      CreateOfferController.to.packageList.length,
-                                      (index) => Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: FittedBox(
-                                          child: Text(
-                                            CreateOfferController.to.packageList[index]
-                                                ['package_name'],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                  indicatorColor: AppColors.kprimaryColor,
-                                  labelColor: AppColors.kprimaryColor,
-                                ),
-                          TabContentView(
-                            children: CreateOfferController.to.packageList.isNotEmpty
-                                ? List.generate(
-                                    CreateOfferController.to.packageList.length,
-                                    (index) => SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          defaultSizeBoxHeight,
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Price",
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize: 12,
-                                                        color: AppColors
-                                                            .kprimaryColor,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 10),
-                                                    CustomTextField(
-                                                      validatorText:
-                                                          "Please Enter Price",
-                                                      hintText:
-                                                          "Please Enter Price",
-                                                      inputType:
-                                                          TextInputType.number,
-                                                      controller: CreateOfferController.to.packagePriceControllers[
-                                                          index],
-                                                      onChanged: (value) {
-                                                        CreateOfferController.to.packageList[index]
-                                                            ['price'] = value;
-                                                        CreateOfferController.to.packageList
-                                                            .refresh();
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              defaultSizeBoxWidth,
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Duration",
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize: 12,
-                                                        color: AppColors
-                                                            .kprimaryColor,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 10),
-                                                    CustomTextField(
-                                                      validatorText:
-                                                          "Please Enter Duration",
-                                                      hintText:
-                                                          "Please Enter Duration",
-                                                      inputType:
-                                                          TextInputType.number,
-                                                      onChanged: (value) {
-                                                        CreateOfferController.to.packageList[index]
-                                                            [
-                                                            'duration'] = value;
-                                                        CreateOfferController.to.packageList
-                                                            .refresh();
-                                                      },
-                                                      controller: CreateOfferController.to.packageDurationControllers[
-                                                          index],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              defaultSizeBoxHeight,
-                                              Text(
-                                                "Package Description",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 12,
-                                                  color:
-                                                      AppColors.kprimaryColor,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 10),
-                                              CustomTextField(
-                                                validatorText:
-                                                    "Please Enter Description",
-                                                hintText:
-                                                    "Please Enter Description",
-                                                maxLines: 3,
-                                                onChanged: (value) {
-                                                  CreateOfferController.to.packageList[
-                                                              index][
-                                                          'package_description'] =
-                                                      value;
-                                                  CreateOfferController.to.packageList
-                                                      .refresh();
-                                                },
-                                                controller: CreateOfferController.to
-                                                        .packageDescriptionControllers[
-                                                    index],
-                                              ),
-                                            ],
-                                          ),
-                                          CreateOfferController.to.packageList[index]
-                                                      ['service_list']
-                                                  .isEmpty
-                                              ? const SizedBox.shrink()
-                                              : Column(
-                                                  children: List.generate(
-                                                    CreateOfferController.to.packageList[index]
-                                                            ['service_list']
-                                                        .length,
-                                                    (serviceIndex) {
-                                                      // data[index]={serviceIndex:CreateOfferController.to.packageList[index]['service_list'][serviceIndex]['selected']};
-                                                      //
-                                                      // print('YYYYYYYYYYYYYYY');
-                                                      // print(data);
-                                                      return Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Expanded(
-                                                            child: Text(
-                                                              CreateOfferController.to.packageList[index]
-                                                                              [
-                                                                              'service_list']
-                                                                          [
-                                                                          serviceIndex]
-                                                                      [
-                                                                      'service_name'] ??
-                                                                  '',
-                                                              style: const TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ),
-                                                          Checkbox(
-                                                            activeColor: AppColors
-                                                                .kprimaryColor,
-                                                            value: CreateOfferController.to.packageList[
-                                                                        index][
-                                                                    'service_list']
-                                                                [
-                                                                serviceIndex]['status'],
-                                                            //value: data[serviceIndex],
-                                                            onChanged: (value) {
-                                                              debugPrint(
-                                                                  CreateOfferController.to.packageList
-                                                                      .toString());
-                                                              debugPrint(
-                                                                  serviceIndex
-                                                                      .toString());
-                                                              // Update the selected value for the specific service in the package
-                                                              CreateOfferController.to.packageList[index]
-                                                                              [
-                                                                              'service_list']
-                                                                          [
-                                                                          serviceIndex]
-                                                                      [
-                                                                      'status'] =
-                                                                  value ??
-                                                                      false;
-
-                                                              // Refresh the package list to notify the UI of changes
-                                                              CreateOfferController.to.packageList
-                                                                  .refresh();
-                                                            },
-                                                          ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  ),
-                                                )
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : [
-                                    const Center(child: Text('No Packages Available'))
-                                  ],
-                          ),
-                        ],
-                      );
-                    }),
-                  ),
-                ),
+                PackageCreateWidget(),
                 defaultSizeBoxHeight,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -788,29 +501,36 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         {
                                           HomeController.to.isLoading.value =
                                               true;
-                                          if (CreateOfferController
-                                                      .to
-                                                      .selectedServiceType
-                                                      .value !=
+                                          if (CreateOfferController.to.selectedServiceType.value !=
                                                   null &&
-                                              CreateOfferController.to.selectedCategory
-                                                      .value !=
+                                              CreateOfferController.to.selectedCategory.value !=
+                                                  null &&
+                                              CreateOfferController.to.selectedServiceType.value !=
+                                                  null &&
+                                              CreateOfferController.to.selectedDistrict.value !=
                                                   null &&
                                               CreateOfferController
-                                                      .to
-                                                      .selectedServiceType
-                                                      .value !=
-                                                  null &&
-                                              CreateOfferController.to.selectedDistrict
-                                                      .value !=
-                                                  null &&
-                                              CreateOfferController.to.titleController.value.text.isNotEmpty &&
-                                              CreateOfferController.to.descriptionController.value
-                                                  .text.isNotEmpty &&
-                                              CreateOfferController.to.addressController.value
-                                                  .text.isNotEmpty &&
-                                              CreateOfferController.to.packageList.isNotEmpty &&
-                                              CreateOfferController.to.packagePriceControllers
+                                                  .to
+                                                  .titleController
+                                                  .value
+                                                  .text
+                                                  .isNotEmpty &&
+                                              CreateOfferController
+                                                  .to
+                                                  .descriptionController
+                                                  .value
+                                                  .text
+                                                  .isNotEmpty &&
+                                              CreateOfferController
+                                                  .to
+                                                  .addressController
+                                                  .value
+                                                  .text
+                                                  .isNotEmpty &&
+                                              CreateOfferController
+                                                  .to.packageList.isNotEmpty &&
+                                              CreateOfferController
+                                                  .to.packagePriceControllers
                                                   .map(
                                                     (element) => element.text,
                                                   )
@@ -820,7 +540,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                   )
                                                   .toList()
                                                   .isNotEmpty &&
-                                              CreateOfferController.to.packageDurationControllers
+                                              CreateOfferController
+                                                  .to.packageDurationControllers
                                                   .map(
                                                     (element) => element.text,
                                                   )
@@ -830,7 +551,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                   )
                                                   .toList()
                                                   .isNotEmpty &&
-                                              CreateOfferController.to.packageList
+                                              CreateOfferController
+                                                  .to.packageList
                                                   .map(
                                                     (element) =>
                                                         element['service_list'],
@@ -843,12 +565,26 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                   .isNotEmpty &&
                                               box.isNotEmpty) {
                                             if (widget.service != null) {
-                                              await CreateOfferController.to.editOffer(
-                                                  widget.service!.offerId ?? '',
-                                                  CreateOfferController.to.titleController.value.text,
-                                                  CreateOfferController.to.descriptionController.value.text,
-                                                  '',
-                                                  CreateOfferController.to.addressController.value.text);
+                                              await CreateOfferController.to
+                                                  .editOffer(
+                                                      widget.service!.offerId ??
+                                                          '',
+                                                      CreateOfferController
+                                                          .to
+                                                          .titleController
+                                                          .value
+                                                          .text,
+                                                      CreateOfferController
+                                                          .to
+                                                          .descriptionController
+                                                          .value
+                                                          .text,
+                                                      '',
+                                                      CreateOfferController
+                                                          .to
+                                                          .addressController
+                                                          .value
+                                                          .text);
 
                                               Get.back();
                                               Get.snackbar("Success",
@@ -856,10 +592,21 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                             } else {
                                               await CreateOfferController.to
                                                   .createOffer(
-                                                      CreateOfferController.to.titleController.value.text,
-                                                      CreateOfferController.to.descriptionController.value
+                                                      CreateOfferController
+                                                          .to
+                                                          .titleController
+                                                          .value
                                                           .text,
-                                                      CreateOfferController.to.addressController.value.text);
+                                                      CreateOfferController
+                                                          .to
+                                                          .descriptionController
+                                                          .value
+                                                          .text,
+                                                      CreateOfferController
+                                                          .to
+                                                          .addressController
+                                                          .value
+                                                          .text);
 
                                               clearAllField();
                                             }
@@ -891,10 +638,12 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     for (var controller in CreateOfferController.to.packagePriceControllers) {
       controller.clear();
     }
-    for (var controller in CreateOfferController.to.packageDescriptionControllers) {
+    for (var controller
+        in CreateOfferController.to.packageDescriptionControllers) {
       controller.clear();
     }
-    for (var controller in CreateOfferController.to.packageDurationControllers) {
+    for (var controller
+        in CreateOfferController.to.packageDurationControllers) {
       controller.clear();
     }
     for (var element in CreateOfferController.to.packageList) {
@@ -909,5 +658,4 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
     CreateOfferController.to.addressController.value.clear();
   }
-
 }

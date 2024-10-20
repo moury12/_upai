@@ -9,7 +9,6 @@ import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/ServiceDetails/service_details_controller.dart';
 
 class ServiceOfferWidget extends StatefulWidget {
   final MyService? service;

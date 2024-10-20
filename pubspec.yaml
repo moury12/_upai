@@ -75,7 +75,6 @@ flutter:
     - assets/images/
     - assets/district/district.json
     - assets/category_icon_upai/
-    - assets/search_json/search_cross_icon.json
     - assets/search_json/add_service.json
 
 

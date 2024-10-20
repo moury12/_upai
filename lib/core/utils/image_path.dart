@@ -26,5 +26,9 @@ class ImageConstant {
   static String formFillUpIcon = 'assets/category_icon_upai/application_form.png';
   static String roomCleanIcon = 'assets/category_icon_upai/room_cleaning.png';
   static String electricalIcon = 'assets/category_icon_upai/electrical.png';
+  static String upaiLogoAppbar = 'assets/images/upailogo_appbar.png';
+  static String locationIcon = 'assets/images/location.png';
+  static String filterIcon = 'assets/images/filter_icon.png';
+  static String serviceIcon = 'assets/images/service_icon.png';
 
 }

@@ -10,7 +10,6 @@ import 'package:upai/binding/profile_binding.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/firebase_options.dart';
 import 'package:upai/presentation/ChatScreen/chat_screen.dart';
-import 'package:upai/presentation/Explore/service_list_screen.dart';
 
 import 'package:upai/presentation/HomeScreen/category_list_screen.dart';
 
@@ -20,11 +19,12 @@ import 'package:upai/presentation/Profile/profile_screen.dart';
 
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/SplashScreen/splash_screen.dart';
-import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 import 'package:upai/review/review_screen.dart';
 import 'data/api/notification_access_token.dart';
 import 'presentation/Inbox/inbox.dart';
+import 'presentation/create-offer/create_offer_screen.dart';
+import 'presentation/service-list/service_list_screen.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {

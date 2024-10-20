@@ -8,12 +8,12 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
+import 'package:upai/presentation/create-offer/create_offer_screen.dart';
 import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/my_service_list_screen.dart';
 import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
+import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
-import 'package:upai/presentation/create%20offer/create_offer_screen.dart';
 
 import 'widgets/seller_running_order_widget.dart';
 

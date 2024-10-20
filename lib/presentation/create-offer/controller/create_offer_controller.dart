@@ -5,11 +5,12 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
+import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
-import 'package:upai/presentation/seller-service/seller_profile_controller.dart';
+import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 
 class CreateOfferController extends GetxController{
   static CreateOfferController get to=>Get.find();
@@ -20,9 +21,9 @@ class CreateOfferController extends GetxController{
     Rx<TextEditingController> titleController=TextEditingController().obs;
     Rx<TextEditingController> addressController= TextEditingController().obs;
     Rx<TextEditingController> descriptionController = TextEditingController().obs;
-  List<String> serviceType = ['Local', 'Online'];
+
   Rx<String?> selectedDistrict = Rx<String?>(null);
-  var selectedCategory = Rx<CategoryList?>(null);
+  var selectedCategory = Rx<String?>(null);
   Rx<String?> selectedServiceType = Rx<String?>(null);
   final box = Hive.box('userInfo');
   void initializeControllers() {
@@ -116,7 +117,7 @@ class CreateOfferController extends GetxController{
       print(filteredList[0].categoryName);
 
       if (filteredList.isNotEmpty) {
-        selectedCategory.value = filteredList.first;
+        selectedCategory.value = filteredList.first.categoryName;
       } else {
         selectedCategory.value =
         null; // Or handle the case when no match is found
@@ -191,7 +192,7 @@ class CreateOfferController extends GetxController{
         body: {
           "cid": "upai",
           "user_mobile": data['user_id'].toString(),
-          "service_category_type": selectedCategory.value!.categoryName,
+          "service_category_type": selectedCategory.value,
           "job_title": jobTitle,
           "description": description,
           "date_time": DateTime.now().toString(),
@@ -211,7 +212,7 @@ class CreateOfferController extends GetxController{
         body: {
           "user_id": ProfileScreenController.to.userInfo.value.userId,
           "offer_id": offerId,
-          "service_category_type": selectedCategory.value!.categoryName,
+          "service_category_type": selectedCategory.value!,
           "job_title": title,
           "description": description,
           "rate": rate,
@@ -222,7 +223,7 @@ class CreateOfferController extends GetxController{
     SellerProfileController.to.service.value = MyService(
       userName: ProfileScreenController.to.userInfo.value.name,
       userId: ProfileScreenController.to.userInfo.value.userId,
-      serviceCategoryType: selectedCategory.value!.categoryName,
+      serviceCategoryType: selectedCategory.value!,
       // rateType: selectedRateType.value,
       address: address,
       description: description,
