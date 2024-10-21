@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
+import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
@@ -13,13 +14,37 @@ import 'package:upai/presentation/Service-details/service_details.dart';
 import 'package:upai/presentation/create-offer/create_offer_screen.dart';
 import 'package:upai/presentation/full_screen_image.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
+import 'package:upai/widgets/custom_network_image.dart';
 
 import '../../data/api/firebase_apis.dart';
 import '../create-offer/widget/tab_content_view.dart';
 
-class MyServiceDetails extends StatelessWidget {
+class MyServiceDetails extends StatefulWidget {
   // final MyService service;
   const MyServiceDetails({super.key});
+
+  @override
+  State<MyServiceDetails> createState() => _MyServiceDetailsState();
+}
+
+class _MyServiceDetailsState extends State<MyServiceDetails> {
+  late ImageController imageController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    imageController = ImageController();
+    _fetchImages();
+    super.initState();
+  }
+
+  void _fetchImages() async {
+    // Use the helper function and pass the ImageController
+    await fetchImages(
+      SellerProfileController.to.service.value.offerId.toString(),
+      SellerProfileController.to.service.value.serviceCategoryType.toString(),
+      imageController,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,119 +72,17 @@ class MyServiceDetails extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
+
             Obx(() {
-              return GestureDetector(
-                onTap: () {
-                  Get.to(FullScreenImage(imageUrl: image));
-                },
-                child: FutureBuilder(
-                  future: FirebaseAPIs.fetchOfferImageUrl(
-                      SellerProfileController.to.service.value.offerId
-                          .toString()),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting ||
-                        snapshot.connectionState == ConnectionState.none) {
-                      return Image.asset(
-                        height: 200,
-                        ImageConstant.dummy,
-                        // height: double.infinity,
-                        // fit: BoxFit.cover,
-                      );
-                    } else if (snapshot.hasData) {
-                      image = snapshot.data.toString();
-                      return Image.network(
-                        height: 200,
-                        width: double.infinity,
-                        // height: double.infinity,
-                        // width: double.infinity,
-                        fit: BoxFit.cover,
-                        snapshot.data.toString(),
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child; // Image has finished loading
-                          }
-                          return SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.kprimaryColor,
-                                // value: loadingProgress.expectedTotalBytes != null
-                                //     ? loadingProgress.cumulativeBytesLoaded /
-                                //     (loadingProgress.expectedTotalBytes ?? 1)
-                                //     : null,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      return FutureBuilder(
-                        future: FirebaseAPIs.fetchDefaultOfferImageUrl(
-                            SellerProfileController
-                                .to.service.value.serviceCategoryType
-                                .toString()),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                                  ConnectionState.waiting ||
-                              snapshot.connectionState ==
-                                  ConnectionState.none) {
-                            return Image.asset(
-                              height: 200,
-                              ImageConstant.dummy,
-                              // height: double.infinity,
-                              // fit: BoxFit.cover,
-                            );
-                          } else if (snapshot.hasData) {
-                            image = snapshot.data.toString();
-                            return Image.network(
-                              height: 200,
-                              // height: double.infinity,
-                              // width: double.infinity,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              snapshot.data.toString(),
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child; // Image has finished loading
-                                }
-                                return SizedBox(
-                                  height: 100,
-                                  width: 100,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.kprimaryColor,
-                                      // value: loadingProgress.expectedTotalBytes != null
-                                      //     ? loadingProgress.cumulativeBytesLoaded /
-                                      //     (loadingProgress.expectedTotalBytes ?? 1)
-                                      //     : null,
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          } else {
-                            return Image.asset(
-                              height: 200,
-                              ImageConstant.dummy,
-                              // height: double.infinity,
-                              // width: double.infinity,
-                              // fit: BoxFit.cover,
-                            );
-                          }
-                        },
-                      );
-                    }
-                  },
-                ),
+              return CustomNetworkImage(
+                imgPreview: true,
+                // height: 150,
+                imageUrl: imageController.offerImageUrl.value != null
+                    ? imageController.offerImageUrl.value!
+                    : imageController.defaultOfferImageUrl.value ?? '',
               );
             }),
 
-            // Image.asset(
-            //   ImageConstant.productImage,
-            //   height: 200,
-            // )),
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -349,8 +272,7 @@ class MyServiceDetails extends StatelessWidget {
             Expanded(
               child: ElevatedButton(
                   onPressed: () {
-
-                    Get.toNamed(CreateOfferScreen.routeName,arguments: {
+                    Get.toNamed(CreateOfferScreen.routeName, arguments: {
                       "service": SellerProfileController.to.service.value,
                       "isEdit": true,
                     });

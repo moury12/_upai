@@ -17,7 +17,8 @@ import 'package:upai/presentation/service-list/service_list_screen.dart';
 class FilterBanner extends StatefulWidget {
   final bool? isService;
   const FilterBanner({
-    super.key, this.isService= false,
+    super.key,
+    this.isService = false,
   });
 
   @override
@@ -54,41 +55,40 @@ class _FilterBannerState extends State<FilterBanner> {
             padding: const EdgeInsets.all(8.0),
             child: SearchableDropDown(
               fromHome: true,
-
             ),
           )),
-         widget.isService!?SizedBox.shrink(): Expanded(
-            child: GestureDetector(
-              onTap: () {
-                Get.toNamed(
-                    ServiceListScreen.routeName,
-                    arguments: "");
-              },
-              child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                      color: AppColors.kprimaryColor,
-                      borderRadius: BorderRadius.circular(10)),
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        ImageConstant.serviceIcon,
-                        height: 30,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Text(
-                        'Service',
-                        style: AppTextStyle.bodyMediumWhiteSemiBold,
-                      )
-                    ],
-                  )),
-            ),
-          )
+          widget.isService!
+              ? SizedBox.shrink()
+              : Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.toNamed(ServiceListScreen.routeName, arguments: "");
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            color: AppColors.kprimaryColor,
+                            borderRadius: BorderRadius.circular(10)),
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              ImageConstant.serviceIcon,
+                              height: 30,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(
+                              width: 7,
+                            ),
+                            Text(
+                              'Service',
+                              style: AppTextStyle.bodyMediumWhiteSemiBold,
+                            )
+                          ],
+                        )),
+                  ),
+                )
         ],
       ),
     );
@@ -122,7 +122,6 @@ class FilterDialog extends StatelessWidget {
               title: 'Service Type:',
             );
           }),
-
           Obx(() {
             return FilterDropdown(
               menuList: HomeController.to.getCatList
@@ -138,7 +137,6 @@ class FilterDialog extends StatelessWidget {
               title: 'Service category:',
             );
           }),
-
           Obx(() {
             return FilterDropdown(
               menuList: const ['Rating', 'Newest Arrival', 'Best Selling'],
@@ -154,17 +152,27 @@ class FilterDialog extends StatelessWidget {
         ],
       ),
       contentPadding: EdgeInsets.all(12).copyWith(bottom: 0),
-      actionsPadding:EdgeInsets.symmetric(vertical: 8,horizontal: 8).copyWith(top: 0),
+      actionsPadding:
+          EdgeInsets.symmetric(vertical: 8, horizontal: 8).copyWith(top: 0),
       actions: [
-        CustomTextButton(label: 'Apply', onChange: () {  },),CustomTextButton(
+        CustomTextButton(
           primary: AppColors.cancelButtonColor,
-          label: 'Cancel', onChange: () {  },),
+          label: 'Cancel',
+          onChange: () {
+            Navigator.pop(context);
+          },
+        ),
+        CustomTextButton(
+          label: 'Apply',
+          onChange: () {
+            Navigator.pop(context);
+          },
+        ),
+
       ],
     );
   }
 }
-
-
 
 class FilterDropdown<T> extends StatelessWidget {
   final String title;
@@ -186,8 +194,9 @@ class FilterDropdown<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [Divider(),
-      Text(title, style: AppTextStyle.bodySmallblack),
+      children: [
+        Divider(),
+        Text(title, style: AppTextStyle.bodySmallblack),
         sizeBoxHeight6,
         CustomDropDown(
             isEditArgument: false,

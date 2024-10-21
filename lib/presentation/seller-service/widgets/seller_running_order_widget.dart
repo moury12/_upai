@@ -1,16 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:upai/Model/buyer_profile_model.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
+import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
-import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
-
-import '../../../data/api/firebase_apis.dart';
+import 'package:upai/widgets/custom_network_image.dart';
 import '../../../data/repository/repository_details.dart';
 
 class SellerRunningOrderWidget extends StatefulWidget {
@@ -29,14 +26,24 @@ class SellerRunningOrderWidget extends StatefulWidget {
 }
 
 class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
+  late ImageController imageController;
+
   @override
   void initState() {
     Get.put(OrderController());
 
     // TODO: implement initState
+    imageController = ImageController();
+    _fetchImages();
     super.initState();
   }
-
+  void _fetchImages() async {
+    await fetchImages(
+      widget.sellerRunningOrder.offerId.toString(),
+      widget.sellerRunningOrder.serviceCategoryType.toString(),
+      imageController,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -80,12 +87,6 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                                   widget.sellerRunningOrder.buyerId;
                               newNotificationData.sellerId =
                                   widget.sellerRunningOrder.sellerId;
-                              // newNotificationData.quantity =
-                              //     widget.sellerRunningOrder.quantity.toString();
-                              // newNotificationData.rateType =
-                              //     widget.sellerRunningOrder.rateType;
-                              // newNotificationData.rate =
-                              //     widget.sellerRunningOrder.rate.toString();
                               newNotificationData.price =
                                   widget.sellerRunningOrder.price.toString();
                               newNotificationData.jobTitle =
@@ -159,96 +160,17 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              flex: 2,
-              child: SizedBox(
-                height: 140,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: FutureBuilder(
-                    future: FirebaseAPIs.fetchOfferImageUrl(widget.sellerRunningOrder.offerId.toString()),
-                    builder: (context, snapshot) {
-                      // if(snapshot.connectionState==ConnectionState.waiting||snapshot.connectionState==ConnectionState.none)
-                      //   {
-                      //     return Image.asset(
-                      //       ImageConstant.dummy,
-                      //       height: getResponsiveFontSize(context, 120),
-                      //       fit: BoxFit.none,
-                      //     );
-                      //   }
-                      if (snapshot.hasData) {
-                        return Image.network(
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child; // Image has finished loading
-                              }
-                              return SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: AppColors.kprimaryColor,
-                                    // value: loadingProgress.expectedTotalBytes != null
-                                    //     ? loadingProgress.cumulativeBytesLoaded /
-                                    //     (loadingProgress.expectedTotalBytes ?? 1)
-                                    //     : null,
-                                  ),
-                                ),
-                              );
-                            },
-                            // height: getResponsiveFontSize(context, 120),
-                            fit: BoxFit.cover, snapshot.data.toString());
-                      }
-                      else {
-                        return FutureBuilder(
-                          future: FirebaseAPIs.fetchDefaultOfferImageUrl(widget.sellerRunningOrder.serviceCategoryType.toString()),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Image.network(
-                                  loadingBuilder: (context, child, loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child; // Image has finished loading
-                                    }
-                                    return SizedBox(
-                                      height: 100,
-                                      width: 100,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          color: AppColors.kprimaryColor,
-                                          // value: loadingProgress.expectedTotalBytes != null
-                                          //     ? loadingProgress.cumulativeBytesLoaded /
-                                          //     (loadingProgress.expectedTotalBytes ?? 1)
-                                          //     : null,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  // height: getResponsiveFontSize(context, 120),
-                                  fit: BoxFit.cover, snapshot.data.toString());
-                            }
-                            else {
-                              return Image.asset(
-                                    ImageConstant.dummy,
-                                    // height: getResponsiveFontSize(context, 120),
-                                    fit: BoxFit.none,
-                                  );
-                            }
-                          },
-                        );
-                      }
-                    },
-                  ),
-                  ////
 
-                  // Image.asset(
-                  //   ImageConstant.runningOrderImage,
-                  //   height: getResponsiveFontSize(context, 120),
-                  //   fit: BoxFit.fill,
-                  // ),
+            Obx(() {
+              return CustomNetworkImage(
+width: 150,
+                height: 150,
+                imageUrl: imageController.offerImageUrl.value != null
+                    ? imageController.offerImageUrl.value!
+                    : imageController.defaultOfferImageUrl.value ?? '',
+              );
+            }),
 
-                ),
-              ),
-            ),
             SizedBox(
               width: 12,
             ),
@@ -259,20 +181,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /*Row( mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                            'Job id: ${runningOrder.jobId ?? 'job id'}',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500)),Text(
-                            '${runningOrder.awardDate ?? ''}',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500)),
-                      ],
-                    ),*/
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

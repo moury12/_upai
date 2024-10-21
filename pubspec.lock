@@ -452,10 +452,10 @@ packages:
     dependency: transitive
     description:
       name: google_identity_services_web
-      sha256: "9482364c9f8b7bd36902572ebc3a7c2b5c8ee57a9c93e6eb5099c1a9ec5265d8"
+      sha256: "5be191523702ba8d7a01ca97c17fca096822ccf246b0a9f11923a6ded06199b6"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1+1"
+    version: "0.3.1+4"
   googleapis:
     dependency: "direct main"
     description:

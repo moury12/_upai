@@ -34,14 +34,7 @@ class BuyerProfileController extends GetxController {
   }
 
 
-  // void deleteOffer(String offerId) async {
-  //   await RepositoryData.deleteOffer(
-  //       token: ctrl!.userInfo.value.token.toString(),
-  //       body: {"user_id": ctrl!.userInfo.value.userId, "offer_id": offerId});
-  //   // seller.value.myService!.removeWhere((service) => service.offerId == offerId);
-  //   myService.refresh();
-  //   await getSellerProfile();
-  // }
+
 
 
   Future<void> getBuyerProfile() async {

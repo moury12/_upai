@@ -1,205 +1,110 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
+import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
-class MyServiceWidget extends StatelessWidget {
+import 'package:upai/widgets/custom_network_image.dart';
+class MyServiceWidget extends StatefulWidget {
   final MyService? service;
   final OfferList? offerItem;
   final Widget? button;
   const MyServiceWidget({super.key, this.service, this.offerItem, this.button});
 
   @override
+  State<MyServiceWidget> createState() => _MyServiceWidgetState();
+}
+
+class _MyServiceWidgetState extends State<MyServiceWidget> {
+  late ImageController imageController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    imageController = ImageController();
+    _fetchImages();
+  }
+  void _fetchImages() async {
+    bool isService = widget.service != null;
+
+    // Use the helper function and pass the ImageController
+    await fetchImages(
+      isService ? widget.service!.offerId.toString() : widget.offerItem!.offerId.toString(),
+      isService ? widget.service!.serviceCategoryType.toString() : widget.offerItem!.serviceCategoryType.toString(),
+      imageController,
+    );
+  }
+  @override
   Widget build(BuildContext context) {
-    // Determine if we're using service or offerList
-    bool isService = service != null;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          // width: 200,
-          height: 200,
-          width: 200,
-          padding: const EdgeInsets.all(12),
-          alignment: Alignment.topCenter,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: Colors.white,
-            boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3), spreadRadius: 2, blurRadius: 5)],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Expanded(
-                  flex: 4,
-                  child:
-                  FutureBuilder(
-                    future: FirebaseAPIs.fetchOfferImageUrl(isService ? service!.offerId.toString() : offerItem!.offerId.toString()),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
-                        return Image.asset(
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.none,
-                          ImageConstant.dummy,
-                          // height: 80,
-                        );
-                      } else if (snapshot.hasData) {
-                        return Image.network(
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            snapshot.data.toString(),
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child; // Image has finished loading
-                            }
-                            return SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColors.kprimaryColor,
-                                  // value: loadingProgress.expectedTotalBytes != null
-                                  //     ? loadingProgress.cumulativeBytesLoaded /
-                                  //     (loadingProgress.expectedTotalBytes ?? 1)
-                                  //     : null,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      } else {
-                        return FutureBuilder(
-                          future: FirebaseAPIs.fetchDefaultOfferImageUrl(isService ? service!.serviceCategoryType.toString() : offerItem!.serviceCategoryType.toString()),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting && snapshot.connectionState == ConnectionState.none) {
-                              return Image.asset(
-                                width: double.infinity,
-                                height: double.infinity,
-                                fit: BoxFit.none,
-                                ImageConstant.dummy,
-                                // height: 80,
-                              );
-                            } else if (snapshot.hasData) {
-                              return Image.network(
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  snapshot.data.toString(),
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child; // Image has finished loading
-                                  }
-                                  return SizedBox(
-                                    height: 100,
-                                    width: 100,
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        color: AppColors.kprimaryColor,
-                                        // value: loadingProgress.expectedTotalBytes != null
-                                        //     ? loadingProgress.cumulativeBytesLoaded /
-                                        //     (loadingProgress.expectedTotalBytes ?? 1)
-                                        //     : null,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            } else {
-                              return Image.asset(
-                                width: double.infinity,
-                                height: double.infinity,
-                                fit: BoxFit.none,
-                                ImageConstant.dummy,
-                                // height: 80,
-                              );
-                            }
-                          },
-                        );
-                      }
-                    },
-                  )
-              ),
-              Expanded(
-                  flex: 3,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        isService ? service!.jobTitle ?? '' : offerItem?.jobTitle ?? '',
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                      ),
 
-                      Text(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.left,
+    bool isService = widget.service != null;
+    return Container(
+      // width: 200,
+      height: 200,
+      width: 200,
+      padding: const EdgeInsets.all(12),
+      alignment: Alignment.topCenter,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3), spreadRadius: 2, blurRadius: 5)],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
 
-                        /*${isService ? service!.rateType ?? ' ' : offerList?.rateType ?? ' '}(*/
-                        'From ৳ ${isService ?service!.package!.isEmpty?'0': service!.package![0].price ?? '0' :offerItem!.package!.isEmpty ? '0': offerItem?.package![0].price ?? '0'}',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,),
-                      ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   children: [
-                      //     Expanded(
-                      //       child: Text(
-                      //         maxLines: 1,
-                      //         overflow: TextOverflow.ellipsis,
-                      //         isService
-                      //             ? service!.serviceCategoryType ?? ''
-                      //             : offerList?.serviceCategoryType ?? '',
-                      //         style: TextStyle(
-                      //             fontSize: 12,
-                      //             fontWeight: FontWeight.w600,
-                      //             color: Colors.grey.shade600),
-                      //       ),
-                      //     ),
-                      //
-                      //   ],
-                      // ),
-                      /*button == null
-                      ? Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            isService
-                                ? service!.description ?? ''
-                                : offerList?.description ?? '',
-                            style: TextStyle(
-                                fontSize: 10, fontWeight: FontWeight.w400),
-                          ),
-                        )
-                      : */
-                    ],
-                  )),
-              button != null ? Expanded(flex: 2, child: button!) : SizedBox.shrink(),
-            ],
+        children: [
+
+          Expanded(
+              flex: 4,
+              child:
+              Obx(() {
+                return CustomNetworkImage(
+
+                  imageUrl: imageController.offerImageUrl.value != null
+                      ? imageController.offerImageUrl.value!
+                      : imageController.defaultOfferImageUrl.value ?? '',
+                );
+              })
           ),
-        ),
-        if (offerItem?.district != null && offerItem!.district!.isNotEmpty && offerItem!.district != "All Districts" || service?.district != null && service!.district!.isNotEmpty && service!.district != "All Districts" /*||offerList?.district.isNotEmpty*/)
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Container(
-              padding: EdgeInsets.all(4),
-              decoration: BoxDecoration(color: AppColors.kprimaryColor, borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), topLeft: Radius.circular(15))),
-              child: Text(
-                maxLines: 1,
-                isService ? service!.district ?? '' : offerItem?.district ?? '',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white),
-              ),
-            ),
-          )
-      ],
+          Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    isService ? widget.service!.jobTitle ?? '' : widget.offerItem?.jobTitle ?? '',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                  ),
+                  (widget.offerItem?.district != null && widget.offerItem!.district!.isNotEmpty
+                      && widget.offerItem!.district != "All Districts"
+                      || widget.service?.district != null && widget.service!.district!.isNotEmpty
+                          && widget.service!.district != "All Districts" )?  Text(
+                    maxLines: 1,
+                    isService ? widget.service!.district ?? '' : widget.offerItem?.district ?? '',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black),
+                  ):SizedBox.shrink(),
+                  Text(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+
+                    'From ৳ ${isService ?widget.service!.package!.isEmpty?'0': widget.service!.package![0].price ?? '0' :widget.offerItem!.package!.isEmpty ? '0': widget.offerItem?.package![0].price ?? '0'}',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,),
+                  ),
+
+                ],
+              )),
+          widget.button != null ? Expanded(flex: 2, child: widget.button!) : SizedBox.shrink(),
+        ],
+      ),
     );
   }
 }
@@ -240,7 +145,7 @@ class SellerStatusWidget extends StatelessWidget {
                     child: Icon(
                       icon ?? Icons.attach_money,
                       color: Colors.white,
-                      size: 15,
+                      size: MediaQuery.of(context).size.width/20,
                     ),
                   ),
                 ),

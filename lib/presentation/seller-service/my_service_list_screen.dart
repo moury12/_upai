@@ -113,6 +113,7 @@ class MyServiceListScreen extends StatelessWidget {
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: crossAxisCount,
+                                  childAspectRatio: .8,
                                   crossAxisSpacing: 8,
                                   mainAxisSpacing: 8),
                           itemCount:

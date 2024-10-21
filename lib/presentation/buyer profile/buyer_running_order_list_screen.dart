@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/buyer_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
-import 'package:upai/presentation/buyer%20profile/widgets/buyer_running_order_widget.dart';
+import 'package:upai/presentation/seller-service/widgets/seller_running_order_widget.dart';
 import '../../core/utils/custom_text_style.dart';
 import 'buyer_profile_controller.dart';
 
@@ -17,19 +17,11 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
 
-    int crossAxisCount = MediaQuery.of(context).size.width > 600 ? 4 : 2;
     return Scaffold(
         backgroundColor: AppColors.strokeColor2,
         appBar: AppBar(
-          // leading: IconButton(
-          //   icon: const Icon(CupertinoIcons.back),
-          //   onPressed: () {
-          //     Get.back();
-          //   },
-          // ),
+
           title: Text(
             "Buyer Running Orders",
             style: AppTextStyle.appBarTitle,
@@ -51,8 +43,8 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
                       itemCount: BuyerProfileController.to.buyer.value.buyerRunningOrder!.length,
                       itemBuilder: (context, index) {
                         print("count $index");
-                        return BuyerRunningOrderWidget(
-                          buyerRunningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
+                        return SellerRunningOrderWidget(
+                          sellerRunningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
                         );
                       },
                     ),

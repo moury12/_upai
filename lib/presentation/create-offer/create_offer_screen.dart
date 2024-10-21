@@ -131,7 +131,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       color: AppColors.kprimaryColor),
                 ),
                 defaultSizeBoxHeight,
-                InkWell(
+                /// network_image_optimize
+                /*InkWell(
                   onTap: () {
                     HomeController.to.showPickerDialog(context);
                   },
@@ -245,7 +246,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           ))
                     ]),
                   ),
-                ),
+                ),*/
                 defaultSizeBoxHeight,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

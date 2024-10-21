@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 import 'package:upai/Model/user_info_model.dart';
+import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
@@ -21,16 +22,18 @@ import 'package:upai/presentation/Service-details/rating_list_screen.dart';
 import 'package:upai/presentation/create-offer/widget/tab_content_view.dart';
 import 'package:upai/presentation/full_screen_image.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
+import 'package:upai/widgets/custom_network_image.dart';
 import '../../Model/offer_list_model.dart';
 import 'service_details_controller.dart';
 import 'widgets/client_review.dart';
 
 class ServiceDetails extends StatefulWidget {
+  static const String routeName='/service-details';
   ServiceDetails({super.key, this.offerDetails, });
   final OfferList? offerDetails;
   // final String? offerId;
   Map<String, dynamic> sellerDetails = {};
-  static const String routeName = '/offer-details';
+
   @override
   State<ServiceDetails> createState() => _ServiceDetailsState();
 }
@@ -38,6 +41,7 @@ class ServiceDetails extends StatefulWidget {
 class _ServiceDetailsState extends State<ServiceDetails> {
   String image =
       "https://lh5.googleusercontent.com/proxy/t08n2HuxPfw8OpbutGWjekHAgxfPFv-pZZ5_-uTfhEGK8B5Lp-VN4VjrdxKtr8acgJA93S14m9NdELzjafFfy13b68pQ7zzDiAmn4Xg8LvsTw1jogn_7wStYeOx7ojx5h63Gliw";
+  late ImageController imageController;
 
   // late TabController tabController;
   @override
@@ -49,11 +53,20 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     ProfileScreenController.to.profileImageUrl.value = '';
 
     ProfileScreenController.to.id.value = widget.offerDetails!.userId ?? '';
-// ProfileScreenController.to.fetchProfileImage();
-//     debugPrint(widget.offerDetails!.buyerReviewList!.toList().toString());
+    imageController = ImageController();
+    _fetchImages();
     super.initState();
   }
+  void _fetchImages() async {
 
+
+    // Use the helper function and pass the ImageController
+    await fetchImages(
+      widget.offerDetails!.offerId.toString(),
+       widget.offerDetails!.serviceCategoryType.toString(),
+      imageController,
+    );
+  }
   @override
   void dispose() {
     ProfileScreenController.to.profileImageUrl.value = '';
@@ -261,12 +274,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       size: 25,
                     ),
             )
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: const Icon(
-          //     CupertinoIcons.share,
-          //   ),
-          // ),
+
         ],
       ),
       body: SafeArea(
@@ -280,76 +288,17 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: size.width,
-                      height: 200,
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.to(FullScreenImage(imageUrl: image));
-                        },
-                        child: FutureBuilder(
-                          future: FirebaseAPIs.fetchOfferImageUrl(
-                              widget.offerDetails!.offerId.toString()),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                    ConnectionState.waiting &&
-                                snapshot.connectionState ==
-                                    ConnectionState.none) {
-                              return Image.asset(
-                                width: double.infinity,
-                                height: double.infinity,
-                                fit: BoxFit.none,
-                                ImageConstant.dummy,
-                                // height: 80,
-                              );
-                            } else if (snapshot.hasData) {
-                              image = snapshot.data.toString();
-                              return Image.network(
-                                  height: double.infinity,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  snapshot.data.toString());
-                            } else {
-                              return FutureBuilder(
-                                future:
-                                    FirebaseAPIs.fetchDefaultOfferImageUrl(
-                                        widget
-                                            .offerDetails!.serviceCategoryType
-                                            .toString()),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                          ConnectionState.waiting &&
-                                      snapshot.connectionState ==
-                                          ConnectionState.none) {
-                                    return Image.asset(
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      fit: BoxFit.none,
-                                      ImageConstant.dummy,
-                                      // height: 80,
-                                    );
-                                  } else if (snapshot.hasData) {
-                                    image = snapshot.data.toString();
-                                    return Image.network(
-                                        height: double.infinity,
-                                        width: double.infinity,
-                                        fit: BoxFit.cover,
-                                        snapshot.data.toString());
-                                  } else {
-                                    return Image.asset(
-                                      ImageConstant.dummy,
-                                      height: double.infinity,
-                                      width: double.infinity,
-                                      fit: BoxFit.none,
-                                    );
-                                  }
-                                },
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ),
+
+                     Obx(() {
+                                  return CustomNetworkImage(
+                                    imgPreview: true,
+                                    // height: 150,
+                                    imageUrl: imageController.offerImageUrl.value != null
+                                        ? imageController.offerImageUrl.value!
+                                        : imageController.defaultOfferImageUrl.value ?? '',
+                                  );
+                                }),
+
                     ListTile(
                       leading: CircleAvatar(
                         radius: 24,

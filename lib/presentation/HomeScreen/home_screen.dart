@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     : /*HomeController
                                                   .to.getOfferList.isEmpty ?NoServiceWidget():*/
                                     SizedBox(
-                                        height: 200,
+                                        height: 250,
                                         child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             physics: BouncingScrollPhysics(),
@@ -216,19 +216,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       itemBuilder: (context, index) {
                                         final service = offerList[index];
 
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Get.to(
-                                              ServiceDetails(
-                                                offerDetails: service,
-                                              ),
-                                            );
-                                          },
-                                          child: ServiceOfferWidget(
+                                        return  ServiceOfferWidget(
                                             index: index,
                                             offerItem: service,
-                                          ),
-                                        );
+                                          );
+
                                       },
                                     ),
                                   ],
@@ -291,19 +283,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                               itemBuilder: (context, index) {
                                                 final service = controller
                                                     .getOfferList[index];
-                                                return InkWell(
-                                                    onTap: () {
-                                                      Get.to(
-                                                        ServiceDetails(
-                                                          offerDetails:
-                                                              service,
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: ServiceOfferWidget(
+                                                return  ServiceOfferWidget(
                                                       index: index,
                                                       offerItem: service,
-                                                    ));
+                                                    );
                                               });
                                     }),
                                   ],

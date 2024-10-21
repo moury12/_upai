@@ -18,6 +18,8 @@ import 'package:upai/presentation/LoginScreen/otp_screen.dart';
 import 'package:upai/presentation/Profile/profile_screen.dart';
 
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
+import 'package:upai/presentation/Service-details/service_details.dart';
+import 'package:upai/presentation/Service-details/service_details.dart';
 import 'package:upai/presentation/SplashScreen/splash_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 import 'package:upai/review/review_screen.dart';
@@ -121,6 +123,7 @@ class _MyAppState extends State<MyApp> {
           GetPage(name: '/login', page: () => const LoginScreen()),
           GetPage(name: '/profile', page: () => ProfileScreen(), binding: ProfileBinding()),
           GetPage(name: ServiceListScreen.routeName, page: () => ServiceListScreen()),
+          GetPage(name: ServiceDetails.routeName, page: () => ServiceDetails()),
           GetPage(name: CategoryListScreen.routeName, page: () => const CategoryListScreen()),
           GetPage(name: OtpScreen.routeName, page: () => const OtpScreen()),
           GetPage(name: CreateOfferScreen.routeName, page: () => const CreateOfferScreen(),

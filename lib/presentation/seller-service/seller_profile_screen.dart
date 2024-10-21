@@ -279,7 +279,8 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       :  seller.myService == null || seller.myService!.isEmpty?SizedBox():GridView.builder(
                           shrinkWrap: true,
                           primary: false,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8),
+
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8,childAspectRatio: .8),
                           itemCount: seller.myService!.reversed.toList().length < 4 ? seller.myService!.reversed.toList().length : 4,
                           itemBuilder: (context, index) {
                             final service = SellerProfileController.to.myService[index];
