@@ -40,19 +40,7 @@ class BuyerProfileController extends GetxController {
   Future<void> getBuyerProfile() async {
     buyer.value = await RepositoryData.getBuyerProfile(
         ctrl!.userInfo.value.token.toString(), ctrl!.userInfo.value.userId ?? '');
-    // myService.value = seller.value.myService!;
-    // filterList.assignAll(myService);
-    // debugPrint('myService.toJson()');
-    // debugPrint(myService.toString());
+
   }
 
-  // void filterMyService(String query) {
-  //   if (query.isEmpty) {
-  //     filterList.assignAll(myService);
-  //   } else {
-  //     filterList.assignAll(myService.where(
-  //           (e) => e.jobTitle!.toLowerCase().contains(query.toLowerCase()),
-  //     ));
-  //   }
-  // }
 }

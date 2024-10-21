@@ -5,15 +5,19 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
+import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
+import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
+import 'package:upai/widgets/custom_network_image.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 import '../HomeScreen/widgets/custom_button_widget.dart';
 import 'widget/custom_drop_down.dart';
@@ -34,17 +38,35 @@ class CreateOfferScreen extends StatefulWidget {
 
 class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final box = Hive.box('userInfo');
+  late ImageController imageController;
+
   // var serviceArgument =Get.arguments()['service'];
-  var isEditArgument = false;
+  bool isEditArgument = false;
   Map<String, dynamic>? arguments = Get.arguments;
   @override
   void initState() {
+    imageController = ImageController();
     if (arguments != null) {
       CreateOfferController.to.editOfferData(arguments!['service']);
+      isEditArgument=arguments!['isEdit'];
+
+        debugPrint('000000000000000000');
+        debugPrint(arguments!['service'].offerId.toString());
+        _fetchImages();
+
     }
     super.initState();
   }
 
+  void _fetchImages() async {
+    // Use the helper function and pass the ImageController
+    await fetchImages(
+     arguments!['service'].offerId.toString(),
+     arguments!['service'].serviceCategoryType.toString(),
+      imageController,
+    );
+
+  }
   @override
   Widget build(BuildContext context) {
     debugPrint('Get.arguments()');
@@ -132,7 +154,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                 ),
                 defaultSizeBoxHeight,
                 /// network_image_optimize
-                /*InkWell(
+                InkWell(
                   onTap: () {
                     HomeController.to.showPickerDialog(context);
                   },
@@ -150,7 +172,17 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     fit: BoxFit.fill,
                                   )
                                 : isEditArgument == true
-                                    ? FutureBuilder(
+                                    ? Obx(() {
+                                      debugPrint(imageController.offerImageUrl.value);
+                              return CustomNetworkImage(
+                                imgPreview: true,
+                                // height: 150,
+                                imageUrl: imageController.offerImageUrl.value != null
+                                    ? imageController.offerImageUrl.value!
+                                    : imageController.defaultOfferImageUrl.value ?? '',
+                              );
+                            })
+                            /*FutureBuilder(
                                         future: FirebaseAPIs.fetchOfferImageUrl(
                                             widget.service!.offerId.toString()),
                                         builder: (context, snapshot) {
@@ -230,7 +262,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                             );
                                           }
                                         },
-                                      )
+                                      )*/
                                     : Image(
                                         image: AssetImage(ImageConstant.dummy),
                                         fit: BoxFit.cover,
@@ -246,7 +278,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                           ))
                     ]),
                   ),
-                ),*/
+                ),
                 defaultSizeBoxHeight,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
