@@ -28,8 +28,11 @@ import 'service_details_controller.dart';
 import 'widgets/client_review.dart';
 
 class ServiceDetails extends StatefulWidget {
-  static const String routeName='/service-details';
-  ServiceDetails({super.key, this.offerDetails, });
+  static const String routeName = '/service-details';
+  ServiceDetails({
+    super.key,
+    this.offerDetails,
+  });
   final OfferList? offerDetails;
   // final String? offerId;
   Map<String, dynamic> sellerDetails = {};
@@ -50,38 +53,28 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
     // getSellerDetails();
     Get.put(ServiceDetailsController());
-    ProfileScreenController.to.profileImageUrl.value = '';
+    ProfileScreenController.to.serviceSellerProfileImageUrl.value = '';
 
     ProfileScreenController.to.id.value = widget.offerDetails!.userId ?? '';
     imageController = ImageController();
     _fetchImages();
+    ProfileScreenController.to
+        .fetchServiceSellerProfileImage(widget.offerDetails!.userId.toString());
+
     super.initState();
   }
+
   void _fetchImages() async {
-
-
     // Use the helper function and pass the ImageController
     await fetchImages(
       widget.offerDetails!.offerId.toString(),
-       widget.offerDetails!.serviceCategoryType.toString(),
+      widget.offerDetails!.serviceCategoryType.toString(),
       imageController,
     );
-  }
-  @override
-  void dispose() {
-    ProfileScreenController.to.profileImageUrl.value = '';
-
-    ProfileScreenController.to.id.value =
-        ProfileScreenController.to.userInfo.value.userId ?? '';
-    ProfileScreenController.to.fetchProfileImage();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.sizeOf(context);
-
-
     return Scaffold(
       floatingActionButton: ElevatedButton(
         onPressed: () async {
@@ -125,57 +118,20 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.transparent,
-                child: FutureBuilder(
-                  future: ProfileScreenController.to.getProfileImageURL(
-                      widget.offerDetails!.userId.toString()),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting ||
-                        snapshot.connectionState == ConnectionState.none) {
-                      return Center(
-                          child: CircularProgressIndicator(
-                        color: AppColors.kprimaryColor,
-                      ));
-                    } else if (snapshot.hasData) {
-                      if (snapshot.data != "") {
-                        return CachedNetworkImage(
-                          imageUrl: snapshot.data.toString(),
-                          imageBuilder: (context, imageProvider) =>
-                              CircleAvatar(
-                            radius: 20,
-                            backgroundImage: imageProvider,
-                          ),
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(
-                            color: AppColors.kprimaryColor,
-                          ), // Loading indicator
-                          errorWidget: (context, url, error) => CircleAvatar(
-                              radius: 20,
-
-                              // radius: 30,
-                              backgroundImage: AssetImage(
-                                ImageConstant.senderImg,
-                              )), // Error icon
-                        );
-                      } else {
-                        return CircleAvatar(
-                            radius: 20,
-                            backgroundImage: AssetImage(
-                              ImageConstant.senderImg,
-                            ));
-                      }
-                    } else {
-                      return CircleAvatar(
-                          radius: 20,
-                          // radius: 30,
-                          backgroundImage: AssetImage(
-                            ImageConstant.senderImg,
-                          ));
-                    }
-                  },
-                ),
+              ClipOval(
+                child:Obx(() {
+                  return CustomNetworkImage(
+                    height: 40,
+                    width: 40,
+                    imageUrl:ProfileScreenController
+                        .to.serviceSellerProfileImageUrl.value ,
+                    errorWidget:CircleAvatar(
+                        radius: 20,
+                        backgroundImage: AssetImage(
+                          ImageConstant.senderImg,
+                        )) ,
+                  );
+                }),
               ),
               SizedBox(
                 width: 8,
@@ -202,13 +158,25 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 Get.snackbar("This is your Service", "");
               } else {
                 Get.put(OrderController());
-                var packageName =widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].packageName;
-                var packagePrice =widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].price;
-                var duration =widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].duration;
-                  OrderController.to.awardCreateJob(duration!,widget.offerDetails!.offerId ?? '', widget.offerDetails!.userId ?? '', widget.offerDetails!.jobTitle ?? '', widget.offerDetails!.description ?? '',
-                      (ServiceDetailsController.to.tabIndex.value+1).toString(),
-                      packageName!, packagePrice!);
-
+                var packageName = widget
+                    .offerDetails!
+                    .package![ServiceDetailsController.to.tabIndex.value]
+                    .packageName;
+                var packagePrice = widget.offerDetails!
+                    .package![ServiceDetailsController.to.tabIndex.value].price;
+                var duration = widget
+                    .offerDetails!
+                    .package![ServiceDetailsController.to.tabIndex.value]
+                    .duration;
+                OrderController.to.awardCreateJob(
+                    duration!,
+                    widget.offerDetails!.offerId ?? '',
+                    widget.offerDetails!.userId ?? '',
+                    widget.offerDetails!.jobTitle ?? '',
+                    widget.offerDetails!.description ?? '',
+                    (ServiceDetailsController.to.tabIndex.value + 1).toString(),
+                    packageName!,
+                    packagePrice!);
               }
             },
             style: ElevatedButton.styleFrom(
@@ -218,18 +186,21 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               ),
               backgroundColor: AppColors.kprimaryColor,
             ),
-            child:widget.offerDetails!.package==null||widget.offerDetails!.package!.isEmpty?Text('Confirm', style: AppTextStyle.bodySmallwhite,): Obx(
-               () {
-                return Text(
-                  "Confirm Offer ( ${widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].packageName} )",
-                  style: AppTextStyle.bodySmallwhite,
-                );
-              }
-            ),
+            child: widget.offerDetails!.package == null ||
+                    widget.offerDetails!.package!.isEmpty
+                ? Text(
+                    'Confirm',
+                    style: AppTextStyle.bodySmallwhite,
+                  )
+                : Obx(() {
+                    return Text(
+                      "Confirm Offer ( ${widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].packageName} )",
+                      style: AppTextStyle.bodySmallwhite,
+                    );
+                  }),
           ),
         ),
       ),
-
       appBar: AppBar(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
@@ -245,36 +216,32 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           ),
         ),
         actions: [
-         IconButton(
-              onPressed: () {
-                print(ServiceDetailsController.to.isFav.value.toString());
-                if (!widget.offerDetails!.isFav!) {
-                  widget.offerDetails!.isFav = true;
-                  saveOfferToHive(widget.offerDetails!);
-
-                } else {
-                  widget.offerDetails!.isFav = false;
-                  deleteFavOffers(
-                      widget.offerDetails!.offerId.toString());
-                  // HomeController.to.favOfferList.refresh();
-                  // HomeController.to.getOfferList.refresh();
-
-                }
-                setState(() {});
-                // ServiceDetailsController.to.isFav.value = widget.offerDetails!.isFav;
-              },
-              icon: widget.offerDetails!.isFav!
-                  ? Icon(
-                      CupertinoIcons.heart_fill,
-                      size: 25,
-                      color: AppColors.kprimaryColor,
-                    )
-                  : Icon(
-                      CupertinoIcons.heart,
-                      size: 25,
-                    ),
-            )
-
+          IconButton(
+            onPressed: () {
+              print(ServiceDetailsController.to.isFav.value.toString());
+              if (!widget.offerDetails!.isFav!) {
+                widget.offerDetails!.isFav = true;
+                saveOfferToHive(widget.offerDetails!);
+              } else {
+                widget.offerDetails!.isFav = false;
+                deleteFavOffers(widget.offerDetails!.offerId.toString());
+                // HomeController.to.favOfferList.refresh();
+                // HomeController.to.getOfferList.refresh();
+              }
+              setState(() {});
+              // ServiceDetailsController.to.isFav.value = widget.offerDetails!.isFav;
+            },
+            icon: widget.offerDetails!.isFav!
+                ? Icon(
+                    CupertinoIcons.heart_fill,
+                    size: 25,
+                    color: AppColors.kprimaryColor,
+                  )
+                : Icon(
+                    CupertinoIcons.heart,
+                    size: 25,
+                  ),
+          )
         ],
       ),
       body: SafeArea(
@@ -288,73 +255,30 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                     Obx(() {
-                                  return CustomNetworkImage(
-                                    imgPreview: true,
-                                    // height: 150,
-                                    imageUrl: imageController.offerImageUrl.value != null
-                                        ? imageController.offerImageUrl.value!
-                                        : imageController.defaultOfferImageUrl.value ?? '',
-                                  );
-                                }),
-
+                    Obx(() {
+                      return CustomNetworkImage(
+                        imgPreview: true,
+                        height: 250,
+                        imageUrl: imageController.offerImageUrl.value != null
+                            ? imageController.offerImageUrl.value!
+                            : imageController.defaultOfferImageUrl.value ?? '',
+                      );
+                    }),
                     ListTile(
-                      leading: CircleAvatar(
-                        radius: 24,
-                        backgroundColor: Colors.transparent,
-                        child: FutureBuilder(
-                          future: ProfileScreenController.to
-                              .getProfileImageURL(
-                                  widget.offerDetails!.userId.toString()),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                    ConnectionState.waiting ||
-                                snapshot.connectionState ==
-                                    ConnectionState.none) {
-                              return Center(
-                                  child: CircularProgressIndicator(
-                                color: AppColors.kprimaryColor,
-                              ));
-                            } else if (snapshot.hasData) {
-                              if (snapshot.data != "") {
-                                return CachedNetworkImage(
-                                  imageUrl: snapshot.data.toString(),
-                                  imageBuilder: (context, imageProvider) =>
-                                      CircleAvatar(
-                                    radius: 24,
-                                    backgroundImage: imageProvider,
-                                  ),
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(
-                                    color: AppColors.kprimaryColor,
-                                  ), // Loading indicator
-                                  errorWidget: (context, url, error) =>
-                                      CircleAvatar(
-                                          radius: 24,
-
-                                          // radius: 30,
-                                          backgroundImage: AssetImage(
-                                            ImageConstant.senderImg,
-                                          )), // Error icon
-                                );
-                              } else {
-                                return CircleAvatar(
-                                    radius: 24,
-                                    backgroundImage: AssetImage(
-                                      ImageConstant.senderImg,
-                                    ));
-                              }
-                            } else {
-                              return CircleAvatar(
-                                  radius: 24,
-                                  // radius: 30,
-                                  backgroundImage: AssetImage(
-                                    ImageConstant.senderImg,
-                                  ));
-                            }
-                          },
-                        ),
+                      leading: ClipOval(
+                        child:Obx(() {
+                          return CustomNetworkImage(
+                            height: 40,
+                            width: 40,
+                            imageUrl:ProfileScreenController
+                                .to.serviceSellerProfileImageUrl.value ,
+                            errorWidget:CircleAvatar(
+                                radius: 20,
+                                backgroundImage: AssetImage(
+                                  ImageConstant.senderImg,
+                                )) ,
+                          );
+                        }),
                       ),
                       horizontalTitleGap: 8.0,
                       title: Text(
@@ -374,8 +298,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           Row(
                             children: [
                               RatingBarIndicator(
-                                rating: double.parse(
-                                    double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1) ),
+                                rating: double.parse(double.parse(
+                                        widget.offerDetails!.avgRating ?? '0.0')
+                                    .toStringAsFixed(1)),
                                 itemBuilder: (context, index) => const Icon(
                                   CupertinoIcons.star_fill,
                                   color: Colors.black,
@@ -386,7 +311,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 direction: Axis.horizontal,
                               ),
                               Text(
-                                "${double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1) }",
+                                "${double.parse(widget.offerDetails!.avgRating ?? '0.0').toStringAsFixed(1)}",
                                 style: AppTextStyle.bodySmallBlack600,
                               )
                             ],
@@ -397,9 +322,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16),
                       child: Text(
-                        widget.offerDetails!.jobTitle
-                            .toString()
-                            .toUpperCase(),
+                        widget.offerDetails!.jobTitle.toString().toUpperCase(),
                         style: AppTextStyle.bodyLarge700,
                       ),
                     ),
@@ -417,8 +340,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           ),
                           DetailItem(
                             title: "User ID:",
-                            body: widget.offerDetails!.userId
-                                .toString(),
+                            body: widget.offerDetails!.userId.toString(),
                           ),
 
                           DetailItem(
@@ -428,18 +350,15 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           ),
                           DetailItem(
                             title: "Service Type:",
-                            body: widget.offerDetails!.serviceType
-                                .toString(),
+                            body: widget.offerDetails!.serviceType.toString(),
                           ),
                           DetailItem(
                             title: "District:",
-                            body:
-                                "${widget.offerDetails!.district.toString()}",
+                            body: "${widget.offerDetails!.district.toString()}",
                           ),
                           DetailItem(
                             title: "Address:",
-                            body:
-                                "${widget.offerDetails!.address.toString()}",
+                            body: "${widget.offerDetails!.address.toString()}",
                           ),
 
                           Text(
@@ -471,142 +390,128 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           // defaultSizeBoxHeight,
                           widget.offerDetails!.package!.isNotEmpty
                               ? DefaultTabController(
-
-                                  length:
-                                      widget.offerDetails!.package!.length,
-                                  child:
-                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          TabBar(
-                                            onTap: (value) {
-                                            ServiceDetailsController.to.tabIndex.value =value;
-                                              print(ServiceDetailsController.to.tabIndex.value);
-                                            },
-                                              indicatorColor:
-                                                  AppColors.kprimaryColor,
-                                              labelColor: AppColors.kprimaryColor,
-                                              overlayColor:
-                                                  WidgetStateColor.transparent,
-                                              tabs: List.generate(
-                                                widget.offerDetails!.package!
-                                                    .length,
-                                                (index) => Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(widget
+                                  length: widget.offerDetails!.package!.length,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TabBar(
+                                          onTap: (value) {
+                                            ServiceDetailsController
+                                                .to.tabIndex.value = value;
+                                            print(ServiceDetailsController
+                                                .to.tabIndex.value);
+                                          },
+                                          indicatorColor:
+                                              AppColors.kprimaryColor,
+                                          labelColor: AppColors.kprimaryColor,
+                                          overlayColor:
+                                              WidgetStateColor.transparent,
+                                          tabs: List.generate(
+                                            widget
+                                                .offerDetails!.package!.length,
+                                            (index) => Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(widget
+                                                      .offerDetails!
+                                                      .package![index]
+                                                      .packageName ??
+                                                  ''),
+                                            ),
+                                          )),
+                                      defaultSizeBoxHeight,
+                                      TabContentView(
+                                          children: List.generate(
+                                        widget.offerDetails!.package!.length,
+                                        (index) => Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            widget.offerDetails!.package![index]
+                                                    .packageDescription!.isEmpty
+                                                ? SizedBox.shrink()
+                                                : Text(
+                                                    "Description",
+                                                    style: AppTextStyle
+                                                        .bodyMediumBlackBold,
+                                                  ),
+                                            widget.offerDetails!.package![index]
+                                                    .packageDescription!.isEmpty
+                                                ? SizedBox.shrink()
+                                                : Text(
+                                                    widget
+                                                            .offerDetails!
+                                                            .package![index]
+                                                            .packageDescription ??
+                                                        '',
+                                                    style: AppTextStyle
+                                                        .bodySmallGrey400,
+                                                  ),
+                                            widget.offerDetails!.package![index]
+                                                    .packageDescription!.isEmpty
+                                                ? SizedBox.shrink()
+                                                : defaultSizeBoxHeight,
+                                            PackageDetails(
+                                              title: "Price",
+                                              lable:
+                                                  "৳ ${widget.offerDetails!.package![index].price ?? ''}",
+                                            ),
+                                            PackageDetails(
+                                              title: "Duration",
+                                              lable:
+                                                  "${widget.offerDetails!.package![index].duration} Days",
+                                            ),
+                                            // PackageDetails(
+                                            //   title: "Revisions",
+                                            //   lable: "4 Days",
+                                            // ),
+                                            widget.offerDetails!.package![index]
+                                                    .serviceList!.isEmpty
+                                                ? SizedBox.shrink()
+                                                : Column(
+                                                    children: List.generate(
+                                                      widget
                                                           .offerDetails!
                                                           .package![index]
-                                                          .packageName ??
-                                                      ''),
-                                                ),
-                                              )),
-                                          defaultSizeBoxHeight,
-                                          TabContentView(
-                                              children: List.generate(
-                                            widget.offerDetails!.package!.length,
-                                            (index) => Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                widget
-                                                        .offerDetails!
-                                                        .package![index]
-                                                        .packageDescription!
-                                                        .isEmpty
-                                                    ? SizedBox.shrink()
-                                                    : Text(
-                                                        "Description",
-                                                        style: AppTextStyle
-                                                            .bodyMediumBlackBold,
-                                                      ),
-                                                widget
-                                                        .offerDetails!
-                                                        .package![index]
-                                                        .packageDescription!
-                                                        .isEmpty
-                                                    ? SizedBox.shrink()
-                                                    : Text(
-                                                        widget
-                                                                .offerDetails!
-                                                                .package![index]
-                                                                .packageDescription ??
-                                                            '',
-                                                        style: AppTextStyle
-                                                            .bodySmallGrey400,
-                                                      ),
-                                                widget
-                                                        .offerDetails!
-                                                        .package![index]
-                                                        .packageDescription!
-                                                        .isEmpty
-                                                    ? SizedBox.shrink()
-                                                    : defaultSizeBoxHeight,
-                                                PackageDetails(
-                                                  title: "Price",
-                                                  lable:
-                                                      "৳ ${widget.offerDetails!.package![index].price ?? ''}",
-                                                ),
-                                                PackageDetails(
-                                                  title: "Duration",
-                                                  lable:
-                                                      "${widget.offerDetails!.package![index].duration} Days",
-                                                ),
-                                                // PackageDetails(
-                                                //   title: "Revisions",
-                                                //   lable: "4 Days",
-                                                // ),
-                                                widget
-                                                        .offerDetails!
-                                                        .package![index]
-                                                        .serviceList!
-                                                        .isEmpty
-                                                    ? SizedBox.shrink()
-                                                    : Column(
-                                                        children: List.generate(
+                                                          .serviceList!
+                                                          .length,
+                                                      (serviceIndex) =>
+                                                          PackageDetails(
+                                                        title:
+                                                            "${widget.offerDetails!.package![index].serviceList![serviceIndex].serviceName}",
+                                                        ticMark: Icon(
                                                           widget
-                                                              .offerDetails!
-                                                              .package![index]
-                                                              .serviceList!
-                                                              .length,
-                                                          (serviceIndex) =>
-                                                              PackageDetails(
-                                                            title:
-                                                                "${widget.offerDetails!.package![index].serviceList![serviceIndex].serviceName}",
-                                                            ticMark: Icon(
-                                                              widget
-                                                                              .offerDetails!
-                                                                              .package![
-                                                                                  index]
-                                                                              .serviceList![
-                                                                                  serviceIndex]
-                                                                              .status!
-                                                                              .toLowerCase() ==
-                                                                          'true' ||
-                                                                      widget
-                                                                              .offerDetails!
-                                                                              .package![
-                                                                                  index]
-                                                                              .serviceList![
-                                                                                  serviceIndex]
-                                                                              .status!
-                                                                              .toLowerCase() ==
-                                                                          'yes'
-                                                                  ? CupertinoIcons
-                                                                      .checkmark
-                                                                  : CupertinoIcons
-                                                                      .clear,
-                                                            ),
-                                                          ),
+                                                                          .offerDetails!
+                                                                          .package![
+                                                                              index]
+                                                                          .serviceList![
+                                                                              serviceIndex]
+                                                                          .status!
+                                                                          .toLowerCase() ==
+                                                                      'true' ||
+                                                                  widget
+                                                                          .offerDetails!
+                                                                          .package![
+                                                                              index]
+                                                                          .serviceList![
+                                                                              serviceIndex]
+                                                                          .status!
+                                                                          .toLowerCase() ==
+                                                                      'yes'
+                                                              ? CupertinoIcons
+                                                                  .checkmark
+                                                              : CupertinoIcons
+                                                                  .clear,
                                                         ),
-                                                      )
-                                              ],
-                                            ),
-                                          ))
-                                        ],
-                                      ),
-
+                                                      ),
+                                                    ),
+                                                  )
+                                          ],
+                                        ),
+                                      ))
+                                    ],
+                                  ),
                                 )
                               : SizedBox.shrink(),
                           widget.offerDetails!.totalCompletedJob != null &&
@@ -625,21 +530,29 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                           child: Row(
                                             children: [
                                               Text(
-                                                double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1),
+                                                double.parse(widget
+                                                            .offerDetails!
+                                                            .avgRating ??
+                                                        '0.0')
+                                                    .toStringAsFixed(1),
                                                 style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold,
-                                                    color: AppColors
-                                                        .kprimaryColor,
+                                                    fontWeight: FontWeight.bold,
+                                                    color:
+                                                        AppColors.kprimaryColor,
                                                     fontSize: 25),
                                               ),
                                               const SizedBox(
                                                 width: 5,
                                               ),
                                               RatingBarIndicator(
-                                                rating: double.parse(double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1)),
-                                                itemBuilder:
-                                                    (context, index) => Icon(
+                                                rating: double.parse(
+                                                    double.parse(widget
+                                                                .offerDetails!
+                                                                .avgRating ??
+                                                            '0.0')
+                                                        .toStringAsFixed(1)),
+                                                itemBuilder: (context, index) =>
+                                                    Icon(
                                                   Icons.star_rate_rounded,
                                                   color:
                                                       AppColors.kprimaryColor,
@@ -667,9 +580,19 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                               Get.to(RatingListScreen(
                                                 buyerReviewList: widget
                                                     .offerDetails!
-                                                    .buyerReviewList!.where((element) => element.buyerReview!.isNotEmpty,).toList(),
+                                                    .buyerReviewList!
+                                                    .where(
+                                                      (element) => element
+                                                          .buyerReview!
+                                                          .isNotEmpty,
+                                                    )
+                                                    .toList(),
                                                 overallRating: double.parse(
-                                                    double.parse(widget.offerDetails!.avgRating?? '0.0').toStringAsFixed(1)),
+                                                    double.parse(widget
+                                                                .offerDetails!
+                                                                .avgRating ??
+                                                            '0.0')
+                                                        .toStringAsFixed(1)),
                                               ));
                                             },
                                             child: Text(
@@ -678,8 +601,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                   fontSize: 14,
                                                   color:
                                                       AppColors.kprimaryColor,
-                                                  fontWeight:
-                                                      FontWeight.w600),
+                                                  fontWeight: FontWeight.w600),
                                             ))
                                       ],
                                     ),
@@ -688,41 +610,39 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       scrollDirection: Axis.horizontal,
                                       child: Row(
                                         children: List.generate(
-                                          widget.offerDetails!.buyerReviewList!.length <
+                                          widget.offerDetails!.buyerReviewList!
+                                                      .length <
                                                   5
                                               ? widget.offerDetails!
                                                   .buyerReviewList!.length
                                               : 5,
                                           (index) {
-                                            if(widget
+                                            if (widget
                                                 .offerDetails!
-                                                .buyerReviewList![
-                                            index].buyerReview!.isNotEmpty)
-                                              {
-                                                return SizedBox(
-                                                    width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                        1.1,
-                                                    height: 150,
-                                                    child: Padding(
-                                                      padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8.0),
-                                                      child: ClientReviewCard(
-                                                        maxLine: 3,
-                                                        buyerReview: widget
-                                                            .offerDetails!
-                                                            .buyerReviewList![
-                                                        index],
-                                                      ),
-                                                    ));
-                                              }
-                                            else
-                                              {
-                                                return SizedBox.shrink();
-                                              }
-
+                                                .buyerReviewList![index]
+                                                .buyerReview!
+                                                .isNotEmpty) {
+                                              return SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.1,
+                                                  height: 150,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0),
+                                                    child: ClientReviewCard(
+                                                      maxLine: 3,
+                                                      buyerReview: widget
+                                                              .offerDetails!
+                                                              .buyerReviewList![
+                                                          index],
+                                                    ),
+                                                  ));
+                                            } else {
+                                              return SizedBox.shrink();
+                                            }
                                           },
                                         ),
                                       ),
@@ -742,8 +662,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 List<OfferList> myOffersList = offerList
                                     .where((offer) =>
                                         offer.userId.toString() ==
-                                        widget.offerDetails!.userId
-                                            .toString())
+                                        widget.offerDetails!.userId.toString())
                                     .toList();
                                 return SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
@@ -753,9 +672,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       (index) {
                                         if (myOffersList.isNotEmpty) {
                                           return Padding(
-                                            padding:
-                                                const EdgeInsets.all(12.0)
-                                                    .copyWith(left: 8),
+                                            padding: const EdgeInsets.all(12.0)
+                                                .copyWith(left: 8),
                                             child: SizedBox(
                                               width: 180,
                                               // height: 180,

@@ -48,7 +48,7 @@ margin: EdgeInsets.zero,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     FutureBuilder(
-                      future: ProfileScreenController.to.getProfileImageURL(widget.buyerReview.buyerId.toString()),
+                      future: ProfileScreenController.to.getServiceSellerProfileImageURL(widget.buyerReview.buyerId.toString()),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           if (snapshot.data != "") {

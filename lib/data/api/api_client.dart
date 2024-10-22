@@ -8,8 +8,8 @@ class ApiClient {
   ApiClient()
   {
    // _baseUrl= "${Boxes.getDmPathBox().get("BaseUrl").toString()}/upai_api";
- // _baseUrl= "http://192.168.100.236:8000/upai_api";
-   _baseUrl= "http://103.119.102.117:8000/upai_api";
+ _baseUrl= "http://192.168.100.236:8000/upai_api";
+ //   _baseUrl= "http://103.119.102.117:8000/upai_api";
   }
   String get loginUrl => '$_baseUrl/login';
   String get createUserUrl => '$_baseUrl/create_user';

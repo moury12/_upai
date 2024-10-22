@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/widgets/custom_network_image.dart';
 import '../../core/utils/custom_text_style.dart';
 import '../../core/utils/image_path.dart';
 import '../../widgets/custom_text_field2.dart';
@@ -22,7 +23,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final ctrl = ProfileScreenController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  File? image;
+
   final _picker = ImagePicker();
   String img = '';
   @override
@@ -41,17 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        // shadowColor: Colors.transparent,
-        // surfaceTintColor: Colors.transparent,
-        // backgroundColor: AppColors.strokeColor2,
-        // foregroundColor: Colors.black,
         automaticallyImplyLeading: true,
-        // leading: IconButton(
-        //   icon: Icon(CupertinoIcons.back),
-        //   onPressed: () {
-        //     Get.back();
-        //   },
-        // ),
         title: Text(
           "Profile",
           style: AppTextStyle.bodyTitle700,
@@ -77,34 +68,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         return Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            border: Border.all(color: AppColors.strokeColor, width: 3),
+                            border: Border.all(
+                                color: AppColors.strokeColor, width: 3),
                           ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: ctrl.canEdit.value == true && image != null
-                                ? Image.file(
-                                    File(image!.path),
-                                    height: 150,
-                                    width: 150,
-                                    fit: BoxFit.cover,
-                                  )
-                                : CachedNetworkImage(
-                                    height: 150,
-                                    width: 150,
-                                    imageUrl: ctrl.profileImageUrl.value.isNotEmpty ? ctrl.profileImageUrl.value : ImageConstant.senderImg, // Fallback image if URL is empty
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Center(
-                                        child: CircularProgressIndicator(
-                                      color: AppColors.kprimaryColor,
-                                    )),
-                                    errorWidget: (context, url, error) => Image.asset(
-                                      ImageConstant.senderImg,
+                              borderRadius: BorderRadius.circular(100),
+                              child: ctrl.canEdit.value == true && ProfileScreenController.to.image.value != null
+                                  ? Image.file(
+                                      File(ProfileScreenController.to.image.value!.path),
                                       height: 150,
                                       width: 150,
                                       fit: BoxFit.cover,
-                                    ),
-                                  ),
-                          ),
+                                    )
+                                  : CustomNetworkImage(
+                                imgPreview: true,
+                                      imageUrl:
+                                          ctrl.profileImageUrl.value.isNotEmpty
+                                              ? ctrl.profileImageUrl.value
+                                              : ImageConstant.senderImg,
+                                      height: 150,
+                                      width: 150,
+                                    )),
                         );
                       }),
                       Positioned(
@@ -115,7 +99,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             getImage();
                           },
                           child: Container(
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8)),
                             child: Padding(
                               padding: EdgeInsets.all(4.0),
                               child: Icon(
@@ -128,7 +114,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 20,
                   ),
@@ -160,32 +145,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  // IntlPhoneField(
-                  //   controller: ctrl.phoneTE,
-                  //
-                  //   validator: (value) {
-                  //     if (value!.number.isEmpty) {
-                  //       return "Please Enter a Valid Number";
-                  //     }
-                  //     return null;
-                  //   },
-                  //   decoration: InputDecoration(
-                  //
-                  //     hintText: "Mobile Number",
-                  //     filled: true,
-                  //    enabled: false,
-                  //     fillColor: AppColors.textFieldBackGround,
-                  //     // labelText: 'Phone Number',
-                  //     border: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(12),
-                  //       borderSide: BorderSide.none,
-                  //     ),
-                  //   ),
-                  //   initialCountryCode: 'BD',
-                  //   onChanged: (phone) {
-                  //     print(phone.completeNumber);
-                  //   },
-                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -196,35 +155,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           // if (_formKey.currentState!.validate()) {}
-                          if(image!=null)
-                            {uploadFile();}
+                          if (ProfileScreenController.to.image.value != null) {
+                            uploadFile();
+                          }
 
-                          ProfileScreenController.to.updateProfile(ctrl.nameTE.text, ctrl.emailTE.text);
-                          FirebaseAPIs.updateUserDetails(ctrl.nameTE.text, ctrl.emailTE.text);
-
+                          ProfileScreenController.to.updateProfile(
+                              ctrl.nameTE.text, ctrl.emailTE.text);
+                          FirebaseAPIs.updateUserDetails(
+                              ctrl.nameTE.text, ctrl.emailTE.text);
                         },
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.kprimaryColor,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8))),
                         child: const Text("Update Profile"),
                       ),
                     ),
                   ),
-                  // ElevatedButton(
-                  //     onPressed: () async {
-                  //       ImagePicker imagePicker = ImagePicker();
-                  //       XFile? file = await imagePicker.pickImage(
-                  //           source: ImageSource.camera);
-                  //       print(file!.path.toString());
-                  //       Reference ref = FirebaseStorage.instance.ref();
-                  //       Reference refDir = ref.child('photos');
-                  //       Reference refload = refDir.child(
-                  //           DateTime.now().millisecondsSinceEpoch.toString());
-                  //
-                  //       try {
-                  //         await refload.putFile(File(file.path));
-                  //         img = await refload.getDownloadURL();
-                  //       } catch (e) {}
-                  //     },
-                  //     child: Text('upload'))
                 ],
               ),
             ),
@@ -242,38 +190,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
       maxWidth: 1000,
     );
     if (pickedFile != null) {
-      image = File(pickedFile.path);
+      ProfileScreenController.to.image.value = File(pickedFile.path);
+      ctrl.canEdit.value = true;
+
+      print('--------------');
       ctrl.update();
-      ctrl.canEdit!.value = true;
-      debugPrint('///////////////');
-      debugPrint(ctrl.canEdit!.value.toString());
-      // setState(() {});
     } else {
       ctrl.canEdit.value = false;
-      // setState(() {
-      //
-      // });
-      // if (mounted) {
-      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //     content: Text(
-      //       "No Image Selected!",
-      //       style: TextStyle(color: Colors.white),
-      //     ),
-      //     backgroundColor: Colors.deepOrange,
-      //   ));
-      // }
+      print('//////');
     }
   }
 
   Future uploadFile() async {
-    if (image == null) return;
+    if (ProfileScreenController.to.image.value == null) return;
     final destination = 'ProfileImages/${ctrl.userInfo.value.userId}/';
     try {
       final ref = FirebaseStorage.instance.ref(destination).child('file/');
-      // Uint8List imageData = await File(image!.path).readAsBytes();
 
-      await ref.putFile(image!);
+      await ref.putFile(ProfileScreenController.to.image.value!);
       ctrl.fetchProfileImage();
+      ctrl.update();
     } catch (e) {
       ctrl.canEdit.value = false;
       print('error occured');

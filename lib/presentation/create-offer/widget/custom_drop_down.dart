@@ -20,13 +20,12 @@ class CustomDropDown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.kprimaryColor),
         borderRadius: BorderRadius.circular(12),
       ),
       child: DropdownButton<T>(
-        dropdownColor: Colors.white,
+        dropdownColor: Colors.white, padding:EdgeInsets.symmetric(horizontal: 12) ,
         style: TextStyle(color: AppColors.kprimaryColor),
         iconEnabledColor: AppColors.kprimaryColor,
         borderRadius: BorderRadius.circular(12),

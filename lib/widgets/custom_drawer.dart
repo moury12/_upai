@@ -9,6 +9,7 @@ import 'package:upai/presentation/SplashScreen/controller/splash_screen_controll
 import 'package:upai/presentation/buyer%20profile/buyer_profile_controller.dart';
 import 'package:upai/presentation/favourite_offer/favourite_offer_screen.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
+import 'package:upai/widgets/custom_network_image.dart';
 import '../core/utils/image_path.dart';
 import '../data/api/firebase_apis.dart';
 import '../presentation/buyer profile/buyer_running_order_list_screen.dart';
@@ -47,37 +48,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       borderRadius: BorderRadius.circular(360),
       
                       child: ProfileScreenController.to.profileImageUrl.value.isNotEmpty
-                          ? Image.network(
-                              ProfileScreenController.to.profileImageUrl.value.toString(),
-                              fit: BoxFit.cover,
-                              height: 100,
-                              width: 100,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child; // Image has finished loading
-                          }
-                          return SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.kprimaryColor,
-                                // value: loadingProgress.expectedTotalBytes != null
-                                //     ? loadingProgress.cumulativeBytesLoaded /
-                                //     (loadingProgress.expectedTotalBytes ?? 1)
-                                //     : null,
-                              ),
-                            ),
-                          );
-                        },
-                              errorBuilder: (context, child, loadingProgress) => SizedBox(
-                                  height: 100,
-                                  width: 100,
-                                  child: Center(
-                                      child: CircularProgressIndicator(
-                                    color: AppColors.kprimaryColor,
-                                  ))),
-                            )
+                          ? CustomNetworkImage(imageUrl: ProfileScreenController.to.profileImageUrl.value.toString(),height: 100,
+                        width: 100,)
                           : Image.asset(
                               ImageConstant.senderImg,
                               fit: BoxFit.cover,

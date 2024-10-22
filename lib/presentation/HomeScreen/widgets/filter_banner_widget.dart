@@ -103,6 +103,8 @@ class FilterDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      surfaceTintColor: Colors.white,
+       backgroundColor: Colors.white,
       title: Text(
         'Search Filter',
         style: AppTextStyle.bodyMediumBlackBold,

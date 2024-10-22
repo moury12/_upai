@@ -48,9 +48,7 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
 
   @override
   Widget build(BuildContext context) {
-    String image =
-        "https://lh5.googleusercontent.com/proxy/t08n2HuxPfw8OpbutGWjekHAgxfPFv-pZZ5_-uTfhEGK8B5Lp-VN4VjrdxKtr8acgJA93S14m9NdELzjafFfy13b68pQ7zzDiAmn4Xg8LvsTw1jogn_7wStYeOx7ojx5h63Gliw";
-    var seller = SellerProfileController.to.service.value;
+   var seller = SellerProfileController.to.service.value;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -76,7 +74,7 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
             Obx(() {
               return CustomNetworkImage(
                 imgPreview: true,
-                // height: 150,
+                height: 250,
                 imageUrl: imageController.offerImageUrl.value != null
                     ? imageController.offerImageUrl.value!
                     : imageController.defaultOfferImageUrl.value ?? '',
