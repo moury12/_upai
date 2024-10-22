@@ -35,6 +35,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
    scrollController.addListener(() {
       if(scrollController.position.pixels==scrollController.position.maxScrollExtent){
         HomeController.to.getOfferDataList(loadMoreData: true);
+        debugPrint(HomeController.to.currentPage.toString());
       }
     },);
     // TODO: implement initState
@@ -84,8 +85,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                 Get.back();
                 controller.searchController.value.clear();
 
-                controller.filterOffer(
-                    '', HomeController.to.selectedDistrictForAll.value);
+                // controller.filterOffer(
+                //     '', HomeController.to.selectedDistrictForAll.value);
               },
             ),
             title: widget.selectedCat != null
@@ -102,8 +103,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             color: Colors.black,
             backgroundColor: Colors.white,
             onRefresh: () async {
-              controller.filterOffer(controller.searchController.value.text,
-                  HomeController.to.selectedDistrictForAll.value);
+              controller.getOfferList;
             },
             child: Column(
               children: [
@@ -116,8 +116,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                     return CustomTextField(
                       controller: controller.searchController.value,
                       onChanged: (value) {
-                        controller.filterOffer(value!,
-                            HomeController.to.selectedDistrictForAll.value);
+                        controller.getOfferDataList();
                       },
                       onPressed: () {
                         // controller.searchController.value.clear();
@@ -133,8 +132,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                         ),
                         onPressed: () {
                           controller.searchController.value.clear();
-                          controller.filterOffer('',
-                              HomeController.to.selectedDistrictForAll.value);
+                          // controller.filterOffer('',
+                          //     HomeController.to.selectedDistrictForAll.value);
                         },
                       ),
                     );
@@ -153,7 +152,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                           ),
                         ),
                       );
-                    } else if (controller.filteredOfferList.isEmpty) {
+                    } else if (controller.getOfferList.isEmpty) {
                       return Expanded(
                         child: SingleChildScrollView(
                           physics: AlwaysScrollableScrollPhysics(),
@@ -163,7 +162,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                     } else {
                       var offerList = [];
                       if (widget.selectedCat != null) {
-                        offerList = controller.filteredOfferList
+                        offerList = controller.getOfferList
                             .where((item) => item.serviceCategoryType!
                                 .toLowerCase()
                                 .contains(widget.selectedCat
@@ -171,7 +170,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                                     .toLowerCase()))
                             .toList();
                       } else {
-                        offerList = controller.filteredOfferList;
+                        offerList = controller.getOfferList;
                       }
 
                       if (offerList.isNotEmpty) {
@@ -198,44 +197,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                             );
                           },
                         ));
-                        //     GridView.builder(
-                        //   shrinkWrap: true,
-                        //   primary: false,
-                        //   physics: AlwaysScrollableScrollPhysics(),
-                        //   padding: EdgeInsets.symmetric(horizontal: 8),
-                        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: childRatio, crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8),
-                        //   itemCount: offerList.length,
-                        //   itemBuilder: (context, index) {
-                        //     OfferList service = offerList[index];
-                        //     return MyServiceWidget(
-                        //       offerItem: service,
-                        //       button: Padding(
-                        //         padding: const EdgeInsets.only(top: 8.0),
-                        //         child: SizedBox(
-                        //             width: double.infinity,
-                        //             child: ElevatedButton(
-                        //               style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white, alignment: Alignment.center),
-                        //               onPressed: () {
-                        //                 // if(ProfileScreenController.to.userInfo.value.userId==service.userId)
-                        //                 //   {
-                        //                 //     SellerProfileController.to.service.value =
-                        //                 //     SellerProfileController
-                        //                 //         .to.filterList[index];
-                        //                 //
-                        //                 //     Get.to(const MyServiceDetails());
-                        //                 //   }
-                        //                 Get.to(
-                        //                   ServiceDetails(
-                        //                     offerDetails: service,
-                        //                   ),
-                        //                 );
-                        //               },
-                        //               child: Text('Book Now'),
-                        //             )),
-                        //       ),
-                        //     );
-                        //   },
-                        // ));
+
                       } else {
                         return NoServiceWidget();
                       }

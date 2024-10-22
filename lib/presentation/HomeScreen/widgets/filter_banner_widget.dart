@@ -167,6 +167,7 @@ class FilterDialog extends StatelessWidget {
         CustomTextButton(
           label: 'Apply',
           onChange: () {
+            HomeController.to.getOfferDataList();
             Navigator.pop(context);
           },
         ),

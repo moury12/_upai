@@ -219,10 +219,15 @@ debugPrint('Failed to load data');      }
     required String token,
     required String mobile,
     required int currentPage,
+    required String catType,
+    required String category,
+    required String district,
+    required String searchVal,
+    required String sortBy,
    required bool isLoadMore}) async {
     try {
       String url =
-          "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&page=${currentPage}";
+          "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&cat_type=${catType}&category=${category}&district=${district}&offer=${searchVal}&sort_by=${sortBy}&page=${currentPage}";
       if (kDebugMode) {
         print('++++++++++get Offer list url :----$url');
         print('Token : $token');
@@ -233,36 +238,18 @@ debugPrint('Failed to load data');      }
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
-      // if (kDebugMode) {
-      //   print('Response data :----${response.body}');
-      // }
-      // var data = jsonDecode(response.body);
+
       Map<String, dynamic> data = jsonDecode(response.body.toString());
       List<dynamic> offerDataList =data['offerList'];
       if (data['status'] == "Success") {
-        // print("skjdfklsdjf");
         offerList =offerDataList.map((e) => OfferList.fromJson(e),).toList();
-        // print('Response data :----${mappedOffers.map((e) => e.offerId.toString(),)}');
-        // if(offerList.isNotEmpty){
-        //   if(isLoadMore){
-        //      offerList.addAll(mappedOffers);
-        //   }else{
-        //     offerList.assignAll(mappedOffers);
-        //   }
-        //   currentPage++;
-        // }else{
-        //   isLoadMore = false;
-        // }
-        // print('--------------${data.toString()}');
-        // var areaData = data["area-list"] as List;
-        //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.green,content: Text("Successfull")));
+
 
         return offerList;
       } else {
         return offerList;
       }
     } catch (e) {
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.red,content: Text("Error:"+e.toString())));
       return offerList;
     }
   }

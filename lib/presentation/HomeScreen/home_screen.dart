@@ -100,10 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     GestureDetector(
                                       onTap: () {
                                         resetData();
-                                        HomeController.to.filteredOfferList
+                                        HomeController.to.getOfferList
                                             .refresh();
-                                        HomeController.to
-                                            .filterOffer('', null);
+
                                         Get.toNamed(
                                             ServiceListScreen.routeName,
                                             arguments: "");
@@ -169,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .to.selectedDistrictForAll.value !=
                                     null) {
                               var offerList = [];
-                              offerList = controller.filteredOfferList;
+                              offerList = controller.getOfferList;
                               if (offerList.isNotEmpty) {
                                 return Column(
                                   children: [
