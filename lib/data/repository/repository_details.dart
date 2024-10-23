@@ -11,6 +11,8 @@ import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
+import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
+import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 import '../../Boxes/boxes.dart';
 import '../../Model/user_info_model.dart';
 import '../../presentation/Profile/profile_screen_controller.dart';
@@ -281,8 +283,8 @@ class RepositoryData {
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
       // Get.snackbar('Success', responseData['message']);
-      if (HomeController.to.image.value != null) {
-        await HomeController.to.uploadImage(body["offer_id"].toString());
+      if (CreateOfferController.to.image.value != null) {
+        await CreateOfferController.to.uploadImage(body["offer_id"].toString());
         print("image upload called");
       }
 
@@ -322,14 +324,8 @@ class RepositoryData {
     debugPrint(' body ${jsonEncode(body)}');
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      if (HomeController.to.image.value != null) {
-        await HomeController.to
-            .uploadImage(responseData["offer_id"].toString());
-        print("create image called");
-        HomeController.to.image.value = null;
-      }
-      print(HomeController.to.image.value.toString());
-      print(responseData["offer_id"].toString());
+
+
       Get.snackbar('Success', responseData['message']);
     } else {
       Get.snackbar('Error', 'Failed to create offer');

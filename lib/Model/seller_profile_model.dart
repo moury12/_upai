@@ -38,6 +38,7 @@ class SellerProfileModel {
 
 class MyService {
   String? offerId;
+  String? imgUrl;
   String? serviceCategoryType;
   String? dateTime;
   String? userId;
@@ -50,7 +51,7 @@ class MyService {
   List<Package>? package;
 
   MyService(
-      {this.offerId,
+      {this.offerId,this.imgUrl,
         this.serviceCategoryType,
         this.dateTime,
         this.userId,
@@ -64,6 +65,7 @@ class MyService {
 
   MyService.fromJson(Map<String, dynamic> json) {
     offerId = json['offer_id'];
+    imgUrl = json['image_url'];
     serviceCategoryType = json['service_category_type'];
     dateTime = json['date_time'];
     userId = json['user_id'];
@@ -84,6 +86,7 @@ class MyService {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['offer_id'] = offerId;
+    data['image_url'] = imgUrl;
     data['service_category_type'] = serviceCategoryType;
     data['date_time'] = dateTime;
     data['user_id'] = userId;
@@ -161,6 +164,7 @@ class ServiceList {
 class SellerRunningOrder {
   String? jobId;
   String? offerId;
+  String? imgUrl;
   String? serviceCategoryType;
   String? buyerId;
   String? sellerId;
@@ -175,6 +179,7 @@ class SellerRunningOrder {
 
   SellerRunningOrder({
     this.jobId,
+    this.imgUrl,
     this.offerId,
     this.serviceCategoryType,
     this.buyerId,
@@ -192,6 +197,7 @@ class SellerRunningOrder {
   factory SellerRunningOrder.fromJson(Map<String, dynamic> json) => SellerRunningOrder(
     jobId: json["job_id"],
     offerId: json["offer_id"],
+    imgUrl: json["image_url"],
     serviceCategoryType: json["service_category_type"],
     buyerId: json["buyer_id"],
     sellerId: json["seller_id"],
@@ -209,6 +215,7 @@ class SellerRunningOrder {
   Map<String, dynamic> toJson() => {
     "job_id": jobId,
     "offer_id": offerId,
+    "image_url": imgUrl,
     "service_category_type": serviceCategoryType,
     "buyer_id": buyerId,
     "seller_id": sellerId,

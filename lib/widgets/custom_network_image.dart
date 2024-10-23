@@ -42,15 +42,15 @@ class CustomNetworkImage extends StatelessWidget {
                 width: width ?? double.infinity,
                 color: Colors.white,
               )),
-          errorWidget: (context, url, error) =>errorWidget?? Shimmer.fromColors(
+          errorWidget: (context, url, error) =>errorWidget?? /*Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
               highlightColor: Colors.grey[100]!,
               child: Container(
                 height: height,
                 width: width ?? double.infinity,
                 color: Colors.white,
-              )) /*Center(child: Image.asset(ImageConstant.dummy, height: height,
-            width: width,))*/
+              )) */Center(child: Image.asset(ImageConstant.dummy, height: height,
+            width: width,))
           ,
         ),
       ),

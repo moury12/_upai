@@ -63,12 +63,12 @@ OfferList? getOfferByID(String id, List<OfferList> offers) {
 }
 
 Future<void> fetchImages(
-    String offerId, String category, ImageController imageController) async {
-  imageController.offerImageUrl.value =
-  await ImageController.fetchOfferImageUrl(offerId);
+  /*  String offerId,*/ String category, ImageController imageController) async {
+ /* imageController.offerImageUrl.value =
+  await ImageController.fetchOfferImageUrl(offerId);*/
 
-  imageController.defaultOfferImageUrl.value =
-  await ImageController.fetchDefaultOfferImageUrl(category);
+  // imageController.defaultOfferImageUrl.value =
+  // await ImageController.fetchDefaultOfferImageUrl(category);
 }
 void resetData() {
   HomeController.to.searchOfferController.value.clear();

@@ -2,53 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
-import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
-import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/Service-details/service_details.dart';
 import 'package:upai/presentation/create-offer/create_offer_screen.dart';
-import 'package:upai/presentation/full_screen_image.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 
-import '../../data/api/firebase_apis.dart';
 import '../create-offer/widget/tab_content_view.dart';
 
-class MyServiceDetails extends StatefulWidget {
+class MyServiceDetails extends StatelessWidget {
   // final MyService service;
   const MyServiceDetails({super.key});
 
   @override
-  State<MyServiceDetails> createState() => _MyServiceDetailsState();
-}
-
-class _MyServiceDetailsState extends State<MyServiceDetails> {
-  late ImageController imageController;
-  @override
-  void initState() {
-    // TODO: implement initState
-    imageController = ImageController();
-    _fetchImages();
-    super.initState();
-  }
-
-  void _fetchImages() async {
-    // Use the helper function and pass the ImageController
-    await fetchImages(
-      SellerProfileController.to.service.value.offerId.toString(),
-      SellerProfileController.to.service.value.serviceCategoryType.toString(),
-      imageController,
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-   var seller = SellerProfileController.to.service.value;
+    var seller = SellerProfileController.to.service.value;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -70,18 +43,11 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-
-            Obx(() {
-              return CustomNetworkImage(
-                imgPreview: true,
-                height: 250,
-                imageUrl: imageController.offerImageUrl.value != null
-                    ? imageController.offerImageUrl.value!
-                    : imageController.defaultOfferImageUrl.value ?? '',
-              );
-            }),
-
-
+            CustomNetworkImage(
+              imgPreview: true,
+              height: 250,
+              imageUrl: seller.imgUrl ?? '',
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -116,7 +82,7 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
                       ),
                       DetailItem(
                         title: "Address:",
-                        body: "${seller.address.toString()}",
+                        body: seller.address.toString(),
                       ),
 
                       Text(
@@ -176,7 +142,7 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
                                       children: [
                                         seller.package![index]
                                                 .packageDescription!.isEmpty
-                                            ? SizedBox.shrink()
+                                            ? const SizedBox.shrink()
                                             : Text(
                                                 "Description",
                                                 style: AppTextStyle
@@ -184,7 +150,7 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
                                               ),
                                         seller.package![index]
                                                 .packageDescription!.isEmpty
-                                            ? SizedBox.shrink()
+                                            ? const SizedBox.shrink()
                                             : Text(
                                                 seller.package![index]
                                                         .packageDescription ??
@@ -194,7 +160,7 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
                                               ),
                                         seller.package![index]
                                                 .packageDescription!.isEmpty
-                                            ? SizedBox.shrink()
+                                            ? const SizedBox.shrink()
                                             : defaultSizeBoxHeight,
                                         PackageDetails(
                                           title: "Price",
@@ -212,7 +178,7 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
                                         // ),
                                         seller.package![index].serviceList!
                                                 .isEmpty
-                                            ? SizedBox.shrink()
+                                            ? const SizedBox.shrink()
                                             : Column(
                                                 children: List.generate(
                                                   seller.package![index]
@@ -252,7 +218,7 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
                                 ],
                               ),
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                     ],
                   ),
                 ),
@@ -262,7 +228,7 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
         ),
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -276,17 +242,17 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       backgroundColor: AppColors.kprimaryColor,
                       foregroundColor: Colors.white),
-                  child: Text(
+                  child: const Text(
                     'Edit',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   )),
             ),
-            SizedBox(
+            const SizedBox(
               width: 14,
             ),
             Expanded(
@@ -297,7 +263,7 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
                       builder: (context) {
                         return AlertDialog(
                           backgroundColor: AppColors.strokeColor2,
-                          title: Icon(
+                          title: const Icon(
                             CupertinoIcons.delete,
                             color: AppColors.cancelButtonColor,
                             size: 40,
@@ -333,7 +299,8 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
                             ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.kprimaryColor,
-                                    padding: EdgeInsets.symmetric(vertical: 12),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12),
                                     foregroundColor: Colors.white),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -348,9 +315,9 @@ class _MyServiceDetailsState extends State<MyServiceDetails> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       backgroundColor: AppColors.cancelButtonColor,
-                      padding: EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                       foregroundColor: Colors.white),
-                  child: Text(
+                  child: const Text(
                     'Delete',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   )),

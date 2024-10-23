@@ -38,6 +38,7 @@ class OfferListModel {
 
 class OfferList {
   String? offerId;
+  String? imgUrl;
   String? serviceCategoryType;
   String? dateTime;
   String? userId;
@@ -56,6 +57,7 @@ class OfferList {
   // Constructor to initialize isFav
   OfferList({
     this.offerId,
+    this.imgUrl,
     this.serviceCategoryType,
     this.dateTime,
     this.userId,
@@ -77,6 +79,7 @@ class OfferList {
     // Parse all fields
     return OfferList(
       offerId: json['offer_id']?.toString() == 'null' ? '' : json['offer_id'].toString(),
+      imgUrl: json['image_url']?.toString() == 'null' ? '' : json['image_url'].toString(),
       serviceCategoryType: json['service_category_type']?.toString() == 'null' ? '' : json['service_category_type'].toString(),
       dateTime: json['date_time']?.toString() == 'null' ? '' : json['date_time'].toString(),
       userId: json['user_id']?.toString() == 'null' ? '' : json['user_id'].toString(),
@@ -104,6 +107,7 @@ class OfferList {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['offer_id'] = offerId;
+    data['image_url'] = imgUrl;
     data['service_category_type'] = serviceCategoryType;
     data['date_time'] = dateTime;
     data['user_id'] = userId;

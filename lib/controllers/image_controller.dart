@@ -32,7 +32,7 @@ class ImageController extends GetxController{
       return null;
     }
   }
-  static Future<String?> fetchDefaultOfferImageUrl(String category) async {
+   Future<String?> fetchDefaultOfferImageUrl(String category) async {
     try {
       // Reference to the specific document
       final documentRef = mDB

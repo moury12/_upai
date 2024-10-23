@@ -38,44 +38,31 @@ class CreateOfferScreen extends StatefulWidget {
 
 class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final box = Hive.box('userInfo');
-  late ImageController imageController;
 
   // var serviceArgument =Get.arguments()['service'];
   bool isEditArgument = false;
   Map<String, dynamic>? arguments = Get.arguments;
   @override
   void initState() {
-    imageController = ImageController();
     if (arguments != null) {
       CreateOfferController.to.editOfferData(arguments!['service']);
-      isEditArgument=arguments!['isEdit'];
+      isEditArgument = arguments!['isEdit'];
 
-        debugPrint('000000000000000000');
-        debugPrint(arguments!['service'].offerId.toString());
-        _fetchImages();
-
+      debugPrint('000000000000000000');
+      debugPrint(arguments!['service'].offerId.toString());
     }
     super.initState();
   }
 
-  void _fetchImages() async {
-    // Use the helper function and pass the ImageController
-    await fetchImages(
-     arguments!['service'].offerId.toString(),
-     arguments!['service'].serviceCategoryType.toString(),
-      imageController,
-    );
-
-  }
   @override
   Widget build(BuildContext context) {
     debugPrint('Get.arguments()');
     debugPrint(arguments.toString());
-    HomeController.to.isLoading.value = false;
-    HomeController.to.isUploading.value = false;
+    CreateOfferController.to.isLoading.value = false;
+    CreateOfferController.to.isUploading.value = false;
     return PopScope(
       onPopInvoked: (didPop) {
-        HomeController.to.image.value = null;
+        CreateOfferController.to.image.value = null;
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -94,6 +81,18 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
               color: AppColors.kprimaryColor,
             ),
           ),
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  String? categoryImgDownloadUrl = await ImageController()
+                      .fetchDefaultOfferImageUrl('Mobile and Laptop Servicing');
+                  print(categoryImgDownloadUrl);
+                },
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ))
+          ],
           title: Text(isEditArgument ? 'Edit Offer' : "Create New Offer",
               style: TextStyle(
                   color: AppColors.kprimaryColor,
@@ -153,10 +152,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       color: AppColors.kprimaryColor),
                 ),
                 defaultSizeBoxHeight,
+
                 /// network_image_optimize
                 InkWell(
                   onTap: () {
-                    HomeController.to.showPickerDialog(context);
+                    CreateOfferController.to.showPickerDialog(context);
                   },
                   child: Center(
                     child: Stack(children: [
@@ -164,105 +164,20 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         return SizedBox(
                             height: 120,
                             width: 130,
-                            child: HomeController.to.image.value != null
+                            child: CreateOfferController.to.image.value != null
                                 ? Image.file(
-                                    File(HomeController.to.image.value!.path),
+                                    File(CreateOfferController
+                                        .to.image.value!.path),
                                     // height: 150,
                                     // width: 150,
                                     fit: BoxFit.fill,
                                   )
                                 : isEditArgument == true
-                                    ? Obx(() {
-                                      debugPrint(imageController.offerImageUrl.value);
-                              return CustomNetworkImage(
-                                imgPreview: true,
-                                // height: 150,
-                                imageUrl: imageController.offerImageUrl.value != null
-                                    ? imageController.offerImageUrl.value!
-                                    : imageController.defaultOfferImageUrl.value ?? '',
-                              );
-                            })
-                            /*FutureBuilder(
-                                        future: FirebaseAPIs.fetchOfferImageUrl(
-                                            widget.service!.offerId.toString()),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                                  ConnectionState.waiting &&
-                                              snapshot.connectionState ==
-                                                  ConnectionState.none) {
-                                            return Image.asset(
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                              fit: BoxFit.none,
-                                              ImageConstant.dummy,
-                                              // height: 80,
-                                            );
-                                          } else if (snapshot.hasData) {
-                                            return Image.network(
-                                              width: double.infinity,
-                                              fit: BoxFit.cover,
-                                              snapshot.data.toString(),
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress == null) {
-                                                  return child; // Image has finished loading
-                                                }
-                                                return SizedBox(
-                                                  height: 100,
-                                                  width: 100,
-                                                  child: Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: AppColors
-                                                          .kprimaryColor,
-                                                      // value: loadingProgress.expectedTotalBytes != null
-                                                      //     ? loadingProgress.cumulativeBytesLoaded /
-                                                      //     (loadingProgress.expectedTotalBytes ?? 1)
-                                                      //     : null,
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          } else {
-                                            return FutureBuilder(
-                                              future: FirebaseAPIs
-                                                  .fetchDefaultOfferImageUrl(
-                                                      widget.service!
-                                                          .serviceCategoryType
-                                                          .toString()),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.connectionState ==
-                                                        ConnectionState
-                                                            .waiting &&
-                                                    snapshot.connectionState ==
-                                                        ConnectionState.none) {
-                                                  return Image.asset(
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    fit: BoxFit.none,
-                                                    ImageConstant.dummy,
-                                                    // height: 80,
-                                                  );
-                                                } else if (snapshot.hasData) {
-                                                  return Image.network(
-                                                      width: double.infinity,
-                                                      fit: BoxFit.cover,
-                                                      snapshot.data.toString());
-                                                } else {
-                                                  return Image.asset(
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    fit: BoxFit.none,
-                                                    ImageConstant.dummy,
-                                                    // height: 80,
-                                                  );
-                                                }
-                                              },
-                                            );
-                                          }
-                                        },
-                                      )*/
+                                    ? CustomNetworkImage(
+                                        imgPreview: true,
+                                        // height: 150,
+                                        imageUrl: '',
+                                      )
                                     : Image(
                                         image: AssetImage(ImageConstant.dummy),
                                         fit: BoxFit.cover,
@@ -499,7 +414,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                     children: [
                       Expanded(
                         child: Obx(() {
-                          return HomeController.to.isUploading.value
+                          return CreateOfferController.to.isUploading.value
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Stack(
@@ -511,17 +426,17 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           child: CircularProgressIndicator(
                                             color: AppColors.kprimaryColor,
                                             strokeWidth: 6,
-                                            // value:HomeController.to.uploadProgress.value,color: AppColors.kprimaryColor,
+                                            // value:CreateOfferController.to.uploadProgress.value,color: AppColors.kprimaryColor,
                                             //
                                           ),
                                         ),
                                         Text(
-                                          ' ${(HomeController.to.uploadProgress.value * 100).toStringAsFixed(0)}%',
+                                          ' ${(CreateOfferController.to.uploadProgress.value * 100).toStringAsFixed(0)}%',
                                           style: AppTextStyle.titleText,
                                         ),
                                       ]),
                                 )
-                              : HomeController.to.isLoading.value
+                              : CreateOfferController.to.isLoading.value
                                   ? Center(
                                       child: CircularProgressIndicator(
                                       color: AppColors.kprimaryColor,
@@ -532,8 +447,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           : 'Create Offer',
                                       onTap: () async {
                                         {
-                                          HomeController.to.isLoading.value =
-                                              true;
+                                          CreateOfferController
+                                              .to.isLoading.value = true;
                                           if (CreateOfferController.to.selectedServiceType.value !=
                                                   null &&
                                               CreateOfferController.to.selectedCategory.value !=
@@ -623,23 +538,54 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                               Get.snackbar("Success",
                                                   "Updated Successfully");
                                             } else {
-                                              await CreateOfferController.to
-                                                  .createOffer(
+                                              String? downloadUrl;
+
+
+                                              if (CreateOfferController
+                                                      .to.image.value !=
+                                                  null) {
+                                                downloadUrl =
+                                                    await CreateOfferController
+                                                        .to
+                                                        .uploadImage(DateTime
+                                                                .now()
+                                                            .microsecondsSinceEpoch
+                                                            .toString());
+                                                print("create image called");
+                                                CreateOfferController
+                                                    .to.image.value = null;
+                                              }else{
+                                                String? categoryImgDownloadUrl =
+                                                await ImageController()
+                                                    .fetchDefaultOfferImageUrl(
+                                                    CreateOfferController
+                                                        .to
+                                                        .selectedCategory
+                                                        .value
+                                                        .toString());
+                                                print(categoryImgDownloadUrl);
+                                                downloadUrl=categoryImgDownloadUrl;
+                                              }
+                                              await CreateOfferController.to.createOffer(
+                                                  jobTitle:
                                                       CreateOfferController
                                                           .to
                                                           .titleController
                                                           .value
                                                           .text,
+                                                  description:
                                                       CreateOfferController
                                                           .to
                                                           .descriptionController
                                                           .value
                                                           .text,
-                                                      CreateOfferController
-                                                          .to
-                                                          .addressController
-                                                          .value
-                                                          .text);
+                                                  address: CreateOfferController
+                                                      .to
+                                                      .addressController
+                                                      .value
+                                                      .text,
+                                                  imgUrl: downloadUrl ??
+                                                     '');
 
                                               clearAllField();
                                             }
@@ -647,8 +593,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                             Get.snackbar(
                                                 "Failed", "All field Required");
                                           }
-                                          HomeController.to.isLoading.value =
-                                              false;
+                                          CreateOfferController
+                                              .to.isLoading.value = false;
                                         }
                                       },
                                     );

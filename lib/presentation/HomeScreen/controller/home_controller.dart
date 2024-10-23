@@ -20,14 +20,10 @@ class HomeController extends GetxController {
   RxInt currentPageForTopService = 1.obs;
   RxInt currentPageForNewService = 1.obs;
   //image segment
-  RxDouble uploadProgress = 0.0.obs;
-  RxBool isUploading = false.obs;
-  RxBool isLoading = false.obs;
+
   RxBool isUnRead = false.obs;
 
-  Rx<File?> image = Rx<File?>(null);
-  final _picker = ImagePicker();
-  String img = '';
+
 
   RxList<CategoryList> getCatList = <CategoryList>[].obs;
   RxList<dynamic> districtList = [].obs;
@@ -219,112 +215,8 @@ class HomeController extends GetxController {
   }
 
   //for create offer image
-  Future<void> getImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(
-      source: source,
-      imageQuality: 80,
-      maxHeight: 1000,
-      maxWidth: 1000,
-    );
-    if (pickedFile != null) {
-      image.value = File(pickedFile.path);
-      // ctrl.update();
-      // ctrl.canEdit!.value = true;
-      // debugPrint('///////////////');
-      // debugPrint(ctrl.canEdit!.value.toString());
-      // setState(() {});
-    } else {
-      // ctrl.canEdit.value = false;
-      // setState(() {
-      //
-      // });
-      // if (mounted) {
-      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //     content: Text(
-      //       "No Image Selected!",
-      //       style: TextStyle(color: Colors.white),
-      //     ),
-      //     backgroundColor: Colors.deepOrange,
-      //   ));
-      // }
-    }
-  }
 
-  void showPickerDialog(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return SafeArea(
-          child: Wrap(
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Gallery'),
-                onTap: () {
-                  getImage(ImageSource.gallery);
-                  Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_camera),
-                title: const Text('Camera'),
-                onTap: () {
-                  getImage(ImageSource.camera);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 
-  Future<void> uploadImage(String offerId) async {
-    isUploading.value = true;
 
-    try {
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('OfferImages')
-          .child(offerId)
-          .child('image.jpg');
 
-      final uploadTask = storageRef.putFile(
-        image.value!,
-        SettableMetadata(contentType: 'image/jpeg'),
-      );
-
-      uploadTask.snapshotEvents.listen((event) {
-        uploadProgress.value = event.bytesTransferred / event.totalBytes;
-      });
-
-      final snapshot = await uploadTask.whenComplete(() {});
-
-      final downloadUrl = await snapshot.ref.getDownloadURL();
-
-      // Save the download URL to Firestore
-      await FirebaseFirestore.instance
-          .collection('OfferImage')
-          .doc(offerId)
-          .set({'imageUrl': downloadUrl});
-      isUploading.value = false;
-
-      image.value = null;
-
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text("Image uploaded successfully!"),
-      //   backgroundColor: Colors.green,
-      // ));
-    } catch (e) {
-      isUploading.value = false;
-      image.value = null;
-
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text("Failed to upload image: $e"),
-      //   backgroundColor: Colors.red,
-      // ));
-    }
-//
-  }
 }

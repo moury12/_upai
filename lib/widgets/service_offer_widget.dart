@@ -13,14 +13,14 @@ import 'package:upai/presentation/Service-details/service_details.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 
 class ServiceOfferWidget extends StatefulWidget {
-  final MyService? service;
+
   final OfferList? offerItem;
   final OfferList? favOfferItem;
   final Widget? button;
   final int index;
   const ServiceOfferWidget(
       {super.key,
-      this.service,
+
       this.offerItem,
       this.button,
       required this.index,
@@ -47,20 +47,12 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
     _animation = Tween<double>(begin: 30.0, end: 35.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.linear),
     );
-    isService = widget.service != null;
-    imageController = ImageController();
-    _fetchImages();
-  }
-  void _fetchImages() async {
-    bool isService = widget.service != null;
 
-    // Use the helper function and pass the ImageController
-    await fetchImages(
-      isService ? widget.service!.offerId.toString() : widget.offerItem!.offerId.toString(),
-      isService ? widget.service!.serviceCategoryType.toString() : widget.offerItem!.serviceCategoryType.toString(),
-      imageController,
-    );
+
   }
+
+
+
   @override
   void dispose() {
     _controller.dispose();
@@ -69,7 +61,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
 
   @override
   Widget build(BuildContext context) {
-    return  GestureDetector(
+    return GestureDetector(
       onTap: () {
         Get.to(
           ServiceDetails(
@@ -78,7 +70,6 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
         );
       },
       child: Container(
-
         padding: EdgeInsets.all(8),
         margin: EdgeInsets.only(bottom: 8),
         // height: 150,
@@ -98,16 +89,10 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
           children: [
             Expanded(
               flex: 5,
-              child: Obx(() {
-                return CustomNetworkImage(
+              child:  CustomNetworkImage(
                   height: 150,
-                  imageUrl: imageController.offerImageUrl.value != null
-                      ? imageController.offerImageUrl.value!
-                      : imageController.defaultOfferImageUrl.value ?? '',
-                );
-              })
-
-              ,
+                  imageUrl: widget.offerItem!.imgUrl??'',
+                )
             ),
             SizedBox(
               width: 12,
@@ -118,34 +103,14 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
                 height: 140,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    /*Row( mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                    'Job id: ${runningOrder.jobId ?? 'job id'}',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500)),Text(
-                                    '${runningOrder.awardDate ?? ''}',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500)),
-                              ],
-                            ),*/
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                             child: Text(
-                          isService
-                              ? widget.service!.jobTitle ?? ''
-                              : widget.offerItem?.jobTitle ?? '',
+                         widget.offerItem?.jobTitle ?? '',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w600),
                           maxLines: 2,
@@ -158,9 +123,6 @@ mainAxisAlignment: MainAxisAlignment.spaceAround,
                               highlightColor: Colors.transparent,
                               onPressed: () async {
                                 await _controller.forward();
-
-                                // Pause for a moment and then zoom out
-                                // await Future.delayed(Duration(milliseconds: 100));
                                 await _controller.reverse();
 
                                 if (!widget.offerItem!.isFav!) {
@@ -194,10 +156,9 @@ mainAxisAlignment: MainAxisAlignment.spaceAround,
                     //     style:
                     //     TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                     Text(
-                      isService
-                          ? widget.service!.description ?? ''
-                          : widget.offerItem?.description ?? '',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                      widget.offerItem?.description ?? '',
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -205,29 +166,15 @@ mainAxisAlignment: MainAxisAlignment.spaceAround,
                     Row(
                       children: [
                         Icon(Icons.location_on_outlined),
-                        isService
-                            ? widget.service!.district!.isEmpty
-                                ? SizedBox.shrink()
-                                : Text(
+                         Text(
                                     maxLines: 1,
-                                    isService
-                                        ? widget.service!.district ?? ''
-                                        : widget.offerItem?.district ?? '',
+                                   widget.offerItem?.district ?? '',
                                     style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black),
                                   )
-                            : Text(
-                                maxLines: 1,
-                                isService
-                                    ? widget.service!.district ?? ''
-                                    : widget.offerItem?.district ?? '',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ),
+
                       ],
                     ),
 
@@ -251,15 +198,14 @@ mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 width: 2,
                               ),
                               Text(
-                                  isService
-                                      ? ""
-                                      : double.parse(
+                                   double.parse(
                                               widget.offerItem?.avgRating ??
                                                   '0.0')
                                           .toStringAsFixed(1),
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.w500)),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500)),
                               Spacer(),
                               Text(
                                 'From ',
@@ -269,7 +215,8 @@ mainAxisAlignment: MainAxisAlignment.spaceAround,
                               Text(
                                   '৳ ${widget.offerItem!.package == null || widget.offerItem!.package!.isEmpty ? '0.0' : widget.offerItem!.package![0].price ?? '0.0'}',
                                   style: TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.w700)),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700)),
                             ],
                           ),
                         ),

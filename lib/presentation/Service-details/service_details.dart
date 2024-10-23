@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:googleapis/admob/v1.dart';
 import 'package:readmore/readmore.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/controllers/image_controller.dart';
@@ -44,7 +45,6 @@ class ServiceDetails extends StatefulWidget {
 class _ServiceDetailsState extends State<ServiceDetails> {
   String image =
       "https://lh5.googleusercontent.com/proxy/t08n2HuxPfw8OpbutGWjekHAgxfPFv-pZZ5_-uTfhEGK8B5Lp-VN4VjrdxKtr8acgJA93S14m9NdELzjafFfy13b68pQ7zzDiAmn4Xg8LvsTw1jogn_7wStYeOx7ojx5h63Gliw";
-  late ImageController imageController;
 
   // late TabController tabController;
   @override
@@ -56,21 +56,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     ProfileScreenController.to.serviceSellerProfileImageUrl.value = '';
 
     ProfileScreenController.to.id.value = widget.offerDetails!.userId ?? '';
-    imageController = ImageController();
-    _fetchImages();
+
     ProfileScreenController.to
         .fetchServiceSellerProfileImage(widget.offerDetails!.userId.toString());
 
     super.initState();
-  }
-
-  void _fetchImages() async {
-    // Use the helper function and pass the ImageController
-    await fetchImages(
-      widget.offerDetails!.offerId.toString(),
-      widget.offerDetails!.serviceCategoryType.toString(),
-      imageController,
-    );
   }
 
   @override
@@ -110,26 +100,26 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               borderRadius: BorderRadius.circular(20),
             ),
             backgroundColor: AppColors.colorWhite,
-            elevation: 0,
+            elevation: 4,
             surfaceTintColor: Colors.transparent,
-            shadowColor: Colors.transparent),
+            shadowColor: AppColors.kprimaryColor.withOpacity(.5)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               ClipOval(
-                child:Obx(() {
+                child: Obx(() {
                   return CustomNetworkImage(
                     height: 40,
                     width: 40,
-                    imageUrl:ProfileScreenController
-                        .to.serviceSellerProfileImageUrl.value ,
-                    errorWidget:CircleAvatar(
+                    imageUrl: ProfileScreenController
+                        .to.serviceSellerProfileImageUrl.value,
+                    errorWidget: CircleAvatar(
                         radius: 20,
                         backgroundImage: AssetImage(
                           ImageConstant.senderImg,
-                        )) ,
+                        )),
                   );
                 }),
               ),
@@ -255,28 +245,24 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Obx(() {
-                      return CustomNetworkImage(
-                        imgPreview: true,
-                        height: 250,
-                        imageUrl: imageController.offerImageUrl.value != null
-                            ? imageController.offerImageUrl.value!
-                            : imageController.defaultOfferImageUrl.value ?? '',
-                      );
-                    }),
+                    CustomNetworkImage(
+                      imgPreview: true,
+                      height: 250,
+                      imageUrl: widget.offerDetails!.imgUrl ?? '',
+                    ),
                     ListTile(
                       leading: ClipOval(
-                        child:Obx(() {
+                        child: Obx(() {
                           return CustomNetworkImage(
                             height: 40,
                             width: 40,
-                            imageUrl:ProfileScreenController
-                                .to.serviceSellerProfileImageUrl.value ,
-                            errorWidget:CircleAvatar(
+                            imageUrl: ProfileScreenController
+                                .to.serviceSellerProfileImageUrl.value,
+                            errorWidget: CircleAvatar(
                                 radius: 20,
                                 backgroundImage: AssetImage(
                                   ImageConstant.senderImg,
-                                )) ,
+                                )),
                           );
                         }),
                       ),
