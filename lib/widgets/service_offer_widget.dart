@@ -118,7 +118,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
                 height: 140,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-
+mainAxisAlignment: MainAxisAlignment.spaceAround,
                   //
                   // crossAxisAlignment: CrossAxisAlignment.start,
 

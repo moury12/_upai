@@ -5,6 +5,7 @@ import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/HomeScreen/widgets/filter_banner_widget.dart';
@@ -17,10 +18,16 @@ import 'package:upai/widgets/service_offer_widget.dart';
 import '../../core/utils/custom_text_style.dart';
 
 class ServiceListScreen extends StatefulWidget {
+  final bool? isTopService;
+  final bool? isNewService;
   static const String routeName = '/explore-top';
   final String? selectedCat;
 
-  const ServiceListScreen({super.key, this.selectedCat});
+  const ServiceListScreen(
+      {super.key,
+      this.selectedCat,
+      this.isTopService = false,
+      this.isNewService = false});
 
   @override
   State<ServiceListScreen> createState() => _ServiceListScreenState();
@@ -32,12 +39,15 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
   @override
   void initState() {
     Get.put(NetworkController());
-   scrollController.addListener(() {
-      if(scrollController.position.pixels==scrollController.position.maxScrollExtent){
-        HomeController.to.getOfferDataList(loadMoreData: true);
-        debugPrint(HomeController.to.currentPage.toString());
-      }
-    },);
+    scrollController.addListener(
+      () {
+        if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent) {
+          HomeController.to.getOfferDataList(loadMoreData: true);
+          debugPrint(HomeController.to.currentPage.toString());
+        }
+      },
+    );
     // TODO: implement initState
     super.initState();
   }
@@ -89,58 +99,59 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                 //     '', HomeController.to.selectedDistrictForAll.value);
               },
             ),
-            title: widget.selectedCat != null
-                ? Text(
-                    widget.selectedCat ?? '',
-                    style: AppTextStyle.appBarTitle,
-                  )
-                : Text(
-                    "Explore Services",
-                    style: AppTextStyle.appBarTitle,
-                  ),
+            title: Text(
+              widget.isTopService == true
+                  ? "Explore Top Services"
+                  : widget.isNewService == true
+                      ? "Explore New Services"
+                      : "Services",
+              style: AppTextStyle.appBarTitle,
+            ),
           ),
           body: RefreshIndicator(
             color: Colors.black,
             backgroundColor: Colors.white,
+
             onRefresh: () async {
-              controller.getOfferList;
+              resetData();
+
             },
             child: Column(
               children: [
-
-                FilterBanner(isService: true,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0)
-                      .copyWith(bottom: 8),
-                  child: Obx(() {
-                    return CustomTextField(
-                      controller: controller.searchController.value,
-                      onChanged: (value) {
-                        controller.getOfferDataList();
-                      },
-                      onPressed: () {
-                        // controller.searchController.value.clear();
-
-                        // controller.filterOffer(
-                        //     '', HomeController.to.selectedDistrictForAll.value);
-                      },
-                      hintText: "Search service..",
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          Icons.cancel,
-                          color: AppColors.kprimaryColor,
-                        ),
-                        onPressed: () {
-                          controller.searchController.value.clear();
-                          // controller.filterOffer('',
-                          //     HomeController.to.selectedDistrictForAll.value);
-                        },
+                widget.isTopService == true
+                    ? SizedBox.shrink()
+                    : FilterBanner(
+                        isService: true,
+                  isNewestArrival: widget.isNewService,
                       ),
-                    );
-                  }),
-                ),
-
-
+                widget.isTopService == true
+                    ? SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Obx(() {
+                          return CustomTextField(
+                            controller: controller.searchOfferController.value,
+                            onChanged: (value) {
+                              controller.getOfferDataList();
+                              controller.getOfferList.refresh();
+                            },
+                            hintText: "Search service..",
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                Icons.cancel,
+                                color: AppColors.kprimaryColor,
+                              ),
+                              onPressed: () {
+                                controller.searchOfferController.value.clear();
+                                controller.getOfferDataList();
+                                // controller.filterOffer('',
+                                //     HomeController.to.selectedDistrictForAll.value);
+                              },
+                            ),
+                          );
+                        }),
+                      ),
+                defaultSizeBoxHeight,
                 Obx(
                   () {
                     if (!NetworkController.to.connectedInternet.value) {
@@ -152,56 +163,48 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                           ),
                         ),
                       );
-                    } else if (controller.getOfferList.isEmpty) {
+                    } else if ((widget.isTopService == true &&
+                            controller.topServiceList.isEmpty) ||(widget.isNewService == true &&
+                            controller.newServiceList.isEmpty) ||
+                        controller.getOfferList.isEmpty) {
                       return Expanded(
                         child: SingleChildScrollView(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          child: NoServiceWidget()
-                        ),
+                            physics: AlwaysScrollableScrollPhysics(),
+                            child: NoServiceWidget()),
                       );
                     } else {
-                      var offerList = [];
-                      if (widget.selectedCat != null) {
-                        offerList = controller.getOfferList
-                            .where((item) => item.serviceCategoryType!
-                                .toLowerCase()
-                                .contains(widget.selectedCat
-                                    .toString()
-                                    .toLowerCase()))
-                            .toList();
-                      } else {
-                        offerList = controller.getOfferList;
-                      }
+                      return Expanded(
+                          child: ListView.builder(
+                            physics: const AlwaysScrollableScrollPhysics(),
 
-                      if (offerList.isNotEmpty) {
-                        return Expanded(
-                            child: ListView.builder(
-                          padding: EdgeInsets.all(8),
-                          shrinkWrap: true,
-                          controller: scrollController,
-                          itemCount: offerList.length,
-                          itemBuilder: (context, index) {
-                            OfferList service = offerList[index];
-                            return InkWell(
-                              onTap: () {
-                                Get.to(
-                                  ServiceDetails(
-                                    offerDetails: service,
-                                  ),
-                                );
-                              },
-                              child: ServiceOfferWidget(
-                                index: index,
-                                offerItem: service,
-                              ),
-                            );
-                          },
-                        ));
+                            padding: EdgeInsets.all(8),
+                        shrinkWrap: true,
+                        controller: scrollController,
+                        itemCount: widget.isTopService == true
+                            ? controller.topServiceList.length: widget.isNewService == true
+                            ? controller.newServiceList.length
 
-                      } else {
-                        return NoServiceWidget();
-                      }
-
+                            : controller.getOfferList.length,
+                        itemBuilder: (context, index) {
+                          OfferList service = widget.isTopService == true
+                              ? controller.topServiceList[index]: widget.isNewService == true
+                              ? controller.newServiceList[index]
+                              : controller.getOfferList[index];
+                          return InkWell(
+                            onTap: () {
+                              Get.to(
+                                ServiceDetails(
+                                  offerDetails: service,
+                                ),
+                              );
+                            },
+                            child: ServiceOfferWidget(
+                              index: index,
+                              offerItem: service,
+                            ),
+                          );
+                        },
+                      ));
                     }
                   },
                 ),

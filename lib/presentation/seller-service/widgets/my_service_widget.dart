@@ -91,13 +91,41 @@ class _MyServiceWidgetState extends State<MyServiceWidget> {
                     isService ? widget.service!.district ?? '' : widget.offerItem?.district ?? '',
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black),
                   ):SizedBox.shrink(),
-                  Text(
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
 
-                    'From ৳ ${isService ?widget.service!.package!.isEmpty?'0': widget.service!.package![0].price ?? '0' :widget.offerItem!.package!.isEmpty ? '0': widget.offerItem?.package![0].price ?? '0'}',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,),
+                          'From ৳ ${isService ?widget.service!.package!.isEmpty?'0': widget.service!.package![0].price ?? '0' :widget.offerItem!.package!.isEmpty ? '0': widget.offerItem?.package![0].price ?? '0'}',
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600,),
+                        ),
+                      ),
+                      widget.offerItem!=null?Row(children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: Icon(
+                            CupertinoIcons.star_fill,
+                            size: 15,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                            isService
+                                ? ""
+                                : double.parse(
+                                widget.offerItem?.avgRating ??
+                                    '0.0')
+                                .toStringAsFixed(1),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500)),
+                      ],):SizedBox.shrink()
+                    ],
                   ),
 
                 ],

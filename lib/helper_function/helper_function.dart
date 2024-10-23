@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/offer_list_model.dart';
+import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 
@@ -69,4 +70,14 @@ Future<void> fetchImages(
   imageController.defaultOfferImageUrl.value =
   await ImageController.fetchDefaultOfferImageUrl(category);
 }
-
+void resetData() {
+  HomeController.to.searchOfferController.value.clear();
+  HomeController.to.selectedDistrictForAll.value = null;
+  FilterController.to.selectedSortBy.value =null;
+  HomeController.to.searchOfferController.value.text='';
+  FilterController.to.selectedServiceType.value=null;
+  FilterController.to.selectedCategory.value=null;
+  HomeController.to.searchFocus.unfocus();
+  HomeController.to.getOfferDataList();
+  HomeController.to.getOfferList.refresh();
+}

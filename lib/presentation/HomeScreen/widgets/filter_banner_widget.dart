@@ -16,9 +16,11 @@ import 'package:upai/presentation/service-list/service_list_screen.dart';
 
 class FilterBanner extends StatefulWidget {
   final bool? isService;
+  final bool? isNewestArrival;
   const FilterBanner({
     super.key,
     this.isService = false,
+    this.isNewestArrival = false,
   });
 
   @override
@@ -42,7 +44,9 @@ class _FilterBannerState extends State<FilterBanner> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (context) => FilterDialog(),
+                  builder: (context) => FilterDialog(
+                    isNewestArrival: widget.isNewestArrival!,
+                  ),
                 );
               },
               icon: Image.asset(
@@ -96,15 +100,17 @@ class _FilterBannerState extends State<FilterBanner> {
 }
 
 class FilterDialog extends StatelessWidget {
+  final bool isNewestArrival;
   const FilterDialog({
     super.key,
+    required this.isNewestArrival,
   });
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       surfaceTintColor: Colors.white,
-       backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       title: Text(
         'Search Filter',
         style: AppTextStyle.bodyMediumBlackBold,
@@ -140,13 +146,19 @@ class FilterDialog extends StatelessWidget {
             );
           }),
           Obx(() {
-            return FilterDropdown(
+            return FilterDropdown<String?>(
               menuList: const ['Rating', 'Newest Arrival', 'Best Selling'],
-              value: FilterController.to.selectedSortBy.value,
-              onChanged: (val) {
-                FilterController.to.selectedSortBy.value = val;
-              },
-              label: 'select sort by',
+              value: /*isNewestArrival
+                  ? 'Newest Arrival'
+                  :*/ FilterController.to.selectedSortBy.value,
+              onChanged: isNewestArrival
+                  ? null
+                  : (val) {
+                      FilterController.to.selectedSortBy.value = val;
+                    },
+              label:isNewestArrival
+                  ? 'Newest Arrival'
+                  : 'select sort by',
               title: 'Sort By:',
             );
           }),
@@ -168,10 +180,12 @@ class FilterDialog extends StatelessWidget {
           label: 'Apply',
           onChange: () {
             HomeController.to.getOfferDataList();
+            HomeController.to.currentPage.value=1;
+            HomeController.to.currentPageForNewService.value=1;
+            HomeController.to.currentPageForTopService.value=1;
             Navigator.pop(context);
           },
         ),
-
       ],
     );
   }
@@ -183,14 +197,14 @@ class FilterDropdown<T> extends StatelessWidget {
   final String label;
   final List<T> menuList;
 
-  final Function(T?) onChanged;
+  final Function(T?)? onChanged;
   const FilterDropdown({
     super.key,
     required this.title,
     required this.value,
     required this.label,
     required this.menuList,
-    required this.onChanged,
+    this.onChanged,
   });
 
   @override
@@ -205,7 +219,7 @@ class FilterDropdown<T> extends StatelessWidget {
             isEditArgument: false,
             menuList: menuList,
             value: value,
-            onChanged: onChanged,
+            onChanged: onChanged ?? null,
             label: label)
       ],
     );

@@ -169,6 +169,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                     children: [
                       TextField(
                         controller: searchController,
+                        cursorColor: AppColors.kprimaryColor,
                         decoration: InputDecoration(
                             hintText: 'Search district',
                             focusedBorder: OutlineInputBorder(
@@ -187,15 +188,22 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                       ...filterDistrict.map(
                         (e) {
                           return PopupMenuItem(
+                            padding: EdgeInsets.zero,
+                            height: 10,
                             child: InkWell(
                               onTap: () {
-                                widget.fromHome!
-                                    ? HomeController.to.selectedDistrictForAll
-                                        .value = e['name']
-                                    : CreateOfferController
-                                        .to.selectedDistrict.value = e['name'];
-                                HomeController.to.getOfferDataList();
+
+                                if(widget.fromHome!){
+                                  HomeController.to.selectedDistrictForAll
+                                      .value = e['name'];
+                                  HomeController.to.getOfferDataList();
+                                  HomeController.to.getOfferList.refresh();
+
+                                }
+                                    else{ CreateOfferController
+                                        .to.selectedDistrict.value = e['name'];}
                                 Navigator.pop(context);
+
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -207,8 +215,6 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                                 ),
                               ),
                             ),
-                            padding: EdgeInsets.zero,
-                            height: 10,
                           );
                         },
                       ).toList()

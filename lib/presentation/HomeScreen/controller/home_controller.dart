@@ -1,26 +1,24 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
-import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
-import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
   RxInt currentPage = 1.obs;
+  RxInt currentPageForTopService = 1.obs;
+  RxInt currentPageForNewService = 1.obs;
   //image segment
   RxDouble uploadProgress = 0.0.obs;
   RxBool isUploading = false.obs;
@@ -30,14 +28,15 @@ class HomeController extends GetxController {
   Rx<File?> image = Rx<File?>(null);
   final _picker = ImagePicker();
   String img = '';
-  RxBool isSearching = false.obs;
-  RxBool searchICon = false.obs;
-  RxBool isFilttering = false.obs;
+
   RxList<CategoryList> getCatList = <CategoryList>[].obs;
   RxList<dynamic> districtList = [].obs;
   RxList<dynamic> filterDistrictList = [].obs;
   RxList<OfferList> getOfferList = <OfferList>[].obs;
+  RxList<OfferList> topServiceList = <OfferList>[].obs;
+  RxList<OfferList> newServiceList = <OfferList>[].obs;
   RxList<OfferList> favOfferList = <OfferList>[].obs;
+  FocusNode searchFocus = FocusNode();
   Rx<TextEditingController> searchController = TextEditingController().obs;
   Rx<TextEditingController> searchOfferController = TextEditingController().obs;
   Rx<TextEditingController> searchCatController = TextEditingController().obs;
@@ -100,27 +99,55 @@ class HomeController extends GetxController {
 
   void getOfferDataList({
     bool loadMoreData = false,
-
-  })
-  async {
+  }) async {
     if (loadMoreData) {
       isLoadingMore.value = true;
-      currentPage.value++;// Start loading more data
+      currentPage.value++; // Start loading more data
+      currentPageForNewService.value++; // Start loading more data
+      currentPageForTopService.value++; // Start loading more data
     }
     Get.put(FilterController());
+    List<OfferList> topOffer = await RepositoryData().getOfferList(
+        token: FirebaseAPIs.user['token'].toString(),
+        mobile: ctrl!.userInfo.value.userId ?? '',
+        currentPage: currentPageForTopService.value,
+        catType: '',
+        category: '',
+        district: '',
+        searchVal: '',
+        sortBy: 'RATING',
+        isLoadMore: loadMoreData);
     List<OfferList> newOffers = await RepositoryData().getOfferList(
       isLoadMore: loadMoreData,
-      currentPage:  currentPage.value ,
+      currentPage: currentPage.value,
       token: FirebaseAPIs.user['token'].toString(),
       mobile: ctrl!.userInfo.value.userId ?? '',
-      category:FilterController.to.selectedCategory.value ?? '',
+      category: FilterController.to.selectedCategory.value ?? '',
       catType: FilterController.to.selectedServiceType.value ?? '',
       searchVal: searchOfferController.value.text,
-      district: selectedDistrictForAll.value!='All Districts'?selectedDistrictForAll.value ?? '':'',
+      district: selectedDistrictForAll.value != 'All Districts'
+          ? selectedDistrictForAll.value ?? ''
+          : '',
       sortBy: FilterController.to.selectedSortBy.value ?? '',
     );
+    List<OfferList> newArrivalOffers = await RepositoryData().getOfferList(
+      isLoadMore: loadMoreData,
+      currentPage: currentPageForNewService.value,
+      token: FirebaseAPIs.user['token'].toString(),
+      mobile: ctrl!.userInfo.value.userId ?? '',
+      category: FilterController.to.selectedCategory.value ?? '',
+      catType: FilterController.to.selectedServiceType.value ?? '',
+      searchVal: searchOfferController.value.text,
+      district: selectedDistrictForAll.value != 'All Districts'
+          ? selectedDistrictForAll.value ?? ''
+          : '',
+      sortBy: 'NEWEST ARRIVAL',
+    );
     if (newOffers.isEmpty) {
-      print("No more offers available.");
+      if (!loadMoreData) {
+        getOfferList
+            .clear(); // Clear the list when there are no offers for the selected district
+      }
       isLoadingMore.value = false; // Stop the loading state
       return; // Exit the function
     }
@@ -138,10 +165,35 @@ class HomeController extends GetxController {
       isLoadingMore.value = false;
       // Increment page
     }
+    if (newArrivalOffers.isNotEmpty) {
+      if (loadMoreData) {
+        newServiceList.addAll(newArrivalOffers);
+      } else {
+        newServiceList.assignAll(newArrivalOffers);
+      }
+      newServiceList.refresh();
+      if (loadMoreData) {
+        currentPageForNewService.value++;
+      }
+      isLoadingMore.value = false;
+      // Increment page
+    }
+    if (topOffer.isNotEmpty) {
+      if (loadMoreData) {
+        topServiceList.addAll(topOffer);
+      } else {
+        topServiceList.assignAll(topOffer);
+      }
+      topServiceList.refresh();
+      if (loadMoreData) {
+        currentPageForTopService.value++;
+      }
+      isLoadingMore.value = false;
+      // Increment page
+    }
 
     isLoadingMore.value = false;
   }
-
 
   void filterCategory(String query) async {
     if (query.isNotEmpty) {
@@ -167,7 +219,6 @@ class HomeController extends GetxController {
     );
     if (pickedFile != null) {
       image.value = File(pickedFile.path);
-      print('image got');
       // ctrl.update();
       // ctrl.canEdit!.value = true;
       // debugPrint('///////////////');
@@ -198,16 +249,16 @@ class HomeController extends GetxController {
           child: Wrap(
             children: <Widget>[
               ListTile(
-                leading: Icon(Icons.photo_library),
-                title: Text('Gallery'),
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Gallery'),
                 onTap: () {
                   getImage(ImageSource.gallery);
                   Navigator.of(context).pop();
                 },
               ),
               ListTile(
-                leading: Icon(Icons.photo_camera),
-                title: Text('Camera'),
+                leading: const Icon(Icons.photo_camera),
+                title: const Text('Camera'),
                 onTap: () {
                   getImage(ImageSource.camera);
                   Navigator.of(context).pop();
@@ -251,7 +302,6 @@ class HomeController extends GetxController {
       isUploading.value = false;
 
       image.value = null;
-      print("image upload  called");
 
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       //   content: Text("Image uploaded successfully!"),
@@ -259,7 +309,6 @@ class HomeController extends GetxController {
       // ));
     } catch (e) {
       isUploading.value = false;
-      print("image upload catch called");
       image.value = null;
 
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(

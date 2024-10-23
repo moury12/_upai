@@ -40,21 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // WidgetsBinding.instance.addObserver(this);
     super.initState();
-    resetData();
+
     controller.refreshAllData();
     // controller.isSearching.value = false;
     Get.put(NetworkController());
     retrieveFavOffers();
   }
-
-  void resetData() {
-    controller.searchOfferController.value.clear();
-    controller.selectedDistrictForAll.value = null;
-    controller.isSearching.value = false;
-    searchFocus.unfocus();
-  }
-
-  FocusNode searchFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -99,13 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        resetData();
-                                        HomeController.to.getOfferList
-                                            .refresh();
-
-                                        Get.toNamed(
-                                            ServiceListScreen.routeName,
-                                            arguments: "");
+                                        Get.to(ServiceListScreen(
+                                          isTopService: true,
+                                        ));
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -117,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ],
                                 ),
-                                HomeController.to.getOfferList.isEmpty ||
+                                HomeController.to.topServiceList.isEmpty ||
                                         !NetworkController
                                             .to.connectedInternet.value
                                     ? ShimmerExploreTopService()
@@ -129,15 +116,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                             scrollDirection: Axis.horizontal,
                                             physics: BouncingScrollPhysics(),
                                             shrinkWrap: true,
-                                            itemCount: controller.getOfferList
+                                            itemCount: controller.topServiceList
                                                         .length <=
                                                     5
                                                 ? controller
-                                                    .getOfferList.length
+                                                    .topServiceList.length
                                                 : 5,
                                             itemBuilder: (context, index) {
                                               final service = controller
-                                                  .getOfferList[index];
+                                                  .topServiceList[index];
                                               return GestureDetector(
                                                   onTap: () {
                                                     Get.to(
@@ -162,78 +149,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           ),
-                          Obx(() {
-                            if (controller.isSearching.value ||
-                                HomeController
-                                        .to.selectedDistrictForAll.value !=
-                                    null) {
-                              var offerList = [];
-                              offerList = controller.getOfferList;
-                              if (offerList.isNotEmpty) {
-                                return Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                                "Explore New Services",
-                                                style:
-                                                    AppTextStyle.titleText),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.toNamed(
-                                                  ServiceListScreen.routeName,
-                                                  arguments: "");
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12.0),
-                                              child: Text("Browse All > ",
-                                                  style: AppTextStyle
-                                                      .titleTextSmallUnderline),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      padding: const EdgeInsets.symmetric(
-                                              horizontal: 8)
-                                          .copyWith(top: 8),
-                                      itemCount: offerList.length <= 5
-                                          ? offerList.length
-                                          : 5,
-                                      itemBuilder: (context, index) {
-                                        final service = offerList[index];
-
-                                        return  ServiceOfferWidget(
-                                            index: index,
-                                            offerItem: service,
-                                          );
-
-                                      },
-                                    ),
-                                  ],
-                                );
-                              } else {
-                                return NoServiceWidget();
-                              }
-                            } else {
-                              return Padding(
+                          Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8),
                                 child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       mainAxisAlignment:
@@ -245,14 +165,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            Get.toNamed(
-                                                ServiceListScreen.routeName,
-                                                arguments: "");
+                                            Get.to(
+                                                ServiceListScreen(isNewService: true,)
+                                               );
                                           },
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 12.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12.0),
                                             child: Text("Browse All > ",
                                                 style: AppTextStyle
                                                     .titleTextSmallUnderline),
@@ -261,38 +180,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ],
                                     ),
                                     Obx(() {
-                                      return !NetworkController.to
-                                                  .connectedInternet.value ||
-                                              HomeController
-                                                  .to.getOfferList.isEmpty
+                                      return !NetworkController
+                                                  .to.connectedInternet.value
                                           ? const ShimmerRunnigOrder()
-                                          /*:HomeController
-                                                        .to.getOfferList.isEmpty ?NoServiceWidget()*/
-                                          : ListView.builder(
+                                          :HomeController
+                                                        .to.newServiceList.isEmpty ?NoServiceWidget()
+                                          :
+                                      ListView.builder(
                                               physics:
                                                   NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
-                                              itemCount: controller
-                                                          .getOfferList
+                                              itemCount: controller.newServiceList
                                                           .length <=
                                                       5
                                                   ? controller
-                                                      .getOfferList.length
+                                                      .newServiceList.length
                                                   : 5,
                                               itemBuilder: (context, index) {
                                                 final service = controller
-                                                    .getOfferList[index];
-                                                return  ServiceOfferWidget(
-                                                      index: index,
-                                                      offerItem: service,
-                                                    );
+                                                    .newServiceList[index];
+                                                return ServiceOfferWidget(
+                                                  index: index,
+                                                  offerItem: service,
+                                                );
                                               });
                                     }),
                                   ],
                                 ),
-                              );
-                            }
-                          }),
+                              ),
                           SizedBox(
                             height: 8,
                           )

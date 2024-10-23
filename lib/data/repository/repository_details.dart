@@ -16,9 +16,7 @@ import '../../Model/user_info_model.dart';
 import '../../presentation/Profile/profile_screen_controller.dart';
 import '../../presentation/seller-service/controller/seller_profile_controller.dart';
 import '/data/api/api_client.dart';
-import '/core/errors/error_controller.dart';
 
-import 'repository_interface.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryData {
@@ -224,7 +222,8 @@ debugPrint('Failed to load data');      }
     required String district,
     required String searchVal,
     required String sortBy,
-   required bool isLoadMore}) async {
+   required bool isLoadMore})
+  async {
     try {
       String url =
           "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&cat_type=${catType}&category=${category}&district=${district}&offer=${searchVal}&sort_by=${sortBy}&page=${currentPage}";
@@ -241,7 +240,7 @@ debugPrint('Failed to load data');      }
 
       Map<String, dynamic> data = jsonDecode(response.body.toString());
       List<dynamic> offerDataList =data['offerList'];
-      if (data['status'] == "Success") {
+      if (data['status'] == "Success"&&offerDataList.isNotEmpty) {
         offerList =offerDataList.map((e) => OfferList.fromJson(e),).toList();
 
 

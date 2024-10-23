@@ -5,7 +5,7 @@ class CustomDropDown<T> extends StatelessWidget {
   final T? value;  // The selected value
   final String label;  // Dropdown hint label
   final List<T> menuList;  // Dropdown menu items
-  final ValueChanged<T?> onChanged;  // Callback to handle value changes
+  final Function(T?)? onChanged;  // Callback to handle value changes
   final bool isEditArgument;  // Controls whether the dropdown is disabled or not
 
   const CustomDropDown({
