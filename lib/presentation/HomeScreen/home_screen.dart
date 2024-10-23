@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
-
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/filter_banner_widget.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
@@ -25,24 +22,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   HomeController controller = HomeController.to;
   final ctrl = Get.put(DefaultController());
-  final List<String> localCategories = [
-    'Local Category 1',
-    'Local Category 2',
-    'Local Category 3'
-  ];
-  final List<String> onlineCategories = [
-    'Online Category 1',
-    'Online Category 2',
-    'Online Category 3'
-  ];
   late AnimationController animationController;
   @override
   void initState() {
-    // WidgetsBinding.instance.addObserver(this);
     super.initState();
 
-    controller.refreshAllData();
-    // controller.isSearching.value = false;
+
     Get.put(NetworkController());
     retrieveFavOffers();
   }
@@ -68,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FilterBanner(),
+                const FilterBanner(isNewestArrival: true,),
                 Expanded(
                   child: Obx(() {
                     return SingleChildScrollView(
@@ -90,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        Get.to(ServiceListScreen(
+                                        Get.to(const ServiceListScreen(
                                           isTopService: true,
                                         ));
                                       },
@@ -114,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         height: 250,
                                         child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
-                                            physics: BouncingScrollPhysics(),
+                                            physics: const BouncingScrollPhysics(),
                                             shrinkWrap: true,
                                             itemCount: controller.topServiceList
                                                         .length <=
@@ -150,47 +135,45 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Text("Explore New Services",
-                                              style: AppTextStyle.titleText),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Get.to(
-                                                ServiceListScreen(isNewService: true,)
-                                               );
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 12.0),
-                                            child: Text("Browse All > ",
-                                                style: AppTextStyle
-                                                    .titleTextSmallUnderline),
-                                          ),
-                                        ),
-                                      ],
+                                    Expanded(
+                                      child: Text("Explore New Services",
+                                          style: AppTextStyle.titleText),
                                     ),
-                                    Obx(() {
-                                      return !NetworkController
-                                                  .to.connectedInternet.value
-                                          ? const ShimmerRunnigOrder()
-                                          :HomeController
-                                                        .to.newServiceList.isEmpty ?NoServiceWidget()
-                                          :
-                                      ListView.builder(
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.to(const ServiceListScreen(
+                                          isNewService: true,
+                                        ));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 12.0),
+                                        child: Text("Browse All > ",
+                                            style: AppTextStyle
+                                                .titleTextSmallUnderline),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                               !NetworkController
+                                          .to.connectedInternet.value
+                                      ? const ShimmerRunnigOrder()
+                                      : HomeController.to.newServiceList.isEmpty
+                                          ? const NoServiceWidget()
+                                          : ListView.builder(
                                               physics:
-                                                  NeverScrollableScrollPhysics(),
+                                                  const NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
-                                              itemCount: controller.newServiceList
+                                              itemCount: controller
+                                                          .newServiceList
                                                           .length <=
                                                       5
                                                   ? controller
@@ -203,12 +186,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   index: index,
                                                   offerItem: service,
                                                 );
-                                              });
-                                    }),
-                                  ],
-                                ),
-                              ),
-                          SizedBox(
+                                              })
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
                             height: 8,
                           )
                         ],

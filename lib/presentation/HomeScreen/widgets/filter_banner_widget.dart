@@ -182,7 +182,6 @@ class FilterDialog extends StatelessWidget {
             HomeController.to.getOfferDataList();
             HomeController.to.currentPage.value=1;
             HomeController.to.currentPageForNewService.value=1;
-            HomeController.to.currentPageForTopService.value=1;
             Navigator.pop(context);
           },
         ),

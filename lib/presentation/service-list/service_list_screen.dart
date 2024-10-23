@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/offer_list_model.dart';
@@ -9,7 +8,6 @@ import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/HomeScreen/widgets/filter_banner_widget.dart';
-import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/Service-details/service_details.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -55,25 +53,10 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
-    // Determine the number of columns and aspect ratio dynamically
-    int crossAxisCount = 2;
-
-    double childRatio = 0.8;
-
-    if (screenWidth > 600) {
-      crossAxisCount = 3;
-      childRatio = screenWidth > screenHeight ? 0.9 : 1;
-    }
-    if (screenWidth > 900) {
-      crossAxisCount = 4;
-      childRatio = screenWidth > screenHeight ? 0.9 : 1;
-    }
-    if (screenWidth > 1232) {
-      crossAxisCount = 5;
-      childRatio = 1;
-    }
+    if (screenWidth > 600) {}
+    if (screenWidth > 900) {}
+    if (screenWidth > 1232) {}
 
     return PopScope(
       canPop: true,
@@ -90,7 +73,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             shadowColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Get.back();
                 controller.searchController.value.clear();
@@ -111,21 +94,19 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
           body: RefreshIndicator(
             color: Colors.black,
             backgroundColor: Colors.white,
-
             onRefresh: () async {
               resetData();
-
             },
             child: Column(
               children: [
                 widget.isTopService == true
-                    ? SizedBox.shrink()
+                    ? const SizedBox.shrink()
                     : FilterBanner(
                         isService: true,
-                  isNewestArrival: widget.isNewService,
+                        isNewestArrival: widget.isNewService,
                       ),
                 widget.isTopService == true
-                    ? SizedBox.shrink()
+                    ? const SizedBox.shrink()
                     : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Obx(() {
@@ -158,16 +139,17 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                       return Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(12.0).copyWith(top: 0),
-                          child: ShimmerOfferList(
+                          child: const ShimmerOfferList(
                             fromServiceList: true,
                           ),
                         ),
                       );
                     } else if ((widget.isTopService == true &&
-                            controller.topServiceList.isEmpty) ||(widget.isNewService == true &&
+                            controller.topServiceList.isEmpty) ||
+                        (widget.isNewService == true &&
                             controller.newServiceList.isEmpty) ||
                         controller.getOfferList.isEmpty) {
-                      return Expanded(
+                      return const Expanded(
                         child: SingleChildScrollView(
                             physics: AlwaysScrollableScrollPhysics(),
                             child: NoServiceWidget()),
@@ -175,21 +157,21 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                     } else {
                       return Expanded(
                           child: ListView.builder(
-                            physics: const AlwaysScrollableScrollPhysics(),
-
-                            padding: EdgeInsets.all(8),
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: const EdgeInsets.all(8),
                         shrinkWrap: true,
                         controller: scrollController,
                         itemCount: widget.isTopService == true
-                            ? controller.topServiceList.length: widget.isNewService == true
-                            ? controller.newServiceList.length
-
-                            : controller.getOfferList.length,
+                            ? controller.topServiceList.length
+                            : widget.isNewService == true
+                                ? controller.newServiceList.length
+                                : controller.getOfferList.length,
                         itemBuilder: (context, index) {
                           OfferList service = widget.isTopService == true
-                              ? controller.topServiceList[index]: widget.isNewService == true
-                              ? controller.newServiceList[index]
-                              : controller.getOfferList[index];
+                              ? controller.topServiceList[index]
+                              : widget.isNewService == true
+                                  ? controller.newServiceList[index]
+                                  : controller.getOfferList[index];
                           return InkWell(
                             onTap: () {
                               Get.to(
@@ -208,7 +190,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 )
               ],

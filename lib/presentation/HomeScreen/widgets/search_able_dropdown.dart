@@ -33,7 +33,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
 
   void filterDistrictItem(String query) {
     setState(() {
-      filterDistrict = HomeController.to.districtList.value
+      filterDistrict = HomeController.to.districtList
           .where(
             (element) => element['name']
                 .toString()
@@ -90,7 +90,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                 ],
               ))
           : Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               // margin: EdgeInsets.all(0),
               decoration: BoxDecoration(
                   border: Border.all(width: 1, color: AppColors.kprimaryColor),
@@ -154,7 +154,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         position: widget.fromHome == false
-            ? RelativeRect.fromLTRB(0, 0, 0, 0)
+            ? const RelativeRect.fromLTRB(0, 0, 0, 0)
             : RelativeRect.fromLTRB(
                 buttonOffset.dx,
                 buttonOffset.dy + buttonSize.height,
@@ -192,18 +192,21 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                             height: 10,
                             child: InkWell(
                               onTap: () {
-
-                                if(widget.fromHome!){
+                                if (widget.fromHome!) {
                                   HomeController.to.selectedDistrictForAll
                                       .value = e['name'];
                                   HomeController.to.getOfferDataList();
                                   HomeController.to.getOfferList.refresh();
-
+                                  HomeController.to.newServiceList.refresh();
+                                  HomeController.to.currentPage.value = 1;
+                                  HomeController
+                                      .to.currentPageForNewService.value = 1;
+                                  print(HomeController.to.newServiceList.length);
+                                } else {
+                                  CreateOfferController
+                                      .to.selectedDistrict.value = e['name'];
                                 }
-                                    else{ CreateOfferController
-                                        .to.selectedDistrict.value = e['name'];}
                                 Navigator.pop(context);
-
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -217,7 +220,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                             ),
                           );
                         },
-                      ).toList()
+                      )
                     ],
                   );
                 },

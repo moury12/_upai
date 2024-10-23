@@ -102,21 +102,27 @@ class HomeController extends GetxController {
   }) async {
     if (loadMoreData) {
       isLoadingMore.value = true;
-      currentPage.value++; // Start loading more data
-      currentPageForNewService.value++; // Start loading more data
-      currentPageForTopService.value++; // Start loading more data
+      currentPage.value++; // Increment page for pagination
+      currentPageForNewService.value++;
+      currentPageForTopService.value++;
     }
+
     Get.put(FilterController());
+
+    // Fetch Top Offers
     List<OfferList> topOffer = await RepositoryData().getOfferList(
-        token: FirebaseAPIs.user['token'].toString(),
-        mobile: ctrl!.userInfo.value.userId ?? '',
-        currentPage: currentPageForTopService.value,
-        catType: '',
-        category: '',
-        district: '',
-        searchVal: '',
-        sortBy: 'RATING',
-        isLoadMore: loadMoreData);
+      token: FirebaseAPIs.user['token'].toString(),
+      mobile: ctrl!.userInfo.value.userId ?? '',
+      currentPage: currentPageForTopService.value,
+      catType: '',
+      category: '',
+      district: '',
+      searchVal: '',
+      sortBy: 'RATING',
+      isLoadMore: loadMoreData,
+    );
+
+    // Fetch New Offers
     List<OfferList> newOffers = await RepositoryData().getOfferList(
       isLoadMore: loadMoreData,
       currentPage: currentPage.value,
@@ -130,6 +136,8 @@ class HomeController extends GetxController {
           : '',
       sortBy: FilterController.to.selectedSortBy.value ?? '',
     );
+
+    // Fetch New Arrival Offers
     List<OfferList> newArrivalOffers = await RepositoryData().getOfferList(
       isLoadMore: loadMoreData,
       currentPage: currentPageForNewService.value,
@@ -143,41 +151,8 @@ class HomeController extends GetxController {
           : '',
       sortBy: 'NEWEST ARRIVAL',
     );
-    if (newOffers.isEmpty) {
-      if (!loadMoreData) {
-        getOfferList
-            .clear(); // Clear the list when there are no offers for the selected district
-      }
-      isLoadingMore.value = false; // Stop the loading state
-      return; // Exit the function
-    }
 
-    if (newOffers.isNotEmpty) {
-      if (loadMoreData) {
-        getOfferList.addAll(newOffers);
-      } else {
-        getOfferList.assignAll(newOffers);
-      }
-      getOfferList.refresh();
-      if (loadMoreData) {
-        currentPage.value++;
-      }
-      isLoadingMore.value = false;
-      // Increment page
-    }
-    if (newArrivalOffers.isNotEmpty) {
-      if (loadMoreData) {
-        newServiceList.addAll(newArrivalOffers);
-      } else {
-        newServiceList.assignAll(newArrivalOffers);
-      }
-      newServiceList.refresh();
-      if (loadMoreData) {
-        currentPageForNewService.value++;
-      }
-      isLoadingMore.value = false;
-      // Increment page
-    }
+    // Top Offers Logic
     if (topOffer.isNotEmpty) {
       if (loadMoreData) {
         topServiceList.addAll(topOffer);
@@ -188,12 +163,46 @@ class HomeController extends GetxController {
       if (loadMoreData) {
         currentPageForTopService.value++;
       }
-      isLoadingMore.value = false;
-      // Increment page
     }
 
+    // New Offers Logic
+    if (newOffers.isNotEmpty) {
+      if (loadMoreData) {
+        getOfferList.addAll(newOffers);
+      } else {
+        getOfferList.assignAll(newOffers);
+      }
+      getOfferList.refresh();
+      if (loadMoreData) {
+        currentPage.value++;
+      }
+    } else if (!loadMoreData) {
+      // Clear the list if there's no new data and not loading more
+      getOfferList.clear();
+      getOfferList.refresh();  // Ensure the UI updates
+    }
+
+    // New Arrival Offers Logic
+    if (newArrivalOffers.isNotEmpty) {
+      if (loadMoreData) {
+        newServiceList.addAll(newArrivalOffers);
+      } else {
+        newServiceList.assignAll(newArrivalOffers);
+      }
+      newServiceList.refresh();
+      if (loadMoreData) {
+        currentPageForNewService.value++;
+      }
+    } else if (!loadMoreData) {
+      // Clear the list if there's no new arrival data
+      newServiceList.clear();
+      newServiceList.refresh();  // Ensure the UI updates
+    }
+
+    // Final loading state
     isLoadingMore.value = false;
   }
+
 
   void filterCategory(String query) async {
     if (query.isNotEmpty) {
