@@ -39,14 +39,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
   void initState() {
     HomeController.to.getOfferList.refresh();
     Get.put(NetworkController());
-    if (widget.isNewService == true) {
-      FilterController.to.selectedSortBy.value = null;
-    } else {
-      // Clear the sorting filter when isNewestArrival is false
-      FilterController.to.selectedSortBy.value = null;
 
 
-    }
     scrollController.addListener(
       () {
         if (scrollController.position.pixels ==

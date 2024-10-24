@@ -1,12 +1,6 @@
-
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/user_info_model.dart';
-
-import '../../../data/api/firebase_apis.dart';
 class InboxScreenController extends GetxController{
   // List<UserInfoModel> myChatList = [];
   bool isSearching=false;

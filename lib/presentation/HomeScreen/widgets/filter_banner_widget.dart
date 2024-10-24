@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,16 +30,6 @@ class _FilterBannerState extends State<FilterBanner> {
   @override
   void initState() {
     Get.put(FilterController());
-
-    if (widget.isNewestArrival == true) {
-      FilterController.to.selectedSortBy.value = 'Newest Arrival';
-    } else {
-      // Clear the sorting filter when isNewestArrival is false
-      FilterController.to.selectedSortBy.value = null;
-
-      HomeController.to.getOfferList.refresh();
-    }
-
     super.initState();
   }
 

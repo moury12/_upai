@@ -1,9 +1,6 @@
 import 'package:get/get.dart';
-import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
-import 'package:upai/Model/user_info_model.dart';
-import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 

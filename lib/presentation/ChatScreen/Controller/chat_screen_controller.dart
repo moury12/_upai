@@ -7,8 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ChatScreenController extends GetxController{
   List<Message> messageList = [];
-  final _chars =
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
   final Random _rnd = Random();
   TextEditingController messageController = TextEditingController();
   String? messageId;

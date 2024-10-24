@@ -14,6 +14,7 @@ import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
+  Rx<bool>  isNewService = false.obs;
   RxInt currentPage = 1.obs;
   RxInt currentPageForTopService = 1.obs;
   RxInt currentPageForNewService = 1.obs;
@@ -131,8 +132,8 @@ Future<OfferList?> findServiceByOfferID({ required String offerId})async{
       isLoadMore: loadMoreData,
     );
 
-    FilterController.to.selectedSortBy.value=null;
-    debugPrint(FilterController.to.selectedSortBy.value);
+
+
     // Fetch New Offers
     List<OfferList> defaultOffer = await RepositoryData().getOfferList(
       isLoadMore: loadMoreData,
@@ -145,7 +146,7 @@ Future<OfferList?> findServiceByOfferID({ required String offerId})async{
       district: selectedDistrictForAll.value != 'All Districts'
           ? selectedDistrictForAll.value ?? ''
           : '',
-      sortBy: FilterController.to.selectedSortBy.value ?? '',
+      sortBy:FilterController.to.selectedSortBy.value ?? '',
     );
 
     // Fetch New Arrival Offers
@@ -183,8 +184,11 @@ Future<OfferList?> findServiceByOfferID({ required String offerId})async{
       if (loadMoreData) {
         getOfferList.addAll(defaultOffer);
       } else {
-        getOfferList.assignAll(defaultOffer);
-      }
+
+
+        getOfferList.assignAll(defaultOffer);}
+
+
       getOfferList.refresh();
       if (loadMoreData) {
         currentPage.value++;

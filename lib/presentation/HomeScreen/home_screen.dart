@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
@@ -21,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeController controller = HomeController.to;
+
   final ctrl = Get.put(DefaultController());
   late AnimationController animationController;
   @override
@@ -136,58 +138,63 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                            child: Obx(
+                               () {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Text("Explore New Services",
-                                          style: AppTextStyle.titleText),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.to(const ServiceListScreen(
-                                          isNewService: true,
-                                        ));
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 12.0),
-                                        child: Text("Browse All > ",
-                                            style: AppTextStyle
-                                                .titleTextSmallUnderline),
-                                      ),
-                                    ),
+                                  FilterController.to.isFilterValueEmpty.value?  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text("Explore New Services",
+                                              style: AppTextStyle.titleText),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.to(const ServiceListScreen(
+                                              isNewService: true,
+                                            ));
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12.0),
+                                            child: Text("Browse All > ",
+                                                style: AppTextStyle
+                                                    .titleTextSmallUnderline),
+                                          ),
+                                        ),
+                                      ],
+                                    ):Text("${FilterController.to.selectedServiceType.value!=null?FilterController.to.selectedServiceType.value:''}",
+                                                    style: AppTextStyle.titleText),
+                                   !NetworkController
+                                              .to.connectedInternet.value
+                                          ? const ShimmerRunnigOrder()
+                                          : HomeController.to.newServiceList.isEmpty
+                                              ? const NoServiceWidget()
+                                              : ListView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  shrinkWrap: true,
+                                                  itemCount: controller
+                                                              .newServiceList
+                                                              .length <=
+                                                          5
+                                                      ? controller
+                                                          .newServiceList.length
+                                                      : 5,
+                                                  itemBuilder: (context, index) {
+                                                    final service = controller
+                                                        .newServiceList[index];
+                                                    return ServiceOfferWidget(
+                                                      index: index,
+                                                      offerItem: service,
+                                                    );
+                                                  })
                                   ],
-                                ),
-                               !NetworkController
-                                          .to.connectedInternet.value
-                                      ? const ShimmerRunnigOrder()
-                                      : HomeController.to.newServiceList.isEmpty
-                                          ? const NoServiceWidget()
-                                          : ListView.builder(
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              itemCount: controller
-                                                          .newServiceList
-                                                          .length <=
-                                                      5
-                                                  ? controller
-                                                      .newServiceList.length
-                                                  : 5,
-                                              itemBuilder: (context, index) {
-                                                final service = controller
-                                                    .newServiceList[index];
-                                                return ServiceOfferWidget(
-                                                  index: index,
-                                                  offerItem: service,
-                                                );
-                                              })
-                              ],
+                                );
+                              }
                             ),
                           ),
                           const SizedBox(
