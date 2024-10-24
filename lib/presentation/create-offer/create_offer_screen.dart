@@ -81,18 +81,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
               color: AppColors.kprimaryColor,
             ),
           ),
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  String? categoryImgDownloadUrl = await ImageController()
-                      .fetchDefaultOfferImageUrl('Mobile and Laptop Servicing');
-                  print(categoryImgDownloadUrl);
-                },
-                icon: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ))
-          ],
           title: Text(isEditArgument ? 'Edit Offer' : "Create New Offer",
               style: TextStyle(
                   color: AppColors.kprimaryColor,
@@ -111,15 +99,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Job Title",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.kprimaryColor),
-                ),
-                defaultSizeBoxHeight,
                 CustomTextField(
+                  label: "Title",
+                  isRequired: true,
                   validatorText: "Please Enter Job Title",
 
                   hintText: "Please Enter Job Title",
@@ -127,15 +109,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   // onChanged: (value) => controller.emailController.text.trim() = value!,
                 ),
                 defaultSizeBoxHeight,
-                Text(
-                  "Job Description",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.kprimaryColor),
-                ),
-                defaultSizeBoxHeight,
                 CustomTextField(
+                  label: "Description",
+                  isRequired: true,
                   validatorText: "Please Enter Job Description",
                   hintText: "Please Enter Job Description",
                   controller:
@@ -144,87 +120,97 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   // onChanged: (value) => controller.emailController.text.trim() = value!,
                 ),
                 defaultSizeBoxHeight,
-                Text(
-                  "Offer Image (optional)",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.kprimaryColor),
-                ),
-                defaultSizeBoxHeight,
-
-                /// network_image_optimize
-                InkWell(
-                  onTap: () {
-                    CreateOfferController.to.showPickerDialog(context);
-                  },
-                  child: Center(
-                    child: Stack(children: [
-                      Obx(() {
-                        return SizedBox(
-                            height: 120,
-                            width: 130,
-                            child: CreateOfferController.to.image.value != null
-                                ? Image.file(
-                                    File(CreateOfferController
-                                        .to.image.value!.path),
-                                    // height: 150,
-                                    // width: 150,
-                                    fit: BoxFit.fill,
-                                  )
-                                : isEditArgument == true
-                                    ? CustomNetworkImage(
-                                        imgPreview: true,
-                                        // height: 150,
-                                        imageUrl: '',
-                                      )
-                                    : Image(
-                                        image: AssetImage(ImageConstant.dummy),
-                                        fit: BoxFit.cover,
-                                      ));
-                      }),
-                      Positioned(
-                          right: -2,
-                          top: -2,
-                          child: Icon(
-                            Icons.photo_camera,
-                            size: 25,
-                            color: AppColors.kprimaryColor,
-                          ))
-                    ]),
-                  ),
-                ),
-                defaultSizeBoxHeight,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Category Type",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                        color: AppColors.kprimaryColor,
-                      ),
+                    Column(
+                      children: [
+                        Text(
+                          "Offer Image (optional)",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: AppColors.kprimaryColor),
+                        ),
+                        defaultSizeBoxHeight,
+                        InkWell(
+                          onTap: () {
+                            CreateOfferController.to.showPickerDialog(context);
+                          },
+                          child: Obx(() {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: SizedBox(
+                                  height: 120,
+                                  width: 130,
+                                  child: CreateOfferController.to.image.value !=
+                                          null
+                                      ? Image.file(
+                                          File(CreateOfferController
+                                              .to.image.value!.path),
+                                          // height: 150,
+                                          // width: 150,
+                                          fit: BoxFit.fill,
+                                        )
+                                      : isEditArgument == true
+                                          ? CustomNetworkImage(
+                                              imgPreview: true,
+                                              // height: 150,
+                                              imageUrl: '',
+                                            )
+                                          : Image(
+                                              image: AssetImage(
+                                                  ImageConstant.uploadImage),
+                                              fit: BoxFit.cover,
+                                            )),
+                            );
+                          }),
+                        ),
+                      ],
+                    ),spaceWidth6,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Category Type",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12,
+                                color: AppColors.kprimaryColor,
+                              ),
+                            ),
+                            spaceWidth6,
+                            Text(
+                              '*',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 10,
+                                  color: Colors.red),
+                            )
+                          ],
+                        ),
+                        defaultSizeBoxHeight,
+                        Obx(() {
+                          return CustomDropDown<String>(
+                            label: "Select a service type",
+                            isEditArgument: isEditArgument,
+                            menuList: serviceType,
+                            value: CreateOfferController
+                                .to.selectedServiceType.value,
+                            onChanged: (val) {
+                              CreateOfferController
+                                  .to.selectedServiceType.value = val;
+                            },
+                          );
+                        }),
+                      ],
                     ),
-                    defaultSizeBoxHeight,
-                    Obx(() {
-                      return CustomDropDown<String>(
-                        label: "Select a service type",
-                        isEditArgument: isEditArgument,
-                        menuList: serviceType,
-                        value:
-                            CreateOfferController.to.selectedServiceType.value,
-                        onChanged: (val) {
-                          CreateOfferController.to.selectedServiceType.value =
-                              val;
-                        },
-                      );
-                    }),
                   ],
                 ),
                 defaultSizeBoxHeight,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
                     Text(
                       "Category",
@@ -234,86 +220,83 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         color: AppColors.kprimaryColor,
                       ),
                     ),
-                    defaultSizeBoxHeight,
-                    Obx(() {
-                      return CustomDropDown<dynamic>(
-                        label: "Select a service Category",
-                        isEditArgument: isEditArgument,
-                        menuList: HomeController.to.getCatList
-                            .map(
-                              (element) => element.categoryName,
-                            )
-                            .toList(),
-                        value: CreateOfferController.to.selectedCategory.value,
-                        onChanged: (value) {
-                          CreateOfferController.to.selectedCategory.value =
-                              value;
-                        },
-                      );
-                    }),
+                    spaceWidth6,
+                    Text(
+                      '*',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 10,
+                          color: Colors.red),
+                    )
                   ],
                 ),
                 defaultSizeBoxHeight,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Obx(() {
+                  return CustomDropDown<dynamic>(
+                    label: "Select a service Category",
+                    isEditArgument: isEditArgument,
+                    menuList: HomeController.to.getCatList
+                        .map(
+                          (element) => element.categoryName,
+                        )
+                        .toList(),
+                    value: CreateOfferController.to.selectedCategory.value,
+                    onChanged: (value) {
+                      CreateOfferController.to.selectedCategory.value = value;
+                    },
+                  );
+                }),
+                defaultSizeBoxHeight,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      "Services",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                        color: AppColors.kprimaryColor,
+                    Expanded(
+                      child: CustomTextField(
+                        label: "Services",
+                        isRequired: true,
+                        validatorText: "Please Enter service",
+
+                        hintText: "Enter service",
+                        controller:
+                            CreateOfferController.to.serviceController.value,
+                        // onChanged: (value) => controller.emailController.text.trim() = value!,
                       ),
                     ),
-                    defaultSizeBoxHeight,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CustomTextField(
-                            validatorText: "Please Enter service",
-
-                            hintText: "Enter service",
-                            controller: CreateOfferController
-                                .to.serviceController.value,
-                            // onChanged: (value) => controller.emailController.text.trim() = value!,
-                          ),
-                        ),
-                        defaultSizeBoxWidth,
-                        CustomButton(
-                            onTap: () {
-                              if (CreateOfferController
-                                  .to.serviceController.value.text.isNotEmpty) {
-                                CreateOfferController.to.yourServiceList.add({
-                                  "service_name": CreateOfferController
-                                      .to.serviceController.value.text,
-                                  "status": false
-                                });
-                                for (var package
-                                    in CreateOfferController.to.packageList) {
-                                  package['service_list'] = List.from(
-                                      CreateOfferController.to.yourServiceList
-                                          .map((service) {
-                                    return {
-                                      "service_name": service['service_name'],
-                                      "status":
-                                          false // Each service starts as unselected for each package
-                                    };
-                                  }).toList());
-                                }
-                                CreateOfferController.to.packageList.refresh();
-                                CreateOfferController.to.serviceController.value
-                                    .clear();
-                                debugPrint(CreateOfferController
-                                    .to.yourServiceList
-                                    .toString());
-                              } else {
-                                Get.snackbar(
-                                    "failed", "Please Enter valid service");
-                              }
-                            },
-                            title: 'Add')
-                      ],
-                    ),
+                    defaultSizeBoxWidth,
+                    CustomButton(
+                        onTap: () {
+                          if (CreateOfferController
+                              .to.serviceController.value.text.isNotEmpty) {
+                            CreateOfferController.to.yourServiceList.add({
+                              "service_name": CreateOfferController
+                                  .to.serviceController.value.text,
+                              "status": false
+                            });
+                            for (var package
+                                in CreateOfferController.to.packageList) {
+                              package['service_list'] = List.from(
+                                  CreateOfferController.to.yourServiceList
+                                      .map((service) {
+                                return {
+                                  "service_name": service['service_name'],
+                                  "status":
+                                      false // Each service starts as unselected for each package
+                                };
+                              }).toList());
+                            }
+                            CreateOfferController.to.packageList.refresh();
+                            CreateOfferController.to.serviceController.value
+                                .clear();
+                            debugPrint(CreateOfferController.to.yourServiceList
+                                .toString());
+                          } else {
+                            showCustomSnackbar(
+                                title: 'Failed',
+                                message: "Please Enter valid service",
+                                type: SnackBarType.failed);
+                          }
+                        },
+                        title: 'Add')
                   ],
                 ),
                 Obx(() {
@@ -361,17 +344,30 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                 }),
                 defaultSizeBoxHeight,
                 PackageCreateWidget(),
+                PackageCreateWidget(),
                 defaultSizeBoxHeight,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "District",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                        color: AppColors.kprimaryColor,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          "District",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12,
+                            color: AppColors.kprimaryColor,
+                          ),
+                        ),
+                        spaceWidth6,
+                        Text(
+                          '*',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 10,
+                              color: Colors.red),
+                        )
+                      ],
                     ),
                     defaultSizeBoxHeight,
                     Obx(() {
@@ -390,15 +386,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   ],
                 ),
                 defaultSizeBoxHeight,
-                Text(
-                  "Address",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: AppColors.kprimaryColor),
-                ),
-                defaultSizeBoxHeight,
                 CustomTextField(
+                  label: "Address",
+                  isRequired: true,
                   validatorText: "Please Enter address",
 
                   hintText: "Please Enter address",
@@ -452,8 +442,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           if (CreateOfferController.to.selectedServiceType.value !=
                                                   null &&
                                               CreateOfferController.to.selectedCategory.value !=
-                                                  null &&
-                                              CreateOfferController.to.selectedServiceType.value !=
                                                   null &&
                                               CreateOfferController.to.selectedDistrict.value !=
                                                   null &&
@@ -535,11 +523,14 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                           .text);
 
                                               Get.back();
-                                              Get.snackbar("Success",
-                                                  "Updated Successfully");
+
+                                              showCustomSnackbar(
+                                                  title: 'Success',
+                                                  message:
+                                                      "Updated Successfully",
+                                                  type: SnackBarType.success);
                                             } else {
                                               String? downloadUrl;
-
 
                                               if (CreateOfferController
                                                       .to.image.value !=
@@ -554,44 +545,51 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                 print("create image called");
                                                 CreateOfferController
                                                     .to.image.value = null;
-                                              }else{
+                                              } else {
                                                 String? categoryImgDownloadUrl =
-                                                await ImageController()
-                                                    .fetchDefaultOfferImageUrl(
-                                                    CreateOfferController
-                                                        .to
-                                                        .selectedCategory
-                                                        .value
-                                                        .toString());
+                                                    await ImageController()
+                                                        .fetchDefaultOfferImageUrl(
+                                                            CreateOfferController
+                                                                .to
+                                                                .selectedCategory
+                                                                .value
+                                                                .toString());
                                                 print(categoryImgDownloadUrl);
-                                                downloadUrl=categoryImgDownloadUrl;
+                                                downloadUrl =
+                                                    categoryImgDownloadUrl;
                                               }
-                                              await CreateOfferController.to.createOffer(
-                                                  jobTitle:
-                                                      CreateOfferController
-                                                          .to
-                                                          .titleController
-                                                          .value
-                                                          .text,
-                                                  description:
-                                                      CreateOfferController
-                                                          .to
-                                                          .descriptionController
-                                                          .value
-                                                          .text,
-                                                  address: CreateOfferController
-                                                      .to
-                                                      .addressController
-                                                      .value
-                                                      .text,
-                                                  imgUrl: downloadUrl ??
-                                                     '');
+                                              await CreateOfferController.to
+                                                  .createOffer(
+                                                      jobTitle:
+                                                          CreateOfferController
+                                                              .to
+                                                              .titleController
+                                                              .value
+                                                              .text,
+                                                      description:
+                                                          CreateOfferController
+                                                              .to
+                                                              .descriptionController
+                                                              .value
+                                                              .text,
+                                                      address:
+                                                          CreateOfferController
+                                                              .to
+                                                              .addressController
+                                                              .value
+                                                              .text,
+                                                      imgUrl:
+                                                          downloadUrl ?? '');
 
                                               clearAllField();
                                             }
                                           } else {
-                                            Get.snackbar(
-                                                "Failed", "All field Required");
+                                            showCustomSnackbar(
+                                              title: "Failed",
+                                              type: SnackBarType.failed,
+                                              message:
+                                                  "All fields are required",
+                                            );
                                           }
                                           CreateOfferController
                                               .to.isLoading.value = false;

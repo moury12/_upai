@@ -30,17 +30,21 @@ class _FavouriteOfferScreenState extends State<FavouriteOfferScreen> {
       body: Obx(
          () {
           return ListView.builder(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             itemCount: HomeController.to.favOfferList.length,
             itemBuilder: (context, index) {
             var favItem = HomeController.to.favOfferList[index];
             return GestureDetector(
-              onTap: () {
-                OfferList? offer= getOfferByID(favItem.offerId!,HomeController.to.getOfferList);
+              onTap: () async{
+                OfferList? offer= await HomeController.to.findServiceByOfferID( offerId: favItem.offerId!);
                 if(offer!=null) {
                   Get.to(ServiceDetails(offerDetails: offer,));
                 }else{
-                  Get.snackbar("Failed", "Sorry! You can't view the service details right now. Please try again later");
+                  showCustomSnackbar(
+                      title: 'Failed',
+                      message:"Sorry! You can't view the service details right now. Please try again later",
+                      type: SnackBarType.failed)
+                  ;
                 }
               } ,
                 child: ServiceOfferWidget(offerItem: favItem,index: index, ));

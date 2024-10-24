@@ -5,6 +5,7 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/notification/widget/confirm_order_dialog.dart';
 import 'package:upai/widgets/custom_button.dart';
@@ -65,8 +66,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       InkWell(
                                         onTap: () {
                                          if(NotificationController.to.notificationList[reversedIndex].status == "COMPLETED" && ProfileScreenController.to.userInfo.value.userId.toString() != NotificationController.to.notificationList[reversedIndex].sellerId.toString())
-                                            {
-                                              Get.snackbar("You have already reviewed the order", "");
+                                            {showCustomSnackbar(
+                                                title: 'Alert',
+                                                message:"You have already reviewed the order",
+                                                type: SnackBarType.alert)
+                                              ;
                                             }
                                         },
                                         child: Row(

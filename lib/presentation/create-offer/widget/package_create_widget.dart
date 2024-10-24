@@ -72,18 +72,11 @@ class PackageCreateWidget extends StatelessWidget {
                                 crossAxisAlignment:
                                 CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "Price",
-                                    style: TextStyle(
-                                      fontWeight:
-                                      FontWeight.w700,
-                                      fontSize: 12,
-                                      color: AppColors
-                                          .kprimaryColor,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
+
+
                                   CustomTextField(
+                                    label: "Price",
+                                    isRequired: true,
                                     validatorText:
                                     "Please Enter Price",
                                     hintText:
@@ -113,18 +106,10 @@ class PackageCreateWidget extends StatelessWidget {
                                 crossAxisAlignment:
                                 CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "Duration",
-                                    style: TextStyle(
-                                      fontWeight:
-                                      FontWeight.w700,
-                                      fontSize: 12,
-                                      color: AppColors
-                                          .kprimaryColor,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
+
                                   CustomTextField(
+                                    label: "Duration(Days)",
+                                    isRequired: true,
                                     validatorText:
                                     "Please Enter Duration",
                                     hintText:
@@ -156,17 +141,9 @@ class PackageCreateWidget extends StatelessWidget {
                           CrossAxisAlignment.start,
                           children: [
                             defaultSizeBoxHeight,
-                            Text(
-                              "Package Description",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 12,
-                                color:
-                                AppColors.kprimaryColor,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
+
                             CustomTextField(
+                              label: "Package Description",
                               validatorText:
                               "Please Enter Description",
                               hintText:

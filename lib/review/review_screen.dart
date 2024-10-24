@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 class ReviewScreen extends StatefulWidget {
@@ -77,7 +78,8 @@ Navigator.pop(context);
           onPressed: () {
           if(reviewTE.value.text.isEmpty)
             {
-              Get.snackbar("Share your thoughts first", "");
+              showCustomSnackbar(title: 'Alert!', message: "Share your thoughts first", type: SnackBarType.alert)
+            ;
             }
           else
             {

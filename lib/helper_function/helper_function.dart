@@ -8,6 +8,8 @@ import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/controllers/image_controller.dart';
+import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 
 double getResponsiveFontSize(BuildContext context, double baseFontSize) {
@@ -62,22 +64,71 @@ OfferList? getOfferByID(String id, List<OfferList> offers) {
   }
 }
 
-Future<void> fetchImages(
-  /*  String offerId,*/ String category, ImageController imageController) async {
- /* imageController.offerImageUrl.value =
+Future<void> fetchImages(/*  String offerId,*/ String category,
+    ImageController imageController) async {
+  /* imageController.offerImageUrl.value =
   await ImageController.fetchOfferImageUrl(offerId);*/
 
   // imageController.defaultOfferImageUrl.value =
   // await ImageController.fetchDefaultOfferImageUrl(category);
 }
+
+enum SnackBarType { success, failed, alert }
+
+void showCustomSnackbar({
+  required String title,
+  required String message,
+  required SnackBarType type,
+  SnackPosition position = SnackPosition.BOTTOM, // Default position
+}) {
+  Color backgroundColor = AppColors.kprimaryColor;
+  IconData icon = Icons
+      .sentiment_dissatisfied_outlined; // Default color is red for failure/error
+  Color textColor = Colors.white;
+  switch (type) {
+    case SnackBarType.success:
+      backgroundColor = AppColors.kprimaryColor;
+      icon = Icons.emoji_emotions_outlined;
+      break;
+    case SnackBarType.failed:
+      backgroundColor = Colors.redAccent;
+      Icons.sentiment_dissatisfied_outlined;
+      break;
+    // TODO: Handle this case.
+    case SnackBarType.alert:
+      backgroundColor = Colors.orangeAccent;
+     icon= Icons.sentiment_neutral;
+      break;
+    // TODO: Handle this case.
+  }
+  Get.snackbar(
+    title,
+    message,
+    backgroundColor: backgroundColor,
+    padding: EdgeInsets.all(12),
+    margin: EdgeInsets.all(12),
+    colorText: textColor,
+    dismissDirection: DismissDirection.horizontal,
+    icon: Icon(
+      icon,
+      color: Colors.white,
+      size: 30,
+    ),
+    snackPosition: position,
+    duration: Duration(
+        seconds: 3), // Duration for how long the snackbar will be displayed
+  );
+}
+
 void resetData() {
   HomeController.to.searchOfferController.value.clear();
   HomeController.to.selectedDistrictForAll.value = null;
-  FilterController.to.selectedSortBy.value =null;
-  HomeController.to.searchOfferController.value.text='';
-  FilterController.to.selectedServiceType.value=null;
-  FilterController.to.selectedCategory.value=null;
+  FilterController.to.selectedSortBy.value = null;
+  HomeController.to.searchOfferController.value.text = '';
+  FilterController.to.selectedServiceType.value = null;
+  FilterController.to.selectedCategory.value = null;
   HomeController.to.searchFocus.unfocus();
   HomeController.to.getOfferDataList();
   HomeController.to.getOfferList.refresh();
+  showCustomSnackbar(title: 'Success', message: "All Filter data reset", type: SnackBarType.success);
 }

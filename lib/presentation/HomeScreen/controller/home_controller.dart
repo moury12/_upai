@@ -1,11 +1,9 @@
-import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/controllers/filter_controller.dart';
@@ -49,7 +47,10 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
+
     await refreshAllData();
+    debugPrint('-----------------------');
+    debugPrint(getOfferList.toString());
     districtList.value =
         await loadJsonFromAssets('assets/district/district.json');
     districtList
@@ -92,7 +93,19 @@ class HomeController extends GetxController {
         userId: ProfileScreenController.to.userInfo.value.userId.toString());
     filteredCategoryList.value = getCatList;
   }
-
+Future<OfferList?> findServiceByOfferID({ required String offerId})async{
+    List<OfferList> offer = await RepositoryData().getOfferList(
+      token: FirebaseAPIs.user['token'].toString(),
+      mobile: ctrl!.userInfo.value.userId ?? '',
+      currentPage: currentPage.value,
+      catType: '',
+      category: '',
+      district: '',
+      searchVal: offerId,
+      sortBy: '', isLoadMore: false,    );
+    OfferList specificOffer=offer.first;
+    return specificOffer;
+}
   void getOfferDataList({
     bool loadMoreData = false,
   }) async {
@@ -118,8 +131,10 @@ class HomeController extends GetxController {
       isLoadMore: loadMoreData,
     );
 
+    FilterController.to.selectedSortBy.value=null;
+    debugPrint(FilterController.to.selectedSortBy.value);
     // Fetch New Offers
-    List<OfferList> newOffers = await RepositoryData().getOfferList(
+    List<OfferList> defaultOffer = await RepositoryData().getOfferList(
       isLoadMore: loadMoreData,
       currentPage: currentPage.value,
       token: FirebaseAPIs.user['token'].toString(),
@@ -145,12 +160,13 @@ class HomeController extends GetxController {
       district: selectedDistrictForAll.value != 'All Districts'
           ? selectedDistrictForAll.value ?? ''
           : '',
-      sortBy: 'NEWEST ARRIVAL',
+      sortBy: FilterController.to.selectedSortBy.value??'NEWEST ARRIVAL',
     );
 
     // Top Offers Logic
     if (topOffer.isNotEmpty) {
       if (loadMoreData) {
+
         topServiceList.addAll(topOffer);
       } else {
         topServiceList.assignAll(topOffer);
@@ -162,11 +178,12 @@ class HomeController extends GetxController {
     }
 
     // New Offers Logic
-    if (newOffers.isNotEmpty) {
+    if (defaultOffer.isNotEmpty) {
+
       if (loadMoreData) {
-        getOfferList.addAll(newOffers);
+        getOfferList.addAll(defaultOffer);
       } else {
-        getOfferList.assignAll(newOffers);
+        getOfferList.assignAll(defaultOffer);
       }
       getOfferList.refresh();
       if (loadMoreData) {
@@ -196,6 +213,8 @@ class HomeController extends GetxController {
     }
 
     // Final loading state
+    debugPrint('-----------------------');
+    debugPrint(jsonEncode(getOfferList.toString()));
     isLoadingMore.value = false;
   }
 

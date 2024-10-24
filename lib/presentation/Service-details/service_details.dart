@@ -70,7 +70,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         onPressed: () async {
           if (ProfileScreenController.to.userInfo.value.userId ==
               widget.offerDetails!.userId) {
-            Get.snackbar("This is your Service", "");
+            showCustomSnackbar(title: 'Alert!', message: "This is your own service", type: SnackBarType.alert);
           } else {
             UserInfoModel senderData = UserInfoModel();
             Map<String, dynamic>? userDetails;
@@ -145,7 +145,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             onPressed: () {
               if (ProfileScreenController.to.userInfo.value.userId ==
                   widget.offerDetails!.userId) {
-                Get.snackbar("This is your Service", "");
+                showCustomSnackbar(title: 'Alert!', message: "This is your own service", type: SnackBarType.alert);
               } else {
                 Get.put(OrderController());
                 var packageName = widget

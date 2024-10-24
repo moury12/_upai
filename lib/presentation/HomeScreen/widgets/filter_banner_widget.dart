@@ -31,6 +31,16 @@ class _FilterBannerState extends State<FilterBanner> {
   @override
   void initState() {
     Get.put(FilterController());
+
+    if (widget.isNewestArrival == true) {
+      FilterController.to.selectedSortBy.value = 'Newest Arrival';
+    } else {
+      // Clear the sorting filter when isNewestArrival is false
+      FilterController.to.selectedSortBy.value = null;
+
+      HomeController.to.getOfferList.refresh();
+    }
+
     super.initState();
   }
 
@@ -108,6 +118,7 @@ class FilterDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return AlertDialog(
       surfaceTintColor: Colors.white,
       backgroundColor: Colors.white,
@@ -148,17 +159,11 @@ class FilterDialog extends StatelessWidget {
           Obx(() {
             return FilterDropdown<String?>(
               menuList: const ['Rating', 'Newest Arrival', 'Best Selling'],
-              value: /*isNewestArrival
-                  ? 'Newest Arrival'
-                  :*/ FilterController.to.selectedSortBy.value,
-              onChanged: isNewestArrival
-                  ? null
-                  : (val) {
+              value: FilterController.to.selectedSortBy.value,
+              onChanged:  (val) {
                       FilterController.to.selectedSortBy.value = val;
                     },
-              label:isNewestArrival
-                  ? 'Newest Arrival'
-                  : 'select sort by',
+              label: 'select sort by',
               title: 'Sort By:',
             );
           }),

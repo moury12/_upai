@@ -16,7 +16,7 @@ class ImageConstant {
   static String audioCallIcon = '$_imagePath/call.svg';
   static String videoCallIcon = '$_imagePath/video_call.svg';
   static String upailogo = '$_imagePath/upailogo.png';
-  static String upailogo1 = '$_imagePath/upaiiii.png';
+  static String upailogo1 = '$_imagePath/upailogo.png';
   static String notification = '$_imagePath/notificationpng.png';
   static String runningOrderImage = 'assets/images/runningorderimage.png';
   static String productImage = 'assets/images/products.png';
@@ -30,5 +30,6 @@ class ImageConstant {
   static String locationIcon = 'assets/images/location.png';
   static String filterIcon = 'assets/images/filter_icon.png';
   static String serviceIcon = 'assets/images/service_icon.png';
+  static String uploadImage = 'assets/images/upload_image.png';
 
 }

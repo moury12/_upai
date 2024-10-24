@@ -9,6 +9,7 @@ import 'package:upai/Model/notification_model.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/LoginScreen/login_screen.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
@@ -43,13 +44,15 @@ class RepositoryData {
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(
-            {"cid": CID, "user_mobile": userMobile, "user_pass": password}),
+            {"cid": "UPAI", "user_mobile": userMobile, "user_pass": password}),
       );
-      print("object");
+
       final data = jsonDecode(response.body);
       if (data["status"].toString() == 'Success') {
-        print("Successfully");
-        // data["user_info"]["name"];
+        showCustomSnackbar(
+            title: 'Success',
+            message:"logged in successfully",
+            type: SnackBarType.success);
 
         UserInfoModel userInfo = UserInfoModel();
         userInfo.cid = CID;
@@ -68,8 +71,8 @@ class RepositoryData {
         if (!await FirebaseAPIs.userExists()) {
           await FirebaseAPIs.createUser(userInfo.toJson());
           FirebaseAPIs.updateActiveStatus(true);
-          print("user creating");
-          // FirebaseAPIs.getSelfInfo();
+
+
           Get.offAndToNamed("/defaultscreen");
         } else {
           FirebaseAPIs.updateActiveStatus(true);
@@ -77,55 +80,25 @@ class RepositoryData {
           Get.offAndToNamed("/defaultscreen");
         }
       } else {
-        Get.snackbar(data["status"], data["message"],
-            colorText: Colors.white, backgroundColor: Colors.red);
+        showCustomSnackbar(
+            title: 'Failed',
+            message: data["message"],
+            type: SnackBarType.failed);
       }
       // var loginResponse = loginResponseModelFromJson(response.);
       print(response);
     } catch (e) {
       // handleError(e);
       print(e.toString());
-      Get.snackbar("Failed", e.toString());
+      showCustomSnackbar(
+          title: 'Failed',
+          message:e.toString(),
+          type: SnackBarType.failed);
       //throw Exception('Error in login: $e');
     }
   }
 
-  Future<void> createUser(String cId, String userName, String userPass,
-      String userMobile, String userEmail) async {
-    String url = ApiClient().createUserUrl;
-    print("url is =>$url");
 
-    try {
-      var response = await http.post(
-        Uri.parse(url),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "cid": cId,
-          "user_name": userName,
-          "user_pass": userPass,
-          "email": userEmail,
-          "mobile": userMobile
-        }),
-      );
-      if (response.statusCode == 200) {
-        print("success");
-      }
-      final data = jsonDecode(response.body.toString());
-      if (data["message"] == "successfully user create") {
-        Get.snackbar("Success", "User Created Successfully",
-            colorText: Colors.green, backgroundColor: Colors.white);
-        Get.offAll(() => const LoginScreen());
-      } else if (data["message"] ==
-          "All ready this user exist in the database") {
-        Get.snackbar("Failed", "All ready this user exist in the database",
-            colorText: Colors.red, backgroundColor: Colors.white);
-      }
-    } catch (e) {
-      // handleError(e);
-      print(e.toString());
-      throw Exception('Error in login: $e');
-    }
-  }
 
   static Future<SellerProfileModel> getSellerProfile(
       String token, String userId) async {
@@ -225,7 +198,8 @@ class RepositoryData {
       required String district,
       required String searchVal,
       required String sortBy,
-      required bool isLoadMore}) async {
+      required bool isLoadMore})
+  async {
     try {
       String url =
           "${ApiClient().getOfferList}?cid=upai&user_mobile=$mobile&cat_type=${catType}&category=${category}&district=${district}&offer=${searchVal}&sort_by=${sortBy}&page=${currentPage}";
@@ -265,9 +239,15 @@ class RepositoryData {
     debugPrint(' body $body');
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['message']);
+      showCustomSnackbar(
+          title: 'Success',
+          message: responseData['message'],
+          type: SnackBarType.success);
     } else {
-      Get.snackbar('failed', responseData['message']);
+      showCustomSnackbar(
+          title: 'Failed',
+          message: responseData['message'],
+          type: SnackBarType.failed);
     }
   }
 
@@ -282,7 +262,6 @@ class RepositoryData {
     debugPrint(' body $body');
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      // Get.snackbar('Success', responseData['message']);
       if (CreateOfferController.to.image.value != null) {
         await CreateOfferController.to.uploadImage(body["offer_id"].toString());
         print("image upload called");
@@ -290,7 +269,10 @@ class RepositoryData {
 
       // Get.back();
     } else {
-      Get.snackbar('failed', responseData['message']);
+      showCustomSnackbar(
+          title: 'Failed',
+          message: responseData['message'],
+          type: SnackBarType.failed);
     }
   }
 
@@ -306,9 +288,15 @@ class RepositoryData {
     debugPrint(' body $body');
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['message']);
+      showCustomSnackbar(
+          title: 'Success',
+          message: responseData['message'],
+          type: SnackBarType.success);
     } else {
-      Get.snackbar('failed', responseData['message']);
+      showCustomSnackbar(
+          title: 'Failed',
+          message: responseData['message'],
+          type: SnackBarType.failed);
     }
   }
 
@@ -324,11 +312,15 @@ class RepositoryData {
     debugPrint(' body ${jsonEncode(body)}');
     debugPrint('response body $responseData');
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-
-
-      Get.snackbar('Success', responseData['message']);
+      showCustomSnackbar(
+          title: 'Success',
+          message: responseData['message'],
+          type: SnackBarType.success);
     } else {
-      Get.snackbar('Error', 'Failed to create offer');
+      showCustomSnackbar(
+          title: 'Failed',
+          message: responseData['message'],
+          type: SnackBarType.failed);
     }
   }
 
@@ -351,7 +343,10 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success', responseData['message']);
+      showCustomSnackbar(
+          title: 'Success',
+          message: responseData['message'],
+          type: SnackBarType.success);;
       ////
       UserInfoModel senderData = UserInfoModel();
       Map<String, dynamic>? userDetails;
@@ -395,7 +390,10 @@ class RepositoryData {
         Navigator.pop(context);
       }
     } else {
-      Get.snackbar('Failed', responseData['message']);
+      showCustomSnackbar(
+          title: 'Failed',
+          message: responseData['message'],
+          type: SnackBarType.failed);
       if (isDialogScreen) {
         Navigator.pop(context);
       }
@@ -415,8 +413,10 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar('Success',
-          '${responseData['message']} job id is ${responseData['job_id']}');
+      showCustomSnackbar(
+          title: 'Success',
+          message: responseData['message'],
+          type: SnackBarType.success);
       UserInfoModel senderData = UserInfoModel();
       Map<String, dynamic>? userDetails;
       userDetails = await FirebaseAPIs().getSenderInfo(sellerID);
@@ -452,7 +452,11 @@ class RepositoryData {
             "${ProfileScreenController.to.userInfo.value.name.toString()} send you request for confirm order\nOffer title:${body["job_title"]}");
       }
     } else {
-      Get.snackbar('Error', 'Failed ${responseData['message']}');
+      showCustomSnackbar(
+          title: 'Failed',
+          message:responseData['message'],
+          type: SnackBarType.failed)
+    ;
     }
   }
 
@@ -469,7 +473,11 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      Get.snackbar("Success", "Your Review submitted successfully");
+      showCustomSnackbar(
+          title: 'Success',
+          message: "Your Review submitted successfully",
+          type: SnackBarType.success);
+
       // jobStatus(notification: notification, isDialogScreen: false, title: "title", msg: "msg", idStatusUpdate: "COMPLETED");
       UserInfoModel senderData = UserInfoModel();
       Map<String, dynamic>? userDetails;
@@ -515,7 +523,10 @@ class RepositoryData {
             notification.notificationId.toString());
       }
     } else {
-      Get.snackbar('Error', 'Failed');
+      showCustomSnackbar(
+          title: 'Failed',
+          message:"not submitted successfully",
+          type: SnackBarType.failed);
     }
   }
 

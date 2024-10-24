@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/offer_list_model.dart';
+import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
@@ -36,7 +37,16 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
   final ScrollController scrollController = ScrollController();
   @override
   void initState() {
+    HomeController.to.getOfferList.refresh();
     Get.put(NetworkController());
+    if (widget.isNewService == true) {
+      FilterController.to.selectedSortBy.value = null;
+    } else {
+      // Clear the sorting filter when isNewestArrival is false
+      FilterController.to.selectedSortBy.value = null;
+
+
+    }
     scrollController.addListener(
       () {
         if (scrollController.position.pixels ==
