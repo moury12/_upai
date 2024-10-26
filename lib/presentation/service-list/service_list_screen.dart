@@ -86,7 +86,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
           ),
         ),
         body: RefreshIndicator(
-          color: Colors.black,
+          color: AppColors.kprimaryColor,
+
           backgroundColor: Colors.white,
           onRefresh: () async {
             resetData();

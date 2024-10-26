@@ -415,8 +415,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           child: CircularProgressIndicator(
                                             color: AppColors.kprimaryColor,
                                             strokeWidth: 6,
-                                            // value:CreateOfferController.to.uploadProgress.value,color: AppColors.kprimaryColor,
-                                            //
                                           ),
                                         ),
                                         Text(

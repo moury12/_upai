@@ -120,7 +120,7 @@ void showCustomSnackbar({
   );
 }
 
-void resetData() {
+void resetData({bool showSnackbar=true}) {
   if(!FilterController.to.isFilterValueEmpty.value ||
       HomeController.to.selectedDistrictForAll.value!= null||HomeController.to.searchOfferController.value.text.isNotEmpty){
     HomeController.to.searchOfferController.value.clear();
@@ -132,9 +132,11 @@ void resetData() {
     HomeController.to.getOfferDataList();
     HomeController.to.getOfferList.refresh();
     FilterController.to.checkIfFilterValueIsEmpty();
+  if(showSnackbar) {
     showCustomSnackbar(
         title: 'Success',
         message: "All Filter data reset",
         type: SnackBarType.success);
+  }
   }
 }

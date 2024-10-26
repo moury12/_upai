@@ -42,7 +42,7 @@ class SellerRunningOrderListScreen extends StatelessWidget {
         body: Obx(
           () {
             return RefreshIndicator(
-              color: Colors.black,
+              color: AppColors.kprimaryColor,
                 backgroundColor: AppColors.strokeColor2,
                 child: !NetworkController
                     .to.connectedInternet.value

@@ -15,6 +15,7 @@ import 'package:upai/presentation/seller-service/seller_running_order_list_scree
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 
+import 'widgets/create_offer_screen.dart';
 import 'widgets/seller_running_order_widget.dart';
 
 class SellerProfileScreen extends StatefulWidget {
@@ -51,17 +52,9 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
       crossAxisCount = 5;
     }
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        hoverColor: AppColors.kprimaryColor,
-        shape: const CircleBorder(),
-        backgroundColor: Colors.white,
-        onPressed: () {
-          Get.toNamed(CreateOfferScreen.routeName);
-        },
-        child: Lottie.asset('assets/search_json/add_service.json')
-      ),
+      floatingActionButton: CreateOfferButton(),
       body: RefreshIndicator(
-        color: Colors.black,
+        color: AppColors.kprimaryColor,
         backgroundColor: Colors.white,
         onRefresh: () => SellerProfileController.to.refreshAllData(),
         child: SingleChildScrollView(
@@ -197,3 +190,4 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     );
   }
 }
+

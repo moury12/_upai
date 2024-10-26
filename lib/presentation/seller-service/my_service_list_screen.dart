@@ -65,14 +65,15 @@ class MyServiceListScreen extends StatelessWidget {
             ),
           ),
           body: RefreshIndicator(
-            color: Colors.black,
+            color: AppColors.kprimaryColor,
             backgroundColor: Colors.white,
             onRefresh: () => SellerProfileController.to.refreshAllData(),
             child: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 12).copyWith(bottom: 0)
-                       ,
+                    padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 12)
+                        .copyWith(bottom: 0),
                     child: Obx(() {
                       return CustomTextField(
                         controller: SellerProfileController
@@ -80,9 +81,9 @@ class MyServiceListScreen extends StatelessWidget {
                         hintText: "Search service..",
                         onChanged: (value) {},
                         suffixIcon: IconButton(
-                          icon:  Icon(
+                          icon: Icon(
                             Icons.cancel,
-                            color:AppColors.kprimaryColor,
+                            color: AppColors.kprimaryColor,
                           ),
                           onPressed: () {
                             SellerProfileController
@@ -95,44 +96,44 @@ class MyServiceListScreen extends StatelessWidget {
                         ),
                       );
                     })),
-
                 Expanded(child: Obx(() {
-                  return !NetworkController
-                      .to.connectedInternet.value?Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: ShimmerOfferList(
-                      fromServiceList: true,
-                    ),
-                  ):
-                    SellerProfileController.to.filterList.isEmpty
-                      ? Center(child: Text('Offer List empty'))
-                      : GridView.builder(
-                          shrinkWrap: true,
-                          primary: false,
-                          padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: crossAxisCount,
-                                  childAspectRatio: .8,
-                                  crossAxisSpacing: 8,
-                                  mainAxisSpacing: 8),
-                          itemCount:
-                              SellerProfileController.to.filterList.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                                onTap: () {
-                                  SellerProfileController.to.service.value =
-                                      SellerProfileController
-                                          .to.filterList[index];
+                  return !NetworkController.to.connectedInternet.value
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: ShimmerOfferList(
+                            fromServiceList: true,
+                          ),
+                        )
+                      : SellerProfileController.to.filterList.isEmpty
+                          ? Center(child: Text('Offer List empty'))
+                          : GridView.builder(
+                              shrinkWrap: true,
+                              primary: false,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 8),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: crossAxisCount,
+                                      childAspectRatio: .8,
+                                      crossAxisSpacing: 8,
+                                      mainAxisSpacing: 8),
+                              itemCount:
+                                  SellerProfileController.to.filterList.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                    onTap: () {
+                                      SellerProfileController.to.service.value =
+                                          SellerProfileController
+                                              .to.filterList[index];
 
-                                  Get.to(MyServiceDetails());
-                                },
-                                child: MyServiceWidget(
-                                  service: SellerProfileController
-                                      .to.filterList[index],
-                                ));
-                          },
-                        );
+                                      Get.to(MyServiceDetails());
+                                    },
+                                    child: MyServiceWidget(
+                                      service: SellerProfileController
+                                          .to.filterList[index],
+                                    ));
+                              },
+                            );
                 })),
                 SizedBox(
                   height: 8,

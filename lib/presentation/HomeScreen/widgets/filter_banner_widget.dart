@@ -8,10 +8,12 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/core/utils/image_path.dart';
+import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/create-offer/widget/custom_drop_down.dart';
 import 'package:upai/presentation/service-list/service_list_screen.dart';
+import 'package:upai/widgets/custom_button.dart';
 
 class FilterBanner extends StatefulWidget {
   final bool? isService;
@@ -65,6 +67,7 @@ class _FilterBannerState extends State<FilterBanner> {
               : Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      resetData(showSnackbar: false);
                       Get.toNamed(ServiceListScreen.routeName, arguments: "");
                     },
                     child: Container(
@@ -111,10 +114,27 @@ class FilterDialog extends StatelessWidget {
     return AlertDialog(
       surfaceTintColor: Colors.white,
       backgroundColor: Colors.white,
-      title: Text(
-        'Search Filter',
-        style: AppTextStyle.bodyMediumBlackBold,
+      titlePadding: EdgeInsets.zero,
+      title: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0).copyWith(top: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Search Filter',
+              style: AppTextStyle.bodyMediumBlackBold,
+            ),
+            CustomTextButton(label: 'Reset', onChange: () {
+              resetData(showSnackbar: false);
+              Navigator.pop(context);
+            },)
+            // CustomButton(text: 'Reset', onTap: (){
+            //
+            // },)
+          ],
+        ),
       ),
+
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +179,7 @@ class FilterDialog extends StatelessWidget {
           Divider()
         ],
       ),
-      contentPadding: EdgeInsets.all(12).copyWith(bottom: 0),
+      contentPadding: EdgeInsets.symmetric(horizontal: 12),
       actionsPadding:
           EdgeInsets.symmetric(vertical: 8, horizontal: 8).copyWith(top: 0),
       actions: [
@@ -178,6 +198,7 @@ class FilterDialog extends StatelessWidget {
             HomeController.to.getOfferDataList();
             HomeController.to.currentPage.value=1;
             HomeController.to.currentPageForNewService.value=1;
+
             Navigator.pop(context);
           },
         ),

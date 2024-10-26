@@ -29,7 +29,7 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
         ),
         body: Obx(() {
           return RefreshIndicator(
-            color: Colors.black,
+            color: AppColors.kprimaryColor,
             backgroundColor: AppColors.strokeColor2,
             child: BuyerProfileController.to.buyer.value.buyerRunningOrder!.isEmpty
                 ? const Center(child: Text("No Running order"))
