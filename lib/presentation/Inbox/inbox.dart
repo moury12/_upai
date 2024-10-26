@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/data/api/firebase_apis.dart';
+import 'package:upai/presentation/Inbox/Widgets/shimmer_inbox_card_widget.dart';
 import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
 import 'package:upai/presentation/Inbox/Widgets/inboxchatcard.dart';
 
@@ -75,10 +76,12 @@ class InboxScreen extends StatelessWidget {
                           switch (snapshot.connectionState) {
                             case ConnectionState.waiting:
                             case ConnectionState.none:
-                              return Center(
-                                  child: CircularProgressIndicator(
-                                    color: AppColors.kprimaryColor,
-                                  ));
+                            return ListView.builder(
+                              itemCount: 15,
+                              itemBuilder: (context, index) {
+                               return ShimmerInboxCardWidget();
+                              },
+                            );
                             case ConnectionState.active:
                             case ConnectionState.done:
                                       final data = snapshot.data!.docs;

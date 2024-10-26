@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -31,13 +32,10 @@ class ShimmerCategoryList extends StatelessWidget {
 class ShimmerRunnigOrder extends StatelessWidget {
   final bool? forList;
 
-  const ShimmerRunnigOrder({super.key, this.forList=false});
+  const ShimmerRunnigOrder({super.key, this.forList=true});
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
-        child:SingleChildScrollView(
+    return SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(
               children: List.generate(
@@ -46,11 +44,117 @@ class ShimmerRunnigOrder extends StatelessWidget {
 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
-                    child: ShimmerContainer(height: 150,width: double.infinity,),
+                    child: OfferCardShimmer(),
                   );
                 },
               )),
-        ));
+        );
+  }
+}
+class OfferCardShimmer extends StatelessWidget {
+  const OfferCardShimmer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.only(bottom: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.3), spreadRadius: 2, blurRadius: 2)
+          ],
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child:Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 5,
+              child: Container(
+                height: 120,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              flex: 6,
+              child: SizedBox(
+                height: 120,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 16,
+                            color: Colors.grey[300],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey[300],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 12,
+                      color: Colors.grey[300],
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Row(
+                            children: [
+
+                              Container(
+                                height: 14,
+                                width: 30,
+                                color: Colors.grey[300],
+                              ),
+                              const Spacer(),
+                              Container(
+                                height: 12,
+                                width: 50,
+                                color: Colors.grey[300],
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                height: 16,
+                                width: 40,
+                                color: Colors.grey[300],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 class ShimmerExploreTopService extends StatelessWidget {

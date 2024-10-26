@@ -115,113 +115,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                             ),
                           ],
                         ),
-                  // Container(
-                  //   width: size.width,
-                  //   // height: 400,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(8),
-                  //     color: AppColors.containerBackground,
-                  //   ),
-                  //   child: Padding(
-                  //     padding:
-                  //         const EdgeInsets.only(left: 12, right: 12, top: 16),
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.start,
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Expanded(
-                  //             flex: 8,
-                  //             child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 Text(
-                  //                   "Your Stats",
-                  //                   style:
-                  //                       AppTextStyle.bodyMediumSemiBlackBold,
-                  //                 ),
-                  //                 const SizedBox(
-                  //                   height: 13,
-                  //                 ),
-                  //                 Text(
-                  //                   "Total Earning",
-                  //                   style: AppTextStyle.titleTextSmall,
-                  //                 ),
-                  //                 Text(
-                  //                   "৳${seller.sellerProfile!.totalEarning.toString() ?? '-'}",
-                  //                   style: AppTextStyle.bodyLargeSemiBlack,
-                  //                  ),
-                  //                 const SizedBox(
-                  //                   height: 5,
-                  //                 ),
-                  //                 Container(
-                  //                     decoration: BoxDecoration(
-                  //                       borderRadius:
-                  //                           BorderRadius.circular(4),
-                  //                       color: Colors.white,
-                  //                     ),
-                  //                     padding: const EdgeInsets.all(2),
-                  //                     child: Text(
-                  //                       "5% increased from previous month ",
-                  //                       style: AppTextStyle
-                  //                           .bodySmallestTextGrey400,
-                  //                     )),
-                  //               ],
-                  //             )),
-                  //         Expanded(
-                  //             flex: 5,
-                  //             child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 Container(
-                  //                   alignment: Alignment.bottomRight,
-                  //                   child: const Text("This month"),
-                  //                 ),
-                  //                 // Align(
-                  //                 //   alignment: Alignment.bottomRight,
-                  //                 //   child: Text(
-                  //                 //       "This month"),
-                  //                 // ),
-                  //                 const SizedBox(
-                  //                   height: 20,
-                  //                 ),
-                  //                 Text(
-                  //                   "Completed Job",
-                  //                   style: AppTextStyle.titleTextSmall,
-                  //                 ),
-                  //                 Text(
-                  //                   "${seller.sellerProfile!.completedJob.toString() ?? '-'}",
-                  //                   style: AppTextStyle.bodyLargeSemiBlack,
-                  //                 ),
-                  //                 const SizedBox(
-                  //                   height: 5,
-                  //                 ),
-                  //                 Text(
-                  //                   "Review",
-                  //                   style: AppTextStyle.bodySmallGrey,
-                  //                 ),
-                  //                 Row(
-                  //                   mainAxisAlignment:
-                  //                       MainAxisAlignment.start,
-                  //                   crossAxisAlignment:
-                  //                       CrossAxisAlignment.center,
-                  //                   children: [
-                  //                     const Icon(
-                  //                       Icons.star,
-                  //                       size: 22,
-                  //                     ),
-                  //                     Text(
-                  //                       "${seller.sellerProfile!.review.toString() ?? '-'}",
-                  //                       style:
-                  //                           AppTextStyle.bodyLargeSemiBlack,
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //               ],
-                  //             ))
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
+
                   const SizedBox(
                     height: 10,
                   ),
@@ -245,7 +139,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                     height: 10,
                   ),
                   seller.sellerRunningOrder == null || !NetworkController.to.connectedInternet.value
-                      ? ShimmerRunnigOrder()
+                      ? ShimmerRunnigOrder(forList: false,)
                       : seller.sellerRunningOrder!.isEmpty
                           ? SizedBox.shrink()
                           : Column(
