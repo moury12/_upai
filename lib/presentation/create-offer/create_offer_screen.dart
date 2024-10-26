@@ -158,9 +158,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                               // height: 150,
                                               imageUrl: '',
                                             )
-                                          : Image(
-                                              image: AssetImage(
-                                                  ImageConstant.uploadImage),
+                                          : Image.asset(
+
+                                                  ImageConstant.uploadImage,color: AppColors.kprimaryColor,
                                               fit: BoxFit.cover,
                                             )),
                             );
@@ -343,7 +343,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                   );
                 }),
                 defaultSizeBoxHeight,
-                PackageCreateWidget(),
                 PackageCreateWidget(),
                 defaultSizeBoxHeight,
                 Column(
@@ -588,7 +587,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                               title: "Failed",
                                               type: SnackBarType.failed,
                                               message:
-                                                  "All fields are required",
+                                                  "Please fill up required fields",
                                             );
                                           }
                                           CreateOfferController

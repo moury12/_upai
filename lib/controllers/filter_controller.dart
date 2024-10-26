@@ -6,7 +6,7 @@ class FilterController extends GetxController{
   Rx<String?> selectedServiceType=Rx<String?>(null);
   Rx<String?> selectedCategory=Rx<String?>(null);
   Rx<String?> selectedSortBy=Rx<String?>(null);
-  Rx<bool> isFilterValueEmpty = false.obs;
+  Rx<bool> isFilterValueEmpty = true.obs;
   @override
   void onInit() {
     checkIfFilterValueIsEmpty();
@@ -14,8 +14,8 @@ class FilterController extends GetxController{
     super.onInit();
   }
   void checkIfFilterValueIsEmpty() {
-    isFilterValueEmpty.value = selectedServiceType.value == null ||
-        selectedSortBy.value == null ||
-        selectedCategory.value == null||HomeController.to.selectedDistrictForAll.value==null;
+    isFilterValueEmpty.value = selectedServiceType.value == null &&
+        selectedSortBy.value == null &&
+        selectedCategory.value == null;
   }
 }

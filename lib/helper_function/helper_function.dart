@@ -121,14 +121,20 @@ void showCustomSnackbar({
 }
 
 void resetData() {
-  HomeController.to.searchOfferController.value.clear();
-  HomeController.to.selectedDistrictForAll.value = null;
-  FilterController.to.selectedSortBy.value = null;
-  HomeController.to.searchOfferController.value.text = '';
-  FilterController.to.selectedServiceType.value = null;
-  FilterController.to.selectedCategory.value = null;
-  HomeController.to.searchFocus.unfocus();
-  HomeController.to.getOfferDataList();
-  HomeController.to.getOfferList.refresh();
-  showCustomSnackbar(title: 'Success', message: "All Filter data reset", type: SnackBarType.success);
+  if(!FilterController.to.isFilterValueEmpty.value ||
+      HomeController.to.selectedDistrictForAll.value!= null||HomeController.to.searchOfferController.value.text.isNotEmpty){
+    HomeController.to.searchOfferController.value.clear();
+    HomeController.to.selectedDistrictForAll.value = null;
+    FilterController.to.selectedSortBy.value = null;
+    FilterController.to.selectedServiceType.value = null;
+    FilterController.to.selectedCategory.value = null;
+    HomeController.to.searchFocus.unfocus();
+    HomeController.to.getOfferDataList();
+    HomeController.to.getOfferList.refresh();
+    FilterController.to.checkIfFilterValueIsEmpty();
+    showCustomSnackbar(
+        title: 'Success',
+        message: "All Filter data reset",
+        type: SnackBarType.success);
+  }
 }

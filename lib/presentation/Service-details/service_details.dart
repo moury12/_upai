@@ -236,11 +236,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       ),
       body: SafeArea(
         child: widget.offerDetails == null
-            ? Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.kprimaryColor,
-                ),
-              )
+            ? DefaultCircularProgressIndicator()
             : SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -712,6 +708,21 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   //   image = await ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString());
   //   // widget.sellerDetails =  (await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString()))!;
   // }
+}
+
+class DefaultCircularProgressIndicator extends StatelessWidget {
+  const DefaultCircularProgressIndicator({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: CircularProgressIndicator(
+          color: AppColors.kprimaryColor,
+        ),
+      );
+  }
 }
 
 class PackageDetails extends StatelessWidget {

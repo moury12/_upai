@@ -21,8 +21,7 @@ class HomeController extends GetxController {
   //image segment
 
   RxBool isUnRead = false.obs;
-
-
+  RxBool isServiceListLoading= false.obs;
 
   RxList<CategoryList> getCatList = <CategoryList>[].obs;
   RxList<dynamic> districtList = [].obs;
@@ -50,8 +49,7 @@ class HomeController extends GetxController {
   void onInit() async {
 
     await refreshAllData();
-    debugPrint('-----------------------');
-    debugPrint(getOfferList.toString());
+
     districtList.value =
         await loadJsonFromAssets('assets/district/district.json');
     districtList
@@ -110,116 +108,117 @@ Future<OfferList?> findServiceByOfferID({ required String offerId})async{
   void getOfferDataList({
     bool loadMoreData = false,
   }) async {
-    if (loadMoreData) {
-      isLoadingMore.value = true;
-      currentPage.value++; // Increment page for pagination
-      currentPageForNewService.value++;
-      currentPageForTopService.value++;
-    }
-
-    Get.put(FilterController());
-
-    // Fetch Top Offers
-    List<OfferList> topOffer = await RepositoryData().getOfferList(
-      token: FirebaseAPIs.user['token'].toString(),
-      mobile: ctrl!.userInfo.value.userId ?? '',
-      currentPage: currentPageForTopService.value,
-      catType: '',
-      category: '',
-      district: '',
-      searchVal: '',
-      sortBy: 'RATING',
-      isLoadMore: loadMoreData,
-    );
-
-
-
-    // Fetch New Offers
-    List<OfferList> defaultOffer = await RepositoryData().getOfferList(
-      isLoadMore: loadMoreData,
-      currentPage: currentPage.value,
-      token: FirebaseAPIs.user['token'].toString(),
-      mobile: ctrl!.userInfo.value.userId ?? '',
-      category: FilterController.to.selectedCategory.value ?? '',
-      catType: FilterController.to.selectedServiceType.value ?? '',
-      searchVal: searchOfferController.value.text,
-      district: selectedDistrictForAll.value != 'All Districts'
-          ? selectedDistrictForAll.value ?? ''
-          : '',
-      sortBy:FilterController.to.selectedSortBy.value ?? '',
-    );
-
-    // Fetch New Arrival Offers
-    List<OfferList> newArrivalOffers = await RepositoryData().getOfferList(
-      isLoadMore: loadMoreData,
-      currentPage: currentPageForNewService.value,
-      token: FirebaseAPIs.user['token'].toString(),
-      mobile: ctrl!.userInfo.value.userId ?? '',
-      category: FilterController.to.selectedCategory.value ?? '',
-      catType: FilterController.to.selectedServiceType.value ?? '',
-      searchVal: searchOfferController.value.text,
-      district: selectedDistrictForAll.value != 'All Districts'
-          ? selectedDistrictForAll.value ?? ''
-          : '',
-      sortBy: FilterController.to.selectedSortBy.value??'NEWEST ARRIVAL',
-    );
-
-    // Top Offers Logic
-    if (topOffer.isNotEmpty) {
+   try
+   {
+     isServiceListLoading.value= true;
       if (loadMoreData) {
-
-        topServiceList.addAll(topOffer);
-      } else {
-        topServiceList.assignAll(topOffer);
-      }
-      topServiceList.refresh();
-      if (loadMoreData) {
+        isLoadingMore.value = true;
+        isServiceListLoading.value= false;
+        currentPage.value++; // Increment page for pagination
+        currentPageForNewService.value++;
         currentPageForTopService.value++;
       }
-    }
 
-    // New Offers Logic
-    if (defaultOffer.isNotEmpty) {
+      Get.put(FilterController());
 
-      if (loadMoreData) {
-        getOfferList.addAll(defaultOffer);
-      } else {
+      // Fetch Top Offers
+      List<OfferList> topOffer = await RepositoryData().getOfferList(
+        token: FirebaseAPIs.user['token'].toString(),
+        mobile: ctrl!.userInfo.value.userId ?? '',
+        currentPage: currentPageForTopService.value,
+        catType: '',
+        category: '',
+        district: '',
+        searchVal: '',
+        sortBy: 'RATING',
+        isLoadMore: loadMoreData,
+      );
 
+      // Fetch New Offers
+      List<OfferList> defaultOffer = await RepositoryData().getOfferList(
+        isLoadMore: loadMoreData,
+        currentPage: currentPage.value,
+        token: FirebaseAPIs.user['token'].toString(),
+        mobile: ctrl!.userInfo.value.userId ?? '',
+        category: FilterController.to.selectedCategory.value ?? '',
+        catType: FilterController.to.selectedServiceType.value ?? '',
+        searchVal: searchOfferController.value.text,
+        district: selectedDistrictForAll.value != 'All Districts'
+            ? selectedDistrictForAll.value ?? ''
+            : '',
+        sortBy: FilterController.to.selectedSortBy.value ?? '',
+      );
 
-        getOfferList.assignAll(defaultOffer);}
+      // Fetch New Arrival Offers
+      List<OfferList> newArrivalOffers = await RepositoryData().getOfferList(
+        isLoadMore: loadMoreData,
+        currentPage: currentPageForNewService.value,
+        token: FirebaseAPIs.user['token'].toString(),
+        mobile: ctrl!.userInfo.value.userId ?? '',
+        category: FilterController.to.selectedCategory.value ?? '',
+        catType: FilterController.to.selectedServiceType.value ?? '',
+        searchVal: searchOfferController.value.text,
+        district: selectedDistrictForAll.value != 'All Districts'
+            ? selectedDistrictForAll.value ?? ''
+            : '',
+        sortBy: FilterController.to.selectedSortBy.value ?? 'NEWEST ARRIVAL',
+      );
 
-
-      getOfferList.refresh();
-      if (loadMoreData) {
-        currentPage.value++;
+      // Top Offers Logic
+      if (topOffer.isNotEmpty) {
+        if (loadMoreData) {
+          topServiceList.addAll(topOffer);
+        } else {
+          topServiceList.assignAll(topOffer);
+        }
+        topServiceList.refresh();
+        if (loadMoreData) {
+          currentPageForTopService.value++;
+        }
       }
-    } else if (!loadMoreData) {
-      // Clear the list if there's no new data and not loading more
-      getOfferList.clear();
-      getOfferList.refresh();  // Ensure the UI updates
-    }
 
-    // New Arrival Offers Logic
-    if (newArrivalOffers.isNotEmpty) {
-      if (loadMoreData) {
-        newServiceList.addAll(newArrivalOffers);
-      } else {
-        newServiceList.assignAll(newArrivalOffers);
-      }
-      newServiceList.refresh();
-      if (loadMoreData) {
-        currentPageForNewService.value++;
-      }
-    } else if (!loadMoreData) {
-      // Clear the list if there's no new arrival data
-      newServiceList.clear();
-      newServiceList.refresh();  // Ensure the UI updates
-    }
+      // New Offers Logic
+      if (defaultOffer.isNotEmpty) {
+        if (loadMoreData) {
+          getOfferList.addAll(defaultOffer);
+        } else {
+          getOfferList.assignAll(defaultOffer);
+        }
 
-    // Final loading state
-    debugPrint('-----------------------');
-    debugPrint(jsonEncode(getOfferList.toString()));
-    isLoadingMore.value = false;
+        getOfferList.refresh();
+        if (loadMoreData) {
+          currentPage.value++;
+        }
+      } else if (!loadMoreData) {
+        // Clear the list if there's no new data and not loading more
+        getOfferList.clear();
+        getOfferList.refresh(); // Ensure the UI updates
+      }
+
+      // New Arrival Offers Logic
+      if (newArrivalOffers.isNotEmpty) {
+        if (loadMoreData) {
+          newServiceList.addAll(newArrivalOffers);
+        } else {
+          newServiceList.assignAll(newArrivalOffers);
+        }
+        newServiceList.refresh();
+        if (loadMoreData) {
+          currentPageForNewService.value++;
+        }
+      } else if (!loadMoreData) {
+        // Clear the list if there's no new arrival data
+        newServiceList.clear();
+        newServiceList.refresh(); // Ensure the UI updates
+      }
+
+      isLoadingMore.value = false;
+    }
+    catch(e){
+     debugPrint(e.toString());
+    }finally{
+     isServiceListLoading.value= false;
+   }
   }
 
 

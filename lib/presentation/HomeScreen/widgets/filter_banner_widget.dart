@@ -173,6 +173,8 @@ class FilterDialog extends StatelessWidget {
         CustomTextButton(
           label: 'Apply',
           onChange: () {
+            FilterController.to.checkIfFilterValueIsEmpty();
+            print("isFilterValueEmpty: ${FilterController.to.isFilterValueEmpty.value}");
             HomeController.to.getOfferDataList();
             HomeController.to.currentPage.value=1;
             HomeController.to.currentPageForNewService.value=1;
