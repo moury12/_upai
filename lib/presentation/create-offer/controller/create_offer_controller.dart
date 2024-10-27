@@ -9,6 +9,8 @@ import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
+import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
@@ -293,20 +295,22 @@ class CreateOfferController extends GetxController {
   void showPickerDialog(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.white,
+
       builder: (BuildContext bc) {
         return SafeArea(
           child: Wrap(
             children: <Widget>[
               ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Gallery'),
+                leading:  Icon(Icons.photo_library,color: AppColors.kprimaryColor,),
+                title:  Text('Gallery',style: AppTextStyle.bodyMediumSemiBlackBold,),
                 onTap: () {
                   getImage(ImageSource.gallery);
                   Navigator.of(context).pop();
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_camera),
+                leading:  Icon(Icons.photo_camera,color: AppColors.kprimaryColor,),
                 title: const Text('Camera'),
                 onTap: () {
                   getImage(ImageSource.camera);

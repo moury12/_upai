@@ -27,12 +27,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        backgroundColor: AppColors.strokeColor2,
+        backgroundColor: Colors.white,
         titlePadding: EdgeInsets.zero,
 
         title: Align(
           alignment: Alignment.topRight,
-          child: IconButton(icon: Icon(Icons.cancel,color: Colors.black,), onPressed: () {
+          child: IconButton(icon: Icon(Icons.cancel,color: AppColors.kprimaryColor,), onPressed: () {
 Navigator.pop(context);
           },),
         ),
@@ -41,12 +41,18 @@ Navigator.pop(context);
           child: Column(mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Rate our Service",style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+               Text("Rate our Service",style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
               ),
               RatingBar(
                 initialRating: ratingValue,
                 allowHalfRating: true,
-                ratingWidget: RatingWidget(full: Icon(Icons.star_rounded), half: Icon(Icons.star_half_rounded), empty: Icon(Icons.star_border_rounded)),
+                glowColor:AppColors.kprimaryColor,
+                unratedColor: AppColors.kprimaryColor,
+                ratingWidget: RatingWidget(
+
+                    full: Icon(Icons.star_rounded,color: AppColors.kprimaryColor,),
+                    half: Icon(Icons.star_half_rounded,color: AppColors.kprimaryColor,),
+                    empty: Icon(Icons.star_border_rounded,color: AppColors.kprimaryColor,)),
                 onRatingUpdate: (value) {
                   ratingValue =value;
                   print(ratingValue);
@@ -74,7 +80,7 @@ Navigator.pop(context);
     actions: [
       Center(
         child: ElevatedButton(
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.black,foregroundColor: Colors.white),
+        style: ElevatedButton.styleFrom(backgroundColor: AppColors.kprimaryColor,foregroundColor: Colors.white),
           onPressed: () {
           if(reviewTE.value.text.isEmpty)
             {

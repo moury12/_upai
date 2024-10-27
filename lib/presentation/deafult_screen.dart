@@ -94,90 +94,73 @@ class DefaultScreen extends StatelessWidget {
           ),
           drawer: const CustomDrawer(),
           body: ctrl.screensForClient[ctrl.selectedIndex.value],
-          bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                backgroundColor: Colors.white,
-                icon: SvgPicture.asset(
-                  height: 24,
-                  width: 24,
-                  'assets/images/home.svg',
-                  color: ctrl.selectedIndex.value == 0
-                      ? ctrl.selectedColor
-                      : ctrl.unselected,
+          bottomNavigationBar: Theme(
+            data: Theme.of(context).copyWith(    splashFactory: NoSplash.splashFactory,
+            ),
+            child: BottomNavigationBar(
+              backgroundColor: Colors.white,
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  backgroundColor: Colors.white,
+                  icon: SvgPicture.asset(
+                    height: 24,
+                    width: 24,
+                    'assets/images/home.svg',
+                    color: ctrl.selectedIndex.value == 0
+                        ? ctrl.selectedColor
+                        : ctrl.unselected,
+                  ),
+                  label: 'Home',
                 ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Colors.white,
-                icon: SvgPicture.asset(
-                  height: 24,
-                  width: 24,
-                  'assets/images/seller.svg',
-                  color: ctrl.selectedIndex.value == 1
-                      ? ctrl.selectedColor
-                      : ctrl.unselected,
+                BottomNavigationBarItem(
+                  backgroundColor: Colors.white,
+                  icon: SvgPicture.asset(
+                    height: 24,
+                    width: 24,
+                    'assets/images/seller.svg',
+                    color: ctrl.selectedIndex.value == 1
+                        ? ctrl.selectedColor
+                        : ctrl.unselected,
+                  ),
+                  label: 'Service',
                 ),
-                label: 'Service',
-              ),
-              // BottomNavigationBarItem( backgroundColor: Colors.white,
-              //   icon: SvgPicture.asset(
-              //     height: 24,
-              //     width: 24,
-              //     'assets/images/explore.svg',
-              //     color: ctrl.selectedIndex.value == 2
-              //         ? ctrl.selectedColor
-              //         : ctrl.unselected,
-              //   ),
-              //   label: 'Explore',
-              // ),
-              BottomNavigationBarItem(
-                backgroundColor: Colors.white,
-                icon: SvgPicture.asset(
-                  height: 24,
-                  width: 24,
-                  'assets/images/inbox.svg',
-                  color: ctrl.selectedIndex.value == 2
-                      ? ctrl.selectedColor
-                      : ctrl.unselected,
-                ),
-                label: 'Inbox',
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Colors.white,
-                icon: SvgPicture.asset(
-                  height: 24,
-                  width: 24,
-                  'assets/images/notification.svg',
-                  color: ctrl.selectedIndex.value == 3
-                      ? ctrl.selectedColor
-                      : ctrl.unselected,
-                ),
-                label: 'Notification',
-              ),
 
-              // BottomNavigationBarItem( backgroundColor: Colors.white,
-              //   icon: SvgPicture.asset(
-              //     // height: 24,
-              //     // width: 24,
-              //
-              //     'assets/images/person.svg',
-              //     color: ctrl.selectedIndex.value == 4
-              //         ? ctrl.selectedColor
-              //         : ctrl.unselected,
-              //   ),
-              //   label: 'Person',
-              // ),
-            ],
-            selectedItemColor: AppColors.kprimaryColor,
-            selectedLabelStyle: TextStyle(
-                fontWeight: FontWeight.bold, color: AppColors.kprimaryColor),
-            unselectedItemColor: AppColors.appTextColorGrey,
-            selectedIconTheme: IconThemeData(color: ctrl.selectedColor),
-            currentIndex: ctrl.selectedIndex.value,
-            onTap: ctrl.onItemTapped,
-            showUnselectedLabels: true,
+                BottomNavigationBarItem(
+                  backgroundColor: Colors.white,
+                  icon: SvgPicture.asset(
+                    height: 24,
+                    width: 24,
+                    'assets/images/inbox.svg',
+                    color: ctrl.selectedIndex.value == 2
+                        ? ctrl.selectedColor
+                        : ctrl.unselected,
+                  ),
+                  label: 'Inbox',
+                ),
+                BottomNavigationBarItem(
+                  backgroundColor: Colors.white,
+                  icon: SvgPicture.asset(
+                    height: 24,
+                    width: 24,
+                    'assets/images/notification.svg',
+                    color: ctrl.selectedIndex.value == 3
+                        ? ctrl.selectedColor
+                        : ctrl.unselected,
+                  ),
+                  label: 'Notification',
+                ),
+
+              ],
+              selectedItemColor: AppColors.kprimaryColor,
+              selectedLabelStyle: TextStyle(
+                  fontWeight: FontWeight.bold, color: AppColors.kprimaryColor),
+              unselectedItemColor: AppColors.appTextColorGrey,
+              selectedIconTheme: IconThemeData(color: ctrl.selectedColor),
+              currentIndex: ctrl.selectedIndex.value,
+              onTap: ctrl.onItemTapped,
+              showUnselectedLabels: true,
+
+            ),
           ),
         ),
       );
