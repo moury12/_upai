@@ -6,11 +6,12 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/HomeScreen/home_screen.dart';
-import 'package:upai/presentation/HomeScreen/widgets/filter_banner_widget.dart';
-import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
+
 import 'package:upai/presentation/Service-details/service_details.dart';
+import 'package:upai/presentation/home/controller/home_controller.dart';
+import 'package:upai/presentation/home/home_screen.dart';
+import 'package:upai/presentation/home/widgets/filter_banner_widget.dart';
+import 'package:upai/presentation/home/widgets/shimmer_for_home.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 import 'package:upai/widgets/service_offer_widget.dart';
 

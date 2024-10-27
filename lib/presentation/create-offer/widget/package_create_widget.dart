@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/default_widget.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 import 'package:upai/presentation/create-offer/widget/tab_content_view.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -32,7 +31,7 @@ class PackageCreateWidget extends StatelessWidget {
                 overlayColor: WidgetStateColor.transparent,
                 onTap: (value) {
                   // HomeController.to.selectPackage(value);
-                  HomeController.to.update();
+
                   debugPrint(CreateOfferController
                       .to.packageList
                       .toString());

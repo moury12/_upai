@@ -1,8 +1,7 @@
 
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:upai/presentation/HomeScreen/home_screen.dart';
-import 'package:upai/presentation/LoginScreen/login_screen.dart';
+import 'package:upai/presentation/auth/login_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 
 class SplashScreenController extends GetxController {

@@ -13,13 +13,13 @@ import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
+import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 import 'package:upai/widgets/custom_text_field.dart';
-import '../HomeScreen/widgets/custom_button_widget.dart';
+import '../home/widgets/custom_button_widget.dart';
+import '../home/widgets/search_able_dropdown.dart';
 import 'widget/custom_drop_down.dart';
 import 'widget/package_create_widget.dart';
 

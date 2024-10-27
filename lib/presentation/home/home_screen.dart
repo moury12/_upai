@@ -6,14 +6,15 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/HomeScreen/widgets/filter_banner_widget.dart';
-import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/Service-details/service_details.dart';
 import 'package:upai/presentation/default_controller.dart';
+import 'package:upai/presentation/home/controller/home_controller.dart';
+import 'package:upai/presentation/home/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/presentation/service-list/service_list_screen.dart';
 import 'package:upai/widgets/service_offer_widget.dart';
+
+import 'widgets/filter_banner_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

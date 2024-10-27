@@ -1,19 +1,11 @@
 import 'dart:core';
-import 'dart:ffi';
-import 'dart:ffi';
-import 'dart:ffi';
-import 'dart:ffi';
 
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/default_widget.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
+import 'package:upai/presentation/auth/controller/login_screen_controller.dart';
+import 'package:upai/presentation/auth/widgets/count_down_timer_widget.dart';
 import 'package:upai/widgets/custom_button.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
@@ -28,21 +20,17 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
-  int _counter = 0;
   AnimationController? controller;
   int levelClock = 120;
-  late FocusNode text1, text2, text3, text4, text5, text6;
+  late FocusNode text1, text2, text3, text4;
 
-  final TextEditingController fifthOtpController = TextEditingController();
-  final TextEditingController sixthOtpController = TextEditingController();
   @override
   void initState() {
     text1 = FocusNode();
     text2 = FocusNode();
     text3 = FocusNode();
     text4 = FocusNode();
-    text5 = FocusNode();
-    text6 = FocusNode();
+
     text1.requestFocus();
     controller = AnimationController(
         vsync: this, duration: Duration(seconds: levelClock));
@@ -55,11 +43,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
     LoginController.to.secondOtpController.value.clear();
     LoginController.to.thirdOtpController.value.clear();
     LoginController.to.forthOtpController.value.clear();
-    fifthOtpController.clear();
-    sixthOtpController.clear();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -73,22 +57,22 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Obx(() {
           bool areAllOtpFieldsFilled =
-              (LoginController.to.firstOtp.value.toString()!='' &&
-                  LoginController.to.secondOtp.value.toString()!='' &&
-                  LoginController.to.thirdOtp.value.toString()!='' &&
-                  LoginController.to.fourthOtp.value.toString()!='');
+              (LoginController.to.firstOtp.value.toString() != '' &&
+                  LoginController.to.secondOtp.value.toString() != '' &&
+                  LoginController.to.thirdOtp.value.toString() != '' &&
+                  LoginController.to.fourthOtp.value.toString() != '');
           debugPrint(LoginController.to.firstOtp.value);
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: LoginController.to.otpVerification.value
                 ? [
-                    Text(
+                    const Text(
                       'Mobile Number Verification',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     RichText(
@@ -102,7 +86,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                       ),
                       TextSpan(
                         text: LoginController.to.phoneController.value.text,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: Colors.black),
@@ -143,11 +127,15 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                             color: Colors.black.withOpacity(.5)),
                       ),
                       CountDownWidget(
-                          animation: StepTween(begin: levelClock, end: 0)
-                              .animate(controller!))
+                        animation: StepTween(begin: levelClock, end: 0)
+                            .animate(controller!),
+                        onResendTap: () {
+                          controller!.reset();
+                          controller!.forward();
+                        },
+                      )
                     ]),
                     TextButton(
-                      child: Text('Change Mobile Number'),
                       onPressed: () {
                         LoginController.to.otpVerification.value = false;
                       },
@@ -160,18 +148,17 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                           surfaceTintColor: Colors.transparent,
                           disabledBackgroundColor: Colors.transparent,
                           padding: EdgeInsets.zero),
+                      child: const Text('Change Mobile Number'),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     CustomButton(
                       text: "Login",
-                      onTap: areAllOtpFieldsFilled
-                          ? () {}
-                          : null,
+                      onTap: areAllOtpFieldsFilled ? () {} : null,
                     ),
                     defaultSizeBoxHeight
                   ]
                 : [
-                    Text(
+                    const Text(
                       'Continue with your mobile number',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -189,7 +176,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                         controller: LoginController.to.phoneController.value,
                       );
                     }),
-                    Spacer(),
+                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Obx(() {
@@ -217,23 +204,6 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
           );
         }),
       ),
-    );
-  }
-}
-
-class CountDownWidget extends AnimatedWidget {
-  Animation<int> animation;
-  CountDownWidget({super.key, required this.animation})
-      : super(listenable: animation);
-
-  @override
-  Widget build(BuildContext context) {
-    Duration clockTimer = Duration(seconds: animation.value);
-    String timerText =
-        '${clockTimer.inMinutes.remainder(60).toString()}:${clockTimer.inSeconds.remainder(60).toString().padLeft(2, '0')}';
-    return Text(
-      timerText == '0:00' ? 'Resend OTP' : timerText,
-      style: TextStyle(color: Colors.green, fontSize: 14),
     );
   }
 }

@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
+import 'package:upai/presentation/home/controller/home_controller.dart';
 
 class SearchableDropDown extends StatefulWidget {
   final bool? fromHome;

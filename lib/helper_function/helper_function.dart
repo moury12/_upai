@@ -9,8 +9,7 @@ import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
-import 'package:upai/core/utils/image_path.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
+import 'package:upai/presentation/home/controller/home_controller.dart';
 
 double getResponsiveFontSize(BuildContext context, double baseFontSize) {
   double screenWidth = MediaQuery.of(context).size.width;

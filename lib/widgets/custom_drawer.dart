@@ -3,12 +3,13 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
-import 'package:upai/presentation/SplashScreen/controller/splash_screen_controller.dart';
 import 'package:upai/presentation/buyer%20profile/buyer_profile_controller.dart';
 import 'package:upai/presentation/favourite_offer/favourite_offer_screen.dart';
+import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
+import 'package:upai/presentation/splash/controller/splash_screen_controller.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 import '../core/utils/image_path.dart';
 import '../data/api/firebase_apis.dart';
@@ -26,6 +27,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Drawer(
+
         backgroundColor: AppColors.backgroundLight,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -34,63 +36,81 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
         ),
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Obx(() {
-                    return ClipRRect(
-      
-      
-                      borderRadius: BorderRadius.circular(360),
-      
-                      child: ProfileScreenController.to.profileImageUrl.value.isNotEmpty
-                          ? CustomNetworkImage(imageUrl: ProfileScreenController.to.profileImageUrl.value.toString(),height: 100,
-                        width: 100,)
-                          : Image.asset(
-                              ImageConstant.senderImg,
-                              fit: BoxFit.cover,
-                              height: 100,
-                              width: 100,
+          child: Stack(
+
+            children: [
+              CustomPaint(
+                painter: CurvedPainter(),
+                size: MediaQuery.of(context).size,
+
+              ),
+              Column(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    children: [
+                      Obx(() {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(360),
+
+                          child: ProfileScreenController
+                              .to.profileImageUrl.value.isNotEmpty
+                              ? CustomNetworkImage(
+                            imageUrl: ProfileScreenController
+                                .to.profileImageUrl.value
+                                .toString(),
+                            height: 100,
+                            width: 100,
+                          )
+                              : Image.asset(
+                            ImageConstant.senderImg,
+                            fit: BoxFit.cover,
+                            height: 100,
+                            width: 100,
+                          ),
+
+                          // backgroundColor: Colors.grey.shade200,
+                        );
+                      }),
+                      defaultSizeBoxWidth,
+                      Expanded(
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Obx(() {
+                            return Text(
+                              ProfileScreenController.to.userInfo.value.name.toString().toUpperCase(),
+                              style: AppTextStyle.bodyLarge700.copyWith(
+                                fontSize: 18.0,
+                                color: Colors.white,
+                              ),
+                            );
+                          }),
+                          Text(
+                            ProfileScreenController.to.userInfo.value.userId.toString(),
+                            style: AppTextStyle.titleText.copyWith(
+                              fontSize: 14.0,
+                              fontWeight:FontWeight.w600,
+                              color: Colors.white,
                             ),
-      
-                      // backgroundColor: Colors.grey.shade200,
-                    );
-                  }),
-                ),
-                const SizedBox(height: 15),
-                Center(
-                  child: Obx(() {
-                    return Text(
-                      ProfileScreenController.to.userInfo.value.name.toString(),
-                      style: AppTextStyle.bodyLarge700.copyWith(
-                        fontSize: 20.0,
-                        color: AppColors.kprimaryColor,
-                      ),
-                    );
-                  }),
-                ),
-                Center(
-                  child: Text(
-                    ProfileScreenController.to.userInfo.value.userId.toString(),
-                    style: AppTextStyle.titleText.copyWith(
-                      fontSize: 14.0,
-                      color: AppColors.secondaryTextColor,
-                    ),
+                          ),
+                        ],),
+                      )
+                    ],
                   ),
                 ),
+
+
                 const SizedBox(height: 20),
                 _buildMenuOption(
                   icon: Icons.person,
                   label: 'Profile',
-                  onTap: () {Get.toNamed('/profile');
+                  onTap: () {
+                    Get.toNamed('/profile');
                     if (Scaffold.of(context).isDrawerOpen) {
                       Scaffold.of(context).closeDrawer();
                     }
-                  } ,
+                  },
                 ),
                 _buildMenuOption(
                   icon: Icons.home_repair_service_rounded,
@@ -99,15 +119,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     BuyerProfileController.to.getBuyerProfile();
                     Get.to(BuyerRunningOrderListScreen(
                       buyer: BuyerProfileController.to.buyer.value,
-                    ));  if (Scaffold.of(context).isDrawerOpen) {
+                    ));
+                    if (Scaffold.of(context).isDrawerOpen) {
                       Scaffold.of(context).closeDrawer();
                     }
                   },
-                ), _buildMenuOption(
+                ),
+                _buildMenuOption(
                   icon: Icons.favorite,
                   label: 'Favourite Offer',
                   onTap: () {
-      
                     Get.to(FavouriteOfferScreen());
                     if (Scaffold.of(context).isDrawerOpen) {
                       Scaffold.of(context).closeDrawer();
@@ -122,8 +143,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   icon: Icons.logout,
                   label: 'Log out',
                   onTap: () async {
-                   await FirebaseAPIs.updateActiveStatus(false);
-                   await  FirebaseAPIs.updatePushToken(ProfileScreenController.to.userInfo.value.userId.toString(),"");
+                    await FirebaseAPIs.updateActiveStatus(false);
+                    await FirebaseAPIs.updatePushToken(
+                        ProfileScreenController.to.userInfo.value.userId
+                            .toString(),
+                        "");
                     final box = Hive.box('userInfo');
                     await box.delete("user");
                     SplashScreenController.to.isLogin.value = false;
@@ -132,26 +156,28 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Get.delete<HomeController>(force: true);
                     Get.delete<ProfileScreenController>(force: true);
                     print("Data deleted");
-                   FirebaseAPIs.user = {};
+                    FirebaseAPIs.user = {};
                     Get.offAllNamed('/login');
                   },
                 ),
-                // _buildMenuOption(icon: Icons.add, label: "nw", onTap: (){
-                //   Get.to(NotificationScreenTest());
-                // })
-      
-                const Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text("app version:12-09-2024"),)
-              ],
-            ),
+
+
+                // const Align(
+                //   alignment: Alignment.bottomRight,
+                //   child: Text("app version:12-09-2024"),
+                // )
+              ],)
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildMenuOption({required IconData icon, required String label, required VoidCallback onTap}) {
+  Widget _buildMenuOption(
+      {required IconData icon,
+      required String label,
+      required VoidCallback onTap}) {
     return Column(
       children: [
         InkWell(
@@ -173,5 +199,30 @@ class _CustomDrawerState extends State<CustomDrawer> {
         ),
       ],
     );
+  }
+}
+
+class CurvedPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint();
+    paint.color = AppColors.kprimaryColor;
+    paint.style = PaintingStyle.fill;
+    paint.strokeWidth = 2.0;
+    double height=150;
+    var path = Path();
+    path.moveTo(0, height*0.85);
+path.quadraticBezierTo(size.width *0.15, height, size.width*0.45, height * 0.85);
+path.quadraticBezierTo(size.width *0.85, height*0.70, size.width, height * 0.85);
+    path.lineTo(size.width,0);
+    path.lineTo(0, 0);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // TODO: implement shouldRepaint
+    return true;
   }
 }

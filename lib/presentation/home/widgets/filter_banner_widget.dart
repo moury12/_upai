@@ -9,9 +9,9 @@ import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/HomeScreen/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/create-offer/widget/custom_drop_down.dart';
+import 'package:upai/presentation/home/controller/home_controller.dart';
+import 'package:upai/presentation/home/widgets/search_able_dropdown.dart';
 import 'package:upai/presentation/service-list/service_list_screen.dart';
 import 'package:upai/widgets/custom_button.dart';
 

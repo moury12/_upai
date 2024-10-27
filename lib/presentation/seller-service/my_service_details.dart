@@ -7,9 +7,9 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/Service-details/service_details.dart';
+ import 'package:upai/presentation/Service-details/service_details.dart';
 import 'package:upai/presentation/create-offer/create_offer_screen.dart';
+import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 

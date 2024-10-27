@@ -6,8 +6,8 @@ import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/widgets/custom_drawer.dart';
+import 'package:upai/presentation/home/controller/home_controller.dart';
+ import 'package:upai/widgets/custom_drawer.dart';
 import 'package:upai/presentation/default_controller.dart';
 import 'package:get/get.dart';
 

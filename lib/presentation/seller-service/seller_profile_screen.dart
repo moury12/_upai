@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/HomeScreen/home_screen.dart';
-import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
+
 import 'package:upai/presentation/create-offer/create_offer_screen.dart';
+import 'package:upai/presentation/home/home_screen.dart';
+import 'package:upai/presentation/home/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/my_service_list_screen.dart';
 import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';

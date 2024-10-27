@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/domain/services/checkInternet.dart';
-import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
+import 'package:upai/presentation/home/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 import '../../core/utils/custom_text_style.dart';
 import 'widgets/seller_running_order_widget.dart';

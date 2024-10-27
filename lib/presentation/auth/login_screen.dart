@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/image_path.dart';
-import 'package:upai/presentation/LoginScreen/controller/login_screen_controller.dart';
-import 'package:upai/presentation/LoginScreen/otp_screen.dart';
+import 'package:upai/presentation/auth/controller/login_screen_controller.dart';
+import 'package:upai/presentation/auth/otp_screen.dart';
+
 import 'package:upai/widgets/custom_text_field.dart';
 import '../../data/repository/repository_details.dart';
 import '../../widgets/custom_button.dart';

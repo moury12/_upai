@@ -6,7 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/data/api/notification_access_token.dart';
-import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
+import 'package:upai/presentation/chat/Model/message_model.dart';
 
 class FirebaseAPIs {
   static final box = Hive.box("userInfo");

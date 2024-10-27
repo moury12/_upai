@@ -5,7 +5,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
-import 'package:upai/presentation/ChatScreen/Model/message_model.dart';
+import 'package:upai/presentation/chat/Model/message_model.dart';
 
 import '../../../core/utils/app_colors.dart';
 

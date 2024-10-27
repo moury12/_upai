@@ -8,17 +8,18 @@ class CustomButton extends StatelessWidget {
   CustomButton({
     super.key,
     required this.text,
-     this.onTap, this.color,
+     this.onTap, this.color, this.height,
     // this.isLoading = false,
   });
   RxBool isLoading = false.obs;
   final String text;
   final Color? color;
+  final double? height;
   final Function? onTap;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40,
+      height: height??50,
       child: MaterialButton(
         disabledColor: Colors.grey,
         // elevation: 0, // Disable default elevation
@@ -48,9 +49,12 @@ class CustomButton extends StatelessWidget {
         child: Obx(() => Center(
             child: !isLoading.value
                 ? Text(text,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),)
-                : const CircularProgressIndicator(
-                    color: Colors.white,
-                  ))),
+                : Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: const CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                ))),
       ),
     );
   }

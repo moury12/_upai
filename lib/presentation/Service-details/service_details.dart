@@ -13,11 +13,11 @@ import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
-import 'package:upai/presentation/HomeScreen/controller/home_controller.dart';
-import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+ import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/Service-details/rating_list_screen.dart';
 
 import 'package:upai/presentation/create-offer/widget/tab_content_view.dart';
+import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 import 'package:upai/widgets/favourite_icon_button.dart';

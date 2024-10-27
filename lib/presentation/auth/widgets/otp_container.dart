@@ -16,7 +16,7 @@ class _OtpContainerState extends State<OtpContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 48,
+      height: 50,
       margin: EdgeInsets.symmetric(horizontal: 0),
       // decoration: BoxDecoration(
       //     borderRadius: BorderRadius.circular(6),
