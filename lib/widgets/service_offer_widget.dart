@@ -11,14 +11,15 @@ import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Service-details/service_details.dart';
 import 'package:upai/widgets/custom_network_image.dart';
+import 'package:upai/widgets/favourite_icon_button.dart';
 
-class ServiceOfferWidget extends StatefulWidget {
+class ServiceOfferWidget extends StatelessWidget {
 
   final OfferList? offerItem;
   final OfferList? favOfferItem;
   final Widget? button;
   final int index;
-  const ServiceOfferWidget(
+   const ServiceOfferWidget(
       {super.key,
 
       this.offerItem,
@@ -26,38 +27,7 @@ class ServiceOfferWidget extends StatefulWidget {
       required this.index,
       this.favOfferItem});
 
-  @override
-  State<ServiceOfferWidget> createState() => _ServiceOfferWidgetState();
-}
 
-class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-  late ImageController imageController;
-  late bool isService;
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-
-    _animation = Tween<double>(begin: 30.0, end: 35.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.linear),
-    );
-
-
-  }
-
-
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +35,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
       onTap: () {
         Get.to(
           ServiceDetails(
-            offerDetails: widget.offerItem,
+            offerDetails: offerItem,
           ),
         );
       },
@@ -91,7 +61,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
               flex: 5,
               child:  CustomNetworkImage(
                   height: 150,
-                  imageUrl: widget.offerItem!.imgUrl??'',
+                  imageUrl: offerItem!.imgUrl??'',
                 )
             ),
             SizedBox(
@@ -110,53 +80,20 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
                       children: [
                         Expanded(
                             child: Text(
-                         widget.offerItem?.jobTitle ?? '',
+                         offerItem?.jobTitle ?? '',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w600),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         )),
-                        SizedBox(
-                          height: 40,
-                          width: 40,
-                          child: IconButton(
-                              highlightColor: Colors.transparent,
-                              onPressed: () async {
-                                await _controller.forward();
-                                await _controller.reverse();
-
-                                if (!widget.offerItem!.isFav!) {
-                                  widget.offerItem!.isFav = true;
-                                  saveOfferToHive(widget.offerItem!);
-                                } else {
-                                  widget.offerItem!.isFav = false;
-                                  deleteFavOffers(
-                                      widget.offerItem!.offerId.toString());
-                                  // HomeController.to.favOfferList.refresh();
-                                  // HomeController.to.getOfferList.refresh();
-                                }
-                                debugPrint(widget.offerItem!.isFav.toString());
-                                setState(() {});
-                              },
-                              icon: AnimatedBuilder(
-                                  animation: _animation,
-                                  builder: (context, child) {
-                                    return Icon(
-                                      widget.offerItem!.isFav!
-                                          ? CupertinoIcons.heart_fill
-                                          : CupertinoIcons.heart,
-                                      color: AppColors.kprimaryColor,
-                                      size: _animation.value,
-                                    );
-                                  })),
-                        )
+                        FavouriteIconButton(offerItem: offerItem!,)
                       ],
                     ),
                     // Text('Description:',
                     //     style:
                     //     TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                     Text(
-                      widget.offerItem?.description ?? '',
+                      offerItem?.description ?? '',
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                       maxLines: 2,
@@ -168,7 +105,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
                         Icon(Icons.location_on_outlined),
                          Text(
                                     maxLines: 1,
-                                   widget.offerItem?.district ?? '',
+                                   offerItem?.district ?? '',
                                     style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
@@ -199,7 +136,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
                               ),
                               Text(
                                    double.parse(
-                                              widget.offerItem?.avgRating ??
+                                              offerItem?.avgRating ??
                                                   '0.0')
                                           .toStringAsFixed(1),
                                   textAlign: TextAlign.center,
@@ -213,7 +150,7 @@ class _ServiceOfferWidgetState extends State<ServiceOfferWidget>
                                     fontSize: 12, fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                  '৳ ${widget.offerItem!.package == null || widget.offerItem!.package!.isEmpty ? '0.0' : widget.offerItem!.package![0].price ?? '0.0'}',
+                                  '৳ ${offerItem!.package == null || offerItem!.package!.isEmpty ? '0.0' : offerItem!.package![0].price ?? '0.0'}',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700)),

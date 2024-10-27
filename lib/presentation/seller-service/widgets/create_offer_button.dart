@@ -32,7 +32,7 @@ class _CreateOfferButtonState extends State<CreateOfferButton>
         CurvedAnimation(parent: backgroundController, curve: Curves.easeInOut));
     backgroundOpacityAnimation = Tween<double>(begin: .5, end: 0).animate(
         CurvedAnimation(parent: backgroundController, curve: Curves.easeInOut));
-    textBoldAnimation = Tween<double>(begin: 0.3, end:1.3).animate(
+    textBoldAnimation = Tween<double>(begin: 0.3, end: 1.3).animate(
         CurvedAnimation(parent: mainController, curve: Curves.easeInOut));
     mainSizeAnimation.addStatusListener(
       (status) {
@@ -55,6 +55,13 @@ class _CreateOfferButtonState extends State<CreateOfferButton>
     );
     mainController.forward();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    mainController.dispose();
+    backgroundController.dispose();
+    super.dispose();
   }
 
   @override
@@ -91,13 +98,13 @@ class _CreateOfferButtonState extends State<CreateOfferButton>
                     color: AppColors.kprimaryColor,
                   ),
                   child: Center(
-                    child:  Text(
+                    child: Text(
                       '+',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
-                        fontWeight: FontWeight.lerp(
-                            FontWeight.bold, FontWeight.normal, textBoldAnimation.value),
+                        fontWeight: FontWeight.lerp(FontWeight.bold,
+                            FontWeight.normal, textBoldAnimation.value),
                       ),
                     ),
                   ),

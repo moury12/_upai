@@ -7,6 +7,7 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
+import 'package:upai/presentation/HomeScreen/home_screen.dart';
 import 'package:upai/presentation/HomeScreen/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/create-offer/create_offer_screen.dart';
 import 'package:upai/presentation/seller-service/my_service_details.dart';
@@ -15,7 +16,7 @@ import 'package:upai/presentation/seller-service/seller_running_order_list_scree
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 
-import 'widgets/create_offer_screen.dart';
+import 'widgets/create_offer_button.dart';
 import 'widgets/seller_running_order_widget.dart';
 
 class SellerProfileScreen extends StatefulWidget {
@@ -52,7 +53,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
       crossAxisCount = 5;
     }
     return Scaffold(
-      floatingActionButton: CreateOfferButton(),
+      floatingActionButton: const CreateOfferButton(),
       body: RefreshIndicator(
         color: AppColors.kprimaryColor,
         backgroundColor: Colors.white,
@@ -77,9 +78,9 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  seller.sellerProfile == null || !NetworkController.to.connectedInternet.value
+                  SellerProfileController.to.sellerProfileLoading.value || !NetworkController.to.connectedInternet.value
                       ? ShimmerSellerStatus()
-                      :
+                      :seller.sellerProfile == null || seller.myService!.isEmpty?SizedBox.shrink():
 
                       GridView(
                           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(mainAxisSpacing: 6, crossAxisSpacing: getResponsiveFontSize(context, 8), maxCrossAxisExtent: MediaQuery.of(context).size.width / 2.5),
@@ -113,7 +114,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                     height: 10,
                   ),
                   seller.sellerRunningOrder != null && seller.sellerRunningOrder!.isEmpty
-                      ? SizedBox.shrink()
+                      ? const SizedBox.shrink()
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -131,10 +132,10 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  seller.sellerRunningOrder == null || !NetworkController.to.connectedInternet.value
-                      ? ShimmerRunnigOrder(forList: false,)
+                  SellerProfileController.to.sellerProfileLoading.value || !NetworkController.to.connectedInternet.value
+                      ? const ShimmerRunnigOrder(forList: false,)
                       : seller.sellerRunningOrder!.isEmpty
-                          ? SizedBox.shrink()
+                          ? const SizedBox.shrink()
                           : Column(
                               children: List.generate(
                               seller.sellerRunningOrder!.length < 2 ? seller.sellerRunningOrder!.length : 2,
@@ -143,7 +144,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                                 return SellerRunningOrderWidget(sellerRunningOrder: runningOrder);
                               },
                             )),
-                  seller.myService == null || seller.myService!.isEmpty?SizedBox(): Row(
+                  seller.myService == null || seller.myService!.isEmpty?const SizedBox.shrink(): Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(flex: 2, child: Text("My Offers", style: AppTextStyle.titleText)),
@@ -161,9 +162,9 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       ),
                     ],
                   ),
-                 !NetworkController.to.connectedInternet.value
-                      ? ShimmerOfferList()
-                      :  seller.myService == null || seller.myService!.isEmpty?SizedBox():GridView.builder(
+                  SellerProfileController.to.sellerProfileLoading.value||  !NetworkController.to.connectedInternet.value
+                      ? const ShimmerOfferList()
+                      :  seller.myService == null || seller.myService!.isEmpty?NoServiceWidget():GridView.builder(
                           shrinkWrap: true,
                           primary: false,
 

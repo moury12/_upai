@@ -13,7 +13,7 @@ class SellerProfileController extends GetxController {
   Rx<MyService> service = MyService().obs;
   RxList<MyService> filterList = <MyService>[].obs;
   ProfileScreenController? ctrl;
-
+RxBool sellerProfileLoading =true.obs;
   Rx<TextEditingController> searchMyServiceController =
       TextEditingController().obs;
   @override
@@ -52,10 +52,18 @@ class SellerProfileController extends GetxController {
 
 
   Future<void> getSellerProfile() async {
-    seller.value = await RepositoryData.getSellerProfile(
-        ctrl!.userInfo.value.token.toString(), ctrl!.userInfo.value.userId ?? '');
-    myService.value = seller.value.myService!;
-    filterList.assignAll(myService);
+    try{
+      sellerProfileLoading.value= true;
+      seller.value = await RepositoryData.getSellerProfile(
+          ctrl!.userInfo.value.token.toString(),
+          ctrl!.userInfo.value.userId ?? '');
+      myService.value = seller.value.myService!;
+      filterList.assignAll(myService);
+    }catch(e){
+      debugPrint(e.toString());
+    }finally{
+      sellerProfileLoading.value= false;
+    }
     // debugPrint('myService.toJson()');
     // debugPrint(myService.toString());
   }

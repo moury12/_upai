@@ -99,7 +99,7 @@ class MyServiceListScreen extends StatelessWidget {
                 Expanded(child: Obx(() {
                   return !NetworkController.to.connectedInternet.value
                       ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 8),
                           child: ShimmerOfferList(
                             fromServiceList: true,
                           ),

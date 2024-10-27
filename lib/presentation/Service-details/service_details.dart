@@ -1,13 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:googleapis/admob/v1.dart';
 import 'package:readmore/readmore.dart';
 import 'package:upai/Model/user_info_model.dart';
-import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
@@ -21,9 +18,9 @@ import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/Service-details/rating_list_screen.dart';
 
 import 'package:upai/presentation/create-offer/widget/tab_content_view.dart';
-import 'package:upai/presentation/full_screen_image.dart';
 import 'package:upai/presentation/seller-service/widgets/my_service_widget.dart';
 import 'package:upai/widgets/custom_network_image.dart';
+import 'package:upai/widgets/favourite_icon_button.dart';
 import '../../Model/offer_list_model.dart';
 import 'service_details_controller.dart';
 import 'widgets/client_review.dart';
@@ -206,31 +203,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              print(ServiceDetailsController.to.isFav.value.toString());
-              if (!widget.offerDetails!.isFav!) {
-                widget.offerDetails!.isFav = true;
-                saveOfferToHive(widget.offerDetails!);
-              } else {
-                widget.offerDetails!.isFav = false;
-                deleteFavOffers(widget.offerDetails!.offerId.toString());
-                // HomeController.to.favOfferList.refresh();
-                // HomeController.to.getOfferList.refresh();
-              }
-              setState(() {});
-              // ServiceDetailsController.to.isFav.value = widget.offerDetails!.isFav;
-            },
-            icon: widget.offerDetails!.isFav!
-                ? Icon(
-                    CupertinoIcons.heart_fill,
-                    size: 25,
-                    color: AppColors.kprimaryColor,
-                  )
-                : Icon(
-                    CupertinoIcons.heart,
-                    size: 25,
-                  ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: FavouriteIconButton(offerItem: widget.offerDetails!),
           )
         ],
       ),
