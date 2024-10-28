@@ -208,6 +208,7 @@ class BuyerReviewList {
     reviewDate = json['review_date'].toString()=='null'?'':json['review_date'].toString();
   }
 
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['buyer_id'] = buyerId;
