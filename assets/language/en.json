@@ -98,5 +98,17 @@
 
   "no_packages_available": "No packages available.",
   "package_name": "Package Name",
-  "please_enter_package_name": "Please enter package name."
+  "please_enter_package_name": "Please enter package name.",
+  "confirm_order": "Confirm Order",
+  "offer_id": "Offer ID",
+  "offer_title": "Offer Title",
+  "buyer_id": "Buyer ID",
+  "buyer_name": "Buyer Name",
+  "total_amount": "Total Amount",
+  "accept": "Accept",
+  "reject": "Reject",
+  "tap_here": "Tap here",
+  "online": "Online",
+  "last_seen": "Last seen",
+  "type_a_message": "Type a message"
 }

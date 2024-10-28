@@ -92,7 +92,7 @@ Navigator.pop(context);
               OrderController.to.completionReview(reviewTE.text.trim().toString(),ratingValue.toString(),widget.notificationModel);
               Navigator.pop(context);
             }
-            }, child: const Text('submit_review')),
+            }, child:  Text('submit_review'.tr)),
       )],);
   }
 }

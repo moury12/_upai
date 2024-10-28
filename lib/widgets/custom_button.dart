@@ -48,7 +48,7 @@ class CustomButton extends StatelessWidget {
             : () {},
         child: Obx(() => Center(
             child: !isLoading.value
-                ? Text(text,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),)
+                ? FittedBox(child: Text(text,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),))
                 : Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: const CircularProgressIndicator(

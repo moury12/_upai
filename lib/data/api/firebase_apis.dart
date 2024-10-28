@@ -259,7 +259,7 @@ class FirebaseAPIs {
         .collection(
         'chats/${getConversationID(chatUser.userId.toString())}/messages/');
     await ref.doc(time).set(message.toJson()).then((value) =>
-    sendPushNotification(chatUser,chatUser.name.toString(), type == Type.text ? msg : 'image',"inbox"));
+    sendPushNotification(chatUser,me.name.toString(), type == Type.text ? msg : 'image',"inbox"));
   }
 
   //update read status of message

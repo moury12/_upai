@@ -171,7 +171,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                 ),
                                               );
                                             },
-                                            text: "Tap Here"),
+                                            text: "tap_here".tr),
                                       )
                                           : NotificationController.to.notificationList[reversedIndex].status == "DELIVERED" && ProfileScreenController.to.userInfo.value.userId != NotificationController.to.notificationList[reversedIndex].sellerId?SizedBox(
                                         height: 40,
@@ -183,7 +183,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                 builder: (context) => ReviewScreen(notificationModel: NotificationController.to.notificationList[reversedIndex]),
                                               );
                                             },
-                                            text: "Review"),
+                                            text: "review".tr),
                                       ):SizedBox(),
                                       SizedBox(
                                         height: 10,
