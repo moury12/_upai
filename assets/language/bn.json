@@ -61,7 +61,7 @@
   "my_services": "আমার পরিষেবা",
   "earning": "আয়",
   "complete": "সম্পন্ন",
-  "review": "পর্যালোচনা",
+  "review": "রিভিউ",
   "running_order": "চলমান অর্ডার",
   "all_orders": "সব অর্ডার",
   "my_offers": "আমার অফারগুলি",
@@ -83,6 +83,7 @@
   "this_is_your_own_service": "এটি আপনার নিজস্ব পরিষেবা।",
   "confirm": "নিশ্চিত করুন",
   "confirm_offer": "অফার নিশ্চিত করুন",
+  "confirm_order": "অর্ডার নিশ্চিত করুন",
   "completed_job": "সম্পন্ন কাজ",
   "posted_on": "প্রকাশিত হয়েছে",
   "user_id": "ব্যবহারকারীর আইডি",
@@ -92,6 +93,18 @@
   "update_offer": "অফার আপডেট করুন",
   "no_packages_available": "কোন প্যাকেজ উপলব্ধ নেই।",
   "package_name": "প্যাকেজের নাম",
-  "please_enter_package_name": "দয়া করে প্যাকেজের নাম লিখুন।"
+  "please_enter_package_name": "দয়া করে প্যাকেজের নাম লিখুন।",
+  "offer_id": "অফার আইডি",
+  "offer_title": "অফারের শিরোনাম",
+  "buyer_id": "ক্রেতার আইডি",
+  "buyer_name": "ক্রেতার নাম",
+  "total_amount": "মোট পরিমাণ",
+  "accept": "গ্রহণ করুন",
+  "reject": "প্রত্যাখ্যান করুন",
+  "tap_here": "এখানে ট্যাপ করুন",
+  "online": "অনলাইন",
+  "last_seen": "সর্বশেষ দেখা হয়েছে",
+  "type_a_message": "একটি বার্তা টাইপ করুন"
+
 
 }

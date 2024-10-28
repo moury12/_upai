@@ -350,7 +350,7 @@ class ChatScreen extends StatelessWidget {
                                       }
                                     },
                                     decoration: InputDecoration(
-                                      hintText: "Type a message",
+                                      hintText: "type_a_message".tr,
                                       hintStyle: TextStyle(color: Colors.grey.shade500),
                                       suffixIcon: GestureDetector(
                                         child:

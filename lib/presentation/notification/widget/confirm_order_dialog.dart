@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/presentation/Service-details/service_details.dart';
@@ -28,8 +29,8 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
             backgroundColor: AppColors.strokeColor2,
             titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-            title: const Text(
-              'Confirm Order',
+            title:  Text(
+              'confirm_order'.tr,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -65,24 +66,24 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                     //       'No category',
                                     // ),
                                     OfferDialogWidget(
-                                      label: 'Offer ID:',
+                                      label: '${'offer_id'.tr}:',
                                       text: widget.notificationModel.offerId ?? 'No ID',
                                     ),
                                     OfferDialogWidget(
-                                      label: 'Offer Title:',
+                                      label: '${'offer_title'.tr}:',
                                       text: widget.notificationModel.jobTitle ?? 'No Title',
                                     ),
                                     OfferDialogWidget(
-                                      label: 'Buyer ID:',
+                                      label:'${'buyer_id'.tr}:',
                                       text: widget.notificationModel.buyerId ?? 'Unknown',
                                     ),
 
                                     OfferDialogWidget(
-                                      label: 'Buyer Name:',
+                                      label: '${'buyer_name'.tr}:',
                                       text: widget.notificationModel.buyerName ?? 'Unknown',
                                     ),
                                     OfferDialogWidget(
-                                      label: 'Package Name:',
+                                      label:'${'package_name'.tr}:',
                                       text: widget.notificationModel.package ?? '',
                                     ),
 
@@ -93,7 +94,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
 
                                     Text(
                                       textAlign: TextAlign.center,
-                                      'Total amount: ${widget.notificationModel.price} ৳',
+                                      '${'total_amount'.tr}: ${widget.notificationModel.price} ৳',
                                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
                                     ),
 
@@ -125,8 +126,8 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                                     },
                                                     idStatusUpdate: newNotificationData.sellerId.toString());
                                               },
-                                              child: const Text(
-                                                "Accept",
+                                              child:  Text(
+                                                "accept".tr,
                                                 textAlign: TextAlign.center,
                                               )),
                                         ),
@@ -151,8 +152,8 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                                     body: {"job_id": widget.notificationModel.jobId, "status": "REJECTED", "award_date": DateTime.now().toString(), "completion_date": "", "notification_id": widget.notificationModel.notificationId},
                                                     idStatusUpdate: newNotificationData.sellerId.toString());
                                               },
-                                              child: const Text(
-                                                "Reject",
+                                              child:  Text(
+                                                "reject".tr,
                                                 textAlign: TextAlign.center,
                                               )),
                                         ),
