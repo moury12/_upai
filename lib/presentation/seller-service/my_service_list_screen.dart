@@ -60,7 +60,7 @@ class MyServiceListScreen extends StatelessWidget {
             //   },
             // ),
             title: Text(
-              "My Offers",
+              "my_offers".tr,
               style: AppTextStyle.appBarTitle,
             ),
           ),
@@ -78,7 +78,7 @@ class MyServiceListScreen extends StatelessWidget {
                       return CustomTextField(
                         controller: SellerProfileController
                             .to.searchMyServiceController.value,
-                        hintText: "Search service..",
+                        hintText: "${'search_service'.tr}..",
                         onChanged: (value) {},
                         suffixIcon: IconButton(
                           icon: Icon(

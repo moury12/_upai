@@ -44,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
         automaticallyImplyLeading: true,
         title: Text(
-          "Profile",
+          "profile".tr,
           style: AppTextStyle.bodyTitle700,
         ),
       ),

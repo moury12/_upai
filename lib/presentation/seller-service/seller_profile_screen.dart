@@ -90,20 +90,20 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                             SellerStatusWidget(
                               seller: seller,
                               color: AppColors.kprimaryColor,
-                              title: 'Earning',
+                              title: 'earning'.tr,
                               value: seller.sellerProfile!.totalEarning,
                             ),
                             SellerStatusWidget(
                               seller: seller,
                               color: AppColors.kprimaryColor,
-                              title: 'Complete',
+                              title: 'complete'.tr,
                               value: seller.sellerProfile!.completedJob,
                               icon: Icons.verified,
                             ),
                             SellerStatusWidget(
                               seller: seller,
                               color: AppColors.kprimaryColor,
-                              title: 'Review',
+                              title: 'review'.tr,
                               icon: Icons.star_rate_rounded,
                               value: seller.sellerProfile!.review.toString(),
                             ),
@@ -118,13 +118,13 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(flex: 2, child: Text("Running Orders", style: AppTextStyle.titleText)),
+                            Expanded(flex: 2, child: Text("running_order".tr, style: AppTextStyle.titleText)),
                             Flexible(
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(SellerRunningOrderListScreen(runningOrder: seller.sellerRunningOrder ?? []));
                                 },
-                                child: Text("All Orders >", style: AppTextStyle.titleTextSmallUnderline),
+                                child: Text("${"all_orders".tr} >", style: AppTextStyle.titleTextSmallUnderline),
                               ),
                             ),
                           ],
@@ -147,7 +147,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   seller.myService == null || seller.myService!.isEmpty?const SizedBox.shrink(): Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(flex: 2, child: Text("My Offers", style: AppTextStyle.titleText)),
+                      Expanded(flex: 2, child: Text("my_offers".tr, style: AppTextStyle.titleText)),
                       Flexible(
                         child: GestureDetector(
                           onTap: () {
@@ -156,7 +156,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text("All Offers >", style: AppTextStyle.titleTextSmallUnderline),
+                            child: Text("${'all_offers'.tr} >", style: AppTextStyle.titleTextSmallUnderline),
                           ),
                         ),
                       ),

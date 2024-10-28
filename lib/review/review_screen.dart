@@ -41,7 +41,7 @@ Navigator.pop(context);
           child: Column(mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Text("Rate our Service",style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+               Text("rate_our_service".tr,style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
               ),
               RatingBar(
                 initialRating: ratingValue,
@@ -63,7 +63,7 @@ Navigator.pop(context);
               ),
           
               Text(
-                "Review",
+                "review".tr,
                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14),
               ),
               SizedBox(
@@ -71,7 +71,7 @@ Navigator.pop(context);
               ),
               CustomTextField(
                 controller: reviewTE,
-                hintText: 'Share your thoughts..',
+                hintText: 'share_your_thoughts'.tr,
                 maxLines: 3,
               )
             ],
@@ -84,7 +84,7 @@ Navigator.pop(context);
           onPressed: () {
           if(reviewTE.value.text.isEmpty)
             {
-              showCustomSnackbar(title: 'Alert!', message: "Share your thoughts first", type: SnackBarType.alert)
+              showCustomSnackbar(title: 'alert'.tr, message: "share_your thoughts_first".tr, type: SnackBarType.alert)
             ;
             }
           else
@@ -92,7 +92,7 @@ Navigator.pop(context);
               OrderController.to.completionReview(reviewTE.text.trim().toString(),ratingValue.toString(),widget.notificationModel);
               Navigator.pop(context);
             }
-            }, child: const Text('Submit review')),
+            }, child: const Text('submit_review')),
       )],);
   }
 }

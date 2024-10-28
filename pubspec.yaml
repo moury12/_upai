@@ -70,6 +70,7 @@ flutter:
     - assets/images/
     - assets/district/district.json
     - assets/category_icon_upai/
+    - assets/language/
 
 
 

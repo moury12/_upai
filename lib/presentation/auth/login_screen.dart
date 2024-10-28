@@ -59,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   // ),
                   // const SizedBox(height: 20),
                   CustomTextField(
-                    labelText: "Mobile Number",
-                    validatorText: "Please Enter Mobile Number",
+                    labelText: "mobile_number".tr,
+                    validatorText: "please_enter_mobile".tr,
                     prefixIcon: Icons.call,
                     inputType: TextInputType.number,
                     hintText: "Enter your mobile number",
@@ -78,11 +78,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   // ),
                   const SizedBox(height: 20),
                   CustomTextField(
-                    labelText: "Password",
-                    validatorText: "Please Enter User Password",
+                    labelText: "password".tr,
+                    validatorText: "please_enter_password".tr,
                     isPasswordField: true,
                     prefixIcon: Icons.lock,
-                    hintText: "Enter your password",
+                    hintText: "enter_your_password".tr,
                     controller: controller.passwordTE,
                     // onChanged: (value) => controller.emailController.text.trim() = value!,
                   ),
@@ -90,9 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Align(
+                   Align(
                     alignment: Alignment.topRight,
-                    child: Text("Forget Password?", style: TextStyle()),
+                    child: Text("forget_password".tr, style: TextStyle()),
                   ),
                   const SizedBox(height: 20),
                   // Row(
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // ),
                   // SizedBox(height: 10,),
                   CustomButton(
-                      text: 'Send OTP',
+                      text: 'send_otp'.tr,
                       onTap: () {
                         Get.toNamed(OtpScreen.routeName);
                       }),
@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child:
                         // controller.progress?CircularProgressIndicator(color: AppColors.titleName):
                         CustomButton(
-                      text: "Login",
+                      text: "login".tr,
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
                           // UserInfoModel userInfo = UserInfoModel();

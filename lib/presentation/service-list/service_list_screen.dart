@@ -79,10 +79,10 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
           ),
           title: Text(
             widget.isTopService == true
-                ? "Explore Top Services"
+                ? "explore_top_services".tr
                 : widget.isNewService == true
-                    ? "Explore New Services"
-                    : "Services",
+                    ? "explore_new_services".tr
+                    : "services".tr,
             style: AppTextStyle.appBarTitle,
           ),
         ),
@@ -112,7 +112,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                             controller.getOfferDataList();
                             controller.getOfferList.refresh();
                           },
-                          hintText: "Search service..",
+                          hintText: "${'search_service'.tr}..",
                           suffixIcon: IconButton(
                             icon: Icon(
                               Icons.cancel,

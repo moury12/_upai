@@ -104,7 +104,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 const SizedBox(height: 20),
                 _buildMenuOption(
                   icon: Icons.person,
-                  label: 'Profile',
+                  label: 'profile'.tr,
                   onTap: () {
                     Get.toNamed('/profile');
                     if (Scaffold.of(context).isDrawerOpen) {
@@ -114,7 +114,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 _buildMenuOption(
                   icon: Icons.home_repair_service_rounded,
-                  label: 'My running orders',
+                  label: 'my_running_orders'.tr,
                   onTap: () {
                     BuyerProfileController.to.getBuyerProfile();
                     Get.to(BuyerRunningOrderListScreen(
@@ -127,7 +127,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 _buildMenuOption(
                   icon: Icons.favorite,
-                  label: 'Favourite Offer',
+                  label: 'favourite_offer'.tr,
                   onTap: () {
                     Get.to(FavouriteOfferScreen());
                     if (Scaffold.of(context).isDrawerOpen) {
@@ -141,7 +141,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 _buildMenuOption(
                   icon: Icons.logout,
-                  label: 'Log out',
+                  label: 'logout'.tr,
                   onTap: () async {
                     await FirebaseAPIs.updateActiveStatus(false);
                     await FirebaseAPIs.updatePushToken(

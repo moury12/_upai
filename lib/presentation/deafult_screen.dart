@@ -110,7 +110,7 @@ class DefaultScreen extends StatelessWidget {
                         ? ctrl.selectedColor
                         : ctrl.unselected,
                   ),
-                  label: 'Home',
+                  label: 'home'.tr,
                 ),
                 BottomNavigationBarItem(
                   backgroundColor: Colors.white,
@@ -122,7 +122,7 @@ class DefaultScreen extends StatelessWidget {
                         ? ctrl.selectedColor
                         : ctrl.unselected,
                   ),
-                  label: 'Service',
+                  label: 'service'.tr,
                 ),
 
                 BottomNavigationBarItem(
@@ -135,7 +135,7 @@ class DefaultScreen extends StatelessWidget {
                         ? ctrl.selectedColor
                         : ctrl.unselected,
                   ),
-                  label: 'Inbox',
+                  label: 'inbox'.tr,
                 ),
                 BottomNavigationBarItem(
                   backgroundColor: Colors.white,
@@ -147,7 +147,7 @@ class DefaultScreen extends StatelessWidget {
                         ? ctrl.selectedColor
                         : ctrl.unselected,
                   ),
-                  label: 'Notification',
+                  label: 'notification'.tr,
                 ),
 
               ],

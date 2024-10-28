@@ -17,6 +17,10 @@ double getResponsiveFontSize(BuildContext context, double baseFontSize) {
   return baseFontSize *
       (screenWidth / 423); // 375 is the base width (e.g., iPhone 11)
 }
+void changeLanguage(String languageCode) {
+var locale = Locale(languageCode);
+Get.updateLocale(locale);
+}
 
 Future<dynamic> loadJsonFromAssets(String filePath) async {
   String jsonString = await rootBundle.loadString(filePath);
@@ -139,3 +143,4 @@ void resetData({bool showSnackbar=true}) {
   }
   }
 }
+

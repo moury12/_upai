@@ -88,7 +88,7 @@ class _FilterBannerState extends State<FilterBanner> {
                               width: 7,
                             ),
                             Text(
-                              'Service',
+                              'service'.tr,
                               style: AppTextStyle.bodyMediumWhiteSemiBold,
                             )
                           ],
@@ -121,10 +121,10 @@ class FilterDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Search Filter',
+              'search_filter'.tr,
               style: AppTextStyle.bodyMediumBlackBold,
             ),
-            CustomTextButton(label: 'Reset', onChange: () {
+            CustomTextButton(label: 'reset'.tr, onChange: () {
               resetData(showSnackbar: false);
               Navigator.pop(context);
             },)
@@ -146,8 +146,8 @@ class FilterDialog extends StatelessWidget {
               onChanged: (val) {
                 FilterController.to.selectedServiceType.value = val;
               },
-              label: 'Select service type',
-              title: 'Service Type:',
+              label: 'select_service_type'.tr,
+              title: 'service_type'.tr,
             );
           }),
           Obx(() {
@@ -161,8 +161,8 @@ class FilterDialog extends StatelessWidget {
               onChanged: (val) {
                 FilterController.to.selectedCategory.value = val;
               },
-              label: 'Select service category',
-              title: 'Service category:',
+              label: 'select_service_category'.tr,
+              title: '${'service_category'.tr}',
             );
           }),
           Obx(() {
@@ -172,8 +172,8 @@ class FilterDialog extends StatelessWidget {
               onChanged:  (val) {
                       FilterController.to.selectedSortBy.value = val;
                     },
-              label: 'select sort by',
-              title: 'Sort By:',
+              label: '${'select_sort_by'.tr}',
+              title: '${'sort_by'.tr}',
             );
           }),
           Divider()
@@ -185,13 +185,13 @@ class FilterDialog extends StatelessWidget {
       actions: [
         CustomTextButton(
           primary: AppColors.cancelButtonColor,
-          label: 'Cancel',
+          label: 'cancel'.tr,
           onChange: () {
             Navigator.pop(context);
           },
         ),
         CustomTextButton(
-          label: 'Apply',
+          label: 'apply'.tr,
           onChange: () {
             FilterController.to.checkIfFilterValueIsEmpty();
             print("isFilterValueEmpty: ${FilterController.to.isFilterValueEmpty.value}");

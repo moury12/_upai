@@ -23,7 +23,7 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
         appBar: AppBar(
 
           title: Text(
-            "Buyer Running Orders",
+            "buyer_running_orders".tr,
             style: AppTextStyle.appBarTitle,
           ),
         ),

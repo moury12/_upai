@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
-                                            child: Text("Explore Top Services",
+                                            child: Text("explore_top_services".tr,
                                                 style: AppTextStyle.titleText),
                                           ),
                                           GestureDetector(
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               padding:
                                                   const EdgeInsets.symmetric(
                                                       vertical: 12.0),
-                                              child: Text("Browse All > ",
+                                              child: Text("browse_all".tr,
                                                   style: AppTextStyle
                                                       .titleTextSmallUnderline),
                                             ),
@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Expanded(
                                           child: FilterController
                                                   .to.isFilterValueEmpty.value
-                                              ? Text("Explore New Services",
+                                              ? Text("explore_new_services".tr,
                                                   style: AppTextStyle.titleText)
                                               : Text(
                                                   '${FilterController.to.selectedServiceType.value != null ? '${FilterController.to.selectedServiceType.value} > ' : ''}${FilterController.to.selectedCategory.value != null ? '${FilterController.to.selectedCategory.value} > ' : ''}${FilterController.to.selectedSortBy.value != null ? '${FilterController.to.selectedSortBy.value} > ' : ''}',
@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               isNewService: true,
                                             ));
                                           },
-                                          child: Text("Browse All > ",
+                                          child: Text("browse_all".tr,
                                               style: AppTextStyle
                                                   .titleTextSmallUnderline),
                                         ),
@@ -255,11 +255,11 @@ class NoServiceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return  Padding(
       padding: EdgeInsets.all(12.0),
       child: Center(
         child: Text(
-          "No Service Available",
+          "no_service_available".tr,
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
         ),
       ),

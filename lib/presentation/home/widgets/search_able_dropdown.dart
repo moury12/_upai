@@ -82,7 +82,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                     child: Obx(() {
                       return Text(
                         HomeController.to.selectedDistrictForAll.value ??
-                            'Location',
+                            'location'.tr,
                         style: AppTextStyle.bodyMediumWhiteSemiBold,
                       );
                     }),

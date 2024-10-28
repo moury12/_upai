@@ -35,7 +35,7 @@ class SellerRunningOrderListScreen extends StatelessWidget {
           //   },
           // ),
           title: Text(
-            "Seller Running Orders",
+            "seller_running_orders".tr,
             style: AppTextStyle.appBarTitle,
           ),
         ),

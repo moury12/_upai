@@ -33,8 +33,8 @@ class MyServiceDetails extends StatelessWidget {
           },
         ),
         surfaceTintColor: Colors.white,
-        title: const Text(
-          'My Service details',
+        title:  Text(
+          'my_service_details'.tr,
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),

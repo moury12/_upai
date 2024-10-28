@@ -124,7 +124,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 width: 8,
               ),
               Text(
-                "Chat",
+                "chat",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -142,7 +142,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             onPressed: () {
               if (ProfileScreenController.to.userInfo.value.userId ==
                   widget.offerDetails!.userId) {
-                showCustomSnackbar(title: 'Alert!', message: "This is your own service", type: SnackBarType.alert);
+                showCustomSnackbar(title: 'alert'.tr, message: "this_is_your_own_service".tr, type: SnackBarType.alert);
               } else {
                 Get.put(OrderController());
                 var packageName = widget
@@ -176,12 +176,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             child: widget.offerDetails!.package == null ||
                     widget.offerDetails!.package!.isEmpty
                 ? Text(
-                    'Confirm',
+                    'confirm'.tr,
                     style: AppTextStyle.bodySmallwhite,
                   )
                 : Obx(() {
                     return Text(
-                      "Confirm Offer ( ${widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].packageName} )",
+                      "${'confirm_offer'.tr}  ( ${widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].packageName} )",
                       style: AppTextStyle.bodySmallwhite,
                     );
                   }),
@@ -246,7 +246,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       subtitle: Row(
                         children: [
                           Text(
-                            "Completed Job:${widget.offerDetails!.totalCompletedJob.toString()}",
+                            "${'completed_job'.tr}:${widget.offerDetails!.totalCompletedJob.toString()}",
                             style: AppTextStyle.bodySmallBlack600,
                           ),
                           SizedBox(
@@ -292,34 +292,34 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                  "Posted on ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
+                                  "${'posted_on'.tr} ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
                             ],
                           ),
                           DetailItem(
-                            title: "User ID:",
+                            title: "${'user_id'.tr}:",
                             body: widget.offerDetails!.userId.toString(),
                           ),
 
                           DetailItem(
-                            title: "Category:",
+                            title: "${'category'.tr}:",
                             body: widget.offerDetails!.serviceCategoryType
                                 .toString(),
                           ),
                           DetailItem(
-                            title: "Service Type:",
+                            title: "${'service_type'.tr}:",
                             body: widget.offerDetails!.serviceType.toString(),
                           ),
                           DetailItem(
-                            title: "District:",
+                            title: "${'district'.tr}:",
                             body: "${widget.offerDetails!.district.toString()}",
                           ),
                           DetailItem(
-                            title: "Address:",
+                            title: "${'address'.tr}:",
                             body: "${widget.offerDetails!.address.toString()}",
                           ),
 
                           Text(
-                            "Description",
+                            "${'description'.tr}",
                             style: AppTextStyle.bodyMediumBlackBold,
                           ),
                           const SizedBox(
