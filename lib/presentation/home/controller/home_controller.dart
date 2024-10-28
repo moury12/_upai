@@ -190,8 +190,7 @@ Future<OfferList?> findServiceByOfferID({ required String offerId})async{
           currentPage.value++;
         }
       } else if (!loadMoreData) {
-        // Clear the list if there's no new data and not loading more
-        getOfferList.clear();
+
         getOfferList.refresh(); // Ensure the UI updates
       }
 
