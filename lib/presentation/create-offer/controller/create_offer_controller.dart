@@ -5,9 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:upai/Model/category_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
@@ -22,27 +21,46 @@ class CreateOfferController extends GetxController {
   static CreateOfferController get to => Get.find();
   Rx<TextEditingController> serviceController = TextEditingController().obs;
   RxList<TextEditingController> packagePriceControllers = RxList();
-  RxList<TextEditingController> packageDurationControllers = RxList();
+  RxList<TextEditingController> packageNameControllers = RxList();
   RxList<TextEditingController> packageDescriptionControllers = RxList();
   Rx<TextEditingController> titleController = TextEditingController().obs;
   Rx<TextEditingController> addressController = TextEditingController().obs;
   Rx<TextEditingController> descriptionController = TextEditingController().obs;
+  List<int> packageLevelList = [1, 2, 3];
   Rx<File?> image = Rx<File?>(null);
   final _picker = ImagePicker();
   String img = '';
   RxDouble uploadProgress = 0.0.obs;
   RxBool isUploading = false.obs;
   RxBool isLoading = false.obs;
+  RxBool nextProcess = false.obs;
   Rx<String?> selectedDistrict = Rx<String?>(null);
+  Rx<int?> selectedLevel = Rx<int?>(null);
   var selectedCategory = Rx<String?>(null);
   Rx<String?> selectedServiceType = Rx<String?>(null);
   final box = Hive.box('userInfo');
+
+  void populatePackageList(int packageLevel) {
+     packageList.clear();
+
+    for (int i = 1; i <= packageLevel; i++) {
+      packageList.add({
+        "package_name": "Level $i",
+        "price": '',
+        "duration": '',
+        "package_description": '',
+        "service_list": List.from(yourServiceList),
+      });
+    }
+     updatePackageList();
+  }
+
   void initializeControllers() {
     // Assuming 3 packages for example
     int numberOfPackages = 3;
     packagePriceControllers =
         List.generate(numberOfPackages, (_) => TextEditingController()).obs;
-    packageDurationControllers =
+    packageNameControllers =
         List.generate(numberOfPackages, (_) => TextEditingController()).obs;
     packageDescriptionControllers =
         List.generate(numberOfPackages, (_) => TextEditingController()).obs;
@@ -53,42 +71,43 @@ class CreateOfferController extends GetxController {
       packageList[i]['package_description'] =
           packageDescriptionControllers[i].text;
       packageList[i]['price'] = packagePriceControllers[i].text;
-      packageList[i]['duration'] = packageDurationControllers[i].text;
+      packageList[i]['duration'] = packageNameControllers[i].text;
     }
   }
 
   RxList<dynamic> packageList = <dynamic>[].obs;
-  RxList<dynamic> yourServiceList = [].obs;
+  RxList<dynamic> yourServiceList = [
+    {"service_name": "xhhchcjv", "status": true}
+  ].obs;
   void editOfferData(MyService? service) {
     addressController.value = TextEditingController(
-        text: service != null && service!.address!.isNotEmpty
-            ? service!.address
+        text: service != null && service.address!.isNotEmpty
+            ? service.address
             : addressController.value.text);
     initializeControllers();
     titleController.value = TextEditingController(
-        text: service != null ? service!.jobTitle : titleController.value.text);
+        text: service != null ? service.jobTitle : titleController.value.text);
 
     for (var i = 0; i < packagePriceControllers.length; i++) {
       if (service != null /*||service!.package!=null*/) {
-        if (i < service!.package!.length) {
+        if (i < service.package!.length) {
           packagePriceControllers[i].text =
-              service!.package![i].price.toString();
-          packageList[i]['price'] = service!.package![i].price.toString();
+              service.package![i].price.toString();
+          packageList[i]['price'] = service.package![i].price.toString();
         } else {
           packagePriceControllers[i].text = packagePriceControllers[i].text;
         }
       }
     }
-    for (var i = 0; i < packageDurationControllers.length; i++) {
+    for (var i = 0; i < packageNameControllers.length; i++) {
       // Ensure we don't exceed the number of packages
 
       if (service != null /*||service!.package!=null*/) {
-        if (i < service!.package!.length) {
-          packageDurationControllers[i].text =
-              service!.package![i].duration.toString();
+        if (i < service.package!.length) {
+          packageNameControllers[i].text =
+              service.package![i].duration.toString();
         } else {
-          packageDurationControllers[i].text =
-              packageDurationControllers[i].text;
+          packageNameControllers[i].text = packageNameControllers[i].text;
         }
       }
     }
@@ -96,9 +115,9 @@ class CreateOfferController extends GetxController {
       // Ensure we don't exceed the number of packages
 
       if (service != null /*||service!.package!=null*/) {
-        if (i < service!.package!.length) {
+        if (i < service.package!.length) {
           packageDescriptionControllers[i].text =
-              service!.package![i].packageDescription.toString();
+              service.package![i].packageDescription.toString();
         } else {
           packageDescriptionControllers[i].text =
               packageDescriptionControllers[i].text;
@@ -108,12 +127,12 @@ class CreateOfferController extends GetxController {
 
     descriptionController.value = TextEditingController(
         text: service != null
-            ? service!.description
+            ? service.description
             : descriptionController.value.text);
     if (service != null) {
       var matchedServiceType = serviceType
           .where(
-            (element) => element == service!.serviceType,
+            (element) => element == service.serviceType,
           )
           .toList();
       if (matchedServiceType.isNotEmpty) {
@@ -128,10 +147,8 @@ class CreateOfferController extends GetxController {
       var filteredList = HomeController.to.getCatList
           .where((e) =>
               e.categoryName!.toLowerCase() ==
-              service!.serviceCategoryType!.toLowerCase())
+              service.serviceCategoryType!.toLowerCase())
           .toList();
-      print('filteredList.first');
-      print(filteredList[0].categoryName);
 
       if (filteredList.isNotEmpty) {
         selectedCategory.value = filteredList.first.categoryName;
@@ -141,64 +158,19 @@ class CreateOfferController extends GetxController {
       }
     } else {
       selectedCategory.value = selectedCategory.value;
-     image.value = null;
+      image.value = null;
     }
 
-    selectedDistrict.value = service != null && service!.district!.isNotEmpty
-        ? service!.district
+    selectedDistrict.value = service != null && service.district!.isNotEmpty
+        ? service.district
         : selectedDistrict.value;
   }
 
-  @override
-  void onInit() {
-    initializeControllers();
-    updatePackageList();
-    packageList.assignAll([
-      {
-        "package_name": "Basic",
-        "price": '',
-        "duration": '',
-        "package_description": '',
-        "service_list": List.from(yourServiceList)
-      },
-      {
-        "package_name": "Standard",
-        "price": '',
-        "duration": '',
-        "package_description": '',
-        "service_list": List.from(yourServiceList)
-      },
-      {
-        "package_name": "Premium",
-        "price": '',
-        "duration": '',
-        "package_description": '',
-        "service_list": List.from(yourServiceList)
-      }
-    ]);
-    // TODO: implement onInit
-    super.onInit();
-  }
-
-  @override
-  void onClose() {
-    for (var controller in packagePriceControllers) {
-      controller.dispose();
-    }
-    for (var controller in packageDescriptionControllers) {
-      controller.dispose();
-    }
-    for (var controller in packageDurationControllers) {
-      controller.dispose();
-    }
-    super.onClose();
-  }
-
   Future<void> createOffer({
-   required String jobTitle,
-   required String description,
+    required String jobTitle,
+    required String description,
     String? imgUrl,
-   required String address,
+    required String address,
   }) async {
     Map<String, dynamic> data = jsonDecode(box.get("user"));
     await RepositoryData.createOffer(
@@ -219,6 +191,7 @@ class CreateOfferController extends GetxController {
     await SellerProfileController.to.refreshAllData();
     await HomeController.to.refreshAllData();
   }
+
   Future<void> getImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
       source: source,
@@ -228,11 +201,9 @@ class CreateOfferController extends GetxController {
     );
     if (pickedFile != null) {
       image.value = File(pickedFile.path);
-
-    } else {
-
-    }
+    } else {}
   }
+
   Future<void> editOffer(
       String offerId, title, description, rate, address) async {
     await RepositoryData.editOffer(
@@ -276,25 +247,34 @@ class CreateOfferController extends GetxController {
     }
     packageList.refresh();
   }
+
   void showPickerDialog(BuildContext context) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
-
       builder: (BuildContext bc) {
         return SafeArea(
           child: Wrap(
             children: <Widget>[
               ListTile(
-                leading:  Icon(Icons.photo_library,color: AppColors.kprimaryColor,),
-                title:  Text('Gallery',style: AppTextStyle.bodyMediumSemiBlackBold,),
+                leading: Icon(
+                  Icons.photo_library,
+                  color: AppColors.kprimaryColor,
+                ),
+                title: Text(
+                  'Gallery',
+                  style: AppTextStyle.bodyMediumSemiBlackBold,
+                ),
                 onTap: () {
                   getImage(ImageSource.gallery);
                   Navigator.of(context).pop();
                 },
               ),
               ListTile(
-                leading:  Icon(Icons.photo_camera,color: AppColors.kprimaryColor,),
+                leading: Icon(
+                  Icons.photo_camera,
+                  color: AppColors.kprimaryColor,
+                ),
                 title: const Text('Camera'),
                 onTap: () {
                   getImage(ImageSource.camera);
@@ -307,6 +287,7 @@ class CreateOfferController extends GetxController {
       },
     );
   }
+
   Future<String?> uploadImage(String offerId) async {
     isUploading.value = true;
 
@@ -347,14 +328,33 @@ class CreateOfferController extends GetxController {
     } catch (e) {
       isUploading.value = false;
       image.value = null;
-
-      // Handle the error
-      print("Failed to upload image: $e");
-
-      // Return null in case of failure
       return null;
     }
   }
 
+  @override
+  void onInit() {
+    initializeControllers();
+    updatePackageList();
+    int packageLevel = selectedLevel.value ?? 3;
+    if (packageList.isEmpty) {
+      populatePackageList(packageLevel);    }
 
+
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    for (var controller in packagePriceControllers) {
+      controller.dispose();
+    }
+    for (var controller in packageDescriptionControllers) {
+      controller.dispose();
+    }
+    for (var controller in packageNameControllers) {
+      controller.dispose();
+    }
+    super.onClose();
+  }
 }
