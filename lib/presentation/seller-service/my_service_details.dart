@@ -261,7 +261,9 @@ class MyServiceDetails extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return AlertDialog(
+                        return AlertDialog( shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+    ),
                           backgroundColor: AppColors.strokeColor2,
                           title: const Icon(
                             CupertinoIcons.delete,

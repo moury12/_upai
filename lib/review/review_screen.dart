@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
@@ -26,7 +27,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return AlertDialog( shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+    ),
         backgroundColor: Colors.white,
         titlePadding: EdgeInsets.zero,
 

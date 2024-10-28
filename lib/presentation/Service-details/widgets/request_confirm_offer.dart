@@ -56,7 +56,9 @@
 //         // HomeController.to.quantity.value =
 //         //     widget.offerDetails!.quantity!.toInt();
 //       },
-//       child: AlertDialog(
+//       child: AlertDialog( shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+    ),
 //         scrollable: true,
 //         backgroundColor: AppColors.strokeColor2,
 //         titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

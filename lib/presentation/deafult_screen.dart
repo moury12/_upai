@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
@@ -35,7 +36,9 @@ class DefaultScreen extends StatelessWidget {
             showDialog(
               context: context,
               builder: (context) {
-                return AlertDialog(
+                return AlertDialog( shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+    ),
                   backgroundColor: AppColors.strokeColor2,
                   title: Image.asset(
                     ImageConstant.upailogo1,

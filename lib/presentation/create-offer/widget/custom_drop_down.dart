@@ -25,6 +25,7 @@ class CustomDropDown<T> extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: DropdownButton<T>(
+
         dropdownColor: Colors.white, padding:EdgeInsets.symmetric(horizontal: 12) ,
         style: TextStyle(color: AppColors.kprimaryColor),
         iconEnabledColor: AppColors.kprimaryColor,
@@ -37,6 +38,7 @@ class CustomDropDown<T> extends StatelessWidget {
         ),
         items: menuList.map((element) {
           return DropdownMenuItem<T>(
+
             value: element,
             child: Text(element.toString()), // Convert element to string for display
           );
