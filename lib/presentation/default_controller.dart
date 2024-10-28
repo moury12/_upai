@@ -75,24 +75,24 @@ class DefaultController extends GetxController {
   var selectedColor = AppColors.kprimaryColor;
   RxInt selectedIndex = 0.obs;
   var unselected = AppColors.appTextColorGrey;
-  RxString appBarTitle = "upai".tr.obs;
+  RxString appBarTitle = "upai".obs;
 
   void onItemTapped(int index) {
     selectedIndex.value = index;
     switch (index) {
       case 0:
-        appBarTitle.value = "upai".tr;
+        appBarTitle.value = "upai";
         // if(HomeController.to.searchICon.value){
         //   HomeController.to.searchICon.value=false;
         // }
       case 1:
-        appBarTitle.value = "my_services".tr;
+        appBarTitle.value = "my_services";
       // case 2:
       //   appBarTitle.value="Explore";
       case 2:
-        appBarTitle.value = "inbox".tr;
+        appBarTitle.value = "inbox";
       case 3:
-        appBarTitle.value = "notification".tr;
+        appBarTitle.value = "notification";
       //
       // case 4:
       //   appBarTitle.value="Profile";

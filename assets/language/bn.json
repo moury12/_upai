@@ -14,7 +14,7 @@
   "please_enter_mobile": "দয়া করে আপনার মোবাইল নম্বর প্রবেশ করুন:",
   "please_enter_password": "দয়া করে আপনার পাসওয়ার্ড প্রবেশ করুন:",
   "enter_your_password": "আপনার পাসওয়ার্ড লিখুন",
-  "location": "অবস্থান",
+  "location": "লোকেশন",
   "service": "সেবা",
   "explore_top_services": "শীর্ষ সেবাগুলি অন্বেষণ করুন",
   "browse_all": "সবগুলো দেখুন >",
@@ -105,6 +105,5 @@
   "online": "অনলাইন",
   "last_seen": "সর্বশেষ দেখা হয়েছে",
   "type_a_message": "একটি বার্তা টাইপ করুন"
-
 
 }
