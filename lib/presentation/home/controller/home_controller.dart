@@ -66,8 +66,11 @@ class HomeController extends GetxController {
 
   Future<void> refreshAllData() async {
     ctrl = Get.put(ProfileScreenController());
+    getOfferList.clear();
+    newServiceList.clear();
+    currentPage.value=1;
+    currentPageForNewService.value=1;
     getCategoryList();
-
     getOfferDataList();
   }
 

@@ -211,6 +211,8 @@ class RepositoryData {
 
       Map<String, dynamic> data = jsonDecode(response.body.toString());
       List<dynamic> offerDataList = data['offerList'];
+      debugPrint(url);
+      // debugPrint(offerDataList.toString());
       if (data['status'] == "Success" && offerDataList.isNotEmpty) {
         offerList = offerDataList
             .map(

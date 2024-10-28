@@ -370,10 +370,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                             (index) => Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Text(widget
-                                                      .offerDetails!
-                                                      .package![index]
-                                                      .packageName ??
+                                              child: Text(widget.offerDetails!.package![index].duration ??
                                                   ''),
                                             ),
                                           )),
@@ -414,56 +411,56 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                               lable:
                                                   "৳ ${widget.offerDetails!.package![index].price ?? ''}",
                                             ),
-                                            PackageDetails(
-                                              title: "Duration",
-                                              lable:
-                                                  "${widget.offerDetails!.package![index].duration} Days",
-                                            ),
+                                            // PackageDetails(
+                                            //   title: "Duration",
+                                            //   lable:
+                                            //       "${widget.offerDetails!.package![index].duration}",
+                                            // ),
                                             // PackageDetails(
                                             //   title: "Revisions",
                                             //   lable: "4 Days",
                                             // ),
-                                            widget.offerDetails!.package![index]
-                                                    .serviceList!.isEmpty
-                                                ? SizedBox.shrink()
-                                                : Column(
-                                                    children: List.generate(
-                                                      widget
-                                                          .offerDetails!
-                                                          .package![index]
-                                                          .serviceList!
-                                                          .length,
-                                                      (serviceIndex) =>
-                                                          PackageDetails(
-                                                        title:
-                                                            "${widget.offerDetails!.package![index].serviceList![serviceIndex].serviceName}",
-                                                        ticMark: Icon(
-                                                          widget
-                                                                          .offerDetails!
-                                                                          .package![
-                                                                              index]
-                                                                          .serviceList![
-                                                                              serviceIndex]
-                                                                          .status!
-                                                                          .toLowerCase() ==
-                                                                      'true' ||
-                                                                  widget
-                                                                          .offerDetails!
-                                                                          .package![
-                                                                              index]
-                                                                          .serviceList![
-                                                                              serviceIndex]
-                                                                          .status!
-                                                                          .toLowerCase() ==
-                                                                      'yes'
-                                                              ? CupertinoIcons
-                                                                  .checkmark
-                                                              : CupertinoIcons
-                                                                  .clear,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
+                                            // widget.offerDetails!.package![index]
+                                            //         .serviceList!.isEmpty
+                                            //     ? SizedBox.shrink()
+                                            //     : Column(
+                                            //         children: List.generate(
+                                            //           widget
+                                            //               .offerDetails!
+                                            //               .package![index]
+                                            //               .serviceList!
+                                            //               .length,
+                                            //           (serviceIndex) =>
+                                            //               PackageDetails(
+                                            //             title:
+                                            //                 "${widget.offerDetails!.package![index].serviceList![serviceIndex].serviceName}",
+                                            //             ticMark: Icon(
+                                            //               widget
+                                            //                               .offerDetails!
+                                            //                               .package![
+                                            //                                   index]
+                                            //                               .serviceList![
+                                            //                                   serviceIndex]
+                                            //                               .status!
+                                            //                               .toLowerCase() ==
+                                            //                           'true' ||
+                                            //                       widget
+                                            //                               .offerDetails!
+                                            //                               .package![
+                                            //                                   index]
+                                            //                               .serviceList![
+                                            //                                   serviceIndex]
+                                            //                               .status!
+                                            //                               .toLowerCase() ==
+                                            //                           'yes'
+                                            //                   ? CupertinoIcons
+                                            //                       .checkmark
+                                            //                   : CupertinoIcons
+                                            //                       .clear,
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //       )
                                           ],
                                         ),
                                       ))
