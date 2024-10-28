@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Get.put(NetworkController());
     retrieveFavOffers();
+    HomeController.to.refreshAllData();
     scrollController.addListener(
       () {
         if (scrollController.position.pixels ==

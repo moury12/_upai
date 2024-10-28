@@ -228,25 +228,9 @@ class CreateOfferController extends GetxController {
     );
     if (pickedFile != null) {
       image.value = File(pickedFile.path);
-      // ctrl.update();
-      // ctrl.canEdit!.value = true;
-      // debugPrint('///////////////');
-      // debugPrint(ctrl.canEdit!.value.toString());
-      // setState(() {});
+
     } else {
-      // ctrl.canEdit.value = false;
-      // setState(() {
-      //
-      // });
-      // if (mounted) {
-      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //     content: Text(
-      //       "No Image Selected!",
-      //       style: TextStyle(color: Colors.white),
-      //     ),
-      //     backgroundColor: Colors.deepOrange,
-      //   ));
-      // }
+
     }
   }
   Future<void> editOffer(
