@@ -128,7 +128,7 @@ class MyServiceDetails extends StatelessWidget {
                                         (index) => Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(seller.package![index]
-                                                  .packageName ??
+                                                  .duration ??
                                               ''),
                                         ),
                                       )),
@@ -167,51 +167,51 @@ class MyServiceDetails extends StatelessWidget {
                                           lable:
                                               "৳ ${seller.package![index].price ?? ''}",
                                         ),
-                                        PackageDetails(
-                                          title: "Duration",
-                                          lable:
-                                              "${seller.package![index].duration} Days",
-                                        ),
+                                        // PackageDetails(
+                                        //   title: "Duration",
+                                        //   lable:
+                                        //       "${seller.package![index].duration} Days",
+                                        // ),
                                         // PackageDetails(
                                         //   title: "Revisions",
                                         //   lable: "4 Days",
                                         // ),
-                                        seller.package![index].serviceList!
-                                                .isEmpty
-                                            ? const SizedBox.shrink()
-                                            : Column(
-                                                children: List.generate(
-                                                  seller.package![index]
-                                                      .serviceList!.length,
-                                                  (serviceIndex) =>
-                                                      PackageDetails(
-                                                    title:
-                                                        "${seller.package![index].serviceList![serviceIndex].serviceName}",
-                                                    ticMark: Icon(
-                                                      seller
-                                                                      .package![
-                                                                          index]
-                                                                      .serviceList![
-                                                                          serviceIndex]
-                                                                      .status!
-                                                                      .toLowerCase() ==
-                                                                  'true' ||
-                                                              seller
-                                                                      .package![
-                                                                          index]
-                                                                      .serviceList![
-                                                                          serviceIndex]
-                                                                      .status!
-                                                                      .toLowerCase() ==
-                                                                  'yes'
-                                                          ? CupertinoIcons
-                                                              .checkmark
-                                                          : CupertinoIcons
-                                                              .clear,
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
+                                        // seller.package![index].serviceList!
+                                        //         .isEmpty
+                                        //     ? const SizedBox.shrink()
+                                        //     : Column(
+                                        //         children: List.generate(
+                                        //           seller.package![index]
+                                        //               .serviceList!.length,
+                                        //           (serviceIndex) =>
+                                        //               PackageDetails(
+                                        //             title:
+                                        //                 "${seller.package![index].serviceList![serviceIndex].serviceName}",
+                                        //             ticMark: Icon(
+                                        //               seller
+                                        //                               .package![
+                                        //                                   index]
+                                        //                               .serviceList![
+                                        //                                   serviceIndex]
+                                        //                               .status!
+                                        //                               .toLowerCase() ==
+                                        //                           'true' ||
+                                        //                       seller
+                                        //                               .package![
+                                        //                                   index]
+                                        //                               .serviceList![
+                                        //                                   serviceIndex]
+                                        //                               .status!
+                                        //                               .toLowerCase() ==
+                                        //                           'yes'
+                                        //                   ? CupertinoIcons
+                                        //                       .checkmark
+                                        //                   : CupertinoIcons
+                                        //                       .clear,
+                                        //             ),
+                                        //           ),
+                                        //         ),
+                                        //       )
                                       ],
                                     ),
                                   ))

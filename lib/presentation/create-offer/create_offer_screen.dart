@@ -585,6 +585,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                                           .now()
                                                                       .microsecondsSinceEpoch
                                                                       .toString());
+                                                              print(downloadUrl);
                                                               CreateOfferController
                                                                   .to
                                                                   .image
@@ -680,6 +681,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     // CreateOfferController.to.packageList.map((e) => e['service_list'].clear(),);
     CreateOfferController.to.selectedCategory.value = null;
     CreateOfferController.to.selectedDistrict.value = null;
+    CreateOfferController.to.selectedLevel.value = null;
     CreateOfferController.to.packageList.refresh();
     CreateOfferController.to.selectedServiceType.value = null;
 
