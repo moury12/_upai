@@ -85,6 +85,13 @@
   "confirm_offer": "অফার নিশ্চিত করুন",
   "completed_job": "সম্পন্ন কাজ",
   "posted_on": "প্রকাশিত হয়েছে",
-  "user_id": "ব্যবহারকারীর আইডি"
+  "user_id": "ব্যবহারকারীর আইডি",
+  "edit_offer": "অফার সম্পাদনা করুন",
+  "select_a_package_level": "একটি প্যাকেজ স্তর নির্বাচন করুন",
+  "next": "পরবর্তী",
+  "update_offer": "অফার আপডেট করুন",
+  "no_packages_available": "কোন প্যাকেজ উপলব্ধ নেই।",
+  "package_name": "প্যাকেজের নাম",
+  "please_enter_package_name": "দয়া করে প্যাকেজের নাম লিখুন।"
 
 }

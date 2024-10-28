@@ -102,6 +102,39 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
 
                 const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: DropdownButton<Locale>(
+                      value: Get.locale,
+                      icon: Icon(
+                        Icons.language,
+                        color: AppColors.kprimaryColor,
+                      ),
+                      items: [
+                        DropdownMenuItem(
+                          value: Locale('en'),
+                          child: Text('English'),
+                        ),
+                        DropdownMenuItem(
+                          value: Locale('bn'),
+                          child: Text('বাংলা'),
+                        ),
+                        // DropdownMenuItem(
+                        //   value: Locale('hi'),
+                        //   child: Text('Hindi'),
+                        // ),
+                        // DropdownMenuItem(
+                        //   value: Locale('fr'),
+                        //   child: Text('French'),
+                        // ),
+                      ],
+                      onChanged: (Locale? locale) {
+                        var localeCode = Locale(locale!.languageCode);
+                        Get.updateLocale(localeCode);
+
+                      },
+                    ),
+                  ),
                 _buildMenuOption(
                   icon: Icons.person,
                   label: 'profile'.tr,
@@ -160,6 +193,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Get.offAllNamed('/login');
                   },
                 ),
+
 
 
                 // const Align(

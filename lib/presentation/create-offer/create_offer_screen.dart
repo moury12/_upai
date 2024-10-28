@@ -81,7 +81,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
           actions: [IconButton(onPressed: () {
            debugPrint(CreateOfferController.to.packageList.toString()) ;
           }, icon: const Icon(Icons.add))],
-          title: Text(isEditArgument ? 'Edit Offer' : "Create New Offer",
+          title: Text(isEditArgument ? 'edit_offer' : "create_new_offer".tr,
               style: TextStyle(
                   color: AppColors.kprimaryColor,
                   fontSize: 16,
@@ -106,21 +106,21 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomTextField(
-                                label: "Title",
+                                label: "title".tr,
                                 isRequired: true,
-                                validatorText: "Please Enter Job Title",
+                                validatorText: "please_enter_job_title".tr,
 
-                                hintText: "Please Enter Job Title",
+                                hintText: "please_enter_job_title".tr,
                                 controller:
                                     CreateOfferController.to.titleController.value,
                                 // onChanged: (value) => controller.emailController.text.trim() = value!,
                               ),
                               defaultSizeBoxHeight,
                               CustomTextField(
-                                label: "Description",
+                                label: "description".tr,
                                 isRequired: true,
-                                validatorText: "Please Enter Job Description",
-                                hintText: "Please Enter Job Description",
+                                validatorText: "please_enter_job_description".tr,
+                                hintText: "please_enter_job_description".tr,
                                 controller: CreateOfferController
                                     .to.descriptionController.value,
                                 maxLines: 3,
@@ -134,7 +134,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   Column(
                                     children: [
                                       Text(
-                                        "Offer Image (optional)",
+                                        "offer_image_optional".tr,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             fontSize: 12,
@@ -187,7 +187,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       Row(
                                         children: [
                                           Text(
-                                            "Category Type",
+                                            "category_type".tr,
                                             style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 12,
@@ -207,7 +207,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       defaultSizeBoxHeight,
                                       Obx(() {
                                         return CustomDropDown<String>(
-                                          label: "Select a service type",
+                                          label: "select_service_type".tr,
                                           isEditArgument: isEditArgument,
                                           menuList: serviceType,
                                           value: CreateOfferController
@@ -223,13 +223,13 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 ],
                               ),
                               defaultSizeBoxHeight,
-                              const RequiredTitleWidget(
-                                name: "Category",
+                               RequiredTitleWidget(
+                                name: "category".tr,
                               ),
                               defaultSizeBoxHeight,
                               Obx(() {
                                 return CustomDropDown<dynamic>(
-                                  label: "Select a service Category",
+                                  label: "service_category".tr,
                                   isEditArgument: isEditArgument,
                                   menuList: HomeController.to.getCatList
                                       .map(
@@ -254,7 +254,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 children: [
                                   Obx(() {
                                     return CustomDropDown<dynamic>(
-                                      label: "Select a Package level",
+                                      label: "select_a_package_level".tr,
                                       // isEditArgument: isEditArgument,
                                       menuList:
                                           CreateOfferController.to.packageLevelList,
@@ -267,7 +267,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     );
                                   }),
                                   CustomButton(
-                                    title: 'Next',
+                                    title: 'next'.tr,
                                     onTap: () {
                                       CreateOfferController.to.nextProcess.value =
                                           true;
@@ -383,7 +383,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    "District",
+                                    "district".tr,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 12,
@@ -416,11 +416,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                               }),
                               defaultSizeBoxHeight,
                               CustomTextField(
-                                label: "Address",
+                                label: "address".tr,
                                 isRequired: true,
-                                validatorText: "Please Enter address",
+                                validatorText: "please_enter_address".tr,
 
-                                hintText: "Please Enter address",
+                                hintText: "please_enter_address".tr,
                                 controller: CreateOfferController
                                     .to.addressController.value,
                                 // onChanged: (value) => controller.emailController.text.trim() = value!,
@@ -467,8 +467,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                   ))
                                                 : CustomButton(
                                                     title: widget.service != null
-                                                        ? 'Update offer'
-                                                        : 'Create Offer',
+                                                        ? 'update_offer'.tr
+                                                        : 'create_offer'.tr,
                                                     onTap: () async {
                                                       {
                                                         CreateOfferController.to

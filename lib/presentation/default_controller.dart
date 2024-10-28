@@ -75,7 +75,7 @@ class DefaultController extends GetxController {
   var selectedColor = AppColors.kprimaryColor;
   RxInt selectedIndex = 0.obs;
   var unselected = AppColors.appTextColorGrey;
-  RxString appBarTitle = "Upai".obs;
+  RxString appBarTitle = "upai".tr.obs;
 
   void onItemTapped(int index) {
     selectedIndex.value = index;

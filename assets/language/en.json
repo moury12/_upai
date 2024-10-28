@@ -89,9 +89,14 @@
   "confirm_offer": "Confirm Offer",
   "completed_job": "Completed Job",
   "posted_on": "Posted On",
-  "user_id": "User ID"
+  "user_id": "User ID",
 
+  "edit_offer": "Edit Offer",
+  "select_a_package_level": "Select a Package Level",
+  "next": "Next",
+  "update_offer": "Update Offer",
 
-
-
+  "no_packages_available": "No packages available.",
+  "package_name": "Package Name",
+  "please_enter_package_name": "Please enter package name."
 }

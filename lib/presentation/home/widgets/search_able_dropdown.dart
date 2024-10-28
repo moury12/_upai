@@ -102,9 +102,9 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                     return Text(
                       widget.fromHome!
                           ? HomeController.to.selectedDistrictForAll.value ??
-                              'Select district'
+                              'select_district'.tr
                           : CreateOfferController.to.selectedDistrict.value ??
-                              'Select district',
+                          'select_district'.tr,
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: widget.fromHome!

@@ -83,7 +83,7 @@ class DefaultScreen extends StatelessWidget {
                       fit: BoxFit.fitHeight,
                     )
                   : Text(
-                      ctrl.appBarTitle.value,
+                      ctrl.appBarTitle.value.tr,
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w600,

@@ -63,11 +63,11 @@ class PackageCreateWidget extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: CustomTextField(
-                                      label: "Package Name",
+                                      label: "package_name".tr,
                                       isRequired: true,
                                       validatorText:
-                                          "Please Enter package name",
-                                      hintText: "Please Enter package name",
+                                          "please_enter_package_name".tr,
+                                      hintText: "please_enter_package_name".tr,
                                       onChanged: (value) {
                                         CreateOfferController
                                                 .to.packageList[index]
@@ -82,10 +82,10 @@ class PackageCreateWidget extends StatelessWidget {
                                   defaultSizeBoxWidth,
                                   Expanded(
                                     child: CustomTextField(
-                                      label: "Price",
+                                      label: "price".tr,
                                       isRequired: true,
-                                      validatorText: "Please Enter Price",
-                                      hintText: "Please Enter Price",
+                                      validatorText: "please_enter_price".tr,
+                                      hintText:"please_enter_price".tr,
                                       inputType: TextInputType.number,
                                       controller: CreateOfferController
                                           .to.packagePriceControllers[index],
@@ -105,9 +105,9 @@ class PackageCreateWidget extends StatelessWidget {
                                 children: [
                                   defaultSizeBoxHeight,
                                   CustomTextField(
-                                    label: "Package Description",
-                                    validatorText: "Please Enter Description",
-                                    hintText: "Please Enter Description",
+                                    label: "package_description".tr,
+                                    validatorText: "please_enter_description".tr,
+                                    hintText: "please_enter_description".tr,
                                     maxLines: 3,
                                     onChanged: (value) {
                                       CreateOfferController
