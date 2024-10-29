@@ -63,7 +63,7 @@ class InboxScreen extends StatelessWidget {
                           ctrl.update();
                         },
                         decoration:
-                        InputDecoration(fillColor: AppColors.textFieldBackGround, filled: true, hintText: "Search By Name|User ID", hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500), border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(6))),
+                        InputDecoration(fillColor: AppColors.textFieldBackGround, filled: true, hintText: "search_by_name_uid".tr, hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500), border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(6))),
                       ),
                     ),
                     const SizedBox(
