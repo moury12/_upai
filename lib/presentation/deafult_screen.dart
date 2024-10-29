@@ -85,6 +85,7 @@ class DefaultScreen extends StatelessWidget {
                   : Text(
                       ctrl.appBarTitle.value.tr,
                       style: TextStyle(
+
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
                       ),

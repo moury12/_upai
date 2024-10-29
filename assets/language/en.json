@@ -110,5 +110,10 @@
   "tap_here": "Tap here",
   "online": "Online",
   "last_seen": "Last seen",
-  "type_a_message": "Type a message"
+  "type_a_message": "Type a message",
+
+
+  "inprogress": "",
+  "You have already reviewed the order": ""
+
 }

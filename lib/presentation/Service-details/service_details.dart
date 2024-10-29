@@ -67,7 +67,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         onPressed: () async {
           if (ProfileScreenController.to.userInfo.value.userId ==
               widget.offerDetails!.userId) {
-            showCustomSnackbar(title: 'Alert!', message: "This is your own service", type: SnackBarType.alert);
+            showCustomSnackbar(title: 'alert'.tr, message: "this_is_your_own_service".tr, type: SnackBarType.alert);
           } else {
             UserInfoModel senderData = UserInfoModel();
             Map<String, dynamic>? userDetails;
@@ -124,7 +124,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 width: 8,
               ),
               Text(
-                "chat",
+                "chat".tr,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,

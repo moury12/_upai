@@ -26,7 +26,7 @@ class _FavouriteOfferScreenState extends State<FavouriteOfferScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor:AppColors.kprimaryColor,foregroundColor: Colors.white,title: Text('Favourite Offer', style: AppTextStyle.appBarTitle),),
+      appBar: AppBar(backgroundColor:AppColors.kprimaryColor,foregroundColor: Colors.white,title: Text('favourite_offer'.tr, style: AppTextStyle.appBarTitle),),
       body: Obx(
          () {
           return ListView.builder(

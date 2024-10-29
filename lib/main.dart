@@ -92,8 +92,8 @@ class _MyAppState extends State<MyApp> {
         'width, height${MediaQuery.of(context).size.width},${MediaQuery.of(context).size.height}');
     return GetMaterialApp(
       translationsKeys: widget.translations,
-        locale: const Locale('bn'),
-        fallbackLocale: const Locale('bn'),
+        locale: const Locale('en'),
+        fallbackLocale: const Locale('en'),
         debugShowCheckedModeBanner: false,
         title: 'Upai',
         theme: ThemeData(

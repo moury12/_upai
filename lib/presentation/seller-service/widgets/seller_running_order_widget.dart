@@ -239,7 +239,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                             child: FittedBox(
                               child: Text(
                                   textAlign: TextAlign.center,
-                                  '${widget.sellerRunningOrder.status ?? ''}',
+                                  widget.sellerRunningOrder.status?? '',
                                   style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500)),

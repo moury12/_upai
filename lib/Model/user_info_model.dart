@@ -42,7 +42,7 @@ class UserInfoModel {
     name: json["name"]??'Unknown User',
     mobile: json["mobile"]??'0100000000',
     email: json["email"]??'example@gmail.com',
-    image: json["image"]??"https://firebasestorage.googleapis.com/v0/b/chatappprac-d7a2b.appspot.com/o/ProfileImages%2FdummyProfile%2F9685678.jpg?alt=media&token=af503c8a-fa2a-45d1-9af4-8a3c81f4f227",
+    image: json["image"]??"",
     isOnline: json["is_online"]??false,
     lastActive: json["last_active"]??'',
     pushToken: json["push_token"]??'',

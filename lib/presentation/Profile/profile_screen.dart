@@ -169,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8))),
-                        child: const Text("Update Profile"),
+                        child:Text("update_profile".tr),
                       ),
                     ),
                   ),
