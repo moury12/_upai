@@ -103,6 +103,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
                 const SizedBox(height: 20),
                   Align(
+
                     alignment: Alignment.bottomRight,
                     child: DropdownButton<Locale>(
                       value: Get.locale,
