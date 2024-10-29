@@ -12,11 +12,12 @@ import 'package:upai/widgets/custom_network_image.dart';
 import '../../../data/repository/repository_details.dart';
 
 class SellerRunningOrderWidget extends StatefulWidget {
+  final bool? isBuyer;
   final Function()? jobStatus;
   const SellerRunningOrderWidget({
     super.key,
     required this.sellerRunningOrder,
-    this.jobStatus,
+    this.jobStatus,  this.isBuyer=false,
   });
 
   final SellerRunningOrder sellerRunningOrder;
@@ -43,7 +44,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap:widget.isBuyer==true?null: () {
         showDialog(
           context: context,
           builder: (context) {
@@ -223,7 +224,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                                 width: 2,
                               ),
                               Text(
-                                  '${widget.sellerRunningOrder.packageName ?? ''}',
+                                  '${widget.sellerRunningOrder.duration ?? ''}',
                                   style: const TextStyle(
                                     fontSize: 12,
                                   )),

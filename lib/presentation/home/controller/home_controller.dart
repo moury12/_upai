@@ -182,7 +182,7 @@ Future<OfferList?> findServiceByOfferID({ required String offerId})async{
         }
       }
 
-      // New Offers Logic
+      // default Offers Logic
       if (defaultOffer.isNotEmpty) {
         if (loadMoreData) {
           getOfferList.addAll(defaultOffer);
@@ -196,6 +196,7 @@ Future<OfferList?> findServiceByOfferID({ required String offerId})async{
         }
       } else if (!loadMoreData) {
 
+        getOfferList.clear();
         getOfferList.refresh(); // Ensure the UI updates
       }
 

@@ -57,8 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
           color: AppColors.kprimaryColor,
           backgroundColor: Colors.white,
           onRefresh: () {
-            resetData();
-            return controller.refreshAllData();
+        return resetData();
+            // return controller.refreshAllData();
           },
           child: SizedBox(
             height: screenHeight,

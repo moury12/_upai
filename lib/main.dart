@@ -88,8 +88,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(
-        'width, height${MediaQuery.of(context).size.width},${MediaQuery.of(context).size.height}');
+
     return GetMaterialApp(
       translationsKeys: widget.translations,
         locale: const Locale('en'),
@@ -102,26 +101,29 @@ class _MyAppState extends State<MyApp> {
               foregroundColor: AppColors.colorWhite,
               backgroundColor: AppColors.kprimaryColor,
               centerTitle: true),
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-              backgroundColor: AppColors.kprimaryColor),
-          primaryColor: Colors.white,
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+              ),
+          primaryColor: AppColors.kprimaryColor,
           useMaterial3: true,
+          splashColor:AppColors.kprimaryColor.withOpacity(.2),
+         shadowColor: AppColors.kprimaryColor.withOpacity(.2),
+
         ),
         initialRoute: '/',
         getPages: [
           GetPage(name: '/', page: () => const SplashScreen()),
-          GetPage(name: '/inbox', page: () => InboxScreen()),
+          GetPage(name: '/inbox', page: () => const InboxScreen()),
           GetPage(name: '/home', page: () => const HomeScreen()),
           GetPage(name: '/chatscreen', page: () => ChatScreen()),
           GetPage(name: '/defaultscreen', page: () => DefaultScreen()),
           GetPage(name: '/login', page: () => const LoginScreen()),
           GetPage(
               name: '/profile',
-              page: () => ProfileScreen(),
+              page: () => const ProfileScreen(),
               binding: ProfileBinding()),
           GetPage(
               name: ServiceListScreen.routeName,
-              page: () => ServiceListScreen()),
+              page: () => const ServiceListScreen()),
           GetPage(name: ServiceDetails.routeName, page: () => ServiceDetails()),
           GetPage(
               name: CategoryListScreen.routeName,

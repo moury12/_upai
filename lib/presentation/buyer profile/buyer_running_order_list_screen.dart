@@ -44,6 +44,7 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         print("count $index");
                         return SellerRunningOrderWidget(
+                          isBuyer: true,
                           sellerRunningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
                         );
                       },
