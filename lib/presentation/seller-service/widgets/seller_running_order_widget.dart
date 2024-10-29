@@ -5,6 +5,7 @@ import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 import 'package:upai/widgets/custom_network_image.dart';
@@ -46,7 +47,9 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
         showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
+            return AlertDialog( shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+    ),
               backgroundColor: AppColors.strokeColor2,
               title: const Icon(
                 Icons.task_alt_outlined,

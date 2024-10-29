@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/controllers/filter_controller.dart';
@@ -110,8 +109,10 @@ class FilterDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+      ),
       surfaceTintColor: Colors.white,
       backgroundColor: Colors.white,
       titlePadding: EdgeInsets.zero,
@@ -124,17 +125,20 @@ class FilterDialog extends StatelessWidget {
               'search_filter'.tr,
               style: AppTextStyle.bodyMediumBlackBold,
             ),
-            CustomTextButton(label: 'reset'.tr, onChange: () {
-              resetData(showSnackbar: false);
-              Navigator.pop(context);
-            },)
+            CustomTextButton(
+              label: 'reset'.tr,
+              onChange: () {
+                resetData(showSnackbar: false);
+                Navigator.pop(context);
+              },
+            )
+
             // CustomButton(text: 'Reset', onTap: (){
             //
             // },)
           ],
         ),
       ),
-
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,9 +173,9 @@ class FilterDialog extends StatelessWidget {
             return FilterDropdown<String?>(
               menuList: const ['Rating', 'Newest Arrival', 'Best Selling'],
               value: FilterController.to.selectedSortBy.value,
-              onChanged:  (val) {
-                      FilterController.to.selectedSortBy.value = val;
-                    },
+              onChanged: (val) {
+                FilterController.to.selectedSortBy.value = val;
+              },
               label: '${'select_sort_by'.tr}',
               title: '${'sort_by'.tr}',
             );
@@ -194,10 +198,11 @@ class FilterDialog extends StatelessWidget {
           label: 'apply'.tr,
           onChange: () {
             FilterController.to.checkIfFilterValueIsEmpty();
-            print("isFilterValueEmpty: ${FilterController.to.isFilterValueEmpty.value}");
+            print(
+                "isFilterValueEmpty: ${FilterController.to.isFilterValueEmpty.value}");
             HomeController.to.getOfferDataList();
-            HomeController.to.currentPage.value=1;
-            HomeController.to.currentPageForNewService.value=1;
+            HomeController.to.currentPage.value = 1;
+            HomeController.to.currentPageForNewService.value = 1;
 
             Navigator.pop(context);
           },

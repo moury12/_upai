@@ -181,7 +181,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   )
                 : Obx(() {
                     return Text(
-                      "${'confirm_offer'.tr}  ( ${widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].packageName} )",
+                      "${'confirm_offer'.tr}  ( ${widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].duration} )",
                       style: AppTextStyle.bodySmallwhite,
                     );
                   }),

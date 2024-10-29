@@ -100,11 +100,14 @@ class _CreateOfferButtonState extends State<CreateOfferButton>
                   child: Center(
                     child: Text(
                       '+',
+                      textAlign: TextAlign.center,
+
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 25,
+                        height: 1,
                         color: Colors.white,
-                        fontWeight: FontWeight.lerp(FontWeight.bold,
-                            FontWeight.normal, textBoldAnimation.value),
+                        fontWeight: FontWeight.lerp(FontWeight.w900,
+                            FontWeight.w500, textBoldAnimation.value),
                       ),
                     ),
                   ),

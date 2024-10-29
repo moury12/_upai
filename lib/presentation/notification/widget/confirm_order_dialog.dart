@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/presentation/Service-details/service_details.dart';
 import '../../../Model/notification_model.dart';
 import '../../../data/repository/repository_details.dart';
@@ -21,7 +22,9 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
   Widget build(BuildContext context) {
     return PopScope(
         onPopInvoked: (didPop) {},
-        child: AlertDialog(
+        child: AlertDialog( shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
+    ),
             scrollable: true,
             backgroundColor: AppColors.strokeColor2,
             titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
