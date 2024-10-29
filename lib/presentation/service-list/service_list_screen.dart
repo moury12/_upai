@@ -93,108 +93,118 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
           onRefresh: () async {
             resetData();
           },
-          child: Column(
-            children: [
-              widget.isTopService == true
-                  ? const SizedBox.shrink()
-                  : FilterBanner(
-                      isService: true,
-                      isNewestArrival: widget.isNewService,
-                    ),
-              widget.isTopService == true
-                  ? const SizedBox.shrink()
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Obx(() {
-                        return CustomTextField(
-                          controller: controller.searchOfferController.value,
-                          onChanged: (value) {
-                           controller.getOfferDataList();
-                            // controller.getOfferList.refresh();
-                          },
-                          hintText: "${'search_service'.tr}..",
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              Icons.cancel,
-                              color: AppColors.kprimaryColor,
+          child: Obx(
+           () {
+              return Column(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  widget.isTopService == true
+                      ? const SizedBox.shrink()
+                      : FilterBanner(
+                          isService: true,
+                          isNewestArrival: widget.isNewService,
+                        ),
+                  widget.isTopService == true
+                      ? const SizedBox.shrink()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child:  CustomTextField(
+                              controller: controller.searchOfferController.value,
+                              onChanged: (value) {
+                               controller.getOfferDataList();
+                                // controller.getOfferList.refresh();
+                              },
+                              hintText: "${'search_service'.tr}..",
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  Icons.cancel,
+                                  color: AppColors.kprimaryColor,
+                                ),
+                                onPressed: () {
+                                  controller.searchOfferController.value.clear();
+                                  controller.getOfferDataList();
+                                  // controller.filterOffer('',
+                                  //     HomeController.to.selectedDistrictForAll.value);
+                                },
+                              ),
                             ),
-                            onPressed: () {
-                              controller.searchOfferController.value.clear();
-                              controller.getOfferDataList();
-                              // controller.filterOffer('',
-                              //     HomeController.to.selectedDistrictForAll.value);
-                            },
+                        ),
+                  defaultSizeBoxHeight,
+                  FilterController
+                      .to.isFilterValueEmpty.value
+                      ? SizedBox.shrink(): Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Text(
+                        '${FilterController.to.selectedServiceType.value != null ? '${FilterController.to.selectedServiceType.value} > ' : ''}${FilterController.to.selectedCategory.value != null ? '${FilterController.to.selectedCategory.value} > ' : ''}${FilterController.to.selectedSortBy.value != null ? '${FilterController.to.selectedSortBy.value} > ' : ''}',
+                        style: AppTextStyle.titleText),
+                      ),
+                  Obx(
+                    () {
+                      if (!NetworkController.to.connectedInternet.value||controller.isServiceListLoading.value) {
+                        return Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0).copyWith(top: 0),
+                            child: const ShimmerRunnigOrder(
+                              // fromServiceList: true,
+                            ),
                           ),
                         );
-                      }),
-                    ),
-              defaultSizeBoxHeight,
-              Obx(
-                () {
-                  if (!NetworkController.to.connectedInternet.value||controller.isServiceListLoading.value) {
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0).copyWith(top: 0),
-                        child: const ShimmerRunnigOrder(
-                          // fromServiceList: true,
-                        ),
-                      ),
-                    );
-                  } else if ((widget.isTopService == true &&
-                          controller.topServiceList.isEmpty) ||
-                      (widget.isNewService == true &&
-                          controller.newServiceList.isEmpty) ||
-                      controller.getOfferList.isEmpty) {
-                    return const Expanded(
-                      child: SingleChildScrollView(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          child: NoServiceWidget()),
-                    );
-                  } else {
-                    return Expanded(
-                        child: ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(8),
-                      shrinkWrap: true,
-                      controller: scrollController,
-                      itemCount: widget.isTopService == true
-                          ? controller.topServiceList.length
-                          : widget.isNewService == true
-                              ? controller.newServiceList.length
-                              : controller.getOfferList.length,
-                      itemBuilder: (context, index) {
-                        OfferList service = widget.isTopService == true
-                            ? controller.topServiceList[index]
-                            : widget.isNewService == true
-                                ? controller.newServiceList[index]
-                                : controller.getOfferList[index];
-                        return InkWell(
-                          onTap: () {
-                            Get.to(
-                              ServiceDetails(
-                                offerDetails: service,
+                      } else if ((widget.isTopService == true &&
+                              controller.topServiceList.isEmpty) ||
+                          (widget.isNewService == true &&
+                              controller.newServiceList.isEmpty) ||
+                          controller.getOfferList.isEmpty) {
+                        return const Expanded(
+                          child: SingleChildScrollView(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              child: NoServiceWidget()),
+                        );
+                      } else {
+                        return Expanded(
+                            child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.all(8),
+                          shrinkWrap: true,
+                          controller: scrollController,
+                          itemCount: widget.isTopService == true
+                              ? controller.topServiceList.length
+                              : widget.isNewService == true
+                                  ? controller.newServiceList.length
+                                  : controller.getOfferList.length,
+                          itemBuilder: (context, index) {
+                            OfferList service = widget.isTopService == true
+                                ? controller.topServiceList[index]
+                                : widget.isNewService == true
+                                    ? controller.newServiceList[index]
+                                    : controller.getOfferList[index];
+                            return InkWell(
+                              onTap: () {
+                                Get.to(
+                                  ServiceDetails(
+                                    offerDetails: service,
+                                  ),
+                                );
+                              },
+                              child: ServiceOfferWidget(
+                                index: index,
+                                offerItem: service,
                               ),
                             );
                           },
-                          child: ServiceOfferWidget(
-                            index: index,
-                            offerItem: service,
-                          ),
-                        );
-                      },
-                    ));
-                  }
-                },
-              ),
-             Obx(
-                () {if(HomeController.to.isLoadingMore.value){
-                  return   DefaultCircularProgressIndicator();}else{return SizedBox.shrink();}
-                }
-              ),
-              const SizedBox(
-                height: 8,
-              )
-            ],
+                        ));
+                      }
+                    },
+                  ),
+                 Obx(
+                    () {if(HomeController.to.isLoadingMore.value){
+                      return   DefaultCircularProgressIndicator();}else{return SizedBox.shrink();}
+                    }
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  )
+                ],
+              );
+            }
           ),
         ));
   }

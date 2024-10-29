@@ -402,10 +402,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                     style: AppTextStyle
                                                         .bodySmallGrey400,
                                                   ),
-                                            widget.offerDetails!.package![index]
-                                                    .packageDescription!.isEmpty
-                                                ? SizedBox.shrink()
-                                                : defaultSizeBoxHeight,
+
                                             PackageDetails(
                                               title: "Price",
                                               lable:

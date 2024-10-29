@@ -72,7 +72,7 @@ class MyServiceWidget extends StatelessWidget {
                                fontSize: 11, fontWeight: FontWeight.w400),
                          ),
                          Text(
-                             '৳  ${isService ?service!.package!.isEmpty?'0': service!.package![0].price ?? '0' :offerItem!.package!.isEmpty ? '0': offerItem?.package![0].price ?? '0'}',
+                             '৳ ${isService ?service!.package!.isEmpty?'0': service!.package![0].price ?? '0' :offerItem!.package!.isEmpty ? '0': offerItem?.package![0].price ?? '0'}',
                              style: TextStyle(
                                  fontSize: 14,
                                  fontWeight: FontWeight.w700)),
