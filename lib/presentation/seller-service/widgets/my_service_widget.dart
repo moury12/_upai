@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/controllers/image_controller.dart';
+import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 class MyServiceWidget extends StatelessWidget {
@@ -63,22 +64,29 @@ class MyServiceWidget extends StatelessWidget {
                   ):const SizedBox.shrink(),
                   Row(
                     children: [
-                      Expanded(
-                        child: Text(
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-
-                          'From ৳ ${isService ?service!.package!.isEmpty?'0': service!.package![0].price ?? '0' :offerItem!.package!.isEmpty ? '0': offerItem?.package![0].price ?? '0'}',
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600,),
-                        ),
-                      ),
-                      offerItem!=null?Row(children: [
-                        const Padding(
+                     Expanded(
+                       child: Row(children: [
+                         Text(
+                           'From ',
+                           style: TextStyle(
+                               fontSize: 11, fontWeight: FontWeight.w400),
+                         ),
+                         Text(
+                             '৳  ${isService ?service!.package!.isEmpty?'0': service!.package![0].price ?? '0' :offerItem!.package!.isEmpty ? '0': offerItem?.package![0].price ?? '0'}',
+                             style: TextStyle(
+                                 fontSize: 14,
+                                 fontWeight: FontWeight.w700)),
+                       ],),
+                     ),
+                      offerItem!=null?Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                         Padding(
                           padding: EdgeInsets.only(top: 2.0),
                           child: Icon(
                             CupertinoIcons.star_fill,
                             size: 15,
+                            color: AppColors.kprimaryColor,
                           ),
                         ),
                         const SizedBox(

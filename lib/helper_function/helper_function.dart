@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -123,17 +124,17 @@ void showCustomSnackbar({
   );
 }
 
-void resetData({bool showSnackbar=true}) {
+Future<void> resetData({bool showSnackbar=true}) async{
   if(!FilterController.to.isFilterValueEmpty.value ||
-      HomeController.to.selectedDistrictForAll.value!= null||HomeController.to.searchOfferController.value.text.isNotEmpty){
+      HomeController.to.selectedDistrictForAll.value!= null||
+      HomeController.to.searchOfferController.value.text.isNotEmpty){
     HomeController.to.searchOfferController.value.clear();
     HomeController.to.selectedDistrictForAll.value = null;
     FilterController.to.selectedSortBy.value = null;
     FilterController.to.selectedServiceType.value = null;
     FilterController.to.selectedCategory.value = null;
     HomeController.to.searchFocus.unfocus();
-    HomeController.to.getOfferDataList();
-    HomeController.to.getOfferList.refresh();
+
     FilterController.to.checkIfFilterValueIsEmpty();
   if(showSnackbar) {
     showCustomSnackbar(
@@ -142,5 +143,6 @@ void resetData({bool showSnackbar=true}) {
         type: SnackBarType.success);
   }
   }
+  HomeController.to.refreshAllData();
 }
 

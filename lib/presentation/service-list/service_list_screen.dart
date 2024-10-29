@@ -109,8 +109,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                         return CustomTextField(
                           controller: controller.searchOfferController.value,
                           onChanged: (value) {
-                            controller.getOfferDataList();
-                            controller.getOfferList.refresh();
+                           controller.getOfferDataList();
+                            // controller.getOfferList.refresh();
                           },
                           hintText: "${'search_service'.tr}..",
                           suffixIcon: IconButton(

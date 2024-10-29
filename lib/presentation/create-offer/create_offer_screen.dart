@@ -266,14 +266,17 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       },
                                     );
                                   }),
-                                  CustomButton(
-                                    title: 'next'.tr,
-                                    onTap: () {
-                                      CreateOfferController.to.nextProcess.value =
-                                          true;
-                                      CreateOfferController.to.populatePackageList( CreateOfferController.to.selectedLevel.value??3);
-                                      // CreateOfferController.to.update();
-                                    },
+                                  defaultSizeBoxWidth,
+                                  Expanded(
+                                    child: CustomButton(
+                                      title: 'next'.tr,
+                                      onTap: () {
+                                        CreateOfferController.to.nextProcess.value =
+                                            true;
+                                        CreateOfferController.to.populatePackageList( CreateOfferController.to.selectedLevel.value??3);
+                                        // CreateOfferController.to.update();
+                                      },
+                                    ),
                                   )
                                 ],
                               ),
