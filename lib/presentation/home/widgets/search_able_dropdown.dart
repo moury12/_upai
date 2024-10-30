@@ -93,7 +93,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
               padding: const EdgeInsets.all(8),
               // margin: EdgeInsets.all(0),
               decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: AppColors.kprimaryColor),
+                  border: Border.all(width: 1, color: Colors.grey),
                   borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,28 +107,28 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                           'select_district'.tr,
                       style: TextStyle(
                           fontSize: 15,
-                          fontWeight: widget.fromHome!
-                              ? HomeController
-                                          .to.selectedDistrictForAll.value !=
-                                      null
-                                  ? FontWeight.w400
-                                  : FontWeight.w600
-                              : CreateOfferController
-                                          .to.selectedDistrict.value !=
-                                      null
-                                  ? FontWeight.w400
-                                  : FontWeight.w600,
+                          // fontWeight: widget.fromHome!
+                          //     ? HomeController
+                          //                 .to.selectedDistrictForAll.value !=
+                          //             null
+                          //         ? FontWeight.w400
+                          //         : FontWeight.w600
+                          //     : CreateOfferController
+                          //                 .to.selectedDistrict.value !=
+                          //             null
+                          //         ? FontWeight.w400
+                          //         : FontWeight.w600,
                           color: widget.fromHome!
                               ? HomeController
                                           .to.selectedDistrictForAll.value !=
                                       null
                                   ? AppColors.kprimaryColor
-                                  : AppColors.deepGreyColor
+                                  : Colors.grey
                               : CreateOfferController
                                           .to.selectedDistrict.value !=
                                       null
                                   ? AppColors.kprimaryColor
-                                  : AppColors.kprimaryColor.withOpacity(.6)),
+                                  : Colors.grey),
                     );
                   }),
                   Icon(

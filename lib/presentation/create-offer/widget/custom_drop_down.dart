@@ -21,7 +21,7 @@ class CustomDropDown<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.kprimaryColor),
+        border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(12),
       ),
       child: DropdownButton<T>(
@@ -34,7 +34,7 @@ class CustomDropDown<T> extends StatelessWidget {
         value: value,
         hint: Text(
           label,
-          style: TextStyle(color: AppColors.kprimaryColor),
+          style: TextStyle(color: Colors.grey),
         ),
         items: menuList.map((element) {
           return DropdownMenuItem<T>(

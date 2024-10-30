@@ -164,6 +164,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     (ServiceDetailsController.to.tabIndex.value + 1).toString(),
                     packageName!,
                     packagePrice!);
+                Navigator.pop(context);
               }
             },
             style: ElevatedButton.styleFrom(

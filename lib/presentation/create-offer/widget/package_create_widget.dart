@@ -17,7 +17,7 @@ class PackageCreateWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.kprimaryColor, width: 1.5)),
+          border: Border.all(color: Colors.grey, width: 1.5)),
       child: DefaultTabController(
         length: CreateOfferController.to.packageList.length,
         child: Obx(() {
@@ -48,8 +48,9 @@ class PackageCreateWidget extends StatelessWidget {
                           ),
                         ),
                       ],
-                      indicatorColor: AppColors.kprimaryColor,
+                      indicatorColor: Colors.green,
                       labelColor: AppColors.kprimaryColor,
+
                     ),
               TabContentView(
                 children: CreateOfferController.to.packageList.isNotEmpty

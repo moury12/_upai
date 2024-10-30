@@ -31,7 +31,6 @@ class CreateOfferController extends GetxController {
   final _picker = ImagePicker();
   String img = '';
   RxDouble uploadProgress = 0.0.obs;
-  RxBool isUploading = false.obs;
   RxBool isLoading = false.obs;
   RxBool nextProcess = false.obs;
   Rx<String?> selectedDistrict = Rx<String?>(null);
@@ -173,6 +172,7 @@ class CreateOfferController extends GetxController {
     required String address,
   }) async {
     Map<String, dynamic> data = jsonDecode(box.get("user"));
+    isLoading.value=true;
     await RepositoryData.createOffer(
         token: FirebaseAPIs.user['token'].toString(),
         body: {
@@ -188,6 +188,7 @@ class CreateOfferController extends GetxController {
           "service_type": selectedServiceType.value,
           "package": packageList
         });
+    isLoading.value=false;
     await SellerProfileController.to.refreshAllData();
     await HomeController.to.refreshAllData();
   }
@@ -195,9 +196,9 @@ class CreateOfferController extends GetxController {
   Future<void> getImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
       source: source,
-      imageQuality: 80,
-      maxHeight: 1000,
-      maxWidth: 1000,
+      imageQuality: 50,
+      maxHeight: 800,
+      maxWidth: 800,
     );
     if (pickedFile != null) {
       image.value = File(pickedFile.path);
@@ -289,7 +290,7 @@ class CreateOfferController extends GetxController {
   }
 
   Future<String?> uploadImage(String offerId) async {
-    isUploading.value = true;
+    isLoading.value = true;
 
     try {
       final storageRef = FirebaseStorage.instance
@@ -320,13 +321,13 @@ class CreateOfferController extends GetxController {
           .doc(offerId)
           .set({'imageUrl': downloadUrl});
 
-      isUploading.value = false;
+      isLoading.value = false;
       image.value = null;
 
       // Return the download URL
       return downloadUrl;
     } catch (e) {
-      isUploading.value = false;
+      isLoading.value = false;
       image.value = null;
       return null;
     }

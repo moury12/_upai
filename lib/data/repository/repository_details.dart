@@ -414,10 +414,7 @@ class RepositoryData {
     debugPrint('response body $responseData');
 
     if (responseData['status'] != null && responseData['status'] == 'Success') {
-      showCustomSnackbar(
-          title: 'Success',
-          message: responseData['message'],
-          type: SnackBarType.success);
+
       UserInfoModel senderData = UserInfoModel();
       Map<String, dynamic>? userDetails;
       userDetails = await FirebaseAPIs().getSenderInfo(sellerID);
@@ -452,6 +449,11 @@ class RepositoryData {
             "Confirm offer request",
             "${ProfileScreenController.to.userInfo.value.name.toString()} send you request for confirm order\nOffer title:${body["job_title"]}");
       }
+      showCustomSnackbar(
+          title: 'Success',
+          message: responseData['message'],
+          type: SnackBarType.success);
+
     } else {
       showCustomSnackbar(
           title: 'Failed',

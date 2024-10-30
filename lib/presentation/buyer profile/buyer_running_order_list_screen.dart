@@ -17,11 +17,8 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-        backgroundColor: AppColors.strokeColor2,
         appBar: AppBar(
-
           title: Text(
             "buyer_running_orders".tr,
             style: AppTextStyle.appBarTitle,
@@ -31,25 +28,28 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
           return RefreshIndicator(
             color: AppColors.kprimaryColor,
             backgroundColor: AppColors.strokeColor2,
-            child: BuyerProfileController.to.buyer.value.buyerRunningOrder!.isEmpty
-                ? const Center(child: Text("No Running order"))
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                //   child: ShimmerRunnigOrder(forList: true,),
-                // )
-                : Container(
-                    child: ListView.builder(
-                      padding: EdgeInsets.all(12),
-                      itemCount: BuyerProfileController.to.buyer.value.buyerRunningOrder!.length,
-                      itemBuilder: (context, index) {
-                        print("count $index");
-                        return SellerRunningOrderWidget(
-                          isBuyer: true,
-                          sellerRunningOrder: BuyerProfileController.to.buyer.value.buyerRunningOrder![index],
-                        );
-                      },
-                    ),
-                  ),
+            child:
+                BuyerProfileController.to.buyer.value.buyerRunningOrder!.isEmpty
+                    ? const Center(child: Text("No Running order"))
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    //   child: ShimmerRunnigOrder(forList: true,),
+                    // )
+                    : Container(
+                        child: ListView.builder(
+                          padding: EdgeInsets.all(12),
+                          itemCount: BuyerProfileController
+                              .to.buyer.value.buyerRunningOrder!.length,
+                          itemBuilder: (context, index) {
+                            print("count $index");
+                            return SellerRunningOrderWidget(
+                              isBuyer: true,
+                              sellerRunningOrder: BuyerProfileController
+                                  .to.buyer.value.buyerRunningOrder![index],
+                            );
+                          },
+                        ),
+                      ),
             onRefresh: () {
               return BuyerProfileController.to.refreshAllData();
             },
