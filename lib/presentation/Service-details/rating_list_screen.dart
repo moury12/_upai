@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upai/Model/offer_list_model.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/presentation/Service-details/widgets/client_review.dart';
 
 class RatingListScreen extends StatelessWidget {
@@ -16,13 +18,14 @@ class RatingListScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         surfaceTintColor: Colors.white,
         centerTitle: false,
+        iconTheme: IconThemeData(size: defaultAppBarIcon),
         title: Text(
           '${buyerReviewList.length} reviews',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding:  EdgeInsets.all(12.sp),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -30,23 +33,23 @@ class RatingListScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Overall rating',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),
                   ),
                   Spacer(),
                   Icon(
                     Icons.star_rate_rounded,
-                    size: 25,
+                    size: 25.sp,
                   ),
                   Text(overallRating.toStringAsFixed(1),
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600))
+                          TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600))
                 ],
               ),
               Divider(),
               ...List.generate(
                 buyerReviewList.length,
                 (index) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding:  EdgeInsets.only(bottom: 8.sp),
                   child: ClientReviewCard(
                     buyerReview: buyerReviewList[index],
                   ),

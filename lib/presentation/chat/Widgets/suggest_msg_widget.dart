@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upai/core/utils/app_colors.dart';
 
 class SuggestMsgWidget extends StatelessWidget {
@@ -21,9 +22,9 @@ class SuggestMsgWidget extends StatelessWidget {
       ),
       child:  Text(
         suggestMsg,
-        style: const TextStyle(
+        style:  TextStyle(
           color: Color(0xFF3F3F3F),
-          fontSize: 13,
+          fontSize: 13.sp,
           fontFamily: 'Epilogue',
           fontWeight: FontWeight.w500,
         ),

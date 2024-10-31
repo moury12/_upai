@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/auth/otp_screen.dart';
 import 'package:upai/presentation/buyer%20profile/buyer_profile_controller.dart';
 import 'package:upai/presentation/favourite_offer/favourite_offer_screen.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
@@ -80,16 +82,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           Obx(() {
                             return Text(
                               ProfileScreenController.to.userInfo.value.name.toString().toUpperCase(),
-                              style: AppTextStyle.bodyLarge700.copyWith(
-                                fontSize: 18.0,
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 18,
                                 color: Colors.white,
+                                fontWeight:FontWeight.w700,
                               ),
                             );
                           }),
                           Text(
                             ProfileScreenController.to.userInfo.value.userId.toString(),
-                            style: AppTextStyle.titleText.copyWith(
-                              fontSize: 14.0,
+                            style: TextStyle(
+                              fontSize: 12,
                               fontWeight:FontWeight.w600,
                               color: Colors.white,
                             ),
@@ -112,11 +116,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         color: AppColors.kprimaryColor,
                       ),
                       items: [
-                        DropdownMenuItem(
+                        const DropdownMenuItem(
                           value: Locale('en'),
                           child: Text('English'),
                         ),
-                        DropdownMenuItem(
+                        const DropdownMenuItem(
                           value: Locale('bn'),
                           child: Text('বাংলা'),
                         ),
@@ -163,7 +167,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   icon: Icons.favorite,
                   label: 'favourite_offer'.tr,
                   onTap: () {
-                    Get.to(FavouriteOfferScreen());
+                    Get.to(const FavouriteOfferScreen());
                     if (Scaffold.of(context).isDrawerOpen) {
                       Scaffold.of(context).closeDrawer();
                     }
@@ -189,9 +193,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Get.delete<BuyerProfileController>(force: true);
                     Get.delete<HomeController>(force: true);
                     Get.delete<ProfileScreenController>(force: true);
-                    print("Data deleted");
                     FirebaseAPIs.user = {};
-                    Get.offAllNamed('/login');
+                    Get.offAll(const OtpScreen());
                   },
                 ),
 
@@ -228,7 +231,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
           ),
         ),
-        Divider(
+        const Divider(
           color: AppColors.dividerColor,
           thickness: 0.8,
         ),

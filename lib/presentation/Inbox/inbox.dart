@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -63,7 +64,7 @@ class InboxScreen extends StatelessWidget {
                           ctrl.update();
                         },
                         decoration:
-                        InputDecoration(fillColor: AppColors.textFieldBackGround, filled: true, hintText: "Search By Name|User ID", hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500), border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(6))),
+                        InputDecoration(fillColor: AppColors.textFieldBackGround, filled: true, hintText: "Search By Name|User ID", hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey.shade500), border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(6))),
                       ),
                     ),
                     const SizedBox(

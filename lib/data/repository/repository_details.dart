@@ -36,7 +36,7 @@ class RepositoryData {
   // }
 
   Future<void> login(
-      String CID, String userMobile, String password, String userType) async {
+      String CID, String userMobile, String password) async {
     String url = ApiClient().loginUrl;
     try {
       var response = await http.post(
@@ -47,6 +47,7 @@ class RepositoryData {
       );
 
       final data = jsonDecode(response.body);
+      print(password);
       if (data["status"].toString() == 'Success') {
         showCustomSnackbar(
             title: 'Success',
@@ -60,7 +61,7 @@ class RepositoryData {
         userInfo.email = data['user_info']['email'].toString();
         userInfo.mobile = data['user_info']['mobile'].toString();
         userInfo.token = data['token'].toString();
-        userInfo.userType = userType;
+
         await box.put('user', json.encode(userInfo.toJson()));
         print("value is  : ${box.get("user")}");
         print("&&&&&&&&&&&&&&&&&&&");

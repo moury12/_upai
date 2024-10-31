@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/buyer_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
 import 'package:upai/presentation/seller-service/widgets/seller_running_order_widget.dart';
 import '../../core/utils/custom_text_style.dart';
 import 'buyer_profile_controller.dart';
@@ -18,12 +19,7 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "buyer_running_orders".tr,
-            style: AppTextStyle.appBarTitle,
-          ),
-        ),
+        appBar:CustomAppBar(title: "buyer_running_orders".tr,),
         body: Obx(() {
           return RefreshIndicator(
             color: AppColors.kprimaryColor,

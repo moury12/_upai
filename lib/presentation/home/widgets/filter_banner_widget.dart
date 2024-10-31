@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -52,7 +53,7 @@ class _FilterBannerState extends State<FilterBanner> {
               icon: Image.asset(
                 ImageConstant.filterIcon,
                 color: AppColors.kprimaryColor,
-                height: 30,
+                height: 30.w,
               )),
           Expanded(
               child: Padding(
@@ -80,7 +81,7 @@ class _FilterBannerState extends State<FilterBanner> {
                           children: [
                             Image.asset(
                               ImageConstant.serviceIcon,
-                              height: 30,
+                              height: 30.w,
                               color: Colors.white,
                             ),
                             const SizedBox(

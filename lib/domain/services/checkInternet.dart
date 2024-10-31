@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/buyer%20profile/buyer_profile_controller.dart';
@@ -25,11 +26,11 @@ class NetworkController extends GetxController {
       connectedInternet.value = false;
 
       Get.rawSnackbar(
-          messageText: const Text(
+          messageText:  Text(
               'PLEASE CONNECT TO THE INTERNET',
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14
+                  fontSize: 14.sp
               )
           ),
           isDismissible: true,

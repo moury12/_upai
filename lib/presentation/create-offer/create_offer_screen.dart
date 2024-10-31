@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:upai/Model/seller_profile_model.dart';
@@ -12,6 +13,7 @@ import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
+import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
 import 'package:upai/widgets/custom_button.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -71,26 +73,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
       child: Scaffold(
         backgroundColor: AppColors.kprimaryColor,
         resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          shadowColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          backgroundColor: AppColors.kprimaryColor,
-          elevation: 0,
-          foregroundColor: AppColors.colorWhite,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  clearAllField();
-                  // debugPrint(CreateOfferController.to.packageList.toString()) ;
-                },
-                icon: Image.asset(
-                  ImageConstant.earserIcon,
-                  height: 30,
-                ))
-          ],
-          title: Text(isEditArgument ? 'edit_offer' : "create_new_offer".tr,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        ),
+        appBar:CustomAppBar(title: isEditArgument ? 'edit_offer' : "create_new_offer".tr),
+
         body: Container(
           constraints: const BoxConstraints.expand(),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -118,7 +102,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   .to.titleController.value,
                               // onChanged: (value) => controller.emailController.text.trim() = value!,
                             ),
-                            defaultSizeBoxHeight,
+                            sizeBoxHeight6,
                             CustomTextField(
                               label: "description".tr,
                               isRequired: true,
@@ -129,7 +113,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                               maxLines: 3,
                               // onChanged: (value) => controller.emailController.text.trim() = value!,
                             ),
-                            defaultSizeBoxHeight,
+                            sizeBoxHeight6,
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,10 +124,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       "offer_image_optional".tr,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 12,
+                                          fontSize: 12.sp,
                                           color: AppColors.kprimaryColor),
                                     ),
-                                    defaultSizeBoxHeight,
+                                    sizeBoxHeight6,
                                     InkWell(
                                       onTap: () {
                                         CreateOfferController.to
@@ -154,8 +138,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: SizedBox(
-                                              height: 120,
-                                              width: 130,
+                                              height:120.w,
+                                              width: 130.w,
                                               child: CreateOfferController
                                                           .to.image.value !=
                                                       null
@@ -165,14 +149,14 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                           .image
                                                           .value!
                                                           .path),
-                                                      // height: 150,
-                                                      // width: 150,
+                                                      //height: 150.w,
+                                                      // width: 150.w,
                                                       fit: BoxFit.fill,
                                                     )
                                                   : isEditArgument == true
                                                       ? const CustomNetworkImage(
                                                           imgPreview: true,
-                                                          // height: 150,
+                                                          //height: 150.w,
                                                           imageUrl: '',
                                                         )
                                                       : Image.asset(
@@ -196,21 +180,21 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           "category_type".tr,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
-                                            fontSize: 12,
+                                            fontSize: 12.sp,
                                             color: AppColors.kprimaryColor,
                                           ),
                                         ),
                                         spaceWidth6,
-                                        const Text(
+                                         Text(
                                           '*',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontSize: 10,
+                                              fontSize: 10.sp,
                                               color: Colors.red),
                                         )
                                       ],
                                     ),
-                                    defaultSizeBoxHeight,
+                                    sizeBoxHeight6,
                                     Obx(() {
                                       return CustomDropDown<String>(
                                         label: "select_service_type".tr,
@@ -228,11 +212,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 ),
                               ],
                             ),
-                            defaultSizeBoxHeight,
+                            sizeBoxHeight6,
                             RequiredTitleWidget(
                               name: "category".tr,
                             ),
-                            defaultSizeBoxHeight,
+                            sizeBoxHeight6,
                             Obx(() {
                               return CustomDropDown<dynamic>(
                                 label: "service_category".tr,
@@ -250,11 +234,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 },
                               );
                             }),
-                            defaultSizeBoxHeight,
+                            sizeBoxHeight6,
                             const RequiredTitleWidget(
                               name: "Package level",
                             ),
-                            defaultSizeBoxHeight,
+                            sizeBoxHeight6,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -323,126 +307,31 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         )
                       : Column(
                           children: [
-                            defaultSizeBoxHeight,
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.end,
-                            //   children: [
-                            //     Expanded(
-                            //       child: CustomTextField(
-                            //         label: "Services",
-                            //         isRequired: true,
-                            //         validatorText: "Please Enter service",
-                            //
-                            //         hintText: "Enter service",
-                            //         controller:
-                            //             CreateOfferController.to.serviceController.value,
-                            //         // onChanged: (value) => controller.emailController.text.trim() = value!,
-                            //       ),
-                            //     ),
-                            //     defaultSizeBoxWidth,
-                            //     CustomButton(
-                            //         onTap: () {
-                            //           if (CreateOfferController
-                            //               .to.serviceController.value.text.isNotEmpty) {
-                            //             CreateOfferController.to.yourServiceList.add({
-                            //               "service_name": CreateOfferController
-                            //                   .to.serviceController.value.text,
-                            //               "status": false
-                            //             });
-                            //             for (var package
-                            //                 in CreateOfferController.to.packageList) {
-                            //               package['service_list'] = List.from(
-                            //                   CreateOfferController.to.yourServiceList
-                            //                       .map((service) {
-                            //                 return {
-                            //                   "service_name": service['service_name'],
-                            //                   "status":
-                            //                       false // Each service starts as unselected for each package
-                            //                 };
-                            //               }).toList());
-                            //             }
-                            //             CreateOfferController.to.packageList.refresh();
-                            //             CreateOfferController.to.serviceController.value
-                            //                 .clear();
-                            //             debugPrint(CreateOfferController.to.yourServiceList
-                            //                 .toString());
-                            //           } else {
-                            //             showCustomSnackbar(
-                            //                 title: 'Failed',
-                            //                 message: "Please Enter valid service",
-                            //                 type: SnackBarType.failed);
-                            //           }
-                            //         },
-                            //         title: 'Add')
-                            //   ],
-                            // ),
-                            // Obx(() {
-                            //   return Wrap(
-                            //     children: List.generate(
-                            //       CreateOfferController.to.yourServiceList.length,
-                            //       (index) => Container(
-                            //         padding: const EdgeInsets.only(left: 8),
-                            //         margin: const EdgeInsets.symmetric(
-                            //             vertical: 8, horizontal: 4),
-                            //         decoration: BoxDecoration(
-                            //           color: AppColors.kprimaryColor,
-                            //           borderRadius: BorderRadius.circular(10),
-                            //         ),
-                            //         child: Row(
-                            //           mainAxisSize: MainAxisSize.min,
-                            //           children: [
-                            //             Flexible(
-                            //               child: Text(
-                            //                 CreateOfferController.to.yourServiceList[index]
-                            //                     ['service_name'],
-                            //                 style: const TextStyle(color: Colors.white),
-                            //               ),
-                            //             ),
-                            //             IconButton(
-                            //                 onPressed: () {
-                            //                   CreateOfferController.to.yourServiceList
-                            //                       .removeAt(index);
-                            //                   for (var element
-                            //                       in CreateOfferController.to.packageList) {
-                            //                     element['service_list'].removeAt(index);
-                            //                   }
-                            //                   CreateOfferController.to.packageList
-                            //                       .refresh();
-                            //                 },
-                            //                 icon: const Icon(
-                            //                   CupertinoIcons.multiply_circle,
-                            //                   color: Colors.white,
-                            //                 ))
-                            //           ],
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   );
-                            // }),
-                            // defaultSizeBoxHeight,
+                            sizeBoxHeight6,
+
                             const PackageCreateWidget(),
-                            defaultSizeBoxHeight,
+                            sizeBoxHeight6,
                             Row(
                               children: [
                                 Text(
                                   "district".tr,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 12,
+                                    fontSize: 12.sp,
                                     color: AppColors.kprimaryColor,
                                   ),
                                 ),
                                 spaceWidth6,
-                                const Text(
+                                 Text(
                                   '*',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 10,
+                                      fontSize: 10.sp,
                                       color: Colors.red),
                                 )
                               ],
                             ),
-                            defaultSizeBoxHeight,
+                            sizeBoxHeight6,
                             Obx(() {
                               if (HomeController.to.districtList.isEmpty) {
                                 HomeController.to.districtList.refresh();
@@ -456,7 +345,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 );
                               }
                             }),
-                            defaultSizeBoxHeight,
+                            sizeBoxHeight6,
                             CustomTextField(
                               label: "address".tr,
                               isRequired: true,
@@ -702,15 +591,15 @@ class RequiredTitleWidget extends StatelessWidget {
           name,
           style: TextStyle(
             fontWeight: FontWeight.w700,
-            fontSize: 12,
+            fontSize: 12.sp,
             color: AppColors.kprimaryColor,
           ),
         ),
         spaceWidth6,
-        const Text(
+         Text(
           '*',
           style: TextStyle(
-              fontWeight: FontWeight.w700, fontSize: 10, color: Colors.red),
+              fontWeight: FontWeight.w700, fontSize: 10.sp, color: Colors.red),
         )
       ],
     );

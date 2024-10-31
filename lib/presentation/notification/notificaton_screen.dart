@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -146,7 +147,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                             //     ProfileScreenController.to.userInfo.value.userId==NotificationController.to.notificationList[reversedIndex].buyerId?SizedBox():
                                             //     SizedBox(
                                             //       height: 40,
-                                            //       width: 150,
+                                            //       width: 150.w,
                                             //       child: CustomButton(onTap: () {
                                             //         showDialog(context: context, builder: (context) => ConfirmOrderWidget(notificationModel: NotificationController.to.notificationList[reversedIndex],),);
                                             //       }, text: "Tap Here"),
@@ -161,7 +162,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       && NotificationController.to.notificationList[reversedIndex].status.toString()=="PENDING"
                                           ? SizedBox(
                                         height: 40,
-                                        width: 150,
+                                        width: 150.w,
                                         child: CustomButton(
                                             onTap: () {
                                               showDialog(
@@ -175,7 +176,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       )
                                           : NotificationController.to.notificationList[reversedIndex].status == "DELIVERED" && ProfileScreenController.to.userInfo.value.userId != NotificationController.to.notificationList[reversedIndex].sellerId?SizedBox(
                                         height: 40,
-                                        width: 150,
+                                        width: 150.w,
                                         child: CustomButton(
                                             onTap: () {
                                               showDialog(
@@ -198,7 +199,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(width: 80, height: 80, ImageConstant.notification),
+                              Image.asset(width: 80.w, height: 80, ImageConstant.notification),
                               SizedBox(
                                 height: 10,
                               ),

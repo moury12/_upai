@@ -3,11 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 import '../../core/utils/custom_text_style.dart';
 import '../../core/utils/image_path.dart';
@@ -40,14 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     debugPrint(ctrl.canEdit.value.toString());
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: true,
-        title: Text(
-          "profile".tr,
-          style: AppTextStyle.bodyTitle700,
-        ),
-      ),
+      appBar: CustomAppBar(title:  "profile".tr),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -76,8 +71,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: ctrl.canEdit.value == true && ProfileScreenController.to.image.value != null
                                   ? Image.file(
                                       File(ProfileScreenController.to.image.value!.path),
-                                      height: 150,
-                                      width: 150,
+                                     height: 150.w,
+                                      width: 150.w,
                                       fit: BoxFit.cover,
                                     )
                                   : CustomNetworkImage(
@@ -86,8 +81,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ctrl.profileImageUrl.value.isNotEmpty
                                               ? ctrl.profileImageUrl.value
                                               : ImageConstant.senderImg,
-                                      height: 150,
-                                      width: 150,
+                                     height: 150.w,
+                                      width: 150.w,
                                     )),
                         );
                       }),

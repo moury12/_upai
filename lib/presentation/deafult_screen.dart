@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -8,7 +9,7 @@ import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
- import 'package:upai/widgets/custom_drawer.dart';
+import 'package:upai/widgets/custom_drawer.dart';
 import 'package:upai/presentation/default_controller.dart';
 import 'package:get/get.dart';
 
@@ -32,23 +33,26 @@ class DefaultScreen extends StatelessWidget {
                   FilterController.to.selectedServiceType.value != null ||
                   FilterController.to.selectedCategory.value != null)) {
             resetData();
-          } else if (ctrl.selectedIndex.value == 0 ) {
+          } else if (ctrl.selectedIndex.value == 0) {
             showDialog(
               context: context,
               builder: (context) {
-                return AlertDialog( shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
-    ),
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(defaultRadius)),
+                  ),
                   backgroundColor: AppColors.strokeColor2,
                   title: Image.asset(
                     ImageConstant.upailogo1,
                     height: 100,
-                    width: 100,
+                    width: 100.w,
                     fit: BoxFit.contain,
                   ),
                   content: Text(
                     'Are you sure to close this app?',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                    style:
+                        TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
                   ),
                   actions: [
                     ElevatedButton(
@@ -87,19 +91,22 @@ class DefaultScreen extends StatelessWidget {
                     )
                   : Text(
                       ctrl.appBarTitle.value.tr,
-                      style: TextStyle(
-
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                      ),
                     );
             }),
             centerTitle: true,
+            iconTheme:
+                IconThemeData(size: defaultAppBarIcon, color: AppColors.kprimaryColor),
+            titleTextStyle: TextStyle(
+              color: AppColors.kprimaryColor,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           drawer: const CustomDrawer(),
           body: ctrl.screensForClient[ctrl.selectedIndex.value],
           bottomNavigationBar: Theme(
-            data: Theme.of(context).copyWith(    splashFactory: NoSplash.splashFactory,
+            data: Theme.of(context).copyWith(
+              splashFactory: NoSplash.splashFactory,
             ),
             child: BottomNavigationBar(
               backgroundColor: Colors.white,
@@ -128,7 +135,6 @@ class DefaultScreen extends StatelessWidget {
                   ),
                   label: 'service'.tr,
                 ),
-
                 BottomNavigationBarItem(
                   backgroundColor: Colors.white,
                   icon: SvgPicture.asset(
@@ -153,7 +159,6 @@ class DefaultScreen extends StatelessWidget {
                   ),
                   label: 'notification'.tr,
                 ),
-
               ],
               selectedItemColor: AppColors.kprimaryColor,
               selectedLabelStyle: TextStyle(
@@ -163,7 +168,6 @@ class DefaultScreen extends StatelessWidget {
               currentIndex: ctrl.selectedIndex.value,
               onTap: ctrl.onItemTapped,
               showUnselectedLabels: true,
-
             ),
           ),
         ),

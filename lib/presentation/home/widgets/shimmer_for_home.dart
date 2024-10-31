@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:upai/core/utils/app_colors.dart';
 
@@ -76,7 +77,7 @@ class OfferCardShimmer extends StatelessWidget {
             Expanded(
               flex: 5,
               child: Container(
-                height: 120,
+                height:120.w,
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(8),
@@ -87,7 +88,7 @@ class OfferCardShimmer extends StatelessWidget {
             Expanded(
               flex: 6,
               child: SizedBox(
-                height: 120,
+                height:120.w,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -113,7 +114,7 @@ class OfferCardShimmer extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      height: 12,
+                      height:12.w,
                       color: Colors.grey[300],
                     ),
 
@@ -132,8 +133,8 @@ class OfferCardShimmer extends StatelessWidget {
                               ),
                               const Spacer(),
                               Container(
-                                height: 12,
-                                width: 50,
+                                height:12.w,
+                                width: 50.w,
                                 color: Colors.grey[300],
                               ),
                               const SizedBox(width: 8),
@@ -175,8 +176,8 @@ class ShimmerExploreTopService extends StatelessWidget {
                     (index) {
 
                   return Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: ShimmerContainer(height: 200,width: 250,),
+                    padding:  EdgeInsets.only(left: 8.sp),
+                    child: ShimmerContainer(height: 200.w,width: 200.w,),
                   );
                 },
               )),

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/user_info_model.dart';
@@ -95,12 +96,12 @@ class ChatScreen extends StatelessWidget {
                         children: [
                           Text(
                             receiverData[0].name.toString(),
-                            style: const TextStyle(fontSize: 16, height: 1.5),
+                            style:  TextStyle(fontSize: 16.sp, height: 1.5),
                           ),
 
                           // receiverInfo.isOnline!
                           receiverData[0].isOnline!
-                              ? const Row(
+                              ?  Row(
                                   children: [
                                     Icon(
                                       Icons.circle_rounded,
@@ -113,7 +114,7 @@ class ChatScreen extends StatelessWidget {
                                     Text(
                                       "Online",
                                       style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: 12.sp,
                                           color: Colors.green,
                                           height: 1.5),
                                     ),
@@ -125,8 +126,8 @@ class ChatScreen extends StatelessWidget {
                                       lastActive: receiverData[0]
                                           .lastActive
                                           .toString()),
-                                  style: const TextStyle(
-                                      fontSize: 12,
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
                                       color: Colors.grey,
                                       height: 1.5),
                                 )
@@ -174,10 +175,10 @@ class ChatScreen extends StatelessWidget {
                         children: [
                           Text(
                             receiverInfo.name.toString(),
-                            style: const TextStyle(fontSize: 16, height: 1.5),
+                            style:  TextStyle(fontSize: 16.sp, height: 1.5),
                           ),
                           receiverInfo.isOnline!
-                              ? const Row(
+                              ?  Row(
                                   children: [
                                     Icon(
                                       Icons.circle_rounded,
@@ -190,7 +191,7 @@ class ChatScreen extends StatelessWidget {
                                     Text(
                                       "Online",
                                       style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: 12.sp,
                                           color: Colors.green,
                                           height: 1.5),
                                     ),
@@ -201,8 +202,8 @@ class ChatScreen extends StatelessWidget {
                                       context: context,
                                       lastActive:
                                           receiverInfo.lastActive.toString()),
-                                  style: const TextStyle(
-                                      fontSize: 12,
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
                                       color: Colors.grey,
                                       height: 1.5),
                                 )

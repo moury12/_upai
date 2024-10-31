@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 import 'package:upai/presentation/create-offer/widget/tab_content_view.dart';
@@ -42,7 +43,7 @@ class PackageCreateWidget extends StatelessWidget {
                             child: FittedBox(
                               child: Text(
                                 CreateOfferController.to.packageList[index]
-                                    ['package_name'],
+                                    ['package_name'],style: AppTextStyle.tapTitle,
                               ),
                             ),
                           ),
@@ -59,7 +60,7 @@ class PackageCreateWidget extends StatelessWidget {
                         (index) => SingleChildScrollView(
                           child: Column(
                             children: [
-                              defaultSizeBoxHeight,
+                              sizeBoxHeight6,
                               Row(
                                 children: [
                                   Expanded(
@@ -104,7 +105,7 @@ class PackageCreateWidget extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  defaultSizeBoxHeight,
+                                  sizeBoxHeight6,
                                   CustomTextField(
                                     label: "package_description".tr,
                                     validatorText: "please_enter_description".tr,
@@ -151,7 +152,7 @@ class PackageCreateWidget extends StatelessWidget {
                                                           ['service_name'] ??
                                                       '',
                                                   style: const TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize: 14.sp,
                                                       fontWeight:
                                                           FontWeight.w600),
                                                 ),

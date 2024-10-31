@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/default_widget.dart';
 
@@ -86,7 +87,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     widget.label ?? '',
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: AppColors.kprimaryColor),
                   ),
                   widget.isRequired == true
@@ -96,7 +97,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                             '*',
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 10,
+                                fontSize: 10.sp,
                                 color: Colors.red),
                           ),
                         )
@@ -120,7 +121,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 ? TextInputAction.done
                 : TextInputAction.next,
             style: TextStyle(
-                color: Colors.black, fontSize: widget.inputFontSize ?? null),
+                color: Colors.black, fontSize: widget.inputFontSize ?? 12.sp),
             controller: widget.controller,
             keyboardType: widget.inputType,
             key: widget.fieldKey,
@@ -148,7 +149,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               fillColor: Colors.white,
               labelText: widget.labelText,
               labelStyle: TextStyle(
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
                   color: Colors.black.withOpacity(0.5)),
               border: OutlineInputBorder(
@@ -179,7 +180,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               hintText: widget.hintText,
               hintStyle: widget.hintStyle ??
                   TextStyle(
-                      fontSize: 13,
+                      fontSize: 13.sp,
                       color: AppColors.colorBlack.withOpacity(0.3)),
 
               suffixIcon: widget.suffixIcon != null

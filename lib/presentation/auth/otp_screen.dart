@@ -1,9 +1,11 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/default_widget.dart';
+import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/auth/controller/login_screen_controller.dart';
 import 'package:upai/presentation/auth/widgets/count_down_timer_widget.dart';
 import 'package:upai/widgets/custom_button.dart';
@@ -44,13 +46,19 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
     LoginController.to.thirdOtpController.value.clear();
     LoginController.to.forthOtpController.value.clear();
   }
-
+@override
+  void dispose() {
+    controller!.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        iconTheme: IconThemeData(size:defaultAppBarIcon ),
       ),
       backgroundColor: Colors.white,
       body: Padding(
@@ -59,18 +67,18 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
           bool areAllOtpFieldsFilled =
               (LoginController.to.firstOtp.value.toString() != '' &&
                   LoginController.to.secondOtp.value.toString() != '' &&
-                  LoginController.to.thirdOtp.value.toString() != '' &&
-                  LoginController.to.fourthOtp.value.toString() != '');
+                  LoginController.to.thirdOtp.value.toString() != ''/* &&
+                  LoginController.to.fourthOtp.value.toString() != ''*/);
           debugPrint(LoginController.to.firstOtp.value);
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: LoginController.to.otpVerification.value
                 ? [
-                    const Text(
+                     Text(
                       'Mobile Number Verification',
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                          TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(
                       height: 8,
@@ -80,14 +88,14 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                       TextSpan(
                         text: 'Enter OTP code sent to ',
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                             color: Colors.black.withOpacity(.5)),
                       ),
                       TextSpan(
                         text: LoginController.to.phoneController.value.text,
-                        style: const TextStyle(
-                            fontSize: 14,
+                        style:  TextStyle(
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                             color: Colors.black),
                       )
@@ -122,7 +130,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                       Text(
                         'Resend Code in ',
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                             color: Colors.black.withOpacity(.5)),
                       ),
@@ -153,15 +161,22 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                     const Spacer(),
                     CustomButton(
                       text: "Login",
-                      onTap: areAllOtpFieldsFilled ? () {} : null,
+                      onTap: areAllOtpFieldsFilled ? () async{
+                        debugPrint("${LoginController.to.firstOtpController.value.text+LoginController.to.secondOtpController.value.text+LoginController.to.thirdOtpController.value.text}");
+                        await RepositoryData().login(
+                            "upai",
+                          LoginController.to.phoneController.value.text,
+                            LoginController.to.firstOtpController.value.text+LoginController.to.secondOtpController.value.text+LoginController.to.thirdOtpController.value.text
+                           );
+                      } : null,
                     ),
                     defaultSizeBoxHeight
                   ]
                 : [
-                    const Text(
+                     Text(
                       'Continue with your mobile number',
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                          TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
                     ),
                     defaultSizeBoxHeight,
                     defaultSizeBoxHeight,
@@ -182,16 +197,18 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                       child: Obx(() {
                         return CustomButton(
                             text: "Continue",
-                            color: LoginController
+                            color: /*LoginController
                                             .to.phoneNumber.value.length ==
-                                        11 &&
+                                        11 &&*/
                                     RegExp(r'^-?[0-9]+$').hasMatch(
                                         LoginController.to.phoneNumber.value)
                                 ? AppColors.kprimaryColor
                                 : Colors.grey,
-                            onTap: LoginController
-                                        .to.phoneNumber.value.length ==
-                                    11
+                            onTap: /*LoginController
+                                .to.phoneNumber.value.length ==
+                                11 &&*/
+                                RegExp(r'^-?[0-9]+$').hasMatch(
+                                    LoginController.to.phoneNumber.value)
                                 ? () {
                                     LoginController.to.otpVerification.value =
                                         true;

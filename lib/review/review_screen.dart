@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/controllers/order_controller.dart';
@@ -44,7 +45,7 @@ Navigator.pop(context);
           child: Column(mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Text("rate_our_service".tr,style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+               Text("rate_our_service".tr,style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16.sp),
               ),
               RatingBar(
                 initialRating: ratingValue,
@@ -67,7 +68,7 @@ Navigator.pop(context);
           
               Text(
                 "review".tr,
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14),
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14.sp),
               ),
               SizedBox(
                 height: 8,

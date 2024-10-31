@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -102,8 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             },
                                             child: Padding(
                                               padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12.0),
+                                                   EdgeInsets.symmetric(
+                                                      vertical: 12.sp),
                                               child: Text("browse_all".tr,
                                                   style: AppTextStyle
                                                       .titleTextSmallUnderline),
@@ -118,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           : HomeController
                                                   .to.getOfferList.isEmpty ?NoServiceWidget():
                                           SizedBox(
-                                              height: 250,
+                                              height: 250.w,
                                               child: ListView.builder(
                                                   scrollDirection:
                                                       Axis.horizontal,
@@ -147,12 +148,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         },
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsets
+                                                               EdgeInsets
                                                                   .only(
-                                                                  right: 12.0,
-                                                                  top: 4,
-                                                                  bottom: 4,
-                                                                  left: 4),
+                                                                  right: 12.0.sp,
+                                                                  top: 4.sp,
+                                                                  bottom: 4.sp,
+                                                                  left: 4.sp),
                                                           child:
                                                               MyServiceWidget(
                                                             offerItem: service,
@@ -165,15 +166,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )
                               : SizedBox.shrink(),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
+                            padding:  EdgeInsets.symmetric(
+                              horizontal: 8.sp,
                             ),
                             child: Obx(() {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                    padding:  EdgeInsets.symmetric(vertical: 8.sp),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -231,8 +232,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? DefaultCircularProgressIndicator()
                                 : SizedBox.shrink();
                           }),
-                          const SizedBox(
-                            height: 8,
+                           SizedBox(
+                            height: 8.w,
                           )
                         ],
                       ),
@@ -256,11 +257,11 @@ class NoServiceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Padding(
-      padding: EdgeInsets.all(12.0),
+      padding: EdgeInsets.all(12.sp),
       child: Center(
         child: Text(
           "no_service_available".tr,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12.sp),
         ),
       ),
     );

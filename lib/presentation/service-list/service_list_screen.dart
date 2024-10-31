@@ -83,7 +83,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                 : widget.isNewService == true
                     ? "explore_new_services".tr
                     : "services".tr,
-            style: AppTextStyle.appBarTitle,
+             
           ),
         ),
         body: RefreshIndicator(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -11,6 +12,7 @@ import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/create-offer/create_offer_screen.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
+import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 
 import '../create-offer/widget/tab_content_view.dart';
@@ -23,21 +25,7 @@ class MyServiceDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     var seller = SellerProfileController.to.service.value;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-        surfaceTintColor: Colors.white,
-        title:  Text(
-          'my_service_details'.tr,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-      ),
+      appBar: CustomAppBar(title: 'my_service_details'.tr),
       backgroundColor: AppColors.colorWhite,
       body: SingleChildScrollView(
         child: Column(
@@ -45,7 +33,7 @@ class MyServiceDetails extends StatelessWidget {
           children: [
             CustomNetworkImage(
               imgPreview: true,
-              height: 250,
+              height: 250.w,
               imageUrl: seller.imgUrl ?? '',
             ),
             Column(
@@ -67,7 +55,7 @@ class MyServiceDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                              "Posted on ${MyDateUtil.formatDate(seller.dateTime ?? '')}"),
+                              "Posted on ${MyDateUtil.formatDate(seller.dateTime ?? '')}",style: TextStyle(fontSize: 10.sp)),
                         ],
                       ),
 
@@ -102,12 +90,12 @@ class MyServiceDetails extends StatelessWidget {
                         //colorClickableText: Colors.pink,
                         trimCollapsedText: 'Show more',
                         trimExpandedText: ' Show less',
-                        moreStyle: const TextStyle(
-                            fontSize: 12,
+                        moreStyle:  TextStyle(
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.green),
-                        lessStyle: const TextStyle(
-                            fontSize: 12,
+                        lessStyle:  TextStyle(
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.blueAccent),
                       ),
@@ -129,10 +117,10 @@ class MyServiceDetails extends StatelessWidget {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(seller.package![index]
                                                   .duration ??
-                                              ''),
+                                              '',style: AppTextStyle.tapTitle,),
                                         ),
                                       )),
-                                  defaultSizeBoxHeight,
+                                 sizeBoxHeight6,
                                   TabContentView(
                                       children: List.generate(
                                     seller.package!.length,
@@ -161,7 +149,7 @@ class MyServiceDetails extends StatelessWidget {
                                         seller.package![index]
                                                 .packageDescription!.isEmpty
                                             ? const SizedBox.shrink()
-                                            : defaultSizeBoxHeight,
+                                            : sizeBoxHeight6,
                                         PackageDetails(
                                           title: "Price",
                                           lable:
@@ -247,9 +235,9 @@ class MyServiceDetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10)),
                       backgroundColor: AppColors.kprimaryColor,
                       foregroundColor: Colors.white),
-                  child: const Text(
+                  child:  Text(
                     'Edit',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
                   )),
             ),
             const SizedBox(
@@ -319,9 +307,9 @@ class MyServiceDetails extends StatelessWidget {
                       backgroundColor: AppColors.cancelButtonColor,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       foregroundColor: Colors.white),
-                  child: const Text(
+                  child:  Text(
                     'Delete',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
                   )),
             ),
           ],

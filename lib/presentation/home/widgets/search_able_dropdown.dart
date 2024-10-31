@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
@@ -72,7 +73,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                 children: [
                   Image.asset(
                     ImageConstant.locationIcon,
-                    height: 30,
+                    height: 30.w,
                     color: Colors.white,
                   ),
                   const SizedBox(
@@ -106,7 +107,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                           : CreateOfferController.to.selectedDistrict.value ??
                           'select_district'.tr,
                       style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 15.sp,
                           // fontWeight: widget.fromHome!
                           //     ? HomeController
                           //                 .to.selectedDistrictForAll.value !=

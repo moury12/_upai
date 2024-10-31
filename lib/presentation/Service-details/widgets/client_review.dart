@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:readmore/readmore.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -60,8 +61,8 @@ margin: EdgeInsets.zero,
                             ));
                             // return Image.asset(
                             //   ImageConstant.senderImg,
-                            //   height: 150,
-                            //   width: 150,
+                            //  height: 150.w,
+                            //   width: 150.w,
                             //   fit: BoxFit.cover,
                             // );
                           }
@@ -92,7 +93,7 @@ margin: EdgeInsets.zero,
                     Icon(
                       Icons.star_rate_rounded,
                       color: AppColors.kprimaryColor,
-                      size: 20,
+                      size: 20.sp,
                     ),Text(
                       widget.buyerReview.buyerRating.toString(),
                       style: AppTextStyle.bodySmallGrey,
@@ -120,12 +121,12 @@ margin: EdgeInsets.zero,
              //colorClickableText: Colors.pink,
              trimCollapsedText: 'Show more',
              trimExpandedText: ' Show less',
-             moreStyle: const TextStyle(
-                 fontSize: 12,
+             moreStyle:  TextStyle(
+                 fontSize: 12.sp,
                  fontWeight: FontWeight.bold,
                  color: Colors.green),
-             lessStyle: const TextStyle(
-                 fontSize: 12,
+             lessStyle:  TextStyle(
+                 fontSize: 12.sp,
                  fontWeight: FontWeight.bold,
                  color: Colors.grey),
            ),

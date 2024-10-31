@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -9,6 +10,7 @@ import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/presentation/home/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/my_service_details.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
+import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 import 'widgets/my_service_widget.dart';
@@ -44,26 +46,7 @@ class MyServiceListScreen extends StatelessWidget {
       },
       child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: AppBar(
-            // elevation: 0,
-            // shadowColor: Colors.transparent,
-            // surfaceTintColor: Colors.transparent,
-            // backgroundColor: AppColors.strokeColor2,
-            // foregroundColor: Colors.black,
-            // leading: IconButton(
-            //   icon: const Icon(CupertinoIcons.back),
-            //   onPressed: () {
-            //     Get.back();
-            //     // controller.searchController.value.clear();
-            //     //
-            //     // controller.filterOffer('');
-            //   },
-            // ),
-            title: Text(
-              "my_offers".tr,
-              style: AppTextStyle.appBarTitle,
-            ),
-          ),
+          appBar: CustomAppBar(title: "my_offers".tr,),
           body: RefreshIndicator(
             color: AppColors.kprimaryColor,
             backgroundColor: Colors.white,
@@ -113,10 +96,10 @@ class MyServiceListScreen extends StatelessWidget {
                                   horizontal: 8, vertical: 8),
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: crossAxisCount,
-                                      childAspectRatio: .8,
-                                      crossAxisSpacing: 8,
-                                      mainAxisSpacing: 8),
+                                    crossAxisCount: crossAxisCount, // Adjust crossAxisCount based on screen width
+                                    childAspectRatio: ScreenUtil().screenWidth >ScreenUtil().scaleHeight ? 0.8 : 0.5, // Change ratio based on screen width
+                                    crossAxisSpacing: 8.w, // Makes spacing responsive
+                                    mainAxisSpacing: 8.w,),
                               itemCount:
                                   SellerProfileController.to.filterList.length,
                               itemBuilder: (context, index) {

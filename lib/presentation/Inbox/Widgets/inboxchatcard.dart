@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
@@ -67,8 +68,8 @@ class InboxCardWidget extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
                                   child: CachedNetworkImage(
-                                    height: 50,
-                                    width: 50,
+                                    height: 50.w,
+                                    width: 50.w,
                                     imageUrl: receiverUserData!.image.toString(),
                                     fit: BoxFit.cover,
                                     placeholder: (context, url) => Image.asset(
@@ -155,8 +156,8 @@ class InboxCardWidget extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
                                   child: CachedNetworkImage(
-                                    height: 50,
-                                    width: 50,
+                                    height: 50.w,
+                                    width: 50.w,
                                     imageUrl: receiverUserInfo.image.toString(),
                                     fit: BoxFit.cover,
                                     placeholder: (context, url) => Image.asset(
@@ -193,8 +194,8 @@ class InboxCardWidget extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: CachedNetworkImage(
-                              height: 50,
-                              width: 50,
+                              height: 50.w,
+                              width: 50.w,
                               imageUrl: receiverUserInfo.image.toString(),
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Image.asset(
@@ -241,8 +242,8 @@ class UnReadIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     HomeController.to.isUnRead.value=false;
     return Container(
-        height: 15,
-        width: 15,
+        height: 15.w,
+        width: 15.w,
         decoration: BoxDecoration(
           color: AppColors
               .messageIndicatorColor,
@@ -262,7 +263,7 @@ class UserInactive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 12,
+      height:12.w,
       width: 12,
       decoration: BoxDecoration(
           color: const Color(0xFFC5CEE0),
@@ -280,7 +281,7 @@ class UserActive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 12,
+      height:12.w,
       width: 12,
       decoration: BoxDecoration(
           color: Colors.green,

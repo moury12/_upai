@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -74,7 +75,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               );
             } else {*/
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:  EdgeInsets.all(12.sp),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

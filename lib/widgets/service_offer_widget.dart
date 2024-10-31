@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
@@ -42,14 +44,14 @@ class ServiceOfferWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(8),
         margin: EdgeInsets.only(bottom: 8),
-        // height: 150,
+        //height: 150.w,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
                 color: AppColors.strokeColor2, spreadRadius: 2, blurRadius: 2)
           ],
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(defaultRadius),
         ),
 
         child: Row(
@@ -60,17 +62,17 @@ class ServiceOfferWidget extends StatelessWidget {
             Expanded(
               flex: 5,
               child:  CustomNetworkImage(
-                  height: 150,
+                 height: 150.w,
                   imageUrl: offerItem!.imgUrl??'',
                 )
             ),
             SizedBox(
-              width: 12,
+              width: 12.w,
             ),
             Expanded(
               flex: 6,
               child: SizedBox(
-                height: 140,
+                height: 140.w,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -82,7 +84,7 @@ class ServiceOfferWidget extends StatelessWidget {
                             child: Text(
                          offerItem?.jobTitle ?? '',
                           style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w600),
+                              fontSize: 14.sp, fontWeight: FontWeight.w600),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         )),
@@ -91,23 +93,23 @@ class ServiceOfferWidget extends StatelessWidget {
                     ),
                     // Text('Description:',
                     //     style:
-                    //     TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                    //     TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500)),
                     Text(
                       offerItem?.description ?? '',
                       style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                          TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
 
                     Row(
                       children: [
-                        Icon(Icons.location_on_outlined),
+                        Icon(Icons.location_on_outlined,size:15.sp ,),
                          Text(
                                     maxLines: 1,
                                    offerItem?.district ?? '',
                                     style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 12.sp,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.black),
                                   )
@@ -128,7 +130,7 @@ class ServiceOfferWidget extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 2.0),
                                 child: Icon(
                                   CupertinoIcons.star_fill,
-                                  size: 15,
+                                  size: 15.sp,
                                 ),
                               ),
                               SizedBox(
@@ -140,19 +142,19 @@ class ServiceOfferWidget extends StatelessWidget {
                                                   '0.0')
                                           .toStringAsFixed(1),
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontSize: 14,
+                                  style:  TextStyle(
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500)),
                               Spacer(),
                               Text(
                                 'From ',
                                 style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w400),
+                                    fontSize: 12.sp, fontWeight: FontWeight.w400),
                               ),
                               Text(
                                   '৳ ${offerItem!.package == null || offerItem!.package!.isEmpty ? '0.0' : offerItem!.package![0].price ?? '0.0'}',
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w700)),
                             ],
                           ),

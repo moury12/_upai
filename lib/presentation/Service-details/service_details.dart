@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 import 'package:upai/Model/user_info_model.dart';
@@ -105,20 +106,21 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ClipOval(
-                child: Obx(() {
+              Container(    height: 30.w,
+                width: 30.w,
+                clipBehavior: Clip.antiAlias,
+                decoration:BoxDecoration(
+                  shape: BoxShape.circle
+
+                ),
+                child:Obx(() {
                   return CustomNetworkImage(
-                    height: 40,
-                    width: 40,
+
                     imageUrl: ProfileScreenController
                         .to.serviceSellerProfileImageUrl.value,
-                    errorWidget: CircleAvatar(
-                        radius: 20,
-                        backgroundImage: AssetImage(
-                          ImageConstant.senderImg,
-                        )),
+                    errorWidget: Image.asset(ImageConstant.senderImg)
                   );
-                }),
+                }) ,
               ),
               SizedBox(
                 width: 8,
@@ -128,7 +130,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
-                    fontSize: 18),
+                    fontSize: 16.sp),
               ),
             ],
           ),
@@ -198,14 +200,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           onPressed: () {
             Get.back();
           },
-          icon: const Icon(
+          icon:  Icon(
             Icons.arrow_back_ios_rounded,
-            size: 25,
+            size: 20.sp,
           ),
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding:  EdgeInsets.symmetric(horizontal: 8.sp),
             child: FavouriteIconButton(offerItem: widget.offerDetails!),
           )
         ],
@@ -219,26 +221,33 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   children: [
                     CustomNetworkImage(
                       imgPreview: true,
-                      height: 250,
+                      height: 250.w,
                       imageUrl: widget.offerDetails!.imgUrl ?? '',
                     ),
                     ListTile(
-                      leading: ClipOval(
-                        child: Obx(() {
+                      leading: Container(
+                        height: 40.w,
+                        width: 40.w,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child:Obx(() {
                           return CustomNetworkImage(
-                            height: 40,
-                            width: 40,
+
+
                             imageUrl: ProfileScreenController
                                 .to.serviceSellerProfileImageUrl.value,
                             errorWidget: CircleAvatar(
-                                radius: 20,
+
                                 backgroundImage: AssetImage(
                                   ImageConstant.senderImg,
                                 )),
                           );
                         }),
                       ),
-                      horizontalTitleGap: 8.0,
+
+                      horizontalTitleGap: 8.sp,
                       title: Text(
                         widget.offerDetails!.userName.toString(),
                         style: AppTextStyle.bodyMediumBlackSemiBold,
@@ -251,7 +260,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             style: AppTextStyle.bodySmallBlack600,
                           ),
                           SizedBox(
-                            width: 5,
+                            width: 5.w,
                           ),
                           Row(
                             children: [
@@ -265,7 +274,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 ),
                                 unratedColor: Colors.black.withOpacity(.2),
                                 itemCount: 5, // Maximum rating value
-                                itemSize: 10.0, // Size of stars
+                                itemSize: 10.sp, // Size of stars
                                 direction: Axis.horizontal,
                               ),
                               Text(
@@ -278,14 +287,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      padding:  EdgeInsets.symmetric(horizontal:  12.sp),
                       child: Text(
                         widget.offerDetails!.jobTitle.toString().toUpperCase(),
                         style: AppTextStyle.bodyLarge700,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      padding:  EdgeInsets.symmetric(horizontal:  12.sp),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -293,7 +302,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                  "${'posted_on'.tr} ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}"),
+                                  "${'posted_on'.tr} ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}",style: TextStyle(fontSize: 10.sp),),
                             ],
                           ),
                           DetailItem(
@@ -336,12 +345,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             //colorClickableText: Colors.pink,
                             trimCollapsedText: 'Show more',
                             trimExpandedText: ' Show less',
-                            moreStyle: const TextStyle(
-                                fontSize: 12,
+                            moreStyle:  TextStyle(
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green),
-                            lessStyle: const TextStyle(
-                                fontSize: 12,
+                            lessStyle:  TextStyle(
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blueAccent),
                           ),
@@ -372,10 +381,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(widget.offerDetails!.package![index].duration ??
-                                                  ''),
+                                                  '',style: AppTextStyle.tapTitle,),
                                             ),
                                           )),
-                                      defaultSizeBoxHeight,
+
                                       TabContentView(
                                           children: List.generate(
                                         widget.offerDetails!.package!.length,
@@ -491,7 +500,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                     fontWeight: FontWeight.bold,
                                                     color:
                                                         AppColors.kprimaryColor,
-                                                    fontSize: 25),
+                                                    fontSize: 25.sp),
                                               ),
                                               const SizedBox(
                                                 width: 5,
@@ -550,7 +559,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                             child: Text(
                                               'See All',
                                               style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: 14.sp,
                                                   color:
                                                       AppColors.kprimaryColor,
                                                   fontWeight: FontWeight.w600),
@@ -579,7 +588,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                           .size
                                                           .width /
                                                       1.1,
-                                                  height: 150,
+                                                 height: 150.w,
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.only(
@@ -785,8 +794,8 @@ class OfferDialogWidget extends StatelessWidget {
         text: TextSpan(text: '', children: [
           TextSpan(
             text: '$label   ',
-            style: const TextStyle(
-              fontSize: 14,
+            style:  TextStyle(
+              fontSize: 14.sp,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
@@ -794,7 +803,7 @@ class OfferDialogWidget extends StatelessWidget {
           TextSpan(
               text: text,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 14.sp,
                 color: Colors.black.withOpacity(.6),
                 fontWeight: FontWeight.w500,
               )),

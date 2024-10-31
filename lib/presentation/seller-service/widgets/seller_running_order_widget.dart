@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
@@ -14,7 +15,7 @@ import '../../../data/repository/repository_details.dart';
 class SellerRunningOrderWidget extends StatefulWidget {
   final bool? isBuyer;
   final Function()? jobStatus;
-  const SellerRunningOrderWidget({
+   SellerRunningOrderWidget({
     super.key,
     required this.sellerRunningOrder,
     this.jobStatus,  this.isBuyer=false,
@@ -52,7 +53,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
     borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
     ),
               backgroundColor: AppColors.strokeColor2,
-              title: const Icon(
+              title:  Icon(
                 Icons.task_alt_outlined,
                 size: 40,
               ),
@@ -60,12 +61,12 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
+                   Text(
                     textAlign: TextAlign.center,
                     'Is your service ready to deliver?',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
                   ),
-                  const SizedBox(
+                   SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -74,7 +75,7 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.kprimaryColor,
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding:  EdgeInsets.symmetric(vertical: 12),
                                 foregroundColor: Colors.white),
                             onPressed: () async {
                               Navigator.pop(context);
@@ -121,21 +122,21 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                                       newNotificationData.sellerId.toString());
                               await SellerProfileController.to.refreshAllData();
                             },
-                            child: const Text('Yes')),
+                            child:  Text('Yes')),
                       ),
-                      const SizedBox(
+                       SizedBox(
                         width: 8,
                       ),
                       Expanded(
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.cancelButtonColor,
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding:  EdgeInsets.symmetric(vertical: 12),
                                 foregroundColor: Colors.white),
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: const Text('No')),
+                            child:  Text('No')),
                       )
                     ],
                   )
@@ -147,10 +148,10 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
         );
       },
       child: Container(
-        padding: const EdgeInsets.all(12),
-        margin: const EdgeInsets.only(bottom: 8),
+        padding:  EdgeInsets.all(12.sp),
+        margin:  EdgeInsets.only(bottom: 8.sp),
         //width: double.infinity,
-        height: 140,
+        height: 140.w,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -163,17 +164,17 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomNetworkImage(
-              width: 150,
-              height: 150,
+              width: 150.w,
+             height: 150.w,
               imageUrl: widget.sellerRunningOrder.imgUrl ?? '',
             ),
-            const SizedBox(
+             SizedBox(
               width: 12,
             ),
             Expanded(
               flex: 3,
               child: SizedBox(
-                height: 120,
+                height:120.w,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -183,31 +184,31 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                         Expanded(
                             child: Text(
                           widget.sellerRunningOrder.jobTitle ?? 'job title',
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w600),
+                          style:  TextStyle(
+                              fontSize: 14.sp, fontWeight: FontWeight.w600),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         )),
                         Text("৳ ${widget.sellerRunningOrder.price ?? '0.00'}",
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w700)),
+                            style:  TextStyle(
+                                fontSize: 16.sp, fontWeight: FontWeight.w700)),
                       ],
                     ),
                     // Text('Description:',
                     //     style:
-                    //         TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                    //         TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500)),
                     Text(
                       widget.sellerRunningOrder.description ?? '',
                       style:
-                          const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                           TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     // Text(
                     //     '${widget.sellerRunningOrder.rateType ?? ' '}(${widget.sellerRunningOrder.rate})',
                     //     style:
-                    //         TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
-                    const Spacer(),
+                    //         TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400)),
+                     Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -216,17 +217,17 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Icon(
+                               Icon(
                                 Icons.shopping_bag,
-                                size: 14,
+                                size: 14.sp,
                               ),
-                              const SizedBox(
-                                width: 2,
+                               SizedBox(
+                                width: 2.w,
                               ),
                               Text(
                                   '${widget.sellerRunningOrder.duration ?? ''}',
-                                  style: const TextStyle(
-                                    fontSize: 12,
+                                  style:  TextStyle(
+                                    fontSize: 12.sp,
                                   )),
                             ],
                           ),
@@ -236,16 +237,16 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
                           child: Container(
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(20.r),
                                 color: Colors.lightBlue.withOpacity(.5)),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8),
+                            padding:  EdgeInsets.symmetric(
+                                vertical: 4.sp, horizontal: 8.sp),
                             child: FittedBox(
                               child: Text(
                                   textAlign: TextAlign.center,
                                   widget.sellerRunningOrder.status?? '',
-                                  style: const TextStyle(
-                                      fontSize: 12,
+                                  style:  TextStyle(
+                                      fontSize: 12.sp,
                                       fontWeight: FontWeight.w500)),
                             ),
                           ),

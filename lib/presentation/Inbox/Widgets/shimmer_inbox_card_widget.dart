@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:upai/core/utils/app_colors.dart';
 
@@ -32,16 +33,16 @@ class ShimmerInboxCardWidget extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 8),
+                 SizedBox(height: 8),
                 Container(
-                  width: 100,
-                  height: 12,
+                  width: 100.w,
+                  height:12.w,
                   color: Colors.grey[300],
                 ),
                 const SizedBox(height: 8),
                 Container(
-                  width: 80,
-                  height: 12,
+                  width: 80.w,
+                  height:12.w,
                   color: Colors.grey[300],
                 ),
               ],
@@ -50,8 +51,8 @@ class ShimmerInboxCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 50,
-                  height: 12,
+                  width: 50.w,
+                  height:12.w,
                   color: Colors.grey[300],
                 ),
                 const SizedBox(height: 8),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upai/core/utils/app_colors.dart';
 
 class CustomDropDown<T> extends StatelessWidget {
@@ -22,25 +23,26 @@ class CustomDropDown<T> extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: DropdownButton<T>(
 
-        dropdownColor: Colors.white, padding:EdgeInsets.symmetric(horizontal: 12) ,
-        style: TextStyle(color: AppColors.kprimaryColor),
+        dropdownColor: Colors.white, padding:EdgeInsets.symmetric(horizontal: 12.sp,vertical: 8.sp) ,
+        style: TextStyle(color: AppColors.kprimaryColor,fontSize: 14.sp),
+        iconSize: 20.sp,
         iconEnabledColor: AppColors.kprimaryColor,
         borderRadius: BorderRadius.circular(12),
         underline: const SizedBox.shrink(),
         value: value,
         hint: Text(
           label,
-          style: TextStyle(color: Colors.grey),
+          style: TextStyle(color: Colors.grey,fontSize: 14.sp),
         ),
         items: menuList.map((element) {
           return DropdownMenuItem<T>(
 
             value: element,
-            child: Text(element.toString()), // Convert element to string for display
+            child: Text(element.toString(),style: TextStyle(fontSize: 14.sp)), // Convert element to string for display
           );
         }).toList(),
         onChanged: isEditArgument ? null : onChanged, // Disable dropdown if `isEditArgument` is true

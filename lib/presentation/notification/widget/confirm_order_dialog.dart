@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/default_widget.dart';
@@ -32,7 +33,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
             title:  Text(
               'confirm_order'.tr,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,
@@ -56,8 +57,8 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                     const Divider(
                                       height: 1,
                                     ),
-                                    const SizedBox(
-                                      height: 12,
+                                     SizedBox(
+                                      height:12.w,
                                     ),
                                     // OfferDialogWidget(
                                     //
@@ -87,15 +88,15 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                       text: widget.notificationModel.package ?? '',
                                     ),
 
-                                    const Divider(
-                                      height: 12,
+                                     Divider(
+                                      height:12.w,
                                     ),
 
 
                                     Text(
                                       textAlign: TextAlign.center,
                                       '${'total_amount'.tr}: ${widget.notificationModel.price} ৳',
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                      style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Colors.black),
                                     ),
 
                                     SizedBox(

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 
@@ -24,7 +25,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height ?? 50,
+      height: height ?? 45.w,
       child: MaterialButton(
         disabledColor:disableColor?? Colors.grey,
         disabledElevation: 0,
@@ -33,7 +34,7 @@ class CustomButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         colorBrightness: Brightness.dark,
-        height: 56,
+        height: 45.w,
         color: color ?? AppColors.kprimaryColor,
         onPressed: (onTap == null || isLoading) ? null : () => onTap!(),
         child: Center(
@@ -41,9 +42,9 @@ class CustomButton extends StatelessWidget {
               ? FittedBox(
             child: Text(
               text,
-              style: const TextStyle(
+              style:  TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: 16,
+                fontSize: 16.sp,
               ),
             ),
           )

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/helper_function/helper_function.dart';
@@ -24,7 +25,7 @@ class _FavouriteIconButtonState extends State<FavouriteIconButton> with SingleTi
       vsync: this,
     );
 
-    _animation = Tween<double>(begin: 30.0, end: 40.0).animate(
+    _animation = Tween<double>(begin: 20.sp, end: 30.sp).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
 
@@ -40,8 +41,8 @@ class _FavouriteIconButtonState extends State<FavouriteIconButton> with SingleTi
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40,
-      width: 40,
+      height: 40.w,
+      width: 40.w,
       child: IconButton(
           highlightColor: Colors.transparent,
           onPressed: () async {
