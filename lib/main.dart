@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
 debugPrint(MediaQuery.of(context).size.height.toString());
 debugPrint(MediaQuery.of(context).size.width.toString());
     return ScreenUtilInit(
-      designSize: const Size(423.5294196844927,945.8823706287004),
+      designSize: const Size(423,945),
       minTextAdapt: true,
       splitScreenMode: true,
       child: GetMaterialApp(
@@ -139,6 +139,7 @@ class ThemeDataClass{
     appBarTheme: AppBarTheme(
         backgroundColor  : AppColors.colorWhite,
         foregroundColor: AppColors.kprimaryColor,
+        surfaceTintColor: Colors.transparent,
         titleTextStyle: TextStyle(
 color: AppColors.kprimaryColor ,
 

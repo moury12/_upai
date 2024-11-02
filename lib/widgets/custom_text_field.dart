@@ -13,8 +13,10 @@ class CustomTextField extends StatefulWidget {
   final bool? isEmail;
   final bool? isEnable;
   final bool? isRequired;
+  final bool? isEditable;
   final double? height;
   final double? width;
+  final TextInputAction? textInputAction;
   final String? hintText;
   final String? labelText;
   final String? label;
@@ -65,7 +67,7 @@ class CustomTextField extends StatefulWidget {
       this.isEnable,
       this.enableBorderColor,
       this.label,
-      this.isRequired = false});
+      this.isRequired = false, this.isEditable,  this.textInputAction});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -87,7 +89,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     widget.label ?? '',
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontSize: 12.sp,
+                        fontSize: default12FontSize,
                         color: AppColors.kprimaryColor),
                   ),
                   widget.isRequired == true
@@ -97,7 +99,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                             '*',
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 10.sp,
+                                fontSize: default10FontSize,
                                 color: Colors.red),
                           ),
                         )
@@ -110,6 +112,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           width: widget.width ?? double.infinity,
           height: widget.height,
           child: TextFormField(
+minLines: 1,
             cursorColor: AppColors.kprimaryColor,
             inputFormatters: widget.textInputFormatter ?? [],
             enabled: widget.isEnable ?? true,
@@ -117,16 +120,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
             textAlign: widget.textAlign ?? TextAlign.left,
             maxLines: widget.maxLines ?? 1,
             onChanged: widget.onChanged,
-            textInputAction: widget.isPasswordField == true
+            textInputAction:widget.textInputAction==null? widget.isPasswordField == true
                 ? TextInputAction.done
-                : TextInputAction.next,
+                : TextInputAction.next:widget.textInputAction,
             style: TextStyle(
-                color: Colors.black, fontSize: widget.inputFontSize ?? 12.sp),
+                color: Colors.black, fontSize: default12FontSize),
             controller: widget.controller,
             keyboardType: widget.inputType,
             key: widget.fieldKey,
             obscureText: widget.isPasswordField == true ? _obscureText : false,
             onSaved: widget.onSaved,
+
+
             validator: widget.validator ??
                 (value) {
                   if ((value == null ||
@@ -149,7 +154,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               fillColor: Colors.white,
               labelText: widget.labelText,
               labelStyle: TextStyle(
-                  fontSize: 14.sp,
+                  fontSize: default14FontSize,
                   fontWeight: FontWeight.w600,
                   color: Colors.black.withOpacity(0.5)),
               border: OutlineInputBorder(
@@ -171,6 +176,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               prefixIcon: widget.prefixIcon != null
                   ? Icon(
                       widget.prefixIcon,
+                      size: defaultIconSize,
                       color: AppColors.kprimaryColor,
                     )
                   : null,

@@ -124,7 +124,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       "offer_image_optional".tr,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 12.sp,
+                                          fontSize: default12FontSize,
                                           color: AppColors.kprimaryColor),
                                     ),
                                     sizeBoxHeight6,
@@ -180,7 +180,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           "category_type".tr,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
-                                            fontSize: 12.sp,
+                                            fontSize: default12FontSize,
                                             color: AppColors.kprimaryColor,
                                           ),
                                         ),
@@ -189,7 +189,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           '*',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontSize: 10.sp,
+                                              fontSize: default10FontSize,
                                               color: Colors.red),
                                         )
                                       ],
@@ -317,7 +317,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   "district".tr,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 12.sp,
+                                    fontSize: default12FontSize,
                                     color: AppColors.kprimaryColor,
                                   ),
                                 ),
@@ -326,7 +326,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   '*',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 10.sp,
+                                      fontSize: default10FontSize,
                                       color: Colors.red),
                                 )
                               ],
@@ -591,7 +591,7 @@ class RequiredTitleWidget extends StatelessWidget {
           name,
           style: TextStyle(
             fontWeight: FontWeight.w700,
-            fontSize: 12.sp,
+            fontSize: default12FontSize,
             color: AppColors.kprimaryColor,
           ),
         ),
@@ -599,7 +599,7 @@ class RequiredTitleWidget extends StatelessWidget {
          Text(
           '*',
           style: TextStyle(
-              fontWeight: FontWeight.w700, fontSize: 10.sp, color: Colors.red),
+              fontWeight: FontWeight.w700, fontSize: default10FontSize, color: Colors.red),
         )
       ],
     );

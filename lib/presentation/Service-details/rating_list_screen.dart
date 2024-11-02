@@ -18,10 +18,10 @@ class RatingListScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         surfaceTintColor: Colors.white,
         centerTitle: false,
-        iconTheme: IconThemeData(size: defaultAppBarIcon),
+        iconTheme: IconThemeData(size: defaultAppBarIconSize),
         title: Text(
           '${buyerReviewList.length} reviews',
-          style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: default14FontSize, fontWeight: FontWeight.w600),
         ),
       ),
       body: Padding(
@@ -42,7 +42,7 @@ class RatingListScreen extends StatelessWidget {
                   ),
                   Text(overallRating.toStringAsFixed(1),
                       style:
-                          TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600))
+                          TextStyle(fontSize: defaultTitleFontSize, fontWeight: FontWeight.w600))
                 ],
               ),
               Divider(),

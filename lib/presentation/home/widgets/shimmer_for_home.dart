@@ -98,14 +98,14 @@ class OfferCardShimmer extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 16,
+                            height: 16.w,
                             color: Colors.grey[300],
                           ),
                         ),
                         const SizedBox(width: 10),
                         Container(
-                          height: 40,
-                          width: 40,
+                          height: 40.w,
+                          width: 40.w,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.grey[300],
@@ -127,8 +127,8 @@ class OfferCardShimmer extends StatelessWidget {
                             children: [
 
                               Container(
-                                height: 14,
-                                width: 30,
+                                height: 14.w,
+                                width: 30.w,
                                 color: Colors.grey[300],
                               ),
                               const Spacer(),
@@ -139,8 +139,8 @@ class OfferCardShimmer extends StatelessWidget {
                               ),
                               const SizedBox(width: 8),
                               Container(
-                                height: 16,
-                                width: 40,
+                                height: 16.w,
+                                width: 40.w,
                                 color: Colors.grey[300],
                               ),
                             ],

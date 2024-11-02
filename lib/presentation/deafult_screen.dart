@@ -45,14 +45,15 @@ class DefaultScreen extends StatelessWidget {
                   backgroundColor: AppColors.strokeColor2,
                   title: Image.asset(
                     ImageConstant.upailogo1,
-                    height: 100,
+                    height: 100.w,
                     width: 100.w,
                     fit: BoxFit.contain,
                   ),
                   content: Text(
                     'Are you sure to close this app?',
-                    style:
-                        TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                        fontSize: default12FontSize,
+                        fontWeight: FontWeight.w500),
                   ),
                   actions: [
                     ElevatedButton(
@@ -86,7 +87,7 @@ class DefaultScreen extends StatelessWidget {
               return ctrl.selectedIndex.value == 0
                   ? Image.asset(
                       ImageConstant.upaiLogoAppbar,
-                      height: 90,
+                      height: 70.w,
                       fit: BoxFit.fitHeight,
                     )
                   : Text(
@@ -94,11 +95,11 @@ class DefaultScreen extends StatelessWidget {
                     );
             }),
             centerTitle: true,
-            iconTheme:
-                IconThemeData(size: defaultAppBarIcon, color: AppColors.kprimaryColor),
+            iconTheme: IconThemeData(
+                size:  20.sp, color: AppColors.kprimaryColor),
             titleTextStyle: TextStyle(
               color: AppColors.kprimaryColor,
-              fontSize: 14.sp,
+              fontSize: default14FontSize,
               fontWeight: FontWeight.w600,
             ),
           ),

@@ -95,6 +95,7 @@
   "select_a_package_level": "Select a Package Level",
   "next": "Next",
   "update_offer": "Update Offer",
+  "search_by_name": "Search By Name|User ID",
 
   "no_packages_available": "No packages available.",
   "package_name": "Package Name",

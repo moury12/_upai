@@ -130,7 +130,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
-                    fontSize: 16.sp),
+                    fontSize: defaultTitleFontSize),
               ),
             ],
           ),
@@ -202,9 +202,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           },
           icon:  Icon(
             Icons.arrow_back_ios_rounded,
-            size: 20.sp,
+
           ),
         ),
+        iconTheme: IconThemeData(size: defaultAppBarIconSize),
         actions: [
           Padding(
             padding:  EdgeInsets.symmetric(horizontal: 8.sp),
@@ -302,7 +303,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                  "${'posted_on'.tr} ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}",style: TextStyle(fontSize: 10.sp),),
+                                  "${'posted_on'.tr} ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}",style: TextStyle(fontSize: default10FontSize),),
                             ],
                           ),
                           DetailItem(
@@ -346,11 +347,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             trimCollapsedText: 'Show more',
                             trimExpandedText: ' Show less',
                             moreStyle:  TextStyle(
-                                fontSize: 12.sp,
+                                fontSize: default12FontSize,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green),
                             lessStyle:  TextStyle(
-                                fontSize: 12.sp,
+                                fontSize: default12FontSize,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blueAccent),
                           ),
@@ -559,7 +560,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                             child: Text(
                                               'See All',
                                               style: TextStyle(
-                                                  fontSize: 14.sp,
+                                                  fontSize: default14FontSize,
                                                   color:
                                                       AppColors.kprimaryColor,
                                                   fontWeight: FontWeight.w600),
@@ -795,7 +796,7 @@ class OfferDialogWidget extends StatelessWidget {
           TextSpan(
             text: '$label   ',
             style:  TextStyle(
-              fontSize: 14.sp,
+              fontSize: default14FontSize,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
@@ -803,7 +804,7 @@ class OfferDialogWidget extends StatelessWidget {
           TextSpan(
               text: text,
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: default14FontSize,
                 color: Colors.black.withOpacity(.6),
                 fontWeight: FontWeight.w500,
               )),

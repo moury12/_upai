@@ -55,7 +55,7 @@ class MyServiceDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                              "Posted on ${MyDateUtil.formatDate(seller.dateTime ?? '')}",style: TextStyle(fontSize: 10.sp)),
+                              "Posted on ${MyDateUtil.formatDate(seller.dateTime ?? '')}",style: TextStyle(fontSize: default10FontSize)),
                         ],
                       ),
 
@@ -91,11 +91,11 @@ class MyServiceDetails extends StatelessWidget {
                         trimCollapsedText: 'Show more',
                         trimExpandedText: ' Show less',
                         moreStyle:  TextStyle(
-                            fontSize: 12.sp,
+                            fontSize: default12FontSize,
                             fontWeight: FontWeight.bold,
                             color: Colors.green),
                         lessStyle:  TextStyle(
-                            fontSize: 12.sp,
+                            fontSize: default12FontSize,
                             fontWeight: FontWeight.bold,
                             color: Colors.blueAccent),
                       ),
@@ -237,7 +237,7 @@ class MyServiceDetails extends StatelessWidget {
                       foregroundColor: Colors.white),
                   child:  Text(
                     'Edit',
-                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: default14FontSize, fontWeight: FontWeight.w600),
                   )),
             ),
             const SizedBox(
@@ -309,7 +309,7 @@ class MyServiceDetails extends StatelessWidget {
                       foregroundColor: Colors.white),
                   child:  Text(
                     'Delete',
-                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: default14FontSize, fontWeight: FontWeight.w600),
                   )),
             ),
           ],

@@ -5,6 +5,7 @@ import 'package:readmore/readmore.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 
@@ -122,11 +123,11 @@ margin: EdgeInsets.zero,
              trimCollapsedText: 'Show more',
              trimExpandedText: ' Show less',
              moreStyle:  TextStyle(
-                 fontSize: 12.sp,
+                 fontSize: default12FontSize,
                  fontWeight: FontWeight.bold,
                  color: Colors.green),
              lessStyle:  TextStyle(
-                 fontSize: 12.sp,
+                 fontSize: default12FontSize,
                  fontWeight: FontWeight.bold,
                  color: Colors.grey),
            ),

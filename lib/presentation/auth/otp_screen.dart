@@ -58,7 +58,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        iconTheme: IconThemeData(size:defaultAppBarIcon ),
+        iconTheme: IconThemeData(size:defaultAppBarIconSize ),
       ),
       backgroundColor: Colors.white,
       body: Padding(
@@ -88,14 +88,14 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                       TextSpan(
                         text: 'Enter OTP code sent to ',
                         style: TextStyle(
-                            fontSize: 14.sp,
+                            fontSize: default14FontSize,
                             fontWeight: FontWeight.w400,
                             color: Colors.black.withOpacity(.5)),
                       ),
                       TextSpan(
                         text: LoginController.to.phoneController.value.text,
                         style:  TextStyle(
-                            fontSize: 14.sp,
+                            fontSize: default14FontSize,
                             fontWeight: FontWeight.w600,
                             color: Colors.black),
                       )
@@ -130,7 +130,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                       Text(
                         'Resend Code in ',
                         style: TextStyle(
-                            fontSize: 14.sp,
+                            fontSize: default14FontSize,
                             fontWeight: FontWeight.w400,
                             color: Colors.black.withOpacity(.5)),
                       ),

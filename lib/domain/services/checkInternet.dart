@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/buyer%20profile/buyer_profile_controller.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
@@ -30,7 +31,7 @@ class NetworkController extends GetxController {
               'PLEASE CONNECT TO THE INTERNET',
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14.sp
+                  fontSize: default14FontSize
               )
           ),
           isDismissible: true,

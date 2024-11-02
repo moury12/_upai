@@ -50,9 +50,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     if (screenWidth > 900) {
       crossAxisCount = 4;
     }
-    if (screenWidth > 1232) {
-      crossAxisCount = 5;
-    }
+
     return Scaffold(
       floatingActionButton: const CreateOfferButton(),
       body: RefreshIndicator(
@@ -165,11 +163,13 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   ),
                   SellerProfileController.to.sellerProfileLoading.value||  !NetworkController.to.connectedInternet.value
                       ? const ShimmerOfferList()
-                      :  seller.myService == null || seller.myService!.isEmpty?NoServiceWidget():GridView.builder(
+                      :  seller.myService == null || seller.myService!.isEmpty?NoServiceWidget():
+                  GridView.builder(
                           shrinkWrap: true,
                           primary: false,
 
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8,childAspectRatio: .8),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,childAspectRatio:ScreenUtil().screenWidth >ScreenUtil().scaleHeight ? 0.8 : 0.5),
                           itemCount: seller.myService!.reversed.toList().length < 4 ? seller.myService!.reversed.toList().length : 4,
                           itemBuilder: (context, index) {
                             final service = SellerProfileController.to.myService[index];

@@ -9,12 +9,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/chat/Controller/chat_screen_controller.dart';
 import 'package:upai/presentation/chat/Model/message_model.dart';
 import 'package:upai/presentation/chat/Widgets/chat_message_tile.dart';
 import 'package:upai/sampleresponse/suggest_msg_data.dart';
+import 'package:upai/widgets/custom_text_field.dart';
 import '../../core/utils/image_path.dart';
 import 'Widgets/suggest_msg_widget.dart';
 
@@ -41,10 +43,10 @@ class ChatScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            leadingWidth: 28,
-            elevation: 1,
+toolbarHeight:50.w,
             foregroundColor: Colors.black,
             backgroundColor: Colors.white,
+
             centerTitle: false,
             title: StreamBuilder(
               stream: FirebaseAPIs.getUserInfo(receiverInfo.userId.toString()),
@@ -61,24 +63,22 @@ class ChatScreen extends StatelessWidget {
                   return Row(
                     children: [
                       Container(
+                        clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
+                            shape: BoxShape.circle,
                             border: Border.all(
                                 color: AppColors.strokeColor, width: 2)),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                            height: 40,
-                            width: 40,
-                            imageUrl: receiverData[0].image!.toString(),
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Image.asset(
-                                ImageConstant.senderImg,
-                                fit: BoxFit.cover),
-                            errorWidget: (context, url, error) => Image.asset(
-                                ImageConstant.senderImg,
-                                fit: BoxFit.cover),
-                          ),
+                        child: CachedNetworkImage(
+                          height: 40.w,
+                          width: 40.w,
+                          imageUrl: receiverData[0].image!.toString(),
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Image.asset(
+                              ImageConstant.senderImg,
+                              fit: BoxFit.cover),
+                          errorWidget: (context, url, error) => Image.asset(
+                              ImageConstant.senderImg,
+                              fit: BoxFit.cover),
                         ),
                       ),
                       const SizedBox(
@@ -96,7 +96,7 @@ class ChatScreen extends StatelessWidget {
                         children: [
                           Text(
                             receiverData[0].name.toString(),
-                            style:  TextStyle(fontSize: 16.sp, height: 1.5),
+                            style:  TextStyle(fontSize: default14FontSize, color:Colors.black,height: 1.5),
                           ),
 
                           // receiverInfo.isOnline!
@@ -105,7 +105,7 @@ class ChatScreen extends StatelessWidget {
                                   children: [
                                     Icon(
                                       Icons.circle_rounded,
-                                      size: 8,
+                                      size: 8.sp,
                                       color: Colors.green,
                                     ),
                                     SizedBox(
@@ -114,7 +114,7 @@ class ChatScreen extends StatelessWidget {
                                     Text(
                                       "Online",
                                       style: TextStyle(
-                                          fontSize: 12.sp,
+                                          fontSize: default12FontSize,
                                           color: Colors.green,
                                           height: 1.5),
                                     ),
@@ -127,7 +127,7 @@ class ChatScreen extends StatelessWidget {
                                           .lastActive
                                           .toString()),
                                   style: TextStyle(
-                                      fontSize: 12.sp,
+                                      fontSize: default12FontSize,
                                       color: Colors.grey,
                                       height: 1.5),
                                 )
@@ -175,7 +175,7 @@ class ChatScreen extends StatelessWidget {
                         children: [
                           Text(
                             receiverInfo.name.toString(),
-                            style:  TextStyle(fontSize: 16.sp, height: 1.5),
+                            style:  TextStyle(fontSize: default14FontSize, height: 1.5),
                           ),
                           receiverInfo.isOnline!
                               ?  Row(
@@ -191,7 +191,7 @@ class ChatScreen extends StatelessWidget {
                                     Text(
                                       "Online",
                                       style: TextStyle(
-                                          fontSize: 12.sp,
+                                          fontSize: default12FontSize,
                                           color: Colors.green,
                                           height: 1.5),
                                     ),
@@ -203,7 +203,7 @@ class ChatScreen extends StatelessWidget {
                                       lastActive:
                                           receiverInfo.lastActive.toString()),
                                   style: TextStyle(
-                                      fontSize: 12.sp,
+                                      fontSize: default12FontSize,
                                       color: Colors.grey,
                                       height: 1.5),
                                 )
@@ -215,26 +215,13 @@ class ChatScreen extends StatelessWidget {
               },
             ),
             // title: Text(widget.name!),
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Get.back();
-                // Get.offAllNamed("/inbox");
-                // Navigator.pushAndRemoveUntil(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const InboxScreen()),
-                //   (route) => false,
-                // );
-              },
-            ),
+            iconTheme: IconThemeData(size: defaultAppBarIconSize),
             actions: [
               InkWell(
                   onTap: () {
                     ctrl.makePhoneCall(receiverUserData.userId.toString());
                   },
-                  child: SvgPicture.asset(
-                    ImageConstant.audioCallIcon,
-                  )),
+                  child: Icon(Icons.call,color: AppColors.kprimaryColor,)),
               const SizedBox(
                 width: 12,
               ),
@@ -312,7 +299,7 @@ class ChatScreen extends StatelessWidget {
                       ),
                       Container(
                         color: Colors.white,
-                        height: 40,
+                        height: 40.w,
                         margin: const EdgeInsets.only(left: 8, right: 8),
                         child: ListView.separated(
                           itemCount: suggestMsgList.length,
@@ -330,113 +317,81 @@ class ChatScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 5,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    minLines: 1,
-                                    maxLines: 4,
-                                    textInputAction: TextInputAction.newline,
-                                    keyboardType: TextInputType.multiline,
-                                    controller: ctrl.messageController,
-                                    onTap: () {
-                                      if (ctrl.showEmoji) {
-                                        ctrl.showEmoji = false;
-                                        ctrl.update();
-                                      }
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: "type_a_message".tr,
-                                      hintStyle: TextStyle(color: Colors.grey.shade500),
-                                      suffixIcon: GestureDetector(
-                                        child:
-                                            Image.asset(ImageConstant.attachmentIcon,),
-                                        onTap: () async {
-                                          FilePickerResult? result =
-                                              await FilePicker.platform.pickFiles();
-                                          if (result != null) {
-                                            PlatformFile file = result.files.first;
-                                            print(file.name);
-                                            print(file.size);
-                                            print(file.extension);
-                                            print(file.path);
-                                            ctrl.messageController.text = file.name;
-                                          } else {
-                                            // User canceled the picker
-                                          }
-                                        },
-                                      ),
-                                      prefixIcon: GestureDetector(
-                                        child: Image.asset(ImageConstant.smileEmoji,),
-                                        onTap: () {
-                                          ctrl.showEmoji = !ctrl.showEmoji;
-                                          FocusManager.instance.primaryFocus
-                                              ?.unfocus();
+                      Padding(
+                        padding:  EdgeInsets.all(defaultPadding),
+                        child: Row(
+                          children: [GestureDetector(
+                            child:Icon(Icons.sentiment_satisfied_alt,size: 20.sp,color: Colors.grey.shade700,),
+                            onTap: () {
+                              ctrl.showEmoji = !ctrl.showEmoji;
+                              FocusManager.instance.primaryFocus
+                                  ?.unfocus();
 
-                                          ctrl.update();
-                                        },
-                                      ),
-                                     // contentPadding: const EdgeInsets.all(4),
-                                      border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.grey.shade100),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.grey.shade300),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.grey.shade300),
-                                        borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    if (ctrl.messageController.text.isNotEmpty) {
-                                      if (ctrl.messageList.isEmpty) {
-                                        //on first message (add user to my_user collection of chat user)
-                                        FirebaseAPIs.sendFirstMessage(
-                                            receiverUserData,
-                                            ctrl.messageController.text
-                                                .trim()
-                                                .toString(),
-                                            Type.text);
-                                      } else {
-                                        //simply send message
-                                        FirebaseAPIs.sendMessage(
-                                            receiverUserData,
-                                            ctrl.messageController.text
-                                                .trim()
-                                                .toString(),
-                                            Type.text);
-                                      }
-                                      ctrl.messageController.text = '';
+                              ctrl.update();
+                            },
+                          ),spaceWidth6,
+                            Expanded(
+                              child: CustomTextField(
+
+                                maxLines: 4,
+                                hintText:"type_a_message".tr,
+                                controller: ctrl.messageController,
+                                inputType: TextInputType.multiline,
+                                textInputAction: TextInputAction.newline,
+                                suffixIcon:  GestureDetector(
+                                  child:
+                                  Image.asset(ImageConstant.attachmentIcon,),
+                                  onTap: () async {
+                                    FilePickerResult? result =
+                                    await FilePicker.platform.pickFiles();
+                                    if (result != null) {
+                                      PlatformFile file = result.files.first;
+                                      print(file.name);
+                                      print(file.size);
+                                      print(file.extension);
+                                      print(file.path);
+                                      ctrl.messageController.text = file.name;
+                                    } else {
+                                      // User canceled the picker
                                     }
-                                    // ctrl.update();
                                   },
-                                  child: CircleAvatar(
-                                    backgroundColor: const Color(0xFF404040),
-                                    //  backgroundImage: AssetImage(ImageConstant.sendIcon),
-                                    child: Image.asset(ImageConstant.sendIcon),
-                                  ),
                                 ),
+
                               ),
-                            ],
-                          ),
+                            ),
+
+
+                            InkWell(
+                              onTap: () {
+                                if (ctrl.messageController.text.isNotEmpty) {
+                                  if (ctrl.messageList.isEmpty) {
+                                    //on first message (add user to my_user collection of chat user)
+                                    FirebaseAPIs.sendFirstMessage(
+                                        receiverUserData,
+                                        ctrl.messageController.text
+                                            .trim()
+                                            .toString(),
+                                        Type.text);
+                                  } else {
+                                    //simply send message
+                                    FirebaseAPIs.sendMessage(
+                                        receiverUserData,
+                                        ctrl.messageController.text
+                                            .trim()
+                                            .toString(),
+                                        Type.text);
+                                  }
+                                  ctrl.messageController.text = '';
+                                }
+                                // ctrl.update();
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: AppColors.kprimaryColor,
+                                //  backgroundImage: AssetImage(ImageConstant.sendIcon),
+                                child: Image.asset(ImageConstant.sendIcon),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

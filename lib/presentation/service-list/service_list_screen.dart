@@ -12,6 +12,7 @@ import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/home/home_screen.dart';
 import 'package:upai/presentation/home/widgets/filter_banner_widget.dart';
 import 'package:upai/presentation/home/widgets/shimmer_for_home.dart';
+import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 import 'package:upai/widgets/service_offer_widget.dart';
 
@@ -63,29 +64,11 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          shadowColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Get.back();
-              controller.searchController.value.clear();
-
-              // controller.filterOffer(
-              //     '', HomeController.to.selectedDistrictForAll.value);
-            },
-          ),
-          title: Text(
-            widget.isTopService == true
-                ? "explore_top_services".tr
-                : widget.isNewService == true
-                    ? "explore_new_services".tr
-                    : "services".tr,
-             
-          ),
-        ),
+        appBar: CustomAppBar(title:  widget.isTopService == true
+            ? "explore_top_services".tr
+            : widget.isNewService == true
+            ? "explore_new_services".tr
+            : "services".tr,),
         body: RefreshIndicator(
           color: AppColors.kprimaryColor,
 
@@ -117,6 +100,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   Icons.cancel,
+
                                   color: AppColors.kprimaryColor,
                                 ),
                                 onPressed: () {
@@ -128,7 +112,9 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                               ),
                             ),
                         ),
-                  defaultSizeBoxHeight,
+                  FilterController
+                      .to.isFilterValueEmpty.value
+                      ? SizedBox.shrink(): defaultSizeBoxHeight,
                   FilterController
                       .to.isFilterValueEmpty.value
                       ? SizedBox.shrink(): Padding(
@@ -162,7 +148,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                         return Expanded(
                             child: ListView.builder(
                           physics: const AlwaysScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(8),
+                          padding:  EdgeInsets.all(defaultPadding ),
                           shrinkWrap: true,
                           controller: scrollController,
                           itemCount: widget.isTopService == true

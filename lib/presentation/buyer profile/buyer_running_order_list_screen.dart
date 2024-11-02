@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/buyer_profile_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/presentation/home/home_screen.dart';
 import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
 import 'package:upai/presentation/seller-service/widgets/seller_running_order_widget.dart';
 import '../../core/utils/custom_text_style.dart';
@@ -25,8 +26,8 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
             color: AppColors.kprimaryColor,
             backgroundColor: AppColors.strokeColor2,
             child:
-                BuyerProfileController.to.buyer.value.buyerRunningOrder!.isEmpty
-                    ? const Center(child: Text("No Running order"))
+                BuyerProfileController.to.buyer.value.buyerRunningOrder==null
+                    ? NoServiceWidget(title: "No Running order",)
                     // Padding(
                     //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     //   child: ShimmerRunnigOrder(forList: true,),

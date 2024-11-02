@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:upai/Model/notification_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/helper_function/helper_function.dart';
@@ -81,7 +82,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                               flex: 2,
                                               child: Icon(
                                                 Icons.notifications_on,
-                                                size: 35,
+                                                size: 35.sp,
                                                 color: AppColors.kprimaryColor,
                                               ),
                                             ),
@@ -96,7 +97,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                         NotificationController.to.notificationList[reversedIndex].notificationTitle.toString(),
                                                         style: AppTextStyle.bodyMediumBlack400,
                                                       ),
-                                                      Text(NotificationController.to.notificationList[reversedIndex].notificationMsg.toString()),
+                                                      Text(NotificationController.to.notificationList[reversedIndex].notificationMsg.toString(),style: TextStyle(fontSize: default12FontSize),),
                                                     ],
                                                   ),
                                                 )),
@@ -111,7 +112,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                       child: Text(MyDateUtil.getLastMessageTime(
                                                         context: context,
                                                         time: NotificationController.to.notificationList[reversedIndex].createdTime.toString(),
-                                                      ).toString()),
+                                                      ).toString(),style: TextStyle(fontSize: default12FontSize),),
                                                     ),
                                                     Text("৳${NotificationController.to.notificationList[reversedIndex].price.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold),
                                                     // Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold),
@@ -161,7 +162,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       ProfileScreenController.to.userInfo.value.userId != NotificationController.to.notificationList[reversedIndex].buyerId
                                       && NotificationController.to.notificationList[reversedIndex].status.toString()=="PENDING"
                                           ? SizedBox(
-                                        height: 40,
+                                        height: 40.w,
+
                                         width: 150.w,
                                         child: CustomButton(
                                             onTap: () {
@@ -175,7 +177,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                             text: "tap_here".tr),
                                       )
                                           : NotificationController.to.notificationList[reversedIndex].status == "DELIVERED" && ProfileScreenController.to.userInfo.value.userId != NotificationController.to.notificationList[reversedIndex].sellerId?SizedBox(
-                                        height: 40,
+                                        height: 40.w,
                                         width: 150.w,
                                         child: CustomButton(
                                             onTap: () {

@@ -148,10 +148,12 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
         );
       },
       child: Container(
-        padding:  EdgeInsets.all(12.sp),
+        padding:  EdgeInsets.all(defaultPadding),
         margin:  EdgeInsets.only(bottom: 8.sp),
         //width: double.infinity,
-        height: 140.w,
+        height: MediaQuery.of(context).size.height<MediaQuery.of(context).size.width
+            ? 0.28.sw // Set height based on 20% of screen width in landscape
+            : 0.30.sw,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -163,98 +165,97 @@ class _SellerRunningOrderWidgetState extends State<SellerRunningOrderWidget> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomNetworkImage(
-              width: 150.w,
-             height: 150.w,
-              imageUrl: widget.sellerRunningOrder.imgUrl ?? '',
+            Expanded(flex: 2,
+              child: CustomNetworkImage(
+               //  width: 150.w,
+               // height: 150.w,
+                imageUrl: widget.sellerRunningOrder.imgUrl ?? '',
+              ),
             ),
              SizedBox(
               width: 12,
             ),
             Expanded(
               flex: 3,
-              child: SizedBox(
-                height:120.w,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                            child: Text(
-                          widget.sellerRunningOrder.jobTitle ?? 'job title',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Text(
+                        widget.sellerRunningOrder.jobTitle ?? 'job title',
+                        style:  TextStyle(
+                            fontSize: default14FontSize, fontWeight: FontWeight.w600),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                      Text("৳ ${widget.sellerRunningOrder.price ?? '0.00'}",
                           style:  TextStyle(
-                              fontSize: 14.sp, fontWeight: FontWeight.w600),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                        Text("৳ ${widget.sellerRunningOrder.price ?? '0.00'}",
-                            style:  TextStyle(
-                                fontSize: 16.sp, fontWeight: FontWeight.w700)),
-                      ],
-                    ),
-                    // Text('Description:',
-                    //     style:
-                    //         TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500)),
-                    Text(
-                      widget.sellerRunningOrder.description ?? '',
-                      style:
-                           TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    // Text(
-                    //     '${widget.sellerRunningOrder.rateType ?? ' '}(${widget.sellerRunningOrder.rate})',
-                    //     style:
-                    //         TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400)),
-                     Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                               Icon(
-                                Icons.shopping_bag,
-                                size: 14.sp,
-                              ),
-                               SizedBox(
-                                width: 2.w,
-                              ),
-                              Text(
-                                  '${widget.sellerRunningOrder.duration ?? ''}',
-                                  style:  TextStyle(
-                                    fontSize: 12.sp,
-                                  )),
-                            ],
+                              fontSize: defaultTitleFontSize, fontWeight: FontWeight.w700)),
+                    ],
+                  ),
+                  // Text('Description:',
+                  //     style:
+                  //         TextStyle(fontSize: default14FontSize, fontWeight: FontWeight.w500)),
+                  Text(
+                    widget.sellerRunningOrder.description ?? '',
+                    style:
+                         TextStyle(fontSize: default12FontSize, fontWeight: FontWeight.w400),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  // Text(
+                  //     '${widget.sellerRunningOrder.rateType ?? ' '}(${widget.sellerRunningOrder.rate})',
+                  //     style:
+                  //         TextStyle(fontSize: default12FontSize, fontWeight: FontWeight.w400)),
+                   Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                             Icon(
+                              Icons.shopping_bag,
+                              size: 14.sp,
+                            ),
+                             SizedBox(
+                              width: 2.w,
+                            ),
+                            Text(
+                                '${widget.sellerRunningOrder.duration ?? ''}',
+                                style:  TextStyle(
+                                  fontSize: default12FontSize,
+                                )),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.r),
+                              color: Colors.lightBlue.withOpacity(.5)),
+                          padding:  EdgeInsets.symmetric(
+                              vertical: 4.sp, horizontal: 8.sp),
+                          child: FittedBox(
+                            child: Text(
+                                textAlign: TextAlign.center,
+                                widget.sellerRunningOrder.status?? '',
+                                style:  TextStyle(
+                                    fontSize: default12FontSize,
+                                    fontWeight: FontWeight.w500)),
                           ),
                         ),
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.r),
-                                color: Colors.lightBlue.withOpacity(.5)),
-                            padding:  EdgeInsets.symmetric(
-                                vertical: 4.sp, horizontal: 8.sp),
-                            child: FittedBox(
-                              child: Text(
-                                  textAlign: TextAlign.center,
-                                  widget.sellerRunningOrder.status?? '',
-                                  style:  TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500)),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+                      )
+                    ],
+                  ),
+                ],
               ),
             )
           ],

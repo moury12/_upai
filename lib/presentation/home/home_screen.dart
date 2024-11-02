@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     scrollController.addListener(
       () {
         if (scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent) {
+            scrollController.position.maxScrollExtent&& NetworkController.to.connectedInternet.value) {
           HomeController.to.getOfferDataList(loadMoreData: true);
         }
       },
@@ -118,8 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ? ShimmerExploreTopService()
                                           : HomeController
                                                   .to.getOfferList.isEmpty ?NoServiceWidget():
+
                                           SizedBox(
-                                              height: 250.w,
+                                              height:MediaQuery.of(context).size.height<MediaQuery.of(context).size.width? 0.4.sw:200.w,
+
                                               child: ListView.builder(
                                                   scrollDirection:
                                                       Axis.horizontal,
@@ -250,8 +252,9 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class NoServiceWidget extends StatelessWidget {
+  final String? title;
   const NoServiceWidget({
-    super.key,
+    super.key, this.title,
   });
 
   @override
@@ -260,8 +263,8 @@ class NoServiceWidget extends StatelessWidget {
       padding: EdgeInsets.all(12.sp),
       child: Center(
         child: Text(
-          "no_service_available".tr,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12.sp),
+        title??  "no_service_available".tr,
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: default12FontSize),
         ),
       ),
     );

@@ -53,7 +53,7 @@ class _FilterBannerState extends State<FilterBanner> {
               icon: Image.asset(
                 ImageConstant.filterIcon,
                 color: AppColors.kprimaryColor,
-                height: 30.w,
+                height: 25.w,
               )),
           Expanded(
               child: Padding(
@@ -81,7 +81,7 @@ class _FilterBannerState extends State<FilterBanner> {
                           children: [
                             Image.asset(
                               ImageConstant.serviceIcon,
-                              height: 30.w,
+                              height: 25.w,
                               color: Colors.white,
                             ),
                             const SizedBox(
@@ -111,6 +111,7 @@ class FilterDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
       ),

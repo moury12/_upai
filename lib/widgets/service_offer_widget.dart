@@ -42,7 +42,7 @@ class ServiceOfferWidget extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.all(8.sp),
         margin: EdgeInsets.only(bottom: 8),
         //height: 150.w,
         decoration: BoxDecoration(
@@ -62,107 +62,104 @@ class ServiceOfferWidget extends StatelessWidget {
             Expanded(
               flex: 5,
               child:  CustomNetworkImage(
-                 height: 150.w,
+                height: .25.sw,
                   imageUrl: offerItem!.imgUrl??'',
                 )
             ),
             SizedBox(
               width: 12.w,
-            ),
+            ), 
             Expanded(
               flex: 6,
-              child: SizedBox(
-                height: 140.w,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                            child: Text(
-                         offerItem?.jobTitle ?? '',
-                          style: TextStyle(
-                              fontSize: 14.sp, fontWeight: FontWeight.w600),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                        FavouriteIconButton(offerItem: offerItem!,)
-                      ],
-                    ),
-                    // Text('Description:',
-                    //     style:
-                    //     TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500)),
-                    Text(
-                      offerItem?.description ?? '',
-                      style:
-                          TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Text(
+                       offerItem?.jobTitle ?? '',
+                        style: TextStyle(
+                            fontSize: default14FontSize, fontWeight: FontWeight.w600),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                      FavouriteIconButton(offerItem: offerItem!,)
+                    ],
+                  ),
+                  // Text('Description:',
+                  //     style:
+                  //     TextStyle(fontSize: default14FontSize, fontWeight: FontWeight.w500)),
+                  Text(
+                    offerItem?.description ?? '',
+                    style:
+                        TextStyle(fontSize: default12FontSize, fontWeight: FontWeight.w400),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
 
-                    Row(
-                      children: [
-                        Icon(Icons.location_on_outlined,size:15.sp ,),
-                         Text(
-                                    maxLines: 1,
-                                   offerItem?.district ?? '',
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black),
-                                  )
-
-                      ],
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 2.0),
-                                child: Icon(
-                                  CupertinoIcons.star_fill,
-                                  size: 15.sp,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 2,
-                              ),
-                              Text(
-                                   double.parse(
-                                              offerItem?.avgRating ??
-                                                  '0.0')
-                                          .toStringAsFixed(1),
-                                  textAlign: TextAlign.center,
-                                  style:  TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500)),
-                              Spacer(),
-                              Text(
-                                'From ',
-                                style: TextStyle(
-                                    fontSize: 12.sp, fontWeight: FontWeight.w400),
-                              ),
-                              Text(
-                                  '৳ ${offerItem!.package == null || offerItem!.package!.isEmpty ? '0.0' : offerItem!.package![0].price ?? '0.0'}',
+                  Row(
+                    children: [
+                      Icon(Icons.location_on_outlined,size:15.sp ,),
+                       Text(
+                                  maxLines: 1,
+                                 offerItem?.district ?? '',
                                   style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w700)),
-                            ],
-                          ),
+                                      fontSize: default12FontSize,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                )
+
+                    ],
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 2.0),
+                              child: Icon(
+                                CupertinoIcons.star_fill,
+                                size: defaultIconSize,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                                 double.parse(
+                                            offerItem?.avgRating ??
+                                                '0.0')
+                                        .toStringAsFixed(1),
+                                textAlign: TextAlign.center,
+                                style:  TextStyle(
+                                    fontSize: default12FontSize,
+                                    fontWeight: FontWeight.w500)),
+                            Spacer(),
+                            Text(
+                              'From ',
+                              style: TextStyle(
+                                  fontSize: default10FontSize, fontWeight: FontWeight.w400),
+                            ),
+                            Text(
+                                '৳${offerItem!.package == null || offerItem!.package!.isEmpty ? '0.0' : offerItem!.package![0].price ?? '0.0'}',
+                                style: TextStyle(
+                                    fontSize: default14FontSize,
+                                    fontWeight: FontWeight.w700)),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             )
           ],

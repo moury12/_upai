@@ -33,7 +33,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
             title:  Text(
               'confirm_order'.tr,
               style: TextStyle(
-                fontSize: 16.sp,
+                fontSize: defaultTitleFontSize,
                 fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,
@@ -96,7 +96,7 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                     Text(
                                       textAlign: TextAlign.center,
                                       '${'total_amount'.tr}: ${widget.notificationModel.price} ৳',
-                                      style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Colors.black),
+                                      style: TextStyle(fontSize: defaultTitleFontSize, fontWeight: FontWeight.w600, color: Colors.black),
                                     ),
 
                                     SizedBox(

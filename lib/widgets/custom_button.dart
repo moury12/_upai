@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 
 // ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
@@ -44,7 +45,7 @@ class CustomButton extends StatelessWidget {
               text,
               style:  TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: 16.sp,
+                fontSize: defaultTitleFontSize,
               ),
             ),
           )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../core/utils/image_path.dart';
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen>with SingleTickerProviderSta
       vsync: this,
     )..repeat(reverse: true);
 
-    _animation = Tween<double>(begin: 200.0, end: 100.0).animate(
+    _animation = Tween<double>(begin: 200.w, end: 100.w).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
   }

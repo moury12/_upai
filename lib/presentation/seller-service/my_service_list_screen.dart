@@ -32,9 +32,7 @@ class MyServiceListScreen extends StatelessWidget {
     if (screenWidth > 900) {
       crossAxisCount = 4;
     }
-    if (screenWidth > 1232) {
-      crossAxisCount = 5;
-    }
+
     return PopScope(
       canPop: true,
       onPopInvoked: (didPop) {
@@ -97,7 +95,7 @@ class MyServiceListScreen extends StatelessWidget {
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: crossAxisCount, // Adjust crossAxisCount based on screen width
-                                    childAspectRatio: ScreenUtil().screenWidth >ScreenUtil().scaleHeight ? 0.8 : 0.5, // Change ratio based on screen width
+                                    childAspectRatio: ScreenUtil().screenWidth >ScreenUtil().scaleHeight ? 0.6 : 0.5, // Change ratio based on screen width
                                     crossAxisSpacing: 8.w, // Makes spacing responsive
                                     mainAxisSpacing: 8.w,),
                               itemCount:

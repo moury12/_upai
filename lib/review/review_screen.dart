@@ -45,7 +45,7 @@ Navigator.pop(context);
           child: Column(mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Text("rate_our_service".tr,style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16.sp),
+               Text("rate_our_service".tr,style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: defaultTitleFontSize),
               ),
               RatingBar(
                 initialRating: ratingValue,
@@ -68,7 +68,7 @@ Navigator.pop(context);
           
               Text(
                 "review".tr,
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14.sp),
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: default14FontSize),
               ),
               SizedBox(
                 height: 8,

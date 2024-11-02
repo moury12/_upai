@@ -6,6 +6,7 @@ import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/controllers/image_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 class MyServiceWidget extends StatelessWidget {
@@ -21,8 +22,8 @@ class MyServiceWidget extends StatelessWidget {
     bool isService = service != null;
     return Container(
       // width: 200,
-      height: 220.w,
-      width: 200.w,
+      // height: 220.w,
+      width:MediaQuery.of(context).size.height<MediaQuery.of(context).size.width? 0.35.sw:200.w,
       padding:  EdgeInsets.all(8.sp),
       alignment: Alignment.topCenter,
       decoration: BoxDecoration(
@@ -36,7 +37,7 @@ class MyServiceWidget extends StatelessWidget {
         children: [
 
           Expanded(
-              flex: 3,
+              flex: 2,
               child:
              CustomNetworkImage(
 
@@ -53,7 +54,7 @@ class MyServiceWidget extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     isService ? service!.jobTitle ?? '' : offerItem?.jobTitle ?? '',
-                    style:  TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700),
+                    style:  TextStyle(fontSize: default14FontSize, fontWeight: FontWeight.w700),
                   ),
                   (offerItem?.district != null && offerItem!.district!.isNotEmpty
                       && offerItem!.district != "All Districts"
@@ -61,7 +62,7 @@ class MyServiceWidget extends StatelessWidget {
                           && service!.district != "All Districts" )?  Text(
                     maxLines: 1,
                     isService ? service!.district ?? '' : offerItem?.district ?? '',
-                    style:  TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w600, color: Colors.black),
+                    style:  TextStyle(fontSize: default12FontSize, fontWeight: FontWeight.w600, color: Colors.black),
                   ):const SizedBox.shrink(),
                   Row(
                     children: [
@@ -70,12 +71,12 @@ class MyServiceWidget extends StatelessWidget {
                          Text(
                            'From ',
                            style: TextStyle(
-                               fontSize: 8.sp, fontWeight: FontWeight.w400),
+                               fontSize: default10FontSize, fontWeight: FontWeight.w400),
                          ),
                          Text(
                              '৳ ${isService ?service!.package!.isEmpty?'0': service!.package![0].price ?? '0' :offerItem!.package!.isEmpty ? '0': offerItem?.package![0].price ?? '0'}',
                              style: TextStyle(
-                                 fontSize: 12.sp,
+                                 fontSize: default12FontSize,
                                  fontWeight: FontWeight.w700)),
                        ],),
                      ),
@@ -86,7 +87,7 @@ class MyServiceWidget extends StatelessWidget {
                           padding: EdgeInsets.only(top: 2.0),
                           child: Icon(
                             CupertinoIcons.star_fill,
-                            size: 15.sp,
+                            size: defaultIconSize,
                             color: AppColors.kprimaryColor,
                           ),
                         ),
@@ -102,7 +103,7 @@ class MyServiceWidget extends StatelessWidget {
                                 .toStringAsFixed(1),
                             textAlign: TextAlign.center,
                             style:  TextStyle(
-                                fontSize: 14.sp, fontWeight: FontWeight.w500)),
+                                fontSize: default12FontSize, fontWeight: FontWeight.w500)),
                       ],):const SizedBox.shrink()
                     ],
                   ),
@@ -165,7 +166,7 @@ class SellerStatusWidget extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       title ?? 'Earning',
-                      style:  TextStyle(fontWeight: FontWeight.w600,fontSize: 12.sp),
+                      style:  TextStyle(fontWeight: FontWeight.w600,fontSize: default12FontSize),
                     ))
               ],
             ),
@@ -174,7 +175,7 @@ class SellerStatusWidget extends StatelessWidget {
             flex: 4,
             child: Text(
               value ?? '0',
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w800),
+              style: TextStyle(fontSize: defaultTitleFontSize, fontWeight: FontWeight.w800),
             ),
           )
         ],

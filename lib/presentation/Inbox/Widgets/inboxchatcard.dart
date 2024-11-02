@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/chat/Model/message_model.dart';
@@ -25,13 +26,13 @@ class InboxCardWidget extends StatelessWidget {
     Message? message;
     UserInfoModel? receiverUserData;
     return Container(
-        margin: const EdgeInsets.only(left: 12, right: 12, bottom: 4, top: 4),
+        margin:  EdgeInsets.symmetric(horizontal: defaultPadding,vertical: default4Padding),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(4),
             border: Border.all(color: AppColors.strokeColor2, width: 1)),
         child: Padding(
-            padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+            padding:  EdgeInsets.symmetric(horizontal: defaultPadding),
             child: StreamBuilder(
                 stream: FirebaseAPIs.getUserInfo(
                     receiverUserInfo.userId.toString()),
@@ -60,25 +61,23 @@ class InboxCardWidget extends StatelessWidget {
                             // contentPadding: EdgeInsets.zero,
                             leading: Stack(children: [
                               Container(
+                                clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
+                                    shape: BoxShape.circle,
                                     border: Border.all(
                                         color: AppColors.strokeColor,
                                         width: 2)),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: CachedNetworkImage(
-                                    height: 50.w,
-                                    width: 50.w,
-                                    imageUrl: receiverUserData!.image.toString(),
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Image.asset(
-                                        ImageConstant.senderImg,
-                                        fit: BoxFit.cover),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(ImageConstant.senderImg,
-                                            fit: BoxFit.cover),
-                                  ),
+                                child: CachedNetworkImage(
+                                  height: 50.w,
+                                  width: 50.w,
+                                  imageUrl: receiverUserData!.image.toString(),
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => Image.asset(
+                                      ImageConstant.senderImg,
+                                      fit: BoxFit.cover),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(ImageConstant.senderImg,
+                                          fit: BoxFit.cover),
                                 ),
                               ),
                               //   CircleAvatar(
@@ -131,14 +130,12 @@ class InboxCardWidget extends StatelessWidget {
                                       time: message!.sent.toString()),
                                   style: AppTextStyle.titleText,
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+
                                 sendByMe
                                     ? const SizedBox()
                                     : message!.read!.isEmpty
                                         ? const UnReadIndicator()
-                                        : const ReadIndicator(),
+                                        : const SizedBox.shrink(),
                               ],
                             ),
                           );
@@ -220,18 +217,7 @@ class InboxCardWidget extends StatelessWidget {
   }
 }
 
-class ReadIndicator extends StatelessWidget {
 
-  const ReadIndicator({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    HomeController.to.isUnRead.value=true;
-    return const Text("");
-  }
-}
 
 class UnReadIndicator extends StatelessWidget {
   const UnReadIndicator({
@@ -242,8 +228,8 @@ class UnReadIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     HomeController.to.isUnRead.value=false;
     return Container(
-        height: 15.w,
-        width: 15.w,
+        height: 10.w,
+        width: 10.w,
         decoration: BoxDecoration(
           color: AppColors
               .messageIndicatorColor,
@@ -264,11 +250,10 @@ class UserInactive extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height:12.w,
-      width: 12,
+      width: 12.w,
       decoration: BoxDecoration(
           color: const Color(0xFFC5CEE0),
-          borderRadius: BorderRadius.circular(100),
-          border: Border.all(color: Colors.white, width: 1.5)),
+          shape: BoxShape.circle,           border: Border.all(color: Colors.white, width: 1.5)),
     );
   }
 }
@@ -282,11 +267,10 @@ class UserActive extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height:12.w,
-      width: 12,
+      width: 12.w,
       decoration: BoxDecoration(
           color: Colors.green,
-          borderRadius: BorderRadius.circular(100),
-          border: Border.all(color: Colors.white, width: 1.5)),
+shape: BoxShape.circle,          border: Border.all(color: Colors.white, width: 1.5)),
     );
   }
 }

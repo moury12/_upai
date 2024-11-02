@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
+import 'package:upai/widgets/custom_text_field.dart';
 
 class SearchableDropDown extends StatefulWidget {
   final bool? fromHome;
@@ -73,7 +75,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                 children: [
                   Image.asset(
                     ImageConstant.locationIcon,
-                    height: 30.w,
+                    height: 25.w,
                     color: Colors.white,
                   ),
                   const SizedBox(
@@ -168,24 +170,31 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                 builder: (context, setState) {
                   return Column(
                     children: [
-                      TextField(
-                        controller: searchController,
-                        cursorColor: AppColors.kprimaryColor,
-                        decoration: InputDecoration(
-                            hintText: 'Search district',
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                    color: AppColors.kprimaryColor, width: 2)),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
+                      CustomTextField(controller: searchController,hintText: 'Search district',
                         onChanged: (value) {
                           setState(() {
-                            filterDistrictItem(value);
+                            filterDistrictItem(value!);
                           });
                         },
                       ),
+                      // TextField(
+                      //   controller: searchController,
+                      //   cursorColor: AppColors.kprimaryColor,
+                      //   decoration: InputDecoration(
+                      //       hintText: 'Search district',
+                      //       focusedBorder: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(10),
+                      //           borderSide: BorderSide(
+                      //               color: AppColors.kprimaryColor, width: 2)),
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       )),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       filterDistrictItem(value);
+                      //     });
+                      //   },
+                      // ),
                       ...filterDistrict.map(
                         (e) {
                           return PopupMenuItem(
@@ -215,6 +224,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                                   width: double.infinity,
                                   child: Text(
                                     e['name'],
+                                    style: TextStyle(fontSize: default12FontSize),
                                   ),
                                 ),
                               ),

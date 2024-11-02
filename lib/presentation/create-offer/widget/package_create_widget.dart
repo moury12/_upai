@@ -152,7 +152,7 @@ class PackageCreateWidget extends StatelessWidget {
                                                           ['service_name'] ??
                                                       '',
                                                   style: const TextStyle(
-                                                      fontSize: 14.sp,
+                                                      fontSize: default14FontSize,
                                                       fontWeight:
                                                           FontWeight.w600),
                                                 ),
