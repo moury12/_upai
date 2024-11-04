@@ -626,43 +626,46 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         offer.userId.toString() ==
                                         widget.offerDetails!.userId.toString())
                                     .toList();
-                                return SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: List.generate(
-                                      myOffersList.length,
-                                      (index) {
-                                        if (myOffersList.isNotEmpty) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(12.0)
-                                                .copyWith(left: 8),
-                                            child: SizedBox(
-                                              width: 180,
-                                              // height: 180,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ServiceDetails(
-                                                          offerDetails:
-                                                              myOffersList[
-                                                                  index],
-                                                        ),
-                                                      ));
-                                                },
-                                                child: MyServiceWidget(
-                                                  offerItem:
-                                                      myOffersList[index],
+                                return SizedBox(
+                                  height: 200,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: List.generate(
+                                        myOffersList.length,
+                                        (index) {
+                                          if (myOffersList.isNotEmpty) {
+                                            return Padding(
+                                              padding: const EdgeInsets.all(12.0)
+                                                  .copyWith(left: 8),
+                                              child: SizedBox(
+                                                width: 180,
+                                                // height: 180,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ServiceDetails(
+                                                            offerDetails:
+                                                                myOffersList[
+                                                                    index],
+                                                          ),
+                                                        ));
+                                                  },
+                                                  child: MyServiceWidget(
+                                                    offerItem:
+                                                        myOffersList[index],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                        } else {
-                                          return Text("");
-                                        }
-                                      },
+                                            );
+                                          } else {
+                                            return Text("");
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ),
                                 );
