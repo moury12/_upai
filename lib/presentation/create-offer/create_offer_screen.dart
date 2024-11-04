@@ -12,6 +12,8 @@ import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
+import 'package:upai/presentation/deafult_screen.dart';
+import 'package:upai/presentation/default_controller.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
 import 'package:upai/widgets/custom_appbar.dart';
@@ -68,9 +70,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         backgroundColor: AppColors.kPrimaryColor,
         resizeToAvoidBottomInset: true,
         appBar: CustomAppBar(
-            title: isEditArgument ? 'edit_offer'.tr : "create_new_offer".tr,icon: IconButton(onPressed: () {
+            title: isEditArgument ? 'edit_offer'.tr : "create_new_offer".tr/*,icon: IconButton(onPressed: () {
               print(CreateOfferController.to.packageList.toString());
-            }, icon: Icon(Icons.add)),),
+            }, icon: Icon(Icons.add))*/,),
         body: Container(
           constraints: const BoxConstraints.expand(),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -115,6 +117,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "offer_image_optional".tr,
@@ -484,8 +487,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                                             .addressController
                                                             .value
                                                             .text,downloadUrl);
-
-                                                Get.back();
+                                                final ctrl = Get.put(DefaultController());
+                                                ctrl.selectedIndex.value=1;
+                                                Get.off(DefaultScreen());
 
                                                 showCustomSnackbar(
                                                     title: 'Success',

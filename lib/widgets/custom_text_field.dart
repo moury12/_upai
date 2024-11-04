@@ -186,7 +186,7 @@ minLines: 1,
               hintText: widget.hintText,
               hintStyle: widget.hintStyle ??
                   TextStyle(
-                      fontSize: default10FontSize,
+                      fontSize: default12FontSize,
                       color: AppColors.colorBlack.withOpacity(0.3)),
 
               suffixIcon: widget.suffixIcon != null

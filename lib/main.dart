@@ -41,7 +41,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
   await Hive.initFlutter();
   await Hive.openBox("userInfo");
@@ -65,7 +65,6 @@ Future<Map<String, Map<String, String>>> loadTranslations() async {
   return translations;
 }
 
-
 class MyApp extends StatefulWidget {
   final Map<String, Map<String, String>> translations;
   const MyApp({super.key, required this.translations});
@@ -88,79 +87,73 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
-      designSize: const Size(423,945),
+      designSize: const Size(423, 945),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: Builder(
-        builder: (context) {
-          return GetMaterialApp(
+      child: Builder(builder: (context) {
+        return GetMaterialApp(
             translationsKeys: widget.translations,
-              locale: const Locale('en'),
-              fallbackLocale: const Locale('en'),
-              debugShowCheckedModeBanner: false,
-              title: 'Upai',
-              // theme: ThemeData().appBarTheme(),
-              theme:ThemeDataClass().themeData ,
-              initialRoute: '/',
-              getPages: [
-                GetPage(name: '/', page: () => const SplashScreen()),
-                GetPage(name: '/inbox', page: () => const InboxScreen()),
-                GetPage(name: '/home', page: () => const HomeScreen()),
-                GetPage(name: '/chatscreen', page: () => ChatScreen()),
-                GetPage(name: '/defaultscreen', page: () => DefaultScreen()),
-
-                GetPage(
-                    name: '/profile',
-                    page: () => const ProfileScreen(),
-                    binding: ProfileBinding()),
-                GetPage(
-                    name: ServiceListScreen.routeName,
-                    page: () => const ServiceListScreen()),
-                GetPage(name: ServiceDetails.routeName, page: () => ServiceDetails()),
-                GetPage(
-                    name: CategoryListScreen.routeName,
-                    page: () => const CategoryListScreen()),
-                GetPage(name: OtpScreen.routeName, page: () => const OtpScreen()),
-                GetPage(
-                    name: CreateOfferScreen.routeName,
-                    page: () => const CreateOfferScreen(),
-                    binding: CreateOfferBinding()),
-              ],
-              initialBinding: RootBinding());
-        }
-      ),
+            locale: const Locale('en'),
+            fallbackLocale: const Locale('en'),
+            debugShowCheckedModeBanner: false,
+            title: 'Upai',
+            // theme: ThemeData().appBarTheme(),
+            theme: ThemeDataClass().themeData,
+            initialRoute: '/',
+            getPages: [
+              GetPage(name: '/', page: () => const SplashScreen()),
+              GetPage(name: '/inbox', page: () => const InboxScreen()),
+              GetPage(name: '/home', page: () => const HomeScreen()),
+              GetPage(name: '/chatscreen', page: () => ChatScreen()),
+              GetPage(name: '/defaultscreen', page: () => DefaultScreen()),
+              GetPage(
+                  name: '/profile',
+                  page: () => const ProfileScreen(),
+                  binding: ProfileBinding()),
+              GetPage(
+                  name: ServiceListScreen.routeName,
+                  page: () => const ServiceListScreen()),
+              GetPage(
+                  name: ServiceDetails.routeName, page: () => ServiceDetails()),
+              GetPage(
+                  name: CategoryListScreen.routeName,
+                  page: () => const CategoryListScreen()),
+              GetPage(name: OtpScreen.routeName, page: () => const OtpScreen()),
+              GetPage(
+                  name: CreateOfferScreen.routeName,
+                  page: () => const CreateOfferScreen(),
+                  binding: CreateOfferBinding()),
+            ],
+            initialBinding: RootBinding());
+      }),
     );
   }
 }
-class ThemeDataClass{
-  ThemeData themeData=ThemeData(
-    scaffoldBackgroundColor: Colors.white,
-    textTheme: TextTheme(
 
-    ),
-    dialogTheme: DialogTheme(surfaceTintColor: Colors.white,
-    backgroundColor: Colors.white,
+class ThemeDataClass {
+  ThemeData themeData = ThemeData(
+    scaffoldBackgroundColor: Colors.white,
+    textTheme: TextTheme(),
+    dialogTheme: DialogTheme(
+      surfaceTintColor: Colors.white,
+      backgroundColor: Colors.white,
 // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultRadius))
     ),
     appBarTheme: AppBarTheme(
-        backgroundColor  : AppColors.colorWhite,
+        backgroundColor: AppColors.colorWhite,
         foregroundColor: AppColors.kPrimaryColor,
         surfaceTintColor: Colors.transparent,
         titleTextStyle: TextStyle(
-color: AppColors.kPrimaryColor ,
-
+          color: AppColors.kPrimaryColor,
           fontWeight: FontWeight.w600,
         ),
         // iconTheme: IconThemeData(size: 15.sp,color:  AppColors.kprimaryColor),
         centerTitle: true),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(),
     primaryColor: AppColors.kPrimaryColor,
     useMaterial3: true,
-    splashColor:AppColors.kPrimaryColor.withOpacity(.2),
+    splashColor: AppColors.kPrimaryColor.withOpacity(.2),
     shadowColor: AppColors.kPrimaryColor.withOpacity(.2),
-
   );
 }

@@ -27,7 +27,6 @@ class CustomDropDown<T> extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: DropdownButton<T>(
-
         dropdownColor: Colors.white, padding:EdgeInsets.symmetric(horizontal: defaultPadding,vertical: default4Padding) ,
         style: TextStyle(color: AppColors.kPrimaryColor,fontSize: default14FontSize),
         iconSize: 20.sp,
@@ -38,13 +37,13 @@ class CustomDropDown<T> extends StatelessWidget {
         value: value,
         hint: Text(
           label,
-          style: TextStyle(color: Colors.grey,fontSize: default14FontSize),
+          style: TextStyle(color: Colors.grey,fontSize: default12FontSize),
         ),
         items: menuList.map((element) {
           return DropdownMenuItem<T>(
 
             value: element,
-            child: Text(element.toString(),style: TextStyle(fontSize: default14FontSize)), // Convert element to string for display
+            child: Text(element.toString(),style: TextStyle(fontSize: default12FontSize)), // Convert element to string for display
           );
         }).toList(),
         onChanged: isEditArgument ? null : onChanged, // Disable dropdown if `isEditArgument` is true

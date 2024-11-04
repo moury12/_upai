@@ -40,7 +40,7 @@ class ShimmerRunnigOrder extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           child: Column(
               children: List.generate(
-                 forList!?10:3,
+                 forList!?10:2,
                     (index) {
 
                   return Padding(

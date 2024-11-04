@@ -14,6 +14,7 @@ import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/deafult_screen.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 
@@ -213,18 +214,7 @@ class CreateOfferController extends GetxController {
         },
     );
 
-    SellerProfileController.to.service.value = MyService(
-      userName: ProfileScreenController.to.userInfo.value.name,
-      userId: ProfileScreenController.to.userInfo.value.userId,
-      serviceCategoryType: selectedCategory.value!,
-      // rateType: selectedRateType.value,
-      address: address,
-      description: description,
-      district: selectedDistrict.value,
-      jobTitle: title,
-      offerId: offerId,
-      dateTime: SellerProfileController.to.service.value.dateTime,
-    );
+   Get.off(DefaultScreen());
 
     await SellerProfileController.to.refreshAllData();
   }
