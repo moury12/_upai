@@ -23,7 +23,7 @@ class MyServiceWidget extends StatelessWidget {
     return Container(
       // width: 200,
       // height: 220.w,
-      width:MediaQuery.of(context).size.height<MediaQuery.of(context).size.width? 0.35.sw:200.w,
+      width:ScreenUtil().screenHeight<ScreenUtil().screenWidth? 0.35.sw:200.w,
       padding:  EdgeInsets.all(8.sp),
       alignment: Alignment.topCenter,
       decoration: BoxDecoration(
@@ -88,7 +88,7 @@ class MyServiceWidget extends StatelessWidget {
                           child: Icon(
                             CupertinoIcons.star_fill,
                             size: defaultIconSize,
-                            color: AppColors.kprimaryColor,
+                            color: AppColors.kPrimaryColor,
                           ),
                         ),
                         const SizedBox(

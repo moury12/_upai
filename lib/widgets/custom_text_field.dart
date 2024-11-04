@@ -90,7 +90,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: default12FontSize,
-                        color: AppColors.kprimaryColor),
+                        color: AppColors.kPrimaryColor),
                   ),
                   widget.isRequired == true
                       ? Padding(
@@ -113,7 +113,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           height: widget.height,
           child: TextFormField(
 minLines: 1,
-            cursorColor: AppColors.kprimaryColor,
+            cursorColor: AppColors.kPrimaryColor,
             inputFormatters: widget.textInputFormatter ?? [],
             enabled: widget.isEnable ?? true,
             onTap: widget.onPressed ?? () {},
@@ -159,7 +159,7 @@ minLines: 1,
                   color: Colors.black.withOpacity(0.5)),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: AppColors.kprimaryColor)),
+                  borderSide: BorderSide(color: AppColors.kPrimaryColor)),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
@@ -168,7 +168,7 @@ minLines: 1,
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
-                    color: AppColors.kprimaryColor,
+                    color: AppColors.kPrimaryColor,
                   )),
               filled: true,
               contentPadding: widget.padding ??
@@ -176,8 +176,8 @@ minLines: 1,
               prefixIcon: widget.prefixIcon != null
                   ? Icon(
                       widget.prefixIcon,
-                      size: defaultIconSize,
-                      color: AppColors.kprimaryColor,
+                      size: defaultAppBarIconSize,
+                      color: AppColors.kPrimaryColor,
                     )
                   : null,
               // decoration: InputDecoration(
@@ -186,7 +186,7 @@ minLines: 1,
               hintText: widget.hintText,
               hintStyle: widget.hintStyle ??
                   TextStyle(
-                      fontSize: 13.sp,
+                      fontSize: default10FontSize,
                       color: AppColors.colorBlack.withOpacity(0.3)),
 
               suffixIcon: widget.suffixIcon != null

@@ -25,7 +25,7 @@ class _FavouriteIconButtonState extends State<FavouriteIconButton> with SingleTi
       vsync: this,
     );
 
-    _animation = Tween<double>(begin: 20.sp, end: 30.sp).animate(
+    _animation = Tween<double>(begin: 25.sp, end: 35.sp).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
 
@@ -70,7 +70,7 @@ class _FavouriteIconButtonState extends State<FavouriteIconButton> with SingleTi
                     widget.offerItem!.isFav!
                         ? CupertinoIcons.heart_fill
                         : CupertinoIcons.heart,
-                    color: AppColors.kprimaryColor,
+                    color: AppColors.kPrimaryColor,
                     size: _animation.value,
                   ),
                 );

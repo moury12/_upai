@@ -67,7 +67,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
           ? Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                  color: AppColors.kprimaryColor,
+                  color: AppColors.kPrimaryColor,
                   borderRadius: BorderRadius.circular(10)),
               alignment: Alignment.center,
               child: Row(
@@ -86,7 +86,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                       return Text(
                         HomeController.to.selectedDistrictForAll.value ??
                             'location'.tr,
-                        style: AppTextStyle.bodyMediumWhiteSemiBold,
+                        style: AppTextStyle.bodyMediumWhiteSemiBold(context),
                       );
                     }),
                   )
@@ -125,18 +125,18 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                               ? HomeController
                                           .to.selectedDistrictForAll.value !=
                                       null
-                                  ? AppColors.kprimaryColor
+                                  ? AppColors.kPrimaryColor
                                   : Colors.grey
                               : CreateOfferController
                                           .to.selectedDistrict.value !=
                                       null
-                                  ? AppColors.kprimaryColor
+                                  ? AppColors.kPrimaryColor
                                   : Colors.grey),
                     );
                   }),
                   Icon(
                     Icons.arrow_drop_down,
-                    color: AppColors.kprimaryColor,
+                    color: AppColors.kPrimaryColor,
                     size: 30,
                   )
                 ],
@@ -224,7 +224,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                                   width: double.infinity,
                                   child: Text(
                                     e['name'],
-                                    style: TextStyle(fontSize: default12FontSize),
+                                    style: TextStyle(fontSize: default14FontSize),
                                   ),
                                 ),
                               ),

@@ -13,6 +13,7 @@ import 'package:upai/presentation/create-offer/create_offer_screen.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
+import 'package:upai/widgets/custom_appbar.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 
 import '../create-offer/widget/tab_content_view.dart';
@@ -43,7 +44,7 @@ class MyServiceDetails extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 16, right: 16),
                   child: Text(
                     seller.jobTitle.toString().toUpperCase(),
-                    style: AppTextStyle.bodyLarge700,
+                    style: AppTextStyle.bodyLarge700(context),
                   ),
                 ),
                 Padding(
@@ -75,7 +76,7 @@ class MyServiceDetails extends StatelessWidget {
 
                       Text(
                         "Description",
-                        style: AppTextStyle.bodyMediumBlackBold,
+                        style: AppTextStyle.bodyMediumBlackBold(context),
                       ),
                       const SizedBox(
                         height: 5,
@@ -83,7 +84,7 @@ class MyServiceDetails extends StatelessWidget {
 
                       ReadMoreText(
                         seller.description.toString(),
-                        style: AppTextStyle.bodySmallGrey400,
+                        style: AppTextStyle.bodySmallGrey400(context),
                         textAlign: TextAlign.start,
                         trimMode: TrimMode.Line,
                         trimLines: 5,
@@ -107,8 +108,8 @@ class MyServiceDetails extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TabBar(
-                                      indicatorColor: AppColors.kprimaryColor,
-                                      labelColor: AppColors.kprimaryColor,
+                                      indicatorColor: AppColors.kPrimaryColor,
+                                      labelColor: AppColors.kPrimaryColor,
                                       overlayColor:
                                           WidgetStateColor.transparent,
                                       tabs: List.generate(
@@ -117,7 +118,7 @@ class MyServiceDetails extends StatelessWidget {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(seller.package![index]
                                                   .duration ??
-                                              '',style: AppTextStyle.tapTitle,),
+                                              '',style: AppTextStyle.tapTitle(context),),
                                         ),
                                       )),
                                  sizeBoxHeight6,
@@ -134,7 +135,7 @@ class MyServiceDetails extends StatelessWidget {
                                             : Text(
                                                 "Description",
                                                 style: AppTextStyle
-                                                    .bodyMediumBlackBold,
+                                                    .bodyMediumBlackBold(context),
                                               ),
                                         seller.package![index]
                                                 .packageDescription!.isEmpty
@@ -144,7 +145,7 @@ class MyServiceDetails extends StatelessWidget {
                                                         .packageDescription ??
                                                     '',
                                                 style: AppTextStyle
-                                                    .bodySmallGrey400,
+                                                    .bodySmallGrey400(context),
                                               ),
                                         seller.package![index]
                                                 .packageDescription!.isEmpty
@@ -233,7 +234,7 @@ class MyServiceDetails extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      backgroundColor: AppColors.kprimaryColor,
+                      backgroundColor: AppColors.kPrimaryColor,
                       foregroundColor: Colors.white),
                   child:  Text(
                     'Edit',
@@ -253,15 +254,15 @@ class MyServiceDetails extends StatelessWidget {
     borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
     ),
                           backgroundColor: AppColors.strokeColor2,
-                          title: const Icon(
+                          title:  Icon(
                             CupertinoIcons.delete,
                             color: AppColors.cancelButtonColor,
-                            size: 40,
+                            size: 40.sp,
                           ),
                           content: Text(
                             'Are you sure to delete this service?',
                             style: TextStyle(
-                                fontSize: getResponsiveFontSize(context, 12),
+                                fontSize: default12FontSize,
                                 fontWeight: FontWeight.w500),
                           ),
                           actions: [
@@ -288,7 +289,7 @@ class MyServiceDetails extends StatelessWidget {
                                 child: const Text('Yes')),
                             ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.kprimaryColor,
+                                    backgroundColor: AppColors.kPrimaryColor,
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 12),
                                     foregroundColor: Colors.white),

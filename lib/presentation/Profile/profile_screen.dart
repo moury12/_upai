@@ -11,6 +11,7 @@ import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
+import 'package:upai/widgets/custom_appbar.dart';
 import 'package:upai/widgets/custom_button.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -91,12 +92,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onTap: () {
                             getImage();
                           },
-                          child: Padding(
-                            padding: EdgeInsets.all(4.sp),
-                            child: Icon(
-                              Icons.add_a_photo,
-                              size: defaultIconSize,
-                              color: AppColors.kprimaryColor,
+                          child: Container(
+                            decoration: const BoxDecoration(color: Colors.white,shape: BoxShape.circle),
+                            child: Padding(
+                              padding: EdgeInsets.all(4.sp),
+                              child: Icon(
+                                Icons.add_a_photo,
+                                size: defaultAppBarIconSize,
+                                color: AppColors.kPrimaryColor,
+                              ),
                             ),
                           ),
                         ),

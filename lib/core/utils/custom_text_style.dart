@@ -8,250 +8,382 @@ import 'app_colors.dart';
 class AppTextStyle {
   // Text Styles
 
-  //styles for upai
-  static get appBarTitle => TextStyle(
-        fontSize: defaultTitleFontSize,
-        fontWeight: FontWeight.bold,
-        color: AppColors.colorWhite,
-      );  static get tapTitle => TextStyle(
-        fontSize: default14FontSize,
+  static TextStyle appBarTitle(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: ScreenUtil().screenWidth > ScreenUtil().screenHeight
+          ? default14FontSize
+          : defaultTitleFontSize,
+      fontWeight: FontWeight.bold,
+      color: AppColors.colorWhite,
+    );
+  }
 
+  static TextStyle tapTitle(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default14FontSize,
+    );
+  }
 
-      );
-  static get titleText => TextStyle(fontSize: default12FontSize, fontWeight: FontWeight.w500, color: AppColors.kprimaryColor);
-  static get titleTextSmallUnderline => TextStyle(
-        decoration: TextDecoration.underline,
-        fontSize: default12FontSize,
-        fontWeight: FontWeight.w600,
-        color: AppColors.appTextColorGrey,
-      );
-  static get titleTextSmallest => TextStyle(
-        fontSize: default10FontSize,
-        fontWeight: FontWeight.w500,
-        color: AppColors.appTextColorGrey,
-      );
-  static get titleTextSmall => TextStyle(
-        fontSize: default12FontSize,
-        fontWeight: FontWeight.w500,
-        color: AppColors.appTextColorGrey,
-      );
-  static get bodyMediumBlackBold => TextStyle(
-        fontSize: defaultTitleFontSize,
-        fontWeight: FontWeight.bold,
-        color: AppColors.colorBlack,
-      );
-  static get bodyMediumSemiBlackBold => TextStyle(
-        fontSize: defaultTitleFontSize,
-        // fontWeight: FontWeight.bold,
-        color: AppColors.titleName,
-      );
-  static get bodyMediumBlackSemiBold => TextStyle(
-        fontSize: defaultTitleFontSize,
-        fontWeight: FontWeight.w600,
-        color: AppColors.colorBlack,
-      );static get bodyMediumWhiteSemiBold => TextStyle(
-        fontSize: default14FontSize,
-        fontWeight: FontWeight.w600,
-        color: AppColors.colorWhite,
-      );
-  static get body12BlackSemiBold => TextStyle(
-        fontSize: default12FontSize,
-        fontWeight: FontWeight.w600,
-        color: AppColors.colorWhite,
-      );
-  static get bodyMedium => TextStyle(
-        fontSize: default12FontSize,
-        fontWeight: FontWeight.w700,
-        color: AppColors.titleName,
-      );
-  static get bodySmallGrey => TextStyle(
-        fontSize: 13.sp,
-        // fontWeight: FontWeight.w400,
-        color: AppColors.deepGreyColor,
-      );
-  static get bodySmallblack => TextStyle(
-        fontSize: default14FontSize,
-        fontWeight: FontWeight.w600,
-        color: Colors.black,
-      );
+  static TextStyle titleText(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default12FontSize,
+      fontWeight: FontWeight.w500,
+      color: AppColors.kPrimaryColor,
+    );
+  }
 
-  //
+  static TextStyle titleTextSmallUnderline(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      decoration: TextDecoration.underline,
+      fontSize: default12FontSize,
+      fontWeight: FontWeight.w600,
+      color: AppColors.appTextColorGrey,
+    );
+  }
 
-  static get bodyLarge => TextStyle(
-        fontSize: 25.sp,
-        fontWeight: FontWeight.w700,
-        color: AppColors.colorBlack,
-      );
-  static get bodyLargeSemiBlack => TextStyle(
-        fontSize: 25.sp,
-        fontWeight: FontWeight.w700,
-        color: AppColors.titleName,
-      );
+  static TextStyle titleTextSmallest(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default10FontSize,
+      fontWeight: FontWeight.w500,
+      color: AppColors.appTextColorGrey,
+    );
+  }
 
-  static get bodyLarge900 => TextStyle(
-        fontSize: 18.sp,
-        fontWeight: FontWeight.w700,
-        color: AppColors.kprimaryColor,
-      );  static get textFont14bold => TextStyle(
-        fontSize: default14FontSize,
-        fontWeight: FontWeight.w700,
-        color: AppColors.colorBlack,
-      );
+  static TextStyle titleTextSmall(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default12FontSize,
+      fontWeight: FontWeight.w500,
+      color: AppColors.appTextColorGrey,
+    );
+  }
 
-  static get bodyLarge700 => TextStyle(
-        fontSize: 23.sp,
-        fontWeight: FontWeight.w700,
-        color: AppColors.colorBlack,
-      );
+  static TextStyle bodyMediumBlackBold(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.bold,
+      color: AppColors.colorBlack,
+    );
+  }
 
-  static get bodyMedium400 => TextStyle(
-        fontSize: 17.sp,
-        fontWeight: FontWeight.w400,
-        color: AppColors.colorGrey,
-      );
+  static TextStyle bodyMediumSemiBlackBold(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      color: AppColors.titleName,
+    );
+  }
 
-  static get bodyMediumWhite500 => TextStyle(
-        fontSize: 17.sp,
-        fontWeight: FontWeight.w500,
-        color: AppColors.colorWhite,
-      );
+  // Continue this pattern for each remaining TextStyle method
 
-  static get bodyMediumblack => TextStyle(
-        fontSize: 17.sp,
-        fontWeight: FontWeight.bold,
-        color: AppColors.colorBlack,
-      );
-  static get bodyMediumWhite400small => TextStyle(
-        fontSize: default14FontSize,
-        fontWeight: FontWeight.w400,
-        color: AppColors.colorWhite,
-      );
+  static TextStyle unReadMsgStyle(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default12FontSize,
+      fontWeight: FontWeight.w700,
+      color: AppColors.colorBlack,
+    );
+  }
+  static TextStyle bodyMediumBlackSemiBold(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.w600,
+      color: AppColors.colorBlack,
+    );
+  }
 
-  static get bodyMediumBlack400 => TextStyle(
-        fontSize: 17.sp,
-        fontWeight: FontWeight.w400,
-        color: AppColors.colorBlack,
-      );
+  static TextStyle bodyMediumWhiteSemiBold(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default14FontSize,
+      fontWeight: FontWeight.w600,
+      color: AppColors.colorWhite,
+    );
+  }
 
-  static get bodyMediumBlue700 => TextStyle(
-        fontSize: 17.sp,
-        fontWeight: FontWeight.w700,
-        color: AppColors.colorWhite,
-      );
+  static TextStyle body12BlackSemiBold(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default12FontSize,
+      fontWeight: FontWeight.w600,
+      color: AppColors.colorWhite,
+    );
+  }
 
-  static get bodyMediumButton700 => TextStyle(
-        fontSize: 17.sp,
-        fontWeight: FontWeight.w700,
-        color: AppColors.buttonColor2,
-      );
+  static TextStyle bodyMedium(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default12FontSize,
+      fontWeight: FontWeight.w700,
+      color: AppColors.titleName,
+    );
+  }
 
-  static get bodyMediumTextButton700 => TextStyle(
-        fontSize: 17.sp,
-        fontWeight: FontWeight.w700,
-        color: AppColors.colorBlue,
-      );
+  static TextStyle bodySmallGrey(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 13.sp,
+      color: AppColors.deepGreyColor,
+    );
+  }
 
-  static get bodyMediumLightBlack300 => TextStyle(
-        fontSize: 17.sp,
-        fontWeight: FontWeight.w300,
-        color: AppColors.colorLightBlack,
-      );
+  static TextStyle bodySmallblack(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default14FontSize,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+    );
+  }
 
-  static get bodySmall => TextStyle(
-        fontSize: 13.sp,
-        fontWeight: FontWeight.w400,
-        color: AppColors.hintColor,
-      );
-  static get bodySmallwhite =>  TextStyle(
-        fontSize: 13.sp,
-        fontWeight: FontWeight.w400,
-        color: Colors.white,
-      );
+  static TextStyle bodyLarge(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 25.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.colorBlack,
+    );
+  }
 
-  static get bodySmallGrey400 => TextStyle(
-        fontSize: default14FontSize,
-        fontWeight: FontWeight.w400,
-        color: AppColors.titleName,
-        // decoration: TextDecoration.lineThrough,
-      );
+  static TextStyle bodyLargeSemiBlack(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 25.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.titleName,
+    );
+  }
 
-  static get bodySmallBlack400 => TextStyle(
-        fontSize: default14FontSize,
-        fontWeight: FontWeight.w400,
-        color: AppColors.colorBlack,
-      ); static get bodySmallBlack600 => TextStyle(
-        fontSize: default10FontSize,
-        fontWeight: FontWeight.w600,
-        color: AppColors.colorBlack,
-      );
+  static TextStyle bodyLarge900(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 18.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.kPrimaryColor,
+    );
+  }
 
-  static get bodySmallBlack400f15 => TextStyle(
-        fontSize: 15.sp,
-        fontWeight: FontWeight.w400,
-        color: AppColors.colorBlack,
-      );
+  static TextStyle textFont14bold(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default14FontSize,
+      fontWeight: FontWeight.w700,
+      color: AppColors.colorBlack,
+    );
+  }
 
-  static get bodySmallGrey400S15 => TextStyle(
-        fontSize: 15.sp,
-        fontWeight: FontWeight.w400,
-        color: AppColors.deepGreyColor,
-      );
+  static TextStyle bodyLarge700(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 23.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.colorBlack,
+    );
+  }
 
-  static get bodySmallTextGrey400 => TextStyle(
-        fontSize: 15.sp,
-        fontWeight: FontWeight.w400,
-        color: AppColors.colorTextGrey,
-      );
-  static get bodySmallestTextGrey400 => TextStyle(
-        fontSize: default10FontSize,
-        fontWeight: FontWeight.w400,
-        color: AppColors.colorTextGrey,
-      );
+  static TextStyle bodyMedium400(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.w400,
+      color: AppColors.colorGrey,
+    );
+  }
 
-  static get bodySmallText2Grey400 => TextStyle(
-        fontSize: 15.sp,
-        fontWeight: FontWeight.w400,
-        color: AppColors.colorTextGrey2,
-      );
+  static TextStyle bodyMediumWhite500(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.w500,
+      color: AppColors.colorWhite,
+    );
+  }
 
-  static get bodySmallText2Grey400s16 => TextStyle(
-        fontSize: defaultTitleFontSize,
-        fontWeight: FontWeight.w400,
-        color: AppColors.colorTextGrey2,
-      );
+  static TextStyle bodyMediumblack(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.bold,
+      color: AppColors.colorBlack,
+    );
+  }
 
-  static get bodyTitle700 => TextStyle(
-        fontSize: defaultTitleFontSize,
-        fontWeight: FontWeight.w700,
-        color: AppColors.colorWhite,
-      );
-  static get unReadMsgStyle => TextStyle(
-    fontSize: default12FontSize,
-    fontWeight: FontWeight.w700,
-    color: AppColors.colorBlack,
-  );
+  static TextStyle bodyMediumWhite400small(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default14FontSize,
+      fontWeight: FontWeight.w400,
+      color: AppColors.colorWhite,
+    );
+  }
 
-  // Button Styles
+  static TextStyle bodyMediumBlack400(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.w400,
+      color: AppColors.colorBlack,
+    );
+  }
 
-  // static get buttonStyle => ButtonStyle(
-  //       backgroundColor: WidgetStateProperty.all<Color>(AppColors.primaryColor),
-  //       foregroundColor: WidgetStateProperty.all<Color>(AppColors.colorWhite),
-  //       minimumSize: WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
-  //       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-  //         RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(8.0), // Rounded corners
-  //         ),
-  //       ),
-  //     );
-  //
-  // static get buttonStyle2 => ButtonStyle(
-  //       backgroundColor: WidgetStateProperty.all<Color>(AppColors.buttonColor),
-  //       foregroundColor: WidgetStateProperty.all<Color>(AppColors.colorWhite),
-  //       minimumSize: WidgetStateProperty.all<Size>(const Size(double.infinity, 60)),
-  //       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-  //         RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(8.0), // Rounded corners
-  //         ),
-  //       ),
-  //     );
+  static TextStyle bodyMediumBlue700(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.w700,
+      color: AppColors.colorWhite,
+    );
+  }
+
+  static TextStyle bodyMediumButton700(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.w700,
+      color: AppColors.buttonColor2,
+    );
+  }
+
+  static TextStyle bodyMediumTextButton700(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.w700,
+      color: AppColors.colorBlue,
+    );
+  }
+
+  static TextStyle bodyMediumLightBlack300(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.w300,
+      color: AppColors.colorLightBlack,
+    );
+  }
+
+  static TextStyle bodySmall(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 13.sp,
+      fontWeight: FontWeight.w400,
+      color: AppColors.hintColor,
+    );
+  }
+
+  static TextStyle bodySmallwhite(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 13.sp,
+      fontWeight: FontWeight.w400,
+      color: Colors.white,
+    );
+  }
+
+  static TextStyle bodySmallGrey400(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default14FontSize,
+      fontWeight: FontWeight.w400,
+      color: AppColors.titleName,
+    );
+  }
+
+  static TextStyle font12grey400(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default12FontSize,
+      fontWeight: FontWeight.w400,
+      color: Colors.grey.shade700,
+    );
+  }
+
+  static TextStyle bodySmallBlack400(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default14FontSize,
+      fontWeight: FontWeight.w400,
+      color: AppColors.colorBlack,
+    );
+  }
+
+  static TextStyle bodySmallBlack600(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default10FontSize,
+      fontWeight: FontWeight.w600,
+      color: AppColors.colorBlack,
+    );
+  }
+
+  static TextStyle bodySmallBlack400f15(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 15.sp,
+      fontWeight: FontWeight.w400,
+      color: AppColors.colorBlack,
+    );
+  }
+
+  static TextStyle bodySmallGrey400S15(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 15.sp,
+      fontWeight: FontWeight.w400,
+      color: AppColors.deepGreyColor,
+    );
+  }
+
+  static TextStyle bodySmallTextGrey400(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 15.sp,
+      fontWeight: FontWeight.w400,
+      color: AppColors.colorTextGrey,
+    );
+  }
+
+  static TextStyle bodySmallestTextGrey400(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: default10FontSize,
+      fontWeight: FontWeight.w400,
+      color: AppColors.colorTextGrey,
+    );
+  }
+
+  static TextStyle bodySmallText2Grey400(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: 15.sp,
+      fontWeight: FontWeight.w400,
+      color: AppColors.colorTextGrey2,
+    );
+  }
+
+  static TextStyle bodySmallText2Grey400s16(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.w400,
+      color: AppColors.colorTextGrey2,
+    );
+  }
+
+  static TextStyle bodyTitle700(BuildContext context) {
+    ScreenUtil.init(context);
+    return TextStyle(
+      fontSize: defaultTitleFontSize,
+      fontWeight: FontWeight.w700,
+      color: AppColors.colorWhite,
+    );
+  }
 }
+

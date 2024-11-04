@@ -27,6 +27,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height ?? 45.w,
+
       child: MaterialButton(
         disabledColor:disableColor?? Colors.grey,
         disabledElevation: 0,
@@ -36,7 +37,9 @@ class CustomButton extends StatelessWidget {
         ),
         colorBrightness: Brightness.dark,
         height: 45.w,
-        color: color ?? AppColors.kprimaryColor,
+
+
+        color: color ?? AppColors.kPrimaryColor,
         onPressed: (onTap == null || isLoading) ? null : () => onTap!(),
         child: Center(
           child: isLoading == false

@@ -20,6 +20,8 @@ class DefaultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double appBarIconSize = ScreenUtil().screenHeight < ScreenUtil().screenWidth? 14.sp : defaultAppBarIconSize;
+
     return Obx(() {
       return PopScope(
         canPop: false,
@@ -66,7 +68,7 @@ class DefaultScreen extends StatelessWidget {
                         child: Text('Yes')),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.kprimaryColor,
+                            backgroundColor: AppColors.kPrimaryColor,
                             foregroundColor: Colors.white),
                         onPressed: () {
                           Navigator.pop(context);
@@ -81,7 +83,7 @@ class DefaultScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
-            foregroundColor: AppColors.kprimaryColor,
+            foregroundColor: AppColors.kPrimaryColor,
             surfaceTintColor: Colors.white,
             title: Obx(() {
               return ctrl.selectedIndex.value == 0
@@ -96,10 +98,10 @@ class DefaultScreen extends StatelessWidget {
             }),
             centerTitle: true,
             iconTheme: IconThemeData(
-                size:  20.sp, color: AppColors.kprimaryColor),
+                size:  appBarIconSize, color: AppColors.kPrimaryColor),
             titleTextStyle: TextStyle(
-              color: AppColors.kprimaryColor,
-              fontSize: default14FontSize,
+              color: AppColors.kPrimaryColor,
+              fontSize: defaultTitleFontSize,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -161,9 +163,9 @@ class DefaultScreen extends StatelessWidget {
                   label: 'notification'.tr,
                 ),
               ],
-              selectedItemColor: AppColors.kprimaryColor,
+              selectedItemColor: AppColors.kPrimaryColor,
               selectedLabelStyle: TextStyle(
-                  fontWeight: FontWeight.bold, color: AppColors.kprimaryColor),
+                  fontWeight: FontWeight.bold, color: AppColors.kPrimaryColor),
               unselectedItemColor: AppColors.appTextColorGrey,
               selectedIconTheme: IconThemeData(color: ctrl.selectedColor),
               currentIndex: ctrl.selectedIndex.value,

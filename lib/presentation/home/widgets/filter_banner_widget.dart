@@ -52,7 +52,7 @@ class _FilterBannerState extends State<FilterBanner> {
               },
               icon: Image.asset(
                 ImageConstant.filterIcon,
-                color: AppColors.kprimaryColor,
+                color: AppColors.kPrimaryColor,
                 height: 25.w,
               )),
           Expanded(
@@ -73,7 +73,7 @@ class _FilterBannerState extends State<FilterBanner> {
                     child: Container(
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                            color: AppColors.kprimaryColor,
+                            color: AppColors.kPrimaryColor,
                             borderRadius: BorderRadius.circular(10)),
                         alignment: Alignment.center,
                         child: Row(
@@ -89,7 +89,7 @@ class _FilterBannerState extends State<FilterBanner> {
                             ),
                             Text(
                               'service'.tr,
-                              style: AppTextStyle.bodyMediumWhiteSemiBold,
+                              style: AppTextStyle.bodyMediumWhiteSemiBold(context),
                             )
                           ],
                         )),
@@ -111,7 +111,7 @@ class FilterDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-
+scrollable: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(defaultRadius)),
       ),
@@ -119,13 +119,13 @@ class FilterDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       titlePadding: EdgeInsets.zero,
       title: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0).copyWith(top: 8),
+        padding:  EdgeInsets.symmetric(horizontal: 12.sp,vertical: 8.sp),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               'search_filter'.tr,
-              style: AppTextStyle.bodyMediumBlackBold,
+              style: AppTextStyle.bodyMediumBlackBold(context),
             ),
             CustomTextButton(
               label: 'reset'.tr,
@@ -141,7 +141,7 @@ class FilterDialog extends StatelessWidget {
           ],
         ),
       ),
-      content: Column(
+   content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -185,7 +185,7 @@ class FilterDialog extends StatelessWidget {
           Divider()
         ],
       ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 12),
+      contentPadding: EdgeInsets.symmetric(horizontal: 12.sp),
       actionsPadding:
           EdgeInsets.symmetric(vertical: 8, horizontal: 8).copyWith(top: 0),
       actions: [
@@ -236,7 +236,7 @@ class FilterDropdown<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Divider(),
-        Text(title, style: AppTextStyle.bodySmallblack),
+        Text(title, style: AppTextStyle.bodySmallblack(context)),
         sizeBoxHeight6,
         CustomDropDown(
             isEditArgument: false,

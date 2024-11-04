@@ -27,6 +27,7 @@ class InboxCardWidget extends StatelessWidget {
     UserInfoModel? receiverUserData;
     return Container(
         margin:  EdgeInsets.symmetric(horizontal: defaultPadding,vertical: default4Padding),
+        padding: EdgeInsets.all(8.sp),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(4),
@@ -57,9 +58,9 @@ class InboxCardWidget extends StatelessWidget {
                           message = list[0];
                           sendByMe = message!.fromId.toString() ==
                               FirebaseAPIs.user['user_id'];
-                          return ListTile(
-                            // contentPadding: EdgeInsets.zero,
-                            leading: Stack(children: [
+                          return
+                          Row(children: [
+                            Stack(children: [
                               Container(
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
@@ -91,36 +92,42 @@ class InboxCardWidget extends StatelessWidget {
                                       ? const UserActive()
                                       : const UserInactive())
                             ]),
-                            title: Text(
-                              receiverUserData!.name.toString(),
-                              style: AppTextStyle.bodyMediumBlackSemiBold,
-                            ),
-                            subtitle: message != null
-                                ?sendByMe?
-                            Text(
-                                    overflow: TextOverflow.ellipsis,
-                                    message!.type == Type.image
-                                        ? "Image"
-                                        : "You: ${message!.msg}",
-                                    maxLines: 1,
-                                  )
-                                :message!.read!.isEmpty?
-                            Text(
-                              overflow: TextOverflow.ellipsis,
-                              message!.type == Type.image
-                                  ? "Image"
-                                  : "${message!.msg}",
-                              maxLines: 1,style: AppTextStyle.unReadMsgStyle,
-                            ):Text(
-                              overflow: TextOverflow.ellipsis,
-                              message!.type == Type.image
-                                  ? "Image"
-                                  : "${message!.msg}",
-                              maxLines: 1,
-                            )
-                                :const Text(""),
-                            contentPadding: EdgeInsets.zero,
-                            trailing: Column(
+                            defaultSizeBoxWidth,
+                            
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                Text(
+                                  receiverUserData!.name.toString(),
+                                  style: AppTextStyle.bodyMediumBlackSemiBold(context),
+                                ),
+                                message != null
+                                    ?sendByMe?
+                                Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  message!.type == Type.image
+                                      ? "Image"
+                                      : "You: ${message!.msg}",
+                                  maxLines: 1,style: AppTextStyle.font12grey400(context),
+                                )
+                                    :message!.read!.isEmpty?
+                                Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  message!.type == Type.image
+                                      ? "Image"
+                                      : "${message!.msg}",
+                                  maxLines: 1,style: AppTextStyle.unReadMsgStyle(context),
+                                ):Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  message!.type == Type.image
+                                      ? "Image"
+                                      : "${message!.msg}",
+                                  maxLines: 1,style: AppTextStyle.font12grey400(context),
+                                )
+                                    :const Text(""),
+                              ],),
+                            ),Spacer(), Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -128,22 +135,23 @@ class InboxCardWidget extends StatelessWidget {
                                   MyDateUtil.getLastMessageTime(
                                       context: context,
                                       time: message!.sent.toString()),
-                                  style: AppTextStyle.titleText,
+                                  style: AppTextStyle.titleText(context),
                                 ),
 
                                 sendByMe
                                     ? const SizedBox()
                                     : message!.read!.isEmpty
-                                        ? const UnReadIndicator()
-                                        : const SizedBox.shrink(),
+                                    ? const UnReadIndicator()
+                                    : const SizedBox.shrink(),
                               ],
-                            ),
-                          );
+                            )
+                          ],);
+
                         }
                         else {
-                          return ListTile(
-                            // contentPadding: EdgeInsets.zero,
-                            leading: Stack(children: [
+                          return
+                          Row(children: [
+                            Stack(children: [
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
@@ -167,21 +175,24 @@ class InboxCardWidget extends StatelessWidget {
                                 ),
                               ),
                             ]),
-                            title: Text(
-                              receiverUserInfo.name.toString(),
-                              style: AppTextStyle.bodyMediumBlackSemiBold,
-                            ),
-                            subtitle: Text(""),
-                            contentPadding: EdgeInsets.zero,
-                          );
+                            defaultSizeBoxWidth,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  receiverUserInfo.name.toString(),
+                                  style: AppTextStyle.bodyMediumBlackSemiBold(context),
+                                ),
+                            ],)
+                          ],);
+
                         }
                       },
                     );
                   }
                   else {
-                    return ListTile(
-                      // contentPadding: EdgeInsets.zero,
-                      leading: Stack(children: [
+                    return Row(children: [
+                      Stack(children: [
                         Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(100),
@@ -204,14 +215,18 @@ class InboxCardWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ]),
-                      title: Text(
-                        receiverUserInfo.name.toString(),
-                        style: AppTextStyle.bodyMediumBlackSemiBold,
-                      ),
-                      subtitle: Text(""),
-                      contentPadding: EdgeInsets.zero,
-                    );
+                      ]),defaultSizeBoxWidth,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            receiverUserInfo.name.toString(),
+                            style: AppTextStyle.bodyMediumBlackSemiBold(context),
+                          )
+                        ],
+                      )
+                    ],);
+
                   }
                 })));
   }

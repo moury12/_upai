@@ -14,6 +14,7 @@ import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
+import 'package:upai/widgets/custom_appbar.dart';
 import 'package:upai/widgets/custom_button.dart';
 import 'package:upai/widgets/custom_network_image.dart';
 import 'package:upai/widgets/custom_text_field.dart';
@@ -23,11 +24,9 @@ import 'widget/package_create_widget.dart';
 
 class CreateOfferScreen extends StatefulWidget {
   static const String routeName = '/create-offer';
-  final MyService? service;
 
   const CreateOfferScreen({
     super.key,
-    this.service,
   });
 
   @override
@@ -40,29 +39,24 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   // var serviceArgument =Get.arguments()['service'];
   bool isEditArgument = false;
   Map<String, dynamic>? arguments = Get.arguments;
+  bool hasPackagePriceEmpty = CreateOfferController.to.packageList
+      .any((element) => element['price'].isEmpty);
+  bool hasPackageNameEmpty = CreateOfferController.to.packageList
+      .any((element) => element['duration'].isEmpty);
   @override
   void initState() {
     if (arguments != null) {
       CreateOfferController.to.editOfferData(arguments!['service']);
       isEditArgument = arguments!['isEdit'];
-
-      debugPrint('000000000000000000');
-      debugPrint(arguments!['service'].offerId.toString());
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Get.arguments()');
-    debugPrint(arguments.toString());
-    // CreateOfferController.to.isLoading.value = false;
-    // CreateOfferController.to.isUploading.value = false;
     return WillPopScope(
       onWillPop: () async {
-        // Check if nextProcess is true
         if (CreateOfferController.to.nextProcess.value) {
-          // If true, reset nextProcess to false and prevent pop
           CreateOfferController.to.nextProcess.value = false;
           return false; // Prevent pop
         }
@@ -71,10 +65,12 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         return true; // Allow pop
       },
       child: Scaffold(
-        backgroundColor: AppColors.kprimaryColor,
+        backgroundColor: AppColors.kPrimaryColor,
         resizeToAvoidBottomInset: true,
-        appBar:CustomAppBar(title: isEditArgument ? 'edit_offer' : "create_new_offer".tr),
-
+        appBar: CustomAppBar(
+            title: isEditArgument ? 'edit_offer'.tr : "create_new_offer".tr,icon: IconButton(onPressed: () {
+              print(CreateOfferController.to.packageList.toString());
+            }, icon: Icon(Icons.add)),),
         body: Container(
           constraints: const BoxConstraints.expand(),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -125,7 +121,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: default12FontSize,
-                                          color: AppColors.kprimaryColor),
+                                          color: AppColors.kPrimaryColor),
                                     ),
                                     sizeBoxHeight6,
                                     InkWell(
@@ -138,7 +134,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: SizedBox(
-                                              height:120.w,
+                                              height: 120.w,
                                               width: 130.w,
                                               child: CreateOfferController
                                                           .to.image.value !=
@@ -181,11 +177,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             fontSize: default12FontSize,
-                                            color: AppColors.kprimaryColor,
+                                            color: AppColors.kPrimaryColor,
                                           ),
                                         ),
                                         spaceWidth6,
-                                         Text(
+                                        Text(
                                           '*',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
@@ -250,10 +246,12 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         .to.packageLevelList,
                                     value: CreateOfferController
                                         .to.selectedLevel.value,
-                                    onChanged: (value) {
-                                      CreateOfferController
-                                          .to.selectedLevel.value = value;
-                                    },
+                                    onChanged: isEditArgument
+                                        ? null
+                                        : (value) {
+                                            CreateOfferController
+                                                .to.selectedLevel.value = value;
+                                          },
                                   );
                                 }),
                                 defaultSizeBoxWidth,
@@ -263,40 +261,54 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                         .to.isLoading.value,
                                     text: 'next'.tr,
                                     onTap: () {
-                                    if(CreateOfferController.to.selectedServiceType.value !=
-                                        null &&
-                                        CreateOfferController.to.selectedCategory.value !=
-                                            null &&CreateOfferController
-                                        .to
-                                        .titleController
-                                        .value
-                                        .text
-                                        .isNotEmpty &&
-                                        CreateOfferController
-                                            .to
-                                            .descriptionController
-                                            .value
-                                            .text
-                                            .isNotEmpty &&CreateOfferController
-                                        .to
-                                        .selectedLevel
-                                        .value
-                                        !=null )  {
+                                      if (CreateOfferController.to
+                                                  .selectedServiceType.value !=
+                                              null &&
+                                          CreateOfferController.to.selectedCategory
+                                                  .value !=
+                                              null &&
+                                          CreateOfferController
+                                              .to
+                                              .titleController
+                                              .value
+                                              .text
+                                              .isNotEmpty &&
+                                          CreateOfferController
+                                              .to
+                                              .descriptionController
+                                              .value
+                                              .text
+                                              .isNotEmpty &&
+                                          CreateOfferController
+                                                  .to.selectedLevel.value !=
+                                              null) {
                                         CreateOfferController
                                             .to.nextProcess.value = true;
-                                        CreateOfferController.to
-                                            .populatePackageList(
-                                                CreateOfferController.to
-                                                        .selectedLevel.value ??
-                                                    3);
-                                      }else{
-                                      showCustomSnackbar(
-                                        title: "Failed",
-                                        type: SnackBarType.failed,
-                                        message:
-                                        "Please fill up required fields",
-                                      );
-                                    }
+                                        if (!isEditArgument) {
+                                          CreateOfferController.to
+                                              .initializeControllers(
+                                                  CreateOfferController
+                                                      .to.selectedLevel.value!);
+                                          CreateOfferController.to
+                                              .populatePackageList(
+                                                  CreateOfferController
+                                                          .to
+                                                          .selectedLevel
+                                                          .value ??
+                                                      3);
+                                        } else {
+                                          CreateOfferController.to
+                                              .populateControllers(
+                                                  arguments!['service']);
+                                        }
+                                      } else {
+                                        showCustomSnackbar(
+                                          title: "Failed",
+                                          type: SnackBarType.failed,
+                                          message:
+                                              "Please fill up required fields",
+                                        );
+                                      }
                                       // CreateOfferController.to.update();
                                     },
                                   ),
@@ -308,7 +320,6 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                       : Column(
                           children: [
                             sizeBoxHeight6,
-
                             const PackageCreateWidget(),
                             sizeBoxHeight6,
                             Row(
@@ -318,11 +329,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: default12FontSize,
-                                    color: AppColors.kprimaryColor,
+                                    color: AppColors.kPrimaryColor,
                                   ),
                                 ),
                                 spaceWidth6,
-                                 Text(
+                                Text(
                                   '*',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
@@ -337,7 +348,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 HomeController.to.districtList.refresh();
 
                                 return CircularProgressIndicator(
-                                  color: AppColors.kprimaryColor,
+                                  color: AppColors.kPrimaryColor,
                                 );
                               } else {
                                 return const SearchableDropDown(
@@ -364,174 +375,152 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                               child: Row(
                                 children: [
                                   Expanded(child: Obx(() {
-
                                     return CustomButton(
-                                      disableColor: AppColors.kprimaryColor,
+                                      disableColor: AppColors.kPrimaryColor,
                                       isLoading: CreateOfferController
                                           .to.isLoading.value,
-                                      text: widget.service != null
+                                      text: isEditArgument
                                           ? 'update_offer'.tr
                                           : 'create_offer'.tr,
                                       onTap: () async {
-                                        {
 
-                                          if (CreateOfferController.to.selectedServiceType.value !=
-                                                  null &&
-                                              CreateOfferController.to.selectedCategory.value !=
-                                                  null &&
-                                              CreateOfferController.to.selectedDistrict.value !=
-                                                  null &&
+                                        {
+                                          // print(CreateOfferController.to.packageList
+                                          //     .any((element) => element['price'].isEmpty).toString());
+                                          if (CreateOfferController.to.selectedServiceType.value == null ||
+                                              CreateOfferController.to.selectedCategory.value ==
+                                                  null ||
+                                              CreateOfferController.to.selectedDistrict.value ==
+                                                  null ||
                                               CreateOfferController
                                                   .to
                                                   .titleController
                                                   .value
                                                   .text
-                                                  .isNotEmpty &&
+                                                  .isEmpty ||
                                               CreateOfferController
                                                   .to
                                                   .descriptionController
                                                   .value
                                                   .text
-                                                  .isNotEmpty &&CreateOfferController
-                                                  .to
-                                                  .selectedLevel
-                                                  .value
-                                                  !=null &&
+                                                  .isEmpty ||
+                                              CreateOfferController.to.selectedLevel.value ==
+                                                  null ||
                                               CreateOfferController
                                                   .to
                                                   .addressController
                                                   .value
                                                   .text
-                                                  .isNotEmpty &&
+                                                  .isEmpty ||
                                               CreateOfferController
-                                                  .to.packageList.isNotEmpty &&
-                                              CreateOfferController
-                                                  .to.packagePriceControllers
-                                                  .map(
-                                                    (element) => element.text,
-                                                  )
-                                                  .where(
-                                                    (element) =>
-                                                        element.isNotEmpty,
-                                                  )
-                                                  .toList()
-                                                  .isNotEmpty &&
-                                              CreateOfferController
-                                                  .to.packageNameControllers
-                                                  .map(
-                                                    (element) => element.text,
-                                                  )
-                                                  .where(
-                                                    (element) =>
-                                                        element.isNotEmpty,
-                                                  )
-                                                  .toList()
-                                                  .isNotEmpty &&
+                                                  .to.packageList.isEmpty ||
                                               CreateOfferController
                                                   .to.packageList
-                                                  .map(
-                                                    (element) =>
-                                                        element['service_list'],
-                                                  )
-                                                  .where(
-                                                    (element) =>
-                                                        element.isNotEmpty,
-                                                  )
-                                                  .toList()
-                                                  .isNotEmpty &&
-                                              box.isNotEmpty) {
-                                            if (widget.service != null) {
-                                              await CreateOfferController.to
-                                                  .editOffer(
-                                                      widget.service!.offerId ??
-                                                          '',
-                                                      CreateOfferController
-                                                          .to
-                                                          .titleController
-                                                          .value
-                                                          .text,
-                                                      CreateOfferController
-                                                          .to
-                                                          .descriptionController
-                                                          .value
-                                                          .text,
-                                                      '',
-                                                      CreateOfferController
-                                                          .to
-                                                          .addressController
-                                                          .value
-                                                          .text);
-
-                                              Get.back();
-
-                                              showCustomSnackbar(
-                                                  title: 'Success',
-                                                  message:
-                                                      "Updated Successfully",
-                                                  type: SnackBarType.success);
-                                            } else {
-                                              String? downloadUrl;
-
-                                              if (CreateOfferController
-                                                      .to.image.value !=
-                                                  null) {
-                                                downloadUrl =
-                                                    await CreateOfferController
-                                                        .to
-                                                        .uploadImage(DateTime
-                                                                .now()
-                                                            .microsecondsSinceEpoch
-                                                            .toString());
-                                                print(downloadUrl);
-                                                CreateOfferController
-                                                    .to.image.value = null;
-                                              } else {
-                                                String? categoryImgDownloadUrl =
-                                                    await ImageController()
-                                                        .fetchDefaultOfferImageUrl(
-                                                            CreateOfferController
-                                                                .to
-                                                                .selectedCategory
-                                                                .value
-                                                                .toString());
-                                                downloadUrl =
-                                                    categoryImgDownloadUrl;
-                                              }
-                                              await CreateOfferController.to
-                                                  .createOffer(
-                                                      jobTitle:
-                                                          CreateOfferController
-                                                              .to
-                                                              .titleController
-                                                              .value
-                                                              .text,
-                                                      description:
-                                                          CreateOfferController
-                                                              .to
-                                                              .descriptionController
-                                                              .value
-                                                              .text,
-                                                      address:
-                                                          CreateOfferController
-                                                              .to
-                                                              .addressController
-                                                              .value
-                                                              .text,
-                                                      imgUrl:
-                                                          downloadUrl ?? '');
-
-                                              clearAllField();
-                                            }
-                                          } else {
+                                                  .any((element) =>
+                                                      element['price']
+                                                          .toString()
+                                                          .isEmpty) ||
+                                              CreateOfferController
+                                                  .to.packageList
+                                                  .any((element) =>
+                                                      element['duration']
+                                                          .isEmpty) ||
+                                              box.isEmpty) {
                                             showCustomSnackbar(
                                               title: "Failed",
                                               type: SnackBarType.failed,
                                               message:
                                                   "Please fill up required fields",
                                             );
+                                          } else {
+                                        String? downloadUrl;
+
+                                        if (CreateOfferController
+                                            .to.image.value !=
+                                        null) {
+                                        downloadUrl =
+                                        await CreateOfferController
+                                            .to
+                                            .uploadImage(DateTime
+                                            .now()
+                                            .microsecondsSinceEpoch
+                                            .toString());
+                                        print(downloadUrl);
+                                        CreateOfferController
+                                            .to.image.value = null;
+                                        } else {
+                                        String?
+                                        categoryImgDownloadUrl =
+                                        await ImageController()
+                                            .fetchDefaultOfferImageUrl(
+                                        CreateOfferController
+                                            .to
+                                            .selectedCategory
+                                            .value
+                                            .toString());
+                                        downloadUrl =
+                                        categoryImgDownloadUrl;
+                                        }
+                                              if (isEditArgument==true) {
+                                                await CreateOfferController.to
+                                                    .editOffer(
+                                                        arguments![
+                                                                    'service']!
+                                                                .offerId ??
+                                                            '',
+                                                        CreateOfferController
+                                                            .to
+                                                            .titleController
+                                                            .value
+                                                            .text,
+                                                        CreateOfferController
+                                                            .to
+                                                            .descriptionController
+                                                            .value
+                                                            .text,
+                                                        '',
+                                                        CreateOfferController
+                                                            .to
+                                                            .addressController
+                                                            .value
+                                                            .text,downloadUrl);
+
+                                                Get.back();
+
+                                                showCustomSnackbar(
+                                                    title: 'Success',
+                                                    message:
+                                                        "Updated Successfully",
+                                                    type: SnackBarType.success);
+                                              } else {
+
+                                                await CreateOfferController.to.createOffer(
+                                                    jobTitle:
+                                                        CreateOfferController
+                                                            .to
+                                                            .titleController
+                                                            .value
+                                                            .text,
+                                                    description:
+                                                        CreateOfferController
+                                                            .to
+                                                            .descriptionController
+                                                            .value
+                                                            .text,
+                                                    address:
+                                                        CreateOfferController
+                                                            .to
+                                                            .addressController
+                                                            .value
+                                                            .text,
+                                                    imgUrl: downloadUrl ?? '');
+
+                                                clearAllField();
+                                              }
+                                            }
                                           }
                                         }
-                                      },
+
                                     );
                                   })),
                                 ],
@@ -592,14 +581,16 @@ class RequiredTitleWidget extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: default12FontSize,
-            color: AppColors.kprimaryColor,
+            color: AppColors.kPrimaryColor,
           ),
         ),
         spaceWidth6,
-         Text(
+        Text(
           '*',
           style: TextStyle(
-              fontWeight: FontWeight.w700, fontSize: default10FontSize, color: Colors.red),
+              fontWeight: FontWeight.w700,
+              fontSize: default10FontSize,
+              color: Colors.red),
         )
       ],
     );

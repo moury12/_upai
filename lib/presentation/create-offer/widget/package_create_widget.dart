@@ -31,9 +31,6 @@ class PackageCreateWidget extends StatelessWidget {
                       overlayColor: WidgetStateColor.transparent,
                       onTap: (value) {
                         // HomeController.to.selectPackage(value);
-
-                        debugPrint(
-                            CreateOfferController.to.packageList.toString());
                       },
                       tabs: [
                         ...List.generate(
@@ -43,15 +40,15 @@ class PackageCreateWidget extends StatelessWidget {
                             child: FittedBox(
                               child: Text(
                                 CreateOfferController.to.packageList[index]
-                                    ['package_name'],style: AppTextStyle.tapTitle,
+                                    ['package_name'],
+                                style: AppTextStyle.tapTitle(context),
                               ),
                             ),
                           ),
                         ),
                       ],
                       indicatorColor: Colors.green,
-                      labelColor: AppColors.kprimaryColor,
-
+                      labelColor: AppColors.kPrimaryColor,
                     ),
               TabContentView(
                 children: CreateOfferController.to.packageList.isNotEmpty
@@ -87,7 +84,7 @@ class PackageCreateWidget extends StatelessWidget {
                                       label: "price".tr,
                                       isRequired: true,
                                       validatorText: "please_enter_price".tr,
-                                      hintText:"please_enter_price".tr,
+                                      hintText: "please_enter_price".tr,
                                       inputType: TextInputType.number,
                                       controller: CreateOfferController
                                           .to.packagePriceControllers[index],
@@ -108,7 +105,8 @@ class PackageCreateWidget extends StatelessWidget {
                                   sizeBoxHeight6,
                                   CustomTextField(
                                     label: "package_description".tr,
-                                    validatorText: "please_enter_description".tr,
+                                    validatorText:
+                                        "please_enter_description".tr,
                                     hintText: "please_enter_description".tr,
                                     maxLines: 3,
                                     onChanged: (value) {
@@ -123,7 +121,7 @@ class PackageCreateWidget extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            /*  CreateOfferController
+                              /*  CreateOfferController
                                       .to
                                       .packageList[index]['service_list']
                                       .isEmpty
@@ -166,12 +164,7 @@ class PackageCreateWidget extends StatelessWidget {
                                                     [serviceIndex]['status'],
                                                 //value: data[serviceIndex],
                                                 onChanged: (value) {
-                                                  debugPrint(
-                                                      CreateOfferController
-                                                          .to.packageList
-                                                          .toString());
-                                                  debugPrint(
-                                                      serviceIndex.toString());
+
                                                   // Update the selected value for the specific service in the package
                                                   CreateOfferController
                                                                   .to.packageList[

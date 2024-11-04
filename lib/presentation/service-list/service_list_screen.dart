@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/offer_list_model.dart';
 import 'package:upai/controllers/filter_controller.dart';
@@ -13,6 +14,7 @@ import 'package:upai/presentation/home/home_screen.dart';
 import 'package:upai/presentation/home/widgets/filter_banner_widget.dart';
 import 'package:upai/presentation/home/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
+import 'package:upai/widgets/custom_appbar.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 import 'package:upai/widgets/service_offer_widget.dart';
 
@@ -70,7 +72,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
             ? "explore_new_services".tr
             : "services".tr,),
         body: RefreshIndicator(
-          color: AppColors.kprimaryColor,
+          color: AppColors.kPrimaryColor,
 
           backgroundColor: Colors.white,
           onRefresh: () async {
@@ -89,7 +91,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                   widget.isTopService == true
                       ? const SizedBox.shrink()
                       : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding:  EdgeInsets.symmetric(horizontal: 8.sp).copyWith(top: 8.sp),
                           child:  CustomTextField(
                               controller: controller.searchOfferController.value,
                               onChanged: (value) {
@@ -100,8 +102,8 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   Icons.cancel,
-
-                                  color: AppColors.kprimaryColor,
+size: defaultAppBarIconSize,
+                                  color: AppColors.kPrimaryColor,
                                 ),
                                 onPressed: () {
                                   controller.searchOfferController.value.clear();
@@ -121,7 +123,7 @@ class _ServiceListScreenState extends State<ServiceListScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: Text(
                         '${FilterController.to.selectedServiceType.value != null ? '${FilterController.to.selectedServiceType.value} > ' : ''}${FilterController.to.selectedCategory.value != null ? '${FilterController.to.selectedCategory.value} > ' : ''}${FilterController.to.selectedSortBy.value != null ? '${FilterController.to.selectedSortBy.value} > ' : ''}',
-                        style: AppTextStyle.titleText),
+                        style: AppTextStyle.titleText(context)),
                       ),
                   Obx(
                     () {

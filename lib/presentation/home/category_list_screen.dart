@@ -40,7 +40,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           ),
           title: Text(
             "Category List",
-            style: AppTextStyle.bodyTitle700,
+            style: AppTextStyle.bodyTitle700(context),
           ),
         ),
         body: Column(
@@ -63,7 +63,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 suffixIcon: IconButton(
                   icon: Icon(
                     Icons.cancel,
-                    color: AppColors.kprimaryColor,
+                    color: AppColors.kPrimaryColor,
                   ),
                   onPressed: () {
                     HomeController.to.searchCatController.value.clear();

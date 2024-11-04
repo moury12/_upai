@@ -8,6 +8,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
+import 'package:upai/widgets/custom_network_image.dart';
 
 import '../../Profile/profile_screen_controller.dart';
 
@@ -34,7 +35,7 @@ class _ClientReviewCardState extends State<ClientReviewCard> {
 margin: EdgeInsets.zero,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        side: BorderSide(width: 1.50, color: AppColors.kprimaryColor.withOpacity(.2)),
+        side: BorderSide(width: 1.50, color: AppColors.kPrimaryColor.withOpacity(.2)),
         borderRadius: BorderRadius.circular(8),
       ),
       color: Colors.white,
@@ -54,7 +55,10 @@ margin: EdgeInsets.zero,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           if (snapshot.data != "") {
-                            return CircleAvatar(backgroundImage: NetworkImage(snapshot.data.toString()));
+                            return Container(
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                                child: CustomNetworkImage(imageUrl: snapshot.data.toString(),height: 40.w,width: 40.w,));
                           } else {
                             return CircleAvatar(
                                 backgroundImage: AssetImage(
@@ -80,8 +84,8 @@ margin: EdgeInsets.zero,
                     ),
                     Column(crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.buyerReview.buyerName.toString(), style: AppTextStyle.bodySmallblack),
-                        Text(MyDateUtil.formatDate(widget.buyerReview.reviewDate.toString()), style: AppTextStyle.titleTextSmallest),
+                        Text(widget.buyerReview.buyerName.toString(), style: AppTextStyle.bodySmallblack(context)),
+                        Text(MyDateUtil.formatDate(widget.buyerReview.reviewDate.toString()), style: AppTextStyle.titleTextSmallest(context)),
                       ],
                     ),
                   ],
@@ -93,11 +97,11 @@ margin: EdgeInsets.zero,
 
                     Icon(
                       Icons.star_rate_rounded,
-                      color: AppColors.kprimaryColor,
+                      color: AppColors.kPrimaryColor,
                       size: 20.sp,
                     ),Text(
                       widget.buyerReview.buyerRating.toString(),
-                      style: AppTextStyle.bodySmallGrey,
+                      style: AppTextStyle.bodySmallGrey(context),
                     ),
                   ],
                 ),
@@ -110,12 +114,12 @@ margin: EdgeInsets.zero,
            widget.maxLine!=null? Text(
               widget.buyerReview.buyerReview.toString(),
               textAlign: TextAlign.justify,
-              style: AppTextStyle.bodySmallGrey,
+              style: AppTextStyle.bodySmallGrey(context),
               overflow: TextOverflow.visible,
               maxLines: widget.maxLine??null,
             ):ReadMoreText(
              widget.buyerReview.buyerReview.toString(),
-             style: AppTextStyle.bodySmallGrey400,
+             style: AppTextStyle.bodySmallGrey400(context),
              textAlign: TextAlign.start,
              trimMode: TrimMode.Line,
              trimLines: 3,

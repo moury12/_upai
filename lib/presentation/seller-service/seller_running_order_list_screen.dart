@@ -7,6 +7,7 @@ import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/presentation/home/widgets/shimmer_for_home.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
+import 'package:upai/widgets/custom_appbar.dart';
 import 'widgets/seller_running_order_widget.dart';
 
 class SellerRunningOrderListScreen extends StatelessWidget {
@@ -16,6 +17,7 @@ class SellerRunningOrderListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
 
         appBar: CustomAppBar(
@@ -24,7 +26,7 @@ class SellerRunningOrderListScreen extends StatelessWidget {
         ),
         body: Obx(() {
           return RefreshIndicator(
-            color: AppColors.kprimaryColor,
+            color: AppColors.kPrimaryColor,
             backgroundColor: AppColors.strokeColor2,
             child: !NetworkController.to.connectedInternet.value
                 ? const Padding(
@@ -60,35 +62,4 @@ class SellerRunningOrderListScreen extends StatelessWidget {
   }
 }
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
-  const CustomAppBar({
-    super.key,
-    required this.title,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: AppColors.kprimaryColor,
-    foregroundColor : Colors.white,
-
-      iconTheme: IconThemeData(
-        size: defaultAppBarIconSize,
-
-color:  Colors.white
-      ),
-      titleTextStyle: TextStyle(
-        fontSize: default14FontSize,
-        fontWeight: FontWeight.w600,
-      ),
-      title: Text(
-        title,
-      ),
-    );
-  }
-
-  @override
-  // TODO: implement preferredSize
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}

@@ -41,7 +41,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       case ConnectionState.none:
                         return Center(
                             child: CircularProgressIndicator(
-                          color: AppColors.kprimaryColor,
+                          color: AppColors.kPrimaryColor,
                         ));
                       case ConnectionState.active:
                       case ConnectionState.done:
@@ -60,7 +60,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: AppColors.kprimaryColor.withOpacity(0.3), width: 3),
+                                    border: Border.all(color: AppColors.kPrimaryColor.withOpacity(0.3), width: 3),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Column(
@@ -83,7 +83,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                               child: Icon(
                                                 Icons.notifications_on,
                                                 size: 35.sp,
-                                                color: AppColors.kprimaryColor,
+                                                color: AppColors.kPrimaryColor,
                                               ),
                                             ),
                                             Expanded(
@@ -95,7 +95,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                     children: [
                                                       Text(
                                                         NotificationController.to.notificationList[reversedIndex].notificationTitle.toString(),
-                                                        style: AppTextStyle.bodyMediumBlack400,
+                                                        style: AppTextStyle.bodyMediumBlack400(context),
                                                       ),
                                                       Text(NotificationController.to.notificationList[reversedIndex].notificationMsg.toString(),style: TextStyle(fontSize: default12FontSize),),
                                                     ],
@@ -114,8 +114,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                         time: NotificationController.to.notificationList[reversedIndex].createdTime.toString(),
                                                       ).toString(),style: TextStyle(fontSize: default12FontSize),),
                                                     ),
-                                                    Text("৳${NotificationController.to.notificationList[reversedIndex].price.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold),
-                                                    // Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold),
+                                                    Text("৳${NotificationController.to.notificationList[reversedIndex].price.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold(context)),
+                                                    // Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold(context)),
                                                   ],
                                                 ))
                                             // Column(
@@ -140,8 +140,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                             //         mainAxisAlignment: MainAxisAlignment.center,
                                             //         children: [
                                             //           Expanded(child: Text(MyDateUtil.formatDate(NotificationController.to.notificationList[reversedIndex].createdTime.toString()).toString())),
-                                            //           Expanded(child: Text("৳${NotificationController.to.notificationList[reversedIndex].total.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold)),
-                                            //           Expanded(child: Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold)),
+                                            //           Expanded(child: Text("৳${NotificationController.to.notificationList[reversedIndex].total.toString()}", style: AppTextStyle.bodyMediumBlackSemiBold(context))),
+                                            //           Expanded(child: Text("🛒${NotificationController.to.notificationList[reversedIndex].quantity.toString()}", style: AppTextStyle.bodyMediumSemiBlackBold(context))),
                                             //         ],
                                             //       ),
                                             //     ),
@@ -162,7 +162,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       ProfileScreenController.to.userInfo.value.userId != NotificationController.to.notificationList[reversedIndex].buyerId
                                       && NotificationController.to.notificationList[reversedIndex].status.toString()=="PENDING"
                                           ? SizedBox(
-                                        height: 40.w,
+                                       height: 30.w,
 
                                         width: 150.w,
                                         child: CustomButton(
@@ -177,7 +177,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                             text: "tap_here".tr),
                                       )
                                           : NotificationController.to.notificationList[reversedIndex].status == "DELIVERED" && ProfileScreenController.to.userInfo.value.userId != NotificationController.to.notificationList[reversedIndex].sellerId?SizedBox(
-                                        height: 40.w,
+                                        height: 30.w,
                                         width: 150.w,
                                         child: CustomButton(
                                             onTap: () {
@@ -205,7 +205,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text("No Notification Yet", style: AppTextStyle.bodyMedium400),
+                              Text("No Notification Yet", style: AppTextStyle.bodyMedium400(context)),
                             ],
                           );
                         }

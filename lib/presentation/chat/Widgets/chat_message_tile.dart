@@ -85,7 +85,7 @@ class ChatMessageTile extends StatelessWidget {
                         bottomLeft: sendByMe
                             ? const Radius.circular(16)
                             : const Radius.circular(6)),
-                    color: sendByMe ? AppColors.kprimaryColor.withOpacity(.2) : Colors.white),
+                    color: sendByMe ? AppColors.kPrimaryColor.withOpacity(.2) : Colors.white),
                 child: Text(
                   message.msg.toString(),
                   style: TextStyle(
@@ -104,7 +104,7 @@ class ChatMessageTile extends StatelessWidget {
                       message.read!.isNotEmpty?
                       Icon(Icons.done_all,size: 16.sp):Icon(Icons.done,size: 16.sp,),
                     SizedBox(width: 3,),
-                    Text(MyDateUtil.getMessageTime(context: context, time:message.sent.toString()),style: AppTextStyle.titleTextSmall, textAlign: TextAlign.right,),
+                    Text(MyDateUtil.getMessageTime(context: context, time:message.sent.toString()),style: AppTextStyle.titleTextSmall(context), textAlign: TextAlign.right,),
 
 
                   ],

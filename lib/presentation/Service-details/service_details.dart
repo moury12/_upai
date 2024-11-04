@@ -63,6 +63,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
   @override
   Widget build(BuildContext context) {
+    double appBarIconSize = ScreenUtil().screenHeight < ScreenUtil().screenWidth? 14.sp : defaultAppBarIconSize;
     return Scaffold(
       floatingActionButton: ElevatedButton(
         onPressed: () async {
@@ -93,14 +94,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         },
         style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 10),
-            overlayColor: AppColors.kprimaryColor,
+            overlayColor: AppColors.kPrimaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
             backgroundColor: AppColors.colorWhite,
             elevation: 4,
             surfaceTintColor: Colors.transparent,
-            shadowColor: AppColors.kprimaryColor.withOpacity(.5)),
+            shadowColor: AppColors.kPrimaryColor.withOpacity(.5)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
@@ -174,18 +175,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
-              backgroundColor: AppColors.kprimaryColor,
+              backgroundColor: AppColors.kPrimaryColor,
             ),
             child: widget.offerDetails!.package == null ||
                     widget.offerDetails!.package!.isEmpty
                 ? Text(
                     'confirm'.tr,
-                    style: AppTextStyle.bodySmallwhite,
+                    style: AppTextStyle.bodySmallwhite(context),
                   )
                 : Obx(() {
                     return Text(
                       "${'confirm_offer'.tr}  ( ${widget.offerDetails!.package![ServiceDetailsController.to.tabIndex.value].duration} )",
-                      style: AppTextStyle.bodySmallwhite,
+                      style: AppTextStyle.bodySmallwhite(context),
                     );
                   }),
           ),
@@ -196,6 +197,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
+        toolbarHeight: 40.w,
         leading: IconButton(
           onPressed: () {
             Get.back();
@@ -205,7 +207,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
           ),
         ),
-        iconTheme: IconThemeData(size: defaultAppBarIconSize),
+        iconTheme: IconThemeData(size: appBarIconSize),
         actions: [
           Padding(
             padding:  EdgeInsets.symmetric(horizontal: 8.sp),
@@ -251,14 +253,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       horizontalTitleGap: 8.sp,
                       title: Text(
                         widget.offerDetails!.userName.toString(),
-                        style: AppTextStyle.bodyMediumBlackSemiBold,
+                        style: AppTextStyle.bodyMediumBlackSemiBold(context),
                       ),
                       trailing: const SizedBox.shrink(),
                       subtitle: Row(
                         children: [
                           Text(
                             "${'completed_job'.tr}:${widget.offerDetails!.totalCompletedJob.toString()}",
-                            style: AppTextStyle.bodySmallBlack600,
+                            style: AppTextStyle.bodySmallBlack600(context),
                           ),
                           SizedBox(
                             width: 5.w,
@@ -269,7 +271,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 rating: double.parse(double.parse(
                                         widget.offerDetails!.avgRating ?? '0.0')
                                     .toStringAsFixed(1)),
-                                itemBuilder: (context, index) => const Icon(
+                                itemBuilder: (context, index) =>  Icon(
                                   CupertinoIcons.star_fill,
                                   color: Colors.black,
                                 ),
@@ -280,7 +282,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               ),
                               Text(
                                 "${double.parse(widget.offerDetails!.avgRating ?? '0.0').toStringAsFixed(1)}",
-                                style: AppTextStyle.bodySmallBlack600,
+                                style: AppTextStyle.bodySmallBlack600(context),
                               )
                             ],
                           ),
@@ -291,7 +293,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       padding:  EdgeInsets.symmetric(horizontal:  12.sp),
                       child: Text(
                         widget.offerDetails!.jobTitle.toString().toUpperCase(),
-                        style: AppTextStyle.bodyLarge700,
+                        style: AppTextStyle.bodyLarge700(context),
                       ),
                     ),
                     Padding(
@@ -331,7 +333,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
                           Text(
                             "${'description'.tr}",
-                            style: AppTextStyle.bodyMediumBlackBold,
+                            style: AppTextStyle.bodyMediumBlackBold(context),
                           ),
                           const SizedBox(
                             height: 5,
@@ -339,7 +341,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
                           ReadMoreText(
                             widget.offerDetails!.description.toString(),
-                            style: AppTextStyle.bodySmallGrey400,
+                            style: AppTextStyle.bodySmallGrey400(context),
                             textAlign: TextAlign.start,
                             trimMode: TrimMode.Line,
                             trimLines: 5,
@@ -371,8 +373,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                 .to.tabIndex.value);
                                           },
                                           indicatorColor:
-                                              AppColors.kprimaryColor,
-                                          labelColor: AppColors.kprimaryColor,
+                                              AppColors.kPrimaryColor,
+                                          labelColor: AppColors.kPrimaryColor,
                                           overlayColor:
                                               WidgetStateColor.transparent,
                                           tabs: List.generate(
@@ -382,7 +384,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(widget.offerDetails!.package![index].duration ??
-                                                  '',style: AppTextStyle.tapTitle,),
+                                                  '',style: AppTextStyle.tapTitle(context),),
                                             ),
                                           )),
 
@@ -399,7 +401,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                 : Text(
                                                     "Description",
                                                     style: AppTextStyle
-                                                        .bodyMediumBlackBold,
+                                                        .bodyMediumBlackBold(context),
                                                   ),
                                             widget.offerDetails!.package![index]
                                                     .packageDescription!.isEmpty
@@ -410,8 +412,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                             .package![index]
                                                             .packageDescription ??
                                                         '',
-                                                    style: AppTextStyle
-                                                        .bodySmallGrey400,
+                                                    style: AppTextStyle.bodySmallGrey400(context),
                                                   ),
 
                                             PackageDetails(
@@ -500,7 +501,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color:
-                                                        AppColors.kprimaryColor,
+                                                        AppColors.kPrimaryColor,
                                                     fontSize: 25.sp),
                                               ),
                                               const SizedBox(
@@ -517,7 +518,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                     Icon(
                                                   Icons.star_rate_rounded,
                                                   color:
-                                                      AppColors.kprimaryColor,
+                                                      AppColors.kPrimaryColor,
                                                 ),
                                                 itemCount: 5,
                                                 itemSize: 30.0,
@@ -535,8 +536,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       children: [
                                         Text(
                                             "${widget.offerDetails!.totalCompletedJob!.length} Reviews",
-                                            style: AppTextStyle
-                                                .bodyMediumBlackBold),
+                                            style: AppTextStyle.bodyMediumBlackBold(context)),
                                         GestureDetector(
                                             onTap: () {
                                               Get.to(RatingListScreen(
@@ -562,7 +562,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                               style: TextStyle(
                                                   fontSize: default14FontSize,
                                                   color:
-                                                      AppColors.kprimaryColor,
+                                                      AppColors.kPrimaryColor,
                                                   fontWeight: FontWeight.w600),
                                             ))
                                       ],
@@ -614,7 +614,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               : SizedBox.shrink(),
                           defaultSizeBoxHeight,
                           Text("Explore My Other Services",
-                              style: AppTextStyle.titleText),
+                              style: AppTextStyle.titleText(context)),
 
                           Obx(
                             () {
@@ -669,7 +669,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               } else {
                                 return Center(
                                     child: CircularProgressIndicator(
-                                  color: AppColors.kprimaryColor,
+                                  color: AppColors.kPrimaryColor,
                                 ));
                               }
                             },
@@ -699,7 +699,7 @@ class DefaultCircularProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: CircularProgressIndicator(
-          color: AppColors.kprimaryColor,
+          color: AppColors.kPrimaryColor,
         ),
       );
   }
@@ -726,13 +726,13 @@ class PackageDetails extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              style: AppTextStyle.bodySmallGrey400,
+              style: AppTextStyle.bodySmallGrey400(context),
             ),
           ),
           ticMark ??
               Text(
                 lable ?? '',
-                style: AppTextStyle.textFont14bold,
+                style: AppTextStyle.textFont14bold(context),
               ),
         ],
       ),
@@ -758,12 +758,12 @@ class DetailItem extends StatelessWidget {
             Expanded(
                 child: Text(
               title,
-              style: AppTextStyle.textFont14bold,
+              style: AppTextStyle.textFont14bold(context),
             )),
             Expanded(
                 child: Text(
               body,
-              style: AppTextStyle.bodySmallGrey400,
+              style: AppTextStyle.bodySmallGrey400(context),
             )),
           ],
         ),
@@ -796,7 +796,7 @@ class OfferDialogWidget extends StatelessWidget {
           TextSpan(
             text: '$label   ',
             style:  TextStyle(
-              fontSize: default14FontSize,
+              fontSize: defaultTitleFontSize,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),

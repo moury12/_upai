@@ -29,10 +29,10 @@ class CustomDropDown<T> extends StatelessWidget {
       child: DropdownButton<T>(
 
         dropdownColor: Colors.white, padding:EdgeInsets.symmetric(horizontal: defaultPadding,vertical: default4Padding) ,
-        style: TextStyle(color: AppColors.kprimaryColor,fontSize: default14FontSize),
+        style: TextStyle(color: AppColors.kPrimaryColor,fontSize: default14FontSize),
         iconSize: 20.sp,
 
-        iconEnabledColor: AppColors.kprimaryColor,
+        iconEnabledColor: AppColors.kPrimaryColor,
         borderRadius: BorderRadius.circular(defaultRadius),
         underline: const SizedBox.shrink(),
         value: value,

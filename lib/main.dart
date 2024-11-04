@@ -19,6 +19,7 @@ import 'package:upai/presentation/Service-details/service_details.dart';
 import 'package:upai/presentation/chat/chat_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 import 'package:upai/presentation/splash/splash_screen.dart';
+import 'core/utils/default_widget.dart';
 import 'data/api/notification_access_token.dart';
 import 'presentation/Inbox/inbox.dart';
 import 'presentation/auth/otp_screen.dart';
@@ -87,46 +88,49 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-debugPrint(MediaQuery.of(context).size.height.toString());
-debugPrint(MediaQuery.of(context).size.width.toString());
+
     return ScreenUtilInit(
       designSize: const Size(423,945),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: GetMaterialApp(
-        translationsKeys: widget.translations,
-          locale: const Locale('en'),
-          fallbackLocale: const Locale('en'),
-          debugShowCheckedModeBanner: false,
-          title: 'Upai',
-          // theme: ThemeData().appBarTheme(),
-          theme:ThemeDataClass().themeData ,
-          initialRoute: '/',
-          getPages: [
-            GetPage(name: '/', page: () => const SplashScreen()),
-            GetPage(name: '/inbox', page: () => const InboxScreen()),
-            GetPage(name: '/home', page: () => const HomeScreen()),
-            GetPage(name: '/chatscreen', page: () => ChatScreen()),
-            GetPage(name: '/defaultscreen', page: () => DefaultScreen()),
+      child: Builder(
+        builder: (context) {
+          return GetMaterialApp(
+            translationsKeys: widget.translations,
+              locale: const Locale('en'),
+              fallbackLocale: const Locale('en'),
+              debugShowCheckedModeBanner: false,
+              title: 'Upai',
+              // theme: ThemeData().appBarTheme(),
+              theme:ThemeDataClass().themeData ,
+              initialRoute: '/',
+              getPages: [
+                GetPage(name: '/', page: () => const SplashScreen()),
+                GetPage(name: '/inbox', page: () => const InboxScreen()),
+                GetPage(name: '/home', page: () => const HomeScreen()),
+                GetPage(name: '/chatscreen', page: () => ChatScreen()),
+                GetPage(name: '/defaultscreen', page: () => DefaultScreen()),
 
-            GetPage(
-                name: '/profile',
-                page: () => const ProfileScreen(),
-                binding: ProfileBinding()),
-            GetPage(
-                name: ServiceListScreen.routeName,
-                page: () => const ServiceListScreen()),
-            GetPage(name: ServiceDetails.routeName, page: () => ServiceDetails()),
-            GetPage(
-                name: CategoryListScreen.routeName,
-                page: () => const CategoryListScreen()),
-            GetPage(name: OtpScreen.routeName, page: () => const OtpScreen()),
-            GetPage(
-                name: CreateOfferScreen.routeName,
-                page: () => const CreateOfferScreen(),
-                binding: CreateOfferBinding()),
-          ],
-          initialBinding: RootBinding()),
+                GetPage(
+                    name: '/profile',
+                    page: () => const ProfileScreen(),
+                    binding: ProfileBinding()),
+                GetPage(
+                    name: ServiceListScreen.routeName,
+                    page: () => const ServiceListScreen()),
+                GetPage(name: ServiceDetails.routeName, page: () => ServiceDetails()),
+                GetPage(
+                    name: CategoryListScreen.routeName,
+                    page: () => const CategoryListScreen()),
+                GetPage(name: OtpScreen.routeName, page: () => const OtpScreen()),
+                GetPage(
+                    name: CreateOfferScreen.routeName,
+                    page: () => const CreateOfferScreen(),
+                    binding: CreateOfferBinding()),
+              ],
+              initialBinding: RootBinding());
+        }
+      ),
     );
   }
 }
@@ -136,12 +140,16 @@ class ThemeDataClass{
     textTheme: TextTheme(
 
     ),
+    dialogTheme: DialogTheme(surfaceTintColor: Colors.white,
+    backgroundColor: Colors.white,
+// shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultRadius))
+    ),
     appBarTheme: AppBarTheme(
         backgroundColor  : AppColors.colorWhite,
-        foregroundColor: AppColors.kprimaryColor,
+        foregroundColor: AppColors.kPrimaryColor,
         surfaceTintColor: Colors.transparent,
         titleTextStyle: TextStyle(
-color: AppColors.kprimaryColor ,
+color: AppColors.kPrimaryColor ,
 
           fontWeight: FontWeight.w600,
         ),
@@ -149,10 +157,10 @@ color: AppColors.kprimaryColor ,
         centerTitle: true),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     ),
-    primaryColor: AppColors.kprimaryColor,
+    primaryColor: AppColors.kPrimaryColor,
     useMaterial3: true,
-    splashColor:AppColors.kprimaryColor.withOpacity(.2),
-    shadowColor: AppColors.kprimaryColor.withOpacity(.2),
+    splashColor:AppColors.kPrimaryColor.withOpacity(.2),
+    shadowColor: AppColors.kPrimaryColor.withOpacity(.2),
 
   );
 }

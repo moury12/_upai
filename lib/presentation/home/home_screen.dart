@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
-          color: AppColors.kprimaryColor,
+          color: AppColors.kPrimaryColor,
           backgroundColor: Colors.white,
           onRefresh: () {
         return resetData();
@@ -83,34 +83,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .to.selectedDistrictForAll.value ==
                                       null
                               ? Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
+                                  padding:  EdgeInsets.symmetric(
+                                      horizontal: 8.sp),
                                   child: Column(
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Text("explore_top_services".tr,
-                                                style: AppTextStyle.titleText),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.to(const ServiceListScreen(
-                                                isTopService: true,
-                                              ));
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                   EdgeInsets.symmetric(
-                                                      vertical: 12.sp),
+                                      Padding(
+                                        padding:  EdgeInsets.symmetric(vertical: 8.sp),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text("explore_top_services".tr,
+                                                  style: AppTextStyle.titleText(context)),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(const ServiceListScreen(
+                                                  isTopService: true,
+                                                ));
+                                              },
                                               child: Text("browse_all".tr,
                                                   style: AppTextStyle
-                                                      .titleTextSmallUnderline),
+                                                      .titleTextSmallUnderline(context)),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                              HomeController.to.isServiceListLoading.value ||
                                               !NetworkController
@@ -120,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .to.getOfferList.isEmpty ?NoServiceWidget():
 
                                           SizedBox(
-                                              height:MediaQuery.of(context).size.height<MediaQuery.of(context).size.width? 0.4.sw:200.w,
+                                              height:ScreenUtil().screenHeight<ScreenUtil().screenWidth? 0.4.sw:200.w,
 
                                               child: ListView.builder(
                                                   scrollDirection:
@@ -187,10 +185,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: FilterController
                                                   .to.isFilterValueEmpty.value
                                               ? Text("explore_new_services".tr,
-                                                  style: AppTextStyle.titleText)
+                                                  style: AppTextStyle.titleText(context))
                                               : Text(
                                                   '${FilterController.to.selectedServiceType.value != null ? '${FilterController.to.selectedServiceType.value} > ' : ''}${FilterController.to.selectedCategory.value != null ? '${FilterController.to.selectedCategory.value} > ' : ''}${FilterController.to.selectedSortBy.value != null ? '${FilterController.to.selectedSortBy.value} > ' : ''}',
-                                                  style: AppTextStyle.titleText),
+                                                  style: AppTextStyle.titleText(context)),
                                         ),
                                         GestureDetector(
                                           onTap: () {
@@ -199,8 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ));
                                           },
                                           child: Text("browse_all".tr,
-                                              style: AppTextStyle
-                                                  .titleTextSmallUnderline),
+                                              style: AppTextStyle.titleTextSmallUnderline(context)),
                                         ),
                                       ],
                                     ),

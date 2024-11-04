@@ -6,6 +6,7 @@ import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/presentation/home/home_screen.dart';
 import 'package:upai/presentation/seller-service/seller_running_order_list_screen.dart';
 import 'package:upai/presentation/seller-service/widgets/seller_running_order_widget.dart';
+import 'package:upai/widgets/custom_appbar.dart';
 import '../../core/utils/custom_text_style.dart';
 import 'buyer_profile_controller.dart';
 
@@ -23,7 +24,7 @@ class BuyerRunningOrderListScreen extends StatelessWidget {
         appBar:CustomAppBar(title: "buyer_running_orders".tr,),
         body: Obx(() {
           return RefreshIndicator(
-            color: AppColors.kprimaryColor,
+            color: AppColors.kPrimaryColor,
             backgroundColor: AppColors.strokeColor2,
             child:
                 BuyerProfileController.to.buyer.value.buyerRunningOrder==null

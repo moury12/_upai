@@ -214,14 +214,15 @@ toolbarHeight:50.w,
                 }
               },
             ),
+            leadingWidth: 40.w,
             // title: Text(widget.name!),
-            iconTheme: IconThemeData(size: defaultAppBarIconSize),
+            iconTheme: IconThemeData(size: defaultAppBarIconSize,),
             actions: [
               InkWell(
                   onTap: () {
                     ctrl.makePhoneCall(receiverUserData.userId.toString());
                   },
-                  child: Icon(Icons.call,color: AppColors.kprimaryColor,)),
+                  child: Icon(Icons.call,color: AppColors.kPrimaryColor,)),
               const SizedBox(
                 width: 12,
               ),
@@ -358,8 +359,8 @@ toolbarHeight:50.w,
                                 ),
 
                               ),
-                            ),
-
+                            )
+                    ,spaceWidth6,
 
                             InkWell(
                               onTap: () {
@@ -386,7 +387,7 @@ toolbarHeight:50.w,
                                 // ctrl.update();
                               },
                               child: CircleAvatar(
-                                backgroundColor: AppColors.kprimaryColor,
+                                backgroundColor: AppColors.kPrimaryColor,
                                 //  backgroundImage: AssetImage(ImageConstant.sendIcon),
                                 child: Image.asset(ImageConstant.sendIcon),
                               ),

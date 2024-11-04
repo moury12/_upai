@@ -12,13 +12,14 @@ class RatingListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double appBarIconSize = ScreenUtil().screenHeight < ScreenUtil().screenWidth ? 14.sp:defaultAppBarIconSize;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         surfaceTintColor: Colors.white,
         centerTitle: false,
-        iconTheme: IconThemeData(size: defaultAppBarIconSize),
+        iconTheme: IconThemeData(size: appBarIconSize),
         title: Text(
           '${buyerReviewList.length} reviews',
           style: TextStyle(fontSize: default14FontSize, fontWeight: FontWeight.w600),

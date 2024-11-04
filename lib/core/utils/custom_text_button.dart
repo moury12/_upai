@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 
 class CustomTextButton extends StatelessWidget {
   final String label;
@@ -13,9 +14,9 @@ class CustomTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         style: TextButton.styleFrom(
-            overlayColor:primary?? AppColors.kprimaryColor,
-            foregroundColor:primary?? AppColors.kprimaryColor
+            overlayColor:primary?? AppColors.kPrimaryColor,
+            foregroundColor:primary?? AppColors.kPrimaryColor
         ),
-        onPressed: onChange, child: Text(label));
+        onPressed: onChange, child: Text(label,style: TextStyle(fontSize: default14FontSize,fontWeight: FontWeight.w600,),));
   }
 }
