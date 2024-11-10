@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 import 'package:upai/presentation/create-offer/widget/tab_content_view.dart';
@@ -17,7 +18,7 @@ class PackageCreateWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.kprimaryColor, width: 1.5)),
+          border: Border.all(color: Colors.grey, width: 1.5)),
       child: DefaultTabController(
         length: CreateOfferController.to.packageList.length,
         child: Obx(() {
@@ -30,9 +31,6 @@ class PackageCreateWidget extends StatelessWidget {
                       overlayColor: WidgetStateColor.transparent,
                       onTap: (value) {
                         // HomeController.to.selectPackage(value);
-
-                        debugPrint(
-                            CreateOfferController.to.packageList.toString());
                       },
                       tabs: [
                         ...List.generate(
@@ -43,13 +41,14 @@ class PackageCreateWidget extends StatelessWidget {
                               child: Text(
                                 CreateOfferController.to.packageList[index]
                                     ['package_name'],
+                                style: AppTextStyle.tapTitle(context),
                               ),
                             ),
                           ),
                         ),
                       ],
-                      indicatorColor: AppColors.kprimaryColor,
-                      labelColor: AppColors.kprimaryColor,
+                      indicatorColor: Colors.green,
+                      labelColor: AppColors.kPrimaryColor,
                     ),
               TabContentView(
                 children: CreateOfferController.to.packageList.isNotEmpty
@@ -58,7 +57,7 @@ class PackageCreateWidget extends StatelessWidget {
                         (index) => SingleChildScrollView(
                           child: Column(
                             children: [
-                              defaultSizeBoxHeight,
+                              sizeBoxHeight6,
                               Row(
                                 children: [
                                   Expanded(
@@ -85,7 +84,7 @@ class PackageCreateWidget extends StatelessWidget {
                                       label: "price".tr,
                                       isRequired: true,
                                       validatorText: "please_enter_price".tr,
-                                      hintText:"please_enter_price".tr,
+                                      hintText: "please_enter_price".tr,
                                       inputType: TextInputType.number,
                                       controller: CreateOfferController
                                           .to.packagePriceControllers[index],
@@ -103,10 +102,11 @@ class PackageCreateWidget extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  defaultSizeBoxHeight,
+                                  sizeBoxHeight6,
                                   CustomTextField(
                                     label: "package_description".tr,
-                                    validatorText: "please_enter_description".tr,
+                                    validatorText:
+                                        "please_enter_description".tr,
                                     hintText: "please_enter_description".tr,
                                     maxLines: 3,
                                     onChanged: (value) {
@@ -121,7 +121,7 @@ class PackageCreateWidget extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            /*  CreateOfferController
+                              /*  CreateOfferController
                                       .to
                                       .packageList[index]['service_list']
                                       .isEmpty
@@ -150,7 +150,7 @@ class PackageCreateWidget extends StatelessWidget {
                                                           ['service_name'] ??
                                                       '',
                                                   style: const TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize: default14FontSize,
                                                       fontWeight:
                                                           FontWeight.w600),
                                                 ),
@@ -164,12 +164,7 @@ class PackageCreateWidget extends StatelessWidget {
                                                     [serviceIndex]['status'],
                                                 //value: data[serviceIndex],
                                                 onChanged: (value) {
-                                                  debugPrint(
-                                                      CreateOfferController
-                                                          .to.packageList
-                                                          .toString());
-                                                  debugPrint(
-                                                      serviceIndex.toString());
+
                                                   // Update the selected value for the specific service in the package
                                                   CreateOfferController
                                                                   .to.packageList[

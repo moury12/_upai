@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upai/widgets/custom_text_field.dart';
 
 class OtpContainer extends StatefulWidget {
@@ -16,7 +17,7 @@ class _OtpContainerState extends State<OtpContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 50.w,
       margin: EdgeInsets.symmetric(horizontal: 0),
       // decoration: BoxDecoration(
       //     borderRadius: BorderRadius.circular(6),
@@ -31,8 +32,8 @@ class _OtpContainerState extends State<OtpContainer> {
             inputType: TextInputType.number,
             enableBorderColor: Colors.grey.withOpacity(.5),
             hintText: '-',
-            width: 50,
-            height: 50,
+            width: 50.w,
+            height: 50.w,
             textAlign: TextAlign.center,
             onChanged: (value) {
               if (value!.length == 1) {

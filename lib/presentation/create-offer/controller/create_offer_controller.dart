@@ -14,6 +14,7 @@ import 'package:upai/core/utils/global_variable.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/deafult_screen.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/seller-service/controller/seller_profile_controller.dart';
 
@@ -31,7 +32,6 @@ class CreateOfferController extends GetxController {
   final _picker = ImagePicker();
   String img = '';
   RxDouble uploadProgress = 0.0.obs;
-  RxBool isUploading = false.obs;
   RxBool isLoading = false.obs;
   RxBool nextProcess = false.obs;
   Rx<String?> selectedDistrict = Rx<String?>(null);
@@ -41,7 +41,7 @@ class CreateOfferController extends GetxController {
   final box = Hive.box('userInfo');
 
   void populatePackageList(int packageLevel) {
-     packageList.clear();
+    packageList.clear();
 
     for (int i = 1; i <= packageLevel; i++) {
       packageList.add({
@@ -52,78 +52,37 @@ class CreateOfferController extends GetxController {
         "service_list": List.from(yourServiceList),
       });
     }
-     updatePackageList();
+    updatePackageList();
   }
 
-  void initializeControllers() {
-    // Assuming 3 packages for example
-    int numberOfPackages = 3;
-    packagePriceControllers =
-        List.generate(numberOfPackages, (_) => TextEditingController()).obs;
-    packageNameControllers =
-        List.generate(numberOfPackages, (_) => TextEditingController()).obs;
-    packageDescriptionControllers =
-        List.generate(numberOfPackages, (_) => TextEditingController()).obs;
-  }
-
-  void updatePackageList() {
-    for (int i = 0; i < packageList.length; i++) {
-      packageList[i]['package_description'] =
-          packageDescriptionControllers[i].text;
-      packageList[i]['price'] = packagePriceControllers[i].text;
-      packageList[i]['duration'] = packageNameControllers[i].text;
+  void populateControllers(MyService service) {
+    packageList.clear();
+    initializeControllers(selectedLevel.value!);
+    for (int i = 0; i <= service.package!.length; i++) {
+      packageList.add({
+        "package_name": "Level $i",
+        "price": service.package![i].price,
+        "duration": service.package![i].duration,
+        "package_description": service.package![i].packageDescription,
+        "service_list": List.from(yourServiceList),
+      });
+      packagePriceControllers[i].text = service.package![i].price.toString();
+      packageNameControllers[i].text = service.package![i].duration.toString();
+      packageDescriptionControllers[i].text =
+          service.package![i].packageDescription.toString();
     }
   }
 
-  RxList<dynamic> packageList = <dynamic>[].obs;
-  RxList<dynamic> yourServiceList = [
-    {"service_name": "xhhchcjv", "status": true}
-  ].obs;
   void editOfferData(MyService? service) {
     addressController.value = TextEditingController(
         text: service != null && service.address!.isNotEmpty
             ? service.address
             : addressController.value.text);
-    initializeControllers();
+
     titleController.value = TextEditingController(
         text: service != null ? service.jobTitle : titleController.value.text);
 
-    for (var i = 0; i < packagePriceControllers.length; i++) {
-      if (service != null /*||service!.package!=null*/) {
-        if (i < service.package!.length) {
-          packagePriceControllers[i].text =
-              service.package![i].price.toString();
-          packageList[i]['price'] = service.package![i].price.toString();
-        } else {
-          packagePriceControllers[i].text = packagePriceControllers[i].text;
-        }
-      }
-    }
-    for (var i = 0; i < packageNameControllers.length; i++) {
-      // Ensure we don't exceed the number of packages
-
-      if (service != null /*||service!.package!=null*/) {
-        if (i < service.package!.length) {
-          packageNameControllers[i].text =
-              service.package![i].duration.toString();
-        } else {
-          packageNameControllers[i].text = packageNameControllers[i].text;
-        }
-      }
-    }
-    for (var i = 0; i < packageDescriptionControllers.length; i++) {
-      // Ensure we don't exceed the number of packages
-
-      if (service != null /*||service!.package!=null*/) {
-        if (i < service.package!.length) {
-          packageDescriptionControllers[i].text =
-              service.package![i].packageDescription.toString();
-        } else {
-          packageDescriptionControllers[i].text =
-              packageDescriptionControllers[i].text;
-        }
-      }
-    }
+    //
 
     descriptionController.value = TextEditingController(
         text: service != null
@@ -164,7 +123,37 @@ class CreateOfferController extends GetxController {
     selectedDistrict.value = service != null && service.district!.isNotEmpty
         ? service.district
         : selectedDistrict.value;
+    selectedLevel.value = service != null && service.package != null
+        ? service.package!.length
+        : selectedLevel.value;
   }
+
+  void initializeControllers(int numberOfPackages) {
+    // Assuming 3 packages for example
+
+    packagePriceControllers =
+        List.generate(numberOfPackages, (_) => TextEditingController()).obs;
+    packageNameControllers =
+        List.generate(numberOfPackages, (_) => TextEditingController()).obs;
+    packageDescriptionControllers =
+        List.generate(numberOfPackages, (_) => TextEditingController()).obs;
+  }
+
+  void updatePackageList() {
+    if (selectedLevel.value != null) {
+      for (int i = 0; i < selectedLevel.value!; i++) {
+        packageList[i]['package_description'] =
+            packageDescriptionControllers[i].text;
+        packageList[i]['price'] = packagePriceControllers[i].text;
+        packageList[i]['duration'] = packageNameControllers[i].text;
+      }
+    }
+  }
+
+  RxList<dynamic> packageList = <dynamic>[].obs;
+  RxList<dynamic> yourServiceList = [
+    {"service_name": "xhhchcjv", "status": true}
+  ].obs;
 
   Future<void> createOffer({
     required String jobTitle,
@@ -173,6 +162,7 @@ class CreateOfferController extends GetxController {
     required String address,
   }) async {
     Map<String, dynamic> data = jsonDecode(box.get("user"));
+    isLoading.value = true;
     await RepositoryData.createOffer(
         token: FirebaseAPIs.user['token'].toString(),
         body: {
@@ -188,6 +178,7 @@ class CreateOfferController extends GetxController {
           "service_type": selectedServiceType.value,
           "package": packageList
         });
+    isLoading.value = false;
     await SellerProfileController.to.refreshAllData();
     await HomeController.to.refreshAllData();
   }
@@ -195,9 +186,9 @@ class CreateOfferController extends GetxController {
   Future<void> getImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
       source: source,
-      imageQuality: 80,
-      maxHeight: 1000,
-      maxWidth: 1000,
+      imageQuality: 50,
+      maxHeight: 800,
+      maxWidth: 800,
     );
     if (pickedFile != null) {
       image.value = File(pickedFile.path);
@@ -205,32 +196,25 @@ class CreateOfferController extends GetxController {
   }
 
   Future<void> editOffer(
-      String offerId, title, description, rate, address) async {
+      String offerId, title, description, rate, address,imageUrl) async {
     await RepositoryData.editOffer(
         token: ProfileScreenController.to.userInfo.value.token ?? '',
-        body: {
+        body:
+        {
           "user_id": ProfileScreenController.to.userInfo.value.userId,
           "offer_id": offerId,
-          "service_category_type": selectedCategory.value!,
+          "image_url": imageUrl,
+          "service_type": selectedServiceType.value,
+          "service_category_type": selectedCategory.value,
           "job_title": title,
           "description": description,
-          "rate": rate,
           "district": selectedDistrict.value,
-          "address": address
-        });
-
-    SellerProfileController.to.service.value = MyService(
-      userName: ProfileScreenController.to.userInfo.value.name,
-      userId: ProfileScreenController.to.userInfo.value.userId,
-      serviceCategoryType: selectedCategory.value!,
-      // rateType: selectedRateType.value,
-      address: address,
-      description: description,
-      district: selectedDistrict.value,
-      jobTitle: title,
-      offerId: offerId,
-      dateTime: SellerProfileController.to.service.value.dateTime,
+          "address": address,
+          "package": packageList
+        },
     );
+
+   Get.off(DefaultScreen());
 
     await SellerProfileController.to.refreshAllData();
   }
@@ -259,11 +243,11 @@ class CreateOfferController extends GetxController {
               ListTile(
                 leading: Icon(
                   Icons.photo_library,
-                  color: AppColors.kprimaryColor,
+                  color: AppColors.kPrimaryColor,
                 ),
                 title: Text(
                   'Gallery',
-                  style: AppTextStyle.bodyMediumSemiBlackBold,
+                  style: AppTextStyle.bodyMediumSemiBlackBold(context),
                 ),
                 onTap: () {
                   getImage(ImageSource.gallery);
@@ -273,9 +257,12 @@ class CreateOfferController extends GetxController {
               ListTile(
                 leading: Icon(
                   Icons.photo_camera,
-                  color: AppColors.kprimaryColor,
+                  color: AppColors.kPrimaryColor,
                 ),
-                title: const Text('Camera'),
+                title: Text(
+                  'Camera',
+                  style: AppTextStyle.bodyMediumSemiBlackBold(context),
+                ),
                 onTap: () {
                   getImage(ImageSource.camera);
                   Navigator.of(context).pop();
@@ -289,7 +276,7 @@ class CreateOfferController extends GetxController {
   }
 
   Future<String?> uploadImage(String offerId) async {
-    isUploading.value = true;
+    isLoading.value = true;
 
     try {
       final storageRef = FirebaseStorage.instance
@@ -320,13 +307,13 @@ class CreateOfferController extends GetxController {
           .doc(offerId)
           .set({'imageUrl': downloadUrl});
 
-      isUploading.value = false;
+      isLoading.value = false;
       image.value = null;
 
       // Return the download URL
       return downloadUrl;
     } catch (e) {
-      isUploading.value = false;
+      isLoading.value = false;
       image.value = null;
       return null;
     }
@@ -334,12 +321,10 @@ class CreateOfferController extends GetxController {
 
   @override
   void onInit() {
-    initializeControllers();
-    updatePackageList();
-    int packageLevel = selectedLevel.value ?? 3;
-    if (packageList.isEmpty) {
-      populatePackageList(packageLevel);    }
-
+    // updatePackageList();
+    // int packageLevel = selectedLevel.value ?? 3;
+    // if (packageList.isEmpty) {
+    //   populatePackageList(packageLevel);    }
 
     super.onInit();
   }

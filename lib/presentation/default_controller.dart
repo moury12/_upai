@@ -72,7 +72,7 @@ class DefaultController extends GetxController {
   //    ExploreScreen(),
   //   // const ProfileScreen()
   // ];
-  var selectedColor = AppColors.kprimaryColor;
+  var selectedColor = AppColors.kPrimaryColor;
   RxInt selectedIndex = 0.obs;
   var unselected = AppColors.appTextColorGrey;
   RxString appBarTitle = "upai".obs;

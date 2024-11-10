@@ -6,7 +6,7 @@ class AppColors {
   static get backgroundColor => const Color(0xffF8F8F8);
 
   static get colorBlue => const Color(0xff2893E3);
-  static get kprimaryColor => const Color(0xff01be62);
+  static get kPrimaryColor => const Color(0xff01be62);
   static get kgreyColor => Colors.grey;
 
   static get colorWhite => const Color(0xffFFFFFF);

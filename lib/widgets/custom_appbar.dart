@@ -1,50 +1,40 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final Widget? icon;
   const CustomAppBar({
     super.key,
-    this.height,
-    this.leadingWidth,
-    this.leading,
-    this.title,
-    this.centerTitle,
-    this.actions,
+    required this.title,  this.icon,
   });
-
-  final double? height;
-
-  final double? leadingWidth;
-
-  final Widget? leading;
-
-  final Widget? title;
-
-  final bool? centerTitle;
-
-  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
+    double appBarIconSize = ScreenUtil().screenHeight < ScreenUtil().screenWidth? 14.sp : defaultAppBarIconSize;
+
     return AppBar(
-      elevation: 2,
-      shadowColor: Colors.grey,
-      automaticallyImplyLeading: false,
-      // flexibleSpace: _getStyle(),
-      leadingWidth: leadingWidth ?? 0,
-      leading: leading,
-      title: title,
-      titleSpacing: 0,
-      centerTitle: centerTitle ?? false,
-      actions: actions,
+      backgroundColor: AppColors.kPrimaryColor,
+      foregroundColor : Colors.white,
+actions: [
+  icon??SizedBox.shrink()
+],
+      iconTheme: IconThemeData(
+          size: appBarIconSize,
+
+          color:  Colors.white
+      ),
+      titleTextStyle:AppTextStyle.appBarTitle(context),
+      title: Text(
+        title,
+      ),
     );
   }
 
-
   @override
-  Size get preferredSize =>
-      Size(
-        double.infinity,
-        height ?? 60,
-      );
+  // TODO: implement preferredSize
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

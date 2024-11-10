@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
+import 'package:upai/widgets/custom_text_field.dart';
 
 class SearchableDropDown extends StatefulWidget {
   final bool? fromHome;
@@ -64,7 +67,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
           ? Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                  color: AppColors.kprimaryColor,
+                  color: AppColors.kPrimaryColor,
                   borderRadius: BorderRadius.circular(10)),
               alignment: Alignment.center,
               child: Row(
@@ -72,7 +75,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                 children: [
                   Image.asset(
                     ImageConstant.locationIcon,
-                    height: 30,
+                    height: 25.w,
                     color: Colors.white,
                   ),
                   const SizedBox(
@@ -83,7 +86,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                       return Text(
                         HomeController.to.selectedDistrictForAll.value ??
                             'location'.tr,
-                        style: AppTextStyle.bodyMediumWhiteSemiBold,
+                        style: AppTextStyle.bodyMediumWhiteSemiBold(context),
                       );
                     }),
                   )
@@ -93,7 +96,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
               padding: const EdgeInsets.all(8),
               // margin: EdgeInsets.all(0),
               decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: AppColors.kprimaryColor),
+                  border: Border.all(width: 1, color: Colors.grey),
                   borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,34 +109,34 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                           : CreateOfferController.to.selectedDistrict.value ??
                           'select_district'.tr,
                       style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: widget.fromHome!
-                              ? HomeController
-                                          .to.selectedDistrictForAll.value !=
-                                      null
-                                  ? FontWeight.w400
-                                  : FontWeight.w600
-                              : CreateOfferController
-                                          .to.selectedDistrict.value !=
-                                      null
-                                  ? FontWeight.w400
-                                  : FontWeight.w600,
+                          fontSize: 15.sp,
+                          // fontWeight: widget.fromHome!
+                          //     ? HomeController
+                          //                 .to.selectedDistrictForAll.value !=
+                          //             null
+                          //         ? FontWeight.w400
+                          //         : FontWeight.w600
+                          //     : CreateOfferController
+                          //                 .to.selectedDistrict.value !=
+                          //             null
+                          //         ? FontWeight.w400
+                          //         : FontWeight.w600,
                           color: widget.fromHome!
                               ? HomeController
                                           .to.selectedDistrictForAll.value !=
                                       null
-                                  ? AppColors.kprimaryColor
-                                  : AppColors.deepGreyColor
+                                  ? AppColors.kPrimaryColor
+                                  : Colors.grey
                               : CreateOfferController
                                           .to.selectedDistrict.value !=
                                       null
-                                  ? AppColors.kprimaryColor
-                                  : AppColors.kprimaryColor.withOpacity(.6)),
+                                  ? AppColors.kPrimaryColor
+                                  : Colors.grey),
                     );
                   }),
                   Icon(
                     Icons.arrow_drop_down,
-                    color: AppColors.kprimaryColor,
+                    color: AppColors.kPrimaryColor,
                     size: 30,
                   )
                 ],
@@ -167,24 +170,31 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                 builder: (context, setState) {
                   return Column(
                     children: [
-                      TextField(
-                        controller: searchController,
-                        cursorColor: AppColors.kprimaryColor,
-                        decoration: InputDecoration(
-                            hintText: 'Search district',
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                    color: AppColors.kprimaryColor, width: 2)),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
+                      CustomTextField(controller: searchController,hintText: 'Search district',
                         onChanged: (value) {
                           setState(() {
-                            filterDistrictItem(value);
+                            filterDistrictItem(value!);
                           });
                         },
                       ),
+                      // TextField(
+                      //   controller: searchController,
+                      //   cursorColor: AppColors.kprimaryColor,
+                      //   decoration: InputDecoration(
+                      //       hintText: 'Search district',
+                      //       focusedBorder: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(10),
+                      //           borderSide: BorderSide(
+                      //               color: AppColors.kprimaryColor, width: 2)),
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       )),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       filterDistrictItem(value);
+                      //     });
+                      //   },
+                      // ),
                       ...filterDistrict.map(
                         (e) {
                           return PopupMenuItem(
@@ -214,6 +224,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                                   width: double.infinity,
                                   child: Text(
                                     e['name'],
+                                    style: TextStyle(fontSize: default14FontSize),
                                   ),
                                 ),
                               ),

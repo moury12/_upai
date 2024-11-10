@@ -31,5 +31,6 @@ class ImageConstant {
   static String filterIcon = 'assets/images/filter_icon.png';
   static String serviceIcon = 'assets/images/service_icon.png';
   static String uploadImage = 'assets/images/upload_image.png';
+  static String earserIcon = 'assets/images/eraser.png';
 
 }

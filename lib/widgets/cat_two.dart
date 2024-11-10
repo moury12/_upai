@@ -27,7 +27,7 @@ class CategotyItemtwo extends StatelessWidget {
         child: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: AppColors.kprimaryColor
+              color: AppColors.kPrimaryColor
               /*Color.fromARGB(235, Random().nextInt(256), Random().nextInt(256), Random().nextInt(256),
             ).withOpacity(.2)*/
               ,
@@ -37,7 +37,7 @@ class CategotyItemtwo extends StatelessWidget {
             child: Text(
               maxLines: maxline ?? 1,
               '${singleCat.categoryName}',
-              style: AppTextStyle.body12BlackSemiBold,
+              style: AppTextStyle.body12BlackSemiBold(context),
               textAlign: TextAlign.center,
             ),
           ),

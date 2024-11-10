@@ -1,7 +1,7 @@
 
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:upai/presentation/auth/login_screen.dart';
+import 'package:upai/presentation/auth/otp_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 
 class SplashScreenController extends GetxController {
@@ -30,7 +30,7 @@ class SplashScreenController extends GetxController {
       Duration(seconds: _splashDuration),
       () => isLogin.value
           ? Get.offAll(  DefaultScreen())
-          : Get.offAll( LoginScreen()),
+          : Get.offAll( OtpScreen()),
     );
   }
 }

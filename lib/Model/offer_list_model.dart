@@ -76,7 +76,7 @@ class OfferList {
     // Parse all fields
     return OfferList(
       offerId: json['offer_id']?.toString() == 'null' ? '' : json['offer_id'].toString(),
-      imgUrl: json['image_url']?.toString() == 'null' ? '' : json['image_url'].toString(),
+      imgUrl: json['image_url']?.toString() == 'null' ? '' :'https://images.unsplash.com/photo-1587691592099-24045742c181?q=80&w=1746&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' /*'json['image_url'].toString()'*/,
       serviceCategoryType: json['service_category_type']?.toString() == 'null' ? '' : json['service_category_type'].toString(),
       dateTime: json['date_time']?.toString() == 'null' ? '' : json['date_time'].toString(),
       userId: json['user_id']?.toString() == 'null' ? '' : json['user_id'].toString(),

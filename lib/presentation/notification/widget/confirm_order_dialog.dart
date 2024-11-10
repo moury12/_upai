@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/custom_text_style.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/presentation/Service-details/service_details.dart';
+import 'package:upai/widgets/custom_button.dart';
 import '../../../Model/notification_model.dart';
 import '../../../data/repository/repository_details.dart';
 
@@ -27,12 +30,13 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
     ),
             scrollable: true,
             backgroundColor: AppColors.strokeColor2,
-            titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+             titlePadding:  EdgeInsets.only(top: 12.sp,bottom: 0),
+
+            // contentPadding: const EdgeInsets.symmetric(horizontal: 16),
             title:  Text(
               'confirm_order'.tr,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: defaultTitleFontSize,
                 fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,
@@ -40,14 +44,14 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
             content: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.sp),
                   child: widget.notificationModel.status == "ACCEPTED"
-                      ? const Center(
-                          child: Text('You Have Already Confirmed This Order'),
+                      ?  Center(
+                          child: Text('You Have Already Confirmed This Order',style: AppTextStyle.bodySmallblack(context),),
                         )
                       : widget.notificationModel.status == "REJECTED"
-                          ? const Center(
-                              child: Text('You Have Already Rejected This Order'),
+                          ?  Center(
+                              child: Text('You Have Already Rejected This Order',style: AppTextStyle.bodySmallblack(context)),
                             )
                           : widget.notificationModel.status == "PENDING"
                               ? Column(
@@ -56,8 +60,8 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                     const Divider(
                                       height: 1,
                                     ),
-                                    const SizedBox(
-                                      height: 12,
+                                     SizedBox(
+                                      height:12.w,
                                     ),
                                     // OfferDialogWidget(
                                     //
@@ -87,15 +91,15 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                       text: widget.notificationModel.package ?? '',
                                     ),
 
-                                    const Divider(
-                                      height: 12,
+                                     Divider(
+                                      height:12.w,
                                     ),
 
 
                                     Text(
                                       textAlign: TextAlign.center,
                                       '${'total_amount'.tr}: ${widget.notificationModel.price} ৳',
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                                      style: TextStyle(fontSize: defaultTitleFontSize, fontWeight: FontWeight.w600, color: Colors.black),
                                     ),
 
                                     SizedBox(
@@ -104,58 +108,44 @@ class _ConfirmOrderWidgetState extends State<ConfirmOrderWidget> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(alignment: Alignment.center, backgroundColor: AppColors.kprimaryColor, foregroundColor: Colors.white),
-                                              onPressed: () async {
-                                                NotificationModel newNotificationData = widget.notificationModel;
-                                                newNotificationData.status = "ACCEPTED";
-                                                newNotificationData.notificationTitle = "Order Request Confirmed";
-                                                newNotificationData.createdTime = DateTime.now().millisecondsSinceEpoch.toString();
-                                                newNotificationData.notificationMsg = '${widget.notificationModel.sellerName} has accepted your order request visit My Running Order screen for more details';
-                                                await RepositoryData.jobStatus(
-                                                    title: newNotificationData.notificationTitle.toString(),
-                                                    msg: newNotificationData.notificationMsg,
-                                                    notification: newNotificationData,
-                                                    context: context,
-                                                    isDialogScreen: true,
-                                                    body: {
-                                                      "job_id": widget.notificationModel.jobId,
-                                                      "status": "ACCEPTED",
-                                                      "award_date": DateTime.now().toString(),
-                                                      "completion_date": "",
-                                                    },
-                                                    idStatusUpdate: newNotificationData.sellerId.toString());
-                                              },
-                                              child:  Text(
-                                                "accept".tr,
-                                                textAlign: TextAlign.center,
-                                              )),
+                                          child:CustomButton(text: "accept".tr,onTap:  () async {
+                                            NotificationModel newNotificationData = widget.notificationModel;
+                                            newNotificationData.status = "ACCEPTED";
+                                            newNotificationData.notificationTitle = "Order Request Confirmed";
+                                            newNotificationData.createdTime = DateTime.now().millisecondsSinceEpoch.toString();
+                                            newNotificationData.notificationMsg = '${widget.notificationModel.sellerName} has accepted your order request visit My Running Order screen for more details';
+                                            await RepositoryData.jobStatus(
+                                                title: newNotificationData.notificationTitle.toString(),
+                                                msg: newNotificationData.notificationMsg,
+                                                notification: newNotificationData,
+                                                context: context,
+                                                isDialogScreen: true,
+                                                body: {
+                                                  "job_id": widget.notificationModel.jobId,
+                                                  "status": "ACCEPTED",
+                                                  "award_date": DateTime.now().toString(),
+                                                  "completion_date": "",
+                                                },
+                                                idStatusUpdate: newNotificationData.sellerId.toString());
+                                          },)
                                         ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
+                                       defaultSizeBoxWidth,
                                         Expanded(
-                                          child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(alignment: Alignment.center, backgroundColor: AppColors.cancelButtonColor, foregroundColor: Colors.white),
-                                              onPressed: () async {
-                                                NotificationModel newNotificationData = widget.notificationModel;
-                                                newNotificationData.status = "REJECTED";
-                                                newNotificationData.notificationTitle = "Order Request Rejected";
-                                                newNotificationData.notificationMsg = '${widget.notificationModel.sellerName} has rejected ${widget.notificationModel.jobTitle}  order request.';
-                                                newNotificationData.createdTime = DateTime.now().millisecondsSinceEpoch.toString();
-                                                await RepositoryData.jobStatus(
-                                                    title: newNotificationData.notificationTitle.toString(),
-                                                    msg: newNotificationData.notificationMsg,
-                                                    notification: newNotificationData,
-                                                    context: context,
-                                                    isDialogScreen: true,
-                                                    body: {"job_id": widget.notificationModel.jobId, "status": "REJECTED", "award_date": DateTime.now().toString(), "completion_date": "", "notification_id": widget.notificationModel.notificationId},
-                                                    idStatusUpdate: newNotificationData.sellerId.toString());
-                                              },
-                                              child:  Text(
-                                                "reject".tr,
-                                                textAlign: TextAlign.center,
-                                              )),
+                                          child: CustomButton(text: "reject".tr,onTap: () async {
+                                            NotificationModel newNotificationData = widget.notificationModel;
+                                            newNotificationData.status = "REJECTED";
+                                            newNotificationData.notificationTitle = "Order Request Rejected";
+                                            newNotificationData.notificationMsg = '${widget.notificationModel.sellerName} has rejected ${widget.notificationModel.jobTitle}  order request.';
+                                            newNotificationData.createdTime = DateTime.now().millisecondsSinceEpoch.toString();
+                                            await RepositoryData.jobStatus(
+                                                title: newNotificationData.notificationTitle.toString(),
+                                                msg: newNotificationData.notificationMsg,
+                                                notification: newNotificationData,
+                                                context: context,
+                                                isDialogScreen: true,
+                                                body: {"job_id": widget.notificationModel.jobId, "status": "REJECTED", "award_date": DateTime.now().toString(), "completion_date": "", "notification_id": widget.notificationModel.notificationId},
+                                                idStatusUpdate: newNotificationData.sellerId.toString());
+                                          },color: AppColors.cancelButtonColor,),
                                         ),
                                       ],
                                     ),

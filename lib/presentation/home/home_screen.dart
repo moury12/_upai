@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/controllers/filter_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
@@ -39,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     scrollController.addListener(
       () {
         if (scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent) {
+            scrollController.position.maxScrollExtent&& NetworkController.to.connectedInternet.value) {
           HomeController.to.getOfferDataList(loadMoreData: true);
         }
       },
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
-          color: AppColors.kprimaryColor,
+          color: AppColors.kPrimaryColor,
           backgroundColor: Colors.white,
           onRefresh: () {
         return resetData();
@@ -82,34 +83,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .to.selectedDistrictForAll.value ==
                                       null
                               ? Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
+                                  padding:  EdgeInsets.symmetric(
+                                      horizontal: 8.sp),
                                   child: Column(
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Text("explore_top_services".tr,
-                                                style: AppTextStyle.titleText),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.to(const ServiceListScreen(
-                                                isTopService: true,
-                                              ));
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12.0),
+                                      Padding(
+                                        padding:  EdgeInsets.symmetric(vertical: 8.sp),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text("explore_top_services".tr,
+                                                  style: AppTextStyle.titleText(context)),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(const ServiceListScreen(
+                                                  isTopService: true,
+                                                ));
+                                              },
                                               child: Text("browse_all".tr,
                                                   style: AppTextStyle
-                                                      .titleTextSmallUnderline),
+                                                      .titleTextSmallUnderline(context)),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                              HomeController.to.isServiceListLoading.value ||
                                               !NetworkController
@@ -117,8 +116,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ? ShimmerExploreTopService()
                                           : HomeController
                                                   .to.getOfferList.isEmpty ?NoServiceWidget():
+
                                           SizedBox(
-                                              height: 250,
+                                              height:ScreenUtil().screenHeight<ScreenUtil().screenWidth? 0.4.sw:200.w,
+
                                               child: ListView.builder(
                                                   scrollDirection:
                                                       Axis.horizontal,
@@ -147,12 +148,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         },
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsets
+                                                               EdgeInsets
                                                                   .only(
-                                                                  right: 12.0,
-                                                                  top: 4,
-                                                                  bottom: 4,
-                                                                  left: 4),
+                                                                  right: 12.0.sp,
+                                                                  top: 4.sp,
+                                                                  bottom: 4.sp,
+                                                                  left: 4.sp),
                                                           child:
                                                               MyServiceWidget(
                                                             offerItem: service,
@@ -165,15 +166,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )
                               : SizedBox.shrink(),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
+                            padding:  EdgeInsets.symmetric(
+                              horizontal: 8.sp,
                             ),
                             child: Obx(() {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                    padding:  EdgeInsets.symmetric(vertical: 8.sp),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -184,10 +185,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: FilterController
                                                   .to.isFilterValueEmpty.value
                                               ? Text("explore_new_services".tr,
-                                                  style: AppTextStyle.titleText)
+                                                  style: AppTextStyle.titleText(context))
                                               : Text(
                                                   '${FilterController.to.selectedServiceType.value != null ? '${FilterController.to.selectedServiceType.value} > ' : ''}${FilterController.to.selectedCategory.value != null ? '${FilterController.to.selectedCategory.value} > ' : ''}${FilterController.to.selectedSortBy.value != null ? '${FilterController.to.selectedSortBy.value} > ' : ''}',
-                                                  style: AppTextStyle.titleText),
+                                                  style: AppTextStyle.titleText(context)),
                                         ),
                                         GestureDetector(
                                           onTap: () {
@@ -196,8 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ));
                                           },
                                           child: Text("browse_all".tr,
-                                              style: AppTextStyle
-                                                  .titleTextSmallUnderline),
+                                              style: AppTextStyle.titleTextSmallUnderline(context)),
                                         ),
                                       ],
                                     ),
@@ -231,8 +231,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? DefaultCircularProgressIndicator()
                                 : SizedBox.shrink();
                           }),
-                          const SizedBox(
-                            height: 8,
+                           SizedBox(
+                            height: 8.w,
                           )
                         ],
                       ),
@@ -249,18 +249,19 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class NoServiceWidget extends StatelessWidget {
+  final String? title;
   const NoServiceWidget({
-    super.key,
+    super.key, this.title,
   });
 
   @override
   Widget build(BuildContext context) {
     return  Padding(
-      padding: EdgeInsets.all(12.0),
+      padding: EdgeInsets.all(12.sp),
       child: Center(
         child: Text(
-          "no_service_available".tr,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+        title??  "no_service_available".tr,
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: default12FontSize),
         ),
       ),
     );

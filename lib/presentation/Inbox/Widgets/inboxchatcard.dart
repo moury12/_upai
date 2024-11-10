@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/chat/Model/message_model.dart';
@@ -24,13 +26,14 @@ class InboxCardWidget extends StatelessWidget {
     Message? message;
     UserInfoModel? receiverUserData;
     return Container(
-        margin: const EdgeInsets.only(left: 12, right: 12, bottom: 4, top: 4),
+        margin:  EdgeInsets.symmetric(horizontal: defaultPadding,vertical: default4Padding),
+        padding: EdgeInsets.all(8.sp),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(4),
             border: Border.all(color: AppColors.strokeColor2, width: 1)),
         child: Padding(
-            padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+            padding:  EdgeInsets.symmetric(horizontal: defaultPadding),
             child: StreamBuilder(
                 stream: FirebaseAPIs.getUserInfo(
                     receiverUserInfo.userId.toString()),
@@ -55,29 +58,27 @@ class InboxCardWidget extends StatelessWidget {
                           message = list[0];
                           sendByMe = message!.fromId.toString() ==
                               FirebaseAPIs.user['user_id'];
-                          return ListTile(
-                            // contentPadding: EdgeInsets.zero,
-                            leading: Stack(children: [
+                          return
+                          Row(children: [
+                            Stack(children: [
                               Container(
+                                clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
+                                    shape: BoxShape.circle,
                                     border: Border.all(
                                         color: AppColors.strokeColor,
                                         width: 2)),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: CachedNetworkImage(
-                                    height: 50,
-                                    width: 50,
-                                    imageUrl: receiverUserData!.image.toString(),
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Image.asset(
-                                        ImageConstant.senderImg,
-                                        fit: BoxFit.cover),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(ImageConstant.senderImg,
-                                            fit: BoxFit.cover),
-                                  ),
+                                child: CachedNetworkImage(
+                                  height: 50.w,
+                                  width: 50.w,
+                                  imageUrl: receiverUserData!.image.toString(),
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => Image.asset(
+                                      ImageConstant.senderImg,
+                                      fit: BoxFit.cover),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(ImageConstant.senderImg,
+                                          fit: BoxFit.cover),
                                 ),
                               ),
                               //   CircleAvatar(
@@ -91,36 +92,42 @@ class InboxCardWidget extends StatelessWidget {
                                       ? const UserActive()
                                       : const UserInactive())
                             ]),
-                            title: Text(
-                              receiverUserData!.name.toString(),
-                              style: AppTextStyle.bodyMediumBlackSemiBold,
-                            ),
-                            subtitle: message != null
-                                ?sendByMe?
-                            Text(
-                                    overflow: TextOverflow.ellipsis,
-                                    message!.type == Type.image
-                                        ? "Image"
-                                        : "You: ${message!.msg}",
-                                    maxLines: 1,
-                                  )
-                                :message!.read!.isEmpty?
-                            Text(
-                              overflow: TextOverflow.ellipsis,
-                              message!.type == Type.image
-                                  ? "Image"
-                                  : "${message!.msg}",
-                              maxLines: 1,style: AppTextStyle.unReadMsgStyle,
-                            ):Text(
-                              overflow: TextOverflow.ellipsis,
-                              message!.type == Type.image
-                                  ? "Image"
-                                  : "${message!.msg}",
-                              maxLines: 1,
-                            )
-                                :const Text(""),
-                            contentPadding: EdgeInsets.zero,
-                            trailing: Column(
+                            defaultSizeBoxWidth,
+                            
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                Text(
+                                  receiverUserData!.name.toString(),
+                                  style: AppTextStyle.bodyMediumBlackSemiBold(context),
+                                ),
+                                message != null
+                                    ?sendByMe?
+                                Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  message!.type == Type.image
+                                      ? "Image"
+                                      : "You: ${message!.msg}",
+                                  maxLines: 1,style: AppTextStyle.font12grey400(context),
+                                )
+                                    :message!.read!.isEmpty?
+                                Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  message!.type == Type.image
+                                      ? "Image"
+                                      : "${message!.msg}",
+                                  maxLines: 1,style: AppTextStyle.unReadMsgStyle(context),
+                                ):Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  message!.type == Type.image
+                                      ? "Image"
+                                      : "${message!.msg}",
+                                  maxLines: 1,style: AppTextStyle.font12grey400(context),
+                                )
+                                    :const Text(""),
+                              ],),
+                            ),Spacer(), Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -128,24 +135,23 @@ class InboxCardWidget extends StatelessWidget {
                                   MyDateUtil.getLastMessageTime(
                                       context: context,
                                       time: message!.sent.toString()),
-                                  style: AppTextStyle.titleText,
+                                  style: AppTextStyle.titleText(context),
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+
                                 sendByMe
                                     ? const SizedBox()
                                     : message!.read!.isEmpty
-                                        ? const UnReadIndicator()
-                                        : const ReadIndicator(),
+                                    ? const UnReadIndicator()
+                                    : const SizedBox.shrink(),
                               ],
-                            ),
-                          );
+                            )
+                          ],);
+
                         }
                         else {
-                          return ListTile(
-                            // contentPadding: EdgeInsets.zero,
-                            leading: Stack(children: [
+                          return
+                          Row(children: [
+                            Stack(children: [
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
@@ -155,8 +161,8 @@ class InboxCardWidget extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
                                   child: CachedNetworkImage(
-                                    height: 50,
-                                    width: 50,
+                                    height: 50.w,
+                                    width: 50.w,
                                     imageUrl: receiverUserInfo.image.toString(),
                                     fit: BoxFit.cover,
                                     placeholder: (context, url) => Image.asset(
@@ -169,21 +175,24 @@ class InboxCardWidget extends StatelessWidget {
                                 ),
                               ),
                             ]),
-                            title: Text(
-                              receiverUserInfo.name.toString(),
-                              style: AppTextStyle.bodyMediumBlackSemiBold,
-                            ),
-                            subtitle: Text(""),
-                            contentPadding: EdgeInsets.zero,
-                          );
+                            defaultSizeBoxWidth,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  receiverUserInfo.name.toString(),
+                                  style: AppTextStyle.bodyMediumBlackSemiBold(context),
+                                ),
+                            ],)
+                          ],);
+
                         }
                       },
                     );
                   }
                   else {
-                    return ListTile(
-                      // contentPadding: EdgeInsets.zero,
-                      leading: Stack(children: [
+                    return Row(children: [
+                      Stack(children: [
                         Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(100),
@@ -193,8 +202,8 @@ class InboxCardWidget extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: CachedNetworkImage(
-                              height: 50,
-                              width: 50,
+                              height: 50.w,
+                              width: 50.w,
                               imageUrl: receiverUserInfo.image.toString(),
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Image.asset(
@@ -206,31 +215,24 @@ class InboxCardWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ]),
-                      title: Text(
-                        receiverUserInfo.name.toString(),
-                        style: AppTextStyle.bodyMediumBlackSemiBold,
-                      ),
-                      subtitle: Text(""),
-                      contentPadding: EdgeInsets.zero,
-                    );
+                      ]),defaultSizeBoxWidth,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            receiverUserInfo.name.toString(),
+                            style: AppTextStyle.bodyMediumBlackSemiBold(context),
+                          )
+                        ],
+                      )
+                    ],);
+
                   }
                 })));
   }
 }
 
-class ReadIndicator extends StatelessWidget {
 
-  const ReadIndicator({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    HomeController.to.isUnRead.value=true;
-    return const Text("");
-  }
-}
 
 class UnReadIndicator extends StatelessWidget {
   const UnReadIndicator({
@@ -241,8 +243,8 @@ class UnReadIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     HomeController.to.isUnRead.value=false;
     return Container(
-        height: 15,
-        width: 15,
+        height: 10.w,
+        width: 10.w,
         decoration: BoxDecoration(
           color: AppColors
               .messageIndicatorColor,
@@ -262,12 +264,11 @@ class UserInactive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 12,
-      width: 12,
+      height:12.w,
+      width: 12.w,
       decoration: BoxDecoration(
           color: const Color(0xFFC5CEE0),
-          borderRadius: BorderRadius.circular(100),
-          border: Border.all(color: Colors.white, width: 1.5)),
+          shape: BoxShape.circle,           border: Border.all(color: Colors.white, width: 1.5)),
     );
   }
 }
@@ -280,12 +281,11 @@ class UserActive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 12,
-      width: 12,
+      height:12.w,
+      width: 12.w,
       decoration: BoxDecoration(
           color: Colors.green,
-          borderRadius: BorderRadius.circular(100),
-          border: Border.all(color: Colors.white, width: 1.5)),
+shape: BoxShape.circle,          border: Border.all(color: Colors.white, width: 1.5)),
     );
   }
 }

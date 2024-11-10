@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/presentation/create-offer/create_offer_screen.dart';
@@ -67,7 +68,8 @@ class _CreateOfferButtonState extends State<CreateOfferButton>
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-        hoverColor: AppColors.kprimaryColor,
+
+        hoverColor: AppColors.kPrimaryColor,
         shape: const CircleBorder(),
         backgroundColor: Colors.white,
         onPressed: () {
@@ -86,7 +88,7 @@ class _CreateOfferButtonState extends State<CreateOfferButton>
                     height: backgroundSizeAnimation.value,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.kprimaryColor,
+                      color: AppColors.kPrimaryColor,
                     ),
                   ),
                 ),
@@ -95,7 +97,7 @@ class _CreateOfferButtonState extends State<CreateOfferButton>
                   height: mainSizeAnimation.value,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: AppColors.kprimaryColor,
+                    color: AppColors.kPrimaryColor,
                   ),
                   child: Center(
                     child: Text(

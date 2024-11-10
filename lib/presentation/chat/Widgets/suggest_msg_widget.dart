@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 
 class SuggestMsgWidget extends StatelessWidget {
   final String suggestMsg;
@@ -11,8 +13,8 @@ class SuggestMsgWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(
-          horizontal: 11.52, vertical: 3.84),
+      padding:  EdgeInsets.symmetric(
+          horizontal: 12.sp, ),
       decoration: ShapeDecoration(
         color: const Color(0xFFF7F9FC),
         shape: RoundedRectangleBorder(
@@ -21,9 +23,9 @@ class SuggestMsgWidget extends StatelessWidget {
       ),
       child:  Text(
         suggestMsg,
-        style: const TextStyle(
+        style:  TextStyle(
           color: Color(0xFF3F3F3F),
-          fontSize: 13,
+          fontSize: default12FontSize,
           fontFamily: 'Epilogue',
           fontWeight: FontWeight.w500,
         ),

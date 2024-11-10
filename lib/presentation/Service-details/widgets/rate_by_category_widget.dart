@@ -19,7 +19,7 @@ class RateByCat extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(rateCat,style: AppTextStyle.bodySmallblack,),
+          Text(rateCat,style: AppTextStyle.bodySmallblack(context),),
           Row(
             children: [
               Icon(

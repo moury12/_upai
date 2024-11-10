@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/controllers/order_controller.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/custom_text_style.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
 
@@ -44,18 +46,16 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     int crossAxisCount = 2;
 
     if (screenWidth > 600) {
-      crossAxisCount = 3;
+      crossAxisCount = 2;
     }
     if (screenWidth > 900) {
-      crossAxisCount = 4;
+      crossAxisCount = 3;
     }
-    if (screenWidth > 1232) {
-      crossAxisCount = 5;
-    }
+
     return Scaffold(
       floatingActionButton: const CreateOfferButton(),
       body: RefreshIndicator(
-        color: AppColors.kprimaryColor,
+        color: AppColors.kPrimaryColor,
         backgroundColor: Colors.white,
         onRefresh: () => SellerProfileController.to.refreshAllData(),
         child: SingleChildScrollView(
@@ -74,7 +74,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               );
             } else {*/
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:  EdgeInsets.all(12.sp),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -89,20 +89,20 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                           children: [
                             SellerStatusWidget(
                               seller: seller,
-                              color: AppColors.kprimaryColor,
+                              color: AppColors.kPrimaryColor,
                               title: 'earning'.tr,
                               value: seller.sellerProfile!.totalEarning,
                             ),
                             SellerStatusWidget(
                               seller: seller,
-                              color: AppColors.kprimaryColor,
+                              color: AppColors.kPrimaryColor,
                               title: 'complete'.tr,
                               value: seller.sellerProfile!.completedJob,
                               icon: Icons.verified,
                             ),
                             SellerStatusWidget(
                               seller: seller,
-                              color: AppColors.kprimaryColor,
+                              color: AppColors.kPrimaryColor,
                               title: 'review'.tr,
                               icon: Icons.star_rate_rounded,
                               value: seller.sellerProfile!.review.toString(),
@@ -118,20 +118,18 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(flex: 2, child: Text("running_order".tr, style: AppTextStyle.titleText)),
+                            Expanded(flex: 2, child: Text("running_order".tr, style: AppTextStyle.titleText(context))),
                             Flexible(
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(SellerRunningOrderListScreen(runningOrder: seller.sellerRunningOrder ?? []));
                                 },
-                                child: Text("${"all_orders".tr} >", style: AppTextStyle.titleTextSmallUnderline),
+                                child: Text("${"all_orders".tr} >", style: AppTextStyle.titleTextSmallUnderline(context)),
                               ),
                             ),
                           ],
                         ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                 defaultSizeBoxHeight,
                   SellerProfileController.to.sellerProfileLoading.value || !NetworkController.to.connectedInternet.value
                       ? const ShimmerRunnigOrder(forList: false,)
                       : seller.sellerRunningOrder!.isEmpty
@@ -147,7 +145,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   seller.myService == null || seller.myService!.isEmpty?const SizedBox.shrink(): Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(flex: 2, child: Text("my_offers".tr, style: AppTextStyle.titleText)),
+                      Expanded(flex: 2, child: Text("my_offers".tr, style: AppTextStyle.titleText(context))),
                       Flexible(
                         child: GestureDetector(
                           onTap: () {
@@ -155,8 +153,8 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                             Get.to(MyServiceListScreen(service: seller.myService ?? []));
                           },
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text("${'all_offers'.tr} >", style: AppTextStyle.titleTextSmallUnderline),
+                            padding:  EdgeInsets.symmetric(vertical:12.sp).copyWith(top: 0),
+                            child: Text("${'all_offers'.tr} >", style: AppTextStyle.titleTextSmallUnderline(context)),
                           ),
                         ),
                       ),
@@ -164,11 +162,13 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   ),
                   SellerProfileController.to.sellerProfileLoading.value||  !NetworkController.to.connectedInternet.value
                       ? const ShimmerOfferList()
-                      :  seller.myService == null || seller.myService!.isEmpty?NoServiceWidget():GridView.builder(
+                      :  seller.myService == null || seller.myService!.isEmpty?NoServiceWidget():
+                  GridView.builder(
                           shrinkWrap: true,
                           primary: false,
 
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, crossAxisSpacing: 8, mainAxisSpacing: 8,childAspectRatio: .8),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount, crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,childAspectRatio:ScreenUtil().screenWidth >ScreenUtil().screenHeight ? 0.5 : 0.9),
                           itemCount: seller.myService!.reversed.toList().length < 4 ? seller.myService!.reversed.toList().length : 4,
                           itemBuilder: (context, index) {
                             final service = SellerProfileController.to.myService[index];

@@ -2,13 +2,16 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/Model/user_info_model.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/presentation/Inbox/Widgets/shimmer_inbox_card_widget.dart';
 import 'package:upai/presentation/Inbox/controller/inbox_screen_controller.dart';
 import 'package:upai/presentation/Inbox/Widgets/inboxchatcard.dart';
+import 'package:upai/widgets/custom_text_field.dart';
 
 class InboxScreen extends StatelessWidget {
   const InboxScreen({super.key});
@@ -37,35 +40,26 @@ class InboxScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                        left: 12,
-                        right: 12,
-                      ),
-                      child: TextField(
-                        controller: ctrl.searchByNameTE,
-                        onSubmitted: (value) {
-                        //  FirebaseAPIs.addChatUser(value.toString());
-                        },
-                        onChanged: (value) {
-                          ctrl.isActionOnChanged = true;
-                          if (value == "") {
-                            ctrl.isSearching = false;
-                          } else {
-                            ctrl.isSearching = true;
-                            ctrl.searchList.clear();
-                            for (var i in ctrl.chatList) {
-                              if (i.userId!.toLowerCase().contains(value.toLowerCase()) || i.name!.toLowerCase().contains(value.toLowerCase())) {
-                                ctrl.searchList.add(i);
-                              }
+                    CustomTextField(
+                      hintText: "search_by_name".tr,
+                      controller: ctrl.searchByNameTE,
+                      onChanged: (value) {
+                        ctrl.isActionOnChanged = true;
+                        if (value == "") {
+                          ctrl.isSearching = false;
+                        } else {
+                          ctrl.isSearching = true;
+                          ctrl.searchList.clear();
+                          for (var i in ctrl.chatList) {
+                            if (i.userId!.toLowerCase().contains(value!.toLowerCase()) || i.name!.toLowerCase().contains(value.toLowerCase())) {
+                              ctrl.searchList.add(i);
                             }
                           }
-                          ctrl.update();
-                        },
-                        decoration:
-                        InputDecoration(fillColor: AppColors.textFieldBackGround, filled: true, hintText: "search_by_name_uid".tr, hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500), border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(6))),
-                      ),
+                        }
+                        ctrl.update();
+                      },
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),

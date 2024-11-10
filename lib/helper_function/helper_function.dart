@@ -85,13 +85,13 @@ void showCustomSnackbar({
   required SnackBarType type,
   SnackPosition position = SnackPosition.BOTTOM, // Default position
 }) {
-  Color backgroundColor = AppColors.kprimaryColor;
+  Color backgroundColor = AppColors.kPrimaryColor;
   IconData icon = Icons
       .sentiment_dissatisfied_outlined; // Default color is red for failure/error
   Color textColor = Colors.white;
   switch (type) {
     case SnackBarType.success:
-      backgroundColor = AppColors.kprimaryColor;
+      backgroundColor = AppColors.kPrimaryColor;
       icon = Icons.emoji_emotions_outlined;
       break;
     case SnackBarType.failed:

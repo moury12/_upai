@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/core/utils/default_widget.dart';
 
 class CustomDropDown<T> extends StatelessWidget {
   final T? value;  // The selected value
@@ -21,26 +23,27 @@ class CustomDropDown<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.kprimaryColor),
-        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: DropdownButton<T>(
+        dropdownColor: Colors.white, padding:EdgeInsets.symmetric(horizontal: defaultPadding,vertical: default4Padding) ,
+        style: TextStyle(color: AppColors.kPrimaryColor,fontSize: default14FontSize),
+        iconSize: 20.sp,
 
-        dropdownColor: Colors.white, padding:EdgeInsets.symmetric(horizontal: 12) ,
-        style: TextStyle(color: AppColors.kprimaryColor),
-        iconEnabledColor: AppColors.kprimaryColor,
-        borderRadius: BorderRadius.circular(12),
+        iconEnabledColor: AppColors.kPrimaryColor,
+        borderRadius: BorderRadius.circular(defaultRadius),
         underline: const SizedBox.shrink(),
         value: value,
         hint: Text(
           label,
-          style: TextStyle(color: AppColors.kprimaryColor),
+          style: TextStyle(color: Colors.grey,fontSize: default12FontSize),
         ),
         items: menuList.map((element) {
           return DropdownMenuItem<T>(
 
             value: element,
-            child: Text(element.toString()), // Convert element to string for display
+            child: Text(element.toString(),style: TextStyle(fontSize: default12FontSize)), // Convert element to string for display
           );
         }).toList(),
         onChanged: isEditArgument ? null : onChanged, // Disable dropdown if `isEditArgument` is true

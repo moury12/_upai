@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:upai/core/utils/default_widget.dart';
 
@@ -12,8 +13,10 @@ class CustomTextField extends StatefulWidget {
   final bool? isEmail;
   final bool? isEnable;
   final bool? isRequired;
+  final bool? isEditable;
   final double? height;
   final double? width;
+  final TextInputAction? textInputAction;
   final String? hintText;
   final String? labelText;
   final String? label;
@@ -64,7 +67,7 @@ class CustomTextField extends StatefulWidget {
       this.isEnable,
       this.enableBorderColor,
       this.label,
-      this.isRequired = false});
+      this.isRequired = false, this.isEditable,  this.textInputAction});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -86,8 +89,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     widget.label ?? '',
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                        color: AppColors.kprimaryColor),
+                        fontSize: default12FontSize,
+                        color: AppColors.kPrimaryColor),
                   ),
                   widget.isRequired == true
                       ? Padding(
@@ -96,7 +99,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                             '*',
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 10,
+                                fontSize: default10FontSize,
                                 color: Colors.red),
                           ),
                         )
@@ -109,23 +112,26 @@ class _CustomTextFieldState extends State<CustomTextField> {
           width: widget.width ?? double.infinity,
           height: widget.height,
           child: TextFormField(
-            cursorColor: AppColors.kprimaryColor,
+minLines: 1,
+            cursorColor: AppColors.kPrimaryColor,
             inputFormatters: widget.textInputFormatter ?? [],
             enabled: widget.isEnable ?? true,
             onTap: widget.onPressed ?? () {},
             textAlign: widget.textAlign ?? TextAlign.left,
             maxLines: widget.maxLines ?? 1,
             onChanged: widget.onChanged,
-            textInputAction: widget.isPasswordField == true
+            textInputAction:widget.textInputAction==null? widget.isPasswordField == true
                 ? TextInputAction.done
-                : TextInputAction.next,
+                : TextInputAction.next:widget.textInputAction,
             style: TextStyle(
-                color: Colors.black, fontSize: widget.inputFontSize ?? null),
+                color: Colors.black, fontSize: default12FontSize),
             controller: widget.controller,
             keyboardType: widget.inputType,
             key: widget.fieldKey,
             obscureText: widget.isPasswordField == true ? _obscureText : false,
             onSaved: widget.onSaved,
+
+
             validator: widget.validator ??
                 (value) {
                   if ((value == null ||
@@ -148,21 +154,21 @@ class _CustomTextFieldState extends State<CustomTextField> {
               fillColor: Colors.white,
               labelText: widget.labelText,
               labelStyle: TextStyle(
-                  fontSize: 14,
+                  fontSize: default14FontSize,
                   fontWeight: FontWeight.w600,
                   color: Colors.black.withOpacity(0.5)),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: AppColors.kprimaryColor)),
+                  borderSide: BorderSide(color: AppColors.kPrimaryColor)),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                       color:
-                          widget.enableBorderColor ?? AppColors.kprimaryColor)),
+                          widget.enableBorderColor ?? Colors.grey)),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
-                    color: AppColors.kprimaryColor,
+                    color: AppColors.kPrimaryColor,
                   )),
               filled: true,
               contentPadding: widget.padding ??
@@ -170,7 +176,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
               prefixIcon: widget.prefixIcon != null
                   ? Icon(
                       widget.prefixIcon,
-                      color: AppColors.kprimaryColor,
+                      size: defaultAppBarIconSize,
+                      color: AppColors.kPrimaryColor,
                     )
                   : null,
               // decoration: InputDecoration(
@@ -179,7 +186,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               hintText: widget.hintText,
               hintStyle: widget.hintStyle ??
                   TextStyle(
-                      fontSize: 13,
+                      fontSize: default12FontSize,
                       color: AppColors.colorBlack.withOpacity(0.3)),
 
               suffixIcon: widget.suffixIcon != null

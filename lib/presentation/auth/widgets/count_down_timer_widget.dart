@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:upai/core/utils/default_widget.dart';
 
 class CountDownWidget extends AnimatedWidget {
   Animation<int> animation;
@@ -20,7 +22,7 @@ class CountDownWidget extends AnimatedWidget {
       },
       child: Text(
         timerText == '0:00' ? 'Resend OTP' : timerText,
-        style: const TextStyle(color: Colors.green, fontSize: 14),
+        style:  TextStyle(color: Colors.green, fontSize: default14FontSize),
       ),
     );
   }
