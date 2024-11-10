@@ -8,6 +8,7 @@ import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/domain/services/checkInternet.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/Service-details/service_details.dart';
+import 'package:upai/presentation/Service-details/service_details_controller.dart';
 import 'package:upai/presentation/default_controller.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
 import 'package:upai/presentation/home/widgets/shimmer_for_home.dart';
@@ -138,13 +139,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     final service = controller
                                                         .topServiceList[index];
                                                     return GestureDetector(
-                                                        onTap: () {
+                                                        onTap: () async{
+
                                                           Get.to(
                                                             ServiceDetails(
                                                               offerDetails:
                                                                   service,
                                                             ),
                                                           );
+
                                                         },
                                                         child: Padding(
                                                           padding:

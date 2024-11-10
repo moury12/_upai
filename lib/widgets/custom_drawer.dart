@@ -38,15 +38,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
         ),
         child: SingleChildScrollView(
-          child: Stack(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomPaint(
-                painter: CurvedPainter(),
-                size: MediaQuery.of(context).size,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Stack(
                 children: [
+                  CustomPaint(
+                    painter: CurvedPainter(),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 150,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Row(
@@ -56,20 +59,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             borderRadius: BorderRadius.circular(360),
 
                             child: ProfileScreenController
-                                    .to.profileImageUrl.value.isNotEmpty
+                                .to.profileImageUrl.value.isNotEmpty
                                 ? CustomNetworkImage(
-                                    imageUrl: ProfileScreenController
-                                        .to.profileImageUrl.value
-                                        .toString(),
-                                    height: 100,
-                                    width: 100,
-                                  )
+                              imageUrl: ProfileScreenController
+                                  .to.profileImageUrl.value
+                                  .toString(),
+                              height: 100,
+                              width: 100,
+                            )
                                 : Image.asset(
-                                    ImageConstant.senderImg,
-                                    fit: BoxFit.cover,
-                                    height: 100,
-                                    width: 100,
-                                  ),
+                              ImageConstant.senderImg,
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 100,
+                            ),
 
                             // backgroundColor: Colors.grey.shade200,
                           );
@@ -107,91 +110,80 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ],
                     ),
                   ),
-
-                  //
-                  // Padding(
-                  //   padding:  EdgeInsets.all(defaultPadding).copyWith(bottom: 0),
-                  //   child: Switch(
-                  //     activeColor: AppColors.kPrimaryColor,
-                  //   inactiveThumbColor: Colors.grey.shade700,
-                  //   inactiveTrackColor: Colors.grey.shade300,
-                  //     value: Get.locale==const Locale('en'), onChanged: (value) {
-                  //     var localeCode = Locale(value?'en':'bn');
-                  //     Get.updateLocale(localeCode);
-                  //   },),
-                  // ),
-                  defaultSizeBoxHeight,
-                  _buildMenuOption(
-                    icon: Icons.language_outlined,
-                    label: 'Language',
-                    onTap: () {
-                      showLanguageDialog(context);
-                    },
-                  ),
-                  _buildMenuOption(
-                    icon: Icons.person,
-                    label: 'profile'.tr,
-                    onTap: () {
-                      Get.toNamed('/profile');
-                      if (Scaffold.of(context).isDrawerOpen) {
-                        Scaffold.of(context).closeDrawer();
-                      }
-                    },
-                  ),
-                  _buildMenuOption(
-                    icon: Icons.home_repair_service_rounded,
-                    label: 'my_running_orders'.tr,
-                    onTap: () {
-                      BuyerProfileController.to.getBuyerProfile();
-                      Get.to(BuyerRunningOrderListScreen(
-                        buyer: BuyerProfileController.to.buyer.value,
-                      ));
-                      if (Scaffold.of(context).isDrawerOpen) {
-                        Scaffold.of(context).closeDrawer();
-                      }
-                    },
-                  ),
-                  _buildMenuOption(
-                    icon: Icons.favorite,
-                    label: 'favourite_offer'.tr,
-                    onTap: () {
-                      Get.to(const FavouriteOfferScreen());
-                      if (Scaffold.of(context).isDrawerOpen) {
-                        Scaffold.of(context).closeDrawer();
-                      }
-                      // BuyerProfileController.to.getBuyerProfile();
-                      // Get.to(BuyerRunningOrderListScreen(
-                      //   buyer: BuyerProfileController.to.buyer.value,
-                      // ));
-                    },
-                  ),
-                  _buildMenuOption(
-                    icon: Icons.logout,
-                    label: 'logout'.tr,
-                    onTap: () async {
-                      await FirebaseAPIs.updateActiveStatus(false);
-                      await FirebaseAPIs.updatePushToken(
-                          ProfileScreenController.to.userInfo.value.userId
-                              .toString(),
-                          "");
-                      final box = Hive.box('userInfo');
-                      await box.delete("user");
-                      SplashScreenController.to.isLogin.value = false;
-                      Get.delete<SellerProfileController>(force: true);
-                      Get.delete<BuyerProfileController>(force: true);
-                      Get.delete<HomeController>(force: true);
-                      Get.delete<ProfileScreenController>(force: true);
-                      FirebaseAPIs.user = {};
-                      Get.offAll(const OtpScreen());
-                    },
-                  ),
-
-                  // const Align(
-                  //   alignment: Alignment.bottomRight,
-                  //   child: Text("app version:12-09-2024"),
-                  // )
                 ],
-              )
+              ),
+
+
+              defaultSizeBoxHeight,
+              _buildMenuOption(
+                icon: Icons.language_outlined,
+                label: 'Language',
+                onTap: () {
+                  showLanguageDialog(context);
+                },
+              ),
+              _buildMenuOption(
+                icon: Icons.person,
+                label: 'profile'.tr,
+                onTap: () {
+                  Get.toNamed('/profile');
+                  if (Scaffold.of(context).isDrawerOpen) {
+                    Scaffold.of(context).closeDrawer();
+                  }
+                },
+              ),
+              _buildMenuOption(
+                icon: Icons.home_repair_service_rounded,
+                label: 'my_running_orders'.tr,
+                onTap: () {
+                  BuyerProfileController.to.getBuyerProfile();
+                  Get.to(BuyerRunningOrderListScreen(
+                    buyer: BuyerProfileController.to.buyer.value,
+                  ));
+                  if (Scaffold.of(context).isDrawerOpen) {
+                    Scaffold.of(context).closeDrawer();
+                  }
+                },
+              ),
+              _buildMenuOption(
+                icon: Icons.favorite,
+                label: 'favourite_offer'.tr,
+                onTap: () {
+                  Get.to(const FavouriteOfferScreen());
+                  if (Scaffold.of(context).isDrawerOpen) {
+                    Scaffold.of(context).closeDrawer();
+                  }
+                  // BuyerProfileController.to.getBuyerProfile();
+                  // Get.to(BuyerRunningOrderListScreen(
+                  //   buyer: BuyerProfileController.to.buyer.value,
+                  // ));
+                },
+              ),
+              _buildMenuOption(
+                icon: Icons.logout,
+                label: 'logout'.tr,
+                onTap: () async {
+                  await FirebaseAPIs.updateActiveStatus(false);
+                  await FirebaseAPIs.updatePushToken(
+                      ProfileScreenController.to.userInfo.value.userId
+                          .toString(),
+                      "");
+                  final box = Hive.box('userInfo');
+                  await box.delete("user");
+                  SplashScreenController.to.isLogin.value = false;
+                  Get.delete<SellerProfileController>(force: true);
+                  Get.delete<BuyerProfileController>(force: true);
+                  Get.delete<HomeController>(force: true);
+                  Get.delete<ProfileScreenController>(force: true);
+                  FirebaseAPIs.user = {};
+                  Get.offAll(const OtpScreen());
+                },
+              ),
+
+              // const Align(
+              //   alignment: Alignment.bottomRight,
+              //   child: Text("app version:12-09-2024"),
+              // )
             ],
           ),
         ),
@@ -230,6 +222,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 class CurvedPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+
     var paint = Paint();
     paint.color = AppColors.kPrimaryColor;
     paint.style = PaintingStyle.fill;
