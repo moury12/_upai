@@ -14,7 +14,7 @@ import 'package:upai/core/utils/image_path.dart';
 import 'package:upai/core/utils/my_date_util.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
- import 'package:upai/presentation/Profile/profile_screen_controller.dart';
+import 'package:upai/presentation/Profile/profile_screen_controller.dart';
 import 'package:upai/presentation/Service-details/rating_list_screen.dart';
 
 import 'package:upai/presentation/create-offer/widget/tab_content_view.dart';
@@ -41,35 +41,43 @@ class ServiceDetails extends StatefulWidget {
 }
 
 class _ServiceDetailsState extends State<ServiceDetails> {
-  String image =
-      "https://lh5.googleusercontent.com/proxy/t08n2HuxPfw8OpbutGWjekHAgxfPFv-pZZ5_-uTfhEGK8B5Lp-VN4VjrdxKtr8acgJA93S14m9NdELzjafFfy13b68pQ7zzDiAmn4Xg8LvsTw1jogn_7wStYeOx7ojx5h63Gliw";
-
-  // late TabController tabController;
   @override
   void initState() {
-// tabController =DefaultTabController.of(context);
 
-    // getSellerDetails();
-    Get.put(ServiceDetailsController());
     ProfileScreenController.to.serviceSellerProfileImageUrl.value = '';
 
     ProfileScreenController.to.id.value = widget.offerDetails!.userId ?? '';
-
-    ProfileScreenController.to
-        .fetchServiceSellerProfileImage(widget.offerDetails!.userId.toString());
+    loadData();
 
     super.initState();
   }
 
+  loadData() async {
+    Get.put(ServiceDetailsController());
+
+     ServiceDetailsController.to.getCategoryWiseOfferList(
+         category: widget.offerDetails!.serviceCategoryType.toString(),
+         mobileNo: widget.offerDetails!.userId.toString());
+
+    await ProfileScreenController.to
+        .fetchServiceSellerProfileImage(widget.offerDetails!.userId.toString());
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    double appBarIconSize = ScreenUtil().screenHeight < ScreenUtil().screenWidth? 14.sp : defaultAppBarIconSize;
+    double appBarIconSize = ScreenUtil().screenHeight < ScreenUtil().screenWidth
+        ? 14.sp
+        : defaultAppBarIconSize;
     return Scaffold(
       floatingActionButton: ElevatedButton(
         onPressed: () async {
           if (ProfileScreenController.to.userInfo.value.userId ==
               widget.offerDetails!.userId) {
-            showCustomSnackbar(title: 'alert'.tr, message: "this_is_your_own_service".tr, type: SnackBarType.alert);
+            showCustomSnackbar(
+                title: 'alert'.tr,
+                message: "this_is_your_own_service".tr,
+                type: SnackBarType.alert);
           } else {
             UserInfoModel senderData = UserInfoModel();
             Map<String, dynamic>? userDetails;
@@ -107,21 +115,17 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(    height: 30.w,
+              Container(
+                height: 30.w,
                 width: 30.w,
                 clipBehavior: Clip.antiAlias,
-                decoration:BoxDecoration(
-                  shape: BoxShape.circle
-
-                ),
-                child:Obx(() {
+                decoration: BoxDecoration(shape: BoxShape.circle),
+                child: Obx(() {
                   return CustomNetworkImage(
-
-                    imageUrl: ProfileScreenController
-                        .to.serviceSellerProfileImageUrl.value,
-                    errorWidget: Image.asset(ImageConstant.senderImg)
-                  );
-                }) ,
+                      imageUrl: ProfileScreenController
+                          .to.serviceSellerProfileImageUrl.value,
+                      errorWidget: Image.asset(ImageConstant.senderImg));
+                }),
               ),
               SizedBox(
                 width: 8,
@@ -145,7 +149,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             onPressed: () {
               if (ProfileScreenController.to.userInfo.value.userId ==
                   widget.offerDetails!.userId) {
-                showCustomSnackbar(title: 'alert'.tr, message: "this_is_your_own_service".tr, type: SnackBarType.alert);
+                showCustomSnackbar(
+                    title: 'alert'.tr,
+                    message: "this_is_your_own_service".tr,
+                    type: SnackBarType.alert);
               } else {
                 Get.put(OrderController());
                 var packageName = widget
@@ -202,15 +209,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           onPressed: () {
             Get.back();
           },
-          icon:  Icon(
+          icon: Icon(
             Icons.arrow_back_ios_rounded,
-
           ),
         ),
         iconTheme: IconThemeData(size: appBarIconSize),
         actions: [
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 8.sp),
+            padding: EdgeInsets.symmetric(horizontal: 8.sp),
             child: FavouriteIconButton(offerItem: widget.offerDetails!),
           )
         ],
@@ -235,21 +241,17 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                         ),
-                        child:Obx(() {
+                        child: Obx(() {
                           return CustomNetworkImage(
-
-
                             imageUrl: ProfileScreenController
                                 .to.serviceSellerProfileImageUrl.value,
                             errorWidget: CircleAvatar(
-
                                 backgroundImage: AssetImage(
-                                  ImageConstant.senderImg,
-                                )),
+                              ImageConstant.senderImg,
+                            )),
                           );
                         }),
                       ),
-
                       horizontalTitleGap: 8.sp,
                       title: Text(
                         widget.offerDetails!.userName.toString(),
@@ -271,7 +273,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 rating: double.parse(double.parse(
                                         widget.offerDetails!.avgRating ?? '0.0')
                                     .toStringAsFixed(1)),
-                                itemBuilder: (context, index) =>  Icon(
+                                itemBuilder: (context, index) => Icon(
                                   CupertinoIcons.star_fill,
                                   color: Colors.black,
                                 ),
@@ -290,14 +292,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal:  12.sp),
+                      padding: EdgeInsets.symmetric(horizontal: 12.sp),
                       child: Text(
                         widget.offerDetails!.jobTitle.toString().toUpperCase(),
                         style: AppTextStyle.bodyLarge700(context),
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal:  12.sp),
+                      padding: EdgeInsets.symmetric(horizontal: 12.sp),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -305,7 +307,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                  "${'posted_on'.tr} ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}",style: TextStyle(fontSize: default10FontSize),),
+                                "${'posted_on'.tr} ${MyDateUtil.formatDate(widget.offerDetails!.dateTime.toString())}",
+                                style: TextStyle(fontSize: default10FontSize),
+                              ),
                             ],
                           ),
                           DetailItem(
@@ -348,11 +352,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             //colorClickableText: Colors.pink,
                             trimCollapsedText: 'Show more',
                             trimExpandedText: ' Show less',
-                            moreStyle:  TextStyle(
+                            moreStyle: TextStyle(
                                 fontSize: default12FontSize,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green),
-                            lessStyle:  TextStyle(
+                            lessStyle: TextStyle(
                                 fontSize: default12FontSize,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blueAccent),
@@ -383,11 +387,17 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                             (index) => Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Text(widget.offerDetails!.package![index].duration ??
-                                                  '',style: AppTextStyle.tapTitle(context),),
+                                              child: Text(
+                                                widget
+                                                        .offerDetails!
+                                                        .package![index]
+                                                        .duration ??
+                                                    '',
+                                                style: AppTextStyle.tapTitle(
+                                                    context),
+                                              ),
                                             ),
                                           )),
-
                                       TabContentView(
                                           children: List.generate(
                                         widget.offerDetails!.package!.length,
@@ -401,7 +411,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                 : Text(
                                                     "Description",
                                                     style: AppTextStyle
-                                                        .bodyMediumBlackBold(context),
+                                                        .bodyMediumBlackBold(
+                                                            context),
                                                   ),
                                             widget.offerDetails!.package![index]
                                                     .packageDescription!.isEmpty
@@ -412,64 +423,15 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                             .package![index]
                                                             .packageDescription ??
                                                         '',
-                                                    style: AppTextStyle.bodySmallGrey400(context),
+                                                    style: AppTextStyle
+                                                        .bodySmallGrey400(
+                                                            context),
                                                   ),
-
                                             PackageDetails(
                                               title: "Price",
                                               lable:
                                                   "৳ ${widget.offerDetails!.package![index].price ?? ''}",
                                             ),
-                                            // PackageDetails(
-                                            //   title: "Duration",
-                                            //   lable:
-                                            //       "${widget.offerDetails!.package![index].duration}",
-                                            // ),
-                                            // PackageDetails(
-                                            //   title: "Revisions",
-                                            //   lable: "4 Days",
-                                            // ),
-                                            // widget.offerDetails!.package![index]
-                                            //         .serviceList!.isEmpty
-                                            //     ? SizedBox.shrink()
-                                            //     : Column(
-                                            //         children: List.generate(
-                                            //           widget
-                                            //               .offerDetails!
-                                            //               .package![index]
-                                            //               .serviceList!
-                                            //               .length,
-                                            //           (serviceIndex) =>
-                                            //               PackageDetails(
-                                            //             title:
-                                            //                 "${widget.offerDetails!.package![index].serviceList![serviceIndex].serviceName}",
-                                            //             ticMark: Icon(
-                                            //               widget
-                                            //                               .offerDetails!
-                                            //                               .package![
-                                            //                                   index]
-                                            //                               .serviceList![
-                                            //                                   serviceIndex]
-                                            //                               .status!
-                                            //                               .toLowerCase() ==
-                                            //                           'true' ||
-                                            //                       widget
-                                            //                               .offerDetails!
-                                            //                               .package![
-                                            //                                   index]
-                                            //                               .serviceList![
-                                            //                                   serviceIndex]
-                                            //                               .status!
-                                            //                               .toLowerCase() ==
-                                            //                           'yes'
-                                            //                   ? CupertinoIcons
-                                            //                       .checkmark
-                                            //                   : CupertinoIcons
-                                            //                       .clear,
-                                            //             ),
-                                            //           ),
-                                            //         ),
-                                            //       )
                                           ],
                                         ),
                                       ))
@@ -536,7 +498,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       children: [
                                         Text(
                                             "${widget.offerDetails!.totalCompletedJob!.length} Reviews",
-                                            style: AppTextStyle.bodyMediumBlackBold(context)),
+                                            style: AppTextStyle
+                                                .bodyMediumBlackBold(context)),
                                         GestureDetector(
                                             onTap: () {
                                               Get.to(RatingListScreen(
@@ -589,7 +552,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                           .size
                                                           .width /
                                                       1.1,
-                                                 height: 150.w,
+                                                  height: 150.w,
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.only(
@@ -613,70 +576,155 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 )
                               : SizedBox.shrink(),
                           defaultSizeBoxHeight,
-                          Text("Explore My Other Services",
-                              style: AppTextStyle.titleText(context)),
+                          ServiceDetailsController
+                                  .to.categoryWiseOfferList.isNotEmpty
+                              ? Text("explore_related_service".tr,
+                                  style: AppTextStyle.titleText(context))
+                              : SizedBox.shrink(),
 
-                          Obx(
-                            () {
-                              if (HomeController.to.getOfferList.isNotEmpty) {
-                                List<OfferList> offerList =
-                                    HomeController.to.getOfferList;
-                                List<OfferList> myOffersList = offerList
-                                    .where((offer) =>
-                                        offer.userId.toString() ==
-                                        widget.offerDetails!.userId.toString())
-                                    .toList();
-                                return SizedBox(
-                                  height: 200,
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      children: List.generate(
-                                        myOffersList.length,
-                                        (index) {
-                                          if (myOffersList.isNotEmpty) {
+                          Obx(() {
+
+                            return ServiceDetailsController
+                                    .to.categoryWiseOfferList.isNotEmpty
+                                ? SizedBox(
+                                    height: 220,
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: List.generate(
+                                          ServiceDetailsController
+                                              .to.categoryWiseOfferList.length,
+                                          (index) {
                                             return Padding(
-                                              padding: const EdgeInsets.all(12.0)
-                                                  .copyWith(left: 8),
-                                              child: SizedBox(
-                                                width: 180,
-                                                // height: 180,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.pushReplacement(
+                                              padding:
+                                                  const EdgeInsets.all(12.0)
+                                                      .copyWith(left: 6),
+                                              child: GestureDetector(
+                                                onTap: () {
+
+                                                    // Using GetX navigation to off all routes except for the current one
+                                                    Get.offUntil(
+                                                      GetPageRoute(
+                                                        page: () => ServiceDetails(
+                                                          offerDetails: ServiceDetailsController.to.categoryWiseOfferList[index],
+                                                        ),
+                                                      ),
+                                                          (route) =>  route
+                                                           .settings.name !='/ServiceDetails', // This removes all previous routes
+                                                    );
+//                                                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+//                                                   /*  Get.offUntil(
+//                                                         MaterialPageRoute(
+//                                                           builder: (context) =>
+//                                                               ServiceDetails(
+//
+//                                                                 offerDetails:
+//                                                                 ServiceDetailsController
+//                                                                     .to
+//                                                                     .categoryWiseOfferList[
+//                                                                 index],
+//                                                               ),
+//                                                         ), (route) {
+//
+//                                                       return route
+//                                                           .settings.name !=
+//                                                           '/ServiceDetails';
+//                                                     });*/
+// //   Navigator.pushReplacement(
+//                                                     //       context,
+//                                                     //       MaterialPageRoute(
+//                                                     //           builder: (context) {
+//                                                     //
+//                                                     //             // ServiceDetailsController.to.getCategoryWiseOfferList(
+//                                                     //             //     category: widget.offerDetails!.serviceCategoryType.toString(),
+//                                                     //             //     mobileNo: widget.offerDetails!.userId.toString());
+//                                                     //             return  ;}
+//                                                     //       ));
+//                                                     // }
+//
+//                                                   },);
+                                                  // Navigator.pop(context);
+                                                  // if(mounted) {
+                                                   /* Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ServiceDetails(
-                                                            offerDetails:
-                                                                myOffersList[
-                                                                    index],
-                                                          ),
-                                                        ));
-                                                  },
-                                                  child: MyServiceWidget(
-                                                    offerItem:
-                                                        myOffersList[index],
-                                                  ),
+                                                            builder: (context) {
+
+                                                              // ServiceDetailsController.to.getCategoryWiseOfferList(
+                                                              //     category: widget.offerDetails!.serviceCategoryType.toString(),
+                                                              //     mobileNo: widget.offerDetails!.userId.toString());
+                                                              return  ServiceDetails(
+
+                                                                offerDetails:
+                                                                ServiceDetailsController
+                                                                    .to
+                                                                    .categoryWiseOfferList[
+                                                                index],
+                                                              ) ;}
+                                                        ));*/
+                                                  // }
+                                                  // Get.off(ServiceDetails(
+                                                  //   offerDetails:
+                                                  //   ServiceDetailsController
+                                                  //       .to
+                                                  //       .categoryWiseOfferList[
+                                                  //   index],
+                                                  // ));
+                                                  // Get.offUntil(
+                                                  //     MaterialPageRoute(
+                                                  //       builder: (context) =>
+                                                  //           ServiceDetails(
+                                                  //
+                                                  //             offerDetails:
+                                                  //             ServiceDetailsController
+                                                  //                 .to
+                                                  //                 .categoryWiseOfferList[
+                                                  //             index],
+                                                  //           ),
+                                                  //     ), (route) {
+                                                  //
+                                                  //   return route
+                                                  //       .settings.name !='/ServiceDetails';
+                                                  // });
+/*
+                                      Get.off(ServiceDetails(
+                                        offerDetails:
+                                        ServiceDetailsController
+                                            .to
+                                            .categoryWiseOfferList[
+                                        index],
+                                      ));
+*/
+                                                  // loadData();
+
+                                                  // loadData();
+                                                  // Get.to(
+                                                  //   ServiceDetails(
+                                                  //
+                                                  //     offerDetails:
+                                                  //         ServiceDetailsController
+                                                  //                 .to
+                                                  //                 .categoryWiseOfferList[
+                                                  //             index],
+                                                  //   ),
+                                                  // );
+                                                },
+                                                child: MyServiceWidget(
+                                                  offerItem:
+                                                      ServiceDetailsController
+                                                              .to
+                                                              .categoryWiseOfferList[
+                                                          index],
                                                 ),
                                               ),
                                             );
-                                          } else {
-                                            return Text("");
-                                          }
-                                        },
+                                          },
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              } else {
-                                return Center(
-                                    child: CircularProgressIndicator(
-                                  color: AppColors.kPrimaryColor,
-                                ));
-                              }
-                            },
-                          ),
+                                  )
+                                : SizedBox.shrink();
+                          }),
                         ],
                       ),
                     )
@@ -687,10 +735,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     );
   }
 
-  // void getSellerDetails() async {
-  //   image = await ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString());
-  //   // widget.sellerDetails =  (await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString()))!;
-  // }
+// void getSellerDetails() async {
+//   image = await ProfileScreenController.to.getProfileImageURL(widget.offerDetails!.userId.toString());
+//   // widget.sellerDetails =  (await FirebaseAPIs().getSenderInfo(widget.offerDetails!.userId.toString()))!;
+// }
 }
 
 class DefaultCircularProgressIndicator extends StatelessWidget {
@@ -701,10 +749,10 @@ class DefaultCircularProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: CircularProgressIndicator(
-          color: AppColors.kPrimaryColor,
-        ),
-      );
+      child: CircularProgressIndicator(
+        color: AppColors.kPrimaryColor,
+      ),
+    );
   }
 }
 
@@ -798,7 +846,7 @@ class OfferDialogWidget extends StatelessWidget {
         text: TextSpan(text: '', children: [
           TextSpan(
             text: '$label   ',
-            style:  TextStyle(
+            style: TextStyle(
               fontSize: defaultTitleFontSize,
               color: Colors.black,
               fontWeight: FontWeight.w500,
