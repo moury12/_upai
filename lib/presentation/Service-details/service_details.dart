@@ -32,6 +32,7 @@ class ServiceDetails extends StatefulWidget {
   ServiceDetails({
     super.key,
     this.offerDetails,
+
   });
   final OfferList? offerDetails;
   // final String? offerId;
