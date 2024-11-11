@@ -76,7 +76,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         ? 14.sp
         : defaultAppBarIconSize;
     return Scaffold(
-      floatingActionButton: ElevatedButton(
+      floatingActionButton:ProfileScreenController.to.userInfo.value.userId ==
+          widget.offerDetails!.userId?SizedBox.shrink(): ElevatedButton(
         onPressed: () async {
           if (ProfileScreenController.to.userInfo.value.userId ==
               widget.offerDetails!.userId) {
@@ -152,14 +153,17 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: ElevatedButton(
-            onPressed: () {
+
+            onPressed:ProfileScreenController.to.userInfo.value.userId ==
+                widget.offerDetails!.userId?null: () {
               if (ProfileScreenController.to.userInfo.value.userId ==
                   widget.offerDetails!.userId) {
                 showCustomSnackbar(
                     title: 'alert'.tr,
                     message: "this_is_your_own_service".tr,
                     type: SnackBarType.alert);
-              } else {
+              }
+              else {
                 Get.put(OrderController());
                 var packageName = widget
                     .offerDetails!
@@ -184,7 +188,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               }
             },
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 14),
+              padding: const EdgeInsets.symmetric(vertical: 14,horizontal: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -581,167 +585,170 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   ],
                                 )
                               : SizedBox.shrink(),
-                          defaultSizeBoxHeight,
-                          ServiceDetailsController
-                                  .to.categoryWiseOfferList.isNotEmpty
-                              ? Text("explore_related_service".tr,
-                                  style: AppTextStyle.titleText(context))
-                              : SizedBox.shrink(),
+
+
 
                           Obx(() {
 
                             return ServiceDetailsController
                                     .to.categoryWiseOfferList.isNotEmpty
-                                ? SizedBox(
-                                    height: 220,
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: List.generate(
-                                          ServiceDetailsController
-                                              .to.categoryWiseOfferList.length,
-                                          (index) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(12.0)
-                                                      .copyWith(left: 6),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  print('maruf');
-                                                  // Get.to(ServiceDetails(offerDetails: ServiceDetailsController.to.categoryWiseOfferList[index],));
-                                                  // widget.offerDetails!=ServiceDetailsController.to.categoryWiseOfferList[index];
-                                                  // setState(() {
-                                                  //
-                                                  // });
+                                ?!ServiceDetailsController.to.initialState.value? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [Text("explore_related_service".tr,
+                                      style: AppTextStyle.titleText(context)),
+                                    SizedBox(
+                                        height: 220,
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: List.generate(
+                                              ServiceDetailsController
+                                                  .to.categoryWiseOfferList.length,
+                                              (index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(12.0)
+                                                          .copyWith(left: 6),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      print('maruf');
+                                                      // Get.to(ServiceDetails(offerDetails: ServiceDetailsController.to.categoryWiseOfferList[index],));
+                                                      // widget.offerDetails!=ServiceDetailsController.to.categoryWiseOfferList[index];
+                                                      // setState(() {
+                                                      //
+                                                      // });
 
-                                                  // OfferList singleOffer =  ServiceDetailsController.to.categoryWiseOfferList[index];
-                                                  // Get.delete<ServiceDetailsController>(force: true);
+                                                      // OfferList singleOffer =  ServiceDetailsController.to.categoryWiseOfferList[index];
+                                                      // Get.delete<ServiceDetailsController>(force: true);
 
-                                                  // print("navigate call");
+                                                      // print("navigate call");
 
-                                                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ServiceDetails(
-                                                  //           offerDetails: ServiceDetailsController.to.categoryWiseOfferList[index],)));
-                                                  //  Using GetX navigation to off all routes except for the current one
-                                                  //   Get.off(
-                                                  //     GetPageRoute(
-                                                  //       page: () => ServiceDetails(
-                                                  //         offerDetails:ServiceDetailsController.to.categoryWiseOfferList[index],
-                                                  //       ),
-                                                  //     ),
-                                                  //   );
-//                                                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-// //                                                   /*
-                                                  Get.offUntil(
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ServiceDetails(
+                                                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ServiceDetails(
+                                                      //           offerDetails: ServiceDetailsController.to.categoryWiseOfferList[index],)));
+                                                      //  Using GetX navigation to off all routes except for the current one
+                                                      //   Get.off(
+                                                      //     GetPageRoute(
+                                                      //       page: () => ServiceDetails(
+                                                      //         offerDetails:ServiceDetailsController.to.categoryWiseOfferList[index],
+                                                      //       ),
+                                                      //     ),
+                                                      //   );
+                                    //                                                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                                    // //                                                   /*
+                                                      Get.offUntil(
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ServiceDetails(
 
-                                                                offerDetails:
-                                                                ServiceDetailsController
-                                                                    .to
-                                                                    .categoryWiseOfferList[
-                                                                index],
-                                                              ),
-                                                        ), (route) {
+                                                                    offerDetails:
+                                                                    ServiceDetailsController
+                                                                        .to
+                                                                        .categoryWiseOfferList[
+                                                                    index],
+                                                                  ),
+                                                            ), (route) {
 
-                                                      return route
-                                                          .settings.name !=
-                                                          '/ServiceDetails';
-                                                    });
-//                                                     */
-// //   Navigator.pushReplacement(
-//                                                     //       context,
-//                                                     //       MaterialPageRoute(
-//                                                     //           builder: (context) {
-//                                                     //
-//                                                     //             // ServiceDetailsController.to.getCategoryWiseOfferList(
-//                                                     //             //     category: widget.offerDetails!.serviceCategoryType.toString(),
-//                                                     //             //     mobileNo: widget.offerDetails!.userId.toString());
-//                                                     //             return  ;}
-//                                                     //       ));
-//                                                     // }
-//
-//                                                   },);
-                                                  // Navigator.pop(context);
-                                                  // if(mounted) {
-                                                   /* Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) {
+                                                          return route
+                                                              .settings.name !=
+                                                              '/ServiceDetails';
+                                                        });
+                                    //                                                     */
+                                    // //   Navigator.pushReplacement(
+                                    //                                                     //       context,
+                                    //                                                     //       MaterialPageRoute(
+                                    //                                                     //           builder: (context) {
+                                    //                                                     //
+                                    //                                                     //             // ServiceDetailsController.to.getCategoryWiseOfferList(
+                                    //                                                     //             //     category: widget.offerDetails!.serviceCategoryType.toString(),
+                                    //                                                     //             //     mobileNo: widget.offerDetails!.userId.toString());
+                                    //                                                     //             return  ;}
+                                    //                                                     //       ));
+                                    //                                                     // }
+                                    //
+                                    //                                                   },);
+                                                      // Navigator.pop(context);
+                                                      // if(mounted) {
+                                                       /* Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) {
 
-                                                              // ServiceDetailsController.to.getCategoryWiseOfferList(
-                                                              //     category: widget.offerDetails!.serviceCategoryType.toString(),
-                                                              //     mobileNo: widget.offerDetails!.userId.toString());
-                                                              return  ServiceDetails(
+                                                                  // ServiceDetailsController.to.getCategoryWiseOfferList(
+                                                                  //     category: widget.offerDetails!.serviceCategoryType.toString(),
+                                                                  //     mobileNo: widget.offerDetails!.userId.toString());
+                                                                  return  ServiceDetails(
 
-                                                                offerDetails:
-                                                                ServiceDetailsController
-                                                                    .to
-                                                                    .categoryWiseOfferList[
-                                                                index],
-                                                              ) ;}
-                                                        ));*/
-                                                  // }
-                                                  // Get.off(ServiceDetails(
-                                                  //   offerDetails:
-                                                  //   ServiceDetailsController
-                                                  //       .to
-                                                  //       .categoryWiseOfferList[
-                                                  //   index],
-                                                  // ));
-                                                  // Get.offUntil(
-                                                  //     MaterialPageRoute(
-                                                  //       builder: (context) =>
-                                                  //           ServiceDetails(
-                                                  //
-                                                  //             offerDetails:
-                                                  //             ServiceDetailsController
-                                                  //                 .to
-                                                  //                 .categoryWiseOfferList[
-                                                  //             index],
-                                                  //           ),
-                                                  //     ), (route) {
-                                                  //
-                                                  //   return route
-                                                  //       .settings.name !='/ServiceDetails';
-                                                  // });
-/*
-                                      Get.off(ServiceDetails(
-                                        offerDetails:
-                                        ServiceDetailsController
-                                            .to
-                                            .categoryWiseOfferList[
-                                        index],
-                                      ));
-*/
-                                                  // loadData();
+                                                                    offerDetails:
+                                                                    ServiceDetailsController
+                                                                        .to
+                                                                        .categoryWiseOfferList[
+                                                                    index],
+                                                                  ) ;}
+                                                            ));*/
+                                                      // }
+                                                      // Get.off(ServiceDetails(
+                                                      //   offerDetails:
+                                                      //   ServiceDetailsController
+                                                      //       .to
+                                                      //       .categoryWiseOfferList[
+                                                      //   index],
+                                                      // ));
+                                                      // Get.offUntil(
+                                                      //     MaterialPageRoute(
+                                                      //       builder: (context) =>
+                                                      //           ServiceDetails(
+                                                      //
+                                                      //             offerDetails:
+                                                      //             ServiceDetailsController
+                                                      //                 .to
+                                                      //                 .categoryWiseOfferList[
+                                                      //             index],
+                                                      //           ),
+                                                      //     ), (route) {
+                                                      //
+                                                      //   return route
+                                                      //       .settings.name !='/ServiceDetails';
+                                                      // });
+                                    /*
+                                          Get.off(ServiceDetails(
+                                            offerDetails:
+                                            ServiceDetailsController
+                                                .to
+                                                .categoryWiseOfferList[
+                                            index],
+                                          ));
+                                    */
+                                                      // loadData();
 
-                                                  // loadData();
-                                                  // Get.to(
-                                                  //   ServiceDetails(
-                                                  //
-                                                  //     offerDetails:
-                                                  //         ServiceDetailsController
-                                                  //                 .to
-                                                  //                 .categoryWiseOfferList[
-                                                  //             index],
-                                                  //   ),
-                                                  // );
-                                                },
-                                                child: MyServiceWidget(
-                                                  offerItem:
-                                                      ServiceDetailsController
-                                                              .to
-                                                              .categoryWiseOfferList[
-                                                          index],
-                                                ),
-                                              ),
-                                            );
-                                          },
+                                                      // loadData();
+                                                      // Get.to(
+                                                      //   ServiceDetails(
+                                                      //
+                                                      //     offerDetails:
+                                                      //         ServiceDetailsController
+                                                      //                 .to
+                                                      //                 .categoryWiseOfferList[
+                                                      //             index],
+                                                      //   ),
+                                                      // );
+                                                    },
+                                                    child: MyServiceWidget(
+                                                      offerItem:
+                                                          ServiceDetailsController
+                                                                  .to
+                                                                  .categoryWiseOfferList[
+                                                              index],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  )
+                                  ],
+                                )
+                            :DefaultCircularProgressIndicator()
                                 : SizedBox.shrink();
                           }),
                         ],

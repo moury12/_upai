@@ -103,12 +103,17 @@ class PackageCreateWidget extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   sizeBoxHeight6,
+
                                   CustomTextField(
                                     label: "package_description".tr,
+                                    inputType: TextInputType.multiline,
+                                    textInputAction:TextInputAction.newline ,
                                     validatorText:
                                         "please_enter_description".tr,
                                     hintText: "please_enter_description".tr,
+
                                     maxLines: 3,
+
                                     onChanged: (value) {
                                       CreateOfferController
                                               .to.packageList[index]

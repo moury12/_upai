@@ -8,7 +8,7 @@ import 'package:upai/core/utils/custom_text_style.dart';
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Select Language',style: AppTextStyle.bodyMediumBlackSemiBold(context),),
+          title: Text('select_language'.tr,style: AppTextStyle.bodyMediumBlackSemiBold(context),),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

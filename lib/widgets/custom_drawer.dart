@@ -117,7 +117,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               defaultSizeBoxHeight,
               _buildMenuOption(
                 icon: Icons.language_outlined,
-                label: 'Language',
+                label: 'language'.tr,
                 onTap: () {
                   showLanguageDialog(context);
                 },

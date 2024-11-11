@@ -80,7 +80,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                 children: [
                   SellerProfileController.to.sellerProfileLoading.value || !NetworkController.to.connectedInternet.value
                       ? ShimmerSellerStatus()
-                      :seller.sellerProfile == null || seller.myService!.isEmpty?SizedBox.shrink():
+                      :
 
                       GridView(
                           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(mainAxisSpacing: 6, crossAxisSpacing: getResponsiveFontSize(context, 8), maxCrossAxisExtent: MediaQuery.of(context).size.width / 2.5),
@@ -91,13 +91,13 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                               seller: seller,
                               color: AppColors.kPrimaryColor,
                               title: 'earning'.tr,
-                              value: seller.sellerProfile!.totalEarning,
+                              value:seller.sellerProfile == null || seller.myService!.isEmpty?'0.00': seller.sellerProfile!.totalEarning,
                             ),
                             SellerStatusWidget(
                               seller: seller,
                               color: AppColors.kPrimaryColor,
                               title: 'complete'.tr,
-                              value: seller.sellerProfile!.completedJob,
+                              value: seller.sellerProfile == null || seller.myService!.isEmpty?'0.00':seller.sellerProfile!.completedJob,
                               icon: Icons.verified,
                             ),
                             SellerStatusWidget(
@@ -105,7 +105,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                               color: AppColors.kPrimaryColor,
                               title: 'review'.tr,
                               icon: Icons.star_rate_rounded,
-                              value: seller.sellerProfile!.review.toString(),
+                              value:seller.sellerProfile == null || seller.myService!.isEmpty?'0.00': seller.sellerProfile!.review.toString(),
                             ),
                           ],
                         ),

@@ -60,7 +60,7 @@ class CreateOfferController extends GetxController {
     initializeControllers(selectedLevel.value!);
     for (int i = 0; i <= service.package!.length; i++) {
       packageList.add({
-        "package_name": "Level $i",
+        "package_name": "Level ${i+1}",
         "price": service.package![i].price,
         "duration": service.package![i].duration,
         "package_description": service.package![i].packageDescription,

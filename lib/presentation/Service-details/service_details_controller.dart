@@ -19,18 +19,23 @@ class ServiceDetailsController extends GetxController {
     required String mobileNo,
     bool loadMoreData = false,
   }) async {
-    categoryWiseOfferList.value= await RepositoryData().getOfferList(
-      token: FirebaseAPIs.user['token'].toString(),
-      mobile: mobileNo,
-      currentPage: currentPage.value,
-      catType: '',
-      category: category,
-      district: '',
-      searchVal: '',
-      sortBy: '',
-      isLoadMore: false,
-    );
+    try{
+      categoryWiseOfferList.value = await RepositoryData().getOfferList(
+        token: FirebaseAPIs.user['token'].toString(),
+        mobile: mobileNo,
+        currentPage: currentPage.value,
+        catType: '',
+        category: category,
+        district: '',
+        searchVal: '',
+        sortBy: '',
+        isLoadMore: false,
+      );
+    }catch(e){
+      initialState.value= false;
+    }finally{
+      initialState.value= false;
 
-
+    }
   }
 }
