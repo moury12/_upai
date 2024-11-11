@@ -11,6 +11,7 @@ class ServiceDetailsController extends GetxController {
   var heartIconColor = Colors.white.obs;
   RxInt currentPage = 1.obs;
   RxBool isFav = false.obs;
+  RxBool initialState = true.obs;
   RxInt tabIndex = 0.obs;
   ProfileScreenController? ctrl;
   getCategoryWiseOfferList({
