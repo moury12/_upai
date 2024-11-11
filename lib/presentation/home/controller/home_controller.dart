@@ -176,6 +176,7 @@ Future<OfferList?> findServiceByOfferID({ required String offerId})async{
           topServiceList.assignAll(topOffer);
         }
         topServiceList.refresh();
+
         if (loadMoreData) {
           currentPageForTopService.value++;
         }
