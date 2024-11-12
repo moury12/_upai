@@ -4,5 +4,7 @@ class Boxes{
   static Box getUserData()=>Hive.box("userInfo");
   static Box getDmPathBox()=>Hive.box("dmPath");
   static Box getFavBox()=>Hive.box("offer");
-  // static Box getAllData()=>Hive.box("allData");
+  // static Box getDmPath()=>Hive.box("DMPath");
+
+// static Box getAllData()=>Hive.box("allData");
 }

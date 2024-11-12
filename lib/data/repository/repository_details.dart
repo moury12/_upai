@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,11 +35,30 @@ class RepositoryData {
   //   print(data.length);
   //   return data;
   // }
+Future<void> getDMPathData() async{
+  Map<String,dynamic> dmPathData ={};
+  String dmPathBaseUrl ="";
+  String dmPathApi = 'https://w05.yeapps.com/dmpath/upai_dmpath/get_dmpath';
+  try{
+    final response = await http.get(Uri.parse(dmPathApi));
+    if(response.statusCode ==200){
+      dmPathData = jsonDecode(response.body);
+      dmPathBaseUrl= dmPathData['base-url'];
+      await Boxes.getDmPathBox().put('base_url', dmPathBaseUrl);
 
+    }
+  }catch(e){
+    debugPrint('${e.toString()} in ${dmPathApi}');
+    throw Exception(e);
+  }
+
+}
   Future<void> login(
       String CID, String userMobile, String password) async {
     String url = ApiClient().loginUrl;
+log(url);
     try {
+
       var response = await http.post(
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
@@ -63,6 +83,7 @@ class RepositoryData {
         userInfo.token = data['token'].toString();
 
         await box.put('user', json.encode(userInfo.toJson()));
+
         print("value is  : ${box.get("user")}");
         print("&&&&&&&&&&&&&&&&&&&");
         print(box.values);

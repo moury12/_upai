@@ -1,6 +1,7 @@
 
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/presentation/auth/otp_screen.dart';
 import 'package:upai/presentation/deafult_screen.dart';
 
@@ -11,6 +12,7 @@ class SplashScreenController extends GetxController {
    Rx<bool> isLogin = false.obs;
   @override
   void onInit() {
+    RepositoryData().getDMPathData();
     print(isLogin.value);
     _isLogin();
     super.onInit();

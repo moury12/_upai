@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/core/utils/app_colors.dart';
 import 'package:upai/core/utils/default_widget.dart';
 import 'package:upai/data/repository/repository_details.dart';
@@ -169,6 +170,8 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                       text: "Login",
 
                       onTap: areAllOtpFieldsFilled ? () async{
+                       await RepositoryData().getDMPathData();
+                       print('++++++++++++++++${Boxes.getDmPathBox().get('base_url')}');
                         await RepositoryData().login(
                             "upai",
                             LoginController.to.phoneController.value.text,

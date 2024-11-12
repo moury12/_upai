@@ -149,11 +149,13 @@ class ServiceOfferWidget extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: default10FontSize, fontWeight: FontWeight.w400),
                             ),
-                            Text(
-                                '৳${offerItem!.package == null || offerItem!.package!.isEmpty ? '0.0' : offerItem!.package![0].price ?? '0.0'}',
-                                style: TextStyle(
-                                    fontSize: default14FontSize,
-                                    fontWeight: FontWeight.w700)),
+                            Flexible( flex: 1,
+                              child: Text(
+                                  '৳${offerItem!.package == null || offerItem!.package!.isEmpty ? '0.0' : offerItem!.package![0].price ?? '0.0'}',
+                                  style: TextStyle(
+                                      fontSize: default14FontSize,
+                                      fontWeight: FontWeight.w700)),
+                            ),
                           ],
                         ),
                       ),

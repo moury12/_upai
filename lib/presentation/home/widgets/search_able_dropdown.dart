@@ -71,7 +71,8 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                   borderRadius: BorderRadius.circular(10)),
               alignment: Alignment.center,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                
                 children: [
                   Image.asset(
                     ImageConstant.locationIcon,
@@ -81,9 +82,10 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                   const SizedBox(
                     width: 7,
                   ),
-                  Flexible(
+                  Expanded(
                     child: Obx(() {
                       return Text(
+                        textAlign: TextAlign.center,
                         HomeController.to.selectedDistrictForAll.value ??
                             'location'.tr,
                         style: AppTextStyle.bodyMediumWhiteSemiBold(context),

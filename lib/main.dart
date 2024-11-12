@@ -8,10 +8,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:upai/Boxes/boxes.dart';
 import 'package:upai/binding/create_offer_binding.dart';
 import 'package:upai/binding/initial_binding.dart';
 import 'package:upai/binding/profile_binding.dart';
 import 'package:upai/core/utils/app_colors.dart';
+import 'package:upai/data/repository/repository_details.dart';
 import 'package:upai/firebase_options.dart';
 import 'package:upai/presentation/Profile/profile_screen.dart';
 import 'package:upai/presentation/Service-details/service_details.dart';
@@ -81,10 +83,12 @@ class _MyAppState extends State<MyApp> {
     notificationAccessToken.requestNotificationPermission();
     notificationAccessToken.firebaseInit();
     notificationAccessToken.setupInteractMessage();
+    // RepositoryData().getDMPathData();
+
+
     // TODO: implement initState
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
