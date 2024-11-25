@@ -12,7 +12,6 @@ import 'package:upai/Model/seller_profile_model.dart';
 import 'package:upai/data/api/firebase_apis.dart';
 import 'package:upai/helper_function/helper_function.dart';
 import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
-import 'package:upai/presentation/create-offer/controller/create_offer_controller.dart';
 import 'package:upai/presentation/home/controller/home_controller.dart';
 import '../../Boxes/boxes.dart';
 import '../../Model/user_info_model.dart';

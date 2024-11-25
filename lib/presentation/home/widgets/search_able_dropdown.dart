@@ -71,7 +71,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                   borderRadius: BorderRadius.circular(10)),
               alignment: Alignment.center,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 
                 children: [
                   Image.asset(
@@ -82,7 +82,7 @@ class _SearchableDropDownState extends State<SearchableDropDown> {
                   const SizedBox(
                     width: 7,
                   ),
-                  Expanded(
+                  Flexible(
                     child: Obx(() {
                       return Text(
                         textAlign: TextAlign.center,

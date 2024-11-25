@@ -56,7 +56,7 @@ class _FilterBannerState extends State<FilterBanner> {
                 height: 25.w,
               )),
           Expanded(
-            flex: 2,
+
               child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SearchableDropDown(
